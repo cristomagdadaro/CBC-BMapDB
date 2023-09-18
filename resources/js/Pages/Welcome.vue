@@ -2,6 +2,7 @@
 import { Head } from '@inertiajs/vue3';
 import headerlayout from '@/Layouts/HeaderLayout.vue';
 import tablink from '@/Components/Header/TabLink.vue';
+import WelcomeModal from '@/Components/Modal/WelcomeModal.vue';
 defineProps({
     canLogin: Boolean,
     canRegister: Boolean,
@@ -43,7 +44,6 @@ const TabLinks = [
 
 <template>
     <Head title="Welcome" />
-    <img src="/img/bg.jpg" alt="Crop Biotechnology Center Logo" class="absolute top-0 h-auto z-0">
     <headerlayout>
         <template #icon>
             <img src="/img/logo.png" alt="Crop Biotechnology Center Logo" class="sm:h-12 h-10 w-auto">
@@ -67,8 +67,13 @@ const TabLinks = [
                 </template>
             </ul>
         </template>
+        <template #modal>
+            <WelcomeModal />
+        </template>
     </headerlayout>
     <div>
         <slot />
     </div>
+    <!-- <img src="/img/bg.jpg" alt="Crop Biotechnology Center Logo" class="top-0 h-auto z-0"> -->
+    <div class="bg-[url('/img/bg.jpg')] bg-cover min-h-screen w-full"></div>
 </template>
