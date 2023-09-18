@@ -18,6 +18,12 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
+        colors: {
+        'cbc-yellow-green': '#acc638',
+        'cbc-dark-green': '#006837',
+        'cbc-light-green': '#d3d75e',
+        'cbc-olive-green': '#acc638',
+        }
     },
 
     plugins: [forms, typography],
