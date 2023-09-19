@@ -23,6 +23,8 @@ export default {
         'cbc-dark-green': '#006837',
         'cbc-light-green': '#d3d75e',
         'cbc-olive-green': '#acc638',
+        'white' : '#ffffff',
+        'black' : '#000000',
         }
     },
 

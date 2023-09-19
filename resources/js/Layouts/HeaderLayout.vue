@@ -20,7 +20,10 @@ export default {
 };
 </script>
 <template>
-    <div class="flex items-center backdrop-blur-sm justify-between px-5 min-w-min fixed w-full">
+    <div class="absolute top-0 flex h-full w-full">
+        <slot name="modal" />
+    </div>
+    <div class="flex items-center justify-between px-5 min-w-min fixed w-full">
         <!-- Large screen navigation bar -->
         <div class="w-full relative">
             <div class="lg:flex hidden justify-between w-full">
@@ -41,9 +44,6 @@ export default {
                     <slot name="links"></slot>
                 </div>
             </div>
-            <div class="relative top-0 flex h-full w-full backdrop-blur-sm">
-                <slot name="modal" />
-            </div>
         </div>
         <!-- Small screen navigation bar -->
        <div class="flex-col w-full lg:hidden">
@@ -63,7 +63,7 @@ export default {
                 <hamburger @click="toggler()" class="h-7 w-auto block lg:hidden active:scale-110 duration-300" />
             </div>
             <!-- Link Tabs Section -->
-            <div :class="showMenu?'block backdrop-blur-sm':'hidden'">
+            <div :class="showMenu?'block':'hidden'">
                 <!-- Link Tabs Section -->
                 <div class="sm:flex">
                     <slot name="links"></slot>
