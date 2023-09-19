@@ -2,15 +2,22 @@
 import CloseIcon from '@/Components/Icons/Close.vue';
 import ArrowRight from '@/Components/Icons/ArrowRight.vue';
 import ArrowLeft from '@/Components/Icons/ArrowLeft.vue';
+import CarouselIndicator from '@/Components/Modal/CarouselIndicator.vue';
+
 export default{
     components: {
         CloseIcon,
         ArrowRight,
         ArrowLeft,
     },
+    props: {
+        showModal: {
+            type: Boolean,
+            default: true,
+        },
+    },
     data() {
         return {
-            showModal: true,
             modalData: [
                 {
                     image: '/img/sample1.jpg',
@@ -73,14 +80,17 @@ export default{
 <template>
     <div :class="showModal?'flex':'hidden'" class="bgoverlay">
         <div class="modalcontainer">
-            <button class="closemodal top-0 right-0 absolute m-1 hover:scale-110 hover:rotate-180 duration-300 z-10" @click="close()" title="Close modal"><CloseIcon class="sm:h-5 h-3 w-auto"/></button>
+            <button class="closemodal top-0 right-0 absolute m-1 hover:scale-110 hover:rotate-180 duration-300 z-10" @click="close()" title="Close modal"><CloseIcon class="sm:h-5 h-3 w-auto rounded-md bg-cbc-dark-green"/></button>
             <div class="flex flex-row relative">
                 <button @click="prev()" class="prevbtnccontainer ml-1"><ArrowLeft class="prevbtn" /></button>
                 <div class="flex-row flex">
                     <template v-for="data in modalData">
                         <img :src="data.image" :alt="data.alternative" class="object-cover" :class="data.show?'block':'hidden'">
-                        <a :href="data.url" :class="url?'block':'hidden'" class="readmorebtn">Read More</a>
+                        <a :href="data.url" :class="data.url?'block':'hidden'" class="readmorebtn">Read More</a>
                     </template>
+                </div>
+                <div class="absolute flex gap-2 bottom-0 w-full justify-center opacity-40 mb-2">
+                    <CarouselIndicator />
                 </div>
                 <button @click="next()" class="nextbtncontainer right-0 mr-1"><ArrowRight class="nextbtn" /></button>
             </div>
@@ -96,8 +106,12 @@ export default{
         @apply h-6 w-auto active:scale-90 duration-200 text-white;
     }
 
+    .nextbtn, .prevbtn{
+        @apply rounded-full bg-cbc-dark-green;
+    }
+
     .bgoverlay{
-        @apply min-h-screen min-w-full justify-center items-center z-50 backdrop-blur-sm backdrop-brightness-75;
+        @apply absolute min-h-screen min-w-full justify-center items-center z-50 backdrop-blur-sm backdrop-brightness-75;
     }
 
     .modalcontainer{
