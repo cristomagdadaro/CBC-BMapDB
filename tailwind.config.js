@@ -24,7 +24,7 @@ export default {
                 'cbc-olive-green': '#acc638',
             },
         },
-        
+
     },
 
     plugins: [forms, typography],

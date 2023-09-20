@@ -1,7 +1,17 @@
 <template>
-    <footer class="absolute bottom-0 w-full bg-cbc-dark-green text-white">
-        <div class="relative flex flex-col sm:mx-20 md:mx-40 lg:mx-60 mx-2">
-            <slot />
+    <footer class=" bottom-0 w-full min-h-fit">
+        <div class="relative flex flex-col">
+            <div class="bg-gray-600 text-white">
+                <div class="resp-container">
+                    <slot name="phRepublic" />
+                </div>
+            </div>
+            <div class="w-full bg-gray-700">
+                <slot name="copyright" />
+            </div>
         </div>
+
     </footer>
 </template>
+<script setup>
+</script>

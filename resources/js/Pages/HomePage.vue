@@ -9,5 +9,8 @@ import { Head } from '@inertiajs/vue3';
     <WelcomeModal />
     <PageLayout>
         <h1>HOME PAGE</h1>
+        <code>
+            {{ $page.props.auth }}
+        </code>
     </PageLayout>
 </template>
