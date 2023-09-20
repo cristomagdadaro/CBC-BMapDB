@@ -5,3 +5,10 @@
 [x-cloak] {
     display: none;
 }
+
+@layer components{
+    /* class for responsive screen size*/
+    .resp-container{
+        @apply sm:mx-20 md:mx-40 lg:mx-60 mx-2;
+    }
+}
