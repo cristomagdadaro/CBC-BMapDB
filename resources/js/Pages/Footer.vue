@@ -15,14 +15,14 @@ import Logo from '@/Components/Icons/Logo.vue';
                     </div>
                     <div class="border-b-[1px] py-5 sm:text-base text-xs sm:flex-row sm:justify-evenly flex flex-col gap-3 sm:gap-0">
                         <ul>
-                            <li class="font-bold sm:text-lg">Republic of the Philippines</li>
+                            <FooterLink class="font-semibold" text="Republic of the Philippines" />
                             <FooterLink text="Official Gazette" link="#" />
                             <FooterLink text="Office of the President" link="#" />
                             <FooterLink text="Official Directory" link="#" />
                             <FooterLink text="Official Calendar" link="#" />
                         </ul>
                         <ul>
-                            <li class="font-bold sm:text-lg">Executive</li>
+                            <FooterLink class="font-semibold" text="Executive" />
                             <FooterLink text="Office of the President" link="#" />
                             <FooterLink text="Office of the Vice President" link="#" />
                             <FooterLink text="Department of Education" link="#" />
@@ -33,12 +33,12 @@ import Logo from '@/Components/Icons/Logo.vue';
                             <FooterLink text="Department of Trade and Industry" link="#" />
                         </ul>
                         <ul>
-                            <li class="font-bold sm:text-lg">Legislative</li>
+                            <FooterLink class="font-semibold" text="Legislative" />
                             <FooterLink text="Senate of the Philippines" link="#" />
                             <FooterLink text="House of Representative" link="#" />
                         </ul>
                         <ul>
-                            <li class="font-bold sm:text-lg">Judiciary</li>
+                            <FooterLink class="font-semibold" text="Judiciary" />
                             <FooterLink text="Supreme Court" link="#" />
                             <FooterLink text="Court of Appeals" link="#" />
                             <FooterLink text="Sandiganbayan" link="#" />
@@ -57,7 +57,7 @@ import Logo from '@/Components/Icons/Logo.vue';
             </div>
         </template>
         <template #copyright>
-            <div class="resp-container py-1 text-center sm:text-lg text-[0.6rem] font-light text-white ">
+            <div class="resp-container py-1 text-center sm:text-sm text-[0.6rem] font-light text-white ">
                 <span>Copyright 2023 DA-Crop Biotechnology Center. All rights reserve.</span>
             </div>
         </template>

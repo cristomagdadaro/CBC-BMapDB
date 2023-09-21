@@ -28,7 +28,7 @@ export default {
         <div class="relative flex flex-col resp-container w-full">
             <!-- Large screen navigation bar -->
             <div class="w-full relative lg:flex hidden">
-                <div class="flex justify-between w-full">
+                <div class="flex justify-between w-full overflow-hidden">
                     <!-- Branding Section -->
                     <Link :href="'/'"
                         class="flex items-center max-w-fit hover:bg-gray-900 hover:bg-opacity-10 active:scale-95 duration-200 p-1 gap-1">
