@@ -3,7 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
+use App\Http\Controllers\TWGController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,3 +33,15 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 });
+
+Route::prefix('projects')->group(function () {
+    Route::prefix('twg')->group(function () {
+        Route::get('/', [TWGController::class, 'index'])->name('twgdatabase');
+        Route::get('table', [TWGController::class, 'table'])->name('twgtable');
+    });
+
+    Route::get('/breedersmap', function (){
+        return Inertia::render('Projects/BreedersMap');
+    })->name('breedersmap');
+});
+

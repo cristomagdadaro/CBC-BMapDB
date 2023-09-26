@@ -7,7 +7,7 @@ export default {
     props: {
         link: {
             type: String,
-            required: true,
+            required: false,
             default: '#',
         },
         sublinks: {
