@@ -38,6 +38,8 @@ Route::prefix('projects')->group(function () {
     Route::prefix('twg')->group(function () {
         Route::get('/', [TWGController::class, 'index'])->name('twgdatabase');
         Route::get('table', [TWGController::class, 'table'])->name('twgtable');
+        Route::delete('destroy',  [TWGController::class, 'delete'])->name('twgdestroy');
+        Route::get('export', [TWGController::class, 'export'])->name('twgexport');
     });
 
     Route::get('/breedersmap', function (){

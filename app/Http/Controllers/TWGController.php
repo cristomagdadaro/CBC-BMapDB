@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TWGResource;
 use App\Models\TWGExpert;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,11 +17,6 @@ class TWGController extends Controller
         return Inertia::render('Projects/TWGDatabase', [
             'twg_experts' => TWGExpert::with('twg_projects')->get(),
         ]);
-    }
-
-    public function table()
-    {
-        return TWGExpert::all();
     }
 
     /**
@@ -69,5 +65,68 @@ class TWGController extends Controller
     public function destroy(TWGExpert $tWG)
     {
         //
+    }
+
+    /*API Section of the class*/
+    public function table(Request $request)
+    {
+        $query = TWGExpert::select('id','fname', 'mname', 'lname', 'suffix', 'position', 'educ_level', 'expertise', 'email', 'mobile_no');
+        $totalRecords = $query->count();
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $searchBy = $request->input('search_by', 'id');
+            $query->where(function ($q) use ($search, $searchBy) {
+                if ($searchBy == '*') {
+                    $q->where('id', 'like', '%' . $search . '%')
+                        ->orWhere('fname', 'like', '%' . $search . '%')
+                        ->orWhere('mname', 'like', '%' . $search . '%')
+                        ->orWhere('lname', 'like', '%' . $search . '%')
+                        ->orWhere('suffix', 'like', '%' . $search . '%')
+                        ->orWhere('position', 'like', '%' . $search . '%')
+                        ->orWhere('educ_level', 'like', '%' . $search . '%')
+                        ->orWhere('expertise', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%')
+                        ->orWhere('mobile_no', 'like', '%' . $search . '%');
+
+                } else {
+                    $q->where('twg_expert.' . $searchBy, 'like', '%' . $search . '%');
+                }
+            });
+        }
+
+        // Handle sorting
+        $sortField = $request->input('sort', 'id');
+        $sortDirection = $request->input('sort_dir', 'asc');
+        $query->orderBy($sortField, $sortDirection);
+
+        $perPage = $request->input('per_page', 10);
+        $page = $request->input('page', 1);
+
+        $paginator = $query->paginate($perPage, ['*'], 'page', $page);
+
+        return response()->json([
+            'data' => $paginator->items(),
+            'totalCount' => $paginator->total(),
+            'totalPages' => $paginator->lastPage(),
+            'perPage' => $paginator->perPage(),
+            'totalRecords' => $totalRecords,
+        ]);
+    }
+
+    public function delete(Request $request){
+        $id = explode(',', $request->id);
+        $temp = TWGExpert::destroy($id);
+        return response()->json([
+            'notification' => [
+                'id' => uniqid(),
+                'show' => true,
+                'type' => $temp?'success':'failed',
+                'message' => $temp?'Successfully deleted '.$temp.' Fee record/s':'Failed to delete Fee record with id '. $request->id,
+            ]
+        ]);
+    }
+
+    public function export(){
+        return TWGResource::collection(TWGExpert::all());
     }
 }
