@@ -34,7 +34,9 @@ import DangerButton from "@/Components/DangerButton.vue";
 import { markRaw } from 'vue';
 import axios from 'axios';
 import { Link } from "@inertiajs/vue3";
-
+import EditIcon from "@/Components/Icons/EditIcon.vue";
+import ViewIcon from "@/Components/Icons/ViewIcon.vue";
+import pushNotification from "@/Components/Modal/NotifBanner.vue";
 export default {
     props: {
         columnsLarge: {
@@ -296,6 +298,7 @@ export default {
                     const rows = response.data.data;
                     // Convert the array of objects to a CSV string
                     const rowsArray = Array.from(rows);
+
                     // append infront the header row, get the column headers from the database
                     rowsArray.unshift(Object.keys(rows[0]));
                     const csvData = rowsArray.map(row => Object.values(row).map(val => {
@@ -432,7 +435,7 @@ export default {
                     <RefreshIcon class="w-4 mr-1" />
                     Refresh
                 </DtActionBtn>
-                <DtActionBtn v-if="totalRecords && $page.props.auth.user.role === 1" @click="exportToCsv" class="bg-green-600">
+                <DtActionBtn v-if="totalRecords && $page.props.auth.user.role === '1'" @click="exportToCsv" class="bg-green-600">
                     <DownloadIcon class="w-4 mr-1" />
                     Export
                 </DtActionBtn>
@@ -440,7 +443,7 @@ export default {
                     <UploadIcon class="w-4 mr-1" />
                     Import
                 </DtActionBtn>
-                <DtActionBtn v-if="selected.length > 1 && apiLink.destroy && $page.props.auth.user.role === 1" @click="deleteRecord(null, true)" class="bg-red-600">
+                <DtActionBtn v-if="selected.length > 1 && apiLink.destroy && $page.props.auth.user.role === '1'" @click="deleteRecord(null, true)" class="bg-red-600">
                     <DeleteIcon class="w-4 mr-1" />
                     Delete
                 </DtActionBtn>
@@ -454,15 +457,15 @@ export default {
                         Expand
                     </template>
                 </DtActionBtn>
-                <DtActionBtn v-if="isAllSelected && apiLink.destroy && $page.props.auth.user.role === 1" @click="selectAllShown" class="bg-orange-500">
+                <DtActionBtn v-if="isAllSelected && apiLink.destroy && $page.props.auth.user.role === '1'" @click="selectAllShown" class="bg-orange-500">
                     <CheckallIcon class="w-4 mr-1" />
                     Select All Shown
                 </DtActionBtn>
-                <DtActionBtn v-if="isAllSelected && $page.props.auth.user.role === 1 && false" @click="selectAll" class="bg-indigo-500">
+                <DtActionBtn v-if="isAllSelected && $page.props.auth.user.role === '1' && false" @click="selectAll" class="bg-indigo-500">
                     <CheckallIcon class="w-4 mr-1" />
                     Select All
                 </DtActionBtn>
-                <DtActionBtn v-if="selected.length && apiLink.destroy && $page.props.auth.user.role === 1" class="bg-vsu-olive" @click="deselectAll">
+                <DtActionBtn v-if="selected.length && apiLink.destroy && $page.props.auth.user.role === '1'" class="bg-cbc-dark-green" @click="deselectAll">
                     <CloseIcon class="w-4 mr-1" />
                     Deselect All
                 </DtActionBtn>
@@ -476,9 +479,9 @@ export default {
             </DtLengthContainer>
         </DtTopContainer>
         <DtTable ref="table">
-            <DtTHead>
-                <DtTh title="No." class="max-w-fit absolute" sortDir="asc" :isSortedColumn="false" />
-                <DtTh v-for="col in columns" :key="col.data" :title="col.title" @click="sortColumn(col)" :sortDir="sortDir" :isSortedColumn="isColumnSorted(col)" />
+            <DtTHead class="bg-cbc-olive-green">
+                <DtTh title="" class="max-w-fit absolute" sortDir="asc" :isSortedColumn="false" />
+                <DtTh class="text-gray-700 border-x border-gray-300" v-for="col in columns" :key="col.data" :title="col.title" @click="sortColumn(col)" :sortDir="sortDir" :isSortedColumn="isColumnSorted(col)" />
             </DtTHead>
             <DtBody>
                 <td v-if="processing" :colspan="columns.length" class="text-center">
@@ -492,14 +495,13 @@ export default {
                 </tr>
                 <tr v-for="item in data" v-else
                     :class="{ 'bg-gray-300 text-gray-900 border-x-0': selected.includes(item.id) }"
-                    class="hover:bg-gray-200 border border-x-0"
+                    class="hover:bg-gray-200 border border-x-0 transition-all duration-1000 ease-in"
                     @click="selectRecord($event, item.id)">
                     <!--index -->
                     <td class="whitespace-nowrap max-w-fit">
                         {{ pageStart + data.indexOf(item) }}
                     </td>
                     <template v-for="col in columns" :key="col.data">
-
                         <!-- for data -->
                         <td v-if="col.data" class="whitespace-nowrap border-gray-200 border" :class="col.className">
                             {{ item[col.data] }}
@@ -513,7 +515,7 @@ export default {
                                 <Link title="Update" v-if="apiLink.edit" :href="route(apiLink.edit, item.id)" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in">
                                     <component :is="col.icon[2]" />
                                 </Link>
-                                <button title="Delete" v-if="apiLink.destroy && $page.props.auth.user.role === 1" @click="showDeleteModal(item.id)" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in">
+                                <button title="Delete" v-if="apiLink.destroy && $page.props.auth.user.role === '1'" @click="showDeleteModal(item.id)" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in">
                                     <component :is="col.icon[1]" />
                                 </button>
                             </div>

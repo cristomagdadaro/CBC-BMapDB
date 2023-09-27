@@ -1,7 +1,7 @@
 <script setup>
 import PageLayout from "@/Layouts/PageLayout.vue";
 import {Head} from "@inertiajs/vue3";
-
+import DataTable from "@/Components/DataTable/DataTable.vue";
 const cols = [
     {
         data: 'id',
@@ -19,35 +19,100 @@ const cols = [
         searchable: true,
         orderable: true,
         collapsable: false,
+        className: 'dt-center dt-border-sm px-2'
+    },{
+        data: 'mname',
+        name:'mname',
+        title: 'Middle Name',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'dt-center dt-border-sm px-2'
+    },{
+        data: 'lname',
+        name:'lname',
+        title: 'Last Name',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'dt-center dt-border-sm px-2'
+    },{
+        data: 'suffix',
+        name:'suffix',
+        title: 'Suffix',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
         className: 'dt-center dt-border-sm px-2 text-center'
+    },{
+        data: 'position',
+        name:'position',
+        title: 'Position',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'dt-center dt-border-sm px-2'
+    },{
+        data: 'educ_level',
+        name:'educ_level',
+        title: 'Degree',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'dt-center dt-border-sm px-2'
+    },{
+        data: 'expertise',
+        name:'expertise',
+        title: 'Expertise',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'dt-center dt-border-sm px-2'
+    },{
+        data: 'email',
+        name:'email',
+        title: 'Email',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'dt-center dt-border-sm px-2'
+    },{
+        data: 'mobile_no',
+        name:'mobile_no',
+        title: 'Mobile',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'dt-center dt-border-sm px-2'
     },
+
 ]
 
 const api =  {
     // create form
-    create: 'laboratory.fecalysis.create',
+    //create: 'laboratory.fecalysis.create',
     // edit form
-    edit: 'laboratory.fecalysis.edit',
+    //edit: 'laboratory.fecalysis.edit',
     //view form
-    show: 'laboratory.fecalysis.show',
+    //show: 'laboratory.fecalysis.show',
     // return all data
-    index: 'twg',
+    index: 'twgexport',
     // return data compatible for datatable requests
     table: 'twgtable',
     // store data from create form
-    store: 'api.fecalysis.store',
+    //store: 'api.fecalysis.store',
     // update data from edit form
-    update: 'api.fecalysis.update',
+    //update: 'api.fecalysis.update',
     // delete a specific data
-    destroy: 'api.fecalysis.destroy',
+    destroy: 'twgdestroy',
     // import data from excel
-    import: 'api.fecalysis.import',
+    //import: 'api.fecalysis.import',
 }
 </script>
 
 <template>
     <Head title="TWG Database" />
     <PageLayout>
-
+        <data-table :api-link="api" :columns-large="cols" :columns-small="cols" />
     </PageLayout>
 </template>
