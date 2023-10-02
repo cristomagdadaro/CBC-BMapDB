@@ -37,9 +37,14 @@ Route::middleware([
 Route::prefix('projects')->group(function () {
     Route::prefix('twg')->group(function () {
         Route::get('/', [TWGController::class, 'index'])->name('twgdatabase');
+        Route::get('create', [TWGController::class, 'create'])->name('twgcreate');
+        Route::get('edit/{id}', [TWGController::class, 'edit'])->name('twgedit');
+
+
         Route::get('table', [TWGController::class, 'table'])->name('twgtable');
         Route::delete('destroy',  [TWGController::class, 'delete'])->name('twgdestroy');
         Route::get('export', [TWGController::class, 'export'])->name('twgexport');
+        Route::post('update/{id}', [TWGController::class, 'update'])->name('twgexpert.personal.update');
     });
 
     Route::get('/breedersmap', function (){

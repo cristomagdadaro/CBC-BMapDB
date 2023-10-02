@@ -90,9 +90,9 @@ const cols = [
 
 const api =  {
     // create form
-    //create: 'laboratory.fecalysis.create',
+    create: 'twgcreate',
     // edit form
-    //edit: 'laboratory.fecalysis.edit',
+    edit: 'twgedit',
     //view form
     //show: 'laboratory.fecalysis.show',
     // return all data
@@ -108,11 +108,14 @@ const api =  {
     // import data from excel
     //import: 'api.fecalysis.import',
 }
+
+const isWideDisplay = true;
 </script>
 
 <template>
     <Head title="TWG Database" />
-    <PageLayout>
-        <data-table :api-link="api" :columns-large="cols" :columns-small="cols" />
+    <PageLayout :is-wide-display="isWideDisplay">
+        <data-table v-if="$page.props.auth.user" :api-link="api" :columns-large="cols" :columns-small="cols" />
+        <p v-else>Please login to view the data</p>
     </PageLayout>
 </template>
