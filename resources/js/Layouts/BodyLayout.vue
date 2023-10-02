@@ -1,5 +1,14 @@
+<script setup>
+import {defineProps} from "vue";
+const props = defineProps({
+    isWideDisplay: {
+        type: Boolean,
+        default: false
+    }
+});
+</script>
 <template>
-    <div class="relative flex flex-col resp-container">
+    <div class="relative flex flex-col" :class="props.isWideDisplay?'mx-5':'resp-container'">
         <slot />
     </div>
 </template>

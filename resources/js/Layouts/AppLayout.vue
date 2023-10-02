@@ -11,6 +11,7 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 
 defineProps({
     title: String,
+    
 });
 
 const showingNavigationDropdown = ref(false);

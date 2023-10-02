@@ -36,8 +36,43 @@ import axios from 'axios';
 import { Link } from "@inertiajs/vue3";
 import EditIcon from "@/Components/Icons/EditIcon.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
-import pushNotification from "@/Components/Modal/NotifBanner.vue";
+import { pushNotification } from "@/Components/Modal/NotifBanner.vue";
 export default {
+    components: {
+        DtLength,
+        DtSearch,
+        DtSearchBy,
+        DtPaginateBtn,
+        DtPaginateDetail,
+        DtPageBtn,
+        DtActionBtn,
+        DtTHead,
+        DtTh,
+        DtBody,
+        DtFooter,
+        DtTable,
+        DtPaginateContainer,
+        DtTopContainer,
+        DtContainer,
+        DtActionContainer,
+        DtLengthContainer,
+        SpinnerIcon,
+        DialogModal,
+        SecondaryButton,
+        DangerButton,
+        Link,
+        EditIcon,
+        ViewIcon,
+        DeleteIcon,
+        CloseIcon,
+        DownloadIcon,
+        RefreshIcon,
+        AddIcon,
+        CollapseIcon,
+        ExpandIcon,
+        CheckallIcon,
+        UploadIcon,
+    },
     props: {
         columnsLarge: {
             type: Array,
@@ -495,7 +530,7 @@ export default {
                 </tr>
                 <tr v-for="item in data" v-else
                     :class="{ 'bg-gray-300 text-gray-900 border-x-0': selected.includes(item.id) }"
-                    class="hover:bg-gray-200 border border-x-0 transition-all duration-1000 ease-in"
+                    class="hover:bg-gray-200 border border-x-0"
                     @click="selectRecord($event, item.id)">
                     <!--index -->
                     <td class="whitespace-nowrap max-w-fit">

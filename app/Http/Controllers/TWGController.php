@@ -14,7 +14,7 @@ class TWGController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Projects/TWGDatabase', [
+        return Inertia::render('Projects/TWG/TWGDatabase', [
             'twg_experts' => TWGExpert::with('twg_projects')->get(),
         ]);
     }
@@ -24,7 +24,7 @@ class TWGController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Projects/TWG/TWGCreate');
     }
 
     /**
@@ -46,17 +46,19 @@ class TWGController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TWGExpert $tWG)
+    public function edit(Request $request)
     {
-        //
+        return Inertia::render('Projects/TWG/TWGEdit', [
+            'twg_expert' => TWGExpert::with('twg_projects')->with('twg_services')->with('twg_products')->find($request->id),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TWGExpert $tWG)
+    public function update(Request $request)
     {
-        //
+        return $request;
     }
 
     /**

@@ -53,6 +53,7 @@ const TabLinks = [
         </template>
         <template #links>
             <ul class="lg:flex sm:gap-2">
+                <tablink v-if="$page.props.auth.user" :link="route('dashboard')">Dashboard</tablink>
                 <template v-for="link in TabLinks">
                     <tablink :link="link.link">
                         {{ link.name }}
