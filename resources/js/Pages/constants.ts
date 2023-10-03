@@ -27,3 +27,23 @@ export const Projects = [
         label: 'Breeders Map',
     }
 ]
+
+export const ProjectStatus = [
+    {
+        id: 1,
+        value: 'Active',
+        label: 'Active',
+    },{
+        id: 2,
+        value: 'Completed',
+        label: 'Completed',
+    },{
+        id: 3,
+        value: 'Cancelled',
+        label: 'Cancelled',
+    },{
+        id: 4,
+        value: 'On Hold',
+        label: 'On Hold',
+    }
+]

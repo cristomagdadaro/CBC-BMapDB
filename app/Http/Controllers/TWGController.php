@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TWGProjectRequest;
 use App\Http\Resources\TWGResource;
 use App\Models\TWGExpert;
+use App\Models\TWGProject;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -33,6 +35,15 @@ class TWGController extends Controller
     public function store(Request $request)
     {
         //
+    }
+
+    public function twgprojectstore(TWGProjectRequest $request)
+    {
+        $twg_project = new TWGProject(
+            $request->validated()
+        );
+
+        $twg_project->save();
     }
 
     /**
@@ -120,6 +131,48 @@ class TWGController extends Controller
     public function destroy(TWGExpert $tWG)
     {
         //
+    }
+
+    public function tableprojects(Request $request)
+    {
+        $query = TWGProject::select();
+        $totalRecords = $query->count();
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $searchBy = $request->input('search_by', 'id');
+            $query->where(function ($q) use ($search, $searchBy) {
+                if ($searchBy == '*') {
+                    $q->where('id', 'like', '%' . $search . '%')
+                        ->orWhere('title', 'like', '%' . $search . '%')
+                        ->orWhere('objective', 'like', '%' . $search . '%')
+                        ->orWhere('expected_output', 'like', '%' . $search . '%')
+                        ->orWhere('project_leader', 'like', '%' . $search . '%')
+                        ->orWhere('funding_agency', 'like', '%' . $search . '%')
+                        ->orWhere('duration', 'like', '%' . $search . '%')
+                        ->orWhere('status', 'like', '%' . $search . '%');
+                } else {
+                    $q->where('twg_project.' . $searchBy, 'like', '%' . $search . '%');
+                }
+            });
+        }
+
+        // Handle sorting
+        $sortField = $request->input('sort', 'id');
+        $sortDirection = $request->input('sort_dir', 'asc');
+        $query->orderBy($sortField, $sortDirection);
+
+        $perPage = $request->input('per_page', 10);
+        $page = $request->input('page', 1);
+
+        $paginator = $query->paginate($perPage, ['*'], 'page', $page);
+
+        return response()->json([
+            'data' => $paginator->items(),
+            'totalCount' => $paginator->total(),
+            'totalPages' => $paginator->lastPage(),
+            'perPage' => $paginator->perPage(),
+            'totalRecords' => $totalRecords,
+        ]);
     }
 
     /*API Section of the class*/

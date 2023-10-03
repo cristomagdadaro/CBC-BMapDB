@@ -11,6 +11,8 @@
 import DataTable from "@/Components/DataTable/DataTable.vue";
 import {Head} from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
+import TWGCreateProject from "@/Pages/Projects/TWG/TWGCreateProject.vue";
+import {markRaw} from "vue";
 
 const isWideDisplay = true;
 const cols = [
@@ -24,84 +26,67 @@ const cols = [
         className: 'dt-center dt-border-sm px-2 text-center'
     },
     {
-        data: 'fname',
-        name:'fname',
-        title: 'First Name',
+        data: 'title',
+        name:'title',
+        title: 'Title',
         searchable: true,
         orderable: true,
         collapsable: false,
         className: 'dt-center dt-border-sm px-2'
     },{
-        data: 'mname',
-        name:'mname',
-        title: 'Middle Name',
+        data: 'objective',
+        name:'objective',
+        title: 'Objective',
         searchable: true,
         orderable: true,
         collapsable: false,
         className: 'dt-center dt-border-sm px-2'
     },{
-        data: 'lname',
-        name:'lname',
-        title: 'Last Name',
+        data: 'expected_output',
+        name:'expected_output',
+        title: 'Expected Output',
         searchable: true,
         orderable: true,
         collapsable: false,
         className: 'dt-center dt-border-sm px-2'
     },{
-        data: 'suffix',
-        name:'suffix',
-        title: 'Suffix',
+        data: 'project_leader',
+        name:'project_leader',
+        title: 'Project Leader',
         searchable: true,
         orderable: true,
         collapsable: false,
         className: 'dt-center dt-border-sm px-2 text-center'
     },{
-        data: 'position',
-        name:'position',
-        title: 'Position',
+        data: 'funding_agency',
+        name:'funding_agency',
+        title: 'Funding Agency',
         searchable: true,
         orderable: true,
         collapsable: false,
         className: 'dt-center dt-border-sm px-2'
     },{
-        data: 'educ_level',
-        name:'educ_level',
-        title: 'Degree',
+        data: 'duration',
+        name:'duration',
+        title: 'Duration',
         searchable: true,
         orderable: true,
         collapsable: false,
         className: 'dt-center dt-border-sm px-2'
     },{
-        data: 'expertise',
-        name:'expertise',
-        title: 'Expertise',
+        data: 'status',
+        name:'status',
+        title: 'Status',
         searchable: true,
         orderable: true,
         collapsable: false,
         className: 'dt-center dt-border-sm px-2'
-    },{
-        data: 'email',
-        name:'email',
-        title: 'Email',
-        searchable: true,
-        orderable: true,
-        collapsable: false,
-        className: 'dt-center dt-border-sm px-2'
-    },{
-        data: 'mobile_no',
-        name:'mobile_no',
-        title: 'Mobile',
-        searchable: true,
-        orderable: true,
-        collapsable: false,
-        className: 'dt-center dt-border-sm px-2'
-    },
-
+    }
 ]
 
 const api =  {
     // create form
-    create: 'twgcreate',
+    create: markRaw(TWGCreateProject),
     // edit form
     edit: 'twgedit',
     //view form
@@ -109,7 +94,7 @@ const api =  {
     // return all data
     index: 'twgexport',
     // return data compatible for datatable requests
-    table: 'twgtable',
+    table: 'twgtableprojects',
     // store data from create form
     //store: 'api.fecalysis.store',
     // update data from edit form
