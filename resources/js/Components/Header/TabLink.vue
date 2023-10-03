@@ -1,5 +1,6 @@
 <script>
 import { Link } from '@inertiajs/vue3';
+import {computed} from "vue";
 export default {
     components: {
         Link,
@@ -15,10 +16,17 @@ export default {
             required: false,
             default: false,
         },
+        active: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
     },
     data() {
         return {
             showDropdown: false,
+            activeClass: 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-white focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out',
+            inactiveClass: 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-white hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out',
         };
     },
     methods: {
@@ -30,11 +38,12 @@ export default {
         },
         /* function that would determine if the current tab is active*/
     },
+
 };
 </script>
 <template>
     <li v-if="!sublinks" class="flex items-center hover:bg-cbc-yellow-green duration-400 ease-in-out">
-        <Link :href="link" class="px-3 py-1 whitespace-nowrap sm:text-sm text-xs"><slot /></Link>
+        <Link :href="link" class="px-3 py-1 whitespace-nowrap sm:text-sm text-xs" :class="active?activeClass:inactiveClass"><slot /></Link>
     </li>
     <li v-else class="flex items-center hover:bg-cbc-yellow-green duration-400 ease-in-out" @mouseleave="closeDropdown()">
         <div>

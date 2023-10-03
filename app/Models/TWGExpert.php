@@ -12,30 +12,9 @@ class TWGExpert extends Model
     protected $table = 'twg_expert';
 
     protected $fillable = [
-        'id',
-        'fname',
-        'mname', // 'mname' is the middle name
-        'lname',
-        'suffix',
+        'user_id',
         'position',
         'educ_level',
         'expertise',
-        'email',
-        'mobile_no',
     ];
-
-    public function twg_projects()
-    {
-        return $this->hasMany(TWGProject::class, 'twg_expert_id', 'id');
-    }
-
-    public function twg_services()
-    {
-        return $this->hasMany(TWGService::class, 'twg_expert_id', 'id');
-    }
-
-    public function twg_products()
-    {
-        return $this->hasMany(TWGProduct::class, 'twg_expert_id', 'id');
-    }
 }

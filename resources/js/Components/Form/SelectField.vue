@@ -26,7 +26,7 @@ defineExpose({ focus: () => input.value.focus() });
 </script>
 
 <template>
-    <div class="flex flex-col">
+    <div class="flex flex-col border-0">
         <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
         <select
             :id="id"

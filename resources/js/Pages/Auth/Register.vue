@@ -8,10 +8,19 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PageLayout from '@/Layouts/PageLayout.vue';
+import Logo from "@/Components/Icons/Logo.vue";
+import TextField from "@/Components/Form/TextField.vue";
+import SelectField from "@/Components/Form/SelectField.vue";
+import { Projects } from "@/Pages/constants.ts";
 
 const form = useForm({
-    name: '',
+    fname: '',
+    mname: '',
+    lname: '',
+    suffix: '',
+    account_for: '',
     email: '',
+    mobile_no: '',
     password: '',
     password_confirmation: '',
     terms: false,
@@ -19,7 +28,11 @@ const form = useForm({
 
 const submit = () => {
     form.post(route('register'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
+        onBefore: () => console.log(form),
+        onFinish: (response) => function (){
+            console.log(response);
+            form.reset('password', 'password_confirmation');
+        },
     });
 };
 </script>
@@ -27,64 +40,25 @@ const submit = () => {
 <template>
     <Head title="Register" />
     <PageLayout>
+        {{ form.errors }}
         <AuthenticationCard>
             <template #logo>
-                <AuthenticationCardLogo />
+                <Logo classes="sm:h-24 h-14" />
             </template>
-
-            <form @submit.prevent="submit">
-                <div>
-                    <InputLabel for="name" value="Name" />
-                    <TextInput
-                        id="name"
-                        v-model="form.name"
-                        type="text"
-                        class="mt-1 block w-full"
-                        required
-                        autofocus
-                        autocomplete="name"
-                    />
-                    <InputError class="mt-2" :message="form.errors.name" />
-                </div>
-
-                <div class="mt-4">
-                    <InputLabel for="email" value="Email" />
-                    <TextInput
-                        id="email"
-                        v-model="form.email"
-                        type="email"
-                        class="mt-1 block w-full"
-                        required
-                        autocomplete="username"
-                    />
-                    <InputError class="mt-2" :message="form.errors.email" />
-                </div>
-
-                <div class="mt-4">
-                    <InputLabel for="password" value="Password" />
-                    <TextInput
-                        id="password"
-                        v-model="form.password"
-                        type="password"
-                        class="mt-1 block w-full"
-                        required
-                        autocomplete="new-password"
-                    />
-                    <InputError class="mt-2" :message="form.errors.password" />
-                </div>
-
-                <div class="mt-4">
-                    <InputLabel for="password_confirmation" value="Confirm Password" />
-                    <TextInput
-                        id="password_confirmation"
-                        v-model="form.password_confirmation"
-                        type="password"
-                        class="mt-1 block w-full"
-                        required
-                        autocomplete="new-password"
-                    />
-                    <InputError class="mt-2" :message="form.errors.password_confirmation" />
-                </div>
+            <div class="border-b pb-2">
+                <h1 class="font-medium">Registration Form</h1>
+                <p class="text-xs text-gray-600">Fill in all the required(<span class="text-red-600">*</span>) fields.</p>
+            </div>
+            <form @submit.prevent="submit" class="grid sm:grid-cols-2 grid-cols-1">
+                <TextField id="fname" label="First Name" v-model="form.fname" type="text" required autofocus autocomplete="name" :error="form.errors.fname" />
+                <TextField id="mname" label="Middle Name" v-model="form.mname" type="text" autofocus autocomplete="name" :error="form.errors.mname" />
+                <TextField id="lname" label="Last Name" v-model="form.lname" type="text" required autofocus autocomplete="name" :error="form.errors.lname" />
+                <TextField id="suffix" label="Suffix" v-model="form.suffix" type="text" autofocus autocomplete="name" :error="form.errors.suffix" />
+                <SelectField id="account_for" label="Account For" v-model="form.account_for" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="Projects" />
+                <TextField id="mobile_no" label="Mobile No." v-model="form.mobile_no" type="text" autofocus autocomplete="name" :error="form.errors.mobile_no" />
+                <TextField id="email" label="Email" v-model="form.email" type="email" required autocomplete="email" :error="form.errors.email" />
+                <TextField id="password" label="Password" v-model="form.password" type="password" required autocomplete="new-password" :error="form.errors.password" />
+                <TextField id="password_confirmation" label="Confirm Password" v-model="form.password_confirmation" type="password" required autocomplete="new-password" :error="form.errors.password_confirmation" />
 
                 <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
                     <InputLabel for="terms">
@@ -99,7 +73,7 @@ const submit = () => {
                     </InputLabel>
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
+                <div class="flex items-center justify-between mt-4">
                     <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         Already registered?
                     </Link>

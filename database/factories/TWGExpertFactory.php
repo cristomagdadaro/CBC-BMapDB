@@ -17,15 +17,10 @@ class TWGExpertFactory extends Factory
     public function definition(): array
     {
         return [
-            'fname' => $this->faker->firstName(),
-            'mname' => $this->faker->lastName(),
-            'lname' => $this->faker->lastName(),
-            'suffix' => $this->faker->suffix(),
+            'user_id' => $this->faker->unique()->numberBetween(1, 10),
             'position' => $this->faker->jobTitle(),
             'educ_level' => $this->faker->randomElement(["Bachelor's", "Master's", 'Doctoral']),
             'expertise' => $this->faker->randomElement(['Agriculture', 'Fishery', 'Livestock', 'Forestry', 'Microbiology', 'Botany', 'Biotechnology']),
-            'email' => $this->faker->email(),
-            'mobile_no' => $this->faker->phoneNumber(),
         ];
     }
 }

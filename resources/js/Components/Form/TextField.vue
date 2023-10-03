@@ -1,10 +1,12 @@
 <script setup>
 import { onMounted, ref } from 'vue';
+import InputError from "@/Components/InputError.vue";
 
 defineProps({
     modelValue: String,
     id: String,
     label: String,
+    error: String,
     required: {
         type: Boolean,
         default: false,
@@ -25,8 +27,11 @@ defineExpose({ focus: () => input.value.focus() });
 </script>
 
 <template>
-    <div class="flex flex-col">
-        <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
+    <div class="flex flex-col border-0">
+        <div class="flex justify-between items-center">
+            <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
+            <InputError :message="error" />
+        </div>
         <input
         :id="id"
         :required="required"

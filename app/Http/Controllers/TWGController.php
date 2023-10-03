@@ -14,7 +14,7 @@ class TWGController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Projects/TWG/TWGDatabase', [
+        return Inertia::render('Projects/TWG/TWGIndex', [
             'twg_experts' => TWGExpert::with('twg_projects')->get(),
         ]);
     }
