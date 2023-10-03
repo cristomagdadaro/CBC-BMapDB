@@ -54,12 +54,65 @@ class TWGController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update Personal Information of the specified resource in storage.
      */
-    public function update(Request $request)
+    public function updatePersonal(Request $request)
     {
-        return $request;
+        //validate request
+        $request->validate([
+            'fname' => 'required',
+            'mname' => 'nullable',
+            'lname' => 'required',
+            'suffix' => 'nullable',
+        ]);
+
+        $data = TWGExpert::find($request->id);
+        $data->fname = $request->fname;
+        $data->mname = $request->mname;
+        $data->lname = $request->lname;
+        $data->suffix = $request->suffix;
+
+        $data->save();
     }
+
+    public function updateBackground(Request $request)
+    {
+        //validate request
+        $request->validate([
+            'position' => 'required',
+            'educ_level' => 'required',
+            'expertise' => 'required',
+        ]);
+
+        $data = TWGExpert::find($request->id);
+        $data->position = $request->position;
+        $data->educ_level = $request->educ_level;
+        $data->expertise = $request->expertise;
+
+        $data->save();
+    }
+
+    public function updateAccount(Request $request)
+    {
+        //validate request
+        $request->validate([
+            'email' => 'required',
+            'mobile_no' => 'required',
+            'password' => 'nullable',
+            'password_confirmation' => 'required_with:password|same:password',
+        ]);
+
+        $data = TWGExpert::find($request->id);
+        $data->email = $request->email;
+        $data->mobile_no = $request->mobile_no;
+        $data->password = $request->password;
+
+        $data->save();
+    }
+
+
+
+
 
     /**
      * Remove the specified resource from storage.

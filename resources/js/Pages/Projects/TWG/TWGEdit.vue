@@ -3,9 +3,11 @@ import Form from "@/Components/Form/Form.vue";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import {Head, useForm } from "@inertiajs/vue3";
 import { defineProps, onMounted } from "vue";
-import TextInput from '@/Components/Form/TextField.vue';
+import TextField from '@/Components/Form/TextField.vue';
+import SelectField from '@/Components/Form/SelectField.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import ActionMessage from '@/Components/ActionMessage.vue';
+import { EducLevel } from "@/Pages/constants.ts";
 
 const props = defineProps({
     twg_expert: {
@@ -51,12 +53,31 @@ const DateFormat = (date) => {
     const ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
     const mo = new Intl.DateTimeFormat('en', { month: 'short' }).format(d);
     const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d);
-    return `${mo}. ${da}, ${ye}`;
+    const h = new Intl.DateTimeFormat('en', { hour: 'numeric', hour12: false }).format(d);
+    const m = new Intl.DateTimeFormat('en', { minute: 'numeric' }).format(d);
+    //const s = new Intl.DateTimeFormat('en', { second: 'numeric' }).format(d);
+    return `${mo}. ${da}, ${ye} - ${h}:${m}`;
 };
 
 const savePersonalDetails = () => {
     formPersonal.post(route('twgexpert.personal.update', props.twg_expert.id), {
         errorBag: 'updatePersonalDetails',
+        preserveScroll: true,
+        onSuccess: (response) => console.log(response),
+    });
+};
+
+const saveBackgroundDetails = () => {
+    formBackground.post(route('twgexpert.background.update', props.twg_expert.id), {
+        errorBag: 'updateBackgroundDetails',
+        preserveScroll: true,
+        onSuccess: (response) => console.log(response),
+    });
+};
+
+const saveAccountDetails = () => {
+    formAccount.post(route('twgexpert.account.update', props.twg_expert.id), {
+        errorBag: 'updateAccountDetails',
         preserveScroll: true,
         onSuccess: (response) => console.log(response),
     });
@@ -76,10 +97,10 @@ const savePersonalDetails = () => {
                 <template #title>Personal Details</template>
                 <template #form>
                     <div class="grid sm:grid-cols-2 md:grid-cols-4 grid-cols-1 gap-2">
-                        <TextInput label="First Name" name="first_name" v-model="formPersonal.fname" :required="true" />
-                        <TextInput label="Middle Name" name="middle_name" v-model="formPersonal.mname" />
-                        <TextInput label="Last Name" name="last_name" v-model="formPersonal.lname" :required="true" />
-                        <TextInput label="Suffix" name="suffix" v-model="formPersonal.suffix" />
+                        <TextField label="First Name" name="first_name" v-model="formPersonal.fname" :required="true" />
+                        <TextField label="Middle Name" name="middle_name" v-model="formPersonal.mname" />
+                        <TextField label="Last Name" name="last_name" v-model="formPersonal.lname" :required="true" />
+                        <TextField label="Suffix" name="suffix" v-model="formPersonal.suffix" />
                     </div>
                 </template>
                 <template #actions>
@@ -92,25 +113,43 @@ const savePersonalDetails = () => {
                     </PrimaryButton>
                 </template>
             </Form>
-            <Form>
+            <Form @submitted="saveBackgroundDetails">
                 <template #title>Background Details</template>
                 <template #form>
                     <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
-                        <TextInput label="Current Position" name="position" v-model="formBackground.position" :required="true" />
-                        <TextInput label="Education Level" name="educ_level" v-model="formBackground.educ_level" :required="true" />
-                        <TextInput label="Expertise" name="expertise" v-model="formBackground.expertise" :required="true" />
+                        <TextField label="Current Position" name="position" v-model="formBackground.position" :required="true" />
+                        <SelectField label="Education Level" name="educ_level" v-model="formBackground.educ_level" :required="true" :options="EducLevel" />
+                        <TextField label="Expertise" name="expertise" v-model="formBackground.expertise" :required="true" />
                     </div>
                 </template>
+                <template #actions>
+                    <ActionMessage :on="formBackground.recentlySuccessful" class="mr-3">
+                        Saved
+                    </ActionMessage>
+
+                    <PrimaryButton class="mt-2" :class="{ 'opacity-25': formBackground.processing }" :disabled="formBackground.processing">
+                        Save
+                    </PrimaryButton>
+                </template>
             </Form>
-            <Form>
+            <Form @submitted="saveAccountDetails">
                 <template #title>Account Details</template>
                 <template #form>
                     <div class="grid sm:grid-cols-2 grid-cols-1 gap-2">
-                        <TextInput label="Email" name="email" v-model="formAccount.email" :required="true" />
-                        <TextInput label="Mobile Number" name="mobile_no" v-model="formAccount.mobile_no" :required="true" />
-                        <TextInput label="Password" name="password" v-model="formAccount.password" :required="true" />
-                        <TextInput label="Confirm Password" name="password_confirmation" v-model="formAccount.password_confirmation" :required="true" />
+                        <TextField label="Email" name="email" v-model="formAccount.email" :required="true" />
+                        <TextField label="Mobile Number" name="mobile_no" v-model="formAccount.mobile_no" :required="true" />
+                        <TextField label="New Password" name="password" v-model="formAccount.password" />
+                        <TextField label="Confirm Password" name="password_confirmation" v-model="formAccount.password_confirmation" :required="!!formAccount.password" />
                     </div>
+                </template>
+                <template #actions>
+                    <ActionMessage :on="formAccount.recentlySuccessful" class="mr-3">
+                        Saved
+                    </ActionMessage>
+
+                    <PrimaryButton class="mt-2" :class="{ 'opacity-25': formAccount.processing }" :disabled="formAccount.processing">
+                        Save
+                    </PrimaryButton>
                 </template>
             </Form>
             <Form>
