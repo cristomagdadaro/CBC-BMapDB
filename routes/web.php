@@ -44,7 +44,9 @@ Route::prefix('projects')->group(function () {
         Route::get('table', [TWGController::class, 'table'])->name('twgtable');
         Route::delete('destroy',  [TWGController::class, 'delete'])->name('twgdestroy');
         Route::get('export', [TWGController::class, 'export'])->name('twgexport');
-        Route::post('update/{id}', [TWGController::class, 'update'])->name('twgexpert.personal.update');
+        Route::post('personal/update/{id}', [TWGController::class, 'updatePersonal'])->name('twgexpert.personal.update');
+        Route::post('background/update/{id}', [TWGController::class, 'updateBackground'])->name('twgexpert.background.update');
+        Route::post('account/update/{id}', [TWGController::class, 'updateAccount'])->name('twgexpert.account.update');
     });
 
     Route::get('/breedersmap', function (){
