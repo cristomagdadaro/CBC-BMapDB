@@ -37,6 +37,7 @@ const formBackground = useForm({
 });
 
 onMounted(() => {
+    if (!props.twg_expert) return;
     formPersonal.fname = props.twg_expert.fname;
     formPersonal.mname = props.twg_expert.mname;
     formPersonal.lname = props.twg_expert.lname;
@@ -86,9 +87,9 @@ const saveAccountDetails = () => {
 
 </script>
 <template>
-    <Head title="TWG Database" />
-    <PageLayout :is-wide-display="isWideDisplay">
-        <div class="flex flex-col gap-4 border-gray-200">
+<!--    <Head title="TWG Database" />
+    <PageLayout :is-wide-display="isWideDisplay">-->
+        <div class="flex flex-col gap-4 border-gray-200" v-if="twg_expert">
             <div class="mt-5">
                 <div class="flex justify-between"><h1 class="font-meduim">Update User Account</h1><h1 class="text-gray-500 text-sm">User ID: {{ twg_expert.id }}</h1></div>
                 <div class="flex justify-between"><p class="text-xs text-gray-400">Fields marked with asterisk (<span class="text-red-500">*</span>) are required fields.</p><h1 class="text-gray-500 text-xs">Last modified: {{ DateFormat(twg_expert.updated_at) }}</h1></div>
@@ -169,5 +170,8 @@ const saveAccountDetails = () => {
                 </template>
             </Form>
         </div>
-    </PageLayout>
+        <div v-else class="text-red-600 text-center">
+            WARNING! Encountered an error, unable to retrieve data.
+        </div>
+<!--    </PageLayout>-->
 </template>

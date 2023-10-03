@@ -29,6 +29,8 @@ import SpinnerIcon from "@/Components/Icons/SpinnerIcon.vue";
 import DialogModal from "@/Components/DialogModal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
+import TextField from "@/Components/Form/TextField.vue";
+import TWGEdit from "@/Pages/Projects/TWG/TWGEdit.vue";
 </script>
 <script>
 import { markRaw } from 'vue';
@@ -90,7 +92,8 @@ export default {
     },
     data: () => ({
         deleteId: null,
-        showModal: false,
+        showDestroyModal: false,
+        showCreateModal: false,
         dtMessage: '',
         showMenu: false,
         columns: [],    // columns to be displayed
@@ -140,6 +143,9 @@ export default {
         this.changeSizeView();
     },
     methods: {
+        createModal() {
+            this.showCreateModal = true;
+        },
         deleteRecord(id, multi = false) {
             if (multi) {
                 this.deleteMultiRecord();
@@ -155,7 +161,7 @@ export default {
                     pushNotification(response.data.notification);
                     this.getData();
                     this.deleteId = null;
-                    this.showModal = false;
+                    this.showDestroyModal = false;
                 })
                 .catch(error => {
                     console.log(error);
@@ -422,11 +428,12 @@ export default {
             return col.name === this.sortedColumn;
         },
         closeModal() {
-            this.showModal = false;
+            this.showDestroyModal = false;
+            this.showCreateModal = false;
         },
         showDeleteModal(id) {
             this.deleteId = id;
-            this.showModal = true;
+            this.showDestroyModal = true;
         },
     },
     computed: {
@@ -439,7 +446,7 @@ export default {
 <template>
     <DtContainer>
 <!--        <DtProcessing v-if="processing" >{{ completedCount? completedCount:'' }}</DtProcessing>-->
-        <DialogModal :show="showModal" @close="closeModal">
+        <DialogModal :show="showDestroyModal" @close="closeModal">
             <template #title>
                 Delete Record
             </template>
@@ -460,9 +467,34 @@ export default {
                 </DangerButton>
             </template>
         </DialogModal>
+        <DialogModal :show="showCreateModal" @close="closeModal">
+            <template #title>
+                Register a Project
+            </template>
+            <template #content>
+                <component :is="apiLink.create" />
+            </template>
+            <template #footer>
+                <SecondaryButton @click="closeModal">
+                    Cancel
+                </SecondaryButton>
+                <DangerButton
+                    class="ml-3"
+                    :class="{ 'opacity-25': processing }"
+                    :disabled="processing"
+                    @click="deleteSingleRecord(deleteId)"
+                >
+                    Delete
+                </DangerButton>
+            </template>
+        </DialogModal>
         <DtTopContainer>
             <DtActionContainer>
-                <DtActionBtn v-if="apiLink.create" :href="route(apiLink.create)" class="bg-yellow-500">
+                <DtActionBtn v-if="apiLink.create && typeof(apiLink) == 'object'" class="bg-yellow-500" @click="createModal">
+                    <AddIcon class="w-4 mr-1" />
+                    New
+                </DtActionBtn>
+                <DtActionBtn v-else :href="route(apiLink.create)" class="bg-yellow-500">
                     <AddIcon class="w-4 mr-1" />
                     New
                 </DtActionBtn>
@@ -550,7 +582,7 @@ export default {
                                 <Link title="Update" v-if="apiLink.edit" :href="route(apiLink.edit, item.id)" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in">
                                     <component :is="col.icon[2]" />
                                 </Link>
-                                <button title="Delete" v-if="apiLink.destroy && $page.props.auth.user.role === '1'" @click="showDeleteModal(item.id)" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in">
+                                <button title="Delete" v-if="apiLink.destroy && $page.props.auth.user.role === '1'" @click="showDestroyModal(item.id)" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in">
                                     <component :is="col.icon[1]" />
                                 </button>
                             </div>

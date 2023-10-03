@@ -7,6 +7,10 @@ defineProps({
     id: String,
     label: String,
     error: String,
+    longtext: {
+        type: Boolean,
+        default: false,
+    },
     required: {
         type: Boolean,
         default: false,
@@ -32,13 +36,23 @@ defineExpose({ focus: () => input.value.focus() });
             <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
             <InputError :message="error" />
         </div>
-        <input
+        <input v-if="!longtext"
         :id="id"
         :required="required"
         ref="input"
         class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
-    >
+        >
+        <textarea v-else
+        :id="id"
+        id="id"
+        :required="required"
+        ref="input"
+        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)">
+
+        </textarea>
     </div>
 </template>
