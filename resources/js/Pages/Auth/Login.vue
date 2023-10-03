@@ -8,6 +8,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PageLayout from '@/Layouts/PageLayout.vue';
+import Logo from "@/Components/Icons/Logo.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -42,7 +43,7 @@ function onSignIn(googleUser) {
     <PageLayout>
     <AuthenticationCard>
         <template #logo>
-            <AuthenticationCardLogo />
+            <Logo classes="sm:h-24 h-14" />
         </template>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">

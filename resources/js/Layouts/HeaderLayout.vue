@@ -3,6 +3,7 @@ import { Link } from "@inertiajs/vue3";
 import hamburger from "@/Components/Icons/Hamburger.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import Dropdown from "@/Components/Dropdown.vue";
+import {computed} from "vue";
 
 export default {
     components: {
@@ -10,6 +11,9 @@ export default {
         hamburger,
         DropdownLink,
         Dropdown,
+    },
+    props: {
+        active: Boolean,
     },
     data() {
         return {
@@ -22,6 +26,12 @@ export default {
         },
     },
 };
+
+const classes = computed(() => {
+    return this.active
+        ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out'
+        : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out';
+});
 </script>
 <template>
     <header class="flex items-center justify-between min-w-min w-full bg-cbc-dark-green text-white sticky top-0 z-[49]">

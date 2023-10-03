@@ -41,7 +41,7 @@ const TabLinks = [
 ];
 </script>
 <template>
-    <headerlayout>
+    <headerlayout :active="route().current('dashboard')">
         <template #icon>
             <Logo />
         </template>
@@ -53,7 +53,7 @@ const TabLinks = [
         </template>
         <template #links>
             <ul class="lg:flex sm:gap-2">
-                <tablink v-if="$page.props.auth.user" :link="route('dashboard')">Dashboard</tablink>
+                <tablink v-if="$page.props.auth.user" :link="route('dashboard')" :active="route().current('dashboard')">Dashboard</tablink>
                 <template v-for="link in TabLinks">
                     <tablink :link="link.link">
                         {{ link.name }}

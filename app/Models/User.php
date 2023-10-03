@@ -24,10 +24,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'fname',
+        'mname',
+        'lname',
+        'suffix',
+        'account_for',
         'email',
+        'mobile_no',
         'password',
-        'role',
     ];
 
     /**
@@ -59,4 +63,21 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute(): string
+    {
+        $mid = $this->mname?$this->mname:"";
+        return "{$this->fname} {$mid} {$this->lname} {$this->suffix}";
+    }
+
+    public function twg_expert()
+    {
+        return $this->hasOne(TWGExpert::class, 'user_id', 'id');
+    }
+
 }

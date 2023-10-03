@@ -15,7 +15,9 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
-            'name' => 'Test User',
+            'fname' => 'Test',
+            'lname' => 'User',
+            'account_for' => 'twgdatabase',
             'email' => 'sample@cbc.philrice.gov.ph',
         ]);
 
