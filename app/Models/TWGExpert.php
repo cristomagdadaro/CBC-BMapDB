@@ -17,4 +17,9 @@ class TWGExpert extends Model
         'educ_level',
         'expertise',
     ];
+
+    public function twg_projects()
+    {
+        return $this->hasMany(TWGProject::class, 'twg_expert_id','user_id');
+    }
 }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('twg_project', function (Blueprint $table){
             $table->id();
-            $table->foreignId('twg_expert_id')->nullable()->constrained('users');
+            $table->foreignId('twg_expert_id')->nullable()->constrained('twg_expert','user_id');
             $table->string('title', 255)->nullable();
             $table->longText('objective')->nullable();
             $table->string('expected_output', 255)->nullable();

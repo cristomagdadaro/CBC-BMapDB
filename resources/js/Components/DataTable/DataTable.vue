@@ -502,7 +502,7 @@ export default {
                     <RefreshIcon class="w-4 mr-1" />
                     Refresh
                 </DtActionBtn>
-                <DtActionBtn v-if="totalRecords && $page.props.auth.user.role === '1'" @click="exportToCsv" class="bg-green-600">
+                <DtActionBtn v-if="totalRecords" @click="exportToCsv" class="bg-green-600">
                     <DownloadIcon class="w-4 mr-1" />
                     Export
                 </DtActionBtn>

@@ -91,6 +91,7 @@ const clearPhotoFileInput = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
+                            :class="!form.fname?'opacity-30':''"
                             placeholder="First"
                             autocomplete="fname"
                         />
@@ -102,6 +103,7 @@ const clearPhotoFileInput = () => {
                             v-model="form.mname"
                             type="text"
                             class="mt-1 block w-full"
+                            :class="!form.mname?'opacity-30':''"
                             placeholder="Middle"
                             autocomplete="mname"
                         />
@@ -114,6 +116,7 @@ const clearPhotoFileInput = () => {
                             type="text"
                             class="mt-1 block w-full"
                             required
+                            :class="!form.lname?'opacity-30':''"
                             placeholder="Last"
                             autocomplete="lname"
                         />
@@ -124,6 +127,7 @@ const clearPhotoFileInput = () => {
                             id="suffix"
                             v-model="form.suffix"
                             type="text"
+                            :class="!form.suffix?'opacity-30':''"
                             class="mt-1 block w-full"
                             placeholder="Suffix"
                             autocomplete="suffix"
@@ -136,47 +140,50 @@ const clearPhotoFileInput = () => {
             <div class="col-span-6 sm:col-span-4">
                 <div class="grid sm:grid-cols-2 sm:gap-2 gap-1">
                     <div>
-                        <InputLabel for="email" value="Mobile No." />
-                        <TextInput
-                            id="mobile_no"
-                            v-model="form.mobile_no"
-                            type="tel"
-                            class="mt-1 block w-full"
-                            autocomplete="mobile_no"
-                        />
-                        <InputError :message="form.errors.mobile_no" class="mt-2" />
-                    </div>
-                    <div>
                         <InputLabel for="email" value="Email" />
                         <TextInput
                             id="email"
                             v-model="form.email"
                             type="email"
+                            :class="!form.email?'opacity-30':''"
+                            placeholder="sample@sample.com"
                             class="mt-1 block w-full"
                             required
                             autocomplete="username"
                         />
                         <InputError :message="form.errors.email" class="mt-2" />
+                    </div>
+                    <div>
+                        <InputLabel for="email" value="Mobile No." />
+                        <TextInput
+                            id="mobile_no"
+                            v-model="form.mobile_no"
+                            type="tel"
+                            :class="!form.mobile_no?'opacity-30':''"
+                            placeholder="(+63)"
+                            class="mt-1 block w-full"
+                            autocomplete="mobile_no"
+                        />
+                        <InputError :message="form.errors.mobile_no" class="mt-2" />
+                    </div>
+                </div>
+                <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null">
+                    <p class="text-sm mt-2">
+                        Your email address is unverified.
 
-                        <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null">
-                            <p class="text-sm mt-2">
-                                Your email address is unverified.
+                        <Link
+                            :href="route('verification.send')"
+                            method="post"
+                            as="button"
+                            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            @click.prevent="sendEmailVerification"
+                        >
+                            Click here to re-send the verification email.
+                        </Link>
+                    </p>
 
-                                <Link
-                                    :href="route('verification.send')"
-                                    method="post"
-                                    as="button"
-                                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                    @click.prevent="sendEmailVerification"
-                                >
-                                    Click here to re-send the verification email.
-                                </Link>
-                            </p>
-
-                            <div v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600">
-                                A new verification link has been sent to your email address.
-                            </div>
-                        </div>
+                    <div v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600">
+                        A new verification link has been sent to your email address.
                     </div>
                 </div>
             </div>

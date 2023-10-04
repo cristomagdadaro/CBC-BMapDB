@@ -7,9 +7,9 @@ defineProps({
     id: String,
     label: String,
     error: String,
-    longtext: {
-        type: Boolean,
-        default: false,
+    typeInput: {
+        type: String,
+        default: 'text',
     },
     required: {
         type: Boolean,
@@ -31,16 +31,17 @@ defineExpose({ focus: () => input.value.focus() });
 </script>
 
 <template>
-    <div class="flex flex-col border-0">
+    <div class="flex flex-col border-0 p-0">
         <div class="flex justify-between items-center">
             <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
             <InputError :message="error" />
         </div>
-        <input v-if="!longtext"
+        <input v-if="typeInput !== 'longtext'"
         :id="id"
+        :type="typeInput"
         :required="required"
         ref="input"
-        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-sm shadow-sm"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         >

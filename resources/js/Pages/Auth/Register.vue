@@ -40,16 +40,15 @@ const submit = () => {
 <template>
     <Head title="Register" />
     <PageLayout>
-        {{ form.errors }}
         <AuthenticationCard>
             <template #logo>
                 <Logo classes="sm:h-24 h-14" />
             </template>
-            <div class="border-b pb-2">
+            <div class="border-b pb-1 mb-2">
                 <h1 class="font-medium">Registration Form</h1>
                 <p class="text-xs text-gray-600">Fill in all the required(<span class="text-red-600">*</span>) fields.</p>
             </div>
-            <form @submit.prevent="submit" class="grid sm:grid-cols-2 grid-cols-1">
+            <form @submit.prevent="submit" class="grid sm:grid-cols-2 grid-cols-1 gap-2">
                 <TextField id="fname" label="First Name" v-model="form.fname" type="text" required autofocus autocomplete="name" :error="form.errors.fname" />
                 <TextField id="mname" label="Middle Name" v-model="form.mname" type="text" autofocus autocomplete="name" :error="form.errors.mname" />
                 <TextField id="lname" label="Last Name" v-model="form.lname" type="text" required autofocus autocomplete="name" :error="form.errors.lname" />
@@ -57,8 +56,8 @@ const submit = () => {
                 <SelectField id="account_for" label="Account For" v-model="form.account_for" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="Projects" />
                 <TextField id="mobile_no" label="Mobile No." v-model="form.mobile_no" type="text" autofocus autocomplete="name" :error="form.errors.mobile_no" />
                 <TextField id="email" label="Email" v-model="form.email" type="email" required autocomplete="email" :error="form.errors.email" />
-                <TextField id="password" label="Password" v-model="form.password" type="password" required autocomplete="new-password" :error="form.errors.password" />
-                <TextField id="password_confirmation" label="Confirm Password" v-model="form.password_confirmation" type="password" required autocomplete="new-password" :error="form.errors.password_confirmation" />
+                <TextField id="password" label="Password" v-model="form.password" typeInput="password" required autocomplete="new-password" :error="form.errors.password" />
+                <TextField id="password_confirmation" label="Confirm Password" v-model="form.password_confirmation" typeInput="password" required autocomplete="new-password" :error="form.errors.password_confirmation" />
 
                 <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
                     <InputLabel for="terms">

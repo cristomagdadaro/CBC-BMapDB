@@ -26,13 +26,13 @@ defineExpose({ focus: () => input.value.focus() });
 </script>
 
 <template>
-    <div class="flex flex-col border-0">
+    <div class="flex flex-col border-0 p-0">
         <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
         <select
             :id="id"
             :required="required"
             ref="input"
-            class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+            class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-sm shadow-sm"
             :value="modelValue"
             @input="$emit('update:modelValue', $event.target.value)"
         >

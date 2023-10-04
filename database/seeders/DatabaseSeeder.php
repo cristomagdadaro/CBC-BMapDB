@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TWGProject;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create();
 
         \App\Models\User::factory()->create([
             'fname' => 'Test',
@@ -22,6 +23,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\TWGExpert::factory()->count(10)->create();
+        \App\Models\TWGProject::factory()->count(20)->create();
         \App\Models\TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Transcriptomic Analysis of Healthy and Cadang-cadang-infected Coconut Palms',
