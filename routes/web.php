@@ -41,8 +41,8 @@ Route::prefix('projects')->group(function () {
         Route::get('edit/{id}', [TWGController::class, 'edit'])->name('twgedit');
 
 
-        Route::get('table-projects', [TWGController::class, 'tableprojects'])->name('twgtableprojects');
-        Route::delete('destroy',  [TWGController::class, 'delete'])->name('twgdestroy');
+        Route::get('table-projects', [TWGController::class, 'tableprojects'])->name('twg.table.projects');
+        Route::delete('destroy-project/{id}',  [TWGController::class, 'destroyProject'])->name('twg.destroy.project');
         Route::get('export', [TWGController::class, 'export'])->name('twgexport');
 
         Route::post('personal/update/{id}', [TWGController::class, 'updatePersonal'])->name('twgexpert.personal.update');

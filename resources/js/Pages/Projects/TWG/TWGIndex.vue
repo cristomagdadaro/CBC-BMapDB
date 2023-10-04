@@ -23,7 +23,7 @@ const cols = [
         searchable: true,
         orderable: true,
         collapsable: false,
-        className: 'dt-center dt-border-sm px-2 text-center'
+        className: 'px-2 text-center'
     },
     {
         data: 'title',
@@ -32,7 +32,7 @@ const cols = [
         searchable: true,
         orderable: true,
         collapsable: false,
-        className: 'dt-center dt-border-sm px-2'
+        className: ' px-2'
     },{
         data: 'objective',
         name:'objective',
@@ -40,7 +40,7 @@ const cols = [
         searchable: true,
         orderable: true,
         collapsable: false,
-        className: 'dt-center dt-border-sm px-2'
+        className: 'px-2'
     },{
         data: 'expected_output',
         name:'expected_output',
@@ -48,7 +48,7 @@ const cols = [
         searchable: true,
         orderable: true,
         collapsable: false,
-        className: 'dt-center dt-border-sm px-2'
+        className: 'px-2'
     },{
         data: 'project_leader',
         name:'project_leader',
@@ -56,7 +56,7 @@ const cols = [
         searchable: true,
         orderable: true,
         collapsable: false,
-        className: 'dt-center dt-border-sm px-2 text-center'
+        className: 'px-2 text-center'
     },{
         data: 'funding_agency',
         name:'funding_agency',
@@ -64,7 +64,7 @@ const cols = [
         searchable: true,
         orderable: true,
         collapsable: false,
-        className: 'dt-center dt-border-sm px-2'
+        className: 'px-2'
     },{
         data: 'duration',
         name:'duration',
@@ -72,7 +72,7 @@ const cols = [
         searchable: true,
         orderable: true,
         collapsable: false,
-        className: 'dt-center dt-border-sm px-2'
+        className: 'px-2'
     },{
         data: 'status',
         name:'status',
@@ -80,7 +80,7 @@ const cols = [
         searchable: true,
         orderable: true,
         collapsable: false,
-        className: 'dt-center dt-border-sm px-2'
+        className: 'px-2'
     }
 ]
 
@@ -94,13 +94,13 @@ const api =  {
     // return all data
     index: 'twgexport',
     // return data compatible for datatable requests
-    table: 'twgtableprojects',
+    table: 'twg.table.projects',
     // store data from create form
     //store: 'api.fecalysis.store',
     // update data from edit form
     //update: 'api.fecalysis.update',
     // delete a specific data
-    destroy: 'twgdestroy',
+    destroy: 'twg.destroy.project',
     // import data from excel
     //import: 'api.fecalysis.import',
 }
