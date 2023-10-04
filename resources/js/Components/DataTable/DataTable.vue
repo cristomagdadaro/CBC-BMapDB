@@ -547,7 +547,7 @@ export default {
         </DtTopContainer>
         <DtTable ref="table">
             <DtTHead class="bg-cbc-olive-green">
-                <DtTh title="" class="max-w-fit absolute" sortDir="asc" :isSortedColumn="false" />
+                <!-- <DtTh title="" class="max-w-fit absolute" sortDir="asc" :isSortedColumn="false" /> -->
                 <DtTh class="text-gray-700 border-x border-gray-300" v-for="col in columns" :key="col.data" :title="col.title" @click="sortColumn(col)" :sortDir="sortDir" :isSortedColumn="isColumnSorted(col)" />
             </DtTHead>
             <DtBody>
@@ -565,16 +565,16 @@ export default {
                     class="hover:bg-gray-200 border border-x-0"
                     @click="selectRecord($event, item.id)">
                     <!--index -->
-                    <td class="whitespace-nowrap max-w-fit">
+                    <!-- <td class="whitespace-nowrap max-w-fit">
                         {{ pageStart + data.indexOf(item) }}
-                    </td>
+                    </td> -->
                     <template v-for="col in columns" :key="col.data">
                         <!-- for data -->
-                        <td v-if="col.data" class="whitespace-nowrap border-gray-200 border" :class="col.className">
+                        <td v-if="col.data" class="border-gray-200 border max-w-xs" :class="col.className">
                             {{ item[col.data] }}
                         </td>
                         <!-- for actions -->
-                        <td v-else-if="col.icon" class="whitespace-nowrap" :class="col.className">
+                        <td v-else-if="col.icon" class="whitespace-nowrap">
                             <div class="flex justify-evenly container" v-if="selected.includes(item.id) && selected.length <= 1">
                                 <Link title="View" v-if="apiLink.show" :href="route(apiLink.show, item.id)" class="w-5 flex hover:text-green-900 hover:scale-110 translate-x-0 text-green-600 duration-100 ease-in">
                                     <component :is="col.icon[0]" />
@@ -582,7 +582,7 @@ export default {
                                 <Link title="Update" v-if="apiLink.edit" :href="route(apiLink.edit, item.id)" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in">
                                     <component :is="col.icon[2]" />
                                 </Link>
-                                <button title="Delete" v-if="apiLink.destroy && $page.props.auth.user.role === '1'" @click="showDestroyModal(item.id)" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in">
+                                <button title="Delete" v-if="apiLink.destroy && $page.props.auth.user.role === '1'" @click="showDeleteModal(item.id)" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in">
                                     <component :is="col.icon[1]" />
                                 </button>
                             </div>

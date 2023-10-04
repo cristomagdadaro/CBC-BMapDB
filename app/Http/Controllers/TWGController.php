@@ -17,7 +17,7 @@ class TWGController extends Controller
     public function index()
     {
         return Inertia::render('Projects/TWG/TWGIndex', [
-            'twg_experts' => TWGExpert::with('twg_projects')->get(),
+            //'twg_experts' => TWGExpert::with('twg_projects')->get(),
         ]);
     }
 
@@ -60,7 +60,7 @@ class TWGController extends Controller
     public function edit(Request $request)
     {
         return Inertia::render('Projects/TWG/TWGEdit', [
-            'twg_expert' => TWGExpert::with('twg_projects')->with('twg_services')->with('twg_products')->find($request->id),
+            //'twg_expert' => TWGExpert::with('twg_projects')->with('twg_services')->with('twg_products')->find($request->id),
         ]);
     }
 
@@ -128,14 +128,25 @@ class TWGController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TWGExpert $tWG)
-    {
-        //
+    public function destroy(Request $request){
+        $data = TWGProject::find($request->id);
+        $data->destroy();
+    }
+
+
+    public function destroyProject(Request $request){
+        $data = TWGProject::find($request->id);
+        $data->destroy();
+        
     }
 
     public function tableprojects(Request $request)
     {
-        $query = TWGProject::select();
+        $query = null;
+        if(auth()->user()->role == 1)
+            $query = TWGProject::select();
+        else
+            $query = TWGProject::where('twg_expert_id', auth()->user()->id)->select();
         $totalRecords = $query->count();
         if ($request->has('search')) {
             $search = $request->input('search');

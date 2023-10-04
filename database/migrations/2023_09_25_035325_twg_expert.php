@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('twg_expert', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
             $table->string('position', 50)->nullable();
             $table->enum('educ_level', ["Bachelor\'s", "Master\'s", "Doctoral"])->nullable();
             $table->string('expertise', 50)->nullable();
