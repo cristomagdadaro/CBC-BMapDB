@@ -2,8 +2,19 @@
     <Head title="TWG Database" />
     <AppLayout :is-wide-display="isWideDisplay">
         <div class="p-5">
-            <data-table v-if="$page.props.auth.user" :api-link="api" :columns-large="cols" :columns-small="cols" />
-            <p v-else>Please login to view the data</p>
+            <Tab :tabs="tabs">
+                <template #tab1>
+                    <data-table v-if="$page.props.auth.user" :api-link="api" :columns-large="cols" :columns-small="cols" />
+                    <p v-else>Please login to view the data</p>
+                </template>
+                <template #tab2>
+                    Tab 2
+                </template>
+                <template #tab3>
+                    Tab 3
+                </template>
+            </Tab>
+
         </div>
     </AppLayout>
 </template>
@@ -13,7 +24,26 @@ import {Head} from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import TWGCreateProject from "@/Pages/Projects/TWG/TWGCreateProject.vue";
 import {markRaw} from "vue";
+import Tab from "@/Components/Tab/Tab.vue";
 const isWideDisplay = true;
+
+const tabs = [
+    {
+        name: "tab1",
+        label: "Projects",
+        active: true,
+    },
+    {
+        name: "tab2",
+        label: "Products",
+        active: false,
+    },
+    {
+        name: "tab3",
+        label: "Services",
+        active: false,
+    },
+]
 const cols = [
     {
         data: 'id',
