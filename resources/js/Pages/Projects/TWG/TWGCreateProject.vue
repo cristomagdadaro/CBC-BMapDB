@@ -3,8 +3,8 @@
         <Form @submitted="saveForm">
             <template #form>
                 <div class="grid gap-2">
-                    <TextField label="Title" name="title" v-model="form.title" :required="true" longtext />
-                    <TextField label="Objective" name="objective" v-model="form.objective" longtext />
+                    <TextField label="Title" type-input="longtext" name="title" v-model="form.title" :required="true" longtext />
+                    <TextField label="Objective" type-input="longtext" name="objective" v-model="form.objective" longtext />
                     <TextField label="Expected Output" name="expected_output" v-model="form.expected_output" :required="true" />
                     <TextField label="Project Leader" name="project_leader" v-model="form.project_leader" />
                     <TextField label="Funding Agency" name="funding_agency" v-model="form.funding_agency" :required="true" />

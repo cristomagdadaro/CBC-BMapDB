@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
+use App\Models\TWGProject;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,20 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        // \App\Models\User::factory(10)->create();
+
+        \App\Models\User::factory()->create([
             'fname' => 'Test',
             'lname' => 'User',
             'email' => 'sample@cbc.philrice.gov.ph',
         ]);
 
-        $this->call([
-            RolesSeeder::class,
-            PermissionSeeder::class,
-            ApplicationSeeder::class,
-            AccountsSeeder::class,
-            BreederSeeder::class,
-        ]);
-
+        \App\Models\TWGExpert::factory()->count(10)->create();
         \App\Models\TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Transcriptomic Analysis of Healthy and Cadang-cadang-infected Coconut Palms',
