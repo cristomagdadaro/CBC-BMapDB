@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\TWGExpert;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TWGExpert>
+ * @extends Factory<TWGExpert>
  */
 class TWGExpertFactory extends Factory
 {

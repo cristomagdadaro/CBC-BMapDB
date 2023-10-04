@@ -25,8 +25,8 @@ export { notifications, pushNotification };
 </script>
 
 <template>
-    <div class="flex flex-col fixed bottom-3 right-3 gap-1 z-50">
-        <template v-if="notifications" v-for="notif in notifications" :key="notif.id">
+    <div v-if="notifications" class="flex flex-col fixed top-3 right-3 gap-1 z-50">
+        <template v-for="notif in notifications" :key="notif.id">
             <transition
                 enter-active-class="duration-300"
                 enter-from-class="translate-x-full"

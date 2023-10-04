@@ -6,6 +6,7 @@ use App\Http\Requests\TWGProjectRequest;
 use App\Http\Resources\TWGResource;
 use App\Models\TWGExpert;
 use App\Models\TWGProject;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -135,12 +136,19 @@ class TWGController extends Controller
 
 
     public function destroyProject(Request $request){
-        $data = TWGProject::find($request->id);
-        $data->destroy();
-        
+        $id = explode(',', $request->id);
+        $temp = TWGProject::destroy($id);
+        return response()->json([
+            'notification' => [
+                'id' => uniqid(),
+                'show' => true,
+                'type' => $temp?'success':'failed',
+                'message' => $temp?'Successfully deleted '.$temp.' record/s':'Failed to delete record/s',
+            ]
+        ]);
     }
 
-    public function tableprojects(Request $request)
+    public function tableprojects(Request $request): JsonResponse
     {
         $query = null;
         if(auth()->user()->role == 1)
@@ -245,7 +253,9 @@ class TWGController extends Controller
         ]);
     }
 
-    public function export(){
-        return TWGResource::collection(TWGExpert::all());
+    public function exportproject(){
+        if(auth()->user()->role == 1) //returns all projects when admin
+            return TWGResource::collection(TWGProject::all());
+        return TWGResource::collection(TWGProject::where('twg_expert_id', auth()->user()->id)->get());
     }
 }

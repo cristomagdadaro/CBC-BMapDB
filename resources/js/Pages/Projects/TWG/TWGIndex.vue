@@ -13,7 +13,6 @@ import {Head} from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import TWGCreateProject from "@/Pages/Projects/TWG/TWGCreateProject.vue";
 import {markRaw} from "vue";
-
 const isWideDisplay = true;
 const cols = [
     {
@@ -88,11 +87,12 @@ const api =  {
     // create form
     create: markRaw(TWGCreateProject),
     // edit form
-    edit: 'twgedit',
+    edit: markRaw(TWGCreateProject),
+    getEditData: 'twg.edit.project.data',
     //view form
     //show: 'laboratory.fecalysis.show',
     // return all data
-    index: 'twgexport',
+    index: 'twg.export.project',
     // return data compatible for datatable requests
     table: 'twg.table.projects',
     // store data from create form

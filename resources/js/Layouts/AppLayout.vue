@@ -44,7 +44,7 @@ const logout = () => {
                         <div class="flex">
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('twgdatabase')" :active="route().current('twgdatabase')">
+                                <NavLink :href="route('twg.database')" :active="route().current('twg.database')">
                                     TWG Database
                                 </NavLink>
                             </div>
@@ -121,7 +121,7 @@ const logout = () => {
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('twgdatabase')" :active="route().current('twgdatabase')">
+                        <ResponsiveNavLink :href="route('twg.database')" :active="route().current('twg.database')">
                             TWG Database
                         </ResponsiveNavLink>
                     </div>

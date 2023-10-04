@@ -36,14 +36,15 @@ Route::middleware([
 
 Route::prefix('projects')->group(function () {
     Route::prefix('twg')->group(function () {
-        Route::get('/', [TWGController::class, 'index'])->name('twgdatabase');
-        Route::get('create', [TWGController::class, 'create'])->name('twgcreate');
-        Route::get('edit/{id}', [TWGController::class, 'edit'])->name('twgedit');
+        Route::get('/', [TWGController::class, 'index'])->name('twg.database');
+        Route::get('create', [TWGController::class, 'create'])->name('twg.create');
 
+        Route::get('edit/{id}', [TWGController::class, 'edit'])->name('twg.edit');
+        Route::get('edit/data/{id}', [TWGController::class, 'editdata'])->name('twg.edit.project.data');
 
         Route::get('table-projects', [TWGController::class, 'tableprojects'])->name('twg.table.projects');
         Route::delete('destroy-project/{id}',  [TWGController::class, 'destroyProject'])->name('twg.destroy.project');
-        Route::get('export', [TWGController::class, 'export'])->name('twgexport');
+        Route::get('export', [TWGController::class, 'exportproject'])->name('twg.export.project');
 
         Route::post('personal/update/{id}', [TWGController::class, 'updatePersonal'])->name('twgexpert.personal.update');
         Route::post('background/update/{id}', [TWGController::class, 'updateBackground'])->name('twgexpert.background.update');

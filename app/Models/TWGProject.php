@@ -22,4 +22,6 @@ class TWGProject extends Model
         'duration',
         'status'
     ];
+
+
 }
