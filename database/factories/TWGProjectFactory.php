@@ -2,10 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\TWGProject;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TWGProject>
+ * @extends Factory<TWGProject>
  */
 class TWGProjectFactory extends Factory
 {

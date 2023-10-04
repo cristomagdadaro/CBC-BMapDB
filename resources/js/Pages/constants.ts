@@ -1,3 +1,4 @@
+
 export const EducLevel = [
     {
         id: 1,
@@ -16,14 +17,15 @@ export const EducLevel = [
     }
 ]
 
+/*used in registration dropdown*/
 export const Projects = [
     {
         id: 1,
-        value: 'twgdatabase',
+        value: 'twg.database', // router name of the project
         label: 'TWG Database',
     },{
         id: 2,
-        value: 'breedersmap',
+        value: 'breeders.map',
         label: 'Breeders Map',
     }
 ]

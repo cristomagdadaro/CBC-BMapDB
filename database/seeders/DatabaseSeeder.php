@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
+use App\Models\TWGExpert;
 use App\Models\TWGProject;
 use Illuminate\Database\Seeder;
 
@@ -14,15 +15,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
+        User::factory()->create([
             'fname' => 'Test',
             'lname' => 'User',
             'email' => 'sample@cbc.philrice.gov.ph',
         ]);
 
         \App\Models\TWGExpert::factory()->count(10)->create();
+        \App\Models\TWGProject::factory()->count(20)->create();
         \App\Models\TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Transcriptomic Analysis of Healthy and Cadang-cadang-infected Coconut Palms',
@@ -33,7 +35,7 @@ class DatabaseSeeder extends Seeder
             'duration' => '3 years',
             'status' => 'Active',
         ]);
-        \App\Models\TWGProject::factory()->create([
+        TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Application of Molecular techniques for the detection of coconust diseases and characterization of biological control agents of mahjor insect and pests of coconut',
             'objective' => 'To utilize molecular techniques for coconut disease diagnosis and characterization of insect pathogens of coconut pests, consequently increasing coconut yield and quality of marketbale coconut product through the development and establishment of sustainable pest and disease management',
@@ -43,7 +45,7 @@ class DatabaseSeeder extends Seeder
             'duration' => '3 years',
             'status' => 'Active',
         ]);
-        \App\Models\TWGProject::factory()->create([
+        TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Sustainability of the Coconut Somatic Embryogeneis Tissue Cutlure Protocols for Mass Propagation and Multi-locational Testing of PCA recommended Plumule-derived varieties in Selected Provinces',
             'objective' => 'Regeneration and ex vitor establishment of plumule-derived plantlets from existing cultures. And develop an efficient and sustainbele nursery management protocol',
@@ -53,7 +55,7 @@ class DatabaseSeeder extends Seeder
             'duration' => '4.3 years',
             'status' => 'Active',
         ]);
-        \App\Models\TWGProject::factory()->create([
+        TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Mass production of Embryo Cultured Makapuno Seedlings',
             'objective' => 'To mass produce Embryo culture Makapuno',
@@ -62,7 +64,7 @@ class DatabaseSeeder extends Seeder
             'funding_agency' => 'PCA-CRDP',
             'status' => 'Active',
         ]);
-        \App\Models\TWGProject::factory()->create([
+        TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Optimization of Coconut Somatic Embryogenesis Protocols using coconut tissues of coconut',
             'objective' => 'To optimize clonal propagation protocol for coconut using inflorescense and unfertilized ovary',
@@ -72,14 +74,14 @@ class DatabaseSeeder extends Seeder
             'duration' => '3 years',
             'status' => 'Active',
         ]);
-        \App\Models\TWGProject::factory()->create([
+        TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Genetic Fidelity Testing of Plumule-derives Coconut Plantlets',
             'funding_agency' => 'PCA-CRDP',
             'duration' => '2 years',
             'status' => 'Active',
         ]);
-        \App\Models\TWGProject::factory()->create([
+        TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Cadang-cadang Disease Management Program',
             'objective' => 'Identification of cadang-cadang free planting materials',

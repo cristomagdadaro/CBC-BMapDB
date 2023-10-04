@@ -1,4 +1,4 @@
-<script setup>
+<script>
 import DeleteIcon from '@/Components/Icons/DeleteIcon.vue';
 import CloseIcon from '@/Components/Icons/CloseIcon.vue';
 import DownloadIcon from '@/Components/Icons/DownloadIcon.vue';
@@ -31,16 +31,24 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import TWGEdit from "@/Pages/Projects/TWG/TWGEdit.vue";
-</script>
-<script>
-import { markRaw } from 'vue';
+import {markRaw} from 'vue';
 import axios from 'axios';
-import { Link } from "@inertiajs/vue3";
+import {Link} from "@inertiajs/vue3";
 import EditIcon from "@/Components/Icons/EditIcon.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
-import { pushNotification } from "@/Components/Modal/NotifBanner.vue";
+import {pushNotification} from "@/Components/Modal/NotifBanner.vue";
+
 export default {
     components: {
+        DeleteIcon,
+        CloseIcon,
+        DownloadIcon,
+        RefreshIcon,
+        AddIcon,
+        CollapseIcon,
+        ExpandIcon,
+        CheckallIcon,
+        UploadIcon,
         DtLength,
         DtSearch,
         DtSearchBy,
@@ -62,18 +70,11 @@ export default {
         DialogModal,
         SecondaryButton,
         DangerButton,
+        TextField,
+        TWGEdit,
         Link,
         EditIcon,
         ViewIcon,
-        DeleteIcon,
-        CloseIcon,
-        DownloadIcon,
-        RefreshIcon,
-        AddIcon,
-        CollapseIcon,
-        ExpandIcon,
-        CheckallIcon,
-        UploadIcon,
     },
     props: {
         columnsLarge: {
@@ -93,7 +94,9 @@ export default {
     data: () => ({
         deleteId: null,
         showDestroyModal: false,
+        showDestroyModalMsg: '',
         showCreateModal: false,
+        showEditModal: false,
         dtMessage: '',
         showMenu: false,
         columns: [],    // columns to be displayed
@@ -128,7 +131,7 @@ export default {
         ],
         actionButton: {
             data: null,
-            icon: [ markRaw(ViewIcon), markRaw(DeleteIcon), markRaw(EditIcon)],
+            icon: [markRaw(ViewIcon), markRaw(DeleteIcon), markRaw(EditIcon)],
             name: 'actions',
             title: 'Actions',
             searchable: false,
@@ -146,6 +149,18 @@ export default {
         createModal() {
             this.showCreateModal = true;
         },
+        editModal() {
+            this.showEditModal = true;
+        },
+        getEditData(id, data) {
+            axios.get(route(this.apiLink.edit, id))
+                .then(response => {
+                    data = response.data;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
         deleteRecord(id, multi = false) {
             if (multi) {
                 this.deleteMultiRecord();
@@ -153,40 +168,51 @@ export default {
                 this.deleteSingleRecord(id);
             }
         },
+        showDeleteModal(id) {
+            if (typeof id !== 'object') {
+                this.showDestroyModalMsg = 'Are you sure you want to delete this record?';
+                this.deleteId = id;
+                this.selected = [];
+            } else {
+                this.showDestroyModalMsg = `Are you sure you want to delete these ${id.length} records?`;
+                this.selected = id;
+                this.deleteId = null;
+            }
+            this.showDestroyModal = true;
+        },
         deleteSingleRecord(id) {
             this.processing = true;
             this.dtMessage = 'Please wait while deleting records...';
             axios.delete(route(this.apiLink.destroy, id))
-                .then( response => {
+                .then(response => {
                     pushNotification(response.data.notification);
                     this.getData();
-                    this.deleteId = null;
-                    this.showDestroyModal = false;
                 })
                 .catch(error => {
                     console.log(error);
                 })
                 .finally(() => {
                     this.processing = false;
+                    this.deleteId = null;
+                    this.showDestroyModal = false;
                 });
         },
         async deleteMultiRecord() {
-            if (confirm(`Are you sure you want to delete these ${this.selected.length} records?`)) {
-                this.processing = true;
-                this.dtMessage = `Please wait while deleting records...`;
-                await axios.delete(route(this.apiLink.destroy, { id: this.selected }))
-                    .then(response => {
-                        pushNotification(response.data.notification);
-                        this.getData();
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-                    .finally(() => {
-                        this.processing = false;
-                    });
-                this.selected = [];
-            }
+            this.processing = true;
+            this.dtMessage = `Please wait while deleting records...`;
+            await axios.delete(route(this.apiLink.destroy, {id: this.selected}))
+                .then(response => {
+                    pushNotification(response.data.notification);
+                    this.getData();
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+                .finally(() => {
+                    this.processing = false;
+                    this.showDestroyModal = false;
+                    this.selected = [];
+                });
         },
         selectRecord(event, id) {
             // Check if the ctrl key is held down
@@ -219,7 +245,7 @@ export default {
                 this.currentPageSelected = [];
             }
         },
-        async selectAll(){
+        async selectAll() {
             if (this.selected.length < this.totalRecords) {
                 await axios.get(route(this.apiLink.index))
                     .then(response => {
@@ -246,7 +272,7 @@ export default {
                     page: this.pageNumber,
                     per_page: this.perPage,
                     search: this.search,
-                    search_by: this.searchBy? this.searchBy : '*',
+                    search_by: this.searchBy ? this.searchBy : '*',
                     sort: this.sortedColumn,
                     sort_dir: this.sortDir,
                 }
@@ -280,13 +306,13 @@ export default {
             }
         },
         firstPage() {
-            if(this.pageNumber === 1)
+            if (this.pageNumber === 1)
                 return;
             this.pageNumber = 1;
             this.getData();
         },
         lastPage() {
-            if(this.pageNumber === this.totalPages)
+            if (this.pageNumber === this.totalPages)
                 return;
             this.pageNumber = this.totalPages;
             this.getData();
@@ -316,7 +342,7 @@ export default {
         refreshData() {
             this.getData();
         },
-        changeSizeView(){
+        changeSizeView() {
             this.viewSize = !this.viewSize;
             if (this.viewSize) {
                 this.columns = this.columnsLarge;
@@ -333,7 +359,11 @@ export default {
             axios.get(route(this.apiLink.index))
                 .then((response) => {
                     const currentDate = new Date();
-                    const formattedDate = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+                    const formattedDate = currentDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    });
                     const filename = `${this.apiLink.index}-${formattedDate}.csv`;
 
                     const rows = response.data.data;
@@ -356,7 +386,7 @@ export default {
                         return val;
                     }).join(",")).join("\n");
 
-                    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+                    const blob = new Blob([csvData], {type: 'text/csv;charset=utf-8;'});
                     if (navigator.msSaveBlob) {
                         navigator.msSaveBlob(blob, filename);
                     } else {
@@ -430,10 +460,7 @@ export default {
         closeModal() {
             this.showDestroyModal = false;
             this.showCreateModal = false;
-        },
-        showDeleteModal(id) {
-            this.deleteId = id;
-            this.showDestroyModal = true;
+            this.showEditModal = false;
         },
     },
     computed: {
@@ -445,23 +472,23 @@ export default {
 </script>
 <template>
     <DtContainer>
-<!--        <DtProcessing v-if="processing" >{{ completedCount? completedCount:'' }}</DtProcessing>-->
+        <!--        <DtProcessing v-if="processing" >{{ completedCount? completedCount:'' }}</DtProcessing>-->
         <DialogModal :show="showDestroyModal" @close="closeModal">
             <template #title>
                 Delete Record
             </template>
             <template #content>
-                Are you sure you want to delete this record?
+                {{ showDestroyModalMsg }}
             </template>
             <template #footer>
                 <SecondaryButton @click="closeModal">
                     Cancel
                 </SecondaryButton>
                 <DangerButton
-                    class="ml-3"
                     :class="{ 'opacity-25': processing }"
                     :disabled="processing"
-                    @click="deleteSingleRecord(deleteId)"
+                    class="ml-3"
+                    @click="deleteRecord(deleteId, selected.length > 1)"
                 >
                     Delete
                 </DangerButton>
@@ -472,83 +499,85 @@ export default {
                 Register a Project
             </template>
             <template #content>
-                <component :is="apiLink.create" />
+                <component :is="apiLink.create"/>
             </template>
-            <template #footer>
-                <SecondaryButton @click="closeModal">
-                    Cancel
-                </SecondaryButton>
-                <DangerButton
-                    class="ml-3"
-                    :class="{ 'opacity-25': processing }"
-                    :disabled="processing"
-                    @click="deleteSingleRecord(deleteId)"
-                >
-                    Delete
-                </DangerButton>
+        </DialogModal>
+        <DialogModal :show="showEditModal" @close="closeModal">
+            <template #title>
+                Update this Project
+            </template>
+            <template #content>
+                <component :is="apiLink.edit"/>
             </template>
         </DialogModal>
         <DtTopContainer>
             <DtActionContainer>
-                <DtActionBtn v-if="apiLink.create && typeof(apiLink) == 'object'" class="bg-yellow-500" @click="createModal">
-                    <AddIcon class="w-4 mr-1" />
+                <DtActionBtn v-if="apiLink.create && typeof(apiLink) == 'object'" class="bg-yellow-500"
+                             @click="createModal">
+                    <AddIcon class="w-4 mr-1"/>
                     New
                 </DtActionBtn>
                 <DtActionBtn v-else :href="route(apiLink.create)" class="bg-yellow-500">
-                    <AddIcon class="w-4 mr-1" />
+                    <AddIcon class="w-4 mr-1"/>
                     New
                 </DtActionBtn>
-                <DtActionBtn @click="refreshData" class="bg-blue-500">
-                    <RefreshIcon class="w-4 mr-1" />
+                <DtActionBtn class="bg-blue-500" @click="refreshData">
+                    <RefreshIcon class="w-4 mr-1"/>
                     Refresh
                 </DtActionBtn>
-                <DtActionBtn v-if="totalRecords" @click="exportToCsv" class="bg-green-600">
-                    <DownloadIcon class="w-4 mr-1" />
+                <DtActionBtn v-if="totalRecords" class="bg-green-600" @click="exportToCsv">
+                    <DownloadIcon class="w-4 mr-1"/>
                     Export
                 </DtActionBtn>
-                <DtActionBtn v-if="false" @click="importFromCsv" class="bg-teal-600">
-                    <UploadIcon class="w-4 mr-1" />
+                <DtActionBtn v-if="false" class="bg-teal-600" @click="importFromCsv">
+                    <UploadIcon class="w-4 mr-1"/>
                     Import
                 </DtActionBtn>
-                <DtActionBtn v-if="selected.length > 1 && apiLink.destroy && $page.props.auth.user.role === '1'" @click="deleteRecord(null, true)" class="bg-red-600">
-                    <DeleteIcon class="w-4 mr-1" />
+                <DtActionBtn v-if="selected.length > 1 && apiLink.destroy && $page.props.auth.user.role === '1'"
+                             class="bg-red-600" @click="showDeleteModal(selected)">
+                    <DeleteIcon class="w-4 mr-1"/>
                     Delete
                 </DtActionBtn>
-                <DtActionBtn v-if="false" @click="changeSizeView" class="bg-vsu-yellow-green">
+                <DtActionBtn v-if="false" class="bg-vsu-yellow-green" @click="changeSizeView">
                     <template v-if="viewSize">
-                        <CollapseIcon class="w-3 mr-1" />
+                        <CollapseIcon class="w-3 mr-1"/>
                         Collapse
                     </template>
                     <template v-else>
-                        <ExpandIcon class="w-3 mr-1" />
+                        <ExpandIcon class="w-3 mr-1"/>
                         Expand
                     </template>
                 </DtActionBtn>
-                <DtActionBtn v-if="isAllSelected && apiLink.destroy && $page.props.auth.user.role === '1'" @click="selectAllShown" class="bg-orange-500">
-                    <CheckallIcon class="w-4 mr-1" />
+                <DtActionBtn v-if="isAllSelected && apiLink.destroy && $page.props.auth.user.role === '1'"
+                             class="bg-orange-500" @click="selectAllShown">
+                    <CheckallIcon class="w-4 mr-1"/>
                     Select All Shown
                 </DtActionBtn>
-                <DtActionBtn v-if="isAllSelected && $page.props.auth.user.role === '1' && false" @click="selectAll" class="bg-indigo-500">
-                    <CheckallIcon class="w-4 mr-1" />
+                <DtActionBtn v-if="isAllSelected && $page.props.auth.user.role === '1' && false" class="bg-indigo-500"
+                             @click="selectAll">
+                    <CheckallIcon class="w-4 mr-1"/>
                     Select All
                 </DtActionBtn>
-                <DtActionBtn v-if="selected.length && apiLink.destroy && $page.props.auth.user.role === '1'" class="bg-cbc-dark-green" @click="deselectAll">
-                    <CloseIcon class="w-4 mr-1" />
+                <DtActionBtn v-if="selected.length && apiLink.destroy && $page.props.auth.user.role === '1'"
+                             class="bg-cbc-dark-green" @click="deselectAll">
+                    <CloseIcon class="w-4 mr-1"/>
                     Deselect All
                 </DtActionBtn>
             </DtActionContainer>
             <DtLengthContainer>
-                <DtLength :options="DtLengthOptions" v-model="perPage" @change="refreshData" />
+                <DtLength v-model="perPage" :options="DtLengthOptions" @change="refreshData"/>
                 <div class="flex items-center rounded-sm shadow-sm border">
-                    <DtSearchBy v-model="searchBy" :columns="columnsLarge" @change="refreshData()" />
-                    <DtSearch :func="refreshData" v-model="search" :searchBy="searchBy" :columns="columns" />
+                    <DtSearchBy v-model="searchBy" :columns="columnsLarge" @change="refreshData()"/>
+                    <DtSearch v-model="search" :columns="columns" :func="refreshData" :searchBy="searchBy"/>
                 </div>
             </DtLengthContainer>
         </DtTopContainer>
         <DtTable ref="table">
             <DtTHead class="bg-cbc-olive-green">
                 <!-- <DtTh title="" class="max-w-fit absolute" sortDir="asc" :isSortedColumn="false" /> -->
-                <DtTh class="text-gray-700 border-x border-gray-300" v-for="col in columns" :key="col.data" :title="col.title" @click="sortColumn(col)" :sortDir="sortDir" :isSortedColumn="isColumnSorted(col)" />
+                <DtTh v-for="col in columns" :key="col.data" :isSortedColumn="isColumnSorted(col)"
+                      :sortDir="sortDir" :title="col.title" class="text-gray-700 border-x border-gray-300"
+                      @click="sortColumn(col)"/>
             </DtTHead>
             <DtBody>
                 <td v-if="processing" :colspan="columns.length" class="text-center">
@@ -570,20 +599,30 @@ export default {
                     </td> -->
                     <template v-for="col in columns" :key="col.data">
                         <!-- for data -->
-                        <td v-if="col.data" class="border-gray-200 border max-w-xs" :class="col.className">
+                        <td v-if="col.data" :class="col.className" class="border-gray-200 border max-w-xs">
                             {{ item[col.data] }}
                         </td>
                         <!-- for actions -->
                         <td v-else-if="col.icon" class="whitespace-nowrap">
-                            <div class="flex justify-evenly container" v-if="selected.includes(item.id) && selected.length <= 1">
-                                <Link title="View" v-if="apiLink.show" :href="route(apiLink.show, item.id)" class="w-5 flex hover:text-green-900 hover:scale-110 translate-x-0 text-green-600 duration-100 ease-in">
-                                    <component :is="col.icon[0]" />
+                            <div v-if="selected.includes(item.id) && selected.length <= 1"
+                                 class="flex justify-evenly container">
+                                <Link v-if="apiLink.show" :href="route(apiLink.show, item.id)" class="w-5 flex hover:text-green-900 hover:scale-110 translate-x-0 text-green-600 duration-100 ease-in"
+                                      title="View">
+                                    <component :is="col.icon[0]"/>
                                 </Link>
-                                <Link title="Update" v-if="apiLink.edit" :href="route(apiLink.edit, item.id)" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in">
-                                    <component :is="col.icon[2]" />
+                                <button v-if="apiLink.edit && typeof(apiLink) == 'object'" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in"
+                                        title="Update"
+                                        @click="editModal">
+                                    <component :is="col.icon[2]"/>
+                                </button>
+                                <Link v-else-if="apiLink.edit" :href="route(apiLink.edit, item.id)" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in"
+                                      title="Update">
+                                    <component :is="col.icon[2]"/>
                                 </Link>
-                                <button title="Delete" v-if="apiLink.destroy && $page.props.auth.user.role === '1'" @click="showDeleteModal(item.id)" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in">
-                                    <component :is="col.icon[1]" />
+                                <button v-if="apiLink.destroy && $page.props.auth.user.role === '1'" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in"
+                                        title="Delete"
+                                        @click="showDeleteModal(item.id)">
+                                    <component :is="col.icon[1]"/>
                                 </button>
                             </div>
                         </td>
@@ -592,13 +631,16 @@ export default {
             </DtBody>
         </DtTable>
         <DtFooter>
-            <DtPaginateDetail>Showing {{ pageStart }} to {{ pageStart + data.length - 1 }} of {{ totalRecords }} entries</DtPaginateDetail>
-            <DtPageBtn :selected="selected" :totalPages="totalPages" :pageNumber="pageNumber" :changePageNumber="changePageNumber" />
+            <DtPaginateDetail>Showing {{ pageStart }} to {{ pageStart + data.length - 1 }} of {{ totalRecords }}
+                entries
+            </DtPaginateDetail>
+            <DtPageBtn :changePageNumber="changePageNumber" :pageNumber="pageNumber" :selected="selected"
+                       :totalPages="totalPages"/>
             <DtPaginateContainer>
-                <DtPaginateBtn :func="firstPage" :disabled="pageNumber === 1">First</DtPaginateBtn>
-                <DtPaginateBtn :func="previousPage" :disabled="pageNumber === 1">Previous</DtPaginateBtn>
-                <DtPaginateBtn :func="nextPage" :disabled="pageNumber === totalPages">Next</DtPaginateBtn>
-                <DtPaginateBtn :func="lastPage" :disabled="pageNumber === totalPages">Last</DtPaginateBtn>
+                <DtPaginateBtn :disabled="pageNumber === 1" :func="firstPage">First</DtPaginateBtn>
+                <DtPaginateBtn :disabled="pageNumber === 1" :func="previousPage">Previous</DtPaginateBtn>
+                <DtPaginateBtn :disabled="pageNumber === totalPages" :func="nextPage">Next</DtPaginateBtn>
+                <DtPaginateBtn :disabled="pageNumber === totalPages" :func="lastPage">Last</DtPaginateBtn>
             </DtPaginateContainer>
         </DtFooter>
     </DtContainer>
