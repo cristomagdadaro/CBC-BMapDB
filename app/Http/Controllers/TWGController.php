@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TWGProjectRequest;
 use App\Http\Resources\TWGResource;
 use App\Models\TWGExpert;
+use App\Models\TWGProduct;
 use App\Models\TWGProject;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -38,13 +39,29 @@ class TWGController extends Controller
         //
     }
 
-    public function twgprojectstore(TWGProjectRequest $request)
+    public function twgProjectStore(TWGProjectRequest $request)
     {
         $twg_project = new TWGProject(
             $request->validated()
         );
 
-        $twg_project->save();
+        if($twg_project->save())
+            return response()->json([
+                'notification' => [
+                    'id' => uniqid(),
+                    'show' => true,
+                    'type' => 'success',
+                    'message' =>'Successfully saved the project',
+                ]
+            ]);
+        return response()->json([
+            'notification' => [
+                'id' => uniqid(),
+                'show' => true,
+                'type' => 'failed',
+                'message' =>'Failed to save the project',
+            ]
+        ]);
     }
 
     /**
@@ -65,14 +82,34 @@ class TWGController extends Controller
         ]);
     }
 
-    public  function editdata(Request $request){
+    public  function editData(Request $request){
         return TWGProject::where('id', $request->id)->get()->first();
     }
 
     public function updateProject(TWGProjectRequest $request)
     {
-        $twg_project = TWGProject::find($request->id);
-        $twg_project->update($request->validated());
+        $temp = TWGProject::find($request->id);
+        $temp->update($request->validated());
+        //check if updated successfully
+        if ($temp->save()) {
+            return response()->json([
+                'notification' => [
+                    'id' => uniqid(),
+                    'show' => true,
+                    'type' => 'success',
+                    'message' =>'Successfully updated project',
+                ]
+            ]);
+        } else {
+            return response()->json([
+                'notification' => [
+                    'id' => uniqid(),
+                    'show' => true,
+                    'type' => 'failed',
+                    'message' =>'Failed to update project',
+                ]
+            ]);
+        }
     }
 
     /**
@@ -133,18 +170,6 @@ class TWGController extends Controller
     }
 
 
-
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request){
-        $data = TWGProject::find($request->id);
-        $data->destroy();
-    }
-
-
     public function destroyProject(Request $request){
         $id = explode(',', $request->id);
         $temp = TWGProject::destroy($id);
@@ -158,7 +183,7 @@ class TWGController extends Controller
         ]);
     }
 
-    public function tableprojects(Request $request): JsonResponse
+    public function tableProjects(Request $request): JsonResponse
     {
         $query = null;
         if(auth()->user()->role == 1)
@@ -205,28 +230,22 @@ class TWGController extends Controller
     }
 
     /*API Section of the class*/
-    public function table(Request $request)
+    public function tableProducts(Request $request)
     {
-        $query = TWGExpert::select('id','fname', 'mname', 'lname', 'suffix', 'position', 'educ_level', 'expertise', 'email', 'mobile_no');
+        $query = TWGProduct::select();
         $totalRecords = $query->count();
         if ($request->has('search')) {
             $search = $request->input('search');
             $searchBy = $request->input('search_by', 'id');
             $query->where(function ($q) use ($search, $searchBy) {
                 if ($searchBy == '*') {
-                    $q->where('id', 'like', '%' . $search . '%')
-                        ->orWhere('fname', 'like', '%' . $search . '%')
-                        ->orWhere('mname', 'like', '%' . $search . '%')
-                        ->orWhere('lname', 'like', '%' . $search . '%')
-                        ->orWhere('suffix', 'like', '%' . $search . '%')
-                        ->orWhere('position', 'like', '%' . $search . '%')
-                        ->orWhere('educ_level', 'like', '%' . $search . '%')
-                        ->orWhere('expertise', 'like', '%' . $search . '%')
-                        ->orWhere('email', 'like', '%' . $search . '%')
-                        ->orWhere('mobile_no', 'like', '%' . $search . '%');
-
+                    $q->where('twg_expert_id', 'like', '%' . $search . '%')
+                        ->orWhere('name', 'like', '%' . $search . '%')
+                        ->orWhere('brand', 'like', '%' . $search . '%')
+                        ->orWhere('purpose', 'like', '%' . $search . '%')
+                        ->orWhere('cost', 'like', '%' . $search . '%');
                 } else {
-                    $q->where('twg_expert.' . $searchBy, 'like', '%' . $search . '%');
+                    $q->where("twg_product." . $searchBy, 'like', '%' . $search . '%');
                 }
             });
         }
@@ -263,7 +282,7 @@ class TWGController extends Controller
         ]);
     }
 
-    public function exportproject(){
+    public function exportProject(){
         if(auth()->user()->role == 1) //returns all projects when admin
             return TWGResource::collection(TWGProject::all());
         return TWGResource::collection(TWGProject::where('twg_expert_id', auth()->user()->id)->get());

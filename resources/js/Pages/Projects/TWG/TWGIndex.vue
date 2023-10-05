@@ -4,10 +4,10 @@
         <div class="p-5">
             <Tab :tabs="tabs" v-if="$page.props.auth.user">
                 <template #tab1>
-                    <data-table :api-link="projectAPIs" :columns-large="cols" :columns-small="cols" />
+                    <data-table :api-link="projectAPIs" :columns-large="projectCols" />
                 </template>
                 <template #tab2>
-                    Tab 2
+                    <data-table :api-link="productAPIs" :columns-large="productCols" />
                 </template>
                 <template #tab3>
                     Tab 3
@@ -21,7 +21,7 @@
 import DataTable from "@/Components/DataTable/DataTable.vue";
 import {Head} from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import TWGCreateProject from "@/Pages/Projects/TWG/TWGCreateProject.vue";
+import TWGCreateProject from "@/Pages/Projects/TWG/TWGFormProject.vue";
 import {markRaw} from "vue";
 import Tab from "@/Components/Tab/Tab.vue";
 const isWideDisplay = true;
@@ -43,7 +43,7 @@ const tabs = [
         active: false,
     },
 ]
-const cols = [
+const projectCols = [
     {
         data: 'id',
         name:'id',
@@ -111,7 +111,49 @@ const cols = [
         className: 'px-2'
     }
 ]
-
+const productCols = [
+    {
+        data: 'id',
+        name:'id',
+        title: 'ID',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'px-2 text-center'
+    },{
+        data: 'name',
+        name:'name',
+        title: 'Name',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'px-2'
+    },{
+        data: 'brand',
+        name:'brand',
+        title: 'Brand',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'px-2'
+    },{
+        data: 'purpose',
+        name:'purpose',
+        title: 'Purpose',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'px-2'
+    },{
+        data: 'cost',
+        name:'cost',
+        title: 'Cost',
+        searchable: true,
+        orderable: true,
+        collapsable: false,
+        className: 'px-2'
+    },
+]
 const projectAPIs =  {
     // create form
     create: markRaw(TWGCreateProject),
@@ -125,9 +167,31 @@ const projectAPIs =  {
     // return data compatible for datatable requests
     table: 'twg.table.projects',
     // store data from create form
-    //store: 'api.fecalysis.store',
+    store: 'twg.project.store',
     // update data from edit form
-    //update: 'api.fecalysis.update',
+    update: 'twg.project.update',
+    // delete a specific data
+    destroy: 'twg.destroy.project',
+    // import data from excel
+    //import: 'api.fecalysis.import',
+}
+
+const productAPIs =  {
+    // create form
+    create: markRaw(TWGCreateProject),
+    // edit form
+    edit: markRaw(TWGCreateProject),
+    getEditData: 'twg.edit.project.data',
+    //view form
+    //show: 'laboratory.fecalysis.show',
+    // return all data
+    index: 'twg.export.project',
+    // return data compatible for datatable requests
+    table: 'twg.table.products',
+    // store data from create form
+    store: 'twg.project.store',
+    // update data from edit form
+    update: 'twg.project.update',
     // delete a specific data
     destroy: 'twg.destroy.project',
     // import data from excel

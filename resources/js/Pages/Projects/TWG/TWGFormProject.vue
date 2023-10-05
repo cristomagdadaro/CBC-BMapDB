@@ -59,6 +59,7 @@ import {useForm, usePage} from "@inertiajs/vue3";
 import SelectField from "@/Components/Form/SelectField.vue";
 import { ProjectStatus } from "@/Pages/constants.ts";
 import {onMounted} from "vue";
+import { pushNotification } from "@/Components/Modal/NotifBanner.vue";
 
 const page = usePage();
 
@@ -67,6 +68,10 @@ const props = defineProps({
         type: String,
         default: null,
     },
+    action: {
+        type: String,
+        required: true,
+    }
 });
 
 const form = useForm({
@@ -81,30 +86,26 @@ const form = useForm({
 });
 
 const saveForm = () => {
-    form.transform((data) => ({
-        ...data,
+    axios.post(route(props.action), {
+        ...form,
         twg_expert_id: page.props.auth.user.id,
-    })).post(route('twg.project.store'), {
-        preserveScroll: true,
-        onSuccess: () => {
-            form.reset();
-        }
-    });
+    }).then((response) => {
+        pushNotification(response.data.notification);
+        form.reset();
+    }).catch((error) => {
+        console.log(error);
+    })
 }
 
 const updateForm = () => {
-    console.log(route('twg.project.update', form.id));
-    form.transform((data)=>({
-        ...data,
+    axios.put(route(props.action, form.id), {
+        ...form,
         twg_expert_id: page.props.auth.user.id,
-    })).put(route('twg.project.update', form.id), {
-        preserveScroll: true,
-        onSuccess: () => {
-            form.reset();
-        },
-        onError: (error) => {
-            console.log(error);
-        }
+    }).then((response) => {
+        pushNotification(response.data.notification);
+        form.reset();
+    }).catch((error) => {
+        console.log(error);
     });
 }
 
