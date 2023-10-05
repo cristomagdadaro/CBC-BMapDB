@@ -81,11 +81,6 @@ export default {
             type: Array,
             required: true,
         },
-        columnsSmall: {
-            type: Array,
-            required: false,
-            default: () => [],
-        },
         apiLink: {
             type: [Array, Object],
             required: true,
@@ -147,6 +142,9 @@ export default {
         this.changeSizeView();
     },
     methods: {
+        getDataTableData: function (){
+            this.getData();
+        },
         createModal() {
             this.showCreateModal = true;
         },
@@ -352,9 +350,9 @@ export default {
                 this.columns = this.columnsSmall;
             }
             // only append the action column if it is not in the columns array
-            if (!this.columns.includes(this.actionButton)) {
+            /*if (!this.columns.includes(this.actionButton)) {
                 this.columns.push(this.actionButton);
-            }
+            }*/
         },
         exportToCsv() {
             this.processing = true;
@@ -501,7 +499,7 @@ export default {
                 Register a Project
             </template>
             <template #content>
-                <component :is="apiLink.create"/>
+                <component :is="apiLink.create" :action="apiLink.store"/>
             </template>
         </DialogModal>
         <DialogModal :show="showEditModal" @close="closeModal">
@@ -509,7 +507,7 @@ export default {
                 Update this Project
             </template>
             <template #content>
-                <component :is="apiLink.edit" :dataLink="route(apiLink.getEditData,toEditId)" />
+                <component :is="apiLink.edit" :action="apiLink.update" :dataLink="route(apiLink.getEditData,toEditId)" />
             </template>
         </DialogModal>
         <DtTopContainer>
@@ -580,6 +578,7 @@ export default {
                 <DtTh v-for="col in columns" :key="col.data" :isSortedColumn="isColumnSorted(col)"
                       :sortDir="sortDir" :title="col.title" class="text-gray-700 border-x border-gray-300"
                       @click="sortColumn(col)"/>
+                <DtTh v-if="apiLink.destroy && $page.props.auth.user.role === '1'" class="text-gray-700 border-x border-gray-300" sort-dir="asc" title="Action" :isSortedColumn="false"/>
             </DtTHead>
             <DtBody>
                 <td v-if="processing" :colspan="columns.length" class="text-center">
@@ -604,31 +603,31 @@ export default {
                         <td v-if="col.data" :class="col.className" class="border-gray-200 border max-w-xs">
                             {{ item[col.data] }}
                         </td>
-                        <!-- for actions -->
-                        <td v-else-if="col.icon" class="whitespace-nowrap">
-                            <div v-if="selected.includes(item.id) && selected.length <= 1"
-                                 class="flex justify-evenly container">
-                                <Link v-if="apiLink.show" :href="route(apiLink.show, item.id)" class="w-5 flex hover:text-green-900 hover:scale-110 translate-x-0 text-green-600 duration-100 ease-in"
-                                      title="View">
-                                    <component :is="col.icon[0]"/>
-                                </Link>
-                                <button v-if="apiLink.edit && typeof(apiLink) == 'object'" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in"
-                                        title="Update"
-                                        @click="editModal(item.id)">
-                                    <component :is="col.icon[2]"/>
-                                </button>
-                                <Link v-else-if="apiLink.edit" :href="route(apiLink.edit, item.id)" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in"
-                                      title="Update">
-                                    <component :is="col.icon[2]"/>
-                                </Link>
-                                <button v-if="apiLink.destroy && $page.props.auth.user.role === '1'" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in"
-                                        title="Delete"
-                                        @click="showDeleteModal(item.id)">
-                                    <component :is="col.icon[1]"/>
-                                </button>
-                            </div>
-                        </td>
                     </template>
+                    <!-- for actions -->
+                    <td class="whitespace-nowrap">
+                        <div v-if="selected.includes(item.id) && selected.length <= 1"
+                             class="flex justify-evenly container">
+                            <Link v-if="apiLink.show" :href="route(apiLink.show, item.id)" class="w-5 flex hover:text-green-900 hover:scale-110 translate-x-0 text-green-600 duration-100 ease-in"
+                                  title="View">
+                                <ViewIcon class="w-5"/>
+                            </Link>
+                            <button v-if="apiLink.edit && typeof(apiLink) == 'object'" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in"
+                                    title="Update"
+                                    @click="editModal(item.id)">
+                                <EditIcon class="w-5"/>
+                            </button>
+                            <Link v-else-if="apiLink.edit" :href="route(apiLink.edit, item.id)" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in"
+                                  title="Update">
+                                <EditIcon class="w-5"/>
+                            </Link>
+                            <button v-if="apiLink.destroy && $page.props.auth.user.role === '1'" class="w-5 flex hover:text-red-600 hover:scale-110 translate-x-0 text-gray-500 duration-100 ease-in"
+                                    title="Delete"
+                                    @click="showDeleteModal(item.id)">
+                                <DeleteIcon class="w-5"/>
+                            </button>
+                        </div>
+                    </td>
                 </tr>
             </DtBody>
         </DtTable>

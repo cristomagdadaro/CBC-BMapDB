@@ -38,20 +38,21 @@ Route::prefix('projects')->group(function () {
     Route::prefix('twg')->group(function () {
         Route::get('/', [TWGController::class, 'index'])->name('twg.database');
         Route::get('create', [TWGController::class, 'create'])->name('twg.create');
-
-        Route::get('edit/{id}', [TWGController::class, 'edit'])->name('twg.edit');
-        Route::get('edit/data/{id}', [TWGController::class, 'editdata'])->name('twg.edit.project.data');
-        Route::put('update/project/{id}', [TWGController::class, 'updateProject'])->name('twg.project.update');
-
-        Route::get('table-projects', [TWGController::class, 'tableprojects'])->name('twg.table.projects');
+        /* TWG Project Routes */
+        Route::get('table-projects', [TWGController::class, 'tableProjects'])->name('twg.table.projects');
         Route::delete('destroy-project/{id}',  [TWGController::class, 'destroyProject'])->name('twg.destroy.project');
-        Route::get('export', [TWGController::class, 'exportproject'])->name('twg.export.project');
+        Route::get('export', [TWGController::class, 'exportProject'])->name('twg.export.project');
+        Route::get('edit/{id}', [TWGController::class, 'edit'])->name('twg.edit');
+        Route::post('store', [TWGController::class, 'twgProjectStore'])->name('twg.project.store');
+        Route::get('edit/data/{id}', [TWGController::class, 'editData'])->name('twg.edit.project.data');
+        Route::put('update/project/{id}', [TWGController::class, 'updateProject'])->name('twg.project.update');
+        /* TWG Products Routes*/
+        Route::get('table-products', [TWGController::class, 'tableProducts'])->name('twg.table.products');
 
+        /* TWG User Management Routes*/
         Route::post('personal/update/{id}', [TWGController::class, 'updatePersonal'])->name('twgexpert.personal.update');
         Route::post('background/update/{id}', [TWGController::class, 'updateBackground'])->name('twgexpert.background.update');
         Route::post('account/update/{id}', [TWGController::class, 'updateAccount'])->name('twgexpert.account.update');
-
-        Route::post('store', [TWGController::class, 'twgprojectstore'])->name('twg.project.store');
     });
 
     Route::get('/breedersmap', function (){
