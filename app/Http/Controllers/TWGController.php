@@ -65,6 +65,16 @@ class TWGController extends Controller
         ]);
     }
 
+    public  function editdata(Request $request){
+        return TWGProject::where('id', $request->id)->get()->first();
+    }
+
+    public function updateProject(TWGProjectRequest $request)
+    {
+        $twg_project = TWGProject::find($request->id);
+        $twg_project->update($request->validated());
+    }
+
     /**
      * Update Personal Information of the specified resource in storage.
      */

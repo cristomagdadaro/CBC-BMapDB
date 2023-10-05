@@ -1,5 +1,5 @@
 <template>
-    <tbody class="min-h-screen overflow-y-scroll">
+    <tbody class="min-h-screen  overflow-y-auto">
         <slot />
     </tbody>
 </template>

@@ -97,6 +97,7 @@ export default {
         showDestroyModalMsg: '',
         showCreateModal: false,
         showEditModal: false,
+        toEditId: null,
         dtMessage: '',
         showMenu: false,
         columns: [],    // columns to be displayed
@@ -149,7 +150,8 @@ export default {
         createModal() {
             this.showCreateModal = true;
         },
-        editModal() {
+        editModal(id) {
+            this.toEditId = id;
             this.showEditModal = true;
         },
         getEditData(id, data) {
@@ -507,7 +509,7 @@ export default {
                 Update this Project
             </template>
             <template #content>
-                <component :is="apiLink.edit"/>
+                <component :is="apiLink.edit" :dataLink="route(apiLink.getEditData,toEditId)" />
             </template>
         </DialogModal>
         <DtTopContainer>
@@ -572,7 +574,7 @@ export default {
                 </div>
             </DtLengthContainer>
         </DtTopContainer>
-        <DtTable ref="table">
+        <DtTable ref="table" classes="max-h-screen overflow-y-auto">
             <DtTHead class="bg-cbc-olive-green">
                 <!-- <DtTh title="" class="max-w-fit absolute" sortDir="asc" :isSortedColumn="false" /> -->
                 <DtTh v-for="col in columns" :key="col.data" :isSortedColumn="isColumnSorted(col)"
@@ -612,7 +614,7 @@ export default {
                                 </Link>
                                 <button v-if="apiLink.edit && typeof(apiLink) == 'object'" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in"
                                         title="Update"
-                                        @click="editModal">
+                                        @click="editModal(item.id)">
                                     <component :is="col.icon[2]"/>
                                 </button>
                                 <Link v-else-if="apiLink.edit" :href="route(apiLink.edit, item.id)" class="w-5 flex hover:text-yellow-600 hover:scale-110 translate-x-0 text-yellow-500 duration-100 ease-in"
