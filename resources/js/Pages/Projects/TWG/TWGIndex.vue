@@ -2,10 +2,9 @@
     <Head title="TWG Database" />
     <AppLayout :is-wide-display="isWideDisplay">
         <div class="p-5">
-            <Tab :tabs="tabs">
+            <Tab :tabs="tabs" v-if="$page.props.auth.user">
                 <template #tab1>
-                    <data-table v-if="$page.props.auth.user" :api-link="api" :columns-large="cols" :columns-small="cols" />
-                    <p v-else>Please login to view the data</p>
+                    <data-table :api-link="projectAPIs" :columns-large="cols" :columns-small="cols" />
                 </template>
                 <template #tab2>
                     Tab 2
@@ -14,7 +13,7 @@
                     Tab 3
                 </template>
             </Tab>
-
+            <p v-else>Please login to view the data</p>
         </div>
     </AppLayout>
 </template>
@@ -113,7 +112,7 @@ const cols = [
     }
 ]
 
-const api =  {
+const projectAPIs =  {
     // create form
     create: markRaw(TWGCreateProject),
     // edit form

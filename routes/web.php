@@ -41,6 +41,7 @@ Route::prefix('projects')->group(function () {
 
         Route::get('edit/{id}', [TWGController::class, 'edit'])->name('twg.edit');
         Route::get('edit/data/{id}', [TWGController::class, 'editdata'])->name('twg.edit.project.data');
+        Route::put('update/project/{id}', [TWGController::class, 'updateProject'])->name('twg.project.update');
 
         Route::get('table-projects', [TWGController::class, 'tableprojects'])->name('twg.table.projects');
         Route::delete('destroy-project/{id}',  [TWGController::class, 'destroyProject'])->name('twg.destroy.project');
@@ -50,7 +51,7 @@ Route::prefix('projects')->group(function () {
         Route::post('background/update/{id}', [TWGController::class, 'updateBackground'])->name('twgexpert.background.update');
         Route::post('account/update/{id}', [TWGController::class, 'updateAccount'])->name('twgexpert.account.update');
 
-        Route::post('store', [TWGController::class, 'twgprojectstore'])->name('twg.projects.store');
+        Route::post('store', [TWGController::class, 'twgprojectstore'])->name('twg.project.store');
     });
 
     Route::get('/breedersmap', function (){

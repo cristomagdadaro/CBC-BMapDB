@@ -36,7 +36,7 @@ const close = () => {
             </div>
 
             <div class="mt-4 text-sm text-gray-600">
-                <slot name="content" />
+                <slot name="content"/>
             </div>
         </div>
 
