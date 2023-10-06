@@ -2,25 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\API\TWGBaseController;
 use App\Http\Requests\TWGProjectRequest;
 use App\Http\Resources\TWGResource;
 use App\Models\TWGExpert;
 use App\Models\TWGProduct;
 use App\Models\TWGProject;
+use App\Repository\TWGProjectRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class TWGController extends Controller
+class TWGProjectsController extends TWGBaseController
 {
+    protected TWGProjectRepository $project;
+
+    // constructor
+    public function __construct(TWGProjectRepository $project)
+    {
+        parent::__construct();  // call the parent constructor
+        $this->project = $project;
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function indexPage()
     {
-        return Inertia::render('Projects/TWG/TWGIndex', [
-            //'twg_experts' => TWGExpert::with('twg_projects')->get(),
-        ]);
+        return Inertia::render('Projects/TWG/TWGIndex');
     }
 
     /**
@@ -34,34 +42,9 @@ class TWGController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TWGProjectRequest $request)
     {
-        //
-    }
-
-    public function twgProjectStore(TWGProjectRequest $request)
-    {
-        $twg_project = new TWGProject(
-            $request->validated()
-        );
-
-        if($twg_project->save())
-            return response()->json([
-                'notification' => [
-                    'id' => uniqid(),
-                    'show' => true,
-                    'type' => 'success',
-                    'message' =>'Successfully saved the project',
-                ]
-            ]);
-        return response()->json([
-            'notification' => [
-                'id' => uniqid(),
-                'show' => true,
-                'type' => 'failed',
-                'message' =>'Failed to save the project',
-            ]
-        ]);
+        $this->project->create($request->validated())->save();
     }
 
     /**
@@ -77,13 +60,12 @@ class TWGController extends Controller
      */
     public function edit(Request $request)
     {
-        return Inertia::render('Projects/TWG/TWGEdit', [
-            //'twg_expert' => TWGExpert::with('twg_projects')->with('twg_services')->with('twg_products')->find($request->id),
-        ]);
+        return Inertia::render('Projects/TWG/TWGEdit');
     }
 
     public  function editData(Request $request){
-        return TWGProject::where('id', $request->id)->get()->first();
+        return $this->project->find($request->id);
+        //return TWGProject::where('id', $request->id)->get()->first();
     }
 
     public function updateProject(TWGProjectRequest $request)
@@ -185,6 +167,7 @@ class TWGController extends Controller
 
     public function tableProjects(Request $request): JsonResponse
     {
+
         $query = null;
         if(auth()->user()->role == 1)
             $query = TWGProject::select();
@@ -210,7 +193,6 @@ class TWGController extends Controller
             });
         }
 
-        // Handle sorting
         $sortField = $request->input('sort', 'id');
         $sortDirection = $request->input('sort_dir', 'asc');
         $query->orderBy($sortField, $sortDirection);

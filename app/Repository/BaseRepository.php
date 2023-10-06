@@ -2,7 +2,6 @@
 namespace App\Repository;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
 class BaseRepository
