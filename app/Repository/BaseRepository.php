@@ -39,4 +39,9 @@ class BaseRepository
     {
         return $model->delete();
     }
+
+    public function find(int $id): Model
+    {
+        return $this->model->findOrFail($id);
+    }
 }

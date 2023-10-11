@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DataTable\DataTableController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,6 +33,10 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+});
+
+Route::prefix('datatable')->group(function () {
+    Route::get('index', [DataTableController::class, 'index'])->name('datatable.index');
 });
 
 Route::prefix('projects')->group(function () {

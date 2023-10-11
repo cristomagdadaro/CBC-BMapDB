@@ -15,14 +15,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
-
         User::factory()->create([
             'fname' => 'Test',
             'lname' => 'User',
             'account_for' => 'twgdatabase',
             'email' => 'sample@cbc.philrice.gov.ph',
         ]);
+        User::factory(10)->create();
 
         TWGExpert::factory()->count(10)->create();
         TWGProject::factory()->count(20)->create();

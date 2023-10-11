@@ -9,9 +9,11 @@ use App\Models\TWGExpert;
 use App\Models\TWGProduct;
 use App\Models\TWGProject;
 use App\Repository\TWGProjectRepository;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class TWGProjectsController extends TWGBaseController
 {
@@ -20,13 +22,13 @@ class TWGProjectsController extends TWGBaseController
     // constructor
     public function __construct(TWGProjectRepository $project)
     {
-        parent::__construct();  // call the parent constructor
         $this->project = $project;
     }
+
     /**
      * Display a listing of the resource.
      */
-    public function indexPage()
+    public function indexPage(): Response
     {
         return Inertia::render('Projects/TWG/TWGIndex');
     }
@@ -34,7 +36,7 @@ class TWGProjectsController extends TWGBaseController
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): Response
     {
         return Inertia::render('Projects/TWG/TWGCreate');
     }
@@ -42,7 +44,7 @@ class TWGProjectsController extends TWGBaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(TWGProjectRequest $request)
+    public function store(TWGProjectRequest $request): void
     {
         $this->project->create($request->validated())->save();
     }
@@ -58,14 +60,14 @@ class TWGProjectsController extends TWGBaseController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request)
+    public function edit(Request $request): Response
     {
         return Inertia::render('Projects/TWG/TWGEdit');
     }
 
-    public  function editData(Request $request){
+    public  function editData(Request $request): Model
+    {
         return $this->project->find($request->id);
-        //return TWGProject::where('id', $request->id)->get()->first();
     }
 
     public function updateProject(TWGProjectRequest $request)
