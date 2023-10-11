@@ -15,13 +15,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(10)->create();
-
         User::factory()->create([
             'fname' => 'Test',
             'lname' => 'User',
             'email' => 'sample@cbc.philrice.gov.ph',
         ]);
+        User::factory(10)->create();
 
         \App\Models\TWGExpert::factory()->count(10)->create();
         \App\Models\TWGProject::factory()->count(20)->create();

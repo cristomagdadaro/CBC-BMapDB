@@ -88,4 +88,9 @@ class BaseRepository
 
         return $builder->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
+
+    public function find(int $id): Model
+    {
+        return $this->model->findOrFail($id);
+    }
 }

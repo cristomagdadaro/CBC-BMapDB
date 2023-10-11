@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\DataTable;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\DataTableRequest;
 use Illuminate\Support\Facades\DB;
 

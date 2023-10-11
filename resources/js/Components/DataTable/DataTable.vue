@@ -573,7 +573,7 @@ export default {
             </DtLengthContainer>
         </DtTopContainer>
         <DtTable ref="table" classes="max-h-screen overflow-y-auto">
-            <DtTHead class="bg-cbc-olive-green">
+            <DtTHead class="bg-gray-300">
                 <!-- <DtTh title="" class="max-w-fit absolute" sortDir="asc" :isSortedColumn="false" /> -->
                 <DtTh v-for="col in columns" :key="col.data" :isSortedColumn="isColumnSorted(col)"
                       :sortDir="sortDir" :title="col.title" class="text-gray-700 border-x border-gray-300"
