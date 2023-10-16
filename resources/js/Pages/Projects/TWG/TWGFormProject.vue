@@ -3,13 +3,13 @@
         <Form v-if="!props.dataLink" @submitted="saveForm">
             <template #form>
                 <div class="grid gap-2">
-                    <TextField label="Title" type-input="longtext" name="title" v-model="form.title" :required="true" longtext />
+                    <TextField label="Title" type-input="longtext" name="title" v-model="form.title" required longtext />
                     <TextField label="Objective" type-input="longtext" name="objective" v-model="form.objective" longtext />
-                    <TextField label="Expected Output" name="expected_output" v-model="form.expected_output" :required="true" />
+                    <TextField label="Expected Output" name="expected_output" v-model="form.expected_output" required />
                     <TextField label="Project Leader" name="project_leader" v-model="form.project_leader" />
-                    <TextField label="Funding Agency" name="funding_agency" v-model="form.funding_agency" :required="true" />
+                    <TextField label="Funding Agency" name="funding_agency" v-model="form.funding_agency" required />
                     <TextField label="Duration (years)" name="duration" v-model="form.duration" />
-                    <SelectField label="Status" name="status" v-model="form.status" :required="true" :options="ProjectStatus" />
+                    <SelectField label="Status" name="status" v-model="form.status" required :options="ProjectStatus" />
                 </div>
             </template>
             <template #actions>
@@ -27,13 +27,13 @@
         <Form v-else @submitted="updateForm">
             <template #form>
                 <div class="grid gap-2">
-                    <TextField label="Title" type-input="longtext" name="title" v-model="form.title" :required="true" longtext />
+                    <TextField label="Title" type-input="longtext" name="title" v-model="form.title" required longtext />
                     <TextField label="Objective" type-input="longtext" name="objective" v-model="form.objective" longtext />
-                    <TextField label="Expected Output" name="expected_output" v-model="form.expected_output" :required="true" />
+                    <TextField label="Expected Output" name="expected_output" v-model="form.expected_output" required />
                     <TextField label="Project Leader" name="project_leader" v-model="form.project_leader" />
-                    <TextField label="Funding Agency" name="funding_agency" v-model="form.funding_agency" :required="true" />
+                    <TextField label="Funding Agency" name="funding_agency" v-model="form.funding_agency" required />
                     <TextField label="Duration (years)" name="duration" v-model="form.duration" />
-                    <SelectField label="Status" name="status" v-model="form.status" :required="true" :options="ProjectStatus" />
+                    <SelectField label="Status" name="status" v-model="form.status" required :options="ProjectStatus" />
                 </div>
             </template>
             <template #actions>
