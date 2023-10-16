@@ -4,14 +4,34 @@ use App\Enums\SystemVariable;
 
 return [
     'access_levels' => [
-        SystemVariable::ADMIN,
-        SystemVariable::USER,
-        SystemVariable::PUBLIC,
+        SystemVariable::ADMIN->value,
+        SystemVariable::USER->value,
+        SystemVariable::PUBLIC->value,
     ],
     'permissions' => [
-        SystemVariable::CREATE,
-        SystemVariable::READ,
-        SystemVariable::UPDATE,
-        SystemVariable::DELETE,
+        SystemVariable::CREATE->value => [
+            'roles' => [
+                SystemVariable::ADMIN->value,
+                SystemVariable::USER->value,
+            ],
+        ],
+        SystemVariable::READ->value => [
+            'roles' => [
+                SystemVariable::ADMIN->value,
+                SystemVariable::USER->value,
+                SystemVariable::PUBLIC->value,
+            ],
+        ],
+        SystemVariable::UPDATE->value => [
+            'roles' => [
+                SystemVariable::ADMIN->value,
+                SystemVariable::USER->value,
+            ],
+        ],
+        SystemVariable::DELETE->value => [
+            'roles' => [
+                SystemVariable::ADMIN->value,
+            ],
+        ]
     ],
 ];

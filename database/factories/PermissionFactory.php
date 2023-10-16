@@ -18,7 +18,7 @@ class PermissionFactory extends Factory
     public function definition(): array
     {
         return [
-            'role_id' => Role::factory()->create()->id,
+            'role_id' => Role::select('id')->inRandomOrder()->first()->id,
             'label' => $this->faker->unique()->word(),
             'value' => $this->faker->unique()->word(),
         ];
