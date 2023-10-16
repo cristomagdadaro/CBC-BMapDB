@@ -7,5 +7,11 @@ return [
         SystemVariable::ADMIN,
         SystemVariable::USER,
         SystemVariable::PUBLIC,
-    ]
+    ],
+    'permissions' => [
+        SystemVariable::CREATE,
+        SystemVariable::READ,
+        SystemVariable::UPDATE,
+        SystemVariable::DELETE,
+    ],
 ];

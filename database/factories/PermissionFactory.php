@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class PermissionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'role_id' => Role::factory()->create()->id,
+            'label' => $this->faker->unique()->word(),
+            'value' => $this->faker->unique()->word(),
         ];
     }
 }
