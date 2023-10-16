@@ -16,4 +16,9 @@ class Permission extends Model
         'label',
         'value',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }
