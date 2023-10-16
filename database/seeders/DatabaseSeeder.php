@@ -95,5 +95,9 @@ class DatabaseSeeder extends Seeder
             'funding_agency' => 'PCA-CRDP',
             'status' => 'Active',
         ]);
+
+        $this->call([
+            ApplicationSeeder::class,
+        ]);
     }
 }
