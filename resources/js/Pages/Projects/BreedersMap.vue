@@ -2,6 +2,8 @@
 import PageLayout from "@/Layouts/PageLayout.vue";
 import {Head} from "@inertiajs/vue3";
 import {onMounted} from "vue";
+import AppLayout from "@/Layouts/AppLayout.vue";
+import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
 let loc = [
     [12.8797, 121.7740], // Location 1
     [13.3586, 122.7494], // Location 2
@@ -49,7 +51,12 @@ onMounted(() => {
 </script>
 <template>
     <Head title="Breeder's Map" />
-    <page-layout>
+    <app-layout>
+        <div class="min-h-screen bg-gray-400">
+            <CRCMDatatable>
+
+            </CRCMDatatable>
+        </div>
         <div class="w-full sm:p-5 p-0">
             <div class="flex flex-wrap gap-2">
                 <div class="max-w-[400px]">
@@ -59,7 +66,7 @@ onMounted(() => {
                 <div id="map" class="border shadow-md"></div>
             </div>
         </div>
-    </page-layout>
+    </app-layout>
 
 </template>
 <style scoped>

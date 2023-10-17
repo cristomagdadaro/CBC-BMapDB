@@ -67,7 +67,7 @@ const TabLinks = [
                         <tablink :link="route('twg.database')" class="text-gray-700">
                             TWG Database
                         </tablink>
-                        <tablink :link="route('breedersmap')" class="text-gray-700">
+                        <tablink :link="route('breeders.map')" class="text-gray-700">
                             Breeder's Map
                         </tablink>
                     </template>

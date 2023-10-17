@@ -28,7 +28,7 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::apiResource('/permissions', PermissionController::class);
     Route::apiResource('/applications', ApplicationController::class);
     Route::apiResource('/account-for', AccountForController::class);
-    Route::get('/account-for/{id}/accounts', [AccountForController::class, 'index']);
+    //Route::get('/{id}/accounts', [AccountForController::class, 'index'])->name('account.for.accounts');
 });
 
 Route::prefix('twg')->group(function (){

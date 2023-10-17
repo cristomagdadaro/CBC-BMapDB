@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AccountForController;
 use App\Http\Controllers\DataTable\DataTableController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -60,8 +61,10 @@ Route::prefix('projects')->group(function () {
         Route::post('account/update/{id}', [TWGProjectsController::class, 'updateAccount'])->name('twgexpert.account.update');
     });
 
-    Route::get('/breedersmap', function (){
+    Route::get('breedersmap', function (){
         return Inertia::render('Projects/BreedersMap');
-    })->name('breedersmap');
+    })->name('breeders.map');
+
+    Route::get('{id}/accounts', [AccountForController::class, 'index'])->name('account.for.accounts');
 });
 
