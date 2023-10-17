@@ -44,6 +44,9 @@ class User extends Authenticatable
         'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'created_at',
+        'updated_at',
+        'profile_photo_url',
     ];
 
     /**
@@ -80,4 +83,8 @@ class User extends Authenticatable
         return $this->hasOne(TWGExpert::class, 'user_id', 'id');
     }
 
+    public function account_for()
+    {
+        return $this->hasOne(AccountFor::class, 'user_id', 'id');
+    }
 }

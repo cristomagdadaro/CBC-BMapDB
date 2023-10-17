@@ -23,6 +23,12 @@ class AccountFor extends Model
         'updated_at',
     ];
 
+    protected $searchable = [
+        'user_id',
+        'app_id',
+        'account_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'account_id', 'id');
@@ -31,5 +37,10 @@ class AccountFor extends Model
     public function application()
     {
         return $this->belongsTo(Application::class, 'app_id', 'id');
+    }
+
+    public function getSearchable()
+    {
+        return $this->searchable;
     }
 }

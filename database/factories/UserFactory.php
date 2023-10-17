@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\AccountFor;
+use App\Models\Application;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -71,4 +73,21 @@ class UserFactory extends Factory
             'ownedTeams'
         );
     }
+
+    public function withAccountFor()
+    {
+        $app = Application::factory()->create();
+        $user = User::factory()->create();
+        return $this->aftterCreating($app, $user);
+    }
+
+    public function aftterCreating(Application $app, User $user)
+    {
+        return AccountFor::factory()->create([
+            'user_id' => $user->id,
+            'app_id' => $app->id,
+            'account_id' => $user->id,
+        ]);
+    }
+
 }

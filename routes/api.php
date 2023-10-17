@@ -23,10 +23,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('/roles', RolesController::class);
-Route::apiResource('/permissions', PermissionController::class);
-Route::apiResource('/applications', ApplicationController::class);
-Route::apiResource('/account-for', AccountForController::class);
+Route::middleware(['auth:sanctum'])->group(function (){
+    Route::apiResource('/roles', RolesController::class);
+    Route::apiResource('/permissions', PermissionController::class);
+    Route::apiResource('/applications', ApplicationController::class);
+    Route::apiResource('/account-for', AccountForController::class);
+    Route::get('/account-for/{id}/accounts', [AccountForController::class, 'index']);
+});
 
 Route::prefix('twg')->group(function (){
     //Routes for TWG Projects
