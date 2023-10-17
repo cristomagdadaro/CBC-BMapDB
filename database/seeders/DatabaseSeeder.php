@@ -26,7 +26,13 @@ class DatabaseSeeder extends Seeder
             'account_for' => 'twgdatabase',
             'email' => 'sample@cbc.philrice.gov.ph',
         ]);
+
         User::factory(10)->create();
+
+        $this->call([
+            ApplicationSeeder::class,
+            AccountForSeeder::class,
+        ]);
 
         TWGExpert::factory()->count(10)->create();
         TWGProject::factory()->count(20)->create();

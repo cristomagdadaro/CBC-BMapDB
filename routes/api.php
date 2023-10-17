@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AccountForController;
 use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\RolesController;
@@ -25,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('/roles', RolesController::class);
 Route::apiResource('/permissions', PermissionController::class);
 Route::apiResource('/applications', ApplicationController::class);
+Route::apiResource('/account-for', AccountForController::class);
 
 Route::prefix('twg')->group(function (){
     //Routes for TWG Projects
