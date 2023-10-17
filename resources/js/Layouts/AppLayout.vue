@@ -48,6 +48,9 @@ const logout = () => {
                                 <NavLink :href="route('twg.database')" :active="route().current('twg.database')">
                                     TWG Database
                                 </NavLink>
+                                <NavLink :href="route('breeders.map')" :active="route().current('breeders.map')">
+                                    Breeders Map
+                                </NavLink>
                             </div>
                         </div>
 
