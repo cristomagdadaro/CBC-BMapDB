@@ -2,9 +2,7 @@
 
 namespace Tests\Feature;
 
-use Tests\TestCase;
-
-class GetPermissionsTest extends TestCase
+class GetPermissionsTest extends BaseTest
 {
     /**
      * A basic feature test example.

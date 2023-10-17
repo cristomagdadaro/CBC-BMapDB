@@ -2,19 +2,13 @@
 
 namespace Tests\Feature;
 
-use Database\Seeders\RolesSeeder;
-use Tests\TestCase;
-
-class CanCreateRolesTest extends TestCase
+class CanCreateRolesTest extends BaseTest
 {
     /**
-     * A basic feature test example.
+     * @test
      */
-    public function test_example(): void
+    public function can_get_all_roles(): void
     {
-        $this->artisan('migrate:fresh');
-        $this->seed(RolesSeeder::class);
-
         $this->assertDatabaseCount('roles', count(config('system_variables.access_levels')));
     }
 }

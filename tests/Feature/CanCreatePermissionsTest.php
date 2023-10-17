@@ -3,18 +3,14 @@
 namespace Tests\Feature;
 
 use Database\Seeders\PermissionSeeder;
-use Tests\TestCase;
 
-class CanCreatePermissionsTest extends TestCase
+class CanCreatePermissionsTest extends BaseTest
 {
     /**
-     * A basic feature test example.
+     * @test
      */
-    public function test_example(): void
+    public function can_get_all_permission(): void
     {
-        $this->artisan('migrate:fresh');
-        $this->seed(PermissionSeeder::class);
-
         $this->assertDatabaseCount('permissions', 8);
     }
 }

@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             ApplicationSeeder::class,
-            AccountForSeeder::class,
+            //AccountForSeeder::class,
         ]);
 
         TWGExpert::factory()->count(10)->create();

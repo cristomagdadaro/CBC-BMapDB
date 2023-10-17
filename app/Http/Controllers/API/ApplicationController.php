@@ -21,7 +21,7 @@ class ApplicationController extends BaseController
      */
     public function __construct(Request $request)
     {
-        $this->middleware('auth:api');
+
     }
 
     /**
