@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             'lname' => 'User',
             'email' => 'sample@cbc.philrice.gov.ph',
         ]);
+
         User::factory(10)->create();
 
         \App\Models\TWGExpert::factory()->count(10)->create();
