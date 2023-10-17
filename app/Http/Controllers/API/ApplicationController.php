@@ -2,17 +2,32 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BaseController;
+use App\Http\Requests\GetApplicationRequest;
 use App\Http\Resources\ApplicationCollection;
 use App\Models\Application;
 use Illuminate\Http\Request;
 
-class ApplicationController extends Controller
+class ApplicationController extends BaseController
 {
+    /**
+     * List of all applications a user has access to.
+     * @var Application
+     */
+    protected $applications;
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct(Request $request)
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(GetApplicationRequest $request)
     {
         return new ApplicationCollection(Application::select()->get());
     }
