@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('account_for', function (Blueprint $table) {
             $table->id();
-            $table->uuid('account_id')->index();
+            $table->uuid('account_id')->index()->nullable();
             $table->foreignId('user_id')->constrained('users', 'id');
             $table->foreignId('app_id')->constrained('applications', 'id');
             $table->timestamps();
