@@ -12,6 +12,6 @@ class AccountForSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\AccountFor::factory()->count(10)->create();
+        \App\Models\AccountFor::factory()->count(147)->create();
     }
 }
