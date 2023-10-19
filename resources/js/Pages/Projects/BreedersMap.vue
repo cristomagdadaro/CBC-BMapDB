@@ -52,7 +52,7 @@ onMounted(() => {
 <template>
     <Head title="Breeder's Map" />
     <app-layout>
-        <div class="min-h-screen bg-gray-400">
+        <div class="min-h-screen bg-gray-500">
             <CRCMDatatable>
 
             </CRCMDatatable>
