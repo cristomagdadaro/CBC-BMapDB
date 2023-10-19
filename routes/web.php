@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\API\AccountForController;
+use App\Http\Controllers\API\ApplicationController;
+use App\Http\Controllers\API\PermissionController;
+use App\Http\Controllers\API\RolesController;
 use App\Http\Controllers\DataTable\DataTableController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +68,13 @@ Route::prefix('projects')->group(function () {
         return Inertia::render('Projects/BreedersMap');
     })->name('breeders.map');
 
+});
+
+Route::middleware(['auth:sanctum'])->group(function (){
+    Route::apiResource('/roles', RolesController::class);
+    Route::apiResource('/permissions', PermissionController::class);
+    Route::apiResource('/applications', ApplicationController::class);
+    Route::apiResource('/account-for', AccountForController::class);
     Route::get('{id}/accounts', [AccountForController::class, 'index'])->name('account.for.accounts');
 });
 

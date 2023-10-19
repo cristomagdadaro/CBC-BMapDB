@@ -55,7 +55,7 @@ class CanGetAllAccountForTest extends BaseTest
             'account_id' => 1,
         ]);
 
-        $response = $this->get("/api/account-for/{$user->id}/accounts?search=1010101010");
+        $response = $this->get("{$user->id}/accounts?search=1010101010");
 
         $response->assertStatus(200);
         $this->assertCount(1, $response->json()['data']);
