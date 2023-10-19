@@ -50,7 +50,7 @@ Route::prefix('projects')->group(function () {
         /* TWG Project Routes */
         Route::get('table-projects', [TWGProjectsController::class, 'tableProjects'])->name('twg.table.projects');
         Route::delete('destroy-project/{id}',  [TWGProjectsController::class, 'destroyProject'])->name('twg.destroy.project');
-        Route::get('export', [TWGProjectsController::class, 'exportProject'])->name('twg.export.project');
+        Route::get('export', [TWGProjectsController::class, 'exportProject'])->name('twg.export.prodject');
         Route::get('edit/{id}', [TWGProjectsController::class, 'edit'])->name('twg.edit');
         Route::post('store', [TWGProjectsController::class, 'store'])->name('twg.project.store'); //optimized
         Route::get('edit/data/{id}', [TWGProjectsController::class, 'editData'])->name('twg.edit.project.data');

@@ -54,6 +54,7 @@ class BaseRepository
     private function searchData(Collection $parameters, bool $isTrashed, $withPagination)
     {
         $perPage = $parameters->get('per_page', 10);
+        $page = $parameters->get('page', 1);
         $sort = $parameters->get('sort', 'id');
         $order = $parameters->get('order', 'asc');
         $search = $parameters->get('search', '');
@@ -80,6 +81,6 @@ class BaseRepository
             return $builder->orderBy($sort, $order)->get();
         }
 
-        return $builder->orderBy($sort, $order)->paginate($perPage)->withQueryString();
+        return $builder->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
 }

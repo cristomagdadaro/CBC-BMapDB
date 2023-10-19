@@ -1,9 +1,18 @@
 export default class BaseRequest{
     constructor() {
-        this.params = {};
+        this.params = {
+            page: 1,
+            per_page: 10,
+            sort: 'id',
+            order: 'asc',
+        };
     }
 
     addParam(key, value) {
+        this.params[key] = value;
+    }
+
+    updateParam(key, value) {
         this.params[key] = value;
     }
 
