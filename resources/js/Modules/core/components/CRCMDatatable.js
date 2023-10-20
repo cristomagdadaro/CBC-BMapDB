@@ -1,14 +1,17 @@
 import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
 import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
+import {ref} from "vue";
 
 export default class CRCMDatatable
 {
-    constructor(columns, link) {
+    constructor(link) {
         this.api = new ApiService(link);
-        this.columns = columns;
+        this.columns = ref([]);
         this.request = new BaseRequest();
-        this.response = new BaseResponse();
+        this.response = ref(new BaseResponse);
+        this.processing = ref(false);
+        this.selected = ref([]);
     }
 
     async init() {
@@ -21,26 +24,59 @@ export default class CRCMDatatable
         }
     }
 
-    async refresh(params) {
-        this.response = await this.api.get(params);
-        return this.response;
+    async refresh() {
+        this.response = await this.api.get(this.request.toObject());
     }
 
-    paginateFunc(params) {
-        this.request.updateParam('page', params.page);
-        return this.refresh(this.request.toObject());
+    async nextPage() {
+        this.request.updateParam('page', this.response['meta']['current_page'] + 1);
+        await this.refresh();
     }
 
-    sortFunc(params) {
+    async prevPage() {
+        this.request.updateParam('page', this.response['meta']['current_page'] - 1);
+        await this.refresh();
+    }
+
+    async firstPage() {
+        this.request.updateParam('page', 1);
+        await this.refresh();
+    }
+
+    async lastPage() {
+        this.request.updateParam('page', this.response['meta']['last_page']);
+        await this.refresh();
+    }
+
+    async sortFunc(params) {
         this.request.updateParam('sort', params.sort);
-        this.request.updateParam('order', params.order ? 'desc' : 'asc');
-        return this.refresh(this.request.toObject());
+        this.request.updateParam('order', this.request.getParam('order') === 'asc' ? 'desc' : 'asc');
+        this.response = await this.refresh();
     }
 
-    searchFunc(params) {
-        this.request.updateParam('search', params);
-        console.log(this.request.toObject());
-        return this.refresh(this.request.toObject());
+    async searchFunc(params) {
+        this.request.updateParam('search', params.search);
+        await this.refresh();
+    }
+
+    async perPageFunc(params){
+        this.request.updateParam('per_page', params.per_page)
+        await this.refresh();
+    }
+
+    addSelected(id) {
+        if(!this.isSelected(id))
+            this.selected.push(id);
+        else
+            this.removeSelected(id);
+    }
+
+    removeSelected(id) {
+        this.selected = this.selected.filter(item => item !== id);
+    }
+
+    isSelected(id) {
+        return this.selected.includes(id);
     }
 
     formatColumnName = (columnName) => {

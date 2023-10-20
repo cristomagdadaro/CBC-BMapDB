@@ -16,6 +16,10 @@ export default class BaseRequest{
         this.params[key] = value;
     }
 
+    getParam(key) {
+        return this.params[key];
+    }
+
     removeParam(key) {
         delete this.params[key];
     }

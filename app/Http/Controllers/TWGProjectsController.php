@@ -169,8 +169,6 @@ class TWGProjectsController extends TWGBaseController
 
     public function tableProjects(Request $request): JsonResponse
     {
-
-        $query = null;
         if(auth()->user()->role == 1)
             $query = TWGProject::select();
         else

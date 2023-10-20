@@ -7,6 +7,10 @@ export default class ApiService
         this.baseUrl = url;
     }
 
+    setBaseUrl(url) {
+        this.baseUrl = url;
+    }
+
     async get(params = {})
     {
         try {
@@ -18,4 +22,6 @@ export default class ApiService
             throw new Error(error);
         }
     }
+
+
 }
