@@ -1,5 +1,5 @@
 <template>
-    <div id="dtContainer" class="bg-gray-200">
+    <div id="dtContainer" class="flex flex-col gap-1 bg-gray-200 px-2" v-if="dt instanceof CRCMDatatable">
         <top-container>
             <action-container>
                 <top-action-btn>Add</top-action-btn>
@@ -13,81 +13,89 @@
             </action-container>
         </top-container>
         <filter-container>
-            <div class="flex items-center gap-1">
-                <span>Show</span>
-                <select class="border-0 py-0.5 rounded text-center" @change="changePerPage($event)">
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-                <span>entries</span>
-            </div>
-            <input class="border-0 py-1.5 rounded" type="text" id="dtSearch" placeholder="Search" @keyup.capture.enter="dt.searchFunc($event.target.value)" />
+            <per-page @changePerPage="dt.perPageFunc({ per_page: $event })" />
+            <search-filter @searchString="dt.searchFunc({ search: $event })" />
         </filter-container>
-        <div id="dtTableContainer" class="flex w-full justify-center">
+        <div id="dtTableContainer" class="flex w-full justify-center select-none">
             <table id="dtTable" class="w-full">
                 <thead id="dtHeader">
-                <tr class="dtHeaderRow border-y border-gray-700">
-                    <th class="dtHeaderColumn border-x border-gray-700" v-for="column in columns" :key="column" @click="changeSort(column.name)">
-                        <div class="dtHeaderCell">
-                    <span class="dtHeaderCellText">
+                <tr class="dtHeaderRow">
+                    <t-h v-for="column in dt.columns" :key="column.id" @click="dt.sortFunc({ sort: column.name })" :order="dt.request.getParam('order')">
                         {{ column.label }}
-                    </span>
-                            <span class="dtHeaderCellSortIcon asc"></span>
-                        </div>
-                    </th>
+                    </t-h>
+                    <t-h> Actions </t-h>
                 </tr>
                 </thead>
                 <tbody id="dtBody">
-                <tr id="dtRowProcessing" v-if="false">
-                    Processing
-                </tr>
-                <tr class="dtBodyRow" v-for="row in response['data']">
-                    <td class="dtBodyCell" v-for="cell in row" :key="cell">
-                        {{ cell }}
-                    </td>
-                </tr>
+                <processing-row :colspan="dt.columns.length" />
+                <tbody-row
+                    v-if="dt.response['data'].length"
+                    v-for="row in dt.response['data']"
+                    @click="dt.addSelected(row.id)"
+                    :isSelected="dt.isSelected(row.id)"
+                >
+                        <!-- Cell Data -->
+                        <t-d v-for="cell in row" :key="cell"> {{ cell }} </t-d>
+                        <!-- Cell Actions -->
+                        <t-d>Delete</t-d>
+                </tbody-row>
+                <not-found-row v-else :colspan="dt.columns.length" />
                 </tbody>
             </table>
         </div>
-        <div id="dtFooterContainer" class="flex justify-between gap-5" v-if="response instanceof BaseResponse">
+        <div id="dtFooterContainer" class="flex justify-between gap-5 select-none" v-if="dt.response instanceof BaseResponse">
             <div id="dtPageDetails">
-                Showing {{ response['meta']['from'] }} to {{ response['meta']['to'] }} of {{ response['meta']['total'] }} entries
+                Showing {{ dt.response['meta']['from'] }} to {{ dt.response['meta']['to'] }} of {{ dt.response['meta']['total'] }} entries
             </div>
-            <div id="dtPaginatorContainer" class="flex gap-0.5 items-center">
-                <paginate-btn @click="paginateFunc(1)">First</paginate-btn>
-                <paginate-btn :disabled="true" @click="paginateFunc(response['meta']['from'])">Prev</paginate-btn>
-                <span class="text-sm mx-1">Page: <span>{{ response['meta']['current_page'] }}</span></span>
-                <paginate-btn @click="paginateFunc(response['meta']['next'])">Next</paginate-btn>
-                <paginate-btn @click="paginateFunc(response['meta']['last_page'])">Last</paginate-btn>
+            <div id="dtPaginatorContainer" class="flex gap-0.5 items-center sca">
+                <paginate-btn @click="dt.firstPage()">First</paginate-btn>
+                <paginate-btn :disabled="true" @click="dt.prevPage()"> <arrow-left class="h-auto w-6" />Prev</paginate-btn>
+                <span class="text-sm mx-1">Page: <span>{{ dt.response['meta']['current_page'] }}</span></span>
+                <paginate-btn @click="dt.nextPage()">Next <arrow-right class="h-auto w-6" /></paginate-btn>
+                <paginate-btn @click="dt.lastPage()">Last</paginate-btn>
             </div>
         </div>
     </div>
-    {{response}}
 </template>
-
 <script setup>
-import { onMounted, ref } from "vue";
 import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
-import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
-import CRCMDatatable from "@/Modules/core/components/CRCMDatatable.js";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import PaginateBtn from "@/Components/CRCMDatatable/Components/PaginateBtn.vue";
 import ActionContainer from "@/Components/CRCMDatatable/Layouts/ActionContainer.vue";
 import TopContainer from "@/Components/CRCMDatatable/Layouts/TopContainer.vue";
 import FilterContainer from "@/Components/CRCMDatatable/Layouts/FilterContainer.vue";
+import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
+import PerPage from "@/Components/CRCMDatatable/Components/PerPage.vue";
+import SearchFilter from "@/Components/CRCMDatatable/Components/SearchFilter.vue";
+import TH from "@/Components/CRCMDatatable/Components/TH.vue";
+import TD from "@/Components/CRCMDatatable/Components/TD.vue";
+import ProcessingRow from "@/Components/CRCMDatatable/Components/ProcessingRow.vue";
+import TbodyRow from "@/Components/CRCMDatatable/Components/TbodyRow.vue";
+import NotFoundRow from "@/Components/CRCMDatatable/Components/NotFoundRow.vue";
+import ArrowLeft from "@/Components/Icons/ArrowLeft.vue";
+import ArrowRight from "@/Components/Icons/ArrowRight.vue";
+import CircleOneIcon from "@/Components/Icons/CircleOneIcon.vue";
+</script>
 
-const columns = ref('');
-const link = route('account.for.accounts', 1);
-const response = ref(BaseResponse);
-const dt = new CRCMDatatable(columns, link)
-
-onMounted(async () => {
-    await dt.init();
-    response.value = dt.response;
-    columns.value = dt.columns;
-});
+<script>
+import CRCMDatatable from "@/Modules/core/components/CRCMDatatable.js";
+export default {
+    name: "CRCMDatatable",
+    components: {
+        CRCMDatatable,
+    },
+    data() {
+        return {
+            dt: null,
+            link: null,
+        }
+    },
+    mounted() {
+        this.link = route('account.for.accounts', 1);
+        this.dt = new CRCMDatatable(this.link);
+        this.dt.init();
+    }
+};
 </script>
 
 
