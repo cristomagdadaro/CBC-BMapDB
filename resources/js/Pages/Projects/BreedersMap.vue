@@ -53,9 +53,7 @@ onMounted(() => {
     <Head title="Breeder's Map" />
     <app-layout>
         <div class="min-h-screen bg-gray-500">
-            <CRCMDatatable>
-
-            </CRCMDatatable>
+            <CRCMDatatable :baseUrl="baseUrl" />
         </div>
         <div class="w-full sm:p-5 p-0">
             <div class="flex flex-wrap gap-2">
@@ -75,7 +73,16 @@ onMounted(() => {
 }
 </style>
 <script>
+import User from "@/Modules/core/domain/User.js";
 
+import {router} from "@inertiajs/vue3";
+export default {
+    data(){
+        return {
+            baseUrl: route('api.account-for.index',1),
+        }
+    }
+}
 
 // You can now use the 'locations' array in your Leaflet map.
 

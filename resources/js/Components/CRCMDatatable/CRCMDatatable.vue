@@ -1,4 +1,7 @@
 <template>
+    <div v-if="baseUrl === null || baseUrl === undefined">
+        Unable to to retrieve data, please check your base url.
+    </div>
     <div id="dtContainer" class="flex flex-col gap-1 bg-gray-200 px-2" v-if="dt instanceof CRCMDatatable && dt.response['meta']">
         <top-container>
             <action-container>
@@ -14,6 +17,12 @@
         </top-container>
         <filter-container>
             <per-page @changePerPage="dt.perPageFunc({ per_page: $event })" />
+            <div class="flex items-center gap-1">
+                <h1>Search By</h1>
+                <select>
+                    <option value="1" v-for="column in dt.columns" :value="column.id">{{ column.label }}</option>
+                </select>
+            </div>
             <search-filter @searchString="dt.searchFunc({ search: $event })" />
         </filter-container>
         <div id="dtTableContainer" class="flex w-full justify-center select-none">
@@ -84,16 +93,24 @@ export default {
     components: {
         CRCMDatatable,
     },
+    props: {
+        baseUrl: {
+            type: String,
+            required: true,
+        },
+        model: {
+            type: Object,
+            required: false,
+        },
+    },
     data() {
         return {
             dt: null,
-            link: null,
         }
     },
     mounted() {
-        this.link = route('api.users.index');
-        this.dt = new CRCMDatatable(this.link);
-        this.dt.init();
+        this.dt = new CRCMDatatable(this.baseUrl);
+        this.dt.init(this.model);
     }
 };
 </script>

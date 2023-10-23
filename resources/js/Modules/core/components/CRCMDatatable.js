@@ -14,11 +14,12 @@ export default class CRCMDatatable
         this.selected = ref([]);
     }
 
-    async init() {
+    async init(model) {
         try {
-            this.response = await this.api.get(this.request.toObject());
+            this.response = await this.api.get(this.request.toObject(), model);
             this.columns = Object.keys(this.response['data'][0]);
             this.columns = this.formatColumns(this.columns);
+            console.log(this.response);
         } catch (error) {
             throw new Error(error);
         }
