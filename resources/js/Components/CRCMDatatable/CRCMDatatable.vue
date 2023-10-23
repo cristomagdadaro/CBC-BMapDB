@@ -1,5 +1,5 @@
 <template>
-    <div id="dtContainer" class="flex flex-col gap-1 bg-gray-200 px-2" v-if="dt instanceof CRCMDatatable">
+    <div id="dtContainer" class="flex flex-col gap-1 bg-gray-200 px-2" v-if="dt instanceof CRCMDatatable && dt.response['meta']">
         <top-container>
             <action-container>
                 <top-action-btn>Add</top-action-btn>
@@ -91,7 +91,7 @@ export default {
         }
     },
     mounted() {
-        this.link = route('account.for.accounts', 1);
+        this.link = route('api.users.index');
         this.dt = new CRCMDatatable(this.link);
         this.dt.init();
     }

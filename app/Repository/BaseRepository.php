@@ -96,6 +96,7 @@ class BaseRepository
 
     public function search(Collection $parameters, $withPagination = true)
     {
+
         return $this->searchData($parameters, false, $withPagination);
     }
 
@@ -117,7 +118,7 @@ class BaseRepository
         if($search)
         {
             $builder = $builder->where(function($query) use ($search) {
-                foreach($this->model->getSearchable() as $column)
+                foreach($this->searchable as $column)
                 {
                     $query->orWhere($column, 'like', "%{$search}%");
                 }
