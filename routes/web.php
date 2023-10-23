@@ -80,7 +80,10 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::apiResource('/roles', RolesController::class);
     Route::apiResource('/permissions', PermissionController::class);
     Route::apiResource('/applications', ApplicationController::class);
-    Route::apiResource('/account-for', AccountForController::class);
-    Route::get('{id}/accounts', [AccountForController::class, 'index'])->name('account.for.accounts');
+    Route::apiResource('{id}/account-for', AccountForController::class)->names(
+        [
+            'index' => 'api.account-for.index',
+        ]
+    );
 });
 
