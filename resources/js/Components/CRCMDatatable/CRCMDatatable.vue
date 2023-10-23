@@ -17,13 +17,11 @@
         </top-container>
         <filter-container>
             <per-page @changePerPage="dt.perPageFunc({ per_page: $event })" />
-            <div class="flex items-center gap-1">
-                <h1>Search By</h1>
-                <select>
-                    <option value="1" v-for="column in dt.columns" :value="column.id">{{ column.label }}</option>
-                </select>
+            <selected-count :count="dt.selected.length" />
+            <div class="flex gap-2">
+                <search-by :columns="dt.columns" />
+                <search-filter @searchString="dt.searchFunc({ search: $event })" />
             </div>
-            <search-filter @searchString="dt.searchFunc({ search: $event })" />
         </filter-container>
         <div id="dtTableContainer" class="flex w-full justify-center select-none">
             <table id="dtTable" class="w-full">
@@ -36,19 +34,20 @@
                 </tr>
                 </thead>
                 <tbody id="dtBody">
-                <processing-row :colspan="dt.columns.length" />
-                <tbody-row
-                    v-if="dt.response['data'].length"
-                    v-for="row in dt.response['data']"
-                    @click="dt.addSelected(row.id)"
-                    :isSelected="dt.isSelected(row.id)"
-                >
+                <processing-row v-if="dt.processing" :colspan="dt.columns.length" />
+                <template v-else>
+                    <tbody-row v-if="dt.response['data'].length && !dt.processing"
+                               v-for="row in dt.response['data']"
+                               @click="dt.addSelected(row.id)"
+                               :isSelected="dt.isSelected(row.id)"
+                    >
                         <!-- Cell Data -->
                         <t-d v-for="cell in row" :key="cell"> {{ cell }} </t-d>
                         <!-- Cell Actions -->
                         <t-d>Delete</t-d>
-                </tbody-row>
-                <not-found-row v-else :colspan="dt.columns.length" />
+                    </tbody-row>
+                    <not-found-row v-else :colspan="dt.columns.length" />
+                </template>
                 </tbody>
             </table>
         </div>
@@ -84,6 +83,8 @@ import NotFoundRow from "@/Components/CRCMDatatable/Components/NotFoundRow.vue";
 import ArrowLeft from "@/Components/Icons/ArrowLeft.vue";
 import ArrowRight from "@/Components/Icons/ArrowRight.vue";
 import CircleOneIcon from "@/Components/Icons/CircleOneIcon.vue";
+import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
+import SelectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
 </script>
 
 <script>
@@ -109,8 +110,8 @@ export default {
         }
     },
     mounted() {
-        this.dt = new CRCMDatatable(this.baseUrl);
-        this.dt.init(this.model);
+        this.dt = new CRCMDatatable(this.baseUrl, this.model);
+        this.dt.init();
     }
 };
 </script>
