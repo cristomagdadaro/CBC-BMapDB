@@ -16,34 +16,34 @@ import Logo from '@/Components/Icons/Logo.vue';
                     <div class="border-b-[1px] py-5 sm:text-base text-xs sm:flex-row sm:justify-evenly flex flex-col gap-3 sm:gap-0">
                         <ul>
                             <FooterLink class="font-semibold" text="Republic of the Philippines" />
-                            <FooterLink text="Official Gazette" link="#" />
-                            <FooterLink text="Office of the President" link="#" />
-                            <FooterLink text="Official Directory" link="#" />
-                            <FooterLink text="Official Calendar" link="#" />
+                            <FooterLink text="Official Gazette" link="https://www.officialgazette.gov.ph/" />
+                            <FooterLink text="Office of the President" link="https://op-proper.gov.ph/" />
+                            <FooterLink text="Official Directory" link="https://www.gov.ph/the-government/directory-of-departments-and-agencies/" />
+                            <FooterLink text="Official Calendar" link="https://www.officialgazette.gov.ph/nationwide-holidays/2023/" />
                         </ul>
                         <ul>
                             <FooterLink class="font-semibold" text="Executive" />
-                            <FooterLink text="Office of the President" link="#" />
-                            <FooterLink text="Office of the Vice President" link="#" />
-                            <FooterLink text="Department of Education" link="#" />
-                            <FooterLink text="Department of Interior and Local Development" link="#" />
-                            <FooterLink text="Department of Finance" link="#" />
-                            <FooterLink text="Department of Health" link="#" />
-                            <FooterLink text="Department of Science and Technology" link="#" />
-                            <FooterLink text="Department of Trade and Industry" link="#" />
+                            <FooterLink text="Office of the President" link="https://op-proper.gov.ph/" />
+                            <FooterLink text="Office of the Vice President" link="https://ovp.gov.ph/" />
+                            <FooterLink text="Department of Education" link="https://www.deped.gov.ph/" />
+                            <FooterLink text="Department of Interior and Local Development" link="https://www.dilg.gov.ph/" />
+                            <FooterLink text="Department of Finance" link="https://www.dof.gov.ph/" />
+                            <FooterLink text="Department of Health" link="https://doh.gov.ph/" />
+                            <FooterLink text="Department of Science and Technology" link="https://www.dost.gov.ph/" />
+                            <FooterLink text="Department of Trade and Industry" link="https://www.dti.gov.ph/" />
                         </ul>
                         <ul>
                             <FooterLink class="font-semibold" text="Legislative" />
-                            <FooterLink text="Senate of the Philippines" link="#" />
-                            <FooterLink text="House of Representative" link="#" />
+                            <FooterLink text="Senate of the Philippines" link="https://legacy.senate.gov.ph/" />
+                            <FooterLink text="House of Representative" link="https://congress.gov.ph/" />
                         </ul>
                         <ul>
                             <FooterLink class="font-semibold" text="Judiciary" />
-                            <FooterLink text="Supreme Court" link="#" />
-                            <FooterLink text="Court of Appeals" link="#" />
-                            <FooterLink text="Sandiganbayan" link="#" />
-                            <FooterLink text="Court of Tax Appeal" link="#" />
-                            <FooterLink text="Judicial Bar and Council" link="#" />
+                            <FooterLink text="Supreme Court" link="http://sc.judiciary.gov.ph/" />
+                            <FooterLink text="Court of Appeals" link="https://ca.judiciary.gov.ph/" />
+                            <FooterLink text="Sandiganbayan" link="https://sb.judiciary.gov.ph/" />
+                            <FooterLink text="Court of Tax Appeal" link="https://cta.judiciary.gov.ph/" />
+                            <FooterLink text="Judicial Bar and Council" link="https://jbc.judiciary.gov.ph/" />
                         </ul>
                     </div>
                 </div>

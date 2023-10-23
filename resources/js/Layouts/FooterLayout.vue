@@ -1,5 +1,5 @@
 <template>
-    <footer class=" bottom-0 w-full min-h-fit">
+    <footer class="bottom-0 w-full min-h-fit select-none">
         <div class="relative flex flex-col">
             <div class="bg-gray-600 text-white">
                 <div class="resp-container">
