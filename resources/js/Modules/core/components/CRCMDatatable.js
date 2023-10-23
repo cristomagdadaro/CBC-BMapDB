@@ -12,21 +12,25 @@ export default class CRCMDatatable
         this.response = ref(new BaseResponse);
         this.processing = ref(false);
         this.selected = ref([]);
+        this.model = ref(Object);
     }
 
     async init(model) {
         try {
-            this.response = await this.api.get(this.request.toObject(), model);
+            this.processing = true;
+            this.response = await this.api.get(this.request.toObject(), this.model);
             this.columns = Object.keys(this.response['data'][0]);
             this.columns = this.formatColumns(this.columns);
-            console.log(this.response);
+            this.processing = false;
         } catch (error) {
             throw new Error(error);
         }
     }
 
     async refresh() {
-        this.response = await this.api.get(this.request.toObject());
+        this.processing = true;
+        this.response = await this.api.get(this.request.toObject(), this.model);
+        this.processing = false;
     }
 
     async nextPage() {
