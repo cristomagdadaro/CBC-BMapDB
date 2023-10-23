@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class DataTableRequest extends BaseRequest
+class GetUserRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -20,14 +20,7 @@ class DataTableRequest extends BaseRequest
     public function rules(): array
     {
         return [
-            'table' => 'required|string',
-            'columns' => 'required|string',
-            'per_page' => 'required|integer',
-            'page' =>'required|integer',
-            'order' =>'required|string',
-            'order_dir' =>'required|string',
-            'filterKey' =>'nullable|string',
-            'filterValue' =>'nullable|string',
+            //
         ];
     }
 }

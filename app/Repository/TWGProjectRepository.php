@@ -12,7 +12,7 @@ class TWGProjectRepository extends BaseRepository
     /**
      * @var TWGProject
      */
-    protected $model;
+    protected Model $model;
 
     public function __construct(TWGProject $model)
     {

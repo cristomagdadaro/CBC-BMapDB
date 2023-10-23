@@ -5,6 +5,7 @@ use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\RolesController;
 use App\Http\Controllers\DataTable\DataTableController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -71,6 +72,11 @@ Route::prefix('projects')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function (){
+    Route::apiResource('/users', UsersController::class)->names(
+        [
+            'index' => 'api.users.index',
+        ]
+    );
     Route::apiResource('/roles', RolesController::class);
     Route::apiResource('/permissions', PermissionController::class);
     Route::apiResource('/applications', ApplicationController::class);

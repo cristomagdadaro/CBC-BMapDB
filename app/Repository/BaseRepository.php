@@ -6,9 +6,11 @@ use Illuminate\Support\Collection;
 
 class BaseRepository
 {
-    protected $model;
+    protected Model $model;
 
-    public function __construct($model)
+    protected array $searchable = [];
+
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }
@@ -48,6 +50,7 @@ class BaseRepository
 
     public function search(Collection $parameters, $withPagination = true)
     {
+
         return $this->searchData($parameters, false, $withPagination);
     }
 
@@ -69,7 +72,7 @@ class BaseRepository
         if($search)
         {
             $builder = $builder->where(function($query) use ($search) {
-                foreach($this->model->getSearchable() as $column)
+                foreach($this->searchable as $column)
                 {
                     $query->orWhere($column, 'like', "%{$search}%");
                 }
