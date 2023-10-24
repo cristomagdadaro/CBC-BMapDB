@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\GetUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
@@ -69,9 +70,10 @@ class UsersController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @method destroy
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+        return 0;
     }
 }
