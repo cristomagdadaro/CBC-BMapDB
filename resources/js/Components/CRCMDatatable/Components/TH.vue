@@ -1,10 +1,10 @@
 <template>
-    <th class="dtHeaderColumn border border-gray-500">
-        <div class="dtHeaderCell flex gap-0.5 justify-center items-center">
-            <span class="dtHeaderCellText">
+    <th class="dtHeaderColumn px-0.5 whitespace-nowrap">
+        <div class="dtHeaderCell flex gap-0.5 justify-center items-center bg-cbc-dark-green rounded">
+            <span class="dtHeaderCellText text-white">
                 <slot />
             </span>
-            <span class="dtHeaderCellSortIco" :class="props.order"> </span>
+            <span class="dtHeaderCellSortIco text-yellow-500" :class="props.order"> </span>
         </div>
     </th>
 </template>

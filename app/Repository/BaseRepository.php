@@ -107,6 +107,7 @@ class BaseRepository
         $sort = $parameters->get('sort', 'id');
         $order = $parameters->get('order', 'asc');
         $search = $parameters->get('search', '');
+        $filter = $parameters->get('filter', null);
 
         $builder = $this->model;
 
@@ -117,9 +118,11 @@ class BaseRepository
 
         if($search)
         {
-            $builder = $builder->where(function($query) use ($search) {
+            $builder = $builder->where(function($query) use ($search, $filter) {
                 foreach($this->searchable as $column)
                 {
+                    if ($filter && $column != $filter)
+                        $column = $filter;
                     $query->orWhere($column, 'like', "%{$search}%");
                 }
             });

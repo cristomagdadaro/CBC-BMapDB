@@ -1,7 +1,10 @@
-export default class User
+import {BaseClass} from "@/Modules/core/domain/BaseClass.js";
+
+export default class User extends BaseClass
 {
     constructor(resp)
     {
+        super(resp);
         this.id = resp.id;
         this.fname = resp.fname;
         this.mname = resp.mname;

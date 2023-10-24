@@ -1,21 +1,33 @@
 <template>
-    <div class="flex items-center gap-1">
-        <select class="border-0 py-1.5 rounded text-center">
-            <option v-if="!columns.length" value="null">No options available</option>
-            <template v-else>
-                <option value="null">Filter By</option>
-                <option v-for="column in columns" :key="column.id" :value="column.id">{{ column.label }}</option>
-            </template>
-        </select>
+    <div class="flex flex-col gap-0.5">
+        <span class="text-xs text-gray-500 flex items-center justify-between">
+            <span class="flex gap-0.5"><filter-icon class="h-4 w-4" />Filter by</span>
+            <div class="flex items-center gap-0.5">
+                <label for="exactValue"></label>
+                <input type="checkbox" class="rounded-full h-3 w-4 focus:outline-none" title="turn on filter by exact value">
+            </div>
+        </span>
+        <custom-dropdown placeholder="Filters" :options="columns" @selectedChange="$emit('searchBy', $event)" />
     </div>
 </template>
 <script>
+    import {ref} from "vue";
+    import SearchIcon from "@/Components/Icons/SearchIcon.vue";
+    import FilterIcon from "@/Components/Icons/FilterIcon.vue";
+    import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
+
     export default {
+        components: {CustomDropdown, FilterIcon, SearchIcon},
         props: {
             columns: {
                 type: Object,
                 required: false,
             },
+        },
+        data(){
+            return {
+                selected: null,
+            }
         },
     }
 </script>

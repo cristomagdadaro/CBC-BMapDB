@@ -5,8 +5,8 @@ import {ref} from "vue";
 
 export default class CRCMDatatable
 {
-    constructor(link) {
-        this.api = new ApiService(link);
+    constructor(baseUrl) {
+        this.api = new ApiService(baseUrl);
         this.columns = ref([]);
         this.request = new BaseRequest();
         this.response = ref(new BaseResponse);
@@ -56,7 +56,11 @@ export default class CRCMDatatable
     async sortFunc(params) {
         this.request.updateParam('sort', params.sort);
         this.request.updateParam('order', this.request.getParam('order') === 'asc' ? 'desc' : 'asc');
-        this.response = await this.refresh();
+        await this.refresh();
+    }
+
+    filterByColumn(params) {
+        this.request.updateParam('filter', params.column);
     }
 
     async searchFunc(params) {
@@ -82,6 +86,69 @@ export default class CRCMDatatable
 
     isSelected(id) {
         return this.selected.includes(id);
+    }
+
+    selectAll() {
+        this.selected.push(...this.response['data'].map(item => item.id));
+    }
+
+    deselectAll() {
+        this.selected = [];
+    }
+
+    async exportCSV() {
+        // get all the rows
+        this.request.updateParam('per_page', this.response['meta']['total'])
+        let data = await this.api.get(this.request.toObject(), this.model);
+
+        let columns = this.formatColumns(Object.keys(data['data'][0]));
+        let csvContent = "data:text/csv;charset=utf-8,";
+
+        csvContent += columns.map(column => column.label).join(",") + "\r\n";
+
+        data['data'].forEach(function(rowArray){
+            let row = Object.values(rowArray).join(",");
+            csvContent += row + "\r\n";
+        });
+
+        let encodedUri = encodeURI(csvContent);
+        let link = document.createElement("a");
+
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", this.api.baseUrl + ".csv");
+
+        document.body.appendChild(link);
+
+        link.click();
+    }
+
+    importCSV() {
+        /*let input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.csv';
+        input.onchange = async () => {
+            let file = input.files[0];
+            let reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = async () => {
+                let data = reader.result;
+                let rows = data.split('\n');
+                let columns = rows[0].split(',');
+                let values = rows.slice(1).map(row => row.split(','));
+                let model = this.model;
+                let response = await this.api.post({columns, values}, model, 'import');
+                this.response = response;
+            };
+            reader.onerror = () => {
+                console.log(reader.error);
+            };
+        };
+        input.click();*/
+    }
+
+    async delete(id) {
+        await this.api.delete(id);
+        await this.refresh();
     }
 
     formatColumnName = (columnName) => {

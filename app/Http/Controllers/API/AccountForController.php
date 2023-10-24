@@ -27,4 +27,11 @@ class AccountForController extends BaseController
         $data = $this->accountForRepository->search($request->collect());
         return new AccountForCollection($data);
     }
+
+    public function destroy(Request $request)
+    {
+        $accountFor = $this->accountForRepository->find($request->id);
+        $accountFor->delete();
+        return $accountFor;
+    }
 }

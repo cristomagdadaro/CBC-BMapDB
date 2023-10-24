@@ -24,6 +24,22 @@ export default class ApiService
         }
     }
 
+    async delete(id)
+    {
+        try {
+            const response = await axios.delete(this.baseUrl,
+                {
+                    params: {
+                        id: id
+                    }
+                });
+            console.log(response);
+            return new BaseResponse(response.data);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
     castToModel(response, model) {
         return response.map(item => {
             return new model(item);

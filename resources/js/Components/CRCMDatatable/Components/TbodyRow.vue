@@ -1,5 +1,5 @@
 <template>
-    <tr class="dtBodyRow hover:bg-gray-300 active:bg-gray-400 sm:h-8" :class="isSelected?'bg-cbc-yellow-green':''">
+    <tr class="dtBodyRow active:bg-gray-400 sm:h-8" :class="isSelected?'bg-blue-400 hover:brightness-75 duration-300':'hover:bg-gray-300'">
         <slot />
     </tr>
 </template>
