@@ -34,7 +34,8 @@ export default class CRCMDatatable
     }
 
     async nextPage() {
-        this.request.updateParam('page', this.response['meta']['current_page'] + 1);
+        if(this.response['meta']['current_page'] + 1 <= this.response['meta']['last_page'])
+            this.request.updateParam('page', this.response['meta']['current_page'] + 1);
         await this.refresh();
     }
 
