@@ -15,12 +15,11 @@ export default class CRCMDatatable
         this.model = ref(Object);
     }
 
-    async init(model) {
+    async init() {
         try {
             this.processing = true;
             this.response = await this.api.get(this.request.toObject(), this.model);
-            this.columns = Object.keys(this.response['data'][0]);
-            this.columns = this.formatColumns(this.columns);
+            this.getColumnsFromResponse(this.response);
             this.processing = false;
         } catch (error) {
             throw new Error(error);
@@ -30,6 +29,7 @@ export default class CRCMDatatable
     async refresh() {
         this.processing = true;
         this.response = await this.api.get(this.request.toObject(), this.model);
+        this.getColumnsFromResponse(this.response);
         this.processing = false;
     }
 
@@ -153,6 +153,19 @@ export default class CRCMDatatable
     async delete(id) {
         await this.api.delete(id);
         await this.refresh();
+    }
+
+    getColumnsFromResponse(response) {
+        if (response['data'].length > 0)
+        {
+            this.columns = Object.keys(response['data'][0]);
+            this.columns = this.formatColumns(this.columns);
+            // store columns in the local storage with the current url as key
+            localStorage.setItem(window.location.pathname, JSON.stringify(this.columns));
+        }
+        else if (localStorage.getItem(window.location.pathname))
+            this.columns = JSON.parse(localStorage.getItem(window.location.pathname)
+        );
     }
 
     formatColumnName = (columnName) => {

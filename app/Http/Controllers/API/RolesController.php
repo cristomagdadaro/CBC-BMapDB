@@ -6,12 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteRoleRequest;
 use App\Http\Requests\GetRoleRequest;
 use App\Http\Resources\RoleCollection;
-use App\Models\Role;
 use App\Repository\API\RoleRepository;
 use App\Repository\ErrorRepository;
-use Illuminate\Http\JsonResponse;
-
-;
 
 class RolesController extends Controller
 {
