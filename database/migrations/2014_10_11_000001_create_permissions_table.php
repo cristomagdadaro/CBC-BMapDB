@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('value');
             $table->timestamps();
 
-            $table->unique(['id', 'role_id', 'label']);
+            $table->unique(['role_id', 'value']);
         });
     }
 

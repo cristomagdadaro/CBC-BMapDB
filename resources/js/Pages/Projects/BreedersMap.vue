@@ -79,7 +79,7 @@ import {router} from "@inertiajs/vue3";
 export default {
     data(){
         return {
-            baseUrl: route('api.roles.index'),
+            baseUrl: route('api.permissions.index'),
         }
     }
 }

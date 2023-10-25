@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 
 class BaseRepository
 {
-    protected Model $model;
+    public Model $model;
 
     protected array $searchable = [];
 

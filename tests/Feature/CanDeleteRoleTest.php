@@ -15,8 +15,8 @@ class CanDeleteRoleTest extends TestCase
     {
         $user = \App\Models\User::factory()->create();
         $this->actingAs($user);
-        $response = $this->delete('/roles?id=1');
-
+        $response = $this->delete('/permissions?id=1');
+        print($response->getContent());
         $response->assertStatus(500);
     }
 }
