@@ -1,6 +1,6 @@
 <template>
     <th class="dtHeaderColumn px-0.5 whitespace-nowrap">
-        <div class="dtHeaderCell flex gap-0.5 justify-center items-center bg-cbc-dark-green rounded">
+        <div class="dtHeaderCell flex gap-0.5 py-1 justify-center items-center bg-cbc-dark-green rounded">
             <span class="dtHeaderCellText text-white">
                 <slot />
             </span>

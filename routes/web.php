@@ -80,6 +80,9 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::delete('users/{id}', [UsersController::class, 'destroy'])->name('api.users.destroy');
 
     Route::apiResource('/roles', RolesController::class);
+    Route::get('/roles', [RolesController::class, 'index'])->name('api.roles.index');
+    Route::delete('/roles', [RolesController::class, 'destroy'])->name('api.roles.destroy');
+
     Route::apiResource('/permissions', PermissionController::class);
     Route::apiResource('/applications', ApplicationController::class);
     Route::apiResource('{id}/account-for', AccountForController::class)->names(

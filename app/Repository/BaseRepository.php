@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
 class BaseRepository
@@ -38,9 +39,13 @@ class BaseRepository
         return $model;
     }
 
-    public function delete(Model $model): bool
+    public function delete(Model $model): bool | \Exception
     {
-        return $model->delete();
+        try {
+            return $model->delete();
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 
     public function find(int $id): Model
@@ -62,6 +67,7 @@ class BaseRepository
         $order = $parameters->get('order', 'asc');
         $search = $parameters->get('search', '');
         $filter = $parameters->get('filter', null);
+        $is_exact = $parameters->get('is_exact', false);
 
         $builder = $this->model;
 
@@ -72,12 +78,16 @@ class BaseRepository
 
         if($search)
         {
-            $builder = $builder->where(function($query) use ($search, $filter) {
+            $builder = $builder->where(function($query) use ($search, $filter, $is_exact) {
                 foreach($this->searchable as $column)
                 {
                     if ($filter && $column != $filter)
                         $column = $filter;
-                    $query->orWhere($column, 'like', "%{$search}%");
+
+                    if($is_exact)
+                        $query->orWhere($column, $search);
+                    else
+                        $query->orWhere($column, 'like', "%{$search}%");
                 }
             });
         }

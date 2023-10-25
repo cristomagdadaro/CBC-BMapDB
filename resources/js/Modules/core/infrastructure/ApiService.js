@@ -27,7 +27,7 @@ export default class ApiService
     async delete(id)
     {
         try {
-            const response = await axios.delete(this.baseUrl,
+            const response = await axios.delete(route('api.roles.destroy'),
                 {
                     params: {
                         id: id

@@ -63,6 +63,10 @@ export default class CRCMDatatable
         this.request.updateParam('filter', params.column);
     }
 
+    isExactFilter(params) {
+        this.request.updateParam('is_exact', params.is_exact);
+    }
+
     async searchFunc(params) {
         this.request.updateParam('search', params.search);
         await this.refresh();
