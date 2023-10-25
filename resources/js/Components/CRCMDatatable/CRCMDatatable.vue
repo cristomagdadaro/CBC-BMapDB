@@ -19,7 +19,7 @@
             <per-page @changePerPage="dt.perPageFunc({ per_page: $event })" />
             <selected-count :count="dt.selected.length" />
             <div class="flex gap-2">
-                <search-by :columns="dt.columns" @searchBy="dt.filterByColumn({ column: $event })" />
+                <search-by :columns="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
                 <search-filter @searchString="dt.searchFunc({ search: $event })" />
             </div>
         </filter-container>

@@ -13,7 +13,10 @@ export default class BaseRequest{
     }
 
     updateParam(key, value) {
-        this.params[key] = value;
+        if(value === null || value === undefined || value === '' || value === false)
+            this.removeParam(key);
+        else
+            this.params[key] = value;
     }
 
     getParam(key) {
