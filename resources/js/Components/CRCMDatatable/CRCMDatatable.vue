@@ -60,12 +60,16 @@
         </div>
         <div id="dtFooterContainer" class="flex justify-between gap-5 select-none" v-if="dt.response instanceof BaseResponse">
             <div id="dtPageDetails">
-                Showing {{ dt.response['meta']['from'] }} to {{ dt.response['meta']['to'] }} of {{ dt.response['meta']['total'] }} entries
+                Showing {{ meta_from }} to {{ meta_to }} of {{ total_entries }} entries
             </div>
             <div id="dtPaginatorContainer" class="flex gap-0.5 items-center sca">
+
                 <paginate-btn @click="dt.firstPage()">First</paginate-btn>
-                <paginate-btn :disabled="true" @click="dt.prevPage()"> <arrow-left class="h-auto w-6" />Prev</paginate-btn>
-                <span class="text-sm mx-1">Page: <span>{{ dt.response['meta']['current_page'] }}</span></span>
+                <paginate-btn @click="dt.prevPage()"> <arrow-left class="h-auto w-6" />Prev</paginate-btn>
+                <div class="text-xs flex flex-col text-center">
+                    <span class="font-medium mx-1">Page: <span>{{ current_page }}</span></span>
+                    <span class="text-gray-500 mx-2">Total of {{ total_pages }} page<span v-if="total_pages > 1">s</span></span>
+                </div>
                 <paginate-btn @click="dt.nextPage()">Next <arrow-right class="h-auto w-6" /></paginate-btn>
                 <paginate-btn @click="dt.lastPage()">Last</paginate-btn>
             </div>
@@ -118,6 +122,32 @@ export default {
         return {
             dt: null,
         }
+    },
+    computed: {
+        current_page() {
+            return this.dt.response['meta']['current_page'];
+        },
+        last_page() {
+            return this.dt.response['meta']['last_page'];
+        },
+        next_page() {
+            return this.dt.response['meta']['current_page'] + 1;
+        },
+        prev_page() {
+            return this.dt.response['meta']['current_page'] - 1;
+        },
+        total_pages() {
+            return this.dt.response['meta']['last_page'];
+        },
+        total_entries() {
+            return this.dt.response['meta']['total'];
+        },
+        meta_from() {
+            return this.dt.response['meta']['from'];
+        },
+        meta_to() {
+            return this.dt.response['meta']['to'];
+        },
     },
     mounted() {
         this.dt = new CRCMDatatable(this.baseUrl, this.model);
