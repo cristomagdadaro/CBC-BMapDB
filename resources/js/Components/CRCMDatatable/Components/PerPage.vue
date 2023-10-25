@@ -1,12 +1,24 @@
 <template>
     <div class="flex items-center gap-1">
         <span>Show</span>
-        <select class="border-gray-300 py-0.5 rounded text-center" @change="$emit('changePerPage', $event.target.value)">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>
+        <custom-dropdown :withAllOption="false" :options="perPage" @selectedChange="$emit('changePerPage', $event)" />
         <span>entries</span>
     </div>
 </template>
+<script>
+import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
+
+export default {
+    components: {CustomDropdown},
+    data(){
+        return {
+            perPage: [
+                {label: 10, name: 10, selected: true},
+                {label: 25, name: 25, selected: false},
+                {label: 50, name: 50, selected: false},
+                {label: 100, name: 100, selected: false},
+            ],
+        }
+    },
+}
+</script>

@@ -12,7 +12,7 @@
             >
                 <dropdown-option v-if="!options">No options available</dropdown-option>
                 <template v-else>
-                    <dropdown-option @click="select({name:null, label:'All fields'})">All fields</dropdown-option>
+                    <dropdown-option v-if="withAllOption" @click="select({name:null, label:'All fields'})">All fields</dropdown-option>
                     <dropdown-option v-for="option in options" :key="option.name" @click="select(option)">
                         {{ option.label }}
                     </dropdown-option>
@@ -30,6 +30,11 @@ import DropdownOption from "@/Components/CustomDropdown/Components/DropdownOptio
 export default {
     components: {DropdownOption, CaretUp, CaretDown, TransitionContainer},
     props: {
+        withAllOption: {
+            type: Boolean,
+            required: false,
+            default: true,
+        },
         placeholder: {
             type: String,
             required: false,
@@ -55,5 +60,8 @@ export default {
             this.open = false;
         }
     },
+    mounted() {
+        this.selected = this.options.find(option => option.selected);
+    }
 }
 </script>

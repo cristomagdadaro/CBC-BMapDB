@@ -94,7 +94,8 @@ export default class CRCMDatatable
     }
 
     selectAll() {
-        this.selected.push(...this.response['data'].map(item => item.id));
+        //prevent duplicates
+        this.selected = [...new Set([...this.selected, ...this.response['data'].map(item => item.id)])];
     }
 
     deselectAll() {
