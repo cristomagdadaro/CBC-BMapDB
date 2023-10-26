@@ -16,10 +16,10 @@
             </action-container>
         </top-container>
         <filter-container>
-            <per-page @changePerPage="dt.perPageFunc({ per_page: $event })" />
+            <per-page :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
             <selected-count :count="dt.selected.length" />
             <div class="flex gap-2">
-                <search-by :columns="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
+                <search-by :value="dt.request.params.filter" :columns="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
                 <search-filter @searchString="dt.searchFunc({ search: $event })" />
             </div>
         </filter-container>
@@ -27,34 +27,44 @@
             <table id="dtTable" class="w-full">
                 <thead id="dtHeader">
                 <tr class="dtHeaderRow">
-                    <t-h v-for="column in dt.columns" :key="column.id" @click="dt.sortFunc({ sort: column.name })" :order="dt.request.getParam('order')">
-                        {{ column.label }}
-                    </t-h>
-                    <t-h> Actions </t-h>
+                    <t-h
+                        v-for="column in dt.columns"
+                        :sortable="column.sortable"
+                        :key="column.id"
+                        :column="column"
+                        @click="dt.sortFunc({ sort: column.name })"
+                        :order="dt.request.getParam('order')"
+                        :sorted-column="dt.request.getParam('sort')"
+                    />
+                    <t-h
+                        :column="{name:'action', label:'Aciton'}"
+                    />
                 </tr>
                 </thead>
                 <tbody id="dtBody">
-                <processing-row v-if="dt.processing" :colspan="dt.columns.length" />
-                <template v-else>
-                    <tbody-row v-if="dt.response['data'].length && !dt.processing"
-                               v-for="row in dt.response['data']"
-                               @click="dt.addSelected(row.id)"
-                               :isSelected="dt.isSelected(row.id)"
-                    >
-                        <!-- Cell Data -->
-                        <t-d v-for="cell in row" :key="cell">
-                            <input v-if="cell === row.id" :checked="dt.isSelected(row.id)" type="checkbox" :value="cell" />
-                            {{ cell }}
-                        </t-d>
-                        <!-- Cell Actions -->
-                        <t-d>
-                            <button @click="dt.delete(row.id)" class="bg-transparent rounded px-2 h-full hover:text-red-500 active:text-red-800 duration-200">
-                                <delete-icon class="h-auto w-5" />
-                            </button>
-                        </t-d>
-                    </tbody-row>
-                    <not-found-row v-else :colspan="dt.columns.length" />
-                </template>
+                    <template v-if="dt.processing">
+                        <processing-row :colspan="dt.columns.length" />
+                    </template>
+                    <template v-else>
+                        <tbody-row v-if="dt.response['data'].length && !dt.processing"
+                                   v-for="row in dt.response['data']"
+                                   @click="dt.addSelected(row.id)"
+                                   :isSelected="dt.isSelected(row.id)"
+                        >
+                            <!-- Cell Data -->
+                            <t-d v-for="cell in row" :key="cell">
+                                <input v-if="cell === row.id" :checked="dt.isSelected(row.id)" type="checkbox" :value="cell" />
+                                {{ cell }}
+                            </t-d>
+                            <!-- Cell Actions -->
+                            <t-d>
+                                <button @click="dt.delete(row.id)" class="bg-transparent rounded px-2 h-full hover:text-red-500 active:text-red-800 duration-200">
+                                    <delete-icon class="h-auto w-5" />
+                                </button>
+                            </t-d>
+                        </tbody-row>
+                        <not-found-row v-else :colspan="dt.columns.length" />
+                    </template>
                 </tbody>
             </table>
         </div>
@@ -155,16 +165,4 @@ export default {
     }
 };
 </script>
-
-
-<style>
-.asc::after {
-    content: '▲';
-}
-
-.desc::after {
-    content: '▼';
-}
-</style>
-
 

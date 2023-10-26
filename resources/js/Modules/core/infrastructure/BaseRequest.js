@@ -1,10 +1,10 @@
 export default class BaseRequest{
-    constructor() {
+    constructor(params = {}) {
         this.params = {
-            page: 1,
-            per_page: 10,
-            sort: 'id',
-            order: 'asc',
+            page: params.page ?? 1,
+            per_page: params.per_page ?? 10,
+            sort: params.sort ?? 'id',
+            order: params.order ?? 'asc',
         };
     }
 
@@ -17,6 +17,8 @@ export default class BaseRequest{
             this.removeParam(key);
         else
             this.params[key] = value;
+
+        this.saveParamsLocal();
     }
 
     getParam(key) {
@@ -28,6 +30,21 @@ export default class BaseRequest{
     }
 
     toObject() {
-        return this.params;
+        if (localStorage.getItem('params') !== null)
+            return JSON.parse(localStorage.getItem('params'));
+        else
+            return this.params;
+    }
+
+    saveParamsLocal() {
+        localStorage.setItem('params', JSON.stringify(this.params));
+        console.log(localStorage.getItem('params'));
+    }
+
+    static getParamsLocal() {
+        if (localStorage.getItem('params') !== null)
+            return JSON.parse(localStorage.getItem('params'));
+        else
+            return new BaseRequest().params;
     }
 }
