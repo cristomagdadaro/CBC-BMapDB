@@ -53,8 +53,8 @@
             <per-page :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
             <selected-count :count="dt.selected.length" />
             <div class="flex gap-2">
-                <search-by :value="dt.request.params.filter" :columns="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
-                <search-filter @searchString="dt.searchFunc({ search: $event })" />
+                <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
+                <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
             </div>
         </filter-container>
         <div id="dtTableContainer" class="flex w-full justify-center select-none">
@@ -71,7 +71,7 @@
                         :sorted-column="dt.request.getParam('sort')"
                     />
                     <t-h
-                        :column="{name:'action', label:'Aciton'}"
+                        :column="{name:'action', label:'Action'}"
                     />
                 </tr>
                 </thead>
@@ -151,6 +151,7 @@ import ImportIcon from "@/Components/Icons/ImportIcon.vue";
 import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 import DeselectIcon from "@/Components/Icons/DeselectIcon.vue";
 import selectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
+import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
 </script>
 
 <script>
