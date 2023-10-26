@@ -2,7 +2,9 @@
     <div class="text-sm">
         <div class="flex gap-1 justify-between items-center bg-white rounded px-4 py-1 shadow" @click="toggle">
             <button class="text-gray-600">{{ selected? selected.label : placeholder }}</button>
-            <caret-down :class="open?'rotate-180':'rotate-360'" class="h-4 w-4 duration-300" />
+            <div :class="open?'rotate-180':'rotate-360'" class="h-4 w-4 duration-300">
+                <slot name="icon" />
+            </div>
         </div>
         <div v-show="open" class="fixed inset-0 z-48" @click="open = false" />
         <transition-container>
