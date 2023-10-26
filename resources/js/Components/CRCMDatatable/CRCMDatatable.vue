@@ -5,14 +5,48 @@
     <div id="dtContainer" class="flex flex-col gap-1 bg-gray-200 px-2" v-if="dt instanceof CRCMDatatable && dt.response['meta']">
         <top-container>
             <action-container>
-                <top-action-btn>Add</top-action-btn>
-                <top-action-btn>Edit</top-action-btn>
-                <top-action-btn>Delete</top-action-btn>
-                <top-action-btn @click="dt.refresh()">Refresh</top-action-btn>
-                <top-action-btn @click="dt.exportCSV()">Export</top-action-btn>
-                <top-action-btn @click="dt.importCSV()">Import</top-action-btn>
-                <top-action-btn @click="dt.selectAll()">Select All</top-action-btn>
-                <top-action-btn @click="dt.deselectAll()">Deselect All</top-action-btn>
+                <top-action-btn class="bg-add">
+                    <add-icon class="h-auto w-4" />
+                    Add
+                </top-action-btn>
+                <top-action-btn
+                    v-if="data.length"
+                    class="bg-edit">
+                    <edit-icon class="h-auto w-4" />
+                    Edit
+                </top-action-btn>
+                <top-action-btn
+                    v-if="data.length"
+                    class="bg-delete">
+                    <delete-icon class="h-auto w-4" />
+                    Delete
+                </top-action-btn>
+                <top-action-btn class="bg-refresh" @click="dt.refresh()">
+                    <refresh-icon class="h-auto w-4" :class="dt.processing?'animate-spin':'animate-none'" />
+                    Refresh
+                </top-action-btn>
+                <top-action-btn v-if="data.length" class="bg-select" @click="dt.selectAll()">
+                    <checkall-icon class="h-auto w-4" />
+                    Select All
+                </top-action-btn>
+                <top-action-btn
+                    v-if="selected.length && data.length"
+                    class="bg-deselect"
+                    @click="dt.deselectAll()">
+                    <deselect-icon class="h-auto w-4" />
+                    Deselect All
+                </top-action-btn>
+                <top-action-btn
+                    v-if="data.length"
+                    class="bg-export"
+                    @click="dt.exportCSV()">
+                    <export-icon class="h-auto w-4" />
+                    Export
+                </top-action-btn>
+                <top-action-btn class="bg-import" @click="dt.importCSV()">
+                    <import-icon class="h-auto w-4" />
+                    Import
+                </top-action-btn>
             </action-container>
         </top-container>
         <filter-container>
@@ -46,7 +80,7 @@
                         <processing-row :colspan="dt.columns.length" />
                     </template>
                     <template v-else>
-                        <tbody-row v-if="dt.response['data'].length && !dt.processing"
+                        <tbody-row v-if="data.length && !dt.processing"
                                    v-for="row in dt.response['data']"
                                    @click="dt.addSelected(row.id)"
                                    :isSelected="dt.isSelected(row.id)"
@@ -109,6 +143,14 @@ import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import SelectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
 import DeleteIcon from "@/Components/Icons/DeleteIcon.vue";
 import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
+import AddIcon from "@/Components/Icons/AddIcon.vue";
+import RefreshIcon from "@/Components/Icons/RefreshIcon.vue";
+import EditIcon from "@/Components/Icons/EditIcon.vue";
+import ExportIcon from "@/Components/Icons/ExportIcon.vue";
+import ImportIcon from "@/Components/Icons/ImportIcon.vue";
+import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
+import DeselectIcon from "@/Components/Icons/DeselectIcon.vue";
+import selectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
 </script>
 
 <script>
@@ -134,6 +176,12 @@ export default {
         }
     },
     computed: {
+        data() {
+            return this.dt.response['data'];
+        },
+        selected(){
+            return this.dt.selected;
+        },
         current_page() {
             return this.dt.response['meta']['current_page'];
         },

@@ -19,6 +19,8 @@
         "vue": "^3.2.31"
     },
     "dependencies": {
+        "bootstrap": "^5.3.2",
+        "bootstrap-icons": "^1.11.1",
         "leaflet": "^1.9.4"
     }
 }
