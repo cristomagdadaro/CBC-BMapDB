@@ -15,7 +15,7 @@
                 <dropdown-option v-if="!options">No options available</dropdown-option>
                 <template v-else>
                     <dropdown-option v-if="withAllOption" @click="select({name:null, label:'All fields'})">All fields</dropdown-option>
-                    <dropdown-option v-for="option in options" :key="option.name" @click="select(option)" :selected="!!selected && selected.name === option.name">
+                    <dropdown-option v-for="option in options" :key="option.name" @click="select(option)" :selected="option.name === value">
                         {{ option.label }}
                     </dropdown-option>
                 </template>
@@ -45,6 +45,10 @@ export default {
             type: Object,
             required: false,
         },
+        value: {
+            type: String,
+            required: false,
+        },
     },
     data(){
         return {
@@ -60,10 +64,15 @@ export default {
             this.selected = option;
             this.$emit('selectedChange', this.selected.name);
             this.open = false;
-        }
+        },
+        // select the option with value is given
+        selectByValue(value){
+            this.selected = this.options.find(option => option.name === value);
+        },
     },
     mounted() {
         this.selected = this.options.find(option => option.selected);
+        this.selectByValue(this.value);
     }
 }
 </script>

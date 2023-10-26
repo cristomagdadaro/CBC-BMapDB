@@ -6,10 +6,11 @@ export default class BaseRequest{
             sort: params.sort ?? 'id',
             order: params.order ?? 'asc',
         };
-    }
 
-    addParam(key, value) {
-        this.params[key] = value;
+        // optional parameters
+        this.updateParam('search', params.search ?? null);
+        this.updateParam('filter', params.filter ?? null);
+        this.updateParam('is_exact', params.is_exact ?? null);
     }
 
     updateParam(key, value) {

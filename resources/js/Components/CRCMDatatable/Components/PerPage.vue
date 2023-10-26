@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center gap-1">
         <span>Show</span>
-        <custom-dropdown :withAllOption="false" :options="perPage" @selectedChange="$emit('changePerPage', $event)">
+        <custom-dropdown :value="value" :withAllOption="false" :options="perPage" @selectedChange="$emit('changePerPage', $event)">
             <template #icon>
                 <caret-down  class="h-4 w-4" />
             </template>
@@ -15,6 +15,12 @@ import CaretDown from "@/Components/Icons/CaretDown.vue";
 
 export default {
     components: {CaretDown, CustomDropdown},
+    props: {
+        value: {
+            type: String,
+            required: false,
+        },
+    },
     data(){
         return {
             perPage: [

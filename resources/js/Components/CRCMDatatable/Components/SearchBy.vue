@@ -4,10 +4,10 @@
             <span class="flex gap-0.5">Filter by</span>
             <div class="flex items-center gap-0.5">
                 <label for="exactValue"></label>
-                <input type="checkbox" v-model="is_exact" @change="$emit('isExact', is_exact )" class="rounded-full h-3 w-4 focus:outline-none" title="turn on filter by exact value">
+                <input type="checkbox" v-model="is_exact" @click="toggle()" class="rounded-full h-3 w-4 focus:outline-none" title="turn on filter by exact value">
             </div>
         </span>
-        <custom-dropdown placeholder="Filters" :options="columns" @selectedChange="$emit('searchBy', $event)">
+        <custom-dropdown :value="value" placeholder="Filters" :options="options" @selectedChange="$emit('searchBy', $event)">
             <template #icon>
                 <filter-icon class="h-4 w-4" />
             </template>
@@ -23,16 +23,29 @@
     export default {
         components: {CustomDropdown, FilterIcon, SearchIcon},
         props: {
-            columns: {
+            options: {
                 type: Object,
+                required: false,
+            },
+            isExact: {
+                type: Boolean,
+                required: false,
+            },
+            value: {
+                type: String,
                 required: false,
             },
         },
         data(){
             return {
                 selected: null,
-                is_exact: false,
+                is_exact: this.isExact,
             }
+        },
+        methods: {
+            toggle(){
+                this.$emit('isExact', !this.is_exact )
+            },
         },
     }
 </script>
