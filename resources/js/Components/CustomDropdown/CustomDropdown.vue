@@ -1,6 +1,6 @@
 <template>
-    <div class="relative">
-        <div class="flex gap-1 min-w-[7rem] justify-between items-center bg-white rounded px-4 py-1 shadow" @click="toggle">
+    <div class="text-sm">
+        <div class="flex gap-1 justify-between items-center bg-white rounded px-4 py-1 shadow" @click="toggle">
             <button class="text-gray-600">{{ selected? selected.label : placeholder }}</button>
             <caret-down :class="open?'rotate-180':'rotate-360'" class="h-4 w-4 duration-300" />
         </div>
@@ -13,7 +13,7 @@
                 <dropdown-option v-if="!options">No options available</dropdown-option>
                 <template v-else>
                     <dropdown-option v-if="withAllOption" @click="select({name:null, label:'All fields'})">All fields</dropdown-option>
-                    <dropdown-option v-for="option in options" :key="option.name" @click="select(option)">
+                    <dropdown-option v-for="option in options" :key="option.name" @click="select(option)" :selected="!!selected && selected.name === option.name">
                         {{ option.label }}
                     </dropdown-option>
                 </template>

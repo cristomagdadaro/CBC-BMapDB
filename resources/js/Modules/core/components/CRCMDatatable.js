@@ -8,11 +8,13 @@ export default class CRCMDatatable
     constructor(baseUrl) {
         this.api = new ApiService(baseUrl);
         this.columns = ref([]);
-        this.request = new BaseRequest();
         this.response = ref(new BaseResponse);
         this.processing = ref(false);
         this.selected = ref([]);
         this.model = ref(Object);
+
+        const localParams = BaseRequest.getParamsLocal();
+        this.request = localParams? new BaseRequest(localParams) : new BaseRequest();
     }
 
     async init() {
