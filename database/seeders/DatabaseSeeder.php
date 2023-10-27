@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Breeder;
 use App\Models\TWGExpert;
 use App\Models\TWGProject;
 use App\Models\User;
@@ -104,6 +105,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             ApplicationSeeder::class,
+            BreederSeeder::class,
         ]);
     }
 }
