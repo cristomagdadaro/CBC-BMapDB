@@ -2,7 +2,10 @@
     <div v-if="baseUrl === null || baseUrl === undefined">
         Unable to to retrieve data, please check your base url.
     </div>
-    <div id="dtContainer" class="flex flex-col gap-1 bg-gray-200 px-2" v-if="dt instanceof CRCMDatatable && dt.response['meta']">
+    <div
+        id="dtContainer"
+         v-if="dt instanceof CRCMDatatable && dt.response['meta']"
+         class="flex flex-col gap-1 bg-gray-200 px-2">
         <top-container>
             <action-container>
                 <top-action-btn class="bg-add">
@@ -52,7 +55,7 @@
         <filter-container>
             <per-page :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
             <selected-count :count="dt.selected.length" />
-            <div class="flex gap-2">
+            <div class="flex items-center gap-2">
                 <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
                 <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
             </div>
