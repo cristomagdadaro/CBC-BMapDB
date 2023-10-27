@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\BreederController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,4 +33,15 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+
+    Route::prefix('/api')->group(function() {
+        Route::prefix('/breeders')->group(function () {
+            Route::get('/', [BreederController::class, 'index']);
+            Route::get('/{id}', [BreederController::class, 'show']);
+            Route::post('/', [BreederController::class, 'store']);
+            Route::put('/{id}', [BreederController::class, 'update']);
+            Route::delete('/{id}', [BreederController::class, 'destroy']);
+        });
+    });
 });

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\AccountFor;
+use App\Models\Application;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -9,7 +11,7 @@ use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
@@ -21,10 +23,15 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'fname' => $this->faker->name(),
+            'mname' => $this->faker->lastName(),
+            'lname' => $this->faker->lastName(),
+            'suffix' => $this->faker->randomElement(['','','','Jr.','','Sr.','','','','I','','','II','','','III','','','','','IV']),
             'email' => $this->faker->unique()->safeEmail(),
+            'mobile_no' => $this->faker->phoneNumber(),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'role' => 1,
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
@@ -65,4 +72,5 @@ class UserFactory extends Factory
             'ownedTeams'
         );
     }
+
 }
