@@ -19,50 +19,31 @@ class BreederController extends Controller
         $this->breederRepository = $breederRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(GetBreederRequest $request)
     {
         $data = $this->breederRepository->search(new Collection($request->validated()));
         return new BreederCollection($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CreateBreederRequest $request)
     {
-        $breeder = $this->breederRepository->create((array)$request->collect());
-        return $breeder;
+        return $this->breederRepository->create((array)$request->validated());
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        $breeder = $this->breederRepository->find($id);
-        return $breeder;
+        return $this->breederRepository->find($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateBreederRequest $request, $id)
     {
         $breeder = $this->breederRepository->find($id);
-        $breeder->update((array)$request->validated());
-        return $breeder;
+        return $this->breederRepository->update($breeder,(array)$request->validated());
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $breeder = $this->breederRepository->find($id);
-        $breeder->delete();
-        return $breeder;
+        return $this->breederRepository->delete($breeder);
     }
 }

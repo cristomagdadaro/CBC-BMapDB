@@ -13,14 +13,19 @@ class ErrorRepository
 
     public function getErrorMessage()
     {
-        return $this->findErrorCode($this->exception->getCode());
+        return $this->findErrorCodeMessage($this->exception->getCode());
     }
 
-    private function findErrorCode($code)
+    private function findErrorCodeMessage($code)
     {
         $codes = config('error_codes');
 
         return $codes[$code] ?? 'Unknown error';
+    }
+
+    public function getErrorCode()
+    {
+        return $this->exception->getCode();
     }
 
 }

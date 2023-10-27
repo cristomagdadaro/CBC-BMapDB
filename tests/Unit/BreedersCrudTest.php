@@ -83,6 +83,8 @@ class BreedersCrudTest extends TestCase
         $response = $this->deleteJson('/api/breeders/1');
         $response->assertStatus(200);
 
+        print_r($response->json());
+
         $this->assertDatabaseMissing('breeders', [
             'id' => 1,
         ]);
@@ -109,7 +111,14 @@ class BreedersCrudTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-
+        $this->assertDatabaseHas('breeders', [
+            'id' => 1,
+            'name' => 'Test Breeder',
+            'agency' => 'Test Agency',
+            'address' => 'Test Address',
+            'phone' => 'Test Phone',
+            'email' => 'update_email@gmail.com',
+            ]);
     }
 
     /** @test **/
