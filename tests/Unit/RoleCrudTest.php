@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Role;
 use Tests\TestCase;
 
 class RoleCrudTest extends TestCase
@@ -43,8 +44,6 @@ class RoleCrudTest extends TestCase
             'label' => 'Test',
             'value' => 'test',
         ]);
-
-        print_r($response->getContent());
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('roles', [

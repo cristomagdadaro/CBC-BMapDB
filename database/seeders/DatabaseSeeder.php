@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             RolesSeeder::class,
             PermissionSeeder::class,
             ApplicationSeeder::class,
-            AccountForSeeder::class,
+            AccountsSeeder::class,
             BreederSeeder::class,
         ]);
     }

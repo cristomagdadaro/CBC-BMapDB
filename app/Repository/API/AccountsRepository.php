@@ -2,11 +2,11 @@
 
 namespace App\Repository\API;
 
-use App\Models\AccountFor;
+use App\Models\Accounts;
 use App\Repository\BaseRepository;
 use Illuminate\Support\Collection;
 
-class AccountForRepository extends BaseRepository
+class AccountsRepository extends BaseRepository
 {
     protected array $searchable = [
         'user_id',
@@ -14,7 +14,7 @@ class AccountForRepository extends BaseRepository
         'account_id',
     ];
 
-    public function __construct(AccountFor $model)
+    public function __construct(Accounts $model)
     {
         parent::__construct($model);
     }

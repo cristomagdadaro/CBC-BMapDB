@@ -21,7 +21,7 @@ class BreedersCrudTest extends TestCase
         $response = $this->getJson('/api/breeders');
         $response->assertStatus(200);
 
-        $this->assertDatabaseCount('breeders', 15);
+        $this->assertEquals(15, $response['meta']['total']);
     }
 
     /** @test **/
@@ -31,11 +31,7 @@ class BreedersCrudTest extends TestCase
         $response = $this->getJson('/api/breeders/2');
         $response->assertStatus(200);
 
-        $this->assertArrayHasKey('id', $response->json());
-        $this->assertEquals(2, $response->json()['id']);
-        $this->assertDatabaseHas('breeders', [
-            'id' => 2,
-        ]);
+        $this->assertEquals(2, $response->collect()['id']);
     }
 
     /** @test **/
@@ -43,6 +39,7 @@ class BreedersCrudTest extends TestCase
     {
         $this->userSetup();
         $response = $this->getJson('/api/breeders/999');
+
         $response->assertStatus(404);
     }
 

@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class AccountFor extends Model
+class Accounts extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'account_for';
+    protected $table = 'accounts';
 
     protected $fillable = [
         'user_id',

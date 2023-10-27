@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\AccountFor;
+use App\Models\Accounts;
 use App\Models\Application;
 use App\Models\Team;
 use App\Models\User;
