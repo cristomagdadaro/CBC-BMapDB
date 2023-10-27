@@ -39,7 +39,6 @@ export default class BaseRequest{
 
     saveParamsLocal() {
         localStorage.setItem('params', JSON.stringify(this.params));
-        console.log(localStorage.getItem('params'));
     }
 
     static getParamsLocal() {

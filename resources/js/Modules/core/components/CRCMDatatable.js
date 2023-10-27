@@ -157,6 +157,8 @@ export default class CRCMDatatable
     async delete(id) {
         await this.api.delete(id);
         await this.refresh();
+
+        this.selected = this.selected.filter(item => item !== id);
     }
 
     getColumnsFromResponse(response) {

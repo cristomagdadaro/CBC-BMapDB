@@ -32,11 +32,15 @@ class BaseRepository
         return $model;
     }
 
-    public function update(Model $model, array $data): Model
+    public function update(Model $model, array $data): Model | \Exception
     {
-        $model->fill($data);
-        $model->save();
-        return $model;
+        try {
+            $model->fill($data);
+            $model->save();
+            return $model;
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 
     public function delete(Model $model): bool | \Exception

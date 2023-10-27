@@ -83,9 +83,14 @@ Route::middleware(['auth:sanctum'])->group(function (){
     Route::get('/roles', [RolesController::class, 'index'])->name('api.roles.index');
     Route::delete('/roles', [RolesController::class, 'destroy'])->name('api.roles.destroy');
 
-    Route::apiResource('/permissions', PermissionController::class);
-    Route::get('/permissions', [PermissionController::class, 'index'])->name('api.permissions.index');
-    Route::delete('/permissions', [PermissionController::class, 'destroy'])->name('api.permissions.destroy');
+
+    Route::prefix('/permissions')->group(function (){
+        Route::get('/', [PermissionController::class, 'index'])->name('api.permissions.index');
+        Route::post('/', [PermissionController::class, 'store'])->name('api.permissions.store');
+        Route::get('/{id}', [PermissionController::class, 'show'])->name('api.permissions.show');
+        Route::put('/{id}', [PermissionController::class, 'update'])->name('api.permissions.update');
+        Route::delete('/{id}', [PermissionController::class, 'destroy'])->name('api.permissions.destroy');
+    });
 
 
     Route::apiResource('/applications', ApplicationController::class);
