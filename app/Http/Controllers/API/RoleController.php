@@ -9,49 +9,42 @@ use App\Http\Requests\DeleteRoleRequest;
 use App\Http\Requests\GetRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleCollection;
+use App\Models\Role;
 use App\Repository\API\RoleRepository;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class RoleController extends BaseController
 {
-
-    protected RoleRepository $roleRepository;
-
-    public function __construct(RoleRepository $roleRepository)
+    public function __construct(RoleRepository $repository)
     {
-        $this->roleRepository = $roleRepository;
+        $this->repository = $repository;
     }
 
-    public function index(GetRoleRequest $request)
+    public function index(GetRoleRequest $request): RoleCollection
     {
-        $data = $this->roleRepository->search($request->collect());
+        $data = $this->repository->search($request->collect());
         return new RoleCollection($data);
     }
 
     public function show($id)
     {
-        $role = $this->roleRepository->find($id);
-        return response()->json($role, 200);
+        return  $this->repository->find($id);
     }
 
     public function store(CreateRoleRequest $request)
     {
-        return $this->roleRepository->create((array)$request->validated());
+        return $this->repository->create($request->validated());
     }
 
     public function update(UpdateRoleRequest $request, $id)
     {
-        $data = $this->roleRepository->find($id);
-        return $this->roleRepository->update($data, $request->validated());
+        return $this->repository->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        $role = $this->roleRepository->find($id);
-        $response = $this->roleRepository->delete($role);
-
-        if ($response instanceof \Exception) {
-            return $this->sendError($response);
-        }
-        return $this->sendReponse('Role deleted successfully.', $role);
+        return $this->repository->delete($id);
     }
 }

@@ -21,35 +21,19 @@ class BaseRepository
         return $this->model->all();
     }
 
-    public function create(array $data): Model
+    public function create(array $data): bool
     {
-        return $this->model->newInstance($data);
+        return $this->model->save($data);
     }
 
-    public function save(Model $model): Model
+    public function update($id, array $data): bool
     {
-        $model->save();
-        return $model;
+        return $this->find($id)->update($data);
     }
 
-    public function update(Model $model, array $data): Model | \Exception
+    public function delete($id): bool
     {
-        try {
-            $model->fill($data);
-            $model->save();
-            return $model;
-        } catch (\Exception $e) {
-            return $e;
-        }
-    }
-
-    public function delete(Model $model): bool | \Exception
-    {
-        try {
-            return $model->delete();
-        } catch (\Exception $e) {
-            return $e;
-        }
+        return $this->find($id)->delete();
     }
 
     public function find(int $id): Model

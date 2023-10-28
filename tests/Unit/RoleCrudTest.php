@@ -13,7 +13,7 @@ class RoleCrudTest extends TestCase
         $response = $this->getJson('/api/roles');
 
         $response->assertStatus(200);
-        $this->assertDatabaseCount('roles', 3);
+        $this->assertEquals(3, $response['meta']['total']);
     }
 
     /** @test **/
@@ -22,11 +22,7 @@ class RoleCrudTest extends TestCase
         $response = $this->getJson('/api/roles/2');
 
         $response->assertStatus(200);
-        $this->assertArrayHasKey('id', $response->json());
-        $this->assertEquals(2, $response->json()['id']);
-        $this->assertDatabaseHas('roles', [
-            'id' => 2,
-        ]);
+        $this->assertDatabaseHas('roles', $response->collect()->toArray());
     }
 
     /** @test **/
@@ -45,7 +41,7 @@ class RoleCrudTest extends TestCase
             'value' => 'test',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('roles', [
             'label' => 'Test',
             'value' => 'test',

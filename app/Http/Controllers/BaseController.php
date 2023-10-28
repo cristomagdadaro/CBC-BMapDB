@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Repository\BaseRepository;
+use Faker\Provider\Base;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Repository\ErrorRepository;
+use Illuminate\Support\Collection;
 
-class BaseController extends Controller
+abstract class BaseController extends Controller
 {
-    public function sendReponse($message, $data = null)
+    protected $repository;
+
+    public function sendResponse($message, $data = null)
     {
         $response = [
             'success' => true,
@@ -15,7 +21,7 @@ class BaseController extends Controller
             'message' => $message,
         ];
 
-        return $response()->json($response, 200);
+        return $response;
     }
 
     public function sendError(\Exception $error)

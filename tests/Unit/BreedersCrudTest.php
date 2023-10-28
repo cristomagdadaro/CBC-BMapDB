@@ -3,17 +3,10 @@
 namespace Tests\Unit;
 
 use App\Models\Breeder;
-use App\Models\User;
 use Tests\TestCase;
 
 class BreedersCrudTest extends TestCase
 {
-    protected function userSetup(): void
-    {
-        $user = User::factory()->create();
-        $this->actingAs($user);
-    }
-
     /** @test **/
     public function get_all_breeders(): void
     {
@@ -29,9 +22,9 @@ class BreedersCrudTest extends TestCase
     {
         $this->userSetup();
         $response = $this->getJson('/api/breeders/2');
-        $response->assertStatus(200);
 
-        $this->assertEquals(2, $response->collect()['id']);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('breeders', $response->collect()->toArray());
     }
 
     /** @test **/
@@ -55,7 +48,14 @@ class BreedersCrudTest extends TestCase
             'email' => 'test@gmail.com',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('breeders', [
+            'name' => 'Test Breeder',
+            'agency' => 'Test Agency',
+            'address' => 'Test Address',
+            'phone' => 'Test Phone',
+            'email' => 'test@gmail.com',
+        ]);
     }
 
     /** @test **/

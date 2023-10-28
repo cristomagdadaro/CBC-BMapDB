@@ -27,37 +27,26 @@ class PermissionController extends Controller
         return new PermissionCollection($data);
     }
 
-    public function show(GetPermissionRequest $request)
+    public function show($id)
     {
-        $permission = $this->permissionRepository->find($request->validated()['id']);
-        return new PermissionCollection($permission);
+        return $this->permissionRepository->find($id);
     }
 
     public function store(CreatePermissionRequest $request)
     {
         $permission = $this->permissionRepository->create($request->validated());
-        return new PermissionCollection($permission);
+        return $this->permissionRepository->save($permission);
     }
 
-    public function update(UpdatePermissionRequest $request)
+    public function update(UpdatePermissionRequest $request, $id)
     {
-        $permission = $this->permissionRepository->find($request->validated()['id']);
-        $response = $this->permissionRepository->update($permission, $request->validated());
-
-        if ($response instanceof \Exception)
-            return response()->json(['message' => (new ErrorRepository($response))->getErrorMessage()], 200);
-
-        return new PermissionCollection($response);
+        $permission = $this->permissionRepository->find($id);
+        return $this->permissionRepository->update($permission, $request->validated());
     }
 
-    public function destroy(DeletePermissionRequest $request)
+    public function destroy($id)
     {
-        $permission = $this->permissionRepository->find($request->validated()['id']);
-        $response = $this->permissionRepository->delete($permission);
-
-        if ($response instanceof \Exception)
-            return response()->json(['message' => (new ErrorRepository($response))->getErrorMessage()], 200);
-
-        return response()->json(['message' => 'Permission deleted'], 200);
+        $permission = $this->permissionRepository->find($id);
+        return $this->permissionRepository->delete($permission);
     }
 }

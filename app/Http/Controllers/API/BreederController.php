@@ -27,7 +27,8 @@ class BreederController extends Controller
 
     public function store(CreateBreederRequest $request)
     {
-        return $this->breederRepository->create((array)$request->validated());
+        $breeder = $this->breederRepository->create($request->validated());
+        return $this->breederRepository->save($breeder);
     }
 
     public function show($id)

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BreederController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\RoleController;
@@ -21,6 +22,19 @@ use Inertia\Inertia;
 |
 */
 
+Route::prefix('/api/auth')->group(function () {
+    Route::controller(AuthController::class)->group(function () {
+        Route::post('register', 'register')->name('register');
+        Route::post('login', 'login')->name('login');
+
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('logout', 'logout');
+            Route::get('user', 'user');
+        });
+    });
+});
+
+
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -29,6 +43,8 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+
 
 Route::middleware([
     'auth:sanctum',
@@ -40,7 +56,7 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::prefix('/api')->group(function() {
+Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
 
     Route::prefix('/breeders')->group(function () {
         Route::get('/', [BreederController::class, 'index']);

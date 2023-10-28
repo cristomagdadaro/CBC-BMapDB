@@ -3,57 +3,48 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Requests\CreateApplicationRequest;
 use App\Http\Requests\GetApplicationRequest;
+use App\Http\Requests\UpdateApplicationRequest;
 use App\Http\Resources\ApplicationCollection;
 use App\Models\Application;
+use App\Repository\API\ApplicationRepository;
 use Illuminate\Http\Request;
 
 class ApplicationController extends BaseController
 {
-    /**
-     * List of all applications a user has access to.
-     * @var Application
-     */
-    protected $applications;
 
-    /**
-     * Create a new controller instance.
-     */
-    public function __construct(Request $request)
+    public function __construct(ApplicationRepository $applicationRepository)
     {
-
+        $this->repository = $applicationRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(GetApplicationRequest $request)
     {
-        return new ApplicationCollection(Application::select()->get());
+        $data = $this->repository->search($request->collect());
+        return new ApplicationCollection($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function show($id)
     {
-        //
+        return $this->repository->find($id);
     }
 
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Application $application)
+    public function store(CreateApplicationRequest $request)
     {
-        //
+        $application = $this->repository->create($request->validated());
+        return $this->repository->save($application);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Application $application)
+    public function update(UpdateApplicationRequest $request, $id)
     {
-        //
+        $application = $this->repository->find($id);
+        return $this->repository->update($application, $request->validated());
+    }
+
+    public function destroy($id)
+    {
+        $application = $this->repository->find($id);
+        return $this->repository->delete($application);
     }
 }
