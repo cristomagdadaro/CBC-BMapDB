@@ -7,6 +7,8 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\EmailRegisterRequest;
 use App\Http\Resources\UserLoginResource;*/
 
+use App\Http\Requests\CreateApiUserRequest;
+use App\Http\Requests\LoginApiUserRequest;
 use App\Http\Resources\UserLoginResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,7 +21,7 @@ class AuthController extends BaseController
     /**
      * User Registration endpoint
      */
-    public function register(Request $request)
+    public function register(CreateApiUserRequest $request)
     {
         // login user
         $input = $request->all();
@@ -32,7 +34,7 @@ class AuthController extends BaseController
     /**
      * Login
      */
-    public function login(Request $request)
+    public function login(LoginApiUserRequest $request)
     {
         $logged_in = Auth::attempt($request->only('email', 'password'));
 

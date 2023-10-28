@@ -22,19 +22,6 @@ use Inertia\Inertia;
 |
 */
 
-Route::prefix('/api/auth')->group(function () {
-    Route::controller(AuthController::class)->group(function () {
-        Route::post('register', 'register')->name('register');
-        Route::post('login', 'login')->name('login');
-
-        Route::middleware('auth:sanctum')->group(function () {
-            Route::post('logout', 'logout');
-            Route::get('user', 'user');
-        });
-    });
-});
-
-
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
