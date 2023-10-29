@@ -15,41 +15,35 @@ use Illuminate\Support\Facades\Request;
 
 class AccountController extends BaseController
 {
-    protected AccountsRepository $accountRepository;
 
     public function __construct(AccountsRepository $accountRepository)
     {
-        $this->accountRepository = $accountRepository;
+        $this->repository = $accountRepository;
     }
 
     public function index(GetAccountForRequest $request)
     {
-        $data = $this->accountRepository->search($request->collect());
+        $data = $this->repository->search($request->collect());
         return new AccountsCollection($data);
     }
 
     public function show($id)
     {
-        return $this->accountRepository->find($id);
+        return $this->repository->find($id);
     }
 
-    public function store(CreateAccountRequest $request, $user_id)
+    public function store(CreateAccountRequest $request)
     {
-        $request->validated()->merge(['user_id' => $user_id]);
-
-        $accountFor = $this->accountRepository->create($request->validated());
-        return $this->accountRepository->save($accountFor);
+        return $this->repository->create($request->validated());
     }
 
     public function update(UpdateAccountRequest $request, $id)
     {
-        $accountFor = $this->accountRepository->find($id);
-        return $this->accountRepository->update($accountFor, $request->validated());
+        return $this->repository->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        $accountFor = $this->accountRepository->find($id);
-        return $this->accountRepository->delete($accountFor);
+        return $this->repository->delete($id);
     }
 }

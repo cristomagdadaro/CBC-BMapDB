@@ -32,19 +32,16 @@ class ApplicationController extends BaseController
 
     public function store(CreateApplicationRequest $request)
     {
-        $application = $this->repository->create($request->validated());
-        return $this->repository->save($application);
+        return $this->repository->create($request->validated());
     }
 
     public function update(UpdateApplicationRequest $request, $id)
     {
-        $application = $this->repository->find($id);
-        return $this->repository->update($application, $request->validated());
+        return $this->repository->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        $application = $this->repository->find($id);
-        return $this->repository->delete($application);
+        return $this->repository->delete($id);
     }
 }

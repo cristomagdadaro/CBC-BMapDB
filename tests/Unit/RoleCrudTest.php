@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\Role;
 use Tests\TestCase;
 
 class RoleCrudTest extends TestCase
@@ -12,7 +11,7 @@ class RoleCrudTest extends TestCase
     {
         $response = $this->getJson('/api/roles');
 
-        $response->assertStatus(200);
+        $response->assertOk();
         $this->assertEquals(3, $response['meta']['total']);
     }
 
@@ -21,7 +20,7 @@ class RoleCrudTest extends TestCase
     {
         $response = $this->getJson('/api/roles/2');
 
-        $response->assertStatus(200);
+        $response->assertOk();
         $this->assertDatabaseHas('roles', $response->collect()->toArray());
     }
 
@@ -65,7 +64,7 @@ class RoleCrudTest extends TestCase
     {
         $response = $this->deleteJson('/api/roles/2');
 
-        $response->assertStatus(500);
+        $response->assertServerError();
         $this->assertDatabaseHas('roles', [
             'id' => 2,
         ]);
@@ -79,7 +78,7 @@ class RoleCrudTest extends TestCase
             'value' => 'updated test',
         ]);
 
-        $response->assertStatus(200);
+        $response->assertOk();
         $this->assertDatabaseHas('roles', [
             'label' => 'Update Test',
             'value' => 'updated test',

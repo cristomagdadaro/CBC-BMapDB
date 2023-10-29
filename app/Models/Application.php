@@ -18,4 +18,10 @@ class Application extends Model
         'url',
         'icon',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }

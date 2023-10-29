@@ -12,39 +12,35 @@ use Illuminate\Support\Collection;
 
 class BreederController extends Controller
 {
-    protected BreederRepository $breederRepository;
 
     public function __construct(BreederRepository $breederRepository)
     {
-        $this->breederRepository = $breederRepository;
+        $this->repository = $breederRepository;
     }
 
     public function index(GetBreederRequest $request)
     {
-        $data = $this->breederRepository->search(new Collection($request->validated()));
+        $data = $this->repository->search(new Collection($request->validated()));
         return new BreederCollection($data);
     }
 
     public function store(CreateBreederRequest $request)
     {
-        $breeder = $this->breederRepository->create($request->validated());
-        return $this->breederRepository->save($breeder);
+        return $this->repository->create($request->validated());
     }
 
     public function show($id)
     {
-        return $this->breederRepository->find($id);
+        return $this->repository->find($id);
     }
 
     public function update(UpdateBreederRequest $request, $id)
     {
-        $breeder = $this->breederRepository->find($id);
-        return $this->breederRepository->update($breeder,(array)$request->validated());
+        return $this->repository->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        $breeder = $this->breederRepository->find($id);
-        return $this->breederRepository->delete($breeder);
+        return $this->repository->delete($id);
     }
 }

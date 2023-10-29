@@ -80,8 +80,6 @@ class BreedersCrudTest extends TestCase
         $response = $this->deleteJson('/api/breeders/1');
         $response->assertStatus(200);
 
-        print_r($response->json());
-
         $this->assertDatabaseMissing('breeders', [
             'id' => 1,
         ]);

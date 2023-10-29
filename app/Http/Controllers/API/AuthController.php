@@ -3,10 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
-/*use App\Http\Requests\EmailLoginRequest;
-use App\Http\Requests\EmailRegisterRequest;
-use App\Http\Resources\UserLoginResource;*/
-
 use App\Http\Requests\CreateApiUserRequest;
 use App\Http\Requests\LoginApiUserRequest;
 use App\Http\Resources\UserLoginResource;

@@ -11,7 +11,7 @@ class PermissionCrudTest extends TestCase
     /** @test **/
     public function get_all_permissions(): void
     {
-        $response = $this->get('/api/permissions');
+        $response = $this->getJson('/api/permissions');
 
         $response->assertStatus(200);
         $response->assertJsonCount(8, 'data');
@@ -20,7 +20,7 @@ class PermissionCrudTest extends TestCase
     /** @test **/
     public function get_permission_by_id(): void
     {
-        $response = $this->get('/api/permissions/1');
+        $response = $this->getJson('/api/permissions/1');
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('permissions', $response->collect()->toArray());
@@ -57,7 +57,7 @@ class PermissionCrudTest extends TestCase
             ]
         );
 
-        $response = $this->put('/api/permissions/'.$permission->id, [
+        $response = $this->putJson('/api/permissions/'.$permission->id, [
 
             'role_id' => '2',
             'label' => 'Updated Sample Permission',

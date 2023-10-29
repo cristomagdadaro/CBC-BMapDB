@@ -35,6 +35,7 @@ class ApiAuthTest extends TestCase
                 'mobile_no' => '09123456789',
                 'email' => 'sampleapi@cbc.philrice.gov.ph',
                 'password' => 'password',
+                'password_confirmation' => 'password',
             ]);
         $response->assertStatus(200);
     }

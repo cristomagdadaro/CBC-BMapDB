@@ -22,9 +22,9 @@ class CreateApplicationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:applications',
             'description' => 'required|string|max:255',
-            'url' => 'required|string|max:255',
+            'url' => 'required|string|max:255|unique:applications',
             'icon' => 'required|string|max:255',
         ];
     }
