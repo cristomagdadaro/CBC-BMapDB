@@ -39,4 +39,17 @@ class ApiAuthTest extends TestCase
             ]);
         $response->assertStatus(200);
     }
+
+    /** @test **/
+    public function cant_logged_in(): void
+    {
+        $response = $this->post('/api/auth/login',
+            [
+                'email' => 'sample@gmail.com',
+                'password' => 'password',
+            ]);
+
+        $response->assertStatus(403);
+
+    }
 }

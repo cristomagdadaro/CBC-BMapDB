@@ -52,7 +52,7 @@ class AuthController extends BaseController
             return $this->sendResponse('User logged in successfully.', new UserLoginResource($user));
         }
 
-        return $this->sendError('Unauthorized', Response::HTTP_FORBIDDEN, ['error' => 'Unauthorized']);
+        return $this->sendFail('Unauthorized', Response::HTTP_FORBIDDEN, ['error' => 'Unauthorized']);
     }
 
     /**

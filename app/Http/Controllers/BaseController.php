@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repository\BaseRepository;
 use Faker\Provider\Base;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Repository\ErrorRepository;
 use Illuminate\Support\Collection;
@@ -24,7 +25,19 @@ abstract class BaseController extends Controller
         return $response;
     }
 
-    public function sendError(\Exception $error)
+
+    public function sendFail($message, $error_code, $data = null): JsonResponse
+    {
+        $response = [
+            'success' => false,
+            'data' => $data,
+            'message' => $message,
+        ];
+
+        return response()->json($response, $error_code);
+    }
+
+    public function sendError(\Exception $error): JsonResponse
     {
         $error = new ErrorRepository($error);
         $response = [
