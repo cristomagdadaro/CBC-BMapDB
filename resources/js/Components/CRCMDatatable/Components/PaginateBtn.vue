@@ -1,5 +1,5 @@
 <template>
-  <base-button :classes="classes">
+  <base-button :classes="classes" class="bg-gray-400">
     <slot />
   </base-button>
 </template>

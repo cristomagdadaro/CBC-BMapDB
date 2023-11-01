@@ -7,4 +7,8 @@ export class BaseClass
     getClass() {
         return this.constructor.name;
     }
+
+    static toObject(obj) {
+        return Object.assign({}, obj);
+    }
 }

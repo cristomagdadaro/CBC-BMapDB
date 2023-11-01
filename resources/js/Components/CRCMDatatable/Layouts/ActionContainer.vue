@@ -1,8 +1,6 @@
 <template>
-    <div class="flex items-center justify-center">
-        <div id="dtActionContainer" class="flex-wrap flex sm:justify-center justify-between gap-1">
-            <slot />
-        </div>
+    <div id="dtActionContainer" class="flex-wrap flex w-full gap-1 py-0.5 justify-center">
+        <slot />
     </div>
 </template>
 <script>

@@ -4,9 +4,11 @@ import hamburger from "@/Components/Icons/Hamburger.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import {computed} from "vue";
+import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 
 export default {
     components: {
+        TransitionContainer,
         Link,
         hamburger,
         DropdownLink,
@@ -85,12 +87,21 @@ const classes = computed(() => {
                     />
                 </div>
                 <!-- Link Tabs Section -->
-                <div :class="showMenu ? 'block' : 'hidden'">
-                    <!-- Link Tabs Section -->
-                    <div class="lg:flex block">
-                        <slot name="links"></slot>
+                <transition
+                    enter-active-class="transition ease-out duration-500"
+                    enter-from-class="transform opacity-0 scale-95"
+                    enter-to-class="transform opacity-100 scale-100"
+                    leave-active-class="transition ease-in duration-200"
+                    leave-from-class="transform opacity-100 scale-100"
+                    leave-to-class="transform opacity-0 scale-95"
+                >
+                    <div v-show="showMenu">
+                        <!-- Link Tabs Section -->
+                        <div class="lg:flex block">
+                            <slot name="links"></slot>
+                        </div>
                     </div>
-                </div>
+                </transition>
             </div>
         </div>
     </header>

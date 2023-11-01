@@ -24,17 +24,45 @@ export default class ApiService
         }
     }
 
-    async delete(id)
+    async post(data)
     {
         try {
-            const response = await axios.delete(this.baseUrl,{
-                params: {
-                    id: id
-                }
-            });
+            const response = await axios.post(this.baseUrl, data);
             return new BaseResponse(response.data);
         } catch (error) {
             throw new Error(error);
+        }
+    }
+
+    async put(data)
+    {
+        try {
+            const response = await axios.put(this.baseUrl, data);
+            return new BaseResponse(response.data);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async delete(id)
+    {
+        try {
+            if (id.length > 1){
+                const response = await axios.delete(this.baseUrl + '/delete',
+                    {
+                        params: {
+                            ids: id
+                        }
+                    });
+
+                return new BaseResponse(response.data);
+            }else{
+                const response = await axios.delete(this.baseUrl + '/' + id);
+                return new BaseResponse(response.data);
+            }
+        } catch (error) {
+            console.log(error);
+            //throw new Error(error);
         }
     }
 
@@ -44,3 +72,4 @@ export default class ApiService
         });
     }
 }
+

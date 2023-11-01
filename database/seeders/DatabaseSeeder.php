@@ -26,10 +26,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'sample@cbc.philrice.gov.ph',
         ]);
 
-        User::factory(10)->create();
+        User::factory()->count(10)->create();
 
         \App\Models\TWGExpert::factory()->count(10)->create();
-        \App\Models\TWGProject::factory()->count(20)->create();
+        \App\Models\TWGProject::factory()->count(10)->create();
         \App\Models\TWGProject::factory()->create([
             'twg_expert_id' => 1,
             'title' => 'Transcriptomic Analysis of Healthy and Cadang-cadang-infected Coconut Palms',
@@ -96,6 +96,8 @@ class DatabaseSeeder extends Seeder
             'status' => 'Active',
         ]);
 
-        \App\Models\TWGExpert::factory()->count(10)->create();
+        $this->call([
+            BreederSeeder::class,
+        ]);
     }
 }

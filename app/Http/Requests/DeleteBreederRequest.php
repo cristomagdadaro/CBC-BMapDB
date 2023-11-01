@@ -22,7 +22,8 @@ class DeleteBreederRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|exists:breeders,id',
+            'ids' => 'required|array',
+            'ids.*' => 'required|integer|exists:breeders,id',
         ];
     }
 }

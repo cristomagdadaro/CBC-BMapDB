@@ -33,6 +33,6 @@ class RolesController extends Controller
         if ($response instanceof \Exception)
             return response()->json(['message' => (new ErrorRepository($response))->getErrorMessage()], 500);
 
-        return response()->json(['message' => 'Role deleted'], 200);
+        return response()->json(['message' => 'Permission deleted'], 200);
     }
 }

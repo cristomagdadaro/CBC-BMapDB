@@ -1,5 +1,4 @@
 import {BaseClass} from "@/Modules/core/domain/BaseClass.js";
-
 export default class User extends BaseClass
 {
     constructor(resp)

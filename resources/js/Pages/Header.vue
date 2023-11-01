@@ -4,6 +4,7 @@ import tablink from '@/Components/Header/TabLink.vue';
 import Logo from '@/Components/Icons/Logo.vue';
 import HoverDropdownLink from '@/Components/Header/HoverDropdownLink.vue';
 import HoverDropdownVue from '@/Components/Header/HoverDropdown.vue';
+import { CBCProjects } from "@/Pages/constants.ts";
 
 defineProps({
     canLogin: Boolean,
@@ -18,7 +19,7 @@ const TabLinks = [
     /*{
        name: 'Projects',
        link: '#',
-   },*/
+   },*//*
    {     name: 'Articles',
        link: '#',
    },
@@ -37,7 +38,7 @@ const TabLinks = [
    {
        name: 'About Us',
        link: '#',
-   },
+   },*/
 ];
 </script>
 <template>
@@ -64,11 +65,8 @@ const TabLinks = [
                         Projects
                     </template>
                     <template #content>
-                        <tablink :link="route('twg.database')" class="text-gray-700">
-                            TWG Database
-                        </tablink>
-                        <tablink :link="route('breeders.map')" class="text-gray-700">
-                            Breeder's Map
+                        <tablink v-for="project in CBCProjects" :key="project.id" :link="route(project.value)" class="text-gray-700">
+                            {{ project.label }}
                         </tablink>
                     </template>
                 </tablink>

@@ -2,7 +2,7 @@ export default class BaseRequest{
     constructor(params = {}) {
         this.params = {
             page: params.page ?? 1,
-            per_page: params.per_page ?? 10,
+            per_page: params.per_page ?? '10',
             sort: params.sort ?? 'id',
             order: params.order ?? 'asc',
         };
@@ -31,9 +31,9 @@ export default class BaseRequest{
     }
 
     toObject() {
-        if (localStorage.getItem('params') !== null)
+        /*if (localStorage.getItem('params') !== null)
             return JSON.parse(localStorage.getItem('params'));
-        else
+        else*/
             return this.params;
     }
 
@@ -42,9 +42,9 @@ export default class BaseRequest{
     }
 
     static getParamsLocal() {
-        if (localStorage.getItem('params') !== null)
+        /*if (localStorage.getItem('params') !== null)
             return JSON.parse(localStorage.getItem('params'));
-        else
+        else*/
             return new BaseRequest().params;
     }
 }

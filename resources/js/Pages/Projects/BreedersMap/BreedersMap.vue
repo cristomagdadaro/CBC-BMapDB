@@ -1,5 +1,4 @@
-<script setup>
-import PageLayout from "@/Layouts/PageLayout.vue";
+`<script setup>
 import {Head} from "@inertiajs/vue3";
 import {onMounted} from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
@@ -53,7 +52,7 @@ onMounted(() => {
     <Head title="Breeder's Map" />
     <app-layout>
         <div class="min-h-screen bg-gray-500">
-            <CRCMDatatable :baseUrl="baseUrl" />
+            <CRCMDatatable :baseUrl="baseUrl" :baseModel="baseModel"/>
         </div>
         <div class="w-full sm:p-5 p-0">
             <div class="flex flex-wrap gap-2">
@@ -74,12 +73,15 @@ onMounted(() => {
 </style>
 <script>
 import User from "@/Modules/core/domain/User.js";
+import Role from "@/Modules/core/domain/Role.js";
+import Breeder from "@/Modules/core/domain/Breeder.js";
+import Permission from "@/Modules/core/domain/Permission.js";
 
-import {router} from "@inertiajs/vue3";
 export default {
     data(){
         return {
-            baseUrl: route('api.permissions.index'),
+            baseUrl: route('api.breeders.index'),
+            baseModel: Breeder,
         }
     }
 }

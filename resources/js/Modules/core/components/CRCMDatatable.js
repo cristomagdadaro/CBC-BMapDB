@@ -5,13 +5,14 @@ import {ref} from "vue";
 
 export default class CRCMDatatable
 {
-    constructor(baseUrl) {
+    constructor(baseUrl, model = Object) {
         this.api = new ApiService(baseUrl);
         this.columns = ref([]);
         this.response = ref(new BaseResponse);
         this.processing = ref(false);
         this.selected = ref([]);
-        this.model = ref(Object);
+        this.model = ref(model);
+        this.toDelete = ref([]);
 
         const localParams = BaseRequest.getParamsLocal();
         this.request = localParams? new BaseRequest(localParams) : new BaseRequest();
@@ -73,10 +74,25 @@ export default class CRCMDatatable
     async searchFunc(params) {
         this.request.updateParam('search', params.search);
         await this.refresh();
+        /*if (params.search) {`
+            const mark = (text, search) => {
+                return text.replace(new RegExp(search, 'g'), `*${search}*`);
+            }
+
+            this.response['data'] = this.response['data'].map(item => {
+                Object.keys(item).forEach(key => {
+                    if (typeof item[key] === 'string' || item[key] instanceof String)
+                        item[key] = mark(item[key], params.search);
+                });
+                return item;
+            });
+        }*/
     }
 
     async perPageFunc(params){
         this.request.updateParam('per_page', params.per_page)
+        if (this.response['meta']['last_page'] === this.response['meta']['current_page'])
+            this.request.updateParam('page', parseInt(`${(this.response['meta']['total'] / params.per_page)}`, 10));
         await this.refresh();
     }
 
@@ -154,11 +170,23 @@ export default class CRCMDatatable
         input.click();*/
     }
 
+    async create(data) {
+        await this.api.post(this.model.toObject(data));
+        await this.refresh();
+    }
+
     async delete(id) {
         await this.api.delete(id);
         await this.refresh();
 
         this.selected = this.selected.filter(item => item !== id);
+    }
+
+    async deleteSelected() {
+        await this.api.delete(this.selected);
+        await this.refresh();
+
+        this.selected = [];
     }
 
     getColumnsFromResponse(response) {

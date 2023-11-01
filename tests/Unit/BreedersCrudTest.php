@@ -86,6 +86,21 @@ class BreedersCrudTest extends TestCase
     }
 
     /** @test **/
+    public function delete_multiple_breeder(): void
+    {
+        $this->userSetup();
+        $response = $this->deleteJson(route('api.breeders.destroy.multi'), [
+            'ids' => [3, 4, 5],
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseMissing('breeders', [
+            'id' => [3, 4, 5],
+        ]);
+    }
+
+    /** @test **/
     public function delete_a_breeder_that_does_not_exist(): void
     {
         $this->userSetup();

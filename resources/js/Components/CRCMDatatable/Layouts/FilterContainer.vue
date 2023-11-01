@@ -1,5 +1,5 @@
 <template>
-  <div id="dtFilterContainer" class="flex justify-between items-center gap-5 select-none">
+  <div id="dtFilterContainer" class="grid sm:grid-flow-col-dense grid-flow-row-dense sm:justify-between justify-evenly items-center sm:gap-5 gap-1 select-none">
     <slot />
   </div>
 </template>

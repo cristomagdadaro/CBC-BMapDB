@@ -5,12 +5,8 @@ export default class BaseResponse {
         this.links = response.links;
     }
 
-    static fromResponse(response) {
+    static fromObject(response) {
         return new BaseResponse(response.data, response.meta, response.links);
-    }
-
-    static fromData(data) {
-        return new BaseResponse(data.data, data.meta, data.links);
     }
 
     toObject() {

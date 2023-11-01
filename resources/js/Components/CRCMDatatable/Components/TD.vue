@@ -1,5 +1,5 @@
 <template>
-    <td class="dtBodyCell">
+    <td class="dtBodyCell px-1">
         <slot />
     </td>
 </template>

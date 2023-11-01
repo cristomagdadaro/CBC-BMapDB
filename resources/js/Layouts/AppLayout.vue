@@ -10,6 +10,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Logo from "@/Components/Icons/Logo.vue";
 import FullscreenToggle from "@/Components/FullscreenToggle.vue";
+import { CBCProjects } from "@/Pages/constants.ts";
 
 defineProps({
     title: String,
@@ -45,11 +46,8 @@ const logout = () => {
                         <div class="flex">
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('twg.database')" :active="route().current('twg.database')">
-                                    TWG Database
-                                </NavLink>
-                                <NavLink :href="route('breeders.map')" :active="route().current('breeders.map')">
-                                    Breeders Map
+                                <NavLink v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
+                                    {{ project.label }}
                                 </NavLink>
                             </div>
                         </div>
@@ -125,8 +123,8 @@ const logout = () => {
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('twg.database')" :active="route().current('twg.database')">
-                            TWG Database
+                        <ResponsiveNavLink v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
+                            {{ project.label }}
                         </ResponsiveNavLink>
                     </div>
 

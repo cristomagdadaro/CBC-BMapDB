@@ -1,4 +1,15 @@
-
+export const CBCProjects = [
+    {
+        id: 1,
+        label: 'TWG Database',
+        value: 'projects.twgdb.index',
+    },
+    {
+        id: 2,
+        label: "Breeder's Map",
+        value: 'projects.breedersmap.index',
+    }
+]
 export const EducLevel = [
     {
         id: 1,
@@ -21,11 +32,11 @@ export const EducLevel = [
 export const Projects = [
     {
         id: 1,
-        value: 'twg.database', // router name of the project
+        value: 'projects.twgdb.index', // router name of the project
         label: 'TWG Database',
     },{
         id: 2,
-        value: 'breeders.map',
+        value: 'projects.breedersmap.index',
         label: 'Breeders Map',
     }
 ]
