@@ -95,6 +95,7 @@
                             <toggle-on-icon class="h-auto w-4" v-show="showIconText" />
                         </template>
                     </top-action-btn>
+                    {{dt.closeAllModal}}
                 </action-container>
                 <div class="flex flex-wrap items-center sm:w-fit w-full justify-between gap-2">
                     <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
@@ -103,7 +104,7 @@
             </filter-container>
         </top-container>
         <dialog-form-modal :show="showAddDialog" @close="closeDialog" >
-            <create-breeder-form @submitForm="dt.create($event)" @close="closeDialog" />
+            <create-breeder-form :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
         <dialog-modal :show="showEditDialog" @close="closeDialog">
             <template #title>
@@ -371,6 +372,7 @@ export default {
             this.showEditDialog = false;
             this.showAddDialog = false;
             this.showDeleteSelectedDialog = false;
+            this.dt.closeAllModal = false;
 
             this.toDeleteId = null;
             this.toEditId = null;

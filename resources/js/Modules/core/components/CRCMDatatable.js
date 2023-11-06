@@ -2,18 +2,32 @@ import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
 import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import {ref} from "vue";
+import {ErrorBagResponse} from "@/Modules/core/infrastructure/ErrorBagResponse.js";
 
 export default class CRCMDatatable
 {
     constructor(baseUrl, model = Object) {
+        // api service class instance
         this.api = new ApiService(baseUrl);
+        // array of columns to display
         this.columns = ref([]);
+        // response from the server
         this.response = ref(new BaseResponse);
+        // when true, the datatable will show a loading spinner
         this.processing = ref(false);
+        // array of ids that are currently selected
         this.selected = ref([]);
+        // class model that are current being handled in the CRMDatatable
         this.model = ref(model);
+        // array of ids to delete, can be multiple ids
         this.toDelete = ref([]);
+        // when create or update, the modal will be forced to close after successful request
+        this.closeAllModal = ref(false);
+        // error bag from the server
+        this.errorBag = ref({});
 
+        // retrieve params from local storage, if not found, create a new instance of BaseRequest
+        // so that when the page is refreshed, the datatable will remember the last state
         const localParams = BaseRequest.getParamsLocal();
         this.request = localParams? new BaseRequest(localParams) : new BaseRequest();
     }
@@ -34,6 +48,7 @@ export default class CRCMDatatable
         this.response = await this.api.get(this.request.toObject(), this.model);
         this.getColumnsFromResponse(this.response);
         this.processing = false;
+        this.closeAllModal = true;
     }
 
     async nextPage() {
@@ -171,8 +186,13 @@ export default class CRCMDatatable
     }
 
     async create(data) {
-        await this.api.post(this.model.toObject(data));
+        const response = await this.api.post(this.model.toObject(data));
+        if (response instanceof ErrorBagResponse){
+            this.errorBag = response.toObject();
+            return;
+        }
         await this.refresh();
+        this.errorBag = {};
     }
 
     async delete(id) {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import { BaseClass } from "@/Modules/core/domain/BaseClass.js";
+import {ErrorBagResponse} from "@/Modules/core/infrastructure/ErrorBagResponse.js";
 export default class ApiService
 {
     constructor(url) {
@@ -30,6 +31,8 @@ export default class ApiService
             const response = await axios.post(this.baseUrl, data);
             return new BaseResponse(response.data);
         } catch (error) {
+            if (error.response.status === 422)
+                return new ErrorBagResponse(error.response.data);
             throw new Error(error);
         }
     }

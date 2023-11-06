@@ -1,6 +1,6 @@
 export class BaseClass
 {
-    constructor(resp) {
+    constructor(resp = {}) {
         Object.assign(this, resp);
     }
 

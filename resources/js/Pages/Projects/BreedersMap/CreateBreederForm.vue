@@ -10,11 +10,11 @@
 
             <div class="mt-4 text-sm text-gray-600">
                 <div class="grid grid-cols-2 text-sm text-gray-600 gap-1">
-                    <text-field label="Name" v-model="form.name" />
-                    <text-field label="Phone Number" v-model="form.phone" />
-                    <text-field label="Email" v-model="form.email" />
-                    <text-field label="Agency" v-model="form.agency" />
-                    <text-field label="Address" v-model="form.address" />
+                    <text-field :error="errors['name']" label="Name" v-model="form.name" />
+                    <text-field :error="errors['phone']" label="Phone Number" v-model="form.phone" />
+                    <text-field :error="errors['email']" label="Email" v-model="form.email" />
+                    <text-field :error="errors['agency']" label="Agency" v-model="form.agency" />
+                    <text-field :error="errors['address']" label="Address" v-model="form.address" />
                 </div>
             </div>
         </div>
@@ -36,6 +36,16 @@ export default {
         CloseIcon,
         TextField,
     },
+    props: {
+        errors: {
+            type: Object,
+            default: () => ({})
+        },
+        forceClose: {
+            type: Boolean,
+            default: false
+        }
+    },
     data() {
         return {
             form: {
@@ -47,5 +57,10 @@ export default {
             },
         };
     },
+    watch: {
+        forceClose() {
+            this.$emit('close');
+        }
+    }
 };
 </script>
