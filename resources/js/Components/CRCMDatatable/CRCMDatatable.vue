@@ -15,25 +15,16 @@
                         class="bg-add"
                         title="Add new data">
                         <template #icon>
-                            <add-icon class="h-auto w-4" />
+                            <add-icon class="h-auto sm:w-6 w-4" />
                         </template>
                         <span v-show="showIconText">Add</span>
-                    </top-action-btn>
-                    <top-action-btn
-                        v-if="data.length"
-                        class="bg-edit"
-                        title="Modify existing data">
-                        <template #icon>
-                            <edit-icon class="h-auto w-4" />
-                        </template>
-                        <span v-show="showIconText">Edit</span>
                     </top-action-btn>
                     <top-action-btn
                         class="bg-refresh"
                         @click="dt.refresh()"
                         title="Refresh table">
                         <template #icon>
-                            <refresh-icon class="h-auto w-4" :class="dt.processing?'animate-spin':'animate-none'" />
+                            <refresh-icon class="h-auto sm:w-6 w-4" :class="dt.processing?'animate-spin':'animate-none'" />
                         </template>
                         <span v-show="showIconText">Refresh</span>
                     </top-action-btn>
@@ -43,7 +34,7 @@
                         @click="showDeleteSelectedDialogFunc()"
                         title="Delete all the selected rows">
                         <template #icon>
-                            <delete-icon class="h-auto w-4" />
+                            <delete-icon class="h-auto sm:w-6 w-4" />
                         </template>
                         <span v-show="showIconText">Delete Selected</span>
                     </top-action-btn>
@@ -53,7 +44,7 @@
                         @click="dt.selectAll()"
                         title="Select all loaded rows">
                         <template #icon>
-                            <checkall-icon class="h-auto w-4" />
+                            <checkall-icon class="h-auto sm:w-6 w-4" />
                         </template>
                         <span v-show="showIconText">Select All</span>
                     </top-action-btn>
@@ -63,7 +54,7 @@
                         @click="dt.deselectAll()"
                         title="Deselect selected rows">
                         <template #icon>
-                            <deselect-icon class="h-auto w-4" />
+                            <deselect-icon class="h-auto sm:w-6 w-4" />
                         </template>
                         <span v-show="showIconText">Deselect All</span>
                     </top-action-btn>
@@ -73,7 +64,7 @@
                         @click="dt.exportCSV()"
                         title="Export data into a CSV file">
                         <template #icon>
-                            <export-icon class="h-auto w-4" />
+                            <export-icon class="h-auto sm:w-6 w-4" />
                         </template>
                         <span v-show="showIconText">Export</span>
                     </top-action-btn>
@@ -82,7 +73,7 @@
                         @click="dt.importCSV()"
                         title="Import data from a CSV file">
                         <template #icon>
-                            <import-icon class="h-auto w-4" />
+                            <import-icon class="h-auto sm:w-6 w-4" />
                         </template>
                         <span v-show="showIconText">Import</span>
                     </top-action-btn>
@@ -91,11 +82,10 @@
                         @click="showIconText = !showIconText"
                         title="Toggle icon with text">
                         <template #icon>
-                            <toggle-off-icon class="h-auto w-4" v-show="!showIconText" />
-                            <toggle-on-icon class="h-auto w-4" v-show="showIconText" />
+                            <toggle-off-icon class="h-auto sm:w-6 w-4" v-show="!showIconText" />
+                            <toggle-on-icon class="h-auto sm:w-6 w-4" v-show="showIconText" />
                         </template>
                     </top-action-btn>
-                    {{dt.closeAllModal}}
                 </action-container>
                 <div class="flex flex-wrap items-center sm:w-fit w-full justify-between gap-2">
                     <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
@@ -106,7 +96,7 @@
         <dialog-form-modal :show="showAddDialog" @close="closeDialog" >
             <create-breeder-form :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
-        <dialog-modal :show="showEditDialog" @close="closeDialog">
+        <dialog-modal :show="showEditDialog" @close="closeDialog" :forceClose="dt.closeAllModal">
             <template #title>
                 Update Information
             </template>
@@ -120,7 +110,7 @@
                 <cancel-button @click="closeDialog">Cancel</cancel-button>
             </template>
         </dialog-modal>
-        <dialog-modal :show="showDeleteDialog" @close="closeDialog">
+        <dialog-modal :show="showDeleteDialog" @close="closeDialog" :processing="dt.processing">
             <template #title>
                 Delete
             </template>
@@ -134,7 +124,7 @@
                 <cancel-button @click="closeDialog">Cancel</cancel-button>
             </template>
         </dialog-modal>
-        <dialog-modal :show="showDeleteSelectedDialog" @close="closeDialog">
+        <dialog-modal :show="showDeleteSelectedDialog" @close="closeDialog" :processing="dt.processing">
             <template #title>
                 Delete Multiple Rows
             </template>
@@ -189,26 +179,38 @@
                            :isSelected="dt.isSelected(row.id)"
                         >
                             <!-- Cell No. -->
-                            <t-d class="text-xs text-gray-600 text-center flex items-center gap-0.5"
-                                 @click="dt.addSelected(row.id)">
+                            <t-d class="text-xs text-gray-600 text-center flex items-center gap-0.5">
                                 {{ meta_from + data.indexOf(row) }}
-                                <input :checked="dt.isSelected(row.id)" type="checkbox" class="rounded"/>
+                                <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded"/>
                             </t-d>
                             <!-- Cell Data -->
                             <t-d
-                                class="break-word align-text-top"
-                                @click="dt.addSelected(row.id)"
+                                class="break-word align-text-top items-center"
+                                v-on:dblclick="dt.addSelected(row.id)"
+                                v-on:click.ctrl="dt.addSelected(row.id)"
                                 v-for="cell in row" :key="cell">
                                 {{ cell }}
                             </t-d>
                             <!-- Cell Actions -->
-                            <t-d class="flex justify-center items-center">
-                                <button @click="showDeleteDialogFunc(row.id)" class="bg-transparent rounded px-2 h-full hover:text-red-500 active:text-red-800 duration-200">
-                                    <delete-icon class="h-auto w-5" />
-                                </button>
-                                <button @click="showEditDialogFunc(row.id)" class="text-yellow-500 hover:bg-yellow-200 rounded px-2 h-full hover:text-yellow-700 active:text-yellow-800 duration-200">
-                                    <edit-icon class="h-auto w-5" />
-                                </button>
+                            <t-d class="flex justify-center items-center sm:gap-1 gap-0.5">
+                                <top-action-btn
+                                    @click="showDeleteDialogFunc(row.id)"
+                                    class="bg-delete"
+                                    title="Delete this row">
+                                    <template #icon>
+                                        <delete-icon class="h-auto sm:w-5 w-4" />
+                                    </template>
+                                    <span v-show="showIconText">Delete</span>
+                                </top-action-btn>
+                                <top-action-btn
+                                    @click="showEditDialogFunc(row.id)"
+                                    class="bg-edit"
+                                    title="Modify this row">
+                                    <template #icon>
+                                        <edit-icon class="h-auto sm:w-5 w-4" />
+                                    </template>
+                                    <span v-show="showIconText">Edit</span>
+                                </top-action-btn>
                             </t-d>
                         </tbody-row>
                         <not-found-row v-else :colspan="dt.columns.length" />

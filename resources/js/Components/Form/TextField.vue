@@ -6,7 +6,7 @@ defineProps({
     modelValue: String,
     id: String,
     label: String,
-    error: String,
+    error: Array,
     typeInput: {
         type: String,
         default: 'text',
@@ -34,7 +34,7 @@ defineExpose({ focus: () => input.value.focus() });
     <div class="flex flex-col border-0 p-0">
         <div class="flex justify-between items-center">
             <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
-            <InputError :message="error" />
+            <InputError v-for="msg in error" :message="msg" />
         </div>
         <input v-if="typeInput !== 'longtext'"
         :id="id"

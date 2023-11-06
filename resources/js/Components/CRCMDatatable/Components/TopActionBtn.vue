@@ -1,5 +1,5 @@
 <template>
-  <base-button class="text-gray-200 flex items-center gap-0.5">
+  <base-button class="text-gray-200 flex items-center gap-0.5 sm:h-7 h-6">
     <slot name="icon" />
     <transition-container>
         <slot />

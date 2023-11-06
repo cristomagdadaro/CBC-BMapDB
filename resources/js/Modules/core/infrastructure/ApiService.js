@@ -64,8 +64,10 @@ export default class ApiService
                 return new BaseResponse(response.data);
             }
         } catch (error) {
-            console.log(error);
-            //throw new Error(error);
+            if (error.response.status === 422)
+                return new ErrorBagResponse(error.response.data);
+
+            throw new Error(error);
         }
     }
 

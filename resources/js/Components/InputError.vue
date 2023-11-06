@@ -7,9 +7,7 @@ defineProps({
 <template>
     <div v-show="message">
         <p class="text-xs text-red-600">
-            <template v-for="msg in message">
-                <span v-if="msg" v-text="msg"></span>
-            </template>
+            {{ message }}
         </p>
     </div>
 </template>

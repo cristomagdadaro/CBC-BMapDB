@@ -196,7 +196,13 @@ export default class CRCMDatatable
     }
 
     async delete(id) {
-        await this.api.delete(id);
+        this.processing = true;
+        const response = await this.api.delete(id);
+        if (response instanceof ErrorBagResponse){
+            this.errorBag = response.toObject();
+            return;
+        }
+        this.processing = false;
         await this.refresh();
 
         this.selected = this.selected.filter(item => item !== id);
