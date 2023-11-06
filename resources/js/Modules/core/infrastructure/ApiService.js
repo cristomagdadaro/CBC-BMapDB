@@ -40,9 +40,12 @@ export default class ApiService
     async put(data)
     {
         try {
-            const response = await axios.put(this.baseUrl, data);
+            const response = await axios.put(this.baseUrl + '/' + data.id, data);
             return new BaseResponse(response.data);
         } catch (error) {
+            console.log(error.response);
+            if (error.response.status === 422)
+                return new ErrorBagResponse(error.response.data);
             throw new Error(error);
         }
     }

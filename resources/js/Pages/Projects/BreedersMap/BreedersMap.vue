@@ -3,6 +3,8 @@ import {Head} from "@inertiajs/vue3";
 import {onMounted} from "vue";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
+import CreateBreederForm from "@/Pages/Projects/BreedersMap/CreateBreederForm.vue";
+import EditBreederForm from "@/Pages/Projects/BreedersMap/EditBreederForm.vue";
 let loc = [
     [12.8797, 121.7740], // Location 1
     [13.3586, 122.7494], // Location 2
@@ -52,7 +54,12 @@ onMounted(() => {
     <Head title="Breeder's Map" />
     <app-layout>
         <div class="min-h-screen bg-gray-500">
-            <CRCMDatatable :baseUrl="baseUrl" :baseModel="baseModel"/>
+            <CRCMDatatable
+                :base-url="baseUrl"
+                :base-model="baseModel"
+                :add-form="addForm"
+                :edit-form="editForm"
+            />
         </div>
         <div class="w-full sm:p-5 p-0">
             <div class="flex flex-wrap gap-2">
@@ -74,14 +81,20 @@ onMounted(() => {
 <script>
 import User from "@/Modules/core/domain/User.js";
 import Role from "@/Modules/core/domain/Role.js";
-import Breeder from "@/Modules/core/domain/Breeder.js";
 import Permission from "@/Modules/core/domain/Permission.js";
+
+import Breeder from "@/Modules/core/domain/Breeder.js";
+import CreateBreederForm from "@/Pages/Projects/BreedersMap/CreateBreederForm.vue";
+import EditBreederForm from "@/Pages/Projects/BreedersMap/EditBreederForm.vue";
+import {markRaw} from "vue";
 
 export default {
     data(){
         return {
             baseUrl: route('api.breeders.index'),
             baseModel: Breeder,
+            addForm: markRaw(CreateBreederForm),
+            editForm: markRaw(EditBreederForm),
         }
     }
 }

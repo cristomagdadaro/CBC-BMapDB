@@ -208,6 +208,16 @@ export default class CRCMDatatable
         this.selected = this.selected.filter(item => item !== id);
     }
 
+    async update(data) {
+        const response = await this.api.put(this.model.toObject(data));
+        if (response instanceof ErrorBagResponse){
+            this.errorBag = response.toObject();
+            return;
+        }
+        await this.refresh();
+        this.errorBag = {};
+    }
+
     async deleteSelected() {
         await this.api.delete(this.selected);
         await this.refresh();

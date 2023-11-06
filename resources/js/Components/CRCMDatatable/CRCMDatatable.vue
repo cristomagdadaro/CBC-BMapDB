@@ -93,23 +93,12 @@
                 </div>
             </filter-container>
         </top-container>
-        <dialog-form-modal :show="showAddDialog" @close="closeDialog" >
-            <create-breeder-form :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+        <dialog-form-modal :show="showAddDialog" @close="closeDialog">
+            <component :is="addForm" :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
-        <dialog-modal :show="showEditDialog" @close="closeDialog" :forceClose="dt.closeAllModal">
-            <template #title>
-                Update Information
-            </template>
-            <template #content>
-                <div class="text-sm text-gray-600">
-                    Update information
-                </div>
-            </template>
-            <template #footer>
-                <button class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 active:bg-red-700 duration-200" @click="closeDialog">Update</button>
-                <cancel-button @click="closeDialog">Cancel</cancel-button>
-            </template>
-        </dialog-modal>
+        <dialog-form-modal :show="showEditDialog" @close="closeDialog">
+            <component :is="editForm" :errors="dt.errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
+        </dialog-form-modal>
         <dialog-modal :show="showDeleteDialog" @close="closeDialog" :processing="dt.processing">
             <template #title>
                 Delete
@@ -228,8 +217,6 @@
                 <paginate-btn @click="dt.prevPage()" :disabled="!prev_page"> <arrow-left class="h-auto w-6" />Prev</paginate-btn>
                 <div class="text-xs flex flex-col text-center">
                     <span class="font-medium mx-1" title="current page and total pages">{{ current_page }} / {{ total_pages }}</span>
-<!--                    <span class="font-medium mx-1">Page: <span>{{ current_page }}</span></span>
-                    <span class="text-gray-500 mx-2">Total of {{ total_pages }} page<span v-if="total_pages > 1">s</span></span>-->
                 </div>
                 <paginate-btn @click="dt.nextPage()" :disabled="current_page === last_page">Next <arrow-right class="h-auto w-6" /></paginate-btn>
                 <paginate-btn @click="dt.lastPage()" :disabled="current_page === last_page">Last</paginate-btn>
@@ -281,10 +268,12 @@ import TextInput from "@/Components/TextInput.vue";
 import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import CreateBreederForm from "@/Pages/Projects/BreedersMap/CreateBreederForm.vue";
+import EditBreederForm from "@/Pages/Projects/BreedersMap/EditBreederForm.vue";
 </script>
 
 <script>
 import CRCMDatatable from "@/Modules/core/components/CRCMDatatable.js";
+import DefaultBlankForm from "@/Components/CRCMDatatable/Layouts/DefaultBlankForm.vue";
 
 export default {
     name: "CRCMDatatable",
@@ -300,6 +289,16 @@ export default {
             type: Function,
             required: false,
         },
+        addForm: {
+            type: Object,
+            required: false,
+            default: DefaultBlankForm,
+        },
+        editForm: {
+            type: Object,
+            required: false,
+            default: DefaultBlankForm,
+        },
     },
     data() {
         return {
@@ -309,7 +308,7 @@ export default {
             showDeleteDialog: false,
             toDeleteId: null,
             showEditDialog: false,
-            toEditId: null,
+            toEditData: null,
             showAddDialog: false,
             showIconText: false ,
         }
@@ -362,7 +361,7 @@ export default {
         showEditDialogFunc(id) {
             this.showModal = true;
             this.showEditDialog = true;
-            this.toEditId = id;
+            this.toEditData = this.data.find(row => row.id === id);
         },
         showDeleteSelectedDialogFunc() {
             this.showModal = true;
