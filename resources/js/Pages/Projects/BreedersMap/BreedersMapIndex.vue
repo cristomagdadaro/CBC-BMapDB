@@ -5,6 +5,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
 import CreateBreederForm from "@/Pages/Projects/BreedersMap/CreateBreederForm.vue";
 import EditBreederForm from "@/Pages/Projects/BreedersMap/EditBreederForm.vue";
+import Tab from "@/Components/Tab/Tab.vue";
 let loc = [
     [12.8797, 121.7740], // Location 1
     [13.3586, 122.7494], // Location 2
@@ -53,20 +54,28 @@ onMounted(() => {
 <template>
     <Head title="Breeder's Map" />
     <app-layout>
-        <div class="min-h-screen bg-gray-500">
-            <CRCMDatatable
-                :base-url="baseUrl"
-                :base-model="baseModel"
-                :add-form="addForm"
-                :edit-form="editForm"
-            />
+        <div class="min-h-screen bg-gray-500 sm:p-4 p-1">
+            <Tab :tabs="tabs" v-if="$page.props.auth.user">
+                <template #tab1>
+                    <CRCMDatatable
+                        :base-url="baseUrl"
+                        :base-model="baseModel"
+                        :add-form="addForm"
+                        :edit-form="editForm"
+                    />
+                </template>
+                <template #tab2>
+                    Tab 2
+                </template>
+                <template #tab3>
+                    Tab 3
+                </template>
+            </Tab>
+            <p v-else>Please login to view the data</p>
+
         </div>
         <div class="w-full sm:p-5 p-0">
             <div class="flex flex-wrap gap-2">
-                <div class="max-w-[400px]">
-                    <h1 class="font-bold sm:text-lg text-md">Breeder's Map</h1>
-                    <p class="text-justify sm:text-sm">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum harum ipsa iure libero maxime natus nisi, odio perferendis quae, qui reprehenderit voluptate! Adipisci aliquid animi aspernatur blanditiis consequatur cum, cupiditate dignissimos distinctio dolores dolorum earum eius eos eum facilis hic illo illum incidunt ipsum iusto laborum libero maxime minus, nemo nobis officia pariatur quis recusandae reiciendis repellendus sequi sunt suscipit veniam vero! A accusamus accusantium architecto culpa cumque dicta dolores, doloribus, dolorum ducimus ea eaque enim error est fuga ipsam itaque laudantium molestias mollitia neque nesciunt nostrum porro qui quibusdam quo quod ratione reiciendis reprehenderit sed sunt tenetur unde ut.</p>
-                </div>
                 <div id="map" class="border shadow-md"></div>
             </div>
         </div>
@@ -95,6 +104,23 @@ export default {
             baseModel: Breeder,
             addForm: markRaw(CreateBreederForm),
             editForm: markRaw(EditBreederForm),
+            tabs: [
+                {
+                    name: "tab1",
+                    label: "Breeders",
+                    active: true,
+                },
+                {
+                    name: "tab2",
+                    label: "Products",
+                    active: false,
+                },
+                {
+                    name: "tab3",
+                    label: "Services",
+                    active: false,
+                },
+            ]
         }
     }
 }

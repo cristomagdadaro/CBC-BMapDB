@@ -64,7 +64,7 @@ export default class ApiService
                 return new BaseResponse(response.data);
             }else{
                 const response = await axios.delete(this.baseUrl + '/' + id);
-                return new BaseResponse(response.data);
+                return !!response.data;
             }
         } catch (error) {
             if (error.response.status === 422)

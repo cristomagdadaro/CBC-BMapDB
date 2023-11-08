@@ -6,7 +6,10 @@ defineProps({
     modelValue: String,
     id: String,
     label: String,
-    error: Array,
+    error: {
+        type: Array,
+        default: () => [],
+    },
     typeInput: {
         type: String,
         default: 'text',
@@ -41,7 +44,9 @@ defineExpose({ focus: () => input.value.focus() });
         :type="typeInput"
         :required="required"
         ref="input"
-        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+        @change="error=[]"
+        :class="error.length? 'border-red-300 focus:border-red-500 focus:ring-red-500':'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500'"
+        class="rounded-md shadow-sm"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)"
         >

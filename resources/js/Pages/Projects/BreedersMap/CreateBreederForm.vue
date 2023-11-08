@@ -2,7 +2,7 @@
     <form @submit.prevent="$emit('submitForm', form)">
         <div class="px-4 py-2 bg-gray-100 shadow-md">
             <div class="text-lg font-medium text-gray-900 flex justify-between">
-                Add new Information
+                Register a new Breeder
                 <button class="text-sm font-medium text-blue-500" @click="$emit('close')">
                     <CloseIcon class="w-7 h-auto hover:scale-110 active:scale-95 duration-100" />
                 </button>

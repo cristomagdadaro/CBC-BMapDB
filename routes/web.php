@@ -58,7 +58,7 @@ Route::middleware([
         });
 
         Route::get('/breedersmap', function (){
-            return Inertia::render('Projects/BreedersMap/BreedersMap');
+            return Inertia::render('Projects/BreedersMap/BreedersMapIndex');
         })->name('projects.breedersmap.index');
     });
 });

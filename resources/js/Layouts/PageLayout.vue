@@ -2,7 +2,7 @@
 import Header from '@/Pages/Header.vue';
 import Footer from '@/Pages/Footer.vue';
 import Body from '@/Pages/Body.vue';
-import NotifBanner from "@/Components/Modal/NotifBanner.vue";
+import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
 const props = defineProps({
     isWideDisplay: {
         type: Boolean,

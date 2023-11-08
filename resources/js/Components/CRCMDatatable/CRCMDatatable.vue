@@ -5,132 +5,94 @@
     <div v-else
         id="dtContainer"
          v-if="dt instanceof CRCMDatatable && dt.response['meta']"
-         class="flex flex-col sm:gap-2 gap-1 bg-gray-200 px-2">
+         class="flex flex-col sm:gap-2 gap-1 bg-gray-100 sm:p-3 p-1">
         <top-container>
-            <filter-container>
-                <per-page :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
-                <action-container>
-                    <top-action-btn
-                        @click="showAddDialogFunc()"
-                        class="bg-add"
-                        title="Add new data">
-                        <template #icon>
-                            <add-icon class="h-auto sm:w-6 w-4" />
-                        </template>
-                        <span v-show="showIconText">Add</span>
-                    </top-action-btn>
-                    <top-action-btn
-                        class="bg-refresh"
-                        @click="dt.refresh()"
-                        title="Refresh table">
-                        <template #icon>
-                            <refresh-icon class="h-auto sm:w-6 w-4" :class="dt.processing?'animate-spin':'animate-none'" />
-                        </template>
-                        <span v-show="showIconText">Refresh</span>
-                    </top-action-btn>
-                    <top-action-btn
-                        v-if="data.length && dt.selected.length"
-                        class="bg-delete"
-                        @click="showDeleteSelectedDialogFunc()"
-                        title="Delete all the selected rows">
-                        <template #icon>
-                            <delete-icon class="h-auto sm:w-6 w-4" />
-                        </template>
-                        <span v-show="showIconText">Delete Selected</span>
-                    </top-action-btn>
-                    <top-action-btn
-                        v-if="data.length"
-                        class="bg-select"
-                        @click="dt.selectAll()"
-                        title="Select all loaded rows">
-                        <template #icon>
-                            <checkall-icon class="h-auto sm:w-6 w-4" />
-                        </template>
-                        <span v-show="showIconText">Select All</span>
-                    </top-action-btn>
-                    <top-action-btn
-                        v-if="selected.length && data.length"
-                        class="bg-deselect"
-                        @click="dt.deselectAll()"
-                        title="Deselect selected rows">
-                        <template #icon>
-                            <deselect-icon class="h-auto sm:w-6 w-4" />
-                        </template>
-                        <span v-show="showIconText">Deselect All</span>
-                    </top-action-btn>
-                    <top-action-btn
-                        v-if="data.length"
-                        class="bg-export"
-                        @click="dt.exportCSV()"
-                        title="Export data into a CSV file">
-                        <template #icon>
-                            <export-icon class="h-auto sm:w-6 w-4" />
-                        </template>
-                        <span v-show="showIconText">Export</span>
-                    </top-action-btn>
-                    <top-action-btn
-                        class="bg-import"
-                        @click="dt.importCSV()"
-                        title="Import data from a CSV file">
-                        <template #icon>
-                            <import-icon class="h-auto sm:w-6 w-4" />
-                        </template>
-                        <span v-show="showIconText">Import</span>
-                    </top-action-btn>
-                    <top-action-btn
-                        class="bg-add"
-                        @click="showIconText = !showIconText"
-                        title="Toggle icon with text">
-                        <template #icon>
-                            <toggle-off-icon class="h-auto sm:w-6 w-4" v-show="!showIconText" />
-                            <toggle-on-icon class="h-auto sm:w-6 w-4" v-show="showIconText" />
-                        </template>
-                    </top-action-btn>
-                </action-container>
-                <div class="flex flex-wrap items-center sm:w-fit w-full justify-between gap-2">
-                    <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
-                    <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
-                </div>
-            </filter-container>
+            <per-page :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
+            <action-container>
+                <top-action-btn
+                    @click="showAddDialogFunc()"
+                    class="bg-add"
+                    title="Add new data">
+                    <template #icon>
+                        <add-icon class="h-auto sm:w-6 w-4" />
+                    </template>
+                    <span v-show="showIconText">Add</span>
+                </top-action-btn>
+                <top-action-btn
+                    class="bg-refresh"
+                    @click="dt.refresh()"
+                    title="Refresh table">
+                    <template #icon>
+                        <refresh-icon class="h-auto sm:w-6 w-4" :class="dt.processing?'animate-spin':'animate-none'" />
+                    </template>
+                    <span v-show="showIconText">Refresh</span>
+                </top-action-btn>
+                <top-action-btn
+                    v-if="data.length && dt.selected.length"
+                    class="bg-delete"
+                    @click="showDeleteSelectedDialogFunc()"
+                    title="Delete all the selected rows">
+                    <template #icon>
+                        <delete-icon class="h-auto sm:w-6 w-4" />
+                    </template>
+                    <span v-show="showIconText">Delete Selected</span>
+                </top-action-btn>
+                <top-action-btn
+                    v-if="data.length"
+                    class="bg-select"
+                    @click="dt.selectAll()"
+                    title="Select all loaded rows">
+                    <template #icon>
+                        <checkall-icon class="h-auto sm:w-6 w-4" />
+                    </template>
+                    <span v-show="showIconText">Select All</span>
+                </top-action-btn>
+                <top-action-btn
+                    v-if="selected.length && data.length"
+                    class="bg-deselect"
+                    @click="dt.deselectAll()"
+                    title="Deselect selected rows">
+                    <template #icon>
+                        <deselect-icon class="h-auto sm:w-6 w-4" />
+                    </template>
+                    <span v-show="showIconText">Deselect All</span>
+                </top-action-btn>
+                <top-action-btn
+                    v-if="data.length"
+                    class="bg-export"
+                    @click="dt.exportCSV()"
+                    title="Export data into a CSV file">
+                    <template #icon>
+                        <export-icon class="h-auto sm:w-6 w-4" />
+                    </template>
+                    <span v-show="showIconText">Export</span>
+                </top-action-btn>
+                <top-action-btn
+                    class="bg-import"
+                    @click="dt.importCSV()"
+                    title="Import data from a CSV file">
+                    <template #icon>
+                        <import-icon class="h-auto sm:w-6 w-4" />
+                    </template>
+                    <span v-show="showIconText">Import</span>
+                </top-action-btn>
+                <top-action-btn
+                    class="bg-add"
+                    @click="showIconText = !showIconText"
+                    title="Toggle icon with text">
+                    <template #icon>
+                        <toggle-off-icon class="h-auto sm:w-6 w-4" v-show="!showIconText" />
+                        <toggle-on-icon class="h-auto sm:w-6 w-4" v-show="showIconText" />
+                    </template>
+                </top-action-btn>
+            </action-container>
+            <div class="flex items-center sm:w-fit w-full justify-between gap-2">
+                <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
+                <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
+            </div>
         </top-container>
-        <dialog-form-modal :show="showAddDialog" @close="closeDialog">
-            <component :is="addForm" :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
-        </dialog-form-modal>
-        <dialog-form-modal :show="showEditDialog" @close="closeDialog">
-            <component :is="editForm" :errors="dt.errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
-        </dialog-form-modal>
-        <dialog-modal :show="showDeleteDialog" @close="closeDialog" :processing="dt.processing">
-            <template #title>
-                Delete
-            </template>
-            <template #content>
-                <div class="text-sm text-gray-600">
-                    Are you sure you want to delete the item {{ toDeleteId }}?
-                </div>
-            </template>
-            <template #footer>
-                <danger-button @click="dt.delete(toDeleteId)">Delete</danger-button>
-                <cancel-button @click="closeDialog">Cancel</cancel-button>
-            </template>
-        </dialog-modal>
-        <dialog-modal :show="showDeleteSelectedDialog" @close="closeDialog" :processing="dt.processing">
-            <template #title>
-                Delete Multiple Rows
-            </template>
-            <template #content>
-                <div class="text-sm text-gray-600">
-                    Are you sure you want to delete the following items?
-                    {{ dt.selected }}
-                </div>
-            </template>
-            <template #footer>
-                <danger-button @click="dt.deleteSelected()">
-                    Delete all
-                </danger-button>
-                <cancel-button @click="closeDialog">Cancel</cancel-button>
-            </template>
-        </dialog-modal>
-        <div id="dtTableContainer" class="flex relative w-full justify-center overflow-auto">
+
+        <div id="dtTableContainer" class="flex relative w-full justify-center overflow-x-auto">
             <transition
                 leave-active-class="transition ease-in duration-200"
                 leave-from-class="transform opacity-100"
@@ -183,15 +145,6 @@
                             <!-- Cell Actions -->
                             <t-d class="flex justify-center items-center sm:gap-1 gap-0.5">
                                 <top-action-btn
-                                    @click="showDeleteDialogFunc(row.id)"
-                                    class="bg-delete"
-                                    title="Delete this row">
-                                    <template #icon>
-                                        <delete-icon class="h-auto sm:w-5 w-4" />
-                                    </template>
-                                    <span v-show="showIconText">Delete</span>
-                                </top-action-btn>
-                                <top-action-btn
                                     @click="showEditDialogFunc(row.id)"
                                     class="bg-edit"
                                     title="Modify this row">
@@ -200,6 +153,15 @@
                                     </template>
                                     <span v-show="showIconText">Edit</span>
                                 </top-action-btn>
+                                <top-action-btn
+                                    @click="showDeleteDialogFunc(row.id)"
+                                    class="bg-delete"
+                                    title="Delete this row">
+                                    <template #icon>
+                                        <delete-icon class="h-auto sm:w-5 w-4" />
+                                    </template>
+                                    <span v-show="showIconText">Delete</span>
+                                </top-action-btn>
                             </t-d>
                         </tbody-row>
                         <not-found-row v-else :colspan="dt.columns.length" />
@@ -207,7 +169,7 @@
                 </tbody>
             </table>
         </div>
-        <div id="dtFooterContainer" class="flex justify-between gap-5 select-none" v-if="dt.response instanceof BaseResponse">
+        <div id="dtFooterContainer" class="flex flex-wrap-reverse sm:justify-between justify-center gap-5 select-none" v-if="dt.response instanceof BaseResponse">
             <div id="dtPageDetails">
                 Showing {{ meta_from }} to {{ meta_to }} of {{ total_entries }} entries
             </div>
@@ -222,6 +184,43 @@
                 <paginate-btn @click="dt.lastPage()" :disabled="current_page === last_page">Last</paginate-btn>
             </div>
         </div>
+        <dialog-form-modal :show="showAddDialog" @close="closeDialog">
+            <component :is="addForm" :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+        </dialog-form-modal>
+        <dialog-form-modal :show="showEditDialog" @close="closeDialog">
+            <component :is="editForm" :errors="dt.errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
+        </dialog-form-modal>
+        <dialog-modal :show="showDeleteDialog" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
+            <template #title>
+                Delete
+            </template>
+            <template #content>
+                <div class="text-sm text-gray-600">
+                    Are you sure you want to delete the item {{ toDeleteId }}?
+                </div>
+            </template>
+            <template #footer>
+                <danger-button @click="dt.delete(toDeleteId)">Delete</danger-button>
+                <cancel-button @click="closeDialog">Cancel</cancel-button>
+            </template>
+        </dialog-modal>
+        <dialog-modal :show="showDeleteSelectedDialog" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
+            <template #title>
+                Delete Multiple Rows
+            </template>
+            <template #content>
+                <div class="text-sm text-gray-600">
+                    Are you sure you want to delete the following items?
+                    {{ dt.selected }}
+                </div>
+            </template>
+            <template #footer>
+                <danger-button @click="dt.deleteSelected()">
+                    Delete all
+                </danger-button>
+                <cancel-button @click="closeDialog">Cancel</cancel-button>
+            </template>
+        </dialog-modal>
     </div>
 </template>
 <script setup>
@@ -269,6 +268,8 @@ import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import CreateBreederForm from "@/Pages/Projects/BreedersMap/CreateBreederForm.vue";
 import EditBreederForm from "@/Pages/Projects/BreedersMap/EditBreederForm.vue";
+import Notification from "@/Components/Modal/Notification/Notification.js";
+import BellIcon from "@/Components/Icons/BellIcon.vue";
 </script>
 
 <script>
@@ -374,6 +375,7 @@ export default {
             this.showAddDialog = false;
             this.showDeleteSelectedDialog = false;
             this.dt.closeAllModal = false;
+            this.dt.errorBag = {};
 
             this.toDeleteId = null;
             this.toEditId = null;

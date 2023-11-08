@@ -59,7 +59,7 @@ import {useForm, usePage} from "@inertiajs/vue3";
 import SelectField from "@/Components/Form/SelectField.vue";
 import { ProjectStatus } from "@/Pages/constants.ts";
 import {onMounted} from "vue";
-import { pushNotification } from "@/Components/Modal/NotifBanner.vue";
+import Notification from "@/Components/Modal/Notification/Notification.js";
 
 const page = usePage();
 
@@ -90,7 +90,7 @@ const saveForm = () => {
         ...form,
         twg_expert_id: page.props.auth.user.id,
     }).then((response) => {
-        pushNotification(response.data.notification);
+        Notification.pushNotification(response.data.notification);
         form.reset();
     }).catch((error) => {
         console.log(error);
@@ -102,7 +102,7 @@ const updateForm = () => {
         ...form,
         twg_expert_id: page.props.auth.user.id,
     }).then((response) => {
-        pushNotification(response.data.notification);
+        Notification.pushNotification(response.data.notification);
         form.reset();
     }).catch((error) => {
         console.log(error);

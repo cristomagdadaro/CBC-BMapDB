@@ -1,16 +1,17 @@
 <script setup>
 import { ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
-import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import PageLayout from "@/Layouts/PageLayout.vue";
-import Logo from "@/Components/Icons/Logo.vue";
 import FullscreenToggle from "@/Components/FullscreenToggle.vue";
 import { CBCProjects } from "@/Pages/constants.ts";
+import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
+import BellIcon from "@/Components/Icons/BellIcon.vue";
+import Notification from "@/Components/Modal/Notification/Notification.js";
 
 defineProps({
     title: String,
@@ -29,6 +30,7 @@ const switchToTeam = (team) => {
 const logout = () => {
     router.post(route('logout'));
 };
+
 </script>
 
 <template>
@@ -53,6 +55,19 @@ const logout = () => {
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
+                          <top-action-btn
+                              class="bg-add"
+                              @click="Notification.pushNotification({
+                              title: 'Test',
+                              message: 'This is a test notification   '+ Notification.notifications.value.length,
+                              type: Array.from(['error', 'success', 'warning', 'failed'])[Math.floor(Math.random() * 4)],
+                              timeout: 5000,
+                              show: true,
+                            })">
+                            <template #icon>
+                              <bell-icon class="h-auto sm:w-6 w-4 animate-wiggle" />
+                            </template>
+                          </top-action-btn>
                             <FullscreenToggle />
                             <!-- Settings Dropdown -->
                             <div class="ml-3 relative">

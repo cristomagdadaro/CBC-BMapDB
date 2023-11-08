@@ -36,7 +36,7 @@ import axios from 'axios';
 import {Link} from "@inertiajs/vue3";
 import EditIcon from "@/Components/Icons/EditIcon.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
-import {pushNotification} from "@/Components/Modal/NotifBanner.vue";
+import Notification from "@/Components/Modal/Notification/Notification.js
 
 export default {
     components: {
@@ -185,7 +185,7 @@ export default {
             this.dtMessage = 'Please wait while deleting records...';
             axios.delete(route(this.apiLink.destroy, id))
                 .then(response => {
-                    pushNotification(response.data.notification);
+                    Notification.pushNotification(response.data.notification);
                     this.getData();
                 })
                 .catch(error => {
@@ -202,7 +202,7 @@ export default {
             this.dtMessage = `Please wait while deleting records...`;
             await axios.delete(route(this.apiLink.destroy, {id: this.selected}))
                 .then(response => {
-                    pushNotification(response.data.notification);
+                    Notification.pushNotification(response.data.notification);
                     this.getData();
                 })
                 .catch(error => {
@@ -440,7 +440,7 @@ export default {
                     // Send the imported data to the server
                     await axios.post(route(this.apiLink.import), rows)
                         .then((response) => {
-                            pushNotification(response.data.notification);
+                            Notification.pushNotification(response.data.notification);
                             // Refresh the data table
                             this.getData();
                         })

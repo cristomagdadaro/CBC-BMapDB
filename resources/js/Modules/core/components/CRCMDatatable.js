@@ -3,6 +3,7 @@ import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
 import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import {ref} from "vue";
 import {ErrorBagResponse} from "@/Modules/core/infrastructure/ErrorBagResponse.js";
+import Notification from "@/Components/Modal/Notification/Notification.js";
 
 export default class CRCMDatatable
 {
@@ -137,6 +138,7 @@ export default class CRCMDatatable
 
     async exportCSV() {
         // get all the rows
+        this.processing = true;
         this.request.updateParam('per_page', this.response['meta']['total'])
         let data = await this.api.get(this.request.toObject(), this.model);
 
@@ -159,6 +161,8 @@ export default class CRCMDatatable
         document.body.appendChild(link);
 
         link.click();
+
+        this.processing = false;
     }
 
     importCSV() {
@@ -186,11 +190,31 @@ export default class CRCMDatatable
     }
 
     async create(data) {
+        this.processing = true;
         const response = await this.api.post(this.model.toObject(data));
         if (response instanceof ErrorBagResponse){
             this.errorBag = response.toObject();
+            this.processing = false;
+            Notification.pushNotification({
+                title: 'Failed',
+                message: "Failed to save",
+                type: 'failed',
+                timeout: 5000,
+                show: true,
+            });
             return;
         }
+
+        Notification.pushNotification({
+            title: 'Success',
+            message: "Saved successfully",
+            type: 'success',
+            timeout: 5000,
+            show: true,
+        })
+
+        this.processing = false;
+
         await this.refresh();
         this.errorBag = {};
     }
@@ -200,8 +224,34 @@ export default class CRCMDatatable
         const response = await this.api.delete(id);
         if (response instanceof ErrorBagResponse){
             this.errorBag = response.toObject();
+            this.processing = false;
+            Notification.pushNotification({
+                title: 'Failed',
+                message: "Failed to delete",
+                type: 'failed',
+                timeout: 5000,
+                show: true,
+            });
             return;
         }
+
+        if (!response)
+            Notification.pushNotification({
+                title: 'Warning',
+                message: "Failed to delete, record not found",
+                type: 'warning',
+                timeout: 5000,
+                show: true,
+            });
+        else
+            Notification.pushNotification({
+                title: 'Success',
+                message: "Deleted successfully",
+                type: 'success',
+                timeout: 5000,
+                show: true,
+            });
+
         this.processing = false;
         await this.refresh();
 
@@ -209,19 +259,71 @@ export default class CRCMDatatable
     }
 
     async update(data) {
+        this.processing = true;
         const response = await this.api.put(this.model.toObject(data));
         if (response instanceof ErrorBagResponse){
             this.errorBag = response.toObject();
+            this.processing = false;
+            Notification.pushNotification({
+                title: 'Failed',
+                message: "Failed to update",
+                type: 'failed',
+                timeout: 5000,
+                show: true,
+            });
             return;
         }
+
+        Notification.pushNotification({
+            title: 'Success',
+            message: "Updated successfully",
+            type: 'success',
+            timeout: 5000,
+            show: true,
+        });
+
+        this.processing = false;
+
         await this.refresh();
         this.errorBag = {};
     }
 
     async deleteSelected() {
-        await this.api.delete(this.selected);
-        await this.refresh();
+        this.processing = true;
+        const response = await this.api.delete(this.selected);
+        if (response instanceof ErrorBagResponse){
+            this.errorBag = response.toObject();
+            this.processing = false;
+            Notification.pushNotification({
+                title: 'Failed',
+                message: "Failed to delete multiple IDs",
+                type: 'failed',
+                timeout: 5000,
+                show: true,
+            });
+            return;
+        }
 
+        if (!response)
+            Notification.pushNotification({
+                title: 'Warning',
+                message: "Failed to delete, records not found",
+                type: 'warning',
+                timeout: 5000,
+                show: true,
+            });
+        else
+            Notification.pushNotification({
+                title: 'Success',
+                message: "Deleted successfully",
+                type: 'success',
+                timeout: 5000,
+                show: true,
+            });
+
+        this.processing = false;
+
+        await this.refresh();
         this.selected = [];
     }
 
