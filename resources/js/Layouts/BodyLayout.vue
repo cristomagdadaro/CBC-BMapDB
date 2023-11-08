@@ -8,7 +8,7 @@ const props = defineProps({
 });
 </script>
 <template>
-    <div class="relative flex flex-col" :class="props.isWideDisplay?'mx-0':'resp-container'">
+    <div class="relative flex flex-col w-full overflow-x-auto" :class="props.isWideDisplay?'mx-0':'resp-container'">
         <slot />
     </div>
 </template>

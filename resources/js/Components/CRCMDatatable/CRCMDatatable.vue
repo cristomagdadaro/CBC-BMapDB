@@ -102,25 +102,25 @@
                     Processing, please wait...
                 </div>
             </transition>
-            <table id="dtTable" class="w-full">
-                <thead id="dtHeader">
-                <tr class="dtHeaderRow">
-                    <t-h :column="{name:'no', label:'&nbsp;'}" />
-                    <t-h
-                        v-for="column in dt.columns"
-                        :sortable="column.sortable"
-                        :key="column.id"
-                        :column="column"
-                        @click="dt.sortFunc({ sort: column.name })"
-                        :order="dt.request.getParam('order')"
-                        :sorted-column="dt.request.getParam('sort')"
-                    />
-                    <t-h
-                        :column="{name:'action', label:'Action'}"
-                    />
-                </tr>
-                </thead>
-                <tbody id="dtBody">
+            <crcm-table id="dtTable" class="w-full">
+                <crcm-thead>
+                    <thead-row>
+                        <t-h :column="{name:'no', label:'&nbsp;'}" />
+                        <t-h
+                            v-for="column in dt.columns"
+                            :sortable="column.sortable"
+                            :key="column.id"
+                            :column="column"
+                            @click="dt.sortFunc({ sort: column.name })"
+                            :order="dt.request.getParam('order')"
+                            :sorted-column="dt.request.getParam('sort')"
+                        />
+                        <t-h
+                            :column="{name:'action', label:'Action'}"
+                        />
+                    </thead-row>
+                </crcm-thead>
+                <crcm-tbody>
                     <template v-if="dt.processing">
                         <processing-row :colspan="dt.columns.length" />
                     </template>
@@ -132,7 +132,7 @@
                             <!-- Cell No. -->
                             <t-d class="text-xs text-gray-600 text-center flex items-center gap-0.5">
                                 {{ meta_from + data.indexOf(row) }}
-                                <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded"/>
+                                <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
                             </t-d>
                             <!-- Cell Data -->
                             <t-d
@@ -166,8 +166,8 @@
                         </tbody-row>
                         <not-found-row v-else :colspan="dt.columns.length" />
                     </template>
-                </tbody>
-            </table>
+                </crcm-tbody>
+            </crcm-table>
         </div>
         <div id="dtFooterContainer" class="flex flex-wrap-reverse sm:justify-between justify-center gap-5 select-none" v-if="dt.response instanceof BaseResponse">
             <div id="dtPageDetails">
@@ -270,6 +270,10 @@ import CreateBreederForm from "@/Pages/Projects/BreedersMap/CreateBreederForm.vu
 import EditBreederForm from "@/Pages/Projects/BreedersMap/EditBreederForm.vue";
 import Notification from "@/Components/Modal/Notification/Notification.js";
 import BellIcon from "@/Components/Icons/BellIcon.vue";
+import CrcmTable from "@/Components/CRCMDatatable/Components/CrcmTable.vue";
+import CrcmThead from "@/Components/CRCMDatatable/Components/CrcmThead.vue";
+import TheadRow from "@/Components/CRCMDatatable/Components/TheadRow.vue";
+import CrcmTbody from "@/Components/CRCMDatatable/Components/CrcmTbody.vue";
 </script>
 
 <script>
