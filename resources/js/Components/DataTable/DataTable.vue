@@ -36,7 +36,7 @@ import axios from 'axios';
 import {Link} from "@inertiajs/vue3";
 import EditIcon from "@/Components/Icons/EditIcon.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
-import Notification from "@/Components/Modal/Notification/Notification.js
+import Notification from "@/Components/Modal/Notification/Notification.js";
 
 export default {
     components: {

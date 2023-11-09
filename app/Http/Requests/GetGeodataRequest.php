@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateBreederRequest extends FormRequest
+class GetGeodataRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,13 +21,8 @@ class CreateBreederRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|unique:breeders,name',
-            'agency' => 'required|string',
-            'address' => 'required|string',
-            'phone' => 'required|string|unique:breeders,phone',
-            'email' => 'required|email|unique:breeders,email',
-
-        ];
+        return array_merge([
+            // add your rules here
+        ],config('system_variables.paginate_parameters'));
     }
 }

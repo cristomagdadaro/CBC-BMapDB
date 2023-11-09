@@ -19,8 +19,8 @@ class GetUserRequest extends BaseRequest
      */
     public function rules(): array
     {
-        return [
-            //
-        ];
+        return array_merge([
+            // add your rules here
+        ],config('system_variables.paginate_parameters'));
     }
 }

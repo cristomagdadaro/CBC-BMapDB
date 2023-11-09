@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BreederController;
+use App\Http\Controllers\API\GeodataController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\UserController;
@@ -72,6 +73,10 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
         Route::put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
         Route::delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
         Route::delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
+    });
+
+    Route::prefix('/geodata')->group(function () {
+        Route::get('/', [GeodataController::Class, 'index'])->name('api.breeders.geodata.index');
     });
 
     Route::prefix('/roles')->group(function () {

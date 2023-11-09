@@ -1,3 +1,6 @@
+import {ValidationErrorResponse} from "@/Modules/core/infrastructure/ValidationErrorResponse.js";
+import {NotFoundErrorResponse} from "@/Modules/core/infrastructure/NotFoundErrorResponse.js";
+
 export default class BaseResponse {
     constructor(response = {}) {
         this.data = response.data;

@@ -2,7 +2,7 @@ import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
 import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import {ref} from "vue";
-import {ErrorBagResponse} from "@/Modules/core/infrastructure/ErrorBagResponse.js";
+import {ValidationErrorResponse} from "@/Modules/core/infrastructure/ValidationErrorResponse.js";
 import Notification from "@/Components/Modal/Notification/Notification.js";
 
 export default class CRCMDatatable
@@ -192,7 +192,7 @@ export default class CRCMDatatable
     async create(data) {
         this.processing = true;
         const response = await this.api.post(this.model.toObject(data));
-        if (response instanceof ErrorBagResponse){
+        if (response instanceof ValidationErrorResponse){
             this.errorBag = response.toObject();
             this.processing = false;
             Notification.pushNotification({
@@ -222,7 +222,8 @@ export default class CRCMDatatable
     async delete(id) {
         this.processing = true;
         const response = await this.api.delete(id);
-        if (response instanceof ErrorBagResponse){
+        console.log(typeof response);
+        if (response instanceof ValidationErrorResponse){
             this.errorBag = response.toObject();
             this.processing = false;
             Notification.pushNotification({
@@ -261,7 +262,7 @@ export default class CRCMDatatable
     async update(data) {
         this.processing = true;
         const response = await this.api.put(this.model.toObject(data));
-        if (response instanceof ErrorBagResponse){
+        if (response instanceof ValidationErrorResponse){
             this.errorBag = response.toObject();
             this.processing = false;
             Notification.pushNotification({
@@ -291,7 +292,7 @@ export default class CRCMDatatable
     async deleteSelected() {
         this.processing = true;
         const response = await this.api.delete(this.selected);
-        if (response instanceof ErrorBagResponse){
+        if (response instanceof ValidationErrorResponse){
             this.errorBag = response.toObject();
             this.processing = false;
             Notification.pushNotification({

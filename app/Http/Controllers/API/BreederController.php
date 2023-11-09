@@ -10,7 +10,6 @@ use App\Http\Requests\UpdateBreederRequest;
 use App\Http\Resources\BreederCollection;
 use App\Http\Resources\BreederResource;
 use App\Repository\API\BreederRepository;
-use Illuminate\Support\Facades\Request;
 
 class BreederController extends Controller
 {

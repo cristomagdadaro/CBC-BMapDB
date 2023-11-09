@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Breeder extends Model
 {
@@ -28,4 +29,9 @@ class Breeder extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function geodata(): HasMany
+    {
+        return $this->hasMany(Geodata::class, 'breeder_id', 'id');
+    }
 }

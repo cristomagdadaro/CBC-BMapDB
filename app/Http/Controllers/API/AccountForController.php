@@ -13,24 +13,22 @@ use Illuminate\Support\Facades\Request;
 
 class AccountForController extends BaseController
 {
-    protected AccountForRepository $accountForRepository;
-
     public function __construct(AccountForRepository $accountForRepository)
     {
-        $this->accountForRepository = $accountForRepository;
+        $this->repository = $accountForRepository;
     }
 
     public function index(GetAccountForRequest $request, $user_id)
     {
         $request->merge(['user_id' => $user_id]);
 
-        $data = $this->accountForRepository->search($request->collect());
+        $data = $this->repository->search($request->collect());
         return new AccountForCollection($data);
     }
 
     public function destroy(Request $request)
     {
-        $accountFor = $this->accountForRepository->find($request->id);
+        $accountFor = $this->repository->find($request->id);
         $accountFor->delete();
         return $accountFor;
     }

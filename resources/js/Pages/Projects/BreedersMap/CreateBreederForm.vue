@@ -29,6 +29,7 @@
 import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import TextField from "@/Components/Form/TextField.vue";
+import {useRemember} from "@inertiajs/vue3";
 
 export default {
     components: {
@@ -48,19 +49,19 @@ export default {
     },
     data() {
         return {
-            form: {
-                name: null,
-                phone: null,
-                email: null,
-                agency: null,
-                address: null,
-            },
+            form: useRemember({
+              name: null,
+              phone: null,
+              email: null,
+              agency: null,
+              address: null,
+            }, 'create-breeder-form'),
         };
     },
     watch: {
         forceClose() {
             this.$emit('close');
         }
-    }
+    },
 };
 </script>

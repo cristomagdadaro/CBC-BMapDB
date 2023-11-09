@@ -1,10 +1,11 @@
-export class ErrorBagResponse{
+export class ValidationErrorResponse extends Error{
     constructor( response = {} ) {
+        super();
         Object.assign(this, response.errors);
     }
 
     static fromObject(response) {
-        return new ErrorBagResponse(response.errors);
+        return new ValidationErrorResponse(response.errors);
     }
 
     toObject() {

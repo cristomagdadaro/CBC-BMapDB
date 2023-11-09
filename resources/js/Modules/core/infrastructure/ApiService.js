@@ -1,7 +1,8 @@
 import axios from "axios";
 import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import { BaseClass } from "@/Modules/core/domain/BaseClass.js";
-import {ErrorBagResponse} from "@/Modules/core/infrastructure/ErrorBagResponse.js";
+import {ValidationErrorResponse} from "@/Modules/core/infrastructure/ValidationErrorResponse.js";
+import {NotFoundErrorResponse} from "@/Modules/core/infrastructure/NotFoundErrorResponse.js";
 export default class ApiService
 {
     constructor(url) {
@@ -21,7 +22,7 @@ export default class ApiService
             response.data.data = this.castToModel(response.data.data, model);
             return new BaseResponse(response.data);
         } catch (error) {
-            throw new Error(error);
+            return this.determineError(error);
         }
     }
 
@@ -31,9 +32,7 @@ export default class ApiService
             const response = await axios.post(this.baseUrl, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            if (error.response.status === 422)
-                return new ErrorBagResponse(error.response.data);
-            throw new Error(error);
+            return this.determineError(error);
         }
     }
 
@@ -43,10 +42,7 @@ export default class ApiService
             const response = await axios.put(this.baseUrl + '/' + data.id, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            console.log(error.response);
-            if (error.response.status === 422)
-                return new ErrorBagResponse(error.response.data);
-            throw new Error(error);
+            return this.determineError(error);
         }
     }
 
@@ -67,10 +63,7 @@ export default class ApiService
                 return !!response.data;
             }
         } catch (error) {
-            if (error.response.status === 422)
-                return new ErrorBagResponse(error.response.data);
-
-            throw new Error(error);
+            return this.determineError(error);
         }
     }
 
@@ -78,6 +71,18 @@ export default class ApiService
         return response.map(item => {
             return new model(item);
         });
+    }
+
+    determineError(error)
+    {
+        switch (error.response.status) {
+            case 422:
+                return new ValidationErrorResponse(error.response.data);
+            case 404:
+                return new NotFoundErrorResponse(error.response.data);
+            default:
+                throw new Error(error);
+        }
     }
 }
 

@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->count(10)->create();
 
-        \App\Models\TWGExpert::factory()->count(10)->create();
+        /*\App\Models\TWGExpert::factory()->count(10)->create();
         \App\Models\TWGProject::factory()->count(10)->create();
         \App\Models\TWGProject::factory()->create([
             'twg_expert_id' => 1,
@@ -94,10 +94,11 @@ class DatabaseSeeder extends Seeder
             'project_leader' => 'Ma. Leonila Imperial',
             'funding_agency' => 'PCA-CRDP',
             'status' => 'Active',
-        ]);
+        ]);*/
 
         $this->call([
             BreederSeeder::class,
+            GeodataSeeder::class,
         ]);
     }
 }

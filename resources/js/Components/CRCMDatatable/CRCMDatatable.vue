@@ -5,7 +5,7 @@
     <div v-else
         id="dtContainer"
          v-if="dt instanceof CRCMDatatable && dt.response['meta']"
-         class="flex flex-col sm:gap-2 gap-1 bg-gray-100 sm:p-3 p-1">
+         class="flex flex-col sm:gap-2 gap-1 bg-gray-100 sm:p-3 p-1 overflow-x-auto">
         <top-container>
             <per-page :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
             <action-container>
@@ -136,7 +136,7 @@
                             </t-d>
                             <!-- Cell Data -->
                             <t-d
-                                class="break-word align-text-top items-center"
+                                class="sm:break-words break-all align-text-top items-center"
                                 v-on:dblclick="dt.addSelected(row.id)"
                                 v-on:click.ctrl="dt.addSelected(row.id)"
                                 v-for="cell in row" :key="cell">
@@ -185,10 +185,10 @@
             </div>
         </div>
         <dialog-form-modal :show="showAddDialog" @close="closeDialog">
-            <component :is="addForm" :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+            <component :is="addForm" v-if="addForm" :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
         <dialog-form-modal :show="showEditDialog" @close="closeDialog">
-            <component :is="editForm" :errors="dt.errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
+            <component :is="editForm" v-if="editForm" :errors="dt.errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
         </dialog-form-modal>
         <dialog-modal :show="showDeleteDialog" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
             <template #title>

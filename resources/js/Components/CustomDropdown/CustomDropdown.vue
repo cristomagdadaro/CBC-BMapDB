@@ -1,7 +1,7 @@
 <template>
     <div class="text-sm">
         <div class="flex gap-1 justify-between items-center bg-white rounded px-4 py-2 shadow" @click="toggle">
-            <button class="text-gray-600">{{ selected? selected.label : placeholder }}</button>
+            <button class="text-gray-600 whitespace-nowrap">{{ selected? selected.label : placeholder }}</button>
             <div :class="open?'rotate-180':'rotate-360'" class="h-4 w-4 duration-300">
                 <slot name="icon" />
             </div>

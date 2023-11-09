@@ -2,7 +2,7 @@ import {BaseClass} from "@/Modules/core/domain/BaseClass.js";
 
 export default class Breeder extends BaseClass{
     constructor(params = {}) {
-        super(params);
+        super();
         this.id = params.id ?? null;
         this.name = params.name ?? null;
         this.agency = params.agency ?? null;
@@ -10,9 +10,6 @@ export default class Breeder extends BaseClass{
         this.phone = params.phone ?? null;
         this.email = params.email ?? null;
     }
-
-
-
     static toObject(obj) {
         return Object.assign({
             id: obj.id,

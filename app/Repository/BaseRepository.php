@@ -5,22 +5,54 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
+/**
+ * Base class for all repositories.
+ * This class will be used to handle all the basic CRUD operations.
+ * @param Model $model
+ **/
 class BaseRepository
 {
+    /**
+     * Model to be used
+     * @var Model
+    **/
     public Model $model;
 
+    /**
+     * Table to append with
+     * @var string
+    */
+    private string $apppendWith = '';
+
+    /**
+     * List of searchable and viewable columns
+     * @var array
+    **/
     protected array $searchable = [];
 
+    /**
+     * Constructor
+     * @param Model $model
+    **/
     public function __construct(Model $model)
     {
         $this->model = $model;
     }
 
+    /**
+     * Get all data
+     * @return Collection
+    **/
     public function all(): Collection
     {
         return $this->model->all();
     }
 
+    /**
+     * Create new data
+     * @param array $data
+     * @return Model
+     **/
     public function create(array $data): Model
     {
         $model = $this->model->fill($data);
@@ -28,6 +60,12 @@ class BaseRepository
         return $model;
     }
 
+    /**
+     * Update data
+     * @param int $id model primary key
+     * @param array $data updated set of data
+     * @return bool
+     **/
     public function update($id, array $data): bool
     {
         return $this->find($id)->update($data);
@@ -54,6 +92,11 @@ class BaseRepository
         return $this->searchData($parameters, false, $withPagination);
     }
 
+    public function appendWith($tableToAppend)
+    {
+        $this->apppendWith = $tableToAppend;
+    }
+
     private function searchData(Collection $parameters, bool $isTrashed, $withPagination)
     {
         $perPage = $parameters->get('per_page', 10);
@@ -64,7 +107,10 @@ class BaseRepository
         $filter = $parameters->get('filter', null);
         $is_exact = $parameters->get('is_exact', false);
 
-        $builder = $this->model;
+        if ($this->apppendWith && $this->apppendWith != '')
+            $builder = $this->model->with($this->apppendWith)->select($this->searchable);
+        else
+            $builder = $this->model->select($this->searchable);
 
         if($isTrashed)
         {
