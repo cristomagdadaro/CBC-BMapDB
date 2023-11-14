@@ -5,7 +5,7 @@
     <div v-else
         id="dtContainer"
          v-if="dt instanceof CRCMDatatable && dt.response['meta']"
-         class="flex flex-col sm:gap-2 gap-1 bg-gray-100 sm:p-3 p-1 overflow-x-auto">
+         class="flex flex-col sm:gap-2 gap-1 bg-transparent sm:p-3 p-1 overflow-x-auto">
         <top-container>
             <per-page :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
             <action-container>
@@ -91,7 +91,6 @@
                 <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
             </div>
         </top-container>
-
         <div id="dtTableContainer" class="flex relative w-full justify-center overflow-x-auto">
             <transition
                 leave-active-class="transition ease-in duration-200"
@@ -105,18 +104,19 @@
             <crcm-table id="dtTable" class="w-full">
                 <crcm-thead>
                     <thead-row>
-                        <t-h :column="{name:'no', label:'&nbsp;'}" />
+                        <t-h column="&nbsp;" />
                         <t-h
-                            v-for="column in dt.columns"
+                            v-for="column in dt.model.getColumns()"
                             :sortable="column.sortable"
-                            :key="column.id"
-                            :column="column"
-                            @click="dt.sortFunc({ sort: column.name })"
+                            :key="column.key"
+                            :sortedValue="column.key === dt.request.getParam('sort')"
+                            :column="column.title"
                             :order="dt.request.getParam('order')"
-                            :sorted-column="dt.request.getParam('sort')"
+                            :class="column.sortable?'cursor-pointer':'cursor-auto'"
+                            @click="column.sortable && dt.sortFunc({ sort: column.key })"
                         />
                         <t-h
-                            :column="{name:'action', label:'Action'}"
+                            column="Action"
                         />
                     </thead-row>
                 </crcm-thead>
@@ -266,8 +266,8 @@ import TextField from "@/Components/Form/TextField.vue";
 import TextInput from "@/Components/TextInput.vue";
 import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
-import CreateBreederForm from "@/Pages/Projects/BreedersMap/CreateBreederForm.vue";
-import EditBreederForm from "@/Pages/Projects/BreedersMap/EditBreederForm.vue";
+import CreateBreederForm from "@/Pages/Projects/BreedersMap/presentation/components/breeders/CreateBreederForm.vue";
+import EditBreederForm from "@/Pages/Projects/BreedersMap/presentation/components/breeders/EditBreederForm.vue";
 import Notification from "@/Components/Modal/Notification/Notification.js";
 import BellIcon from "@/Components/Icons/BellIcon.vue";
 import CrcmTable from "@/Components/CRCMDatatable/Components/CrcmTable.vue";
@@ -384,14 +384,14 @@ export default {
             this.toDeleteId = null;
             this.toEditId = null;
         },
-        initializeDatatable() {
+        async initializeDatatable() {
             this.dt = new CRCMDatatable(this.baseUrl, this.baseModel);
-            this.dt.init();
+            await this.dt.init();
         },
     },
-    mounted() {
+    async mounted() {
         if (this.baseUrl){
-            this.initializeDatatable();
+            await this.initializeDatatable();
         }
     },
 };

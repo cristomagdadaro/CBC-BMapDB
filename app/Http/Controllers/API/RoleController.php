@@ -10,14 +10,14 @@ use App\Http\Requests\GetRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleCollection;
 use App\Models\Role;
-use App\Repository\API\RoleRepository;
+use App\Repository\API\RoleRepositoryAbstract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class RoleController extends BaseController
 {
-    public function __construct(RoleRepository $repository)
+    public function __construct(RoleRepositoryAbstract $repository)
     {
         $this->repository = $repository;
     }

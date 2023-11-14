@@ -8,24 +8,35 @@ import Tab from "@/Components/Tab/Tab.vue";
 <template>
     <Head title="Breeder's Map" />
     <app-layout>
-        <div class="min-h-screen bg-gray-500 sm:p-4 p-1">
+        <div class="min-h-screen sm:p-4 p-1 bg-white">
             <Tab :tabs="tabs" v-if="$page.props.auth.user">
                 <template #tab1>
                     <div class="p-2">
-                        <h1 class="h1">Breeders Personal Information</h1>
+                        <h1 class="h1 text-center font-semibold uppercase">Breeders Database</h1>
                         <CRCMDatatable
                             :base-url="BreedersMapPages.api.breeder.path"
                             :base-model="BreedersMapPages.api.breeder.model"
-                            :add-form="BreedersMapPages.create.component"
-                            :edit-form="BreedersMapPages.edit.component"
+                            :add-form="BreedersMapPages.api.breeder.create.component"
+                            :edit-form="BreedersMapPages.api.breeder.edit.component"
                         />
                     </div>
                 </template>
                 <template #tab2>
-                    Tab 2
+                    <div class="p-2">
+                        <h1 class="h1 text-center font-semibold uppercase">Commodities Database</h1>
+                        <CRCMDatatable
+                            :base-url="BreedersMapPages.api.commodity.path"
+                            :base-model="BreedersMapPages.api.commodity.model"
+                            :add-form="BreedersMapPages.api.commodity.create.component"
+                            :edit-form="BreedersMapPages.api.commodity.edit.component"
+                        />
+                    </div>
                 </template>
                 <template #tab3>
-                    Tab 3
+                    <div class="p-2 relative">
+                        <h1 class="h1 text-center font-semibold uppercase">Commodities Geographical Map</h1>
+                       <Map />
+                    </div>
                 </template>
             </Tab>
             <p v-else>Please login to view the data</p>
@@ -37,7 +48,6 @@ import Tab from "@/Components/Tab/Tab.vue";
             </div>
         </div>
     </app-layout>
-
 </template>
 <style scoped>
 #map {
@@ -45,6 +55,7 @@ import Tab from "@/Components/Tab/Tab.vue";
 }
 </style>
 <script>
+import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue";
 export default {
     data() {
       return {
@@ -53,15 +64,13 @@ export default {
             name: "tab1",
             label: "Breeders",
             active: true,
-          },
-          {
+          },{
             name: "tab2",
-            label: "Products",
+            label: "Commodities",
             active: false,
-          },
-          {
+          },{
             name: "tab3",
-            label: "Services",
+            label: "Geo Map",
             active: false,
           },
         ],

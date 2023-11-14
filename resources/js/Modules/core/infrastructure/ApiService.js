@@ -3,6 +3,7 @@ import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import { BaseClass } from "@/Modules/core/domain/BaseClass.js";
 import {ValidationErrorResponse} from "@/Modules/core/infrastructure/ValidationErrorResponse.js";
 import {NotFoundErrorResponse} from "@/Modules/core/infrastructure/NotFoundErrorResponse.js";
+import {ServerErrorResponse} from "@/Modules/core/infrastructure/ServerErrorResponse.js";
 export default class ApiService
 {
     constructor(url) {
@@ -56,11 +57,10 @@ export default class ApiService
                             ids: id
                         }
                     });
-
                 return new BaseResponse(response.data);
             }else{
                 const response = await axios.delete(this.baseUrl + '/' + id);
-                return !!response.data;
+                return new BaseResponse(response.data);
             }
         } catch (error) {
             return this.determineError(error);
@@ -80,6 +80,8 @@ export default class ApiService
                 return new ValidationErrorResponse(error.response.data);
             case 404:
                 return new NotFoundErrorResponse(error.response.data);
+            case 500:
+                return new ServerErrorResponse(error.response.data);
             default:
                 throw new Error(error);
         }

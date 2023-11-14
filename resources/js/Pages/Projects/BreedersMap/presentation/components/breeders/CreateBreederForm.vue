@@ -18,7 +18,6 @@
                 </div>
             </div>
         </div>
-
         <div class="flex flex-row justify-between gap-1 px-6 py-4 bg-gray-100 text-right">
             <cancel-button @click="$emit('close')">Cancel</cancel-button>
             <button class="bg-add text-white px-4 py-2 rounded-md hover:bg-red-600 active:bg-red-700 duration-200" type="submit">Save</button>
@@ -29,7 +28,6 @@
 import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import TextField from "@/Components/Form/TextField.vue";
-import {useRemember} from "@inertiajs/vue3";
 
 export default {
     components: {
@@ -49,14 +47,27 @@ export default {
     },
     data() {
         return {
-            form: useRemember({
-              name: null,
-              phone: null,
-              email: null,
-              agency: null,
-              address: null,
-            }, 'create-breeder-form'),
+            form: {
+                name: null,
+                phone: null,
+                email: null,
+                agency: null,
+                address: null,
+            },
         };
+    },
+    methods: {
+        close() {
+            this.form = {
+                name: null,
+                phone: null,
+                email: null,
+                agency: null,
+                address: null,
+            };
+
+            this.$emit('close');
+        }
     },
     watch: {
         forceClose() {

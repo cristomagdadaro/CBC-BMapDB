@@ -10,6 +10,19 @@ export const CBCProjects = [
         value: 'projects.breedersmap.index',
     }
 ]
+
+export const CBCProjectsPublic = [
+    {
+        id: 1,
+        label: 'TWG Database',
+        value: 'projects.twgdb.index',
+    },
+    {
+        id: 2,
+        label: "Breeder's Map",
+        value: 'projects.breedersmap.public',
+    }
+]
 export const EducLevel = [
     {
         id: 1,

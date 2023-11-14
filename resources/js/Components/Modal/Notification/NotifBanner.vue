@@ -27,7 +27,7 @@ import FailedIcon from "@/Components/Icons/FailedIcon.vue";
               <error-icon v-else class="w-6 mr-2 error" />
               <div class="w-full flex flex-col">
                         <span class="text-xs text-he leading-3 opacity-50">
-                          {{ notify.title }}
+                          {{ notify.title }} <template v-if="notify.errno">: {{ notify.errno }}</template>
                         </span>
                 <span class="leading-5">
                           {{ notify.message }}

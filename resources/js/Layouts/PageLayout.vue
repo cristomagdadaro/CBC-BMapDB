@@ -6,17 +6,18 @@ import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
 const props = defineProps({
     isWideDisplay: {
         type: Boolean,
-        default: false
+        default: true,
     }
 });
 </script>
 <template>
-    <div class="flex flex-col relative">
-        <Header :can-login="true" :can-register="true" />
-        <NotifBanner />
-        <Body :is-wide-display="props.isWideDisplay">
-            <slot />
-        </Body>
-        <Footer />
-    </div>
+    <Header :can-login="true" :can-register="true" />
+
+    <NotifBanner />
+
+    <Body :is-wide-display="props.isWideDisplay">
+        <slot />
+    </Body>
+
+    <Footer />
 </template>

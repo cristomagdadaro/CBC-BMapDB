@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BreederController;
+use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\GeodataController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\RoleController;
@@ -30,12 +31,12 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
-Route::middleware('public')->prefix('public')->group(function () {
+Route::prefix('public')->group(function () {
     Route::get('/breedersmap', function (){
-        return Inertia::render('Projects/BreedersMap/BreedersMap');
-    })->name('projects.breedersmap.index');
+        return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic');
+    })->name('projects.breedersmap.public');
 });
 
 
@@ -59,7 +60,7 @@ Route::middleware([
         });
 
         Route::get('/breedersmap', function (){
-            return Inertia::render('Projects/BreedersMap/BreedersMapIndex');
+            return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
         })->name('projects.breedersmap.index');
     });
 });
@@ -73,6 +74,15 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
         Route::put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
         Route::delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
         Route::delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
+    });
+
+    Route::prefix('/commodities')->group(function () {
+       Route::get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
+       Route::get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
+       Route::post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
+       Route::put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');
+       Route::delete('/delete', [CommodityController::class, 'multiDestroy'])->name('api.commodities.destroy.multi');
+       Route::delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
     });
 
     Route::prefix('/geodata')->group(function () {

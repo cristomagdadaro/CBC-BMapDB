@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\BaseController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateBreederRequest;
 use App\Http\Requests\DeleteBreederRequest;
@@ -9,19 +10,20 @@ use App\Http\Requests\GetBreederRequest;
 use App\Http\Requests\UpdateBreederRequest;
 use App\Http\Resources\BreederCollection;
 use App\Http\Resources\BreederResource;
-use App\Repository\API\BreederRepository;
+use App\Repository\API\BreederRepositoryAbstract;
+use Illuminate\Support\Collection;
 
-class BreederController extends Controller
+class BreederController extends BaseController
 {
 
-    public function __construct(BreederRepository $breederRepository)
+    public function __construct(BreederRepositoryAbstract $breederRepository)
     {
         $this->repository = $breederRepository;
     }
 
     public function index(GetBreederRequest $request)
     {
-        $data = $this->repository->search($request->collect());
+        $data = $this->repository->search(new Collection($request->validated()));
         return new BreederCollection($data);
     }
 

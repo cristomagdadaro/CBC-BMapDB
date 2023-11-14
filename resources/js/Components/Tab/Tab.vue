@@ -1,8 +1,9 @@
 <script>
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
+import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 
 export default {
-  components: {LoaderIcon},
+  components: {TransitionContainer, LoaderIcon},
     props: {
         tabs: {
             type: Array,
@@ -30,36 +31,42 @@ export default {
         if (Array.isArray(this.tabs)) {
             this.activeTab = this.tabs.find((tab) => tab.active);
         } else {
-            this.activeTab = this.tabs;
+            this.activeTab = this.tabs[0];
         }
     },
 };
 </script>
 <template>
   <div class="flex flex-col">
-    <div class="flex gap-1">
+    <div class="flex gap-1 select-none">
       <button
           v-for="tab in tabs"
           type="button"
           @click="setActiveTab(tab)"
-          :class="tab.active ? 'bg-cbc-dark-green text-white' : 'bg-gray-300'"
-          class="py-1 px-2 rounded-t-sm text-sm font-medium"
+          class="py-1 px-2 rounded-t-md text-sm font-medium duration-300 active:scale-90"
+          :class="isActiveTab(tab) ? 'bg-cbc-dark-green text-white scale-y-90' : 'bg-gray-300'"
       >
         {{ tab.label }}
       </button>
     </div>
-    <div v-if="activeTab" class="bg-white rounded-b-md">
-      <!-- Show a loading icon if content is not loaded -->
-      <div v-if="isLoading" class="flex items-center justify-center gap-1 py-4">
-        <span class="animate-bounce">
-          <loader-icon class="w-6 h-6 text-cbc-dark-green" />
-        </span>
-        loading...
+      <div class="bg-gray-100 rounded-b-md">
+          <Suspense>
+              <template #default>
+                  <!-- Show the content when it's loaded -->
+                  <div v-if="activeTab">
+                      <slot :name="activeTab.name"></slot>
+                  </div>
+                </template>
+              <template #fallback>
+                  <!-- Show a loading icon if content is not loaded -->
+                  <div class="flex items-center justify-center gap-1 py-4">
+                    <span class="animate-bounce">
+                      <loader-icon class="w-6 h-6 text-cbc-dark-green" />
+                    </span>
+                          loading...
+                  </div>
+              </template>
+          </Suspense>
       </div>
-      <!-- Show the content when it's loaded -->
-      <div v-else>
-        <slot :name="activeTab.name"></slot>
-      </div>
-    </div>
   </div>
 </template>

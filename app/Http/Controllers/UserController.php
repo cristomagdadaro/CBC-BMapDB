@@ -6,15 +6,15 @@ use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\GetUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
-use App\Repository\API\UserRepository;
+use App\Repository\API\UserRepositoryAbstract;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
 
-    protected UserRepository $userRepository;
+    protected UserRepositoryAbstract $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepositoryAbstract $userRepository)
     {
         $this->userRepository = $userRepository;
     }

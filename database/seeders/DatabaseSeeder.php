@@ -99,6 +99,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BreederSeeder::class,
             GeodataSeeder::class,
+            CommoditySeeder::class,
         ]);
     }
 }

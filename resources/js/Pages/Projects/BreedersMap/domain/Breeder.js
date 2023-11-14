@@ -20,4 +20,45 @@ export default class Breeder extends BaseClass{
             email: obj.email,
         }, obj);
     }
+
+    static getColumns() {
+        return [
+            {
+                title: 'ID',
+                key: 'id',
+                align: 'center',
+                sortable: true,
+            },
+            {
+                title: 'Name',
+                key: 'name',
+                align: 'center',
+                sortable: true,
+            },
+            {
+                title: 'Agency',
+                key: 'agency',
+                align: 'center',
+                sortable: true,
+            },
+            {
+                title: 'Address',
+                key: 'address',
+                align: 'center',
+                sortable: true,
+            },
+            {
+                title: 'Phone',
+                key: 'phone',
+                align: 'center',
+                sortable: true,
+            },
+            {
+                title: 'Email',
+                key: 'email',
+                align: 'center',
+                sortable: false,
+            },
+        ];
+    }
 }

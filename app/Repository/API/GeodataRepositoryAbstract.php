@@ -3,9 +3,9 @@
 namespace App\Repository\API;
 
 use App\Models\Geodata;
-use App\Repository\BaseRepository;
+use App\Repository\AbstractBaseRepository;
 
-class GeodataRepository extends BaseRepository
+class GeodataRepositoryAbstract extends AbstractBaseRepository
 {
     protected array $searchable = [
         'breeder_id',

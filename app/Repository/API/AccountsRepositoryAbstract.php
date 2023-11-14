@@ -3,10 +3,10 @@
 namespace App\Repository\API;
 
 use App\Models\Accounts;
-use App\Repository\BaseRepository;
+use App\Repository\AbstractBaseRepository;
 use Illuminate\Support\Collection;
 
-class AccountsRepository extends BaseRepository
+class AccountsRepositoryAbstract extends AbstractBaseRepository
 {
     protected array $searchable = [
         'user_id',

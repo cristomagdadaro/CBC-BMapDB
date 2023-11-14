@@ -2,10 +2,10 @@
 
 namespace App\Repository\API;
 
-use App\Models\Permission;
-use App\Repository\BaseRepository;
+use App\Models\Role;
+use App\Repository\AbstractBaseRepository;
 
-class PermissionRepository extends BaseRepository
+class RoleRepositoryAbstract extends AbstractBaseRepository
 {
     protected array $searchable = [
         'id',
@@ -13,7 +13,7 @@ class PermissionRepository extends BaseRepository
         'value',
     ];
 
-    public function __construct(Permission $model)
+    public function __construct(Role $model)
     {
         parent::__construct($model);
     }

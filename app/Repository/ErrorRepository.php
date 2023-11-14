@@ -11,16 +11,19 @@ class ErrorRepository
         $this->exception = $e;
     }
 
-    public function getErrorMessage()
+    public function getErrorMessage(): array
     {
-        return $this->findErrorCodeMessage($this->exception->getCode());
+        return $this->findErrorCodeMessage($this->getErrorCode());
     }
 
-    private function findErrorCodeMessage($code)
+    private function findErrorCodeMessage($code): array
     {
-        $codes = config('error_codes');
+        $listOfErrorCodes = config('error_codes');
 
-        return $codes[$code] ?? 'Unknown error';
+        return [
+            'errno' => $code,
+            'message' => $listOfErrorCodes[$code],
+        ];
     }
 
     public function getErrorCode()

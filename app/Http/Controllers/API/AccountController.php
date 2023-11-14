@@ -9,14 +9,14 @@ use App\Http\Requests\GetAccountForRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Resources\AccountsCollection;
 use App\Models\Accounts;
-use App\Repository\API\AccountsRepository;
+use App\Repository\API\AccountsRepositoryAbstract;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 
 class AccountController extends BaseController
 {
 
-    public function __construct(AccountsRepository $accountRepository)
+    public function __construct(AccountsRepositoryAbstract $accountRepository)
     {
         $this->repository = $accountRepository;
     }

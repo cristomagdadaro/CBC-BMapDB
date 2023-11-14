@@ -34,4 +34,9 @@ class Breeder extends Model
     {
         return $this->hasMany(Geodata::class, 'breeder_id', 'id');
     }
+
+    public function commodities(): HasMany
+    {
+        return $this->hasMany(Commodity::class, 'breeder_id', 'id');
+    }
 }

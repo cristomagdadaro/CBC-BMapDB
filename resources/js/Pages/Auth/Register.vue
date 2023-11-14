@@ -12,6 +12,7 @@ import Logo from "@/Components/Icons/Logo.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import { Projects } from "@/Pages/constants.ts";
+import AppLayout from "@/Layouts/AppLayout.vue";
 
 const form = useForm({
     fname: '',
@@ -39,7 +40,7 @@ const submit = () => {
 
 <template>
     <Head title="Register" />
-    <PageLayout>
+    <app-layout>
         <AuthenticationCard>
             <template #logo>
                 <Logo classes="sm:h-24 h-14" />
@@ -83,5 +84,5 @@ const submit = () => {
                 </div>
             </form>
         </AuthenticationCard>
-    </PageLayout>
+    </app-layout>
 </template>

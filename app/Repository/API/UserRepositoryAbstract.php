@@ -3,9 +3,9 @@
 namespace App\Repository\API;
 
 use App\Models\User;
-use App\Repository\BaseRepository;
+use App\Repository\AbstractBaseRepository;
 
-class UserRepository extends BaseRepository
+class UserRepositoryAbstract extends AbstractBaseRepository
 {
     protected array $searchable = [
         'id',

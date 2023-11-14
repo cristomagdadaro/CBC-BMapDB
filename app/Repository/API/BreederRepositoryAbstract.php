@@ -3,10 +3,10 @@
 namespace App\Repository\API;
 
 use App\Models\Breeder;
-use App\Repository\BaseRepository;
+use App\Repository\AbstractBaseRepository;
 use Illuminate\Database\Eloquent\Builder;
 
-class BreederRepository extends BaseRepository
+class BreederRepositoryAbstract extends AbstractBaseRepository
 {
     protected array $searchable = [
         'id',

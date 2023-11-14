@@ -4,6 +4,8 @@ import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import {ref} from "vue";
 import {ValidationErrorResponse} from "@/Modules/core/infrastructure/ValidationErrorResponse.js";
 import Notification from "@/Components/Modal/Notification/Notification.js";
+import {ServerErrorResponse} from "@/Modules/core/infrastructure/ServerErrorResponse.js";
+import {NotFoundErrorResponse} from "@/Modules/core/infrastructure/NotFoundErrorResponse.js";
 
 export default class CRCMDatatable
 {
@@ -192,29 +194,16 @@ export default class CRCMDatatable
     async create(data) {
         this.processing = true;
         const response = await this.api.post(this.model.toObject(data));
+
+        Notification.pushNotification(response);
+
         if (response instanceof ValidationErrorResponse){
             this.errorBag = response.toObject();
             this.processing = false;
-            Notification.pushNotification({
-                title: 'Failed',
-                message: "Failed to save",
-                type: 'failed',
-                timeout: 5000,
-                show: true,
-            });
             return;
         }
 
-        Notification.pushNotification({
-            title: 'Success',
-            message: "Saved successfully",
-            type: 'success',
-            timeout: 5000,
-            show: true,
-        })
-
         this.processing = false;
-
         await this.refresh();
         this.errorBag = {};
     }
@@ -222,36 +211,19 @@ export default class CRCMDatatable
     async delete(id) {
         this.processing = true;
         const response = await this.api.delete(id);
-        console.log(typeof response);
-        if (response instanceof ValidationErrorResponse){
+
+        console.log('dsadsadsa');
+        console.log(response);
+        Notification.pushNotification(response);
+
+        if (response instanceof ValidationErrorResponse ||
+            response instanceof ServerErrorResponse ||
+            response instanceof NotFoundErrorResponse
+        ){
             this.errorBag = response.toObject();
             this.processing = false;
-            Notification.pushNotification({
-                title: 'Failed',
-                message: "Failed to delete",
-                type: 'failed',
-                timeout: 5000,
-                show: true,
-            });
             return;
         }
-
-        if (!response)
-            Notification.pushNotification({
-                title: 'Warning',
-                message: "Failed to delete, record not found",
-                type: 'warning',
-                timeout: 5000,
-                show: true,
-            });
-        else
-            Notification.pushNotification({
-                title: 'Success',
-                message: "Deleted successfully",
-                type: 'success',
-                timeout: 5000,
-                show: true,
-            });
 
         this.processing = false;
         await this.refresh();
@@ -292,28 +264,8 @@ export default class CRCMDatatable
     async deleteSelected() {
         this.processing = true;
         const response = await this.api.delete(this.selected);
-        if (response instanceof ValidationErrorResponse){
-            this.errorBag = response.toObject();
-            this.processing = false;
-            Notification.pushNotification({
-                title: 'Failed',
-                message: "Failed to delete multiple IDs",
-                type: 'failed',
-                timeout: 5000,
-                show: true,
-            });
-            return;
-        }
 
-        if (!response)
-            Notification.pushNotification({
-                title: 'Warning',
-                message: "Failed to delete, records not found",
-                type: 'warning',
-                timeout: 5000,
-                show: true,
-            });
-        else
+        if (response instanceof BaseResponse){
             Notification.pushNotification({
                 title: 'Success',
                 message: "Deleted successfully",
@@ -321,6 +273,16 @@ export default class CRCMDatatable
                 timeout: 5000,
                 show: true,
             });
+        }
+        else if (response instanceof ValidationErrorResponse ||
+            response instanceof ServerErrorResponse ||
+            response instanceof NotFoundErrorResponse
+        ){
+            this.errorBag = response.toObject();
+            this.processing = false;
+            Notification.pushNotification(response);
+            return;
+        }
 
         this.processing = false;
 

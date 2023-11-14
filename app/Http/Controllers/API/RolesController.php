@@ -6,15 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DeleteRoleRequest;
 use App\Http\Requests\GetRoleRequest;
 use App\Http\Resources\RoleCollection;
-use App\Repository\API\RoleRepository;
+use App\Repository\API\RoleRepositoryAbstract;
 use App\Repository\ErrorRepository;
 
 class RolesController extends Controller
 {
 
-    protected RoleRepository $roleRepository;
+    protected RoleRepositoryAbstract $roleRepository;
 
-    public function __construct(RoleRepository $roleRepository)
+    public function __construct(RoleRepositoryAbstract $roleRepository)
     {
         $this->roleRepository = $roleRepository;
     }

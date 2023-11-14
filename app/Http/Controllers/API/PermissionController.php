@@ -10,12 +10,12 @@ use App\Http\Requests\GetPermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Http\Resources\PermissionCollection;
 use App\Models\Permission;
-use App\Repository\API\PermissionRepository;
+use App\Repository\API\PermissionRepositoryAbstract;
 use App\Repository\ErrorRepository;
 
 class PermissionController extends BaseController
 {
-    public function __construct(PermissionRepository $permissionRepository)
+    public function __construct(PermissionRepositoryAbstract $permissionRepository)
     {
         $this->repository = $permissionRepository;
     }

@@ -4,7 +4,7 @@ import tablink from '@/Components/Header/TabLink.vue';
 import Logo from '@/Components/Icons/Logo.vue';
 import HoverDropdownLink from '@/Components/Header/HoverDropdownLink.vue';
 import HoverDropdownVue from '@/Components/Header/HoverDropdown.vue';
-import { CBCProjects } from "@/Pages/constants.ts";
+import {CBCProjects, CBCProjectsPublic} from "@/Pages/constants.ts";
 
 defineProps({
     canLogin: Boolean,
@@ -14,7 +14,7 @@ defineProps({
 const TabLinks = [
     {
         name: 'Home',
-        link: '/',
+        link: 'home',
     },
     /*{
        name: 'Projects',
@@ -56,7 +56,7 @@ const TabLinks = [
             <ul class="lg:flex sm:gap-2">
                 <tablink v-if="$page.props.auth.user" :link="route('dashboard')" :active="route().current('dashboard')">Dashboard</tablink>
                 <template v-for="link in TabLinks">
-                    <tablink :link="link.link">
+                    <tablink :link="route(link.link)" :active="route().current(link.link)">
                         {{ link.name }}
                     </tablink>
                 </template>
@@ -65,14 +65,14 @@ const TabLinks = [
                         Projects
                     </template>
                     <template #content>
-                        <tablink v-for="project in CBCProjects" :key="project.id" :link="route(project.value)" class="text-gray-700">
+                        <tablink v-for="project in CBCProjectsPublic" :key="project.id" :link="route(project.value)" class="text-gray-700">
                             {{ project.label }}
                         </tablink>
                     </template>
                 </tablink>
                 <template v-if="canLogin && $page.props.auth.user === null ">
-                    <tablink :link="route('login')">Log in</tablink>
-                    <tablink v-if="canRegister" :link="route('register')">Register</tablink>
+                    <tablink :link="route('login')" :active="route().current('login')">Log in</tablink>
+                    <tablink v-if="canRegister" :link="route('register')" :active="route().current('register')">Register</tablink>
                 </template>
             </ul>
         </template>

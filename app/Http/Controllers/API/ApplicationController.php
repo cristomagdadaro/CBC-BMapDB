@@ -8,13 +8,13 @@ use App\Http\Requests\GetApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Http\Resources\ApplicationCollection;
 use App\Models\Application;
-use App\Repository\API\ApplicationRepository;
+use App\Repository\API\ApplicationRepositoryAbstract;
 use Illuminate\Http\Request;
 
 class ApplicationController extends BaseController
 {
 
-    public function __construct(ApplicationRepository $applicationRepository)
+    public function __construct(ApplicationRepositoryAbstract $applicationRepository)
     {
         $this->repository = $applicationRepository;
     }

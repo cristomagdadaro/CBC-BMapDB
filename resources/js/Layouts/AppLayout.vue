@@ -8,7 +8,7 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import PageLayout from "@/Layouts/PageLayout.vue";
 import FullscreenToggle from "@/Components/FullscreenToggle.vue";
-import { CBCProjects } from "@/Pages/constants.ts";
+import {CBCProjects} from "@/Pages/constants.ts";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import BellIcon from "@/Components/Icons/BellIcon.vue";
 import Notification from "@/Components/Modal/Notification/Notification.js";
@@ -41,7 +41,7 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+            <nav v-if="$page.props.auth.user" class="bg-white border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-10">

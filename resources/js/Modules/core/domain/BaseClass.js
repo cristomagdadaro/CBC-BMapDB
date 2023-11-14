@@ -11,4 +11,17 @@ export class BaseClass
     static toObject(obj) {
         return Object.assign({}, obj);
     }
+
+    static getColumns() {
+        return [
+            Object.keys(this.toObject(new this())).map((key) => {
+                return {
+                    title: key,
+                    key: key,
+                    align: 'left',
+                    sortable: true,
+                };
+            })
+        ];
+    }
 }

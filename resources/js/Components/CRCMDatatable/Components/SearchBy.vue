@@ -4,7 +4,7 @@
             <span class="flex gap-0.5">Filter by</span>
             <div class="flex items-center gap-0.5">
                 <label for="exactValue"></label>
-                <input type="checkbox" v-model="is_exact" @click="toggle()" class="rounded-full h-3 w-4 focus:outline-none" title="turn on filter by exact value">
+                <input type="checkbox" v-model="is_exact" @click="toggle()" class="rounded-full h-3 w-4 focus:outline-none focus:ring-0 focus:border-1" title="turn on filter by exact value">
             </div>
         </span>
         <custom-dropdown :value="value" placeholder="Filters" :options="options" @selectedChange="$emit('searchBy', $event)">

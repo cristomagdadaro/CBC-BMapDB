@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
-class TWGProjectRepository extends BaseRepository
+class TWGProjectRepositoryAbstract extends AbstractBaseRepository
 {
     /**
      * @var TWGProject

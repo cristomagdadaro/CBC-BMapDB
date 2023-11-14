@@ -7,13 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GetAccountForRequest;
 use App\Http\Resources\AccountForCollection;
 use App\Models\AccountFor;
-use App\Repository\API\AccountForRepository;
+use App\Repository\API\AccountForRepositoryAbstract;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 
 class AccountForController extends BaseController
 {
-    public function __construct(AccountForRepository $accountForRepository)
+    public function __construct(AccountForRepositoryAbstract $accountForRepository)
     {
         $this->repository = $accountForRepository;
     }

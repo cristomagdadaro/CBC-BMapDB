@@ -6,6 +6,12 @@ export default class BaseResponse {
         this.data = response.data;
         this.meta = response.meta;
         this.links = response.links;
+
+        this.title = response.title || 'Success';
+        this.message = response.message || "Deleted successfully";
+        this.type = response.type || 'success';
+        this.timeout = response.timeout || 5000;
+        this.show = response.show || true;
     }
 
     static fromObject(response) {

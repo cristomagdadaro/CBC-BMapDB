@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 <template>
     <BodyLayout :is-wide-display="props.isWideDisplay">
-        <main class="min-h-screen bg-white">
+        <main class="min-h-screen bg-transparent">
             <slot />
         </main>
     </BodyLayout>

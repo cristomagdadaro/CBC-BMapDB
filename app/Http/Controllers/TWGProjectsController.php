@@ -8,7 +8,7 @@ use App\Http\Resources\TWGResource;
 use App\Models\TWGExpert;
 use App\Models\TWGProduct;
 use App\Models\TWGProject;
-use App\Repository\TWGProjectRepository;
+use App\Repository\TWGProjectRepositoryAbstract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -17,10 +17,10 @@ use Inertia\Response;
 
 class TWGProjectsController extends TWGBaseController
 {
-    protected TWGProjectRepository $project;
+    protected TWGProjectRepositoryAbstract $project;
 
     // constructor
-    public function __construct(TWGProjectRepository $project)
+    public function __construct(TWGProjectRepositoryAbstract $project)
     {
         $this->project = $project;
     }
