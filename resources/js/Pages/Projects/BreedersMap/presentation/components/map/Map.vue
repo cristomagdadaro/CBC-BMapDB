@@ -1,69 +1,187 @@
 <template>
-    <l-map
-        class="z-0"
-        style="height: 500px"
-        :zoom="zoom"
-        :center="center"
-        :maxZoom="maxZoom"
-        :minZoom="minZoom"
-    >
-        <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-        <l-marker :lat-lng="markerLatLng">
-            <l-popup>
-                <h2>Crop Biotechnology Center</h2>
-            </l-popup>
-        </l-marker>
-        <l-circle-marker
-            v-for="place in placesFiltered"
-            :key="place.place_id"
-            :lat-lng="[place.lat, place.lon]"
-            opacity="0.8"
-            color="#3DA5B4"
-            weight="1"
-        >
-            <l-popup>
-                <div>
-                    <table>
-                        <tr
-                            v-for="(value, key) in place"
-                            :key="key"
-                        >
-                            <th>{{ key }}</th>
-                            <td>{{ value }}</td>
-                        </tr>
-                    </table>
+    <div class="flex sm:flex-row flex-col max-h-fit gap-1">
+        <div class="rounded flex-col flex gap-1 overflow-y-auto">
+            <template v-for="point in placesFiltered">
+                <div @click="selectPoint([point.lat, point.lon])" :class="markerLatLng[0]===point.lat&&markerLatLng[1]===point.lon?'bg-gray-400':'bg-white'" class="flex flex-col gap-1 border p-1 rounded hover:bg-gray-200 leading-1 duration-200 select-none">
+                    <h1 class="font-medium leading-5">{{ point.place_name }}</h1>
+                    <pre class="text-xs leading-1">[{{ point.lat }}, {{point.lon}}]</pre>
                 </div>
-            </l-popup>
-        </l-circle-marker>
-    </l-map>
+            </template>
+        </div>
+        <!--    <div id="map" class="h-screen"></div>-->
+        <l-map
+            :use-global-leaflet="true"
+            :zoom-animation="true"
+            :fadeAnimation="true"
+            :markerZoomAnimation="true"
+            class="z-0 border rounded"
+            style="height: 800px"
+            :zoom="zoom"
+            :center="center"
+            :maxZoom="maxZoom"
+            :minZoom="minZoom"
+            :max-bounds="[maxBound.southwest, maxBound.northeast]"
+            :max-bounds-viscosity="-5"
+        >
+
+            <l-geo-json
+                v-for="region in province"
+                :name="region.features[0].properties.ADM1_EN"
+                :layer-type="'overlay'"
+                :geojson="region"
+                :visible="true"
+                :pane="'overlayPane'"
+                :style="{
+                color: '#ff7800',
+                weight: 5,
+                opacity: 0.65,
+                fillColor: 'red',
+                fillOpacity: 0.8
+            }" />
+
+            <l-control-layers position="topright" :collapsed="false" />
+
+            <l-tile-layer
+                v-for="tileProvider in tileProviders"
+                :key="tileProvider.name"
+                :name="tileProvider.name"
+                :visible="tileProvider.visible"
+                :url="tileProvider.url"
+                :attribution="tileProvider.attribution"
+                layer-type="base"/>
+
+            <l-marker v-if="markerLatLng" :lat-lng="markerLatLng">
+                <l-popup>
+                    <h2>Crop Biotechnology Center</h2>
+                </l-popup>
+            </l-marker>
+
+
+            <l-circle-marker
+                v-for="place in placesFiltered"
+                :key="place.place_id"
+                :lat-lng="[place.lat, place.lon]"
+                :opacity="0.8"
+                color="#3DA5B4"
+                :weight="1"
+            >
+                <l-tooltip
+                    :content="place.place_name"
+                >
+                    <div>
+                        <table>
+                            <tr
+                                v-for="(value, key) in place"
+                                :key="key"
+                            >
+                                <th>{{ key }}</th>
+                                <td>{{ value }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </l-tooltip>
+                <l-popup>
+                    <div>
+                        <table>
+                            <tr
+                                v-for="(value, key) in place"
+                                :key="key"
+                            >
+                                <th>{{ key }}</th>
+                                <td>{{ value }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </l-popup>
+            </l-circle-marker>
+
+<!--            <l-rectangle
+                :bounds="[maxBound.southwest, maxBound.northeast]"
+                :weight="1"
+                :color="'red'"
+                :fill-color="'transparent'"
+            />-->
+        </l-map>
+    </div>
 </template>
 
 <script>
-import {LMap, LTileLayer, LMarker, LCircleMarker, LPopup} from "@vue-leaflet/vue-leaflet";
+import region1 from '@/Pages/Projects/BreedersMap/components/geojsons/geoJson.js';
+import {
+    LMap,
+    LTileLayer,
+    LMarker,
+    LCircleMarker,
+    LPopup,
+    LControlLayers,
+    LFeatureGroup, LTooltip, LRectangle, LGeoJson
+} from "@vue-leaflet/vue-leaflet";
 import 'leaflet/dist/leaflet.css';
+import regions from "@/Pages/Projects/BreedersMap/components/geojsons/geoJson.js";
 export default {
+    computed: {
+        province() {
+            return regions;
+        }
+    },
     components: {
+        LGeoJson,
+        LRectangle,
+        LTooltip,
+        LFeatureGroup,
+        LControlLayers,
         LMap,
         LTileLayer,
         LMarker,
         LCircleMarker,
         LPopup,
     },
+    mounted() {
+    },
+    methods: {
+        selectPoint(point){
+            this.markerLatLng = point;
+            this.center = point;
+            this.zoom = 10;
+            this.selectedPlace = this.placesFiltered.find(place => place.lat === point[0] && place.lon === point[1]);
+        },
+        highlightFeature(event) {
+            console.log(event);
+            if (!this.isHovered) {
+                this.isHovered = true;
+                const layer = event.target;
+                layer.setStyle({
+                    fillColor: 'yellow',
+                    fillOpacity: 1
+                });
+            }
+        },
+        resetHighlight(event) {
+            this.isHovered = false;
+            const layer = event.target;
+            layer.setStyle({
+                fillColor: layer.feature.properties.color || 'red',
+                fillOpacity: 0.7,
+                color: 'black',
+                weight: 1
+            });
+        }
+    },
     data () {
         return {
-            //url: "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-            //url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png',
-            //url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-            url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-            zoom: 6,
-            minZoom: 6,
-            maxZoom: 6,
-            center: [15.669225749333105, 120.89068526776725],
-            markerLatLng: [15.669225749333105, 120.89068526776725],
-            //url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            subdomains: 'abcd',
-            //attribution: '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            isHovered: false,
+            tiles: null,
+            map: null,
+            zoom: 5.8,
+            minZoom: 5.8,
+            maxZoom: 15,
+            center: [12.296167, 122.763835],
+            maxBound: {
+                southwest: [4.284376, 116.521894],
+                northeast: [21.327897, 126.895418]
+            },
+            markerLatLng: [0,0],
+            selectedPlace: null,
             placesFiltered: [
                 {
                     "place_id": 1,
@@ -285,8 +403,29 @@ export default {
                     "place_contact": "09123456789",
                     "place_website": "https://www.csu.edu.ph"
                 },
-            ]
-
+            ],
+            tileProviders: [
+                {
+                    name: 'CARTO',
+                    visible: true,
+                    attribution: '<span class="bg-transparent">&copy; <a class="bg-transparent" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a class="bg-transparent" href="https://carto.com/attributions">CARTO</a></span>',
+                    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+                },
+                {
+                    name: 'OpenStreetMap',
+                    visible: false,
+                    attribution:
+                        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+                    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                },
+                {
+                    name: 'OpenTopoMap',
+                    visible: false,
+                    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+                    attribution:
+                        'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
+                },
+            ],
         };
     }
 }

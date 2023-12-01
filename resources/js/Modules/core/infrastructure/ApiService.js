@@ -20,9 +20,11 @@ export default class ApiService
             const response = await axios.get(this.baseUrl, {
                 params: params
             });
+
             response.data.data = this.castToModel(response.data.data, model);
             return new BaseResponse(response.data);
         } catch (error) {
+            console.log(error);
             return this.determineError(error);
         }
     }
