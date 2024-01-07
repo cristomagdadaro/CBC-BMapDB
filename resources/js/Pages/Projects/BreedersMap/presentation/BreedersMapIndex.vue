@@ -35,17 +35,11 @@ import Tab from "@/Components/Tab/Tab.vue";
                 <template #tab3>
                     <div class="p-2 relative">
                         <h1 class="h1 text-center font-semibold uppercase">Commodities Geographical Map</h1>
-                       <Map />
+                        <Map />
                     </div>
                 </template>
             </Tab>
             <p v-else>Please login to view the data</p>
-
-        </div>
-        <div class="w-full sm:p-5 p-0">
-            <div class="flex flex-wrap gap-2">
-                <div id="map" class="border shadow-md"></div>
-            </div>
         </div>
     </app-layout>
 </template>

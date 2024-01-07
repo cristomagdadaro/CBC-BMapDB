@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\TWGProduct;
+use App\Models\TWGService;
 use App\Models\User;
 use App\Models\TWGExpert;
 use App\Models\TWGProject;
@@ -27,7 +29,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->count(10)->create();
-
+        TWGExpert::factory()->count(20)->create();
+        TWGProject::factory()->count(20)->create();
+        TWGProduct::factory()->count(20)->create();
+        TWGService::factory()->count(20)->create();
         /*\App\Models\TWGExpert::factory()->count(10)->create();
         \App\Models\TWGProject::factory()->count(10)->create();
         \App\Models\TWGProject::factory()->create([

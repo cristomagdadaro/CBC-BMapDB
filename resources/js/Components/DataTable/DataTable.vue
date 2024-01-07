@@ -30,7 +30,7 @@ import DialogModal from "@/Components/DialogModal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import TextField from "@/Components/Form/TextField.vue";
-import TWGEdit from "@/Pages/Projects/TWG/TWGEdit.vue";
+import TWGEdit from "@/Pages/Projects/TWG/presentation/components/expert/CreateExpertForm.vue";
 import {markRaw} from 'vue';
 import axios from 'axios';
 import {Link} from "@inertiajs/vue3";

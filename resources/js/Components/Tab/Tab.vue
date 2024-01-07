@@ -24,7 +24,9 @@ export default {
             return this.activeTab === tab;
         },
         setActiveTab(tab) {
+            this.activeTab.active = false;
             this.activeTab = tab;
+            this.activeTab.active = true;
         },
     },
     mounted() {

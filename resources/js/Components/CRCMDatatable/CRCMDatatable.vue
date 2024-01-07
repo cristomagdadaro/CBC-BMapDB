@@ -130,38 +130,42 @@
                            :isSelected="dt.isSelected(row.id)"
                         >
                             <!-- Cell No. -->
-                            <t-d class="text-xs text-gray-600 text-center flex items-center gap-0.5">
-                                {{ meta_from + data.indexOf(row) }}
-                                <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
+                            <t-d class="text-xs text-gray-600 items-center">
+                                <div class="flex gap-1">
+                                    {{ meta_from + data.indexOf(row) }}
+                                    <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
+                                </div>
                             </t-d>
                             <!-- Cell Data -->
                             <t-d
-                                class="sm:break-words break-all align-text-top items-center"
+                                class="break-words text-sm border border-gray-300"
                                 v-on:dblclick="dt.addSelected(row.id)"
                                 v-on:click.ctrl="dt.addSelected(row.id)"
                                 v-for="cell in row" :key="cell">
                                 {{ cell }}
                             </t-d>
                             <!-- Cell Actions -->
-                            <t-d class="flex justify-center items-center sm:gap-1 gap-0.5">
-                                <top-action-btn
-                                    @click="showEditDialogFunc(row.id)"
-                                    class="bg-edit"
-                                    title="Modify this row">
-                                    <template #icon>
-                                        <edit-icon class="h-auto sm:w-5 w-4" />
-                                    </template>
-                                    <span v-show="showIconText">Edit</span>
-                                </top-action-btn>
-                                <top-action-btn
-                                    @click="showDeleteDialogFunc(row.id)"
-                                    class="bg-delete"
-                                    title="Delete this row">
-                                    <template #icon>
-                                        <delete-icon class="h-auto sm:w-5 w-4" />
-                                    </template>
-                                    <span v-show="showIconText">Delete</span>
-                                </top-action-btn>
+                            <t-d class="items-center">
+                                <div class="flex justify-center sm:gap-1 gap-0.5">
+                                    <top-action-btn
+                                        @click="showEditDialogFunc(row.id)"
+                                        class="bg-edit"
+                                        title="Modify this row">
+                                        <template #icon>
+                                            <edit-icon class="h-auto sm:w-5 w-4" />
+                                        </template>
+                                        <span v-show="showIconText">Edit</span>
+                                    </top-action-btn>
+                                    <top-action-btn
+                                        @click="showDeleteDialogFunc(row.id)"
+                                        class="bg-delete"
+                                        title="Delete this row">
+                                        <template #icon>
+                                            <delete-icon class="h-auto sm:w-5 w-4" />
+                                        </template>
+                                        <span v-show="showIconText">Delete</span>
+                                    </top-action-btn>
+                                </div>
                             </t-d>
                         </tbody-row>
                         <not-found-row v-else :colspan="dt.columns.length" />

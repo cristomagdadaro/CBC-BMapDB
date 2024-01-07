@@ -1,12 +1,38 @@
 <template>
-    <div class="flex sm:flex-row flex-col max-h-fit gap-1">
-        <div class="rounded flex-col flex gap-1 overflow-y-auto">
-            <template v-for="point in placesFiltered">
-                <div @click="selectPoint([point.lat, point.lon])" :class="markerLatLng[0]===point.lat&&markerLatLng[1]===point.lon?'bg-gray-400':'bg-white'" class="flex flex-col gap-1 border p-1 rounded hover:bg-gray-200 leading-1 duration-200 select-none">
-                    <h1 class="font-medium leading-5">{{ point.place_name }}</h1>
-                    <pre class="text-xs leading-1">[{{ point.lat }}, {{point.lon}}]</pre>
-                </div>
+    <div class="flex gap-1 justify-end">
+        <top-action-btn
+            class="bg-add text-xs"
+            title="Add new data">
+            <template #icon>
+                <export-icon class="h-auto sm:w-6 w-4" />
             </template>
+            <span v-show="true">Export</span>
+        </top-action-btn>
+        <top-action-btn
+            class="bg-yellow-400 text-gray-900 text-xs"
+            title="Add new data">
+            <template #icon>
+                <share-icon class="h-auto sm:w-4 w-4" />
+            </template>
+            <span v-show="true">Share</span>
+        </top-action-btn>
+    </div>
+    <div class="flex sm:flex-row flex-col max-h-fit gap-1">
+        <div class="flex flex-col gap-2">
+            <search-box
+                :value="selectedPlace"
+                :options="placesFiltered"
+                :label="selectedPlace ? selectedPlace.place_name : 'Select a place'"
+                @input="filterPlaces($event.target.value)"
+            />
+            <div class="rounded flex-col flex gap-1 overflow-y-auto max-h-96">
+
+                <template v-for="point in placesSearched">
+                    <div @click="selectPoint([point.lat, point.lon])" :class="markerLatLng[0]===point.lat&&markerLatLng[1]===point.lon?'bg-gray-400':'bg-white'" class="flex flex-col gap-1 border p-1 rounded hover:bg-gray-200 leading-1 duration-200 select-none">
+                        <h1 class="font-medium leading-5">{{ point.place_name }}</h1>
+                    </div>
+                </template>
+            </div>
         </div>
         <!--    <div id="map" class="h-screen"></div>-->
         <l-map
@@ -94,13 +120,6 @@
                     </div>
                 </l-popup>
             </l-circle-marker>
-
-<!--            <l-rectangle
-                :bounds="[maxBound.southwest, maxBound.northeast]"
-                :weight="1"
-                :color="'red'"
-                :fill-color="'transparent'"
-            />-->
         </l-map>
     </div>
 </template>
@@ -118,6 +137,13 @@ import {
 } from "@vue-leaflet/vue-leaflet";
 import 'leaflet/dist/leaflet.css';
 import regions from "@/Pages/Projects/BreedersMap/components/geojsons/geoJson.js";
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
+import TextField from "@/Components/Form/TextField.vue";
+import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
+import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
+import AddIcon from "@/Components/Icons/AddIcon.vue";
+import ExportIcon from "@/Components/Icons/ExportIcon.vue";
+import ShareIcon from "@/Components/Icons/ShareIcon.vue";
 export default {
     computed: {
         province() {
@@ -125,6 +151,13 @@ export default {
         }
     },
     components: {
+        ShareIcon,
+        ExportIcon,
+        AddIcon,
+        TopActionBtn,
+        SearchBox,
+        TextField,
+        SelectSearchField,
         LGeoJson,
         LRectangle,
         LTooltip,
@@ -137,6 +170,7 @@ export default {
         LPopup,
     },
     mounted() {
+        this.placesSearched = this.placesFiltered;
     },
     methods: {
         selectPoint(point){
@@ -144,6 +178,11 @@ export default {
             this.center = point;
             this.zoom = 10;
             this.selectedPlace = this.placesFiltered.find(place => place.lat === point[0] && place.lon === point[1]);
+        },
+        filterPlaces(str) {
+            this.placesSearched = this.placesFiltered.filter(place =>
+                place.place_name.toLowerCase().includes(str.toLowerCase())
+            );
         },
         highlightFeature(event) {
             console.log(event);
@@ -182,6 +221,7 @@ export default {
             },
             markerLatLng: [0,0],
             selectedPlace: null,
+            placesSearched: [],
             placesFiltered: [
                 {
                     "place_id": 1,

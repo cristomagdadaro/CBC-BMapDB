@@ -13,9 +13,13 @@ class TWGExpert extends Model
 
     protected $fillable = [
         'user_id',
+        'name',
         'position',
         'educ_level',
         'expertise',
+        'research_interest',
+        'mobile',
+        'email',
     ];
 
     public function twg_projects()

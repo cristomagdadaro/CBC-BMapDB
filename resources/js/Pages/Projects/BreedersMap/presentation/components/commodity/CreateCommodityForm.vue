@@ -10,14 +10,15 @@
             <div class="mt-4 text-sm text-gray-600">
                 <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                     <text-field :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
+                    <select-search-field :error="errors? errors['breeder_id']:{}" label="Breeder" v-model="form.breeder_id" :options="breeders" />
                     <text-field :error="errors? errors['breeder_id']:{}" label="Breeder" v-model="form.breeder_id" />
                     <text-field :error="errors? errors['scientific_name']:{}" label="Scientific Name" v-model="form.scientific_name" />
                     <text-field :error="errors? errors['variety']:{}" label="Variety" v-model="form.variety" />
                     <text-field :error="errors? errors['accession']:{}" label="Accession" v-model="form.accession" />
                     <text-field :error="errors? errors['germplasm']:{}" label="Germplasm" v-model="form.germplasm" />
-                    <text-field :error="errors? errors['population']:{}" label="Population" v-model="form.population" />
+                    <text-field type-input="number" :error="errors? errors['population']:{}" label="Population" v-model="form.population" />
                     <text-field :error="errors? errors['maturity_period']:{}" label="Maturity Period" v-model="form.maturity_period" />
-                    <text-field :error="errors? errors['yield']:{}" label="Yield" v-model="form.yield" />
+                    <text-field type-input="number" :error="errors? errors['yield']:{}" label="Yield" v-model="form.yield" />
                     <text-field :error="errors? errors['description']:{}" label="Description" v-model="form.description" />
                 </div>
             </div>
@@ -34,9 +35,13 @@ import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import {useRemember} from "@inertiajs/vue3";
+import SelectField from "@/Components/Form/SelectField.vue";
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 
 export default {
     components: {
+        SelectSearchField,
+        SelectField,
         CancelButton,
         CloseIcon,
         TextField,
@@ -53,6 +58,11 @@ export default {
     },
     data() {
         return {
+            breeders: [
+                {value: 1, label: 'Breeder 1'},
+                {value: 2, label: 'Breeder 2'},
+                {value: 3, label: 'Breeder 3'},
+            ],
             form: {
                 name: null,
                 breeder_id: null,

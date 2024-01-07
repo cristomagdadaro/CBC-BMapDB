@@ -41,9 +41,9 @@ class TWGProjectRequest extends BaseRequest
     public function messages(): array
     {
         return [
-            'twg_expert_id.required' => 'The TWG Expert ID is required.',
-            'twg_expert_id.integer' => 'The TWG Expert ID must be an integer.',
-            'twg_expert_id.exists' => 'The TWG Expert ID must exist in the database.',
+            'twg_expert_id.required' => 'The TWG expert ID is required.',
+            'twg_expert_id.integer' => 'The TWG expert ID must be an integer.',
+            'twg_expert_id.exists' => 'The TWG expert ID must exist in the database.',
             'title.required' => 'The title is required.',
             'title.string' => 'The title must be a string.',
             'title.max' => 'The title must not be greater than 255 characters.',

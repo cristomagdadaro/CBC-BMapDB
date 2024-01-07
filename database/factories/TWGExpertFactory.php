@@ -18,10 +18,14 @@ class TWGExpertFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => $this->faker->unique()->numberBetween(1, 10),
+            'user_id' => $this->faker->numberBetween(1, 10),
+            'name' => $this->faker->name(),
             'position' => $this->faker->jobTitle(),
             'educ_level' => $this->faker->randomElement(["Bachelor's", "Master's", 'Doctoral']),
             'expertise' => $this->faker->randomElement(['Agriculture', 'Fishery', 'Livestock', 'Forestry', 'Microbiology', 'Botany', 'Biotechnology']),
-        ];
+            'research_interest' => $this->faker->randomElement(['Agriculture', 'Fishery', 'Livestock', 'Forestry', 'Microbiology', 'Botany', 'Biotechnology']),
+            'mobile' => $this->faker->phoneNumber(),
+            'email' => $this->faker->unique()->safeEmail(),
+            ];
     }
 }

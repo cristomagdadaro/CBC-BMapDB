@@ -2,17 +2,20 @@
 
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
-use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\BreederController;
 use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\GeodataController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\API\TWGExpertController;
+use App\Http\Controllers\API\TWGProductController;
+use App\Http\Controllers\API\TWGProjectController;
+use App\Http\Controllers\API\TWGServiceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use App\Http\Controllers\TWGProjectsController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -50,14 +53,9 @@ Route::middleware([
     })->name('dashboard');
 
     Route::prefix('/projects')->group(function () {
-        Route::prefix('/twg')->group(function () {
-            Route::get('/', [TWGProjectsController::class, 'index']);
-            Route::get('/', [TWGProjectsController::class, 'indexPage'])->name('projects.twgdb.index');
-            Route::get('/{id}', [TWGProjectsController::class, 'show']);
-            Route::post('/', [TWGProjectsController::class, 'store']);
-            Route::put('/{id}', [TWGProjectsController::class, 'update']);
-            Route::delete('/{id}', [TWGProjectsController::class, 'destroy']);
-        });
+        Route::get('/twg', function () {
+            return Inertia::render('Projects/TWG/presentation/TWGIndex');
+        })->name('projects.twg.index');
 
         Route::get('/breedersmap', function (){
             return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
@@ -66,7 +64,46 @@ Route::middleware([
 });
 
 Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
+    /*TWG Related APIs*/
+    Route::prefix('/twg')->group(function () {
+       Route::prefix('/experts')->group(function () {
+           Route::get('/', [TWGExpertController::class, 'index'])->name('api.twg.experts.index');
+           Route::get('/{id}', [TWGExpertController::class, 'show'])->name('api.twg.experts.show');
+           Route::post('/', [TWGExpertController::class, 'store'])->name('api.twg.experts.store');
+           Route::put('/{id}', [TWGExpertController::class, 'update'])->name('api.twg.experts.update');
+           Route::delete('/delete', [TWGExpertController::class, 'multiDestroy'])->name('api.twg.experts.destroy.multi');
+           Route::delete('/{id}', [TWGExpertController::class, 'destroy'])->name('api.twg.experts.destroy');
+       });
 
+        Route::prefix('/projects')->group(function () {
+            Route::get('/', [TWGProjectController::class, 'index'])->name('api.twg.projects.index');
+            Route::get('/{id}', [TWGProjectController::class, 'show'])->name('api.twg.projects.show');
+            Route::post('/', [TWGProjectController::class, 'store'])->name('api.twg.projects.store');
+            Route::put('/{id}', [TWGProjectController::class, 'update'])->name('api.twg.projects.update');
+            Route::delete('/delete', [TWGProjectController::class, 'multiDestroy'])->name('api.twg.projects.destroy.multi');
+            Route::delete('/{id}', [TWGProjectController::class, 'destroy'])->name('api.twg.projects.destroy');
+        });
+
+        Route::prefix('/products')->group(function () {
+            Route::get('/', [TWGProductController::class, 'index'])->name('api.twg.products.index');
+            Route::get('/{id}', [TWGProductController::class, 'show'])->name('api.twg.products.show');
+            Route::post('/', [TWGProductController::class, 'store'])->name('api.twg.products.store');
+            Route::put('/{id}', [TWGProductController::class, 'update'])->name('api.twg.products.update');
+            Route::delete('/delete', [TWGProductController::class, 'multiDestroy'])->name('api.twg.products.destroy.multi');
+            Route::delete('/{id}', [TWGProductController::class, 'destroy'])->name('api.twg.products.destroy');
+        });
+
+        Route::prefix('/services')->group(function () {
+            Route::get('/', [TWGServiceController::class, 'index'])->name('api.twg.services.index');
+            Route::get('/{id}', [TWGServiceController::class, 'show'])->name('api.twg.services.show');
+            Route::post('/', [TWGServiceController::class, 'store'])->name('api.twg.services.store');
+            Route::put('/{id}', [TWGServiceController::class, 'update'])->name('api.twg.services.update');
+            Route::delete('/delete', [TWGServiceController::class, 'multiDestroy'])->name('api.twg.services.destroy.multi');
+            Route::delete('/{id}', [TWGServiceController::class, 'destroy'])->name('api.twg.services.destroy');
+        });
+    });
+
+    /*Breeders Map Related APIs*/
     Route::prefix('/breeders')->group(function () {
         Route::get('/', [BreederController::class, 'index'])->name('api.breeders.index');
         Route::get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
@@ -88,6 +125,8 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
     Route::prefix('/geodata')->group(function () {
         Route::get('/', [GeodataController::Class, 'index'])->name('api.breeders.geodata.index');
     });
+
+    /*System Related APIs*/
 
     Route::prefix('/roles')->group(function () {
         Route::get('/', [RoleController::class, 'index'])->name('api.roles.index');

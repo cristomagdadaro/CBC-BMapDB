@@ -47,4 +47,3 @@ export const BreedersMapPages = {
         component: () => import('@/Pages/Projects/BreedersMap/presentation/BreedersMapIndex.vue')
     },
 }
-

@@ -5,6 +5,8 @@ import Logo from '@/Components/Icons/Logo.vue';
 import HoverDropdownLink from '@/Components/Header/HoverDropdownLink.vue';
 import HoverDropdownVue from '@/Components/Header/HoverDropdown.vue';
 import {CBCProjects, CBCProjectsPublic} from "@/Pages/constants.ts";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import Dropdown from "@/Components/Dropdown.vue";
 
 defineProps({
     canLogin: Boolean,

@@ -34,7 +34,7 @@ defineExpose({ focus: () => input.value.focus() });
 </script>
 
 <template>
-    <div class="flex flex-col border-0 p-0">
+    <div class="flex flex-col border-0 p-0 bg-transparent">
         <div class="flex justify-between items-center">
             <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
             <InputError v-for="msg in error" :message="msg" />

@@ -10,8 +10,13 @@ import Logo from '@/Components/Icons/Logo.vue';
 
                 <div class="pt-5">
                     <div class="flex flex-wrap justify-evenly">
+                        <a href="https://www.officialgazette.gov.ph/programs/freedom-of-information/">
+                            <img src="/img/freedominfo.png" alt="Freedom of Information" class="sm:h-[12rem] h-[7rem]">
+                        </a>
                         <img src="/img/republicph.png" alt="Republika ng Pilipinas" class="sm:h-[12rem] h-[7rem]">
-                        <img src="/img/freedominfo.png" alt="Freedom of Information" class="sm:h-[12rem] h-[7rem]">
+                        <a href="https://dict.gov.ph/transparency/">
+                            <img src="/img/transparency_seal-01.png" alt="Transparency Seal" class="sm:h-[12rem] h-[7rem]">
+                        </a>
                     </div>
                     <div class="border-b-[1px] py-5 sm:text-base text-xs sm:flex-row sm:justify-evenly flex flex-col gap-3 sm:gap-0">
                         <ul>

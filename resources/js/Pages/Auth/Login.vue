@@ -41,60 +41,74 @@ function onSignIn(googleUser) {
     <Head title="Log in" />
     <PageLayout :is-wide-display="true">
         <AuthenticationCard>
-            <template #logo>
-                <Logo classes="sm:h-24 h-14" />
-            </template>
+            <div class="flex sm:flex-row flex-col items-center">
+                <div class="flex justify-between z-0">
+                    <div class="text-gray-700 flex flex-col sm:w-full w-1/2">
+                        <span class="text-sm leading-5">
+                            Department&nbsp;of&nbsp;Agriculture
+                        </span>
+                        <span class="font-bold sm:text-4xl text-xl sm:leading-8 leading-4">
+                            Crop Biotechnology Center
+                        </span>
+                            <span class="text-xs opacity-50">
+                            For Authorized Personnel Only
+                        </span>
+                    </div>
+                    <div class="flex justify-center h-auto sm:w-1/2 w-auto">
+                        <img src="../../../../public/img/cbc_statue_cartoon.png" class="sm:h-[27rem] h-28 w-auto sm:absolute bottom-0 drop-shadow-lg" alt="DA-CBC Statue" />
+                    </div>
+                </div>
+                <div class="bg-cbc-dark-green sm:p-2 p-4 rounded-md sm:min-w-[15rem] min-w-full">
+                    <div v-if="status" class="mb-4 font-medium text-sm">
+                        {{ status }}
+                    </div>
 
-            <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-                {{ status }}
+                    <form @submit.prevent="submit">
+                        <div>
+                            <InputLabel for="email" value="Email" class="text-gray-100" />
+                            <TextInput
+                                id="email"
+                                v-model="form.email"
+                                type="email"
+                                class="mt-1 block w-full"
+                                required
+                                autofocus
+                                autocomplete="username"
+                            />
+                            <InputError class="mt-2" :message="form.errors.email" />
+                        </div>
+                        <div class="mt-4">
+                            <InputLabel for="password" value="Password" class="text-gray-100" />
+                            <TextInput
+                                id="password"
+                                v-model="form.password"
+                                type="password"
+                                class="mt-1 block w-full"
+                                required
+                                autocomplete="current-password"
+                            />
+                            <InputError class="mt-2" :message="form.errors.password" />
+                        </div>
+
+                        <div class="block mt-4">
+                            <label class="flex items-center">
+                                <Checkbox v-model:checked="form.remember" name="remember" />
+                                <span class="ml-2 text-xs text-gray-100">Remember me</span>
+                            </label>
+                        </div>
+
+                        <div class="flex flex-col text-xs mt-4">
+                            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                Log in
+                            </PrimaryButton>
+                            <Link v-if="canResetPassword" :href="route('password.request')" class="underline opacity-50 text-gray-100 hover:opacity-100 text-right rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                Forgot your password?
+                            </Link>
+                        </div>
+                        <div class="g-signin2 text-gray-100 text-xs my-2" data-onsuccess="onSignIn">Sign in with Google</div>
+                    </form>
+                </div>
             </div>
-
-            <form @submit.prevent="submit">
-                <div>
-                    <InputLabel for="email" value="Email" />
-                    <TextInput
-                        id="email"
-                        v-model="form.email"
-                        type="email"
-                        class="mt-1 block w-full"
-                        required
-                        autofocus
-                        autocomplete="username"
-                    />
-                    <InputError class="mt-2" :message="form.errors.email" />
-                </div>
-
-                <div class="mt-4">
-                    <InputLabel for="password" value="Password" />
-                    <TextInput
-                        id="password"
-                        v-model="form.password"
-                        type="password"
-                        class="mt-1 block w-full"
-                        required
-                        autocomplete="current-password"
-                    />
-                    <InputError class="mt-2" :message="form.errors.password" />
-                </div>
-
-                <div class="block mt-4">
-                    <label class="flex items-center">
-                        <Checkbox v-model:checked="form.remember" name="remember" />
-                        <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                    </label>
-                </div>
-
-                <div class="flex items-center justify-end mt-4">
-                    <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Forgot your password?
-                    </Link>
-
-                    <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                        Log in
-                    </PrimaryButton>
-                </div>
-                <div class="g-signin2" data-onsuccess="onSignIn">Sign in with Google</div>
-            </form>
         </AuthenticationCard>
     </PageLayout>
 </template>

@@ -2,7 +2,7 @@ export const CBCProjects = [
     {
         id: 1,
         label: 'TWG Database',
-        value: 'projects.twgdb.index',
+        value: 'projects.twg.index',
     },
     {
         id: 2,
@@ -15,7 +15,7 @@ export const CBCProjectsPublic = [
     {
         id: 1,
         label: 'TWG Database',
-        value: 'projects.twgdb.index',
+        value: 'projects.twg.index',
     },
     {
         id: 2,
@@ -45,7 +45,7 @@ export const EducLevel = [
 export const Projects = [
     {
         id: 1,
-        value: 'projects.twgdb.index', // router name of the project
+        value: 'projects.twg.index', // router name of the project
         label: 'TWG Database',
     },{
         id: 2,

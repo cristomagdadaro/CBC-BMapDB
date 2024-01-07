@@ -7,14 +7,17 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 <template>
     <Head title="Breeder's Map" />
     <page-layout >
-        <div class="min-h-screen sm:p-4 p-1 bg-white">
+        <div class="min-h-screen sm:p-4 p-1 bg-white flex flex-col gap-2">
             <div>
                 <h1 class="text-2xl font-medium font-monospace">
                     Breeder's Maps Database System
                 </h1>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequuntur dignissimos error, est in perspiciatis praesentium quos rerum! Iure maiores, maxime!
+
                 </p>
+                <div>
+                    <button class="bg-gray-300 rounded py-0.5 px-2 text-sm">Quick Guide?</button>
+                </div>
             </div>
             <Map />
         </div>
