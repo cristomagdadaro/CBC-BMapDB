@@ -1,7 +1,7 @@
 <template>
     <Head title="TWG Database" />
     <app-layout>
-        <div class="p-5">
+        <div class="min-h-screen sm:p-3 p-0.5 bg-transparent">
             <Tab :tabs="tabs" v-if="$page.props.auth.user">
                 <template #tab1>
                     <div class="p-2">

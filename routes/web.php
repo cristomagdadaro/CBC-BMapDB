@@ -36,8 +36,16 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::prefix('public')->group(function () {
-    Route::get('/breedersmap', function (){
+Route::prefix('/projects')->group(function () {
+    Route::get('/', function () {
+        return Inertia::render('Projects');
+    })->name('projects');
+
+    Route::get('/twg-db', function (){
+        return Inertia::render('Projects/TWG/presentation/TWGPublic');
+    })->name('projects.twgdb.public');
+
+    Route::get('/breedersmap-db', function (){
         return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic');
     })->name('projects.breedersmap.public');
 });
@@ -57,9 +65,17 @@ Route::middleware([
             return Inertia::render('Projects/TWG/presentation/TWGIndex');
         })->name('projects.twg.index');
 
-        Route::get('/breedersmap', function (){
-            return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
-        })->name('projects.breedersmap.index');
+        Route::prefix('/breedersmap')->group(function () {
+            Route::get('/', function () {
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
+            })->name('projects.breedersmap.index');
+
+            Route::get('/breeder/{id}', function () {
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapView', [
+                    'id' => request()->id
+                ]);
+            })->name('breedersmap.breeder.view');
+        });
     });
 });
 

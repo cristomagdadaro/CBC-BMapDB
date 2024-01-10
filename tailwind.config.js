@@ -24,6 +24,7 @@ export default {
                 'cbc-olive-green': '#acc638',
                 'cbc-yellow': '#F7C806',
                 'add': '#005B41',
+                'view': '#F7C806',
                 'edit': '#95BB76',
                 'delete': '#F23A3A',
                 'refresh': '#219C90',

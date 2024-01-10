@@ -1,18 +1,15 @@
 <script setup>
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
 import PageLayout from '@/Layouts/PageLayout.vue';
 import Logo from "@/Components/Icons/Logo.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import { Projects } from "@/Pages/constants.ts";
-import AppLayout from "@/Layouts/AppLayout.vue";
 
 const form = useForm({
     fname: '',
@@ -40,7 +37,7 @@ const submit = () => {
 
 <template>
     <Head title="Register" />
-    <app-layout>
+    <page-layout>
         <AuthenticationCard>
             <template #logo>
                 <Logo classes="sm:h-24 h-14" />
@@ -84,5 +81,5 @@ const submit = () => {
                 </div>
             </form>
         </AuthenticationCard>
-    </app-layout>
+    </page-layout>
 </template>

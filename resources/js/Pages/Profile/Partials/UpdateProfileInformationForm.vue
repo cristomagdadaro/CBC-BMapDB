@@ -90,7 +90,6 @@ const clearPhotoFileInput = () => {
                             v-model="form.fname"
                             type="text"
                             class="mt-1 block w-full"
-                            required
                             :class="!form.fname?'opacity-30':''"
                             placeholder="First"
                             autocomplete="fname"
@@ -115,7 +114,6 @@ const clearPhotoFileInput = () => {
                             v-model="form.lname"
                             type="text"
                             class="mt-1 block w-full"
-                            required
                             :class="!form.lname?'opacity-30':''"
                             placeholder="Last"
                             autocomplete="lname"
@@ -148,7 +146,6 @@ const clearPhotoFileInput = () => {
                             :class="!form.email?'opacity-30':''"
                             placeholder="sample@sample.com"
                             class="mt-1 block w-full"
-                            required
                             autocomplete="username"
                         />
                         <InputError :message="form.errors.email" class="mt-2" />

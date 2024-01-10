@@ -1,4 +1,4 @@
-<script setup>
+<script>
 import { ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Banner from '@/Components/Banner.vue';
@@ -12,173 +12,218 @@ import {CBCProjects} from "@/Pages/constants.ts";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import BellIcon from "@/Components/Icons/BellIcon.vue";
 import Notification from "@/Components/Modal/Notification/Notification.js";
+import Footer from "@/Pages/Footer.vue";
+import Hamburger from "@/Components/Icons/Hamburger.vue";
+import SidebarLayout from "@/Layouts/SidebarLayout.vue";
+import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
 
-defineProps({
-    title: String,
-});
+export default {
+    components: {
+        NotifBanner,
+        SidebarLayout,
+        Head,
+        Link,
+        Banner,
+        Dropdown,
+        DropdownLink,
+        NavLink,
+        ResponsiveNavLink,
+        PageLayout,
+        FullscreenToggle,
+        TopActionBtn,
+        BellIcon,
+        Footer,
+        Hamburger,
+    },
+    props: {
+        title: {
+            type: String,
+            default: null,
+        },
+    },
+    data() {
+        return {
+            showSidebar: true,
+            CBCProjects,
+        }
+    },
+    setup(props) {
+        const showingNavigationDropdown = ref(false);
 
-const showingNavigationDropdown = ref(false);
+        const switchToTeam = (team) => {
+            router.put(route('current-team.update'), {
+                team_id: team.id,
+            }, {
+                preserveState: false,
+            });
+        };
 
-const switchToTeam = (team) => {
-    router.put(route('current-team.update'), {
-        team_id: team.id,
-    }, {
-        preserveState: false,
-    });
-};
+        const logout = () => {
+            router.post(route('logout'));
+        };
 
-const logout = () => {
-    router.post(route('logout'));
-};
-
+        return {
+            Notification,
+            showingNavigationDropdown,
+            switchToTeam,
+            logout,
+        }
+    }
+}
 </script>
 
 <template>
-    <PageLayout :is-wide-display="true">
-    <div>
-        <Head :title="title" />
+    <Head :title="title" />
 
-        <Banner />
+    <NotifBanner />
 
-        <div class="min-h-screen bg-gray-100">
-            <nav v-if="$page.props.auth.user" class="bg-white border-b border-gray-100">
-                <!-- Primary Navigation Menu -->
-                <div class="px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between h-10">
-                        <div class="flex">
-                            <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
-                                    {{ project.label }}
-                                </NavLink>
-                            </div>
-                        </div>
+    <div class="min-h-screen bg-gray-100">
+        <nav v-if="$page.props.auth.user" class="bg-white border-b border-gray-100">
+            <!-- Primary Navigation Menu -->
+            <div class="px-4 sm:px-6 lg:px-8 bg-cbc-dark-green">
+                <div class="flex justify-between h-10">
+                    <div class="flex">
+                        <!-- Navigation Links -->
+<!--                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <NavLink class="text-white" v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
+                                {{ project.label }}
+                            </NavLink>
+                        </div>-->
+                    </div>
 
-                        <div class="hidden sm:flex sm:items-center sm:ml-6">
-                          <top-action-btn
-                              class="bg-add"
-                              @click="Notification.pushNotification({
-                              title: 'Test',
-                              message: 'This is a test notification   '+ Notification.notifications.value.length,
-                              type: Array.from(['error', 'success', 'warning', 'failed'])[Math.floor(Math.random() * 4)],
-                              timeout: 5000,
-                              show: true,
-                            })">
-                            <template #icon>
-                              <bell-icon class="h-auto sm:w-6 w-4 animate-wiggle" />
-                            </template>
-                          </top-action-btn>
-                            <FullscreenToggle />
-                            <!-- Settings Dropdown -->
-                            <div class="ml-3 relative">
-                                <Dropdown align="right" width="48">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                                Settings
-                                                <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
+                    <div class="hidden sm:flex sm:items-center sm:ml-6">
+                      <top-action-btn
+                          class="shadow-none hover:scale-105 active:scale-100"
+                          @click="Notification.pushNotification({
+                          title: 'Test',
+                          message: 'This is a test notification   '+ Notification.notifications.value.length,
+                          type: Array.from(['error', 'success', 'warning', 'failed'])[Math.floor(Math.random() * 4)],
+                          timeout: 5000,
+                          show: true,
+                        })">
+                        <template #icon>
+                          <bell-icon class="h-auto sm:w-6 w-4" :class="Notification.notifications.value.length?'animate-wiggle':''" />
+                        </template>
+                      </top-action-btn>
+                        <FullscreenToggle />
+                        <!-- Settings Dropdown -->
+                        <div class="ml-3 relative">
+                            <Dropdown align="right" width="48">
+                                <template #trigger>
+                                    <span class="inline-flex rounded-md">
+                                        <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                            Settings
+                                            <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </template>
 
-                                    <template #content>
-                                        <!-- Account Management -->
-                                        <div class="block px-4 py-2 text-xs text-gray-400">
-                                            Manage Account
-                                        </div>
+                                <template #content>
+                                    <!-- Account Management -->
+                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                        Manage Account
+                                    </div>
 
-                                        <DropdownLink :href="route('profile.show')">
-                                            Profile
+                                    <DropdownLink :href="route('profile.show')">
+                                        Profile
+                                    </DropdownLink>
+
+                                    <div class="border-t border-gray-200" />
+
+                                    <!-- Authentication -->
+                                    <form @submit.prevent="logout">
+                                        <DropdownLink as="button">
+                                            Log Out
                                         </DropdownLink>
-
-                                        <div class="border-t border-gray-200" />
-
-                                        <!-- Authentication -->
-                                        <form @submit.prevent="logout">
-                                            <DropdownLink as="button">
-                                                Log Out
-                                            </DropdownLink>
-                                        </form>
-                                    </template>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <!-- Hamburger -->
-                        <div class="-mr-2 flex items-center sm:hidden">
-                            <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown">
-                                <svg
-                                    class="h-6 w-6"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
+                                    </form>
+                                </template>
+                            </Dropdown>
                         </div>
                     </div>
+
+                    <!-- Hamburger -->
+                    <div class="-mr-2 flex items-center sm:hidden">
+                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    :class="{'hidden': showingNavigationDropdown, 'inline-flex': ! showingNavigationDropdown }"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                                <path
+                                    :class="{'hidden': ! showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Responsive Navigation Menu -->
+            <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
+                <div class="pt-2 pb-3 space-y-1">
+                    <ResponsiveNavLink v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
+                        {{ project.label }}
+                    </ResponsiveNavLink>
                 </div>
 
-                <!-- Responsive Navigation Menu -->
-                <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
-                            {{ project.label }}
+                <!-- Responsive Settings Options -->
+                <div class="pt-4 pb-1 border-t border-gray-200">
+                    <div class="flex items-center px-4">
+                        <div v-if="$page.props.auth.user">
+                            <div class="font-medium text-base text-gray-800">
+                                {{ $page.props.auth.user.fname }} {{ $page.props.auth.user.lname }}
+                            </div>
+                            <div class="font-medium text-sm text-gray-500">
+                                {{ $page.props.auth.user.email }}
+                            </div>
+                        </div>
+                        <div v-else>
+                            Please Login
+                        </div>
+                    </div>
+
+                    <div class="mt-3 space-y-1">
+                        <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
+                            Profile
                         </ResponsiveNavLink>
-                    </div>
 
-                    <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
-                        <div class="flex items-center px-4">
-                            <div v-if="$page.props.auth.user">
-                                <div class="font-medium text-base text-gray-800">
-                                    {{ $page.props.auth.user.fname }} {{ $page.props.auth.user.lname }}
-                                </div>
-                                <div class="font-medium text-sm text-gray-500">
-                                    {{ $page.props.auth.user.email }}
-                                </div>
-                            </div>
-                            <div v-else>
-                                Please Login
-                            </div>
-                        </div>
-
-                        <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.show')" :active="route().current('profile.show')">
-                                Profile
+                        <!-- Authentication -->
+                        <form method="POST" @submit.prevent="logout">
+                            <ResponsiveNavLink as="button">
+                                Log Out
                             </ResponsiveNavLink>
-
-                            <!-- Authentication -->
-                            <form method="POST" @submit.prevent="logout">
-                                <ResponsiveNavLink as="button">
-                                    Log Out
-                                </ResponsiveNavLink>
-                            </form>
-                        </div>
+                        </form>
                     </div>
                 </div>
-            </nav>
-            <!-- Page Content -->
-            <main>
-                <slot />
-            </main>
-        </div>
+            </div>
+        </nav>
+        <!-- Page Content -->
+        <sidebar-layout>
+            <template #options>
+                <NavLink class="text-white" v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
+                    {{ project.label }}
+                </NavLink>
+            </template>
+            <template #content>
+                <main>
+                    <slot />
+                </main>
+            </template>
+        </sidebar-layout>
     </div>
-    </PageLayout>
+    <Footer />
 </template>

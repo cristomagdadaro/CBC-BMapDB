@@ -43,15 +43,14 @@ export default {
     <div class="flex gap-1 select-none">
       <button
           v-for="tab in tabs"
-          type="button"
           @click="setActiveTab(tab)"
-          class="py-1 px-2 rounded-t-md text-sm font-medium duration-300 active:scale-90"
+          class="py-1 px-2 rounded-t-sm text-sm font-medium duration-300 active:scale-90"
           :class="isActiveTab(tab) ? 'bg-cbc-dark-green text-white scale-y-90' : 'bg-gray-300'"
       >
         {{ tab.label }}
       </button>
     </div>
-      <div class="bg-gray-100 rounded-b-md">
+      <div class="bg-transparent rounded-b-md border shadow-lg">
           <Suspense>
               <template #default>
                   <!-- Show the content when it's loaded -->

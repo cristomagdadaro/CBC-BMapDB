@@ -62,7 +62,7 @@ const TabLinks = [
                         {{ link.name }}
                     </tablink>
                 </template>
-                <tablink :sublinks="true">
+                <tablink :sublinks="true" :link="route('projects')" :active="route().current('projects')">
                     <template #trigger>
                         Projects
                     </template>

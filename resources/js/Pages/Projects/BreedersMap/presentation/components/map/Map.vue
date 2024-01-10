@@ -2,7 +2,7 @@
     <div class="flex gap-1 justify-end">
         <top-action-btn
             class="bg-add text-xs"
-            title="Add new data">
+            title="Export data">
             <template #icon>
                 <export-icon class="h-auto sm:w-6 w-4" />
             </template>
@@ -10,7 +10,7 @@
         </top-action-btn>
         <top-action-btn
             class="bg-yellow-400 text-gray-900 text-xs"
-            title="Add new data">
+            title="Share to your network">
             <template #icon>
                 <share-icon class="h-auto sm:w-4 w-4" />
             </template>
@@ -28,7 +28,8 @@
             <div class="rounded flex-col flex gap-1 overflow-y-auto max-h-96">
 
                 <template v-for="point in placesSearched">
-                    <div @click="selectPoint([point.lat, point.lon])" :class="markerLatLng[0]===point.lat&&markerLatLng[1]===point.lon?'bg-gray-400':'bg-white'" class="flex flex-col gap-1 border p-1 rounded hover:bg-gray-200 leading-1 duration-200 select-none">
+                    <div @click="selectPoint([point.lat, point.lon])" :class="markerLatLng[0]===point.lat&&markerLatLng[1]===point.lon?'bg-gray-400':'bg-white'" class="flex flex-row items-center gap-1 border p-1 rounded hover:bg-gray-200 leading-1 duration-200 select-none">
+                        <checkbox/>
                         <h1 class="font-medium leading-5">{{ point.place_name }}</h1>
                     </div>
                 </template>
@@ -36,10 +37,8 @@
         </div>
         <!--    <div id="map" class="h-screen"></div>-->
         <l-map
+            ref="map"
             :use-global-leaflet="true"
-            :zoom-animation="true"
-            :fadeAnimation="true"
-            :markerZoomAnimation="true"
             class="z-0 border rounded"
             style="height: 800px"
             :zoom="zoom"
@@ -47,25 +46,34 @@
             :maxZoom="maxZoom"
             :minZoom="minZoom"
             :max-bounds="[maxBound.southwest, maxBound.northeast]"
-            :max-bounds-viscosity="-5"
+            :options="{
+                zoomControl: true,
+                attributionControl: false,
+                maxBoundsViscosity: 1,
+                zoomAnimation: true,
+                fadeAnimation: true,
+                markerZoomAnimation: true,
+                zoomAnimationThreshold: 4,
+                doubleClickZoom: false,
+                keyboard: false,
+                closePopupOnClick: false,
+                dragging: false,
+                touchZoom: false,
+                scrollWheelZoom: false,
+                tap: false,
+                }"
         >
 
             <l-geo-json
                 v-for="region in province"
                 :name="region.features[0].properties.ADM1_EN"
-                :layer-type="'overlay'"
+                layer-type="overlay"
                 :geojson="region"
-                :visible="true"
-                :pane="'overlayPane'"
-                :style="{
-                color: '#ff7800',
-                weight: 5,
-                opacity: 0.65,
-                fillColor: 'red',
-                fillOpacity: 0.8
-            }" />
+                :visible="false"
+                pane="overlayPane"
+            />
 
-            <l-control-layers position="topright" :collapsed="false" />
+            <l-control-layers position="topright" :collapsed="true"  />
 
             <l-tile-layer
                 v-for="tileProvider in tileProviders"
@@ -76,12 +84,11 @@
                 :attribution="tileProvider.attribution"
                 layer-type="base"/>
 
-            <l-marker v-if="markerLatLng" :lat-lng="markerLatLng">
+            <l-marker v-if="markerLatLng" :lat-lng="markerLatLng" ref="marker">
                 <l-popup>
                     <h2>Crop Biotechnology Center</h2>
                 </l-popup>
             </l-marker>
-
 
             <l-circle-marker
                 v-for="place in placesFiltered"
@@ -144,6 +151,8 @@ import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue
 import AddIcon from "@/Components/Icons/AddIcon.vue";
 import ExportIcon from "@/Components/Icons/ExportIcon.vue";
 import ShareIcon from "@/Components/Icons/ShareIcon.vue";
+import Checkbox from "@/Components/Checkbox.vue";
+import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 export default {
     computed: {
         province() {
@@ -151,6 +160,8 @@ export default {
         }
     },
     components: {
+        SearchBy,
+        Checkbox,
         ShareIcon,
         ExportIcon,
         AddIcon,
@@ -164,6 +175,7 @@ export default {
         LFeatureGroup,
         LControlLayers,
         LMap,
+
         LTileLayer,
         LMarker,
         LCircleMarker,
@@ -172,12 +184,31 @@ export default {
     mounted() {
         this.placesSearched = this.placesFiltered;
     },
+
     methods: {
-        selectPoint(point){
+        selectPoint(point) {
+            // Set the marker's position
             this.markerLatLng = point;
+
+            // Set the map's center and zoom level
             this.center = point;
             this.zoom = 10;
-            this.selectedPlace = this.placesFiltered.find(place => place.lat === point[0] && place.lon === point[1]);
+
+            // Find the selected place based on the current point
+            this.selectedPlace = this.placesFiltered.find(
+                (place) => place.lat === point[0] && place.lon === point[1]
+            );
+
+            // Fly to the selected point with animation
+            if (this.$refs.map) {
+                this.$refs.map.mapObject.flyTo(point, 10, {
+                    animate: true,
+                    duration: 1.5,
+                });
+            }
+
+            // Increment the index for the next point
+            this.currentIndex = (this.currentIndex + 1) % this.placesFiltered.length;
         },
         filterPlaces(str) {
             this.placesSearched = this.placesFiltered.filter(place =>
@@ -211,8 +242,8 @@ export default {
             isHovered: false,
             tiles: null,
             map: null,
-            zoom: 5.8,
-            minZoom: 5.8,
+            zoom: 5.9,
+            minZoom: 5.9,
             maxZoom: 15,
             center: [12.296167, 122.763835],
             maxBound: {
@@ -446,12 +477,36 @@ export default {
             ],
             tileProviders: [
                 {
-                    name: 'CARTO',
+                    name: 'CartoDB Voyager',
                     visible: true,
-                    attribution: '<span class="bg-transparent">&copy; <a class="bg-transparent" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a class="bg-transparent" href="https://carto.com/attributions">CARTO</a></span>',
-                    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+                    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
                 },
                 {
+                    name: 'CartoDB VoyagerNoLabels',
+                    visible: false,
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                    url:'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png'
+                },
+                {
+                    name: 'CartoDB DarkMatter',
+                    visible: false,
+                    url:'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                },
+                {
+                    name: 'CartoDB DarkMatterNoLabels',
+                    visible: false,
+                    url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                },
+                {
+                    name: 'Esri WorldGrayCanvas',
+                    visible: false,
+                    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+                    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+                }
+                /*{
                     name: 'OpenStreetMap',
                     visible: false,
                     attribution:
@@ -464,7 +519,7 @@ export default {
                     url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
                     attribution:
                         'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
-                },
+                },*/
             ],
         };
     }

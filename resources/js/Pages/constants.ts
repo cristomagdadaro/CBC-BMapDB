@@ -15,7 +15,7 @@ export const CBCProjectsPublic = [
     {
         id: 1,
         label: 'TWG Database',
-        value: 'projects.twg.index',
+        value: 'projects.twgdb.public',
     },
     {
         id: 2,

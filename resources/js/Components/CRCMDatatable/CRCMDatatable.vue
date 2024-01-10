@@ -101,77 +101,88 @@
                     Processing, please wait...
                 </div>
             </transition>
-            <crcm-table id="dtTable" class="w-full">
-                <crcm-thead>
-                    <thead-row>
-                        <t-h column="&nbsp;" />
-                        <t-h
-                            v-for="column in dt.model.getColumns()"
-                            :sortable="column.sortable"
-                            :key="column.key"
-                            :sortedValue="column.key === dt.request.getParam('sort')"
-                            :column="column.title"
-                            :order="dt.request.getParam('order')"
-                            :class="column.sortable?'cursor-pointer':'cursor-auto'"
-                            @click="column.sortable && dt.sortFunc({ sort: column.key })"
-                        />
-                        <t-h
-                            column="Action"
-                        />
-                    </thead-row>
-                </crcm-thead>
-                <crcm-tbody>
-                    <template v-if="dt.processing">
-                        <processing-row :colspan="dt.columns.length" />
-                    </template>
-                    <template v-else>
-                        <tbody-row v-if="data.length && !dt.processing"
-                           v-for="row in data"
-                           :isSelected="dt.isSelected(row.id)"
-                        >
-                            <!-- Cell No. -->
-                            <t-d class="text-xs text-gray-600 items-center">
-                                <div class="flex gap-1">
-                                    {{ meta_from + data.indexOf(row) }}
-                                    <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
-                                </div>
-                            </t-d>
-                            <!-- Cell Data -->
-                            <t-d
-                                class="break-words text-sm border border-gray-300"
-                                v-on:dblclick="dt.addSelected(row.id)"
-                                v-on:click.ctrl="dt.addSelected(row.id)"
-                                v-for="cell in row" :key="cell">
-                                {{ cell }}
-                            </t-d>
-                            <!-- Cell Actions -->
-                            <t-d class="items-center">
-                                <div class="flex justify-center sm:gap-1 gap-0.5">
-                                    <top-action-btn
-                                        @click="showEditDialogFunc(row.id)"
-                                        class="bg-edit"
-                                        title="Modify this row">
-                                        <template #icon>
-                                            <edit-icon class="h-auto sm:w-5 w-4" />
-                                        </template>
-                                        <span v-show="showIconText">Edit</span>
-                                    </top-action-btn>
-                                    <top-action-btn
-                                        @click="showDeleteDialogFunc(row.id)"
-                                        class="bg-delete"
-                                        title="Delete this row">
-                                        <template #icon>
-                                            <delete-icon class="h-auto sm:w-5 w-4" />
-                                        </template>
-                                        <span v-show="showIconText">Delete</span>
-                                    </top-action-btn>
-                                </div>
-                            </t-d>
-                        </tbody-row>
-                        <not-found-row v-else :colspan="dt.columns.length" />
-                    </template>
-                </crcm-tbody>
-            </crcm-table>
+            <div class="overflow-x-auto">
+                <crcm-table id="dtTable">
+                    <crcm-thead>
+                        <thead-row>
+                            <t-h column="&nbsp;" />
+                            <t-h
+                                v-for="column in dt.model.getColumns()"
+                                :sortable="column.sortable"
+                                :key="column.key"
+                                :sortedValue="column.key === dt.request.getParam('sort')"
+                                :column="column.title"
+                                :order="dt.request.getParam('order')"
+                                :class="column.sortable?'cursor-pointer':'cursor-auto'"
+                                @click="column.sortable && dt.sortFunc({ sort: column.key })"
+                            />
+                            <t-h
+                                column="Action"
+                            />
+                        </thead-row>
+                    </crcm-thead>
+                    <crcm-tbody>
+                        <template v-if="dt.processing">
+                            <processing-row :colspan="dt.columns.length" />
+                        </template>
+                        <template v-else>
+                            <tbody-row v-if="data.length && !dt.processing"
+                                       v-for="row in data"
+                                       :isSelected="dt.isSelected(row.id)"
+                            >
+                                <!-- Cell No. -->
+                                <t-d class="text-xs text-gray-600 items-center">
+                                    <div class="flex gap-1">
+                                        {{ meta_from + data.indexOf(row) }}
+                                        <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
+                                    </div>
+                                </t-d>
+                                <!-- Cell Data -->
+                                <t-d
+                                    class="break-words text-sm border border-gray-300"
+                                    v-on:dblclick="dt.addSelected(row.id)"
+                                    v-on:click.ctrl="dt.addSelected(row.id)"
+                                    v-for="cell in row" :key="cell">
+                                    {{ cell }}
+                                </t-d>
+                                <!-- Cell Actions -->
+                                <t-d class="items-center">
+                                    <div class="flex justify-center sm:gap-1 gap-0.5">
+                                        <top-action-btn
+                                            @click="showViewDialogFunc(row.id)"
+                                            class="bg-view"
+                                            title="View">
+                                            <template #icon>
+                                                <view-icon class="h-auto sm:w-4 w-3" />
+                                            </template>
+                                            <span v-show="showIconText">View</span>
+                                        </top-action-btn>
+                                        <top-action-btn
+                                            @click="showEditDialogFunc(row.id)"
+                                            class="bg-edit"
+                                            title="Modify this row">
+                                            <template #icon>
+                                                <edit-icon class="h-auto sm:w-4 w-3" />
+                                            </template>
+                                            <span v-show="showIconText">Edit</span>
+                                        </top-action-btn>
+                                        <top-action-btn
+                                            @click="showDeleteDialogFunc(row.id)"
+                                            class="bg-delete"
+                                            title="Delete this row">
+                                            <template #icon>
+                                                <delete-icon class="h-auto sm:w-4 w-3" />
+                                            </template>
+                                            <span v-show="showIconText">Delete</span>
+                                        </top-action-btn>
+                                    </div>
+                                </t-d>
+                            </tbody-row>
+                            <not-found-row v-else :colspan="dt.columns.length" />
+                        </template>
+                    </crcm-tbody>
+                </crcm-table>
+            </div>
         </div>
         <div id="dtFooterContainer" class="flex flex-wrap-reverse sm:justify-between justify-center gap-5 select-none" v-if="dt.response instanceof BaseResponse">
             <div id="dtPageDetails">
@@ -278,11 +289,13 @@ import CrcmTable from "@/Components/CRCMDatatable/Components/CrcmTable.vue";
 import CrcmThead from "@/Components/CRCMDatatable/Components/CrcmThead.vue";
 import TheadRow from "@/Components/CRCMDatatable/Components/TheadRow.vue";
 import CrcmTbody from "@/Components/CRCMDatatable/Components/CrcmTbody.vue";
+import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 </script>
 
 <script>
 import CRCMDatatable from "@/Modules/core/components/CRCMDatatable.js";
 import DefaultBlankForm from "@/Components/CRCMDatatable/Layouts/DefaultBlankForm.vue";
+import {router} from "@inertiajs/vue3";
 
 export default {
     name: "CRCMDatatable",
@@ -366,6 +379,9 @@ export default {
             this.showModal = true;
             this.showDeleteDialog = true;
             this.toDeleteId = id;
+        },
+        showViewDialogFunc(id) {
+            router.get(route('breedersmap.breeder.view', id));
         },
         showEditDialogFunc(id) {
             this.showModal = true;

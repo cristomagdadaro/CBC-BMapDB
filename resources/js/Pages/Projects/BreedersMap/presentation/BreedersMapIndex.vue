@@ -8,7 +8,7 @@ import Tab from "@/Components/Tab/Tab.vue";
 <template>
     <Head title="Breeder's Map" />
     <app-layout>
-        <div class="min-h-screen sm:p-4 p-1 bg-white">
+        <div class="min-h-screen sm:p-3 p-0.5 bg-transparent">
             <Tab :tabs="tabs" v-if="$page.props.auth.user">
                 <template #tab1>
                     <div class="p-2">

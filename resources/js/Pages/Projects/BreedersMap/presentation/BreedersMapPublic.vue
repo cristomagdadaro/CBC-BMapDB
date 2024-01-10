@@ -6,7 +6,7 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 
 <template>
     <Head title="Breeder's Map" />
-    <page-layout >
+    <page-layout :is-wide-display="false">
         <div class="min-h-screen sm:p-4 p-1 bg-white flex flex-col gap-2">
             <div>
                 <h1 class="text-2xl font-medium font-monospace">
