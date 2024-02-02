@@ -12,15 +12,20 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('transactions', function (Blueprint $table) {
-            $table->uuid();
-            $table->string('transac_type');
+            $table->uuid('id')->primary();
+            $table->string('barcode');
+            $table->foreignUuid('item_id')->references('id')->on('items');
+            $table->enum('transac_type', ['in', 'out']);
             $table->integer('quantity');
-            $table->string('unit');
-            $table->decimal('cost', 8, 2);
-            $table->uuid('supplier_id');
-            $table->string('remarks');
-            $table->string('status');
+            $table->string('unit')->nullable();
+            $table->string('unit_price');
+            $table->decimal('total_cost', 8, 2);
+            $table->foreignId('personnel_id')->references('id')->on('personnels');
+            $table->foreignId('supplier_id')->references('id')->on('suppliers');
+            $table->date('expiration')->nullable();
+            $table->string('remarks')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -16,12 +16,14 @@ class ItemFactory extends Factory
      */
     public function definition(): array
     {
+        $categories = \App\Models\Inventory\Category::all();
         return [
-            'product_id' => $this->faker->word,
+            'id' => $this->faker->uuid,
+            'name' => $this->faker->word,
             'brand' => $this->faker->word,
-            'model_name' => $this->faker->word,
             'description' => $this->faker->word,
-            'category_id' => $this->faker->word,
+            'category_id' => $categories->random()->id,
+            'image' => $this->faker->word,
         ];
     }
 }

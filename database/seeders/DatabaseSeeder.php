@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ApplicationSeeder::class,
             AccountsSeeder::class,
             BreederSeeder::class,
+            InventorySeeder::class,
         ]);
     }
 }

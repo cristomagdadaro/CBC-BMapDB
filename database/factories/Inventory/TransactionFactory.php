@@ -16,15 +16,23 @@ class TransactionFactory extends Factory
      */
     public function definition(): array
     {
+        $items = \App\Models\Inventory\Item::all();
+        $suppliers = \App\Models\Inventory\Supplier::all();
+        $personnel = \App\Models\Inventory\Personnel::all();
+
         return [
-            'uuid' => $this->faker->uuid,
-            'transac_type' => $this->faker->word,
+            'id' => $this->faker->uuid,
+            'item_id' => $items->random(null, true)->id,
+            'barcode' => "CBC-{$this->faker->randomElement(['01','02','03','04','05'])}-{$this->faker->randomNumber(5, true)}",
+            'unit_price' => $this->faker->word,
+            'unit' => $this->faker->randomElement(['kg','pcs','lbs','g','mg','mL','L']),
             'quantity' => $this->faker->randomNumber(),
-            'unit' => $this->faker->word,
-            'cost' => $this->faker->randomFloat(2, 0, 999999.99),
-            'supplier_id' => $this->faker->uuid,
+            'total_cost' => $this->faker->randomFloat(2, 0, 999999.99),
+            'transac_type' => $this->faker->randomElement(['in', 'out']),
+            'personnel_id' => $personnel->random()->id,
+            'supplier_id' => $suppliers->random()->id,
+            'expiration' => $this->faker->date(),
             'remarks' => $this->faker->word,
-            'status' => $this->faker->word,
         ];
     }
 }

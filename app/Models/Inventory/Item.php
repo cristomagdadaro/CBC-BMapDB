@@ -4,16 +4,24 @@ namespace App\Models\Inventory;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'items';
+
+    protected $casts = [
+        'id' => 'string',
+    ];
 
     protected $fillable = [
-        'product_id',
+        'id',
+        'name',
         'brand',
-        'model_name',
         'description',
         'category_id',
+        'image',
     ];
 }

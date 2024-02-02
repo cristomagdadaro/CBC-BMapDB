@@ -4,17 +4,19 @@ namespace App\Models\Inventory;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Supplier extends Model
+class Personnel extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
-        'name',
-        'email',
+        'fname',
+        'mname',
+        'lname',
+        'suffix',
+        'position',
         'phone',
         'address',
-        'description',
+        'email',
     ];
 }

@@ -17,6 +17,7 @@ class InventorySeeder extends Seeder
             InventoryCategorySeeder::class,
             ItemsSeeder::class,
             SupplierSeeder::class,
+            PersonnelSeeder::class,
             TransactionSeeder::class,
         ]);
     }
