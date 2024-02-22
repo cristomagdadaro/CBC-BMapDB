@@ -29,7 +29,7 @@ export class Stock extends BaseClass {
                 key: 'id',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Name',
