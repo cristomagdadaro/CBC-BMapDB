@@ -7,8 +7,7 @@ use App\Http\Requests\CreateCommoditiesRequest;
 use App\Http\Requests\DeleteCommoditiesRequest;
 use App\Http\Requests\GetCommoditiesRequest;
 use App\Http\Requests\UpdateCommoditiesRequest;
-use App\Http\Resources\CommodityCollection;
-use App\Http\Resources\CommodityResource;
+use App\Http\Resources\BaseCollection;
 use App\Repository\API\CommodityRepositoryAbstract;
 use Illuminate\Support\Collection;
 
@@ -22,13 +21,12 @@ class CommodityController extends BaseController
     public function index(GetCommoditiesRequest $request)
     {
         $data = $this->repository->search(new Collection($request->validated()));
-        return new CommodityCollection($data);
+        return new BaseCollection($data);
     }
 
     public function store(CreateCommoditiesRequest $request)
     {
-        $data = $this->repository->create($request->validated());
-        return new CommodityResource($data);
+        return $this->repository->create($request->validated());
     }
 
     public function show($id)

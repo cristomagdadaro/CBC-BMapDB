@@ -1,10 +1,6 @@
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder.js";
-import CreateBreederForm from "@/Pages/Projects/BreedersMap/presentation/components/breeders/CreateBreederForm.vue";
-import EditBreederForm from "@/Pages/Projects/BreedersMap/presentation/components/breeders/EditBreederForm.vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.js";
-import CreateCommodityForm
-    from "@/Pages/Projects/BreedersMap/presentation/components/commodity/CreateCommodityForm.vue";
-import EditCommodityForm from "@/Pages/Projects/BreedersMap/presentation/components/commodity/EditCommodityForm.vue";
+import {defineAsyncComponent} from "vue";
 /**
  * Contains the forms, pages, api routes, and models for the BreedersMap project
  **/
@@ -17,12 +13,16 @@ export const BreedersMapPages = {
             create:{
                 path: null,
                 name: 'CreateBreederForm',
-                component: CreateBreederForm,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/BreedersMap/presentation/components/breeders/CreateBreederForm.vue')
+                ),
             },
             edit:{
                 path: null,
                 name: 'EditBreederForm',
-                component: EditBreederForm,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/BreedersMap/presentation/components/breeders/EditBreederForm.vue')
+                ),
             }
         },
         commodity: {
@@ -32,18 +32,24 @@ export const BreedersMapPages = {
             create:{
                 path: null,
                 name: 'CreateCommodityForm',
-                component: CreateCommodityForm,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/BreedersMap/presentation/components/commodity/CreateCommodityForm.vue')
+                ),
             },
             edit:{
                 path: null,
                 name: 'EditCommodityForm',
-                component: EditCommodityForm,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/BreedersMap/presentation/components/commodity/EditCommodityForm.vue')
+                ),
             }
         },
     },
     index: {
         path: route('projects.breedersmap.index'),
         name: 'BreedersMapIndex',
-        component: () => import('@/Pages/Projects/BreedersMap/presentation/BreedersMapIndex.vue')
+        component: defineAsyncComponent(
+            () => import('@/Pages/Projects/BreedersMap/presentation/BreedersMapIndex.vue')
+        ),
     },
 }

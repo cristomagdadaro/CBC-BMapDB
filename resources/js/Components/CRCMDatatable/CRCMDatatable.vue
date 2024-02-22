@@ -10,6 +10,7 @@
             <per-page :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
             <action-container>
                 <top-action-btn
+                    v-if="showActionBtns"
                     @click="showAddDialogFunc()"
                     class="bg-add"
                     title="Add new data">
@@ -19,7 +20,7 @@
                     <span v-show="showIconText">Add</span>
                 </top-action-btn>
                 <top-action-btn
-                    class="bg-refresh"
+                    :class="dt.processing? 'bg-gray-300 text-gray-800': 'bg-refresh'"
                     @click="dt.refresh()"
                     title="Refresh table">
                     <template #icon>
@@ -28,7 +29,7 @@
                     <span v-show="showIconText">Refresh</span>
                 </top-action-btn>
                 <top-action-btn
-                    v-if="data.length && dt.selected.length"
+                    v-if="data.length && dt.selected.length && showActionBtns"
                     class="bg-delete"
                     @click="showDeleteSelectedDialogFunc()"
                     title="Delete all the selected rows">
@@ -38,7 +39,7 @@
                     <span v-show="showIconText">Delete Selected</span>
                 </top-action-btn>
                 <top-action-btn
-                    v-if="data.length"
+                    v-if="data.length && showActionBtns"
                     class="bg-select"
                     @click="dt.selectAll()"
                     title="Select all loaded rows">
@@ -48,7 +49,7 @@
                     <span v-show="showIconText">Select All</span>
                 </top-action-btn>
                 <top-action-btn
-                    v-if="selected.length && data.length"
+                    v-if="selected.length && data.length && showActionBtns"
                     class="bg-deselect"
                     @click="dt.deselectAll()"
                     title="Deselect selected rows">
@@ -68,6 +69,7 @@
                     <span v-show="showIconText">Export</span>
                 </top-action-btn>
                 <top-action-btn
+                    v-if="showActionBtns"
                     class="bg-import"
                     @click="dt.importCSV()"
                     title="Import data from a CSV file">
@@ -78,7 +80,7 @@
                 </top-action-btn>
                 <top-action-btn
                     class="bg-add"
-                    @click="showIconText = !showIconText"
+                    @click="toggleShowIconText"
                     title="Toggle icon with text">
                     <template #icon>
                         <toggle-off-icon class="h-auto sm:w-6 w-4" v-show="!showIconText" />
@@ -101,13 +103,14 @@
                     Processing, please wait...
                 </div>
             </transition>
-            <div class="overflow-x-auto">
+            <div class="overflow-x-auto w-full">
                 <crcm-table id="dtTable">
                     <crcm-thead>
                         <thead-row>
                             <t-h column="&nbsp;" />
                             <t-h
                                 v-for="column in dt.model.getColumns()"
+                                :visible="column.visible"
                                 :sortable="column.sortable"
                                 :key="column.key"
                                 :sortedValue="column.key === dt.request.getParam('sort')"
@@ -117,6 +120,7 @@
                                 @click="column.sortable && dt.sortFunc({ sort: column.key })"
                             />
                             <t-h
+                                v-if="showActionBtns"
                                 column="Action"
                             />
                         </thead-row>
@@ -138,15 +142,17 @@
                                     </div>
                                 </t-d>
                                 <!-- Cell Data -->
-                                <t-d
-                                    class="break-words text-sm border border-gray-300"
-                                    v-on:dblclick="dt.addSelected(row.id)"
-                                    v-on:click.ctrl="dt.addSelected(row.id)"
-                                    v-for="cell in row" :key="cell">
-                                    {{ cell }}
-                                </t-d>
+                                <template v-for="(value, label) in row" :key="value">
+                                    <t-d
+                                        class="break-words text-sm border border-gray-300"
+                                        v-on:dblclick="dt.addSelected(row.id)"
+                                        v-on:click.ctrl="dt.addSelected(row.id)"
+                                        v-if="Array.from(dt.model.getColumns()).find(col => col.key === label).visible && true">
+                                        {{ value }}
+                                    </t-d>
+                                </template>
                                 <!-- Cell Actions -->
-                                <t-d class="items-center">
+                                <t-d class="items-center" v-if="showActionBtns">
                                     <div class="flex justify-center sm:gap-1 gap-0.5">
                                         <top-action-btn
                                             @click="showViewDialogFunc(row.id)"
@@ -178,7 +184,7 @@
                                     </div>
                                 </t-d>
                             </tbody-row>
-                            <not-found-row v-else :colspan="dt.columns.length" />
+                            <not-found-row v-else :colspan="dt.model.getColumns().length+2" />
                         </template>
                     </crcm-tbody>
                 </crcm-table>
@@ -239,13 +245,11 @@
     </div>
 </template>
 <script setup>
-import Dropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
 import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import PaginateBtn from "@/Components/CRCMDatatable/Components/PaginateBtn.vue";
 import ActionContainer from "@/Components/CRCMDatatable/Layouts/ActionContainer.vue";
 import TopContainer from "@/Components/CRCMDatatable/Layouts/TopContainer.vue";
-import FilterContainer from "@/Components/CRCMDatatable/Layouts/FilterContainer.vue";
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 import PerPage from "@/Components/CRCMDatatable/Components/PerPage.vue";
 import SearchFilter from "@/Components/CRCMDatatable/Components/SearchBox.vue";
@@ -256,11 +260,9 @@ import TbodyRow from "@/Components/CRCMDatatable/Components/TbodyRow.vue";
 import NotFoundRow from "@/Components/CRCMDatatable/Components/NotFoundRow.vue";
 import ArrowLeft from "@/Components/Icons/ArrowLeft.vue";
 import ArrowRight from "@/Components/Icons/ArrowRight.vue";
-import CircleOneIcon from "@/Components/Icons/CircleOneIcon.vue";
 import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import SelectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
 import DeleteIcon from "@/Components/Icons/DeleteIcon.vue";
-import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
 import AddIcon from "@/Components/Icons/AddIcon.vue";
 import RefreshIcon from "@/Components/Icons/RefreshIcon.vue";
 import EditIcon from "@/Components/Icons/EditIcon.vue";
@@ -269,22 +271,12 @@ import ImportIcon from "@/Components/Icons/ImportIcon.vue";
 import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 import DeselectIcon from "@/Components/Icons/DeselectIcon.vue";
 import selectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
-import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
-import Modal from "@/Components/Modal.vue";
 import DialogModal from "@/Components/DialogModal.vue";
 import DangerButton from "@/Components/CRCMDatatable/Components/DangerButton.vue";
 import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
-import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 import ToggleOffIcon from "@/Components/Icons/ToggleOffIcon.vue";
 import ToggleOnIcon from "@/Components/Icons/ToggleOnIcon.vue";
-import TextField from "@/Components/Form/TextField.vue";
-import TextInput from "@/Components/TextInput.vue";
 import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
-import CloseIcon from "@/Components/Icons/CloseIcon.vue";
-import CreateBreederForm from "@/Pages/Projects/BreedersMap/presentation/components/breeders/CreateBreederForm.vue";
-import EditBreederForm from "@/Pages/Projects/BreedersMap/presentation/components/breeders/EditBreederForm.vue";
-import Notification from "@/Components/Modal/Notification/Notification.js";
-import BellIcon from "@/Components/Icons/BellIcon.vue";
 import CrcmTable from "@/Components/CRCMDatatable/Components/CrcmTable.vue";
 import CrcmThead from "@/Components/CRCMDatatable/Components/CrcmThead.vue";
 import TheadRow from "@/Components/CRCMDatatable/Components/TheadRow.vue";
@@ -294,14 +286,11 @@ import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 
 <script>
 import CRCMDatatable from "@/Modules/core/components/CRCMDatatable.js";
-import DefaultBlankForm from "@/Components/CRCMDatatable/Layouts/DefaultBlankForm.vue";
-import {router} from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
+import {defineAsyncComponent} from "vue";
 
 export default {
     name: "CRCMDatatable",
-    components: {
-        CRCMDatatable,
-    },
     props: {
         baseUrl: {
             type: [String, null],
@@ -312,14 +301,23 @@ export default {
             required: false,
         },
         addForm: {
-            type: Object,
+            type: [Object, Function],
             required: false,
-            default: DefaultBlankForm,
+            default: defineAsyncComponent({
+                loader: () => import("@/Components/CRCMDatatable/Layouts/DefaultBlankForm.vue"),
+            })
         },
         editForm: {
-            type: Object,
+            type: [Object, Function],
             required: false,
-            default: DefaultBlankForm,
+            default: defineAsyncComponent({
+                loader: () => import("@/Components/CRCMDatatable/Layouts/DefaultBlankForm.vue"),
+            }),
+        },
+        showActionBtns: {
+            type: Boolean,
+            required: false,
+            default: true,
         },
     },
     data() {
@@ -332,7 +330,6 @@ export default {
             showEditDialog: false,
             toEditData: null,
             showAddDialog: false,
-            showIconText: false ,
         }
     },
     computed: {
@@ -369,8 +366,14 @@ export default {
         meta_to() {
             return this.dt.response['meta']['to'];
         },
+        showIconText() {
+            return this.$store.state.showTextWithIcon;
+        },
     },
     methods: {
+        toggleShowIconText() {
+            this.$store.dispatch("asyncToggleShowTextWithIcon");
+        },
         showAddDialogFunc(){
             this.showModal = true;
             this.showAddDialog = true;
@@ -414,6 +417,11 @@ export default {
             await this.initializeDatatable();
         }
     },
+    setup() {
+        return {
+            CRCMDatatable,
+        }
+    }
 };
 </script>
 

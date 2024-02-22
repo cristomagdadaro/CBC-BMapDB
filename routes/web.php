@@ -5,13 +5,19 @@ use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\BreederController;
 use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\GeodataController;
+use App\Http\Controllers\API\Inventory\ItemController;
+use App\Http\Controllers\API\Inventory\SupplierController;
+use App\Http\Controllers\API\Inventory\TransactionController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\RoleController;
+use App\Http\Controllers\API\TWGController;
 use App\Http\Controllers\API\TWGExpertController;
 use App\Http\Controllers\API\TWGProductController;
 use App\Http\Controllers\API\TWGProjectController;
 use App\Http\Controllers\API\TWGServiceController;
 use App\Http\Controllers\UserController;
+use App\Http\Resources\BaseCollection;
+use App\Models\Inventory\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -71,18 +77,28 @@ Route::middleware([
             })->name('projects.breedersmap.index');
 
             Route::get('/breeder/{id}', function () {
-                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapView', [
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
                     'id' => request()->id
                 ]);
             })->name('breedersmap.breeder.view');
         });
     });
+
+    Route::prefix('services')->group(function () {
+        Route::get('inventory', function () {
+            return Inertia::render('Services/InventorySys/presentation/InventoryIndex');
+        })->name('services.inventory.index');
+    });
 });
 
 Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
     /*TWG Related APIs*/
-    Route::prefix('/twg')->group(function () {
-       Route::prefix('/experts')->group(function () {
+    Route::prefix('twg')->group(function () {
+        Route::prefix('summary')->group(function () {
+            Route::get('/', [TWGController::class, 'summary'])->name('api.twg.summary');
+        });
+
+       Route::prefix('experts')->group(function () {
            Route::get('/', [TWGExpertController::class, 'index'])->name('api.twg.experts.index');
            Route::get('/{id}', [TWGExpertController::class, 'show'])->name('api.twg.experts.show');
            Route::post('/', [TWGExpertController::class, 'store'])->name('api.twg.experts.store');
@@ -91,7 +107,7 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
            Route::delete('/{id}', [TWGExpertController::class, 'destroy'])->name('api.twg.experts.destroy');
        });
 
-        Route::prefix('/projects')->group(function () {
+        Route::prefix('projects')->group(function () {
             Route::get('/', [TWGProjectController::class, 'index'])->name('api.twg.projects.index');
             Route::get('/{id}', [TWGProjectController::class, 'show'])->name('api.twg.projects.show');
             Route::post('/', [TWGProjectController::class, 'store'])->name('api.twg.projects.store');
@@ -100,7 +116,7 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
             Route::delete('/{id}', [TWGProjectController::class, 'destroy'])->name('api.twg.projects.destroy');
         });
 
-        Route::prefix('/products')->group(function () {
+        Route::prefix('products')->group(function () {
             Route::get('/', [TWGProductController::class, 'index'])->name('api.twg.products.index');
             Route::get('/{id}', [TWGProductController::class, 'show'])->name('api.twg.products.show');
             Route::post('/', [TWGProductController::class, 'store'])->name('api.twg.products.store');
@@ -109,7 +125,7 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
             Route::delete('/{id}', [TWGProductController::class, 'destroy'])->name('api.twg.products.destroy');
         });
 
-        Route::prefix('/services')->group(function () {
+        Route::prefix('services')->group(function () {
             Route::get('/', [TWGServiceController::class, 'index'])->name('api.twg.services.index');
             Route::get('/{id}', [TWGServiceController::class, 'show'])->name('api.twg.services.show');
             Route::post('/', [TWGServiceController::class, 'store'])->name('api.twg.services.store');
@@ -120,7 +136,7 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
     });
 
     /*Breeders Map Related APIs*/
-    Route::prefix('/breeders')->group(function () {
+    Route::prefix('breeders')->group(function () {
         Route::get('/', [BreederController::class, 'index'])->name('api.breeders.index');
         Route::get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
         Route::post('/', [BreederController::class, 'store'])->name('api.breeders.store');
@@ -129,7 +145,7 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
         Route::delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
     });
 
-    Route::prefix('/commodities')->group(function () {
+    Route::prefix('commodities')->group(function () {
        Route::get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
        Route::get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
        Route::post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
@@ -138,13 +154,51 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
        Route::delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
     });
 
-    Route::prefix('/geodata')->group(function () {
+    Route::prefix('geodata')->group(function () {
         Route::get('/', [GeodataController::Class, 'index'])->name('api.breeders.geodata.index');
+    });
+
+    /*Inventory System Related APIs*/
+    Route::prefix('inventory')->group(function () {
+        Route::get('inventory-categories', function () {
+            return new BaseCollection(Category::all());
+        })->name('api.inventory.categories.index');
+
+        Route::prefix('list-of-items')->group(function () {
+            Route::get('/', [ItemController::class, 'index'])->name('api.inventory.items.index');
+            Route::get('/{id}', [ItemController::class, 'show'])->name('api.inventory.items.show');
+            Route::post('/', [ItemController::class, 'store'])->name('api.inventory.items.store');
+            Route::put('/{id}', [ItemController::class, 'update'])->name('api.inventory.items.update');
+            Route::delete('/delete', [ItemController::class, 'multiDestroy'])->name('api.inventory.items.destroy.multi');
+            Route::delete('/{id}', [ItemController::class, 'destroy'])->name('api.inventory.items.destroy');
+        });
+
+        Route::prefix('list-of-suppliers')->group(function () {
+            Route::get('/', [SupplierController::class, 'index'])->name('api.inventory.suppliers.index');
+            Route::get('/{id}', [SupplierController::class, 'show'])->name('api.inventory.suppliers.show');
+            Route::post('/', [SupplierController::class, 'store'])->name('api.inventory.suppliers.store');
+            Route::put('/{id}', [SupplierController::class, 'update'])->name('api.inventory.suppliers.update');
+            Route::delete('/delete', [SupplierController::class, 'multiDestroy'])->name('api.inventory.suppliers.destroy.multi');
+            Route::delete('/{id}', [SupplierController::class, 'destroy'])->name('api.inventory.suppliers.destroy');
+        });
+
+        Route::prefix('list-of-transactions')->group(function () {
+            Route::get('/', [TransactionController::class, 'index'])->name('api.inventory.transactions.index');
+            Route::get('/{id}', [TransactionController::class, 'show'])->name('api.inventory.transactions.show');
+            Route::post('/', [TransactionController::class, 'store'])->name('api.inventory.transactions.store');
+            Route::put('/{id}', [TransactionController::class, 'update'])->name('api.inventory.transactions.update');
+            Route::delete('/delete', [TransactionController::class, 'multiDestroy'])->name('api.inventory.transactions.destroy.multi');
+            Route::delete('/{id}', [TransactionController::class, 'destroy'])->name('api.inventory.transactions.destroy');
+        });
+
+        Route::prefix('remaining-stock')->group(function () {
+            Route::get('/', [TransactionController::class, 'stockIndex'])->name('api.inventory.stocks.index');
+        });
     });
 
     /*System Related APIs*/
 
-    Route::prefix('/roles')->group(function () {
+    Route::prefix('roles')->group(function () {
         Route::get('/', [RoleController::class, 'index'])->name('api.roles.index');
         Route::get('/{id}', [RoleController::class, 'show'])->name('api.roles.show');
         Route::post('/', [RoleController::class, 'store'])->name('api.roles.store');
@@ -152,7 +206,7 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
         Route::delete('/{id}', [RoleController::class, 'destroy'])->name('api.roles.destroy');
     });
 
-    Route::prefix('/permissions')->group(function () {
+    Route::prefix('permissions')->group(function () {
         Route::get('/', [PermissionController::class, 'index'])->name('api.permissions.index');
         Route::get('/{id}', [PermissionController::class, 'show'])->name('api.permissions.show');
         Route::post('/', [PermissionController::class, 'store'])->name('api.permissions.store');
@@ -160,7 +214,7 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
         Route::delete('/{id}', [PermissionController::class, 'destroy'])->name('api.permissions.destroy');
     });
 
-    Route::prefix('/applications')->group(function () {
+    Route::prefix('applications')->group(function () {
         Route::get('/', [ApplicationController::class, 'index'])->name('api.applications.index');
         Route::get('/{id}', [ApplicationController::class, 'show'])->name('api.applications.show');
         Route::post('/', [ApplicationController::class, 'store'])->name('api.applications.store');
@@ -168,11 +222,11 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
         Route::delete('/{id}', [ApplicationController::class, 'destroy'])->name('api.applications.destroy');
     });
 
-    Route::prefix('/users')->group(function () {
+    Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('api.users.index');
     });
 
-    Route::prefix('/accounts')->group(function () {
+    Route::prefix('accounts')->group(function () {
         Route::get('/', [AccountController::class, 'index'])->name('api.accounts.index');
         Route::get('/{id}', [AccountController::class, 'show'])->name('api.accounts.show');
         Route::post('/', [AccountController::class, 'store'])->name('api.accounts.store');

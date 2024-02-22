@@ -13,15 +13,16 @@ return new class extends Migration
     {
         Schema::create('twg_project', function (Blueprint $table){
             $table->id();
-            $table->foreignId('twg_expert_id')->nullable()->constrained('twg_expert');
-            $table->string('title', 255)->nullable();
+            $table->foreignId('twg_expert_id')->constrained('twg_expert');
+            $table->string('title', 255);
             $table->longText('objective')->nullable();
-            $table->string('expected_output', 255)->nullable();
-            $table->string('project_leader', 50)->nullable();
-            $table->string('funding_agency', 50)->nullable();
-            $table->string('duration', 50)->nullable();
-            $table->enum('status', ['Active', 'Completed', 'Cancelled', 'On Hold'])->nullable();
+            $table->string('expected_output', 255);
+            $table->string('project_leader', 50);
+            $table->string('funding_agency', 50);
+            $table->string('duration', 50);
+            $table->enum('status', ['Active', 'Completed', 'Cancelled', 'On Hold']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

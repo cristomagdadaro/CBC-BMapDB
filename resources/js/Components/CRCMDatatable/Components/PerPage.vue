@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center gap-1">
+    <div class="flex items-center gap-1 text-sm">
         Show
         <custom-dropdown :value="value" :withAllOption="false" :options="perPage" @selectedChange="$emit('changePerPage', $event)">
             <template #icon>

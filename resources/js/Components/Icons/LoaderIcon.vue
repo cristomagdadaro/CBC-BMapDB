@@ -6,3 +6,8 @@
         </svg>
     </div>
 </template>
+<script>
+export default {
+    name: "LoaderIcon",
+};
+</script>

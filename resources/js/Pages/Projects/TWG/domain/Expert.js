@@ -32,48 +32,56 @@ export default class Expert extends BaseClass{
                 key: 'id',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Name',
                 key: 'name',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Position',
                 key: 'position',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Degree',
                 key: 'educ_level',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Expertise',
                 key: 'expertise',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Research Interest',
                 key: 'research_interest',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Mobile',
                 key: 'mobile',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Email',
                 key: 'email',
                 align: 'center',
                 sortable: false,
+                visible: true,
             }
         ]
     }

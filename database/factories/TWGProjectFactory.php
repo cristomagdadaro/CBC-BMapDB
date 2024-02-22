@@ -19,9 +19,9 @@ class TWGProjectFactory extends Factory
     public function definition(): array
     {
         //get random twg expert id from twg_expert table
-        $expert_ids =TWGExpert::all()->pluck('id')->toArray();
+        $expert_ids =TWGExpert::all();
         return [
-            'twg_expert_id' => $this->faker->randomElement($expert_ids),
+            'twg_expert_id' => $expert_ids->random()->id,
             'title' => $this->faker->sentence(),
             'objective' => $this->faker->paragraph(),
             'expected_output' => $this->faker->sentence(),

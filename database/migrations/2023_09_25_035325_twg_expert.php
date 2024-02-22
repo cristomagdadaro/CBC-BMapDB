@@ -14,14 +14,15 @@ return new class extends Migration
         Schema::create('twg_expert', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('name');
-            $table->string('position')->nullable();
+            $table->string('name')->unique();
+            $table->string('position');
             $table->enum('educ_level', ["Bachelor\'s", "Master\'s", "Doctoral"])->nullable();
             $table->string('expertise')->nullable();
             $table->string('research_interest')->nullable();
-            $table->string('mobile')->nullable();
-            $table->string('email')->nullable();
+            $table->string('mobile')->nullable()->unique();
+            $table->string('email')->nullable()->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

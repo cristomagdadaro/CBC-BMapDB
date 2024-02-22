@@ -22,7 +22,7 @@ class BreedersCrudTest extends TestCase
     {
         $this->userSetup();
         $response = $this->getJson('/api/breeders/2');
-
+        print_r($response->collect()->toArray());
         $response->assertStatus(200);
         $this->assertDatabaseHas('breeders', $response->collect()->toArray());
     }

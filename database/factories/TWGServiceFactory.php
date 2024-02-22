@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\TWGExpert;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,7 +17,9 @@ class TWGServiceFactory extends Factory
      */
     public function definition(): array
     {
+        $expert = TWGExpert::all()->random();
         return [
+            'twg_expert_id' => $expert->id,
             'type' => $this->faker->randomElement(['service', 'training']),
             'purpose' => $this->faker->text(200),
             'direct_beneficiaries' => $this->faker->randomNumber(5),

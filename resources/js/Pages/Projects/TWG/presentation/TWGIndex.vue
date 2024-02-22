@@ -1,60 +1,34 @@
 <template>
     <Head title="TWG Database" />
     <app-layout>
-        <div class="min-h-screen sm:p-3 p-0.5 bg-transparent">
-            <Tab :tabs="tabs" v-if="$page.props.auth.user">
-                <template #tab1>
-                    <div class="p-2">
-                        <h1 class="h1 text-center font-semibold uppercase">Experts</h1>
-                        <CRCMDatatable
-                            :base-url="TWGPages.api.expert.path"
-                            :base-model="TWGPages.api.expert.model"
-                            :add-form="TWGPages.api.expert.create"
-                            :edit-form="TWGPages.api.expert.edit"
-                        />
-                    </div>
-                </template>
-                <template #tab2>
-                    <div class="p-2">
-                        <h1 class="h1 text-center font-semibold uppercase">Projects</h1>
-                        <CRCMDatatable
-                            :base-url="TWGPages.api.project.path"
-                            :base-model="TWGPages.api.project.model"
-                        />
-                    </div>
-                </template>
-                <template #tab3>
-                    <div class="p-2">
-                        <h1 class="h1 text-center font-semibold uppercase">Products</h1>
-                        <CRCMDatatable
-                            :base-url="TWGPages.api.product.path"
-                            :base-model="TWGPages.api.product.model"
-                        />
-                    </div>
-                </template>
-                <template #tab4>
-                    <div class="p-2">
-                        <h1 class="h1 text-center font-semibold uppercase">Services/Protocols</h1>
-                        <CRCMDatatable
-                            :base-url="TWGPages.api.service.path"
-                            :base-model="TWGPages.api.service.model"
-                        />
-                    </div>
-                </template>
-            </Tab>
-            <p v-else>Please login to view the data</p>
-        </div>
+        <Tab :tabs="tabs" v-if="$page.props.auth.user">
+            <template #tab0>
+                <t-w-g-summary />
+            </template>
+            <template #tab1>
+                <experts-table />
+            </template>
+            <template #tab2>
+                <projects-table />
+            </template>
+            <template #tab3>
+                <products-table />
+            </template>
+            <template #tab4>
+                <services-table />
+            </template>
+        </Tab>
+        <p v-else>Please login to view the data</p>
     </app-layout>
 </template>
 <script>
-import DataTable from "@/Components/DataTable/DataTable.vue";
 import { TWGPages } from "@/Pages/Projects/TWG/components/components.js";
 import {Head} from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import TWGCreateProject from "@/Pages/Projects/TWG/presentation/components/project/TWGFormProject.vue";
-import {defineAsyncComponent, markRaw} from "vue";
+import {defineAsyncComponent} from "vue";
 import Tab from "@/Components/Tab/Tab.vue";
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
+
 const isWideDisplay = true;
 export default {
     computed: {
@@ -62,14 +36,39 @@ export default {
             return TWGPages
         }
     },
-    components: {DataTable, Head, AppLayout, Tab, CRCMDatatable},
+    components: {
+        TWGSummary: defineAsyncComponent(
+            () => import("@/Pages/Projects/TWG/presentation/components/summary/TWGSummary.vue")
+        ),
+        ProductsTable: defineAsyncComponent(
+            () => import("@/Pages/Projects/TWG/presentation/components/product/ProductsTable.vue")
+        ),
+        ProjectsTable: defineAsyncComponent(
+            () => import("@/Pages/Projects/TWG/presentation/components/project/ProjectsTable.vue")
+        ),
+        ExpertsTable: defineAsyncComponent(
+            () => import("@/Pages/Projects/TWG/presentation/components/expert/ExpertsTable.vue")
+        ),
+        ServicesTable: defineAsyncComponent(
+            () => import("@/Pages/Projects/TWG/presentation/components/service/ServicesTable.vue")
+        ),
+        Head,
+        AppLayout,
+        Tab,
+        CRCMDatatable
+    },
     data() {
         return {
             tabs: [
                 {
+                    name: "tab0",
+                    label: "Summary",
+                    active: true,
+                },
+                {
                     name: "tab1",
                     label: "Experts",
-                    active: true,
+                    active: false,
                 },
                 {
                     name: "tab2",

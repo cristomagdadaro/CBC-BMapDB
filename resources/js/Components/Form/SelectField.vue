@@ -8,12 +8,14 @@ options Array format
 -->
 <script setup>
 import { onMounted, ref } from 'vue';
+import InputError from "@/Components/InputError.vue";
 
 defineProps({
     modelValue: String,
     id: String,
     label: String,
     options: Array,
+    error: Array,
     required: {
         type: Boolean,
         default: false,
@@ -35,10 +37,12 @@ defineExpose({ focus: () => input.value.focus() });
 
 <template>
     <div class="flex flex-col border-0 p-0 bg-transparent">
-        <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
+        <div class="flex justify-between items-center">
+            <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
+            <InputError v-for="msg in error" :message="msg" />
+        </div>
         <select
             :id="id"
-            :required="required"
             ref="input"
             class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
             :value="modelValue"

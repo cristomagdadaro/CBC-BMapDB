@@ -22,7 +22,14 @@ class CreateTWGProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'twg_expert_id' => ['required', 'integer', 'exists:twg_expert,user_id'],
+            'title' => ['required', 'string', 'max:255'],
+            'objective' => ['required', 'string'],
+            'expected_output' => ['required', 'string'],
+            'project_leader' => ['required', 'string'],
+            'funding_agency' => ['required', 'string'],
+            'duration' => ['required', 'string'],
+            'status' => ['required', 'string'],
         ];
     }
 }

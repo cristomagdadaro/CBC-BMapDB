@@ -28,36 +28,42 @@ export default class Breeder extends BaseClass{
                 key: 'id',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Name',
                 key: 'name',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Agency',
                 key: 'agency',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Address',
                 key: 'address',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Phone',
                 key: 'phone',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Email',
                 key: 'email',
                 align: 'center',
                 sortable: false,
+                visible: true,
             },
         ];
     }

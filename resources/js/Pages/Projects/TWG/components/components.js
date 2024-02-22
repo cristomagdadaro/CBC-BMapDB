@@ -1,10 +1,9 @@
 import Expert from "@/Pages/Projects/TWG/domain/Expert.js";
-import CreateBreederForm from "@/Pages/Projects/BreedersMap/presentation/components/breeders/CreateBreederForm.vue";
-import TWGFormProject from "@/Pages/Projects/TWG/presentation/components/project/TWGFormProject.vue";
 import Project from "@/Pages/Projects/TWG/domain/Project.js";
 import Product from "@/Pages/Projects/TWG/domain/Product.js";
 import Service from "@/Pages/Projects/TWG/domain/Service.js";
-import CreateExpertForm from "@/Pages/Projects/TWG/presentation/components/expert/CreateExpertForm.vue";
+
+import { defineAsyncComponent } from "vue";
 export const TWGPages = {
     api: {
         expert: {
@@ -14,12 +13,16 @@ export const TWGPages = {
             create:{
                 path: null,
                 name: 'CreateExpertForm',
-                component: CreateExpertForm,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/TWG/presentation/components/expert/CreateExpertForm.vue')
+                ),
             },
             edit:{
                 path: null,
                 name: 'EditExpertForm',
-                component: CreateExpertForm,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/TWG/presentation/components/expert/EditExpertForm.vue')
+                ),
             }
         },
         project: {
@@ -71,6 +74,22 @@ export const TWGPages = {
     index: {
         path: route('projects.twg.index'),
         name: 'TWGIndex',
-        component: () => import('@/Pages/Projects/TWG/presentation/TWGIndex.vue')
+        component: defineAsyncComponent(
+            () => import('@/Pages/Projects/TWG/presentation/TWGIndex.vue')
+        ),
     },
+    educLevelOptions: [
+        {
+            label: "Bachelor's",
+            name: "Bachelor's",
+        },
+        {
+            label: "Master's",
+            name: "Master's",
+        },
+        {
+            label: "Doctoral",
+            name: "Doctoral",
+        },
+    ]
 }

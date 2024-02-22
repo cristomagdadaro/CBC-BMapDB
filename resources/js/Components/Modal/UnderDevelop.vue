@@ -6,6 +6,12 @@
         </div>
     </div>
 </template>
-<script setup>
+<script>
 import ConeIcon from "@/Components/Icons/ConeIcon.vue";
+export default {
+    name: "UnderDevelop",
+    components: {
+        ConeIcon,
+    },
+};
 </script>

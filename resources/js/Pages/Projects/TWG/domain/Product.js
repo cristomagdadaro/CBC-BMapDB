@@ -27,30 +27,35 @@ export default class Product extends BaseClass {
                 key: 'id',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Name',
                 key: 'name',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Brand',
                 key: 'brand',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Purpose',
                 key: 'purpose',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
             {
                 title: 'Cost',
                 key: 'cost',
                 align: 'center',
                 sortable: true,
+                visible: true,
             },
         ];
     }

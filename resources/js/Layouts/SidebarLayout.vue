@@ -1,28 +1,39 @@
-<script setup>
+<script>
 import { ref } from "vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
 
-const isOpen = ref(false);
+export default {
+    components: {
+        Hamburger,
+    },
+    computed: {
+        isOpen() {
+            return this.$store.state.isSidebarOpen;
+        },
+    },
+    methods: {
+        toggleSidebar() {
+            this.$store.dispatch("asyncToggleSidebar");
+        },
+    },
+};
 </script>
 
 <template>
     <div class="flex z-50">
         <div
-            :class="isOpen ? 'w-12' : 'w-44'"
-            class="flex-col h-screen p-3 duration-300 bg-gray-500 shadow hidden sm:flex">
-            <div class="space-y-3">
-                <div class="flex items-center text-gray-100 justify-between">
-                    <h2 v-show="!isOpen">Applications</h2>
-                    <button @click="isOpen = !isOpen">
-                        <hamburger />
-                    </button>
-                </div>
-                <div class="flex flex-col">
-                    <slot name="options" />
-                </div>
+            :class="isOpen ? 'w-44' : 'w-12'"
+            class="sm:flex flex-col p-3 duration-300 bg-gray-400 shadow hidden">
+            <div class="flex items-center text-gray-100 justify-end">
+                <button @click="toggleSidebar">
+                    <hamburger />
+                </button>
+            </div>
+            <div class="flex flex-col" :class="isOpen ? 'block' : 'hidden'">
+                <slot name="options" />
             </div>
         </div>
-        <div class="container mx-auto overflow-x-scroll">
+        <div class="w-full min-h-screen">
             <slot name="content" />
         </div>
     </div>

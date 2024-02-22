@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('twg_service', function(Blueprint $table){
             $table->id();
-            $table->foreignId('twg_expert_id')->nullable()->constrained('twg_expert');
+            $table->foreignId('twg_expert_id')->constrained('twg_expert');
             $table->string('type', 255)->nullable();
             $table->string('purpose', 255)->nullable();
             $table->string('direct_beneficiaries', 255)->nullable();
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('officer_in_charge', 255)->nullable();
             $table->string('cost', 255)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

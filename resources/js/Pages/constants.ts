@@ -1,13 +1,24 @@
+// @ts-ignore
+import TWGLogo from "../../../public/img/twg-db-logo.png";
+// @ts-ignore
+import BreedersMapLogo from "../../../public/img/breeders-map-logo.png";
 export const CBCProjects = [
     {
         id: 1,
         label: 'TWG Database',
+        icon: TWGLogo,
         value: 'projects.twg.index',
     },
     {
         id: 2,
         label: "Breeder's Map",
+        icon: BreedersMapLogo,
         value: 'projects.breedersmap.index',
+    },
+    {
+        id: 3,
+        label: "Inventory MS",
+        value: 'services.inventory.index',
     }
 ]
 

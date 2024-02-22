@@ -27,7 +27,7 @@ export default class CRCMDatatable
         // when create or update, the modal will be forced to close after successful request
         this.closeAllModal = ref(false);
         // error bag from the server
-        this.errorBag = ref({});
+        this.errorBag = ref();
 
         // retrieve params from local storage, if not found, create a new instance of BaseRequest
         // so that when the page is refreshed, the datatable will remember the last state
@@ -196,7 +196,6 @@ export default class CRCMDatatable
         const response = await this.api.post(this.model.toObject(data));
 
         Notification.pushNotification(response);
-
         if (response instanceof ValidationErrorResponse){
             this.errorBag = response.toObject();
             this.processing = false;

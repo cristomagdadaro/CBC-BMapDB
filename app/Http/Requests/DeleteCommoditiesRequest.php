@@ -22,7 +22,8 @@ class DeleteCommoditiesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'ids' => 'required|array|min:1',
+            'ids.*' => 'required|integer|exists:commodities,id',
         ];
     }
 }

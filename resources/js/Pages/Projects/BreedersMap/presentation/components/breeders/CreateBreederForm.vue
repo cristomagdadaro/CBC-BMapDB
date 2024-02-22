@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="$emit('submitForm', form)">
-        <div class="px-4 py-2 bg-gray-100 shadow-md">
+        <div class="px-4 py-4 bg-gray-100 shadow-md select-none">
             <div class="text-lg font-medium text-gray-900 flex justify-between">
                 Register a new Breeder
                 <button class="text-sm font-medium text-blue-500" @click="$emit('close')">
@@ -72,7 +72,7 @@ export default {
     watch: {
         forceClose() {
             this.$emit('close');
-        }
+        },
     },
 };
 </script>

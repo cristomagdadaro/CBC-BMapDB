@@ -55,11 +55,19 @@ abstract class AbstractBaseRepository
      * @param array $data
      * @return Model
      **/
-    public function create(array $data): Model
+    public function create(array $data): Model | JsonResponse
     {
-        $model = $this->model->fill($data);
-        $model->save();
-        return $model;
+        try {
+            $model = $this->model->fill($data);
+            $model->save();
+
+            return response()->json([
+                'message' => 'Successfully added new data',
+                'data' => $model
+            ], Response::HTTP_OK);
+        } catch (\Exception $error) {
+            return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -221,4 +229,9 @@ abstract class AbstractBaseRepository
 
         return response()->json($wrapper, 200);
     }*/
+
+    public function summary()
+    {
+        return $this->model->count();
+    }
 }

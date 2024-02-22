@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Breeder extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'breeders';
 
     protected $fillable = [
+        'user_id',
         'name',
         'agency',
         'address',
@@ -26,9 +28,15 @@ class Breeder extends Model
     ];
 
     protected $hidden = [
+        'user_id',
         'created_at',
         'updated_at',
     ];
+
+    public function user(): HasMany
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
     public function geodata(): HasMany
     {

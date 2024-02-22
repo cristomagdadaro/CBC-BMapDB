@@ -30,4 +30,20 @@ class Transaction extends Model
         'expiration',
         'remarks',
     ];
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id', 'id');
+    }
+
+    public function personnel()
+    {
+        return $this->belongsTo(Personnel::class, 'personnel_id', 'id');
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Supplier::class, 'supplier_id', 'id');
+    }
+
 }

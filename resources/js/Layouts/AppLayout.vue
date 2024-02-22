@@ -215,7 +215,12 @@ export default {
         <sidebar-layout>
             <template #options>
                 <NavLink class="text-white" v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
-                    {{ project.label }}
+                    <div class="flex gap-1 select-none items-center">
+                        <img :src="project.icon" class="hidden h-8 w-8"  :alt="project.label"/>
+                        <span class="sm:flex hidden whitespace-nowrap">
+                            {{ project.label }}
+                        </span>
+                    </div>
                 </NavLink>
             </template>
             <template #content>

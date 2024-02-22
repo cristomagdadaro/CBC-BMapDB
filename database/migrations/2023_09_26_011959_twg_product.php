@@ -14,11 +14,12 @@ return new class extends Migration
         Schema::create('twg_product', function(Blueprint $table){
             $table->id();
             $table->foreignId('twg_expert_id')->nullable()->constrained('twg_expert');
-            $table->string('name', 50)->nullable();
+            $table->string('name', 50)->unique();
             $table->string('brand', 50)->nullable();
-            $table->string('purpose', 50)->nullable();
+            $table->string('purpose', 255)->nullable();
             $table->string('cost', 50)->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

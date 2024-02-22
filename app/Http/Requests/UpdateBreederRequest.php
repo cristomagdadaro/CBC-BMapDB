@@ -24,6 +24,7 @@ class UpdateBreederRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|unique:breeders,name,'.$this->id,
             'agency' => 'required|string',
             'address' => 'required|string',
