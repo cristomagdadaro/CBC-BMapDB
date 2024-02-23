@@ -23,6 +23,7 @@
                 :value="selectedPlace"
                 :options="placesFiltered"
                 :label="selectedPlace ? selectedPlace.place_name : 'Select a place'"
+                @searchString="filterPlaces($event.target.value)"
                 @input="filterPlaces($event.target.value)"
             />
             <div class="rounded flex-col flex gap-1 overflow-y-auto max-h-96">

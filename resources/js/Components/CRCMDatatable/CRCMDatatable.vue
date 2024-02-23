@@ -287,7 +287,8 @@ import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 <script>
 import CRCMDatatable from "@/Modules/core/components/CRCMDatatable.js";
 import { router } from "@inertiajs/vue3";
-import {defineAsyncComponent} from "vue";
+import {defineAsyncComponent, ref} from "vue";
+import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 
 export default {
     name: "CRCMDatatable",
@@ -386,10 +387,14 @@ export default {
         showViewDialogFunc(id) {
             router.get(route('breedersmap.breeder.view', id));
         },
-        showEditDialogFunc(id) {
+        async showEditDialogFunc(id) {
             this.showModal = true;
             this.showEditDialog = true;
-            this.toEditData = this.data.find(row => row.id === id);
+            this.toEditData = (await new ApiService(this.baseUrl).get({
+                filter: 'id',
+                search: id,
+                is_exact: true,
+            }, this.baseModel)).data[0];
         },
         showDeleteSelectedDialogFunc() {
             this.showModal = true;

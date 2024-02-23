@@ -3,8 +3,8 @@ export default class BaseRequest{
         this.params = {
             page: params.page ?? 1,
             per_page: params.per_page ?? '10',
-            sort: params.sort ?? 'id',
-            order: params.order ?? 'asc',
+            sort: params.sort ?? 'created_at',
+            order: params.order ?? 'desc',
         };
 
         // optional parameters

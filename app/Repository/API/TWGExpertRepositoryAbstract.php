@@ -9,6 +9,7 @@ class TWGExpertRepositoryAbstract extends AbstractBaseRepository
 {
     protected array $searchable = [
         'id',
+        'user_id',
         'name',
         'position',
         'educ_level',

@@ -211,8 +211,6 @@ export default class CRCMDatatable
         this.processing = true;
         const response = await this.api.delete(id);
 
-        console.log('dsadsadsa');
-        console.log(response);
         Notification.pushNotification(response);
 
         if (response instanceof ValidationErrorResponse ||

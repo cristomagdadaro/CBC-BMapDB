@@ -26,7 +26,7 @@ class TWGExpertFactory extends Factory
             'educ_level' => $this->faker->randomElement(["Bachelor's", "Master's", 'Doctoral']),
             'expertise' => $this->faker->randomElement(['Agriculture', 'Fishery', 'Livestock', 'Forestry', 'Microbiology', 'Botany', 'Biotechnology']),
             'research_interest' => $this->faker->randomElement(['Agriculture', 'Fishery', 'Livestock', 'Forestry', 'Microbiology', 'Botany', 'Biotechnology']),
-            'mobile' => $this->faker->phoneNumber(),
+            'mobile' => '09' . $this->faker->randomNumber(9, true),
             'email' => $this->faker->unique()->safeEmail(),
             ];
     }

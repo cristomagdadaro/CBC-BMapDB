@@ -163,7 +163,7 @@ export default {
                     <span class="flex gap-0.5">Mode</span>
                 </span>
                 <custom-dropdown
-                    :value="trackFunctionSelected"
+                    :value="trackFunctionOptions[1]"
                     placeholder="Choose a camera"
                     :options="trackFunctionOptions">
                     <template #icon>

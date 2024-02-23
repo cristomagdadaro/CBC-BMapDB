@@ -21,6 +21,7 @@ export default class ApiService
             const response = await axios.get(this.baseUrl, {
                 params: params
             });
+
             if (model !== undefined) {
                 response.data.data = this.castToModel(response.data.data, model);
                 return new BaseResponse(response.data);

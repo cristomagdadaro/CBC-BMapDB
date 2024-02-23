@@ -3,15 +3,17 @@ import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import { TWGPages } from "@/Pages/Projects/TWG/components/components.js";
+import SelectField from "@/Components/Form/SelectField.vue";
 
 export default {
     name: "EditExpertForm",
     computed: {
         TWGPages() {
-            return TWGPages.educLevelOptions
+            return TWGPages
         }
     },
     components: {
+        SelectField,
         CancelButton,
         CloseIcon,
         TextField,
@@ -24,11 +26,16 @@ export default {
         forceClose: {
             type: Boolean,
             default: false
+        },
+        data: {
+            type: Object,
+            default: null
         }
     },
     data() {
         return {
             form: {
+                user_id: null,
                 name: null,
                 position: null,
                 educ_level: null,
@@ -40,25 +47,18 @@ export default {
         };
     },
     methods: {
-        close() {
-            this.form = {
-                name: null,
-                position: null,
-                educ_level: null,
-                expertise: null,
-                research_interest: null,
-                mobile: null,
-                email: null,
-            };
-
-            this.$emit('close');
+        resetForm() {
+            this.form = Object.assign({}, this.data);
         }
     },
     watch: {
         forceClose() {
             this.$emit('close');
+        },
+        data() {
+            this.form = Object.assign({}, this.data);
         }
-    },
+    }
 };
 </script>
 
@@ -71,7 +71,6 @@ export default {
                     <CloseIcon class="w-7 h-auto hover:scale-110 active:scale-95 duration-100" />
                 </button>
             </div>
-
             <div class="mt-4 text-sm text-gray-600">
                 <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                     <text-field :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
@@ -85,8 +84,11 @@ export default {
             </div>
         </div>
         <div class="flex flex-row justify-between gap-1 px-6 py-4 bg-gray-100 text-right">
-            <cancel-button @click="$emit('close')">Cancel</cancel-button>
-            <button class="bg-add text-white px-4 py-2 rounded-md hover:bg-red-600 active:bg-red-700 duration-200" type="submit">Save</button>
+            <div class="flex items-center gap-1">
+                <cancel-button @click="$emit('close')">Cancel</cancel-button>
+                <button class="bg-red-200 text-white px-4 py-2 rounded-md hover:bg-red-500 active:bg-red-600 duration-200" type="button" @click="resetForm">Reset</button>
+            </div>
+            <button class="bg-edit text-white px-4 py-2 rounded-md hover:bg-edit active:bg-edit duration-200" type="submit">Update</button>
         </div>
     </form>
 </template>

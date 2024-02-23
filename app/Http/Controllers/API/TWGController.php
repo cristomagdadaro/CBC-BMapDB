@@ -7,6 +7,7 @@ use App\Models\TWGExpert;
 use App\Models\TWGProduct;
 use App\Models\TWGProject;
 use App\Models\TWGService;
+use Illuminate\Support\Facades\DB;
 
 class TWGController extends BaseController
 {
@@ -18,6 +19,7 @@ class TWGController extends BaseController
             'totalProjects' => TWGProject::all()->count(),
             'totalProducts' => TWGProduct::all()->count(),
             'totalServices' => TWGService::all()->count(),
+            'totalOnGoingProjects' => TWGProject::select('status', DB::raw('count(*) as total'))->groupBy('status')->get()->pluck('total', 'status'),
         ]);
     }
 

@@ -173,8 +173,8 @@ abstract class AbstractBaseRepository
     {
         $perPage = $parameters->get('per_page', 10);
         $page = $parameters->get('page', 1);
-        $sort = $parameters->get('sort', 'id');
-        $order = $parameters->get('order', 'asc');
+        $sort = $parameters->get('sort', 'created_at');
+        $order = $parameters->get('order', 'desc');
         $search = $parameters->get('search', '');
         $filter = $parameters->get('filter', null);
         $is_exact = $parameters->get('is_exact', false);

@@ -42,9 +42,9 @@ export default {
     <Head title="TWG Database" />
     <app-layout>
         <Tab :tabs="tabs" v-if="$page.props.auth.user">
-            <template #tab0>
+<!--            <template #tab0>
                 <stocks-table />
-            </template>
+            </template>-->
             <template #tab1>
                 <items-table />
             </template>

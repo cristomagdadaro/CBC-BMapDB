@@ -4,6 +4,7 @@ export default class Expert extends BaseClass{
     constructor(params = {}) {
         super();
         this.id = params.id ?? null;
+        this.user_id = params.user_id ?? null;
         this.name = params.name ?? null;
         this.position = params.position ?? null;
         this.educ_level = params.educ_level ?? null;
@@ -15,6 +16,7 @@ export default class Expert extends BaseClass{
     static toObject(obj) {
         return Object.assign({
             id: obj.id,
+            user_id: obj.user_id,
             name: obj.name,
             position: obj.position,
             educ_level: obj.educ_level,
@@ -33,6 +35,13 @@ export default class Expert extends BaseClass{
                 align: 'center',
                 sortable: true,
                 visible: true,
+            },
+            {
+                title: 'User ID',
+                key: 'user_id',
+                align: 'center',
+                sortable: true,
+                visible: false,
             },
             {
                 title: 'Name',
