@@ -32,12 +32,17 @@ export const TWGPages = {
             create:{
                 path: null,
                 name: 'CreateProjectForm',
-                component: null,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/TWG/presentation/components/project/CreateProjectForm.vue')
+
+                ),
             },
             edit:{
                 path: null,
                 name: 'EditProjectForm',
-                component: null,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/TWG/presentation/components/project/EditProjectForm.vue')
+                ),
             }
         },
         product: {

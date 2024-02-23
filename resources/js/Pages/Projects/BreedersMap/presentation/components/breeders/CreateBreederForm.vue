@@ -30,6 +30,7 @@ import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import TextField from "@/Components/Form/TextField.vue";
 
 export default {
+    name: "CreateBreederForm",
     components: {
         CancelButton,
         CloseIcon,

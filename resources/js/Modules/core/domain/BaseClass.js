@@ -4,7 +4,7 @@ export class BaseClass
         Object.assign(this, resp);
     }
 
-    getClass() {
+    static getClass() {
         return this.constructor.name;
     }
 

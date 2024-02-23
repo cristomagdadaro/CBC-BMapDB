@@ -35,6 +35,7 @@ import { TWGPages } from "@/Pages/Projects/TWG/components/components.js";
 import CaretDown from "@/Components/Icons/CaretDown.vue";
 
 export default {
+    name: "CreateExpertForm",
     computed: {
         TWGPages() {
             return TWGPages

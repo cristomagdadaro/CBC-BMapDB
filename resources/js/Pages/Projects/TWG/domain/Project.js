@@ -4,6 +4,7 @@ export default class Project extends BaseClass{
     constructor(params = {}) {
         super();
         this.id = params.id ?? null;
+        this.twg_expert_id = params.twg_expert_id ?? null;
         this.title = params.title ?? null;
         this.objective = params.objective ?? null;
         this.expected_output = params.expected_output ?? null;
@@ -15,6 +16,7 @@ export default class Project extends BaseClass{
     static toObject(obj) {
         return Object.assign({
             id: obj.id,
+            twg_expert_id: obj.twg_expert_id,
             title: obj.title,
             objective: obj.objective,
             expected_output: obj.expected_output,
@@ -33,6 +35,12 @@ export default class Project extends BaseClass{
                 align: 'center',
                 sortable: true,
                 visible: true,
+            },{
+                title: 'Expert ID',
+                key: 'twg_expert_id',
+                align: 'center',
+                sortable: true,
+                visible: false,
             },
             {
                 title: 'Title',

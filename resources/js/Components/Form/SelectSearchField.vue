@@ -2,6 +2,7 @@
 import TextField from "@/Components/Form/TextField.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.js";
+
 export default {
     components: {CloseIcon, TextField},
     emits: ['update:modelValue'],
@@ -35,6 +36,7 @@ export default {
     methods: {
         toggleDropdown() {
             this.showDropdown = !this.showDropdown;
+            this.getOptionsFromApi(1, null);
         },
         closeDropdown() {
             this.showDropdown = false;
@@ -54,17 +56,16 @@ export default {
          * Fetch options from the api
          * */
         async getOptionsFromApi(page = 1, search = null) {
+
             // if all options have been received, do not make any more requests
-            if (this.allOptionsFromApiReceived) {
+            if (!search && this.allOptionsFromApiReceived) {
                 return;
             }
             const response = await this.api.get({ search: search, per_page: 20, page: page });
             // if no options are returned, it means all options have been received
-            if (response.data.data.length === 0) {
-                this.allOptionsFromApiReceived = true;
-            }
-            const newOptions = response.data.data.map((option) => ({ value: option.id, label: option.name }));
-            this.filteredOptions = [...this.filteredOptions, ...newOptions];
+            this.allOptionsFromApiReceived = response.data.data.length === 0;
+            // if the search input is empty, it means we are fetching the first page of options
+            this.filteredOptions = response.data.data.map((option) => ({value: option.id, label: option.name || option.title || option.label || option.value }));
         },
         /**
          * Handle scroll event to fetch more options from the api
@@ -89,8 +90,13 @@ export default {
     mounted() {
         if (this.apiLink) {
             this.api = new ApiService(this.apiLink);
-            this.getOptionsFromApi();
+            this.getOptionsFromApi(1, null);
         }
+    },
+    watch: {
+        modelValue() {
+            this.getOptionsFromApi(1, null);
+        },
     },
 }
 
@@ -98,18 +104,18 @@ export default {
 
 <template>
     <div class="flex flex-col border-0 p-0 bg-transparent" @mouseleave="closeDropdown()">
-        <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
         <div class="flex flex-col">
             <text-field
                 :id="id"
                 ref="input"
+                :label="label"
                 :error="$attrs.error"
                 :required="required"
                 :show-clear="true"
                 v-model="input"
                 @focus="filterOptions()"
                 @click="toggleDropdown()"
-                @keyup="getOptionsFromApi(input)"
+                @keyup="getOptionsFromApi(1, input)"
             />
             <div v-show="showDropdown" class="fixed inset-0 z-40" @click="closeDropdown()" />
             <div v-show="showDropdown" class="relative z-50">
@@ -121,7 +127,8 @@ export default {
                     <div v-show="filteredOptions.length !== 1" class="text-xs text-gray-200 pb-1 mb-1 select-none border-b border-gray-100">
                         Choose an option
                     </div>
-                    <div v-for="option in filteredOptions" :key="option.value" @click="selectOption(option)" class="whitespace-nowrap hover:bg-gray-200 px-2 py-0.5 select-none rounded-sm overflow-ellipsis overflow-x-hidden">{{ option.label }}</div>
+                    <div v-if="filteredOptions.length" v-for="option in filteredOptions" :key="option.value" @click="selectOption(option)" class="whitespace-nowrap hover:bg-gray-200 px-2 py-0.5 select-none rounded-sm overflow-ellipsis overflow-x-hidden">{{ option.label }}</div>
+                    <div v-else>Not found</div>
                     <div v-if="api && api.processing" class="text-center text-gray-300 whitespace-nowrap select-none">
                         fetching options...
                     </div>

@@ -110,7 +110,8 @@ export default class CRCMDatatable
     async perPageFunc(params){
         this.request.updateParam('per_page', params.per_page)
         if (this.response['meta']['last_page'] === this.response['meta']['current_page'])
-            this.request.updateParam('page', parseInt(`${(this.response['meta']['total'] / params.per_page)}`, 10));
+            // if the current page is the last page, set the page to the last page
+            this.request.updateParam('page', this.response['meta']['last_page']);
         await this.refresh();
     }
 
@@ -158,7 +159,7 @@ export default class CRCMDatatable
         let link = document.createElement("a");
 
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", this.api.baseUrl + ".csv");
+        link.setAttribute("download", (new Date()).toISOString().replace(/:/g, "-").replace(/\..+/, '') + ".csv");
 
         document.body.appendChild(link);
 
