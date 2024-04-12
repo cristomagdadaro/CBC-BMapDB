@@ -64,7 +64,11 @@ export default {
             const response = await this.api.get({ search: search, per_page: 20, page: page });
             // if no options are returned, it means all options have been received
             this.allOptionsFromApiReceived = response.data.data.length === 0;
-            // if the search input is empty, it means we are fetching the first page of options
+            // if the search input is empty, it means we are fetching the first page of options and when the next page has no data, go back to the previous page
+            if (!search && this.filteredOptions.length > 0 && response.data.data.length === 0) {
+                return;
+            }
+
             this.filteredOptions = response.data.data.map((option) => ({value: option.id, label: option.name || option.title || option.label || option.value }));
         },
         /**

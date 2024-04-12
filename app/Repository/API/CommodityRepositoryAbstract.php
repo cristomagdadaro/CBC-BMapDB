@@ -23,6 +23,9 @@ class CommodityRepositoryAbstract extends AbstractBaseRepository
         'yield',
         'description',
         'image',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     public function __construct(Commodity $model)

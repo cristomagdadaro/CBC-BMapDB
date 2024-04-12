@@ -14,22 +14,13 @@ export default class Commodity extends BaseClass{
         this.maturity_period = params.maturity_period ?? null;
         this.yield = params.yield ?? null;
         this.description = params.description ?? null;
+        this.updated_at = params.updated_at ?? null;
+        this.created_at = params.created_at ?? null;
+        this.deleted_at = params.deleted_at ?? null;
     }
 
-    static toObject(obj) {
-        return Object.assign({
-            id: obj.id,
-            name: obj.name,
-            breeder_id: obj.breeder_id,
-            scientific_name: obj.scientific_name,
-            variety: obj.variety,
-            accession: obj.accession,
-            germplasm: obj.germplasm,
-            population: obj.population,
-            maturity_period: obj.maturity_period,
-            yield: obj.yield,
-            description: obj.description,
-        }, obj);
+    static getHiddenColumns() {
+        return ['updated_at', 'created_at', 'deleted_at'];
     }
 
     static getColumns(){
@@ -110,6 +101,27 @@ export default class Commodity extends BaseClass{
                 sortable: true,
                 align: 'center',
                 visible: true,
+            },
+            {
+                title: 'Updated At',
+                key: 'updated_at',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Created At',
+                key: 'created_at',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Deleted At',
+                key: 'deleted_at',
+                sortable: true,
+                align: 'center',
+                visible: false,
             },
         ];
     }

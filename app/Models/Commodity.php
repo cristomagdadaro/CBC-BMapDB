@@ -24,6 +24,9 @@ class Commodity extends Model
         'yield',
         'description',
         'image',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
     protected $casts = [

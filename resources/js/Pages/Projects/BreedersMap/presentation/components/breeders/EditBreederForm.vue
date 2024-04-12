@@ -1,16 +1,11 @@
 <script>
-import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
-import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
-import {ref} from "vue";
 
 export default {
     name: "EditBreederForm",
     components: {
         BaseEditForm,
-        CancelButton,
-        CloseIcon,
         TextField,
     },
     props: {
