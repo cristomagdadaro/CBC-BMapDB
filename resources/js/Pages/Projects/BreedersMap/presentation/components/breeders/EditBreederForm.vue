@@ -2,10 +2,13 @@
 import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import TextField from "@/Components/Form/TextField.vue";
+import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
+import {ref} from "vue";
 
 export default {
     name: "EditBreederForm",
     components: {
+        BaseEditForm,
         CancelButton,
         CloseIcon,
         TextField,
@@ -27,6 +30,7 @@ export default {
     data() {
         return {
             form: {
+                user_id: this.$page.props.auth.user.id,
                 name: null,
                 phone: null,
                 email: null,
@@ -42,12 +46,10 @@ export default {
     },
     watch: {
         forceClose() {
+            this.resetForm();
             this.$emit('close');
-        }
-    },
-    mounted() {
-        if (this.data) {
-            // make a copy of the data, so that we can reset the form later without affecting the original data
+        },
+        data() {
             this.form = Object.assign({}, this.data);
         }
     }
@@ -55,31 +57,26 @@ export default {
 </script>
 
 <template>
-    <form @submit.prevent="$emit('submitForm', form)">
-        <div class="px-4 py-2 bg-gray-100 shadow-md">
-            <div class="text-lg font-medium text-gray-900 flex justify-between">
-                Update Breeder Information
-                <button class="text-sm font-medium text-blue-500" @click="$emit('close')">
-                    <CloseIcon class="w-7 h-auto hover:scale-110 active:scale-95 duration-100" />
-                </button>
+    <base-edit-form :form="form" :force-close="forceClose">
+        <template v-slot:formTitle>
+            Update Breeder Information
+        </template>
+        <template v-slot:formDescription>
+            <div class="grid grid-cols-2 text-sm text-gray-600">
+                <span>Date created: {{ form.created_at }}</span>
+                <span>Last updated: {{ form.updated_at }}</span>
             </div>
-
-            <div class="mt-4 text-sm text-gray-600">
-                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                    <text-field :show-clear="true" :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
-                    <text-field :show-clear="true" :error="errors? errors['phone']:{}" label="Phone Number" v-model="form.phone" />
-                    <text-field :show-clear="true" :error="errors? errors['email']:{}" label="Email" v-model="form.email" />
-                    <text-field :show-clear="true" :error="errors? errors['agency']:{}" label="Agency" v-model="form.agency" />
-                    <text-field :show-clear="true" :error="errors? errors['address']:{}" label="Address" v-model="form.address" />
-                </div>
+        </template>
+        <template v-slot:formFields>
+            <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
+                <text-field :show-clear="true" :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
+                <text-field :show-clear="true" :error="errors? errors['phone']:{}" label="Phone Number" v-model="form.phone" />
+                <text-field :show-clear="true" :error="errors? errors['email']:{}" label="Email" v-model="form.email" />
+                <text-field :show-clear="true" :error="errors? errors['agency']:{}" label="Agency" v-model="form.agency" />
             </div>
-        </div>
-        <div class="flex flex-row justify-between gap-1 px-6 py-4 bg-gray-100 text-right">
-            <div class="flex items-center gap-1">
-                <cancel-button @click="$emit('close')">Cancel</cancel-button>
-                <button class="bg-red-200 text-white px-4 py-2 rounded-md hover:bg-red-500 active:bg-red-600 duration-200" type="button" @click="resetForm">Reset</button>
+            <div class="mt-1">
+                <text-field :show-clear="true" :error="errors? errors['address']:{}" label="Address" v-model="form.address" />
             </div>
-            <button class="bg-edit text-white px-4 py-2 rounded-md hover:bg-edit active:bg-edit duration-200" type="submit">Update</button>
-        </div>
-    </form>
+        </template>
+    </base-edit-form>
 </template>

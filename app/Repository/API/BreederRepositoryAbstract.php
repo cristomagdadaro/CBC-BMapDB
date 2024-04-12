@@ -10,11 +10,15 @@ class BreederRepositoryAbstract extends AbstractBaseRepository
 {
     protected array $searchable = [
         'id',
+        'user_id',
         'name',
         'agency',
         'address',
         'phone',
         'email',
+        'updated_at',
+        'created_at',
+        'deleted_at',
     ];
 
     public function __construct(Breeder $model)

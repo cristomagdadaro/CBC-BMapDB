@@ -198,7 +198,7 @@ export default class CRCMDatatable
 
         Notification.pushNotification(response);
         if (response instanceof ValidationErrorResponse){
-            this.errorBag = response.toObject();
+            this.errorBag = response;
             this.processing = false;
             return;
         }
@@ -232,6 +232,7 @@ export default class CRCMDatatable
     async update(data) {
         this.processing = true;
         const response = await this.api.put(this.model.toObject(data));
+        console.log(response.toObject());
         if (response instanceof ValidationErrorResponse){
             this.errorBag = response.toObject();
             this.processing = false;
@@ -292,6 +293,8 @@ export default class CRCMDatatable
         if (response['data'].length > 0)
         {
             this.columns = Object.keys(response['data'][0]);
+            // only include columns that are not in the hidden columns, which is in the this.model.getHiddenColumns()
+            this.columns = this.columns.filter(column => !this.model.getHiddenColumns().includes(column));
             this.columns = this.formatColumns(this.columns);
             // store columns in the local storage with the current url as key
             localStorage.setItem(window.location.pathname, JSON.stringify(this.columns));

@@ -45,17 +45,17 @@ defineExpose({ focus: () => input.value.focus() });
             <label :for="id" class="text-xs text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
             <InputError v-for="msg in error" :message="msg" />
         </div>
-        <div class="flex rounded-md shadow-sm border-2 bg-white hover:ring-1 active:ring-1" v-if="typeInput !== 'longtext'" :class="error.length? 'border-red-300 focus:border-red-500 focus:ring-red-500':'border-gray-300 focus:border-indigo-500 overflow-ellipsis focus:ring-indigo-500'">
+        <div class="flex relative rounded-md shadow-sm border-2 bg-white hover:ring-1 active:ring-1" v-if="typeInput !== 'longtext'" :class="error.length? 'border-red-300 focus:border-red-500 focus:ring-red-500':'border-gray-300 focus:border-indigo-500 overflow-ellipsis focus:ring-indigo-500'">
             <input :id="id"
                    :type="typeInput"
                    ref="input"
                    @change="error=[]"
-                   class="border-0 w-full rounded-md focus:ring-0"
+                   class="border-0 w-full rounded-md focus:ring-0 overflow-ellipsis"
                    :value="modelValue"
                    @input="$emit('update:modelValue', $event.target.value)"
             >
             <div title="clear field" v-if="modelValue && showClear" @click="input = null; $emit('update:modelValue', null)" class="text-cbc-dark-green bg-transparent flex items-center border-gray-300 focus:border-indigo-500 overflow-ellipsis rounded-r-md pr-2">
-                <close-icon class="w-4 h-4 hover:scale-110 duration-200" />
+                <close-icon class="w-4 h-4 hover:scale-125 duration-200" />
             </div>
         </div>
         <textarea v-else
