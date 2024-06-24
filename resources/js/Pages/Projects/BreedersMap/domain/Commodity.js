@@ -100,7 +100,7 @@ export default class Commodity extends BaseClass{
                 key: 'description',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Updated At',

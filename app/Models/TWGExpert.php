@@ -23,6 +23,11 @@ class TWGExpert extends Model
         'email',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     public function twg_projects()
     {
         return $this->hasMany(TWGProject::class, 'twg_expert_id','user_id');

@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
             AccountsSeeder::class,
             BreederSeeder::class,
             CommoditySeeder::class,
-            InventorySeeder::class,
             TWGDatabaseSeeder::class
         ]);
     }

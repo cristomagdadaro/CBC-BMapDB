@@ -8,18 +8,14 @@ export default class Product extends BaseClass {
         this.brand = params.brand ?? null;
         this.purpose = params.purpose ?? null;
         this.cost = params.cost ?? null;
+        this.updated_at = params.updated_at ?? null;
+        this.created_at = params.created_at ?? null;
+        this.deleted_at = params.deleted_at ?? null;
     }
 
-    static toObject(obj) {
-        return Object.assign({
-            id: obj.id,
-            name: obj.name,
-            brand: obj.brand,
-            purpose: obj.purpose,
-            cost: obj.cost,
-        }, obj);
+    static getHiddenColumns() {
+        return ['id', 'updated_at', 'created_at', 'deleted_at'];
     }
-
     static getColumns() {
         return [
             {
@@ -56,6 +52,27 @@ export default class Product extends BaseClass {
                 align: 'center',
                 sortable: true,
                 visible: true,
+            },
+            {
+                title: 'Updated At',
+                key: 'updated_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
+            },
+            {
+                title: 'Created At',
+                key: 'created_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
+            },
+            {
+                title: 'Deleted At',
+                key: 'deleted_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
             },
         ];
     }

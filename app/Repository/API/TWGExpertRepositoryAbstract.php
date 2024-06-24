@@ -17,6 +17,9 @@ class TWGExpertRepositoryAbstract extends AbstractBaseRepository
         'research_interest',
         'mobile',
         'email',
+        'updated_at',
+        'created_at',
+        'deleted_at',
     ];
 
     public function __construct(TWGExpert $model)

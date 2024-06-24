@@ -15,11 +15,6 @@ export const CBCProjects = [
         icon: BreedersMapLogo,
         value: 'projects.breedersmap.index',
     },
-    {
-        id: 3,
-        label: "Inventory MS",
-        value: 'services.inventory.index',
-    }
 ]
 
 export const CBCProjectsPublic = [

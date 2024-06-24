@@ -12,19 +12,13 @@ export default class Project extends BaseClass{
         this.funding_agency = params.funding_agency ?? null;
         this.duration = params.duration ?? null;
         this.status = params.status ?? null;
+        this.updated_at = params.updated_at ?? null;
+        this.created_at = params.created_at ?? null;
+        this.deleted_at = params.deleted_at ?? null;
     }
-    static toObject(obj) {
-        return Object.assign({
-            id: obj.id,
-            twg_expert_id: obj.twg_expert_id,
-            title: obj.title,
-            objective: obj.objective,
-            expected_output: obj.expected_output,
-            project_leader: obj.project_leader,
-            funding_agency: obj.funding_agency,
-            duration: obj.duration,
-            status: obj.status,
-        }, obj);
+
+    static getHiddenColumns() {
+        return ['twg_expert_id','id', 'updated_at', 'created_at', 'deleted_at'];
     }
 
     static getColumns() {
@@ -90,6 +84,27 @@ export default class Project extends BaseClass{
                 align: 'center',
                 sortable: true,
                 visible: true,
+            },
+            {
+                title: 'Updated At',
+                key: 'updated_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
+            },
+            {
+                title: 'Created At',
+                key: 'created_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
+            },
+            {
+                title: 'Deleted At',
+                key: 'deleted_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
             },
         ]
     }

@@ -11,18 +11,13 @@ export default class Service extends BaseClass {
         this.indirect_beneficiaries = params.indirect_beneficiaries ?? null;
         this.officer_in_charge = params.officer_in_charge ?? null;
         this.cost = params.cost ?? null;
+        this.updated_at = params.updated_at ?? null;
+        this.created_at = params.created_at ?? null;
+        this.deleted_at = params.deleted_at ?? null;
     }
 
-    static toObject(obj) {
-        return Object.assign({
-            id: obj.id,
-            type: obj.type,
-            purpose: obj.purpose,
-            direct_beneficiaries: obj.direct_beneficiaries,
-            indirect_beneficiaries: obj.indirect_beneficiaries,
-            officer_in_charge: obj.officer_in_charge,
-            cost: obj.cost,
-        }, obj);
+    static getHiddenColumns() {
+        return ['id', 'updated_at', 'created_at', 'deleted_at'];
     }
 
     static getColumns() {
@@ -75,6 +70,27 @@ export default class Service extends BaseClass {
                 align: 'center',
                 sortable: true,
                 visible: true,
+            },
+            {
+                title: 'Updated At',
+                key: 'updated_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
+            },
+            {
+                title: 'Created At',
+                key: 'created_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
+            },
+            {
+                title: 'Deleted At',
+                key: 'deleted_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
             },
         ];
     }

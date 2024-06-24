@@ -12,19 +12,16 @@ export default class Expert extends BaseClass{
         this.research_interest = params.research_interest ?? null;
         this.mobile = params.mobile ?? null;
         this.email = params.email ?? null;
+        this.updated_at = params.updated_at ?? null;
+        this.created_at = params.created_at ?? null;
+        this.deleted_at = params.deleted_at ?? null;
     }
-    static toObject(obj) {
-        return Object.assign({
-            id: obj.id,
-            user_id: obj.user_id,
-            name: obj.name,
-            position: obj.position,
-            educ_level: obj.educ_level,
-            expertise: obj.expertise,
-            research_interest: obj.research_interest,
-            mobile: obj.mobile,
-            email: obj.email,
-        }, obj);
+
+    /**
+     * Get the hidden columns, that should not be displayed in the table columns and filter by dropdown
+     * */
+    static getHiddenColumns() {
+        return ['user_id','id', 'updated_at', 'created_at', 'deleted_at'];
     }
 
     static getColumns() {
@@ -58,7 +55,7 @@ export default class Expert extends BaseClass{
                 visible: true,
             },
             {
-                title: 'Degree',
+                title: 'Educ. Level',
                 key: 'educ_level',
                 align: 'center',
                 sortable: true,
@@ -91,7 +88,28 @@ export default class Expert extends BaseClass{
                 align: 'center',
                 sortable: false,
                 visible: true,
-            }
+            },
+            {
+                title: 'Updated At',
+                key: 'updated_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
+            },
+            {
+                title: 'Created At',
+                key: 'created_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
+            },
+            {
+                title: 'Deleted At',
+                key: 'deleted_at',
+                align: 'center',
+                sortable: true,
+                visible: false,
+            },
         ]
     }
 }

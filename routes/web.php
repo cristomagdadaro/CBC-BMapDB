@@ -5,9 +5,6 @@ use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\BreederController;
 use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\GeodataController;
-use App\Http\Controllers\API\Inventory\ItemController;
-use App\Http\Controllers\API\Inventory\SupplierController;
-use App\Http\Controllers\API\Inventory\TransactionController;
 use App\Http\Controllers\API\PermissionController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TWGController;
@@ -17,7 +14,6 @@ use App\Http\Controllers\API\TWGProjectController;
 use App\Http\Controllers\API\TWGServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\BaseCollection;
-use App\Models\Inventory\Category;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -82,12 +78,6 @@ Route::middleware([
                 ]);
             })->name('breedersmap.breeder.view');
         });
-    });
-
-    Route::prefix('services')->group(function () {
-        Route::get('inventory', function () {
-            return Inertia::render('Services/InventorySys/presentation/InventoryIndex');
-        })->name('services.inventory.index');
     });
 });
 
@@ -156,44 +146,6 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
 
     Route::prefix('geodata')->group(function () {
         Route::get('/', [GeodataController::Class, 'index'])->name('api.breeders.geodata.index');
-    });
-
-    /*Inventory System Related APIs*/
-    Route::prefix('inventory')->group(function () {
-        Route::get('inventory-categories', function () {
-            return new BaseCollection(Category::all());
-        })->name('api.inventory.categories.index');
-
-        Route::prefix('list-of-items')->group(function () {
-            Route::get('/', [ItemController::class, 'index'])->name('api.inventory.items.index');
-            Route::get('/{id}', [ItemController::class, 'show'])->name('api.inventory.items.show');
-            Route::post('/', [ItemController::class, 'store'])->name('api.inventory.items.store');
-            Route::put('/{id}', [ItemController::class, 'update'])->name('api.inventory.items.update');
-            Route::delete('/delete', [ItemController::class, 'multiDestroy'])->name('api.inventory.items.destroy.multi');
-            Route::delete('/{id}', [ItemController::class, 'destroy'])->name('api.inventory.items.destroy');
-        });
-
-        Route::prefix('list-of-suppliers')->group(function () {
-            Route::get('/', [SupplierController::class, 'index'])->name('api.inventory.suppliers.index');
-            Route::get('/{id}', [SupplierController::class, 'show'])->name('api.inventory.suppliers.show');
-            Route::post('/', [SupplierController::class, 'store'])->name('api.inventory.suppliers.store');
-            Route::put('/{id}', [SupplierController::class, 'update'])->name('api.inventory.suppliers.update');
-            Route::delete('/delete', [SupplierController::class, 'multiDestroy'])->name('api.inventory.suppliers.destroy.multi');
-            Route::delete('/{id}', [SupplierController::class, 'destroy'])->name('api.inventory.suppliers.destroy');
-        });
-
-        Route::prefix('list-of-transactions')->group(function () {
-            Route::get('/', [TransactionController::class, 'index'])->name('api.inventory.transactions.index');
-            Route::get('/{id}', [TransactionController::class, 'show'])->name('api.inventory.transactions.show');
-            Route::post('/', [TransactionController::class, 'store'])->name('api.inventory.transactions.store');
-            Route::put('/{id}', [TransactionController::class, 'update'])->name('api.inventory.transactions.update');
-            Route::delete('/delete', [TransactionController::class, 'multiDestroy'])->name('api.inventory.transactions.destroy.multi');
-            Route::delete('/{id}', [TransactionController::class, 'destroy'])->name('api.inventory.transactions.destroy');
-        });
-
-        Route::prefix('remaining-stock')->group(function () {
-            Route::get('/', [TransactionController::class, 'stockIndex'])->name('api.inventory.stocks.index');
-        });
     });
 
     /*System Related APIs*/
