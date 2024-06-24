@@ -29,6 +29,16 @@ class CommodityFactory extends Factory
             'yield' => $this->faker->randomFloat,
             'description' => $this->faker->text,
             'image' => $this->faker->text,
+            'latitude' => $this->faker->latitude(4.5, 21.0),
+            'longitude' => $this->faker->longitude(116.0, 127.0),
+            'address' => $this->faker->address,
+            'city' => $this->faker->city,
+            'province' => $this->faker->state,
+            'country' => $this->faker->country,
+            'postal_code' => $this->faker->postcode,
+            'formatted_address' => $this->faker->address,
+            'place_id' => $this->faker->uuid,
+            'status' => $this->faker->randomElement(['active', 'inactive']),
         ];
     }
 }

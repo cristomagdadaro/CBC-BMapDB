@@ -15,6 +15,17 @@
                 <text-field :error="errors? errors['maturity_period']:{}" label="Maturity Period" v-model="form.maturity_period" />
                 <text-field type-input="number" :error="errors? errors['yield']:{}" label="Yield" v-model="form.yield" />
                 <text-field type-input="longtext" :error="errors? errors['description']:{}" label="Other Description" v-model="form.description" />
+                <text-field :error="errors? errors['image']:{}" label="Image" v-model="form.image" />
+                <text-field :error="errors? errors['latitude']:{}" label="Latitude" v-model="form.latitude" />
+                <text-field :error="errors? errors['longitude']:{}" label="Longitude" v-model="form.longitude" />
+                <text-field :error="errors? errors['address']:{}" label="Address" v-model="form.address" />
+                <text-field :error="errors? errors['city']:{}" label="City" v-model="form.city" />
+                <text-field :error="errors? errors['province']:{}" label="Province" v-model="form.province" />
+                <text-field :error="errors? errors['country']:{}" label="Country" v-model="form.country" />
+                <text-field :error="errors? errors['postal_code']:{}" label="Postal Code" v-model="form.postal_code" />
+                <text-field :error="errors? errors['formatted_address']:{}" label="Formatted Address" v-model="form.formatted_address" />
+                <text-field :error="errors? errors['place_id']:{}" label="Place ID" v-model="form.place_id" />
+                <select-field :error="errors? errors['status']:{}" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
             </div>
         </template>
     </base-create-form>
@@ -56,25 +67,23 @@ export default {
                 maturity_period: null,
                 yield: null,
                 description: null,
+                image: null,
+                latitude: null,
+                longitude: null,
+                address: null,
+                city: null,
+                province: null,
+                country: null,
+                postal_code: null,
+                formatted_address: null,
+                place_id: null,
+                status: null,
             },
         };
     },
     methods: {
         close() {
-            this.form = {
-                name: null,
-                breeder_id: null,
-                scientific_name: null,
-                variety: null,
-                accession: null,
-                germplasm: null,
-                population: null,
-                maturity_period: null,
-                yield: null,
-                description: null,
-            };
-
-            this.$emit('close');
+            this.form = Object.assign({}, this.data);
         },
     },
     watch: {

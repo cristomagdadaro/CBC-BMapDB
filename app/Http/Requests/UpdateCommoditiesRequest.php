@@ -33,6 +33,16 @@ class UpdateCommoditiesRequest extends FormRequest
             'yield' => 'required|integer',
             'description' => 'required|string',
             'image' => 'nullable',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'address' => 'nullable|string',
+            'city' => 'nullable|string',
+            'province' => 'nullable|string',
+            'country' => 'nullable|string',
+            'postal_code' => 'nullable|string',
+            'formatted_address' => 'nullable|string',
+            'place_id' => 'nullable|string',
+            'status' => 'nullable|string',
         ];
     }
 }

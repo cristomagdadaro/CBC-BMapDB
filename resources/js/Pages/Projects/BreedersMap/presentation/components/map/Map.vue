@@ -22,21 +22,19 @@
             <search-box
                 :value="selectedPlace"
                 :options="placesFiltered"
-                :label="selectedPlace ? selectedPlace.place_name : 'Select a place'"
+                :label="selectedPlace ? selectedPlace.city : 'Select a place'"
                 @searchString="filterPlaces($event.target.value)"
                 @input="filterPlaces($event.target.value)"
             />
             <div class="rounded flex-col flex gap-1 overflow-y-auto max-h-96">
-
                 <template v-for="point in placesSearched">
-                    <div @click="selectPoint([point.lat, point.lon])" :class="markerLatLng[0]===point.lat&&markerLatLng[1]===point.lon?'bg-gray-400':'bg-white'" class="flex flex-row items-center gap-1 border p-1 rounded hover:bg-gray-200 leading-1 duration-200 select-none">
+                    <div @click="selectPoint(point)" :class="markerLatLng[0]===point.latitude&&markerLatLng[1]===point.latitude?'bg-gray-400':'bg-white'" class="flex flex-row items-center gap-1 border p-1 rounded hover:bg-gray-200 leading-1 duration-200 select-none">
                         <checkbox/>
-                        <h1 class="font-medium leading-5">{{ point.place_name }}</h1>
+                        <h1 class="font-medium leading-5">{{ point.city }}</h1>
                     </div>
                 </template>
             </div>
         </div>
-        <!--    <div id="map" class="h-screen"></div>-->
         <l-map
             ref="map"
             :use-global-leaflet="true"
@@ -48,23 +46,22 @@
             :minZoom="minZoom"
             :max-bounds="[maxBound.southwest, maxBound.northeast]"
             :options="{
-                zoomControl: true,
-                attributionControl: false,
-                maxBoundsViscosity: 1,
-                zoomAnimation: true,
-                fadeAnimation: true,
-                markerZoomAnimation: true,
-                zoomAnimationThreshold: 4,
-                doubleClickZoom: false,
-                keyboard: false,
-                closePopupOnClick: false,
-                dragging: false,
-                touchZoom: false,
-                scrollWheelZoom: false,
-                tap: false,
-                }"
+        zoomControl: true,
+        attributionControl: false,
+        maxBoundsViscosity: 1,
+        zoomAnimation: true,
+        fadeAnimation: true,
+        markerZoomAnimation: true,
+        zoomAnimationThreshold: 4,
+        doubleClickZoom: false,
+        keyboard: false,
+        closePopupOnClick: false,
+        dragging: false,
+        touchZoom: false,
+        scrollWheelZoom: false,
+        tap: false,
+      }"
         >
-
             <l-geo-json
                 v-for="region in province"
                 :name="region.features[0].properties.ADM1_EN"
@@ -73,9 +70,7 @@
                 :visible="false"
                 pane="overlayPane"
             />
-
             <l-control-layers position="topright" :collapsed="true"  />
-
             <l-tile-layer
                 v-for="tileProvider in tileProviders"
                 :key="tileProvider.name"
@@ -83,57 +78,31 @@
                 :visible="tileProvider.visible"
                 :url="tileProvider.url"
                 :attribution="tileProvider.attribution"
-                layer-type="base"/>
-
+                layer-type="base"
+            />
             <l-marker v-if="markerLatLng" :lat-lng="markerLatLng" ref="marker">
-                <l-popup>
-                    <h2>Crop Biotechnology Center</h2>
-                </l-popup>
+                <!-- Remove the l-popup here -->
             </l-marker>
-
             <l-circle-marker
                 v-for="place in placesFiltered"
-                :key="place.place_id"
-                :lat-lng="[place.lat, place.lon]"
+                :key="place.id"
+                :lat-lng="[place.latitude, place.longitude]"
                 :opacity="0.8"
                 color="#3DA5B4"
                 :weight="1"
+                @click="selectPoint(place)"
             >
-                <l-tooltip
-                    :content="place.place_name"
-                >
-                    <div>
-                        <table>
-                            <tr
-                                v-for="(value, key) in place"
-                                :key="key"
-                            >
-                                <th>{{ key }}</th>
-                                <td>{{ value }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </l-tooltip>
-                <l-popup>
-                    <div>
-                        <table>
-                            <tr
-                                v-for="(value, key) in place"
-                                :key="key"
-                            >
-                                <th>{{ key }}</th>
-                                <td>{{ value }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </l-popup>
+                <!-- Remove the l-tooltip and l-popup here -->
             </l-circle-marker>
         </l-map>
     </div>
+    <!-- Include the sidebar component -->
+    <info-sidebar :point="selectedPlace" :visible="sidebarVisible" @close="sidebarVisible = false" />
 </template>
 
 <script>
 import region1 from '@/Pages/Projects/BreedersMap/components/geojsons/geoJson.js';
+import InfoSidebar from './components/MapSidebar.vue';
 import {
     LMap,
     LTileLayer,
@@ -161,6 +130,7 @@ export default {
         }
     },
     components: {
+        InfoSidebar,
         SearchBy,
         Checkbox,
         ShareIcon,
@@ -176,17 +146,26 @@ export default {
         LFeatureGroup,
         LControlLayers,
         LMap,
-
         LTileLayer,
         LMarker,
         LCircleMarker,
         LPopup,
     },
     mounted() {
+        this.commodities = this.$page.props.commodities;
+        this.placesFiltered = this.commodities;
         this.placesSearched = this.placesFiltered;
     },
-
     methods: {
+        // capitalize the first letter of each word and remove underscores
+        formatName(name) {
+            return name
+                .split('_')
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+            // return name.replace(/_/g,'');
+
+        },
         selectPoint(point) {
             // Set the marker's position
             this.markerLatLng = point;
@@ -197,7 +176,7 @@ export default {
 
             // Find the selected place based on the current point
             this.selectedPlace = this.placesFiltered.find(
-                (place) => place.lat === point[0] && place.lon === point[1]
+                (place) => place.latitude === point[0] && place.longitude === point[1]
             );
 
             // Fly to the selected point with animation
@@ -207,13 +186,13 @@ export default {
                     duration: 1.5,
                 });
             }
-
+            this.sidebarVisible = true;
             // Increment the index for the next point
             this.currentIndex = (this.currentIndex + 1) % this.placesFiltered.length;
         },
         filterPlaces(str) {
             this.placesSearched = this.placesFiltered.filter(place =>
-                place.place_name.toLowerCase().includes(str.toLowerCase())
+                place.city.toLowerCase().includes(str.toLowerCase())
             );
         },
         highlightFeature(event) {
@@ -240,6 +219,8 @@ export default {
     },
     data () {
         return {
+            sidebarVisible: false,
+            commodities: [],
             isHovered: false,
             tiles: null,
             map: null,
@@ -254,228 +235,7 @@ export default {
             markerLatLng: [0,0],
             selectedPlace: null,
             placesSearched: [],
-            placesFiltered: [
-                {
-                    "place_id": 1,
-                    "place_name": "Benguet State University",
-                    "lat": 16.403,
-                    "lon": 120.596,
-                    "place_type": "University",
-                    "place_address": "La Trinidad, Benguet",
-                    "place_contact": "09123456789",
-                    "place_website": "https://bsu.edu.ph"
-                },
-                {
-                    "place_id": 2,
-                    "place_name": "University of the Philippines Diliman",
-                    "lat": 14.6539,
-                    "lon": 121.0664,
-                    "place_type": "University",
-                    "place_address": "Diliman, Quezon City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://upd.edu.ph"
-                },
-                {
-                    "place_id": 3,
-                    "place_name": "Polytechnic University of the Philippines",
-                    "lat": 14.6078,
-                    "lon": 121.0014,
-                    "place_type": "University",
-                    "place_address": "Sta. Mesa, Manila",
-                    "place_contact": "09123456789",
-                    "place_website": "https://www.pup.edu.ph"
-                },
-                {
-                    "place_id": 4,
-                    "place_name": "Mindanao State University",
-                    "lat": 7.0718,
-                    "lon": 125.6094,
-                    "place_type": "University",
-                    "place_address": "Marawi City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://msumain.edu.ph"
-                },
-                {
-                    "place_id": 5,
-                    "place_name": "Central Luzon State University",
-                    "lat": 15.4861,
-                    "lon": 120.9673,
-                    "place_type": "University",
-                    "place_address": "Science City of Muñoz, Nueva Ecija",
-                    "place_contact": "09123456789",
-                    "place_website": "https://clsu.edu.ph"
-                },
-                {
-                    "place_id": 6,
-                    "place_name": "Visayas State University",
-                    "lat": 11.1217,
-                    "lon": 123.9898,
-                    "place_type": "University",
-                    "place_address": "Baybay City, Leyte",
-                    "place_contact": "09123456789",
-                    "place_website": "https://www.vsu.edu.ph"
-                },
-                {
-                    "place_id": 7,
-                    "place_name": "University of the Philippines Los Baños",
-                    "lat": 14.1676,
-                    "lon": 121.2425,
-                    "place_type": "University",
-                    "place_address": "Los Baños, Laguna",
-                    "place_contact": "09123456789",
-                    "place_website": "https://uplb.edu.ph"
-                },
-                {
-                    "place_id": 8,
-                    "place_name": "Bicol University",
-                    "lat": 13.6224,
-                    "lon": 123.1848,
-                    "place_type": "University",
-                    "place_address": "Legazpi City, Albay",
-                    "place_contact": "09123456789",
-                    "place_website": "https://bicol-u.edu.ph"
-                },
-                {
-                    "place_id": 9,
-                    "place_name": "Western Mindanao State University",
-                    "lat": 6.9152,
-                    "lon": 122.0736,
-                    "place_type": "University",
-                    "place_address": "Zamboanga City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://wmsu.edu.ph"
-                },
-                {
-                    "place_id": 10,
-                    "place_name": "Cebu Normal University",
-                    "lat": 10.3083,
-                    "lon": 123.8933,
-                    "place_type": "University",
-                    "place_address": "Cebu City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://cnu.edu.ph"
-                },
-                {
-                    "place_id": 11,
-                    "place_name": "Caraga State University",
-                    "lat": 8.9536,
-                    "lon": 125.5234,
-                    "place_type": "University",
-                    "place_address": "Butuan City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://carsu.edu.ph"
-                },
-                {
-                    "place_id": 12,
-                    "place_name": "University of Southeastern Philippines",
-                    "lat": 7.0897,
-                    "lon": 125.6128,
-                    "place_type": "University",
-                    "place_address": "Davao City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://usep.edu.ph"
-                },
-                {
-                    "place_id": 13,
-                    "place_name": "University of the Philippines Visayas",
-                    "lat": 10.6969,
-                    "lon": 122.5644,
-                    "place_type": "University",
-                    "place_address": "Miagao, Iloilo",
-                    "place_contact": "09123456789",
-                    "place_website": "https://upv.edu.ph"
-                },
-                {
-                    "place_id": 14,
-                    "place_name": "University of the Philippines Mindanao",
-                    "lat": 7.1907,
-                    "lon": 125.4553,
-                    "place_type": "University",
-                    "place_address": "Mintal, Davao City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://upmin.edu.ph"
-                },
-                {
-                    "place_id": 15,
-                    "place_name": "University of the Philippines Baguio",
-                    "lat": 16.4131,
-                    "lon": 120.5998,
-                    "place_type": "University",
-                    "place_address": "Baguio City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://upb.edu.ph"
-                },
-                {
-                    "place_id": 16,
-                    "place_name": "University of the Philippines Cebu",
-                    "lat": 10.3157,
-                    "lon": 123.8854,
-                    "place_type": "University",
-                    "place_address": "Cebu City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://upcebu.edu.ph"
-                },
-                {
-                    "place_id": 17,
-                    "place_name": "University of the Philippines Open University",
-                    "lat": 14.1559,
-                    "lon": 121.2423,
-                    "place_type": "University",
-                    "place_address": "Los Baños, Laguna",
-                    "place_contact": "09123456789",
-                    "place_website": "https://upou.edu.ph"
-                },
-                {
-                    "place_id": 18,
-                    "place_name": "Central Mindanao University",
-                    "lat": 7.6271,
-                    "lon": 125.0867,
-                    "place_type": "University",
-                    "place_address": "Musuan, Bukidnon",
-                    "place_contact": "09123456789",
-                    "place_website": "https://www.cmu.edu.ph"
-                },
-                {
-                    "place_id": 19,
-                    "place_name": "Iloilo Science and Technology University",
-                    "lat": 10.7255,
-                    "lon": 122.5643,
-                    "place_type": "University",
-                    "place_address": "Iloilo City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://www.istu.edu.ph"
-                },
-                {
-                    "place_id": 20,
-                    "place_name": "University of Southeastern Philippines",
-                    "lat": 7.0897,
-                    "lon": 125.6110,
-                    "place_type": "University",
-                    "place_address": "Davao City",
-                    "place_contact": "09123456789",
-                    "place_website": "https://www.usep.edu.ph"
-                },
-                {
-                    "place_id": 21,
-                    "place_name": "Isabela State University",
-                    "lat": 17.3200,
-                    "lon": 121.5015,
-                    "place_type": "University",
-                    "place_address": "Echague, Isabela",
-                    "place_contact": "09123456789",
-                    "place_website": "https://isu.edu.ph"
-                },
-                {
-                    "place_id": 22,
-                    "place_name": "Cagayan State University",
-                    "lat": 17.6436,
-                    "lon": 121.7490,
-                    "place_type": "University",
-                    "place_address": "Tuguegarao City, Cagayan",
-                    "place_contact": "09123456789",
-                    "place_website": "https://www.csu.edu.ph"
-                },
-            ],
+            placesFiltered: [],
             tileProviders: [
                 {
                     name: 'CartoDB Voyager',

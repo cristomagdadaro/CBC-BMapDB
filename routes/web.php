@@ -30,7 +30,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('HomePage', [
+    return Inertia::render('Auth/Login', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -69,7 +69,9 @@ Route::middleware([
 
         Route::prefix('/breedersmap')->group(function () {
             Route::get('/', function () {
-                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex', [
+                    'commodities' => \App\Models\Commodity::all(),
+                ]);
             })->name('projects.breedersmap.index');
 
             Route::get('/breeder/{id}', function () {

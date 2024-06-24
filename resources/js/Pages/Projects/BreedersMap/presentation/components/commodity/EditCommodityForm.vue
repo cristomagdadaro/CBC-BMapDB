@@ -21,6 +21,17 @@
                 <text-field :show-clear="true" :error="errors? errors['maturity_period']:{}" label="Maturity Period" v-model="form.maturity_period" />
                 <text-field :show-clear="true" typeInput="number" :error="errors? errors['yield']:{}" label="Yield" v-model="form.yield" />
                 <text-field :show-clear="true" typeInput="longtext" :error="errors? errors['description']:{}" label="Description" v-model="form.description" />
+                <text-field :show-clear="true" :error="errors? errors['image']:{}" label="Image" v-model="form.image" />
+                <text-field :show-clear="true" :error="errors? errors['latitude']:{}" label="Latitude" v-model="form.latitude" />
+                <text-field :show-clear="true" :error="errors? errors['longitude']:{}" label="Longitude" v-model="form.longitude" />
+                <text-field :show-clear="true" :error="errors? errors['address']:{}" label="Address" v-model="form.address" />
+                <text-field :show-clear="true" :error="errors? errors['city']:{}" label="City" v-model="form.city" />
+                <text-field :show-clear="true" :error="errors? errors['province']:{}" label="Province" v-model="form.province" />
+                <text-field :show-clear="true" :error="errors? errors['country']:{}" label="Country" v-model="form.country" />
+                <text-field :show-clear="true" :error="errors? errors['postal_code']:{}" label="Postal Code" v-model="form.postal_code" />
+                <text-field :show-clear="true" :error="errors? errors['formatted_address']:{}" label="Formatted Address" v-model="form.formatted_address" />
+                <text-field :show-clear="true" :error="errors? errors['place_id']:{}" label="Place ID" v-model="form.place_id" />
+                <select-field :show-clear="true" :error="errors? errors['status']:{}" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
             </div>
         </template>
     </base-edit-form>
@@ -29,9 +40,11 @@
 import TextField from "@/Components/Form/TextField.vue";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
+import SelectField from "@/Components/Form/SelectField.vue";
 
 export default {
     components: {
+        SelectField,
         BaseEditForm,
         SelectSearchField,
         TextField,
@@ -63,18 +76,29 @@ export default {
                 maturity_period: null,
                 yield: null,
                 description: null,
+                image: null,
+                latitude: null,
+                longitude: null,
+                address: null,
+                city: null,
+                province: null,
+                country: null,
+                postal_code: null,
+                formatted_address: null,
+                place_id: null,
+                status: null,
             },
         };
     },
     methods: {
         resetForm() {
             this.form = Object.assign({}, this.data);
+            this.$emit('close');
         }
     },
     watch: {
         forceClose() {
             this.resetForm();
-            this.$emit('close');
         },
         data() {
             this.form = Object.assign({}, this.data);

@@ -14,6 +14,16 @@ export default class Commodity extends BaseClass{
         this.maturity_period = params.maturity_period ?? null;
         this.yield = params.yield ?? null;
         this.description = params.description ?? null;
+        this.latitude = params.latitude ?? null;
+        this.longitude = params.longitude ?? null;
+        this.address = params.address ?? null;
+        this.city = params.city ?? null;
+        this.province = params.province ?? null;
+        this.country = params.country?? null;
+        this.postal_code = params.postal_code ?? null;
+        this.formatted_address = params.formatted_address ?? null;
+        this.place_id = params.place_id ?? null;
+        this.status = params.status ?? null;
         this.updated_at = params.updated_at ?? null;
         this.created_at = params.created_at ?? null;
         this.deleted_at = params.deleted_at ?? null;
@@ -123,6 +133,76 @@ export default class Commodity extends BaseClass{
                 align: 'center',
                 visible: false,
             },
+            {
+                title: 'Latitude',
+                key: 'latitude',
+                sortable: true,
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Longitude',
+                key: 'longitude',
+                sortable: true,
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Address',
+                key: 'address',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'City',
+                key: 'city',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Province',
+                key: 'province',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Country',
+                key: 'country',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Postal Code',
+                key: 'postal_code',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Formatted Address',
+                key: 'formatted_address',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Place ID',
+                key: 'place_id',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Status',
+                key: 'status',
+                sortable: true,
+                align: 'center',
+                visible: true,
+            }
         ];
     }
 }

@@ -14,11 +14,11 @@ defineProps({
 });
 
 const TabLinks = [
-    {
+    /*{
         name: 'Home',
         link: 'home',
     },
-    /*{
+    {
        name: 'Projects',
        link: '#',
    },*//*
@@ -64,7 +64,7 @@ const TabLinks = [
                 </template>
                 <tablink :sublinks="true" :link="route('projects')" :active="route().current('projects')">
                     <template #trigger>
-                        Projects
+                        Databases
                     </template>
                     <template #content>
                         <tablink v-for="project in CBCProjectsPublic" :key="project.id" :link="route(project.value)" class="text-gray-700">
@@ -73,7 +73,7 @@ const TabLinks = [
                     </template>
                 </tablink>
                 <template v-if="canLogin && $page.props.auth.user === null ">
-                    <tablink :link="route('login')" :active="route().current('login')">Log in</tablink>
+                    <tablink :link="route('login')" :active="route().current('login') || route().current('home')">Log in</tablink>
                     <tablink v-if="canRegister" :link="route('register')" :active="route().current('register')">Register</tablink>
                 </template>
             </ul>
