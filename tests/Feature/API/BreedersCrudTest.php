@@ -41,6 +41,7 @@ class BreedersCrudTest extends TestCase
     {
         $this->userSetup();
         $response = $this->postJson('/api/breeders', [
+            'user_id' => '1',
             'name' => 'Test Breeder',
             'agency' => 'Test Agency',
             'address' => 'Test Address',
@@ -50,6 +51,7 @@ class BreedersCrudTest extends TestCase
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('breeders', [
+            'user_id' => '1',
             'name' => 'Test Breeder',
             'agency' => 'Test Agency',
             'address' => 'Test Address',

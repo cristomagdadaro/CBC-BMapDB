@@ -7,8 +7,8 @@
          v-if="dt instanceof CRCMDatatable && dt.response['meta']"
          class="flex flex-col sm:gap-2 gap-1 bg-transparent sm:p-3 p-1 overflow-x-auto">
         <top-container>
-            <per-page :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
-            <action-container>
+            <per-page class="sm:w-1/3 w-full" :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
+            <action-container class="sm:w-1/3 w-full">
                 <top-action-btn
                     v-if="showActionBtns"
                     @click="showAddDialogFunc()"
@@ -88,7 +88,7 @@
                     </template>
                 </top-action-btn>
             </action-container>
-            <div class="flex items-center sm:w-fit w-full justify-between gap-2">
+            <div class="flex flex-row items-center sm:w-1/3 w-full sm:justify-end justify-between gap-2">
                 <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
                 <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
             </div>

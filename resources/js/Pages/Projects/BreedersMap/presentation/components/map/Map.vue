@@ -257,9 +257,9 @@ export default {
                     @click="selectPoint(place)"
                 >
                     <l-tooltip :content="place.city" />
-                    <l-popup>
+<!--                    <l-popup>
                         <h1>{{ place.city }}</h1>
-                    </l-popup>
+                    </l-popup>-->
                 </l-circle-marker>
             </l-map>
             <info-sidebar :point="selectedPlace" :visible="sidebarVisible" @close="sidebarVisible = false" />

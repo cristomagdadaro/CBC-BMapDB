@@ -27,8 +27,8 @@ class UpdateBreederRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string|unique:breeders,name,'.$this->id,
             'agency' => 'required|string',
-            'address' => 'required|string',
-            'phone' => 'required|string|unique:breeders,phone,'.$this->id,
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string|unique:breeders,phone,'.$this->id,
             'email' => [
                 'required',
                 'email',

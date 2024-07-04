@@ -5,13 +5,13 @@
         </template>
         <template v-slot:formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                <text-field :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
+                <text-field required :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
                 <text-field :error="errors? errors['phone']:{}" label="Phone Number" v-model="form.phone" />
-                <text-field :error="errors? errors['email']:{}" label="Email" v-model="form.email" />
-                <text-field :error="errors? errors['agency']:{}" label="Agency" v-model="form.agency" />
+                <text-field required :error="errors? errors['email']:{}" label="Email" v-model="form.email" />
+                <text-field required :error="errors? errors['agency']:{}" label="Agency/Institution" v-model="form.agency" />
             </div>
             <div class="mt-1">
-                <text-field :error="errors? errors['address']:{}" label="Address" v-model="form.address" />
+                <text-field :error="errors? errors['address']:{}" label="Affiliate Address" v-model="form.address" />
             </div>
         </template>
     </base-create-form>

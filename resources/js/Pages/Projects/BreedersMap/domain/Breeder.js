@@ -7,9 +7,9 @@ export default class Breeder extends BaseClass{
         this.user_id = params.user_id ?? null;
         this.name = params.name ?? null;
         this.agency = params.agency ?? null;
-        this.address = params.address ?? null;
         this.phone = params.phone ?? null;
         this.email = params.email ?? null;
+        this.address = params.address ?? null;
         this.updated_at = params.updated_at ?? null;
         this.created_at = params.created_at ?? null;
         this.deleted_at = params.deleted_at ?? null;
@@ -19,7 +19,7 @@ export default class Breeder extends BaseClass{
      * Get the hidden columns, that should not be displayed in the table columns and filter by dropdown
      * */
     static getHiddenColumns() {
-        return ['user_id','updated_at', 'created_at', 'deleted_at'];
+        return ['id','user_id','updated_at', 'created_at', 'deleted_at'];
     }
 
     static getColumns() {
@@ -29,7 +29,7 @@ export default class Breeder extends BaseClass{
                 key: 'id',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'User ID',
@@ -53,13 +53,6 @@ export default class Breeder extends BaseClass{
                 visible: true,
             },
             {
-                title: 'Address',
-                key: 'address',
-                align: 'center',
-                sortable: true,
-                visible: true,
-            },
-            {
                 title: 'Phone',
                 key: 'phone',
                 align: 'center',
@@ -71,6 +64,13 @@ export default class Breeder extends BaseClass{
                 key: 'email',
                 align: 'center',
                 sortable: false,
+                visible: true,
+            },
+            {
+                title: 'Address',
+                key: 'address',
+                align: 'center',
+                sortable: true,
                 visible: true,
             },
             {

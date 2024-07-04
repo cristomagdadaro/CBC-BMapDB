@@ -1,5 +1,5 @@
 <template>
-  <base-button :classes="classes" class="bg-gray-400">
+  <base-button :disabled="disabled" :classes="disabled?'bg-gray-400 opacity-50':'bg-[#006837] text-white'" class="text-xs">
     <slot />
   </base-button>
 </template>
@@ -7,6 +7,6 @@
 import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
 import { defineProps } from "vue";
 defineProps({
-  classes: String,
+  disabled: Boolean,
 })
 </script>

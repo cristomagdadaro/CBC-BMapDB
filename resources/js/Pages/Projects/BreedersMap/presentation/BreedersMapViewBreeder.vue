@@ -6,7 +6,7 @@ import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder.js";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.js";
 import CommodityTable from "@/Pages/Projects/BreedersMap/presentation/components/commodity/CommodityTable.vue";
 export default {
-    components: {CommodityTable, AppLayout},
+    components: {Head, CommodityTable, AppLayout},
     data() {
         return {
             id: this.$page.props.id,
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <template>
-    <head title="Breeder's Map View" />
+    <Head title="Breeder's Map View" />
     <app-layout>
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
             <div v-if="data" class="flex flex-col gap-2">

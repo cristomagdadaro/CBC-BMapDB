@@ -72,12 +72,18 @@ Route::middleware([
         Route::prefix('/breedersmap')->group(function () {
             Route::get('/', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex', [
-                    'commoditiesnp' => \App\Models\Commodity::all(),
+                    'commodities' => \App\Models\Commodity::all(),
                 ]);
             })->name('projects.breedersmap.index');
 
             Route::get('/breeder/{id}', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
+                    'id' => request()->id
+                ]);
+            })->name('breedersmap.breeder.view');
+
+            Route::get('/commodity/{id}', function () {
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewCommodity', [
                     'id' => request()->id
                 ]);
             })->name('breedersmap.breeder.view');

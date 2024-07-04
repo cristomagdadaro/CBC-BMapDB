@@ -64,10 +64,10 @@ export default {
         </template>
         <template v-slot:formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                <text-field :show-clear="true" :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
+                <text-field required :show-clear="true" :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
                 <text-field :show-clear="true" :error="errors? errors['phone']:{}" label="Phone Number" v-model="form.phone" />
-                <text-field :show-clear="true" :error="errors? errors['email']:{}" label="Email" v-model="form.email" />
-                <text-field :show-clear="true" :error="errors? errors['agency']:{}" label="Agency" v-model="form.agency" />
+                <text-field required :show-clear="true" :error="errors? errors['email']:{}" label="Email" v-model="form.email" />
+                <text-field required :show-clear="true" :error="errors? errors['agency']:{}" label="Agency" v-model="form.agency" />
             </div>
             <div class="mt-1">
                 <text-field :show-clear="true" :error="errors? errors['address']:{}" label="Address" v-model="form.address" />
