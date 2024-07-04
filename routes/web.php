@@ -14,7 +14,9 @@ use App\Http\Controllers\API\TWGProjectController;
 use App\Http\Controllers\API\TWGServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\BaseCollection;
+use App\Mail\UserInvitationEmail;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -37,6 +39,17 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
+
+Route::prefix('email')->group(function () {
+    Route::get('/invite/{name}/{email}', function($name, $email) {
+        Mail::to($email)->send(new UserInvitationEmail($name));
+        return "Invitation sent to {$name} ({$email}).";
+    })->name('email.invite');
+
+    Route::get('/verification', function() {
+        return Inertia::render('Auth/Register');
+    })->name('email.verify');
+});
 
 Route::prefix('/projects')->group(function () {
     Route::get('/', function () {
