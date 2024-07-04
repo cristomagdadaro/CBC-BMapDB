@@ -48,7 +48,9 @@ Route::prefix('/projects')->group(function () {
     })->name('projects.twgdb.public');
 
     Route::get('/breedersmap-db', function (){
-        return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic');
+        return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic', [
+            'commodities' => \App\Models\Commodity::all(),
+        ]);
     })->name('projects.breedersmap.public');
 });
 
@@ -70,7 +72,7 @@ Route::middleware([
         Route::prefix('/breedersmap')->group(function () {
             Route::get('/', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex', [
-                    'commodities' => \App\Models\Commodity::all(),
+                    'commoditiesnp' => \App\Models\Commodity::all(),
                 ]);
             })->name('projects.breedersmap.index');
 

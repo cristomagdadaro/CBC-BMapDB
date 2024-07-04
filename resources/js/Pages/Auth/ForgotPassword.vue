@@ -6,6 +6,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import PageLayout from "@/Layouts/PageLayout.vue";
 
 defineProps({
     status: String,
@@ -22,7 +23,7 @@ const submit = () => {
 
 <template>
     <Head title="Forgot Password" />
-
+    <PageLayout :is-wide-display="true">
     <AuthenticationCard>
         <template #logo>
             <AuthenticationCardLogo />
@@ -58,4 +59,5 @@ const submit = () => {
             </div>
         </form>
     </AuthenticationCard>
+    </PageLayout>
 </template>

@@ -1,108 +1,4 @@
-<template>
-    <div class="flex gap-1 justify-end">
-        <top-action-btn
-            class="bg-add text-xs"
-            title="Export data">
-            <template #icon>
-                <export-icon class="h-auto sm:w-6 w-4" />
-            </template>
-            <span v-show="true">Export</span>
-        </top-action-btn>
-        <top-action-btn
-            class="bg-yellow-400 text-gray-900 text-xs"
-            title="Share to your network">
-            <template #icon>
-                <share-icon class="h-auto sm:w-4 w-4" />
-            </template>
-            <span v-show="true">Share</span>
-        </top-action-btn>
-    </div>
-    <div class="flex sm:flex-row flex-col max-h-fit gap-1">
-        <div class="flex flex-col gap-2">
-            <search-box
-                :value="selectedPlace"
-                :options="placesFiltered"
-                :label="selectedPlace ? selectedPlace.city : 'Select a place'"
-                @searchString="filterPlaces($event.target.value)"
-                @input="filterPlaces($event.target.value)"
-            />
-            <div class="rounded flex-col flex gap-1 overflow-y-auto max-h-96">
-                <template v-for="point in placesSearched">
-                    <div @click="selectPoint(point)" :class="markerLatLng[0]===point.latitude&&markerLatLng[1]===point.latitude?'bg-gray-400':'bg-white'" class="flex flex-row items-center gap-1 border p-1 rounded hover:bg-gray-200 leading-1 duration-200 select-none">
-                        <checkbox/>
-                        <h1 class="font-medium leading-5">{{ point.city }}</h1>
-                    </div>
-                </template>
-            </div>
-        </div>
-        <l-map
-            ref="map"
-            :use-global-leaflet="true"
-            class="z-0 border rounded"
-            style="height: 800px"
-            :zoom="zoom"
-            :center="center"
-            :maxZoom="maxZoom"
-            :minZoom="minZoom"
-            :max-bounds="[maxBound.southwest, maxBound.northeast]"
-            :options="{
-        zoomControl: true,
-        attributionControl: false,
-        maxBoundsViscosity: 1,
-        zoomAnimation: true,
-        fadeAnimation: true,
-        markerZoomAnimation: true,
-        zoomAnimationThreshold: 4,
-        doubleClickZoom: false,
-        keyboard: false,
-        closePopupOnClick: false,
-        dragging: false,
-        touchZoom: false,
-        scrollWheelZoom: false,
-        tap: false,
-      }"
-        >
-            <l-geo-json
-                v-for="region in province"
-                :name="region.features[0].properties.ADM1_EN"
-                layer-type="overlay"
-                :geojson="region"
-                :visible="false"
-                pane="overlayPane"
-            />
-            <l-control-layers position="topright" :collapsed="true"  />
-            <l-tile-layer
-                v-for="tileProvider in tileProviders"
-                :key="tileProvider.name"
-                :name="tileProvider.name"
-                :visible="tileProvider.visible"
-                :url="tileProvider.url"
-                :attribution="tileProvider.attribution"
-                layer-type="base"
-            />
-            <l-marker v-if="markerLatLng" :lat-lng="markerLatLng" ref="marker">
-                <!-- Remove the l-popup here -->
-            </l-marker>
-            <l-circle-marker
-                v-for="place in placesFiltered"
-                :key="place.id"
-                :lat-lng="[place.latitude, place.longitude]"
-                :opacity="0.8"
-                color="#3DA5B4"
-                :weight="1"
-                @click="selectPoint(place)"
-            >
-                <!-- Remove the l-tooltip and l-popup here -->
-            </l-circle-marker>
-        </l-map>
-    </div>
-    <!-- Include the sidebar component -->
-    <info-sidebar :point="selectedPlace" :visible="sidebarVisible" @close="sidebarVisible = false" />
-</template>
-
 <script>
-import region1 from '@/Pages/Projects/BreedersMap/components/geojsons/geoJson.js';
-import InfoSidebar from './components/MapSidebar.vue';
 import {
     LMap,
     LTileLayer,
@@ -110,115 +6,44 @@ import {
     LCircleMarker,
     LPopup,
     LControlLayers,
-    LFeatureGroup, LTooltip, LRectangle, LGeoJson
+    LGeoJson,
+    LTooltip
 } from "@vue-leaflet/vue-leaflet";
 import 'leaflet/dist/leaflet.css';
+import { icon } from 'leaflet';
 import regions from "@/Pages/Projects/BreedersMap/components/geojsons/geoJson.js";
-import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
-import TextField from "@/Components/Form/TextField.vue";
+import InfoSidebar from './components/MapSidebar.vue';
 import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
-import AddIcon from "@/Components/Icons/AddIcon.vue";
 import ExportIcon from "@/Components/Icons/ExportIcon.vue";
 import ShareIcon from "@/Components/Icons/ShareIcon.vue";
-import Checkbox from "@/Components/Checkbox.vue";
-import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
+import CloseIcon from "@/Components/Icons/CloseIcon.vue";
+
 export default {
-    computed: {
-        province() {
-            return regions;
-        }
-    },
     components: {
+        CloseIcon,
         InfoSidebar,
-        SearchBy,
-        Checkbox,
-        ShareIcon,
-        ExportIcon,
-        AddIcon,
-        TopActionBtn,
         SearchBox,
-        TextField,
-        SelectSearchField,
-        LGeoJson,
-        LRectangle,
-        LTooltip,
-        LFeatureGroup,
-        LControlLayers,
+        TopActionBtn,
+        ExportIcon,
+        ShareIcon,
         LMap,
         LTileLayer,
         LMarker,
         LCircleMarker,
         LPopup,
+        LControlLayers,
+        LGeoJson,
+        LTooltip
     },
-    mounted() {
-        this.commodities = this.$page.props.commodities;
-        this.placesFiltered = this.commodities;
-        this.placesSearched = this.placesFiltered;
-    },
-    methods: {
-        // capitalize the first letter of each word and remove underscores
-        formatName(name) {
-            return name
-                .split('_')
-                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
-            // return name.replace(/_/g,'');
-
-        },
-        selectPoint(point) {
-            // Set the marker's position
-            this.markerLatLng = point;
-
-            // Set the map's center and zoom level
-            this.center = point;
-            this.zoom = 10;
-
-            // Find the selected place based on the current point
-            this.selectedPlace = this.placesFiltered.find(
-                (place) => place.latitude === point[0] && place.longitude === point[1]
-            );
-
-            // Fly to the selected point with animation
-            if (this.$refs.map) {
-                this.$refs.map.mapObject.flyTo(point, 10, {
-                    animate: true,
-                    duration: 1.5,
-                });
-            }
-            this.sidebarVisible = true;
-            // Increment the index for the next point
-            this.currentIndex = (this.currentIndex + 1) % this.placesFiltered.length;
-        },
-        filterPlaces(str) {
-            this.placesSearched = this.placesFiltered.filter(place =>
-                place.city.toLowerCase().includes(str.toLowerCase())
-            );
-        },
-        highlightFeature(event) {
-            console.log(event);
-            if (!this.isHovered) {
-                this.isHovered = true;
-                const layer = event.target;
-                layer.setStyle({
-                    fillColor: 'yellow',
-                    fillOpacity: 1
-                });
-            }
-        },
-        resetHighlight(event) {
-            this.isHovered = false;
-            const layer = event.target;
-            layer.setStyle({
-                fillColor: layer.feature.properties.color || 'red',
-                fillOpacity: 0.7,
-                color: 'black',
-                weight: 1
-            });
-        }
-    },
-    data () {
+    data() {
         return {
+            icon: icon({
+                iconUrl: "/public/img/logo_no_bg.png",
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+            }),
+            showListOfPlaces: false,
             sidebarVisible: false,
             commodities: [],
             isHovered: false,
@@ -232,7 +57,7 @@ export default {
                 southwest: [4.284376, 116.521894],
                 northeast: [21.327897, 126.895418]
             },
-            markerLatLng: [0,0],
+            markerLatLng: null,
             selectedPlace: null,
             placesSearched: [],
             placesFiltered: [],
@@ -247,12 +72,12 @@ export default {
                     name: 'CartoDB VoyagerNoLabels',
                     visible: false,
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                    url:'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png'
+                    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png'
                 },
                 {
                     name: 'CartoDB DarkMatter',
                     visible: false,
-                    url:'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+                    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
                 },
                 {
@@ -267,22 +92,177 @@ export default {
                     url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
                     attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
                 }
-                /*{
-                    name: 'OpenStreetMap',
-                    visible: false,
-                    attribution:
-                        '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-                    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                },
-                {
-                    name: 'OpenTopoMap',
-                    visible: false,
-                    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
-                    attribution:
-                        'Map data: &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)',
-                },*/
             ],
         };
+    },
+    computed: {
+        province() {
+            return regions;
+        },
+        mapOptions() {
+            return {
+                zoomControl: true,
+                attributionControl: false,
+                maxBoundsViscosity: 1,
+                zoomAnimation: true,
+                fadeAnimation: true,
+                markerZoomAnimation: true,
+                zoomAnimationThreshold: 4,
+                doubleClickZoom: true,
+                keyboard: true,
+                closePopupOnClick: false,
+                dragging: true,
+                touchZoom: true,
+                scrollWheelZoom: true,
+                tap: true
+            };
+        }
+    },
+    mounted() {
+        this.commodities = this.$page.props.commodities;
+        this.placesFiltered = this.commodities;
+        this.placesSearched = this.placesFiltered;
+    },
+    methods: {
+        filterPlaces(searchString) {
+            if (!searchString) {
+                this.placesSearched = this.placesFiltered;
+            } else {
+                this.placesSearched = this.placesFiltered.filter(place =>
+                    place.city.toLowerCase().includes(searchString.toLowerCase())
+                );
+            }
+        },
+        selectPoint(point) {
+            if (!this.$refs.map) return;
+
+            this.markerLatLng = [point.latitude, point.longitude];
+            this.selectedPlace = point;
+            this.updateCenter(this.markerLatLng);
+            this.updateZoom(8);
+            this.sidebarVisible = true; // open the sidebar on point selection
+        },
+        updateCenter(center) {
+            this.center = center;
+        },
+        updateZoom(zoom) {
+            this.zoom = zoom;
+        },
+        isPointSelected(point) {
+            return this.markerLatLng && this.markerLatLng[0] === point.latitude && this.markerLatLng[1] === point.longitude;
+        },
+        deselectPoint() {
+            this.markerLatLng = null;
+            this.selectedPlace = null;
+            this.sidebarVisible = false;
+            this.updateZoom(this.minZoom);
+        }
     }
-}
+};
 </script>
+
+
+<template>
+    <div class="flex gap-1 justify-end">
+        <top-action-btn class="bg-add text-xs" title="Export data">
+            <template #icon>
+                <export-icon class="h-auto sm:w-6 w-4" />
+            </template>
+            <span>Export</span>
+        </top-action-btn>
+        <top-action-btn class="bg-yellow-400 text-gray-900 text-xs" title="Share to your network">
+            <template #icon>
+                <share-icon class="h-auto sm:w-4 w-4" />
+            </template>
+            <span>Share</span>
+        </top-action-btn>
+    </div>
+
+    <div class="flex flex-col max-h-fit gap-2">
+        <div class="relative gap-2">
+            <search-box
+                :value="selectedPlace ? selectedPlace.city : ''"
+                :options="placesFiltered"
+                :label="selectedPlace ? selectedPlace.city : 'Select a place'"
+                @searchString="filterPlaces"
+                @input="filterPlaces"
+                @focusin="showListOfPlaces = true"
+            />
+
+            <div v-if="showListOfPlaces" class="absolute mt-1 rounded border-2 z-[999] bg-gray-100 shadow flex-col flex gap-1 overflow-y-auto max-h-96 p-2">
+                <div
+                    v-for="point in placesSearched"
+                    :key="point.id"
+                    @click="selectPoint(point)"
+                    :class="{'bg-gray-400': isPointSelected(point),'bg-white': !isPointSelected(point)}"
+                    class="flex flex-row items-center gap-1 border p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none"
+                >
+                    <h1 class="font-medium leading-5 px-1 w-full flex items-center justify-between">
+                        {{ point.city }}
+                        <close-icon v-if="isPointSelected(point)" @click="deselectPoint(); showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" @click.stop="markerLatLng = null" />
+                    </h1>
+                </div>
+                <div
+                    class="flex flex-row items-center gap-1 p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none"
+                >
+                    <h1 class="font-medium leading-5 px-1 w-full flex items-center justify-between">
+                        No data available
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div class="w-full flex gap-2">
+            <l-map
+                ref="map"
+                :use-global-leaflet="true"
+                class="z-0 border rounded"
+                style="height: 800px"
+                :zoom="zoom"
+                :center="center"
+                :maxZoom="maxZoom"
+                :minZoom="minZoom"
+                :max-bounds="[maxBound.southwest, maxBound.northeast]"
+                :options="mapOptions"
+                @update:center="updateCenter"
+                @update:zoom="updateZoom"
+                @click="showListOfPlaces = false"
+            >
+                <l-geo-json
+                    v-for="region in province"
+                    :key="region.features[0].properties.ADM1_EN"
+                    :name="region.features[0].properties.ADM1_EN"
+                    layer-type="overlay"
+                    :geojson="region"
+                    :visible="false"
+                    pane="overlayPane"
+                />
+                <l-control-layers position="topright" :collapsed="true" />
+                <l-tile-layer
+                    v-for="tileProvider in tileProviders"
+                    :key="tileProvider.name"
+                    :name="tileProvider.name"
+                    :visible="tileProvider.visible"
+                    :url="tileProvider.url"
+                    :attribution="tileProvider.attribution"
+                    layer-type="base"
+                />
+                <l-marker v-if="markerLatLng" :lat-lng="markerLatLng" ref="marker" />
+                <l-circle-marker
+                    v-for="place in placesFiltered"
+                    :key="place.id"
+                    :lat-lng="[place.latitude, place.longitude]"
+                    :opacity="0.8"
+                    color="#3DA5B4"
+                    :weight="1"
+                    @click="selectPoint(place)"
+                >
+                    <l-tooltip :content="place.city" />
+                    <l-popup>
+                        <h1>{{ place.city }}</h1>
+                    </l-popup>
+                </l-circle-marker>
+            </l-map>
+            <info-sidebar :point="selectedPlace" :visible="sidebarVisible" @close="sidebarVisible = false" />
+        </div>
+    </div>
+</template>

@@ -19,5 +19,5 @@ const props = defineProps({
         <slot />
     </Body>
     <back-to-top />
-    <Footer />
+<!--    <Footer />-->
 </template>

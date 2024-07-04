@@ -1,12 +1,13 @@
 <template>
-    <div class="info-sidebar" :class="{ 'hidden': !visible }">
-        <button @click="closeSidebar" class="close-btn">Close</button>
-        <div v-if="point">
-            <h2>{{ point.city }}</h2>
+    <div class="relative max-h-[800px] flex flex-col w-1/4 bg-gray-100 rounded" :class="{ 'hidden': !visible }">
+        <button @click="closeSidebar" class="absolute z-[999] top-0 w-fit right-3 p-1">
+            <close-icon class="w-8 h-8 text-red-700 drop-shadow " />
+        </button>
+        <div v-if="point" class="max-h-[80vh] drop-shadow overflow-y-auto overflow-x-hidden border">
             <table>
                 <tr v-for="(value, key) in point" :key="key">
-                    <th>{{ formatName(key) }}</th>
-                    <td>{{ value }}</td>
+                    <th class="text-right text-white bg-[#006837] p-2 py-4">{{ formatName(key) }}</th>
+                    <td class="p-2 py-4">{{ value }}</td>
                 </tr>
             </table>
         </div>
@@ -14,7 +15,10 @@
 </template>
 
 <script>
+import CloseIcon from "@/Components/Icons/CloseIcon.vue";
+
 export default {
+    components: {CloseIcon},
     props: {
         point: Object,
         visible: Boolean
@@ -29,27 +33,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.info-sidebar {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 300px;
-    height: 100%;
-    background: white;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-    overflow-y: auto;
-    padding: 20px;
-}
-.hidden {
-    display: none;
-}
-.close-btn {
-    background: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-</style>

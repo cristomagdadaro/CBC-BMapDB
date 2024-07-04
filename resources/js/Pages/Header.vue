@@ -72,8 +72,8 @@ const TabLinks = [
                         </tablink>
                     </template>
                 </tablink>
-                <template v-if="canLogin && $page.props.auth.user === null ">
-                    <tablink :link="route('login')" :active="route().current('login') || route().current('home')">Log in</tablink>
+                <template v-if="$page.props.auth.user === null ">
+                    <tablink v-if="canLogin" :link="route('login')" :active="route().current('login') || route().current('home')">Log in</tablink>
                     <tablink v-if="canRegister" :link="route('register')" :active="route().current('register')">Register</tablink>
                 </template>
             </ul>
