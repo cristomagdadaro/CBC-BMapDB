@@ -315,6 +315,13 @@ export default {
                 loader: () => import("@/Components/CRCMDatatable/Layouts/DefaultBlankForm.vue"),
             }),
         },
+        viewForm: {
+            type: [Object, Function, String],
+            required: false,
+            default: defineAsyncComponent({
+                loader: () => import("@/Components/CRCMDatatable/Layouts/DefaultBlankForm.vue"),
+            }),
+        },
         showActionBtns: {
             type: Boolean,
             required: false,
@@ -385,7 +392,8 @@ export default {
             this.toDeleteId = id;
         },
         showViewDialogFunc(id) {
-            router.get(route('breedersmap.breeder.view', id));
+            console.log(this.viewForm);
+            router.get(route(this.viewForm, id));
         },
         async showEditDialogFunc(id) {
             this.showModal = true;

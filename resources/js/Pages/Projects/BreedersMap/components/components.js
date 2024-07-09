@@ -23,6 +23,13 @@ export const BreedersMapPages = {
                 component: defineAsyncComponent(
                     () => import('@/Pages/Projects/BreedersMap/presentation/components/breeders/EditBreederForm.vue')
                 ),
+            },
+            view: {
+                path: 'breedersmap.breeder.view',
+                name: 'ViewBreeder',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/BreedersMap/presentation/components/BreedersMapViewBreeder.vue')
+                ),
             }
         },
         commodity: {
@@ -41,6 +48,13 @@ export const BreedersMapPages = {
                 name: 'EditCommodityForm',
                 component: defineAsyncComponent(
                     () => import('@/Pages/Projects/BreedersMap/presentation/components/commodity/EditCommodityForm.vue')
+                ),
+            },
+            view: {
+                path: 'breedersmap.commodity.view',
+                name: 'ViewCommodity',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/BreedersMap/presentation/components/BreedersMapViewBreeder.vue')
                 ),
             }
         },

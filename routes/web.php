@@ -99,7 +99,7 @@ Route::middleware([
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewCommodity', [
                     'id' => request()->id
                 ]);
-            })->name('breedersmap.breeder.view');
+            })->name('breedersmap.commodity.view');
         });
     });
 });
