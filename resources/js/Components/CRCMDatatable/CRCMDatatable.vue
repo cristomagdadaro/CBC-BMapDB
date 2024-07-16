@@ -71,7 +71,7 @@
                 <top-action-btn
                     v-if="showActionBtns"
                     class="bg-import"
-                    @click="dt.importCSV()"
+                    @click="showImportModal = true"
                     title="Import data from a CSV file">
                     <template #icon>
                         <import-icon class="h-auto sm:w-6 w-4" />
@@ -205,6 +205,9 @@
                 <paginate-btn @click="dt.lastPage()" :disabled="current_page === last_page">Last</paginate-btn>
             </div>
         </div>
+        <dialog-form-modal :show="showImportModal" @close="closeDialog">
+            <component :is="importModal" v-if="importModal" :errors="dt.errorBag" @uploadForm="dt.importCSV($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+        </dialog-form-modal>
         <dialog-form-modal :show="showAddDialog" @close="closeDialog">
             <component :is="addForm" v-if="addForm" :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
@@ -301,6 +304,13 @@ export default {
             type: Function,
             required: false,
         },
+        importModal: {
+            type: [Object, Function],
+            required: false,
+            default: defineAsyncComponent({
+                loader: () => import("@/Components/CRCMDatatable/Layouts/DefaultBlankForm.vue"),
+            }),
+        },
         addForm: {
             type: [Object, Function],
             required: false,
@@ -338,6 +348,7 @@ export default {
             showEditDialog: false,
             toEditData: null,
             showAddDialog: false,
+            showImportModal: false,
         }
     },
     computed: {
@@ -413,6 +424,7 @@ export default {
             this.showDeleteDialog = false;
             this.showEditDialog = false;
             this.showAddDialog = false;
+            this.showImportModal = false;
             this.showDeleteSelectedDialog = false;
             this.dt.closeAllModal = false;
             this.dt.errorBag = {};

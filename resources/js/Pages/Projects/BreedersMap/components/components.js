@@ -56,6 +56,13 @@ export const BreedersMapPages = {
                 component: defineAsyncComponent(
                     () => null,
                 ),
+            },
+            import: {
+                path: 'breedersmap.commodity.import',
+                name: 'ImportCommodities',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/BreedersMap/presentation/components/commodity/ImportCommodities.vue')
+                ),
             }
         },
     },

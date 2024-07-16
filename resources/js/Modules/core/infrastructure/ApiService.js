@@ -92,6 +92,7 @@ export default class ApiService
 
     determineError(error)
     {
+        console.log(error.response);
         switch (error.response.status) {
             case 422:
                 return new ValidationErrorResponse(error.response.data);

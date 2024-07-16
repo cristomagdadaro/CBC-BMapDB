@@ -214,28 +214,53 @@ export default class CRCMDatatable
     }
 
 
-    importCSV() {
-        /*let input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.csv';
-        input.onchange = async () => {
-            let file = input.files[0];
-            let reader = new FileReader();
-            reader.readAsText(file);
-            reader.onload = async () => {
-                let data = reader.result;
-                let rows = data.split('\n');
-                let columns = rows[0].split(',');
-                let values = rows.slice(1).map(row => row.split(','));
-                let model = this.model;
-                let response = await this.api.post({columns, values}, model, 'import');
-                this.response = response;
-            };
-            reader.onerror = () => {
-                console.log(reader.error);
-            };
-        };
-        input.click();*/
+    async importCSV(data) {
+        this.processing = true;
+        let success = 0;
+        let failed = 0;
+        let total = 0;
+        console.log(data);
+        for (const row of data) {
+            const response = await this.api.post(this.model.toObject(row));
+            if (response instanceof BaseResponse){
+                success++;
+            }
+            else if (ErrorResponse.some(error => response instanceof error)){
+                failed++;
+            }
+            total++;
+        }
+
+        if (success === total)
+            Notification.pushNotification({
+                title: 'Success',
+                message: `Imported ${total} rows successfully`,
+                type: 'success',
+                timeout: 5000,
+                show: true,
+            });
+
+        else if (failed > 0 && success > 0 && success < total)
+            Notification.pushNotification({
+                title: 'Success',
+                message: `Imported ${success} out of ${total} successfully`,
+                type: 'success',
+                timeout: 5000,
+                show: true,
+            });
+
+        else if (failed === total)
+            Notification.pushNotification({
+                title: 'Failed',
+                message: `Failed to import all ${total} rows`,
+                type: 'failed',
+                timeout: 5000,
+                show: true,
+            });
+
+        this.processing = false;
+        await this.refresh();
+        this.errorBag = {};
     }
 
     async create(data) {

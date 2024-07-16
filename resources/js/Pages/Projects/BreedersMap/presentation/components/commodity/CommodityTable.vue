@@ -38,6 +38,7 @@ export default {
         :base-model="BreedersMapPages.api.commodity.model"
         :add-form="BreedersMapPages.api.commodity.create.component"
         :edit-form="BreedersMapPages.api.commodity.edit.component"
+        :import-modal="BreedersMapPages.api.commodity.import.component"
     />
 </template>
 

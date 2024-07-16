@@ -1,11 +1,16 @@
 <template>
     <form @submit.prevent="submitForm">
         <div class="px-4 py-2 bg-gray-100 shadow-md">
-            <div class="text-lg font-medium text-gray-900 flex justify-between">
-                <slot name="formTitle" />
-                <button class="text-sm font-medium text-blue-500" @click="close">
-                    <CloseIcon class="w-7 h-auto hover:scale-110 active:scale-95 duration-100" />
-                </button>
+            <div class="flex flex-col">
+                <div class="text-lg font-medium text-gray-900 flex justify-between">
+                    <slot name="formTitle" />
+                    <button class="text-sm font-medium text-blue-500" @click="$emit('close')">
+                        <CloseIcon class="w-7 h-auto hover:scale-110 active:scale-95 duration-100" />
+                    </button>
+                </div>
+                <div>
+                    <slot name="formDescription" />
+                </div>
             </div>
             <div class="mt-4 text-sm text-gray-600">
                 <slot name="formFields" />
@@ -42,7 +47,7 @@ export default {
             this.$emit('close');
         },
         submitForm() {
-            this.$emit('submitForm', this.form);
+            this.$emit('uploadForm', this.form);
         }
     },
     watch: {
