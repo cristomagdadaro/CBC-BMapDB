@@ -28,7 +28,7 @@ export const BreedersMapPages = {
                 path: 'breedersmap.breeder.view',
                 name: 'ViewBreeder',
                 component: defineAsyncComponent(
-                    () => import('@/Pages/Projects/BreedersMap/presentation/components/BreedersMapViewBreeder.vue')
+                    () => null,
                 ),
             }
         },
@@ -54,7 +54,7 @@ export const BreedersMapPages = {
                 path: 'breedersmap.commodity.view',
                 name: 'ViewCommodity',
                 component: defineAsyncComponent(
-                    () => import('@/Pages/Projects/BreedersMap/presentation/components/BreedersMapViewBreeder.vue')
+                    () => null,
                 ),
             }
         },

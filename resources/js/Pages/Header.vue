@@ -4,7 +4,7 @@ import tablink from '@/Components/Header/TabLink.vue';
 import Logo from '@/Components/Icons/Logo.vue';
 import HoverDropdownLink from '@/Components/Header/HoverDropdownLink.vue';
 import HoverDropdownVue from '@/Components/Header/HoverDropdown.vue';
-import {CBCProjects, CBCProjectsPublic} from "@/Pages/constants.ts";
+import {CBCProjectsPublic} from "@/Pages/constants.ts";
 import DropdownLink from "@/Components/DropdownLink.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 
@@ -62,7 +62,7 @@ const TabLinks = [
                         {{ link.name }}
                     </tablink>
                 </template>
-                <tablink :sublinks="true" :link="route('projects')" :active="route().current('projects')">
+                <tablink :sublinks="true" :link="route('projects')" :active="route().current('projects') || route().current('home')">
                     <template #trigger>
                         Databases
                     </template>
@@ -73,7 +73,7 @@ const TabLinks = [
                     </template>
                 </tablink>
                 <template v-if="$page.props.auth.user === null ">
-                    <tablink v-if="canLogin" :link="route('login')" :active="route().current('login') || route().current('home')">Log in</tablink>
+                    <tablink v-if="canLogin" :link="route('login')" :active="route().current('login')">Log in</tablink>
                     <tablink v-if="canRegister" :link="route('register')" :active="route().current('register')">Register</tablink>
                 </template>
             </ul>

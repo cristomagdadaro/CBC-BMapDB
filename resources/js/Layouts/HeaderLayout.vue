@@ -36,14 +36,14 @@ const classes = computed(() => {
 });
 </script>
 <template>
-    <header class="flex items-center justify-between min-w-min w-full bg-cbc-dark-green text-white sticky top-0 z-[49]">
+    <header class="flex items-center justify-between min-w-min w-full bg-cbc-dark-green text-white sticky top-0 z-[49] p-2">
         <div class="relative flex flex-col resp-container w-full">
             <!-- Large screen navigation bar -->
             <div class="w-full relative lg:flex hidden">
                 <div class="flex justify-between w-full overflow-hidden">
                     <!-- Branding Section -->
                     <Link :href="'/'"
-                        class="flex items-center max-w-fit hover:bg-gray-900 hover:bg-opacity-10 active:scale-95 duration-200 p-1 gap-1">
+                        class="flex items-center max-w-fit hover:bg-gray-900 hover:bg-opacity-10 active:scale-95 duration-200 p-2 gap-1 rounded">
                         <slot name="icon"></slot>
                         <div class="flex flex-col max-w-fit">
                             <span class="sm:text-sm text-xs whitespace-nowrap tracking-[0.2rem] leading-tight">

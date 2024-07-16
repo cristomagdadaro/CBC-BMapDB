@@ -14,8 +14,6 @@
                 <text-field type-input="number" :error="errors? errors['population']:{}" label="Breeding Population" v-model="form.population" />
                 <text-field :error="errors? errors['maturity_period']:{}" label="Maturity Period" v-model="form.maturity_period" />
                 <text-field type-input="number" :error="errors? errors['yield']:{}" label="Yield" v-model="form.yield" />
-                <text-field type-input="longtext" :error="errors? errors['description']:{}" label="Other Description" v-model="form.description" />
-                <text-field :error="errors? errors['image']:{}" label="Image" v-model="form.image" />
                 <text-field :error="errors? errors['latitude']:{}" label="Latitude" v-model="form.latitude" />
                 <text-field :error="errors? errors['longitude']:{}" label="Longitude" v-model="form.longitude" />
                 <text-field :error="errors? errors['address']:{}" label="Address" v-model="form.address" />
@@ -26,6 +24,8 @@
                 <text-field :error="errors? errors['formatted_address']:{}" label="Formatted Address" v-model="form.formatted_address" />
                 <text-field :error="errors? errors['place_id']:{}" label="Place ID" v-model="form.place_id" />
                 <select-field :error="errors? errors['status']:{}" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
+                <text-field :error="errors? errors['image']:{}" label="Image" v-model="form.image" />
+                <text-field type-input="longtext" :error="errors? errors['description']:{}" label="Other Description" v-model="form.description" />
             </div>
         </template>
     </base-create-form>

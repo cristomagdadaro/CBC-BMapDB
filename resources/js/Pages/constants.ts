@@ -2,6 +2,14 @@
 import TWGLogo from "../../../public/img/twg-db-logo.png";
 // @ts-ignore
 import BreedersMapLogo from "../../../public/img/breeders-map-logo.png";
+import { ValidationErrorResponse, NotFoundErrorResponse, ServerErrorResponse } from "@/Modules/core/infrastructure/index";
+
+export const ErrorResponse  = [
+    ValidationErrorResponse,
+    ServerErrorResponse,
+    NotFoundErrorResponse,
+]
+
 export const CBCProjects = [
     {
         id: 1,

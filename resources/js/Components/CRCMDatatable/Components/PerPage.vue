@@ -16,7 +16,7 @@ import CaretDown from "@/Components/Icons/CaretDown.vue";
 export default {
     components: {CaretDown, CustomDropdown},
     props: {
-        value: String,
+        value: [String, Number],
     },
     data(){
         return {

@@ -30,7 +30,7 @@ export default class Commodity extends BaseClass{
     }
 
     static getHiddenColumns() {
-        return ['updated_at', 'created_at', 'deleted_at'];
+        return ['id','breeder_id','updated_at', 'created_at', 'deleted_at','place_id'];
     }
 
     static getColumns(){
@@ -40,7 +40,7 @@ export default class Commodity extends BaseClass{
                 key: 'id',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Name',
@@ -54,7 +54,7 @@ export default class Commodity extends BaseClass{
                 key: 'breeder_id',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Scientific Name',
@@ -138,14 +138,14 @@ export default class Commodity extends BaseClass{
                 key: 'latitude',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Longitude',
                 key: 'longitude',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Address',
@@ -159,14 +159,14 @@ export default class Commodity extends BaseClass{
                 key: 'city',
                 sortable: true,
                 align: 'center',
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Province',
                 key: 'province',
                 sortable: true,
                 align: 'center',
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Country',
@@ -201,7 +201,7 @@ export default class Commodity extends BaseClass{
                 key: 'status',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             }
         ];
     }

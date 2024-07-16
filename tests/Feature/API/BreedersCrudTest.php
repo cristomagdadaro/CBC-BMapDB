@@ -114,7 +114,8 @@ class BreedersCrudTest extends TestCase
     public function update_a_breeder(): void
     {
         $this->userSetup();
-        $response = $this->putJson('/api/breeders/1', [
+        $response = $this->putJson('/api/breeders/2', [
+            'user_id' => '1',
             'name' => 'Test Breeder',
             'agency' => 'Test Agency',
             'address' => 'Test Address',
@@ -124,7 +125,7 @@ class BreedersCrudTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('breeders', [
-            'id' => 1,
+            'id' => 2,
             'name' => 'Test Breeder',
             'agency' => 'Test Agency',
             'address' => 'Test Address',

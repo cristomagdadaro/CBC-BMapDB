@@ -2,10 +2,8 @@ import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
 import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import {ref} from "vue";
-import {ValidationErrorResponse} from "@/Modules/core/infrastructure/ValidationErrorResponse.js";
 import Notification from "@/Components/Modal/Notification/Notification.js";
-import {ServerErrorResponse} from "@/Modules/core/infrastructure/ServerErrorResponse.js";
-import {NotFoundErrorResponse} from "@/Modules/core/infrastructure/NotFoundErrorResponse.js";
+import { ErrorResponse } from "@/Pages/constants";
 
 export default class CRCMDatatable
 {
@@ -140,33 +138,81 @@ export default class CRCMDatatable
     }
 
     async exportCSV() {
-        // get all the rows
-        this.processing = true;
-        this.request.updateParam('per_page', this.response['meta']['total'])
-        let data = await this.api.get(this.request.toObject(), this.model);
-
-        let columns = this.formatColumns(Object.keys(data['data'][0]));
-        let csvContent = "data:text/csv;charset=utf-8,";
-
-        csvContent += columns.map(column => column.label).join(",") + "\r\n";
-
-        data['data'].forEach(function(rowArray){
-            let row = Object.values(rowArray).join(",");
-            csvContent += row + "\r\n";
-        });
-
-        let encodedUri = encodeURI(csvContent);
         let link = document.createElement("a");
+        try {
+            this.processing = true;
 
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", (new Date()).toISOString().replace(/:/g, "-").replace(/\..+/, '') + ".csv");
+            // Update per_page parameter to fetch all data in one request
+            this.request.updateParam('per_page', this.response.meta.total);
 
-        document.body.appendChild(link);
+            // Fetch data from API
+            let response = await this.api.get(this.request.toObject(), this.model);
+            let data = response.data;
 
-        link.click();
+            // Filter and map visible columns
+            let columnsTitles = this.model.getColumns()
+                .filter(column => column.visible !== false)
+                .map(column => column.title);
+            let columnKeys = this.model.getColumns()
+                .filter(column => column.visible !== false)
+                .map(column => column.key);
+            // Prepare CSV content
+            let csvContent = "data:text/csv;charset=utf-8,";
 
-        this.processing = false;
+            // Add header row
+            csvContent += columnsTitles.join(",") + "\r\n";
+            // Add data rows
+            data.forEach(function(rowArray) {
+                let row = columnKeys.map(column => {
+                    let value = rowArray[column];
+                    // Check if the value contains a comma
+                    if (typeof value === 'string' && value.includes(',')) {
+                        // Encapsulate the value in double quotes
+                        return `"${value}"`;
+                    }
+                    return value;
+                }).join(",");
+                csvContent += row + "\r\n";
+            });
+
+
+            // Encode CSV content
+            let encodedUri = encodeURI(csvContent);
+
+            // Create download link
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `${new Date().toISOString().replace(/:/g, "-").replace(/\..+/, '')}.csv`);
+
+            // Append link to body and trigger download
+            document.body.appendChild(link);
+            link.click();
+
+            setTimeout(() => {
+                Notification.pushNotification({
+                    title: 'Success',
+                    message: "Exported successfully",
+                    type: 'success',
+                    timeout: 5000,
+                    show: true,
+                });
+            }, 3000);
+        } catch (error) {
+            Notification.pushNotification({
+                title: 'Failed',
+                message: "Failed to export data",
+                type: 'failed',
+                timeout: 5000,
+                show: true,
+            });
+        } finally {
+            this.processing = false;
+            // Clean up: remove link from body
+            if (link) {
+                document.body.removeChild(link);
+            }
+        }
     }
+
 
     importCSV() {
         /*let input = document.createElement('input');
@@ -197,7 +243,7 @@ export default class CRCMDatatable
         const response = await this.api.post(this.model.toObject(data));
 
         Notification.pushNotification(response);
-        if (response instanceof ValidationErrorResponse){
+        if (ErrorResponse.some(error => response instanceof error)){
             this.errorBag = response;
             this.processing = false;
             return;
@@ -214,10 +260,7 @@ export default class CRCMDatatable
 
         Notification.pushNotification(response);
 
-        if (response instanceof ValidationErrorResponse ||
-            response instanceof ServerErrorResponse ||
-            response instanceof NotFoundErrorResponse
-        ){
+        if (ErrorResponse.some(error => response instanceof error)){
             this.errorBag = response.toObject();
             this.processing = false;
             return;
@@ -232,8 +275,7 @@ export default class CRCMDatatable
     async update(data) {
         this.processing = true;
         const response = await this.api.put(this.model.toObject(data));
-        console.log(response.toObject());
-        if (response instanceof ValidationErrorResponse){
+        if (ErrorResponse.some(error => response instanceof error)){
             this.errorBag = response.toObject();
             this.processing = false;
             Notification.pushNotification({
@@ -273,10 +315,7 @@ export default class CRCMDatatable
                 show: true,
             });
         }
-        else if (response instanceof ValidationErrorResponse ||
-            response instanceof ServerErrorResponse ||
-            response instanceof NotFoundErrorResponse
-        ){
+        else if (ErrorResponse.some(error => response instanceof error)){
             this.errorBag = response.toObject();
             this.processing = false;
             Notification.pushNotification(response);

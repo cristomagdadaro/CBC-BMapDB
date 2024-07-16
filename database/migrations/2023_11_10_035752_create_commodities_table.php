@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('commodities', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique('unique_commodity_name');
+            $table->string('name')->unique('unique_commodity_name')->nullable();
             $table->foreignId('breeder_id')->constrained('breeders');
-            $table->string('scientific_name');
-            $table->string('variety');
-            $table->string('accession');
-            $table->string('germplasm');
-            $table->double('population');
-            $table->string('maturity_period');
-            $table->double('yield');
-            $table->string('description')->nullable();
+            $table->string('scientific_name')->nullable();
+            $table->string('variety')->nullable();
+            $table->string('accession')->nullable();
+            $table->string('germplasm')->nullable();
+            $table->double('population')->nullable();
+            $table->string('maturity_period')->nullable();
+            $table->double('yield')->nullable();
+            $table->string('description')->nullable()->nullable();
             $table->binary('image')->nullable();
             $table->timestamps();
             $table->softDeletes();

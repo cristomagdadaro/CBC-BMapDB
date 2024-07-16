@@ -34,6 +34,14 @@ export default {
         };
     },
     methods: {
+        setValueBasedOnModelValue() {
+            if (this.modelValue) {
+                const option = this.filteredOptions.find((option) => option.value === this.modelValue);
+                if (option) {
+                    this.input = option.label;
+                }
+            }
+        },
         toggleDropdown() {
             this.showDropdown = !this.showDropdown;
             this.getOptionsFromApi(1, null);
@@ -101,6 +109,9 @@ export default {
         modelValue() {
             this.getOptionsFromApi(1, null);
         },
+        filteredOptions() {
+            this.setValueBasedOnModelValue();
+        }
     },
 }
 
