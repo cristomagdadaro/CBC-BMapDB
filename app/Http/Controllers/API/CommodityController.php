@@ -24,6 +24,12 @@ class CommodityController extends BaseController
         return new BaseCollection($data);
     }
 
+    public function noPage(GetCommoditiesRequest $request)
+    {
+        $data = $this->service->search(new Collection($request->validated()), false);
+        return new BaseCollection($data);
+    }
+
     public function store(CreateCommoditiesRequest $request)
     {
         $data =  $this->service->create($request->validated());

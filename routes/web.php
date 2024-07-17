@@ -87,9 +87,7 @@ Route::middleware([
 
         Route::prefix('/breedersmap')->group(function () {
             Route::get('/', function () {
-                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex', [
-                    'commodities' => Commodity::all(),
-                ]);
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
             })->name('projects.breedersmap.index');
 
             Route::get('/breeder/{id}', function ($id) {
@@ -165,6 +163,7 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
 
     Route::prefix('commodities')->group(function () {
        Route::get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
+       Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
        Route::get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
        Route::post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
        Route::put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');

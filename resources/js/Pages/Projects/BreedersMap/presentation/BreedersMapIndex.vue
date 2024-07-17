@@ -11,7 +11,7 @@
             <template #tab3>
                 <div class="p-2 relative">
 <!--                    <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>-->
-                    <Map />
+                    <Map :base-url="route('api.commodities.noPage')" />
                 </div>
             </template>
         </Tab>

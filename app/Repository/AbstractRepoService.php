@@ -230,7 +230,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         {
             return $builder->orderBy($sort, $order)->get();
         }
-
         return $builder->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
 

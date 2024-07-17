@@ -18,6 +18,7 @@ import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue
 import ExportIcon from "@/Components/Icons/ExportIcon.vue";
 import ShareIcon from "@/Components/Icons/ShareIcon.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
+import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 
 export default {
     components: {
@@ -40,10 +41,30 @@ export default {
         customPoint: {
             type: Object,
             required: false
+        },
+        baseUrl: {
+            type: String,
+            required: false,
+        },
+        params: {
+            type: Object,
+            required: false,
+            default: () => {
+                return {
+                    filter: null,
+                    search: null,
+                    is_exact: null
+                }
+            }
+        },
+        model: {
+            type: Object,
+            required: false,
         }
     },
     data() {
         return {
+            api: null,
             icon: icon({
                 iconUrl: "/public/img/logo_no_bg.png",
                 iconSize: [25, 41],
@@ -122,23 +143,15 @@ export default {
                 scrollWheelZoom: true,
                 tap: true
             };
-        }
+        },
     },
     mounted() {
         this.commodities = this.$page.props.commodities || this.customPoint;
         this.placesFiltered = this.commodities;
         this.placesSearched = this.placesFiltered;
+        this.initializeApi();
     },
     methods: {
-        filterPlaces(searchString) {
-            if (!searchString) {
-                this.placesSearched = this.placesFiltered;
-            } else {
-                this.placesSearched = this.placesFiltered.filter(place =>
-                    place.city.toLowerCase().includes(searchString.toLowerCase())
-                );
-            }
-        },
         selectPoint(point) {
             if (!this.$refs.map) return;
             this.markerLatLng = [point.latitude, point.longitude];
@@ -161,6 +174,25 @@ export default {
             this.selectedPlace = null;
             this.sidebarVisible = false;
             this.updateZoom(this.minZoom);
+        },
+        initializeApi() {
+            if (this.baseUrl && !this.api) {
+                this.api = new ApiService(this.baseUrl);
+                this.getPlacesFromAPI();
+            }
+        },
+        getPlacesFromAPI(search = null) {
+            if (this.api || search) {
+                this.api.get({
+                    search: search,
+                }, this.model).then(response => {
+                    this.commodities = response.data.data;
+                    this.placesFiltered = this.commodities;
+                    this.placesSearched = this.placesFiltered;
+                }).catch(error => {
+                    console.log(error);
+                });
+            }
         }
     },
     watch: {
@@ -198,13 +230,14 @@ export default {
                 :value="selectedPlace ? selectedPlace.city : ''"
                 :options="placesFiltered"
                 :label="selectedPlace ? selectedPlace.city : 'Select a place'"
-                @searchString="filterPlaces"
-                @input="filterPlaces"
+                @searchString="getPlacesFromAPI($event.target.value)"
+                @input="getPlacesFromAPI($event.target.value)"
                 @focusin="showListOfPlaces = true"
             />
 
             <div v-if="showListOfPlaces" class="absolute mt-1 rounded border-2 z-[999] bg-gray-100 shadow flex-col flex gap-1 overflow-y-auto max-h-96 p-2">
                 <div
+                    v-if="placesSearched.length"
                     v-for="point in placesSearched"
                     :key="point.id"
                     @click="selectPoint(point)"
@@ -217,6 +250,7 @@ export default {
                     </h1>
                 </div>
                 <div
+                    v-else
                     class="flex flex-row items-center gap-1 p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none"
                 >
                     <h1 class="font-medium leading-5 px-1 w-full flex items-center justify-between">
