@@ -7,7 +7,7 @@ export default {
     computed: {
         CRCMDatatable() {
             return CRCMDatatable
-        }
+        },
     },
     components: {
         CRCMDatatable,
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-    <h1 class="h1 text-center font-semibold uppercase select-none">Breeders</h1>
+<!--    <h1 class="h1 text-center font-semibold uppercase select-none">Breeders</h1>-->
     <CRCMDatatable
         :base-url="BreedersMapPages.api.breeder.path"
         :base-model="BreedersMapPages.api.breeder.model"

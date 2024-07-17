@@ -10,7 +10,7 @@
             </template>
             <template #tab3>
                 <div class="p-2 relative">
-                    <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>
+<!--                    <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>-->
                     <Map />
                 </div>
             </template>

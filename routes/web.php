@@ -92,15 +92,17 @@ Route::middleware([
                 ]);
             })->name('projects.breedersmap.index');
 
-            Route::get('/breeder/{id}', function () {
+            Route::get('/breeder/{id}', function ($id) {
+                $breeder = Breeder::where('id', $id)->where('user_id', Auth::id())->with('commodities')->firstOrFail();
+
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
-                    'breeder' => Breeder::all()->where('id', request()->id)->where('user_id', Auth::id())->first()
+                    'breeder' => $breeder
                 ]);
             })->name('breedersmap.breeder.view');
 
             Route::get('/commodity/{id}', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewCommodity', [
-                    'id' => request()->id
+                    'commodity' => Commodity::find(request()->id)->load('breeder')
                 ]);
             })->name('breedersmap.commodity.view');
         });

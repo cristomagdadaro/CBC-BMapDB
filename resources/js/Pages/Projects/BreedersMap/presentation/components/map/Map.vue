@@ -36,6 +36,12 @@ export default {
         LGeoJson,
         LTooltip
     },
+    props: {
+        customPoint: {
+            type: Object,
+            required: false
+        }
+    },
     data() {
         return {
             icon: icon({
@@ -119,7 +125,7 @@ export default {
         }
     },
     mounted() {
-        this.commodities = this.$page.props.commodities;
+        this.commodities = this.$page.props.commodities || this.customPoint;
         this.placesFiltered = this.commodities;
         this.placesSearched = this.placesFiltered;
     },
@@ -135,7 +141,6 @@ export default {
         },
         selectPoint(point) {
             if (!this.$refs.map) return;
-
             this.markerLatLng = [point.latitude, point.longitude];
             this.selectedPlace = point;
             this.updateCenter(this.markerLatLng);
@@ -157,6 +162,16 @@ export default {
             this.sidebarVisible = false;
             this.updateZoom(this.minZoom);
         }
+    },
+    watch: {
+        customPoint: {
+            handler: function (newVal, oldVal) {
+                if (newVal) {
+                    this.selectPoint(newVal);
+                }
+            },
+            deep: true
+        }
     }
 };
 </script>
@@ -177,7 +192,6 @@ export default {
             <span>Share</span>
         </top-action-btn>
     </div>
-
     <div class="flex flex-col max-h-fit gap-2">
         <div class="relative gap-2">
             <search-box

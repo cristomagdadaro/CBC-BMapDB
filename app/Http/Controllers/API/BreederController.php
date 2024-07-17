@@ -33,7 +33,7 @@ class BreederController extends BaseController
 
     public function show(int $id): JsonResponse
     {
-        $data = $this->service->find($id)->load('commodities');
+        $data = $this->service->find($id);
         return $this->sendResponse('Breeder retrieved successfully.', $data);
     }
 

@@ -1,4 +1,10 @@
 <template>
+    <template v-if="dt">
+        <div v-if="dt.api.processing" class="flex items-center w-full gap-2 justify-center">
+            <loader-icon class="h-5 w-5" />
+            <span>Initializing data table, please wait...</span>
+        </div>
+    </template>
     <div v-if="baseUrl === null || baseUrl === undefined || baseUrl === ''">
         Unable to to retrieve data, please check your base url.
     </div>
@@ -403,7 +409,6 @@ export default {
             this.toDeleteId = id;
         },
         showViewDialogFunc(id) {
-            console.log(this.viewForm);
             router.get(route(this.viewForm, id));
         },
         async showEditDialogFunc(id) {
@@ -435,7 +440,7 @@ export default {
         async initializeDatatable() {
             this.dt = new CRCMDatatable(this.baseUrl, this.baseModel);
             await this.dt.init();
-        },
+        }
     },
     async mounted() {
         if (this.baseUrl){

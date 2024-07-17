@@ -5,9 +5,11 @@ import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder.js";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.js";
 import CommodityTable from "@/Pages/Projects/BreedersMap/presentation/components/commodity/CommodityTable.vue";
+import Tab from "@/Components/Tab/Tab.vue";
+import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue";
 export default {
     name: "BreedersMapViewBreeder",
-    components: {Head, CommodityTable, AppLayout},
+    components: {Tab, Head, CommodityTable, AppLayout, Map},
     props: {
         breeder: {
             type: Object,
@@ -17,12 +19,25 @@ export default {
     data() {
         return {
             data: null,
-            axiosInstance: new ApiService(route('api.breeders.show', this.breeder.id))
+            axiosInstance: new ApiService(route('api.breeders.show', this.breeder.id)),
+            tabs: [
+                {
+                    name: "tab1",
+                    label: "Commodities",
+                    active: true,
+                },{
+                    name: "tab2",
+                    label: "Geo Map",
+                    active: false,
+                },
+            ],
         }
     },
     computed: {
         commodities() {
-            return this.data['commodities'].map(commodity => new Commodity(commodity));
+            if (this.breeder.commodities)
+                return this.breeder.commodities.map(commodity => new Commodity(commodity));
+            return [];
         }
     },
     methods: {
@@ -50,9 +65,9 @@ export default {
     <Head title="Breeder's Map View" />
     <app-layout>
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
-            <div v-if="breeder" class="flex flex-col gap-2">
-                <h1 class="h1 font-semibold uppercase select-none">Breeder Information</h1>
-                <div class="border p-3 rounded">
+            <div v-if="breeder" class="flex flex-col">
+                <h1 class="text-lg font-semibold uppercase select-none px-3 pb-2 mx-2">Breeder Information</h1>
+                <div class="border p-3 rounded-lg bg-white mx-2">
                     <div class="flex gap-1">
                         <h2 class="h2 font-semibold select-none">Identification No.: </h2>
                         <p>{{ breeder.id }}</p>
@@ -78,7 +93,17 @@ export default {
                         <p>{{ breeder.email }}</p>
                     </div>
                 </div>
-                <commodity-table :params="{ filter:'breeder_id', is_exact:true, search:this.$page.props.id }" />
+                <Tab :tabs="tabs">
+                    <template #tab1>
+                        <commodity-table :params="{ filter:'breeder_id', is_exact:true, search:this.$page.props.breeder.id }" />
+                    </template>
+                    <template #tab2>
+                        <div class="p-2 relative" v-if="commodities.length">
+                            <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>
+                            <Map :custom-point="commodities" />
+                        </div>
+                    </template>
+                </Tab>
             </div>
         </div>
     </app-layout>
