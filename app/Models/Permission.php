@@ -3,9 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Permission extends Model
+class Permission extends BaseModel
 {
     use HasFactory;
 
@@ -20,5 +19,11 @@ class Permission extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
+    ];
+
+    protected array $searchable = [
+        'id',
+        'label',
+        'value',
     ];
 }

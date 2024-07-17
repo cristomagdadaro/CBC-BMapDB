@@ -10,39 +10,39 @@ use App\Http\Requests\GetPermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Http\Resources\PermissionCollection;
 use App\Models\Permission;
-use App\Repository\API\PermissionRepositoryAbstract;
+use App\Repository\API\PermissionRepo;
 use App\Repository\ErrorRepository;
 
 class PermissionController extends BaseController
 {
-    public function __construct(PermissionRepositoryAbstract $permissionRepository)
+    public function __construct(PermissionRepo $permissionRepository)
     {
-        $this->repository = $permissionRepository;
+        $this->service = $permissionRepository;
     }
 
     public function index(GetPermissionRequest $request)
     {
-        $data = $this->repository->search($request->collect());
+        $data = $this->service->search($request->collect());
         return new PermissionCollection($data);
     }
 
     public function show($id)
     {
-        return $this->repository->find($id);
+        return $this->service->find($id);
     }
 
     public function store(CreatePermissionRequest $request)
     {
-        return $this->repository->create($request->validated());
+        return $this->service->create($request->validated());
     }
 
     public function update(UpdatePermissionRequest $request, $id)
     {
-        return $this->repository->update($id, $request->validated());
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+        return $this->service->delete($id);
     }
 }

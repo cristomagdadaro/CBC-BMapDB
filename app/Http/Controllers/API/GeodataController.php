@@ -6,13 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GetGeodataRequest;
 use App\Http\Resources\BaseCollection;
 use App\Models\Geodata;
-use App\Repository\API\GeodataRepositoryAbstract;
+use App\Repository\API\GeodataRepo;
 use Illuminate\Http\Request;
 
 class GeodataController extends Controller
 {
 
-    public function __construct(GeodataRepositoryAbstract $geodataRepository)
+    public function __construct(GeodataRepo $geodataRepository)
     {
         $this->repository = $geodataRepository;
     }

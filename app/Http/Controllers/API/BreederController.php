@@ -3,54 +3,55 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateBreederRequest;
-use App\Http\Requests\DeleteBreederRequest;
 use App\Http\Requests\GetBreederRequest;
+use App\Http\Requests\CreateBreederRequest;
 use App\Http\Requests\UpdateBreederRequest;
-use App\Http\Resources\BaseCollection;
-use App\Http\Resources\BreederCollection;
-use App\Http\Resources\BreederResource;
-use App\Models\Breeder;
-use App\Repository\API\BreederRepositoryAbstract;
+use App\Http\Requests\DeleteBreederRequest;
+use App\Repository\API\BreederRepo;
 use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
+use App\Http\Resources\BaseCollection;
 
 class BreederController extends BaseController
 {
-
-    public function __construct(BreederRepositoryAbstract $breederRepository)
+    public function __construct(BreederRepo $breederRepository)
     {
-        $this->repository = $breederRepository;
+        $this->service = $breederRepository;
     }
 
-    public function index(GetBreederRequest $request)
+    public function index(GetBreederRequest $request): BaseCollection
     {
-        $data = $this->repository->search(new Collection($request->validated()));
+        $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
-    public function store(CreateBreederRequest $request)
+    public function store(CreateBreederRequest $request): JsonResponse
     {
-        return $this->repository->create($request->validated());
+        $breeder = $this->service->create($request->validated());
+        return $this->sendResponse('Breeder created successfully.', $breeder);
     }
 
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
-        return $this->repository->find($id)->load('commodities');
+        $breeder = $this->service->find($id)->load('commodities');
+        return $this->sendResponse('Breeder retrieved successfully.', $breeder);
     }
 
-    public function update(UpdateBreederRequest $request, $id)
+    public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
-        return $this->repository->update($id, $request->validated());
+        $breeder = $this->service->update($id, $request->validated());
+        return $this->sendResponse('Breeder updated successfully.', $breeder);
     }
 
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
-        return $this->repository->delete($id);
+        $this->service->delete($id);
+        return $this->sendResponse('Breeder deleted successfully.');
     }
 
-    public function multiDestroy(DeleteBreederRequest $request)
+    public function multiDestroy(DeleteBreederRequest $request): JsonResponse
     {
-        return $this->repository->multiDestroy($request->validated());
+        $this->service->multiDestroy($request->validated());
+        return $this->sendResponse('Breeders deleted successfully.');
     }
 }

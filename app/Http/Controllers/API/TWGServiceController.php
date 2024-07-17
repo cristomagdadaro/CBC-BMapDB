@@ -8,40 +8,40 @@ use App\Http\Requests\CreateTWGServiceRequest;
 use App\Http\Requests\GetTWGServiceRequest;
 use App\Http\Requests\UpdateTWGServiceRequest;
 use App\Http\Resources\TWGServiceCollection;
-use App\Repository\API\TWGServiceRepositoryAbstract;
+use App\Repository\API\TWGServiceRepo;
 use Illuminate\Support\Collection;
 
 class TWGServiceController extends BaseController
 {
-    public function __construct(TWGServiceRepositoryAbstract $service)
+    public function __construct(TWGServiceRepo $service)
     {
-        $this->repository = $service;
+        $this->service = $service;
     }
 
     public function index(GetTWGServiceRequest $request)
     {
-        $data = $this->repository->search(new Collection($request->validated()));
+        $data = $this->service->search(new Collection($request->validated()));
         return new TWGServiceCollection($data);
     }
 
     public function show($id)
     {
-        return $this->repository->find($id);
+        return $this->service->find($id);
     }
 
     public function store(CreateTWGServiceRequest $request)
     {
-        return $this->repository->create($request->validated());
+        return $this->service->create($request->validated());
     }
 
     public function update(UpdateTWGServiceRequest $request,$id)
     {
-        return $this->repository->update($id, $request->validated());
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+        return $this->service->delete($id);
     }
 
 }

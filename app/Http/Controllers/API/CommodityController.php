@@ -8,44 +8,44 @@ use App\Http\Requests\DeleteCommoditiesRequest;
 use App\Http\Requests\GetCommoditiesRequest;
 use App\Http\Requests\UpdateCommoditiesRequest;
 use App\Http\Resources\BaseCollection;
-use App\Repository\API\CommodityRepositoryAbstract;
+use App\Repository\API\CommodityRepo;
 use Illuminate\Support\Collection;
 
 class CommodityController extends BaseController
 {
-    public function __construct(CommodityRepositoryAbstract $commodityRepository)
+    public function __construct(CommodityRepo $commodityRepository)
     {
-        $this->repository = $commodityRepository;
+        $this->service = $commodityRepository;
     }
 
     public function index(GetCommoditiesRequest $request)
     {
-        $data = $this->repository->search(new Collection($request->validated()));
+        $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
     public function store(CreateCommoditiesRequest $request)
     {
-        return $this->repository->create($request->validated());
+        return $this->service->create($request->validated());
     }
 
     public function show($id)
     {
-        return $this->repository->find($id);
+        return $this->service->find($id);
     }
 
     public function update(UpdateCommoditiesRequest $request, $id)
     {
-        return $this->repository->update($id, $request->validated());
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+        return $this->service->delete($id);
     }
 
     public function multiDestroy(DeleteCommoditiesRequest $request)
     {
-        return $this->repository->multiDestroy($request->validated());
+        return $this->service->multiDestroy($request->validated());
     }
 }

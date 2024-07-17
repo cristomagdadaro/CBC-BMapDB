@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Geodata extends Model
+class Geodata extends BaseModel
 {
     use HasFactory;
 
@@ -30,6 +30,16 @@ class Geodata extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    protected array $searchable = [
+        'breeder_id',
+        'latitude',
+        'longitude',
+        'city',
+        'province',
+        'country',
+    ];
+
 
     public function breeder()
     {

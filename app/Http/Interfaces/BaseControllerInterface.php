@@ -2,17 +2,19 @@
 
 namespace App\Http\Interfaces;
 
+use Illuminate\Foundation\Http\FormRequest;
+
 interface BaseControllerInterface
 {
-    public function index();
+    public function index(FormRequest $request);
 
-    public function store();
+    public function store(FormRequest $request);
 
-    public function show($id);
+    public function show(int $id);
 
-    public function update($id);
+    public function update(FormRequest $request, int $id);
 
-    public function destroy($id);
-    
-    public function multiDestroy();
+    public function destroy(int $id);
+
+    public function multiDestroy(FormRequest $request);
 }

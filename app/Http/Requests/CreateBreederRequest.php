@@ -28,7 +28,6 @@ class CreateBreederRequest extends FormRequest
             'address' => 'nullable|string',
             'phone' => 'nullable|string|unique:breeders,phone',
             'email' => 'required|email|unique:breeders,email',
-
         ];
     }
 }

@@ -7,28 +7,28 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\GetAccountForRequest;
 use App\Http\Resources\AccountForCollection;
 use App\Models\AccountFor;
-use App\Repository\API\AccountForRepositoryAbstract;
+use App\Repository\API\AccountForRepo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 
 class AccountForController extends BaseController
 {
-    public function __construct(AccountForRepositoryAbstract $accountForRepository)
+    public function __construct(AccountForRepo $accountForRepository)
     {
-        $this->repository = $accountForRepository;
+        $this->service = $accountForRepository;
     }
 
     public function index(GetAccountForRequest $request, $user_id)
     {
         $request->merge(['user_id' => $user_id]);
 
-        $data = $this->repository->search($request->collect());
+        $data = $this->service->search($request->collect());
         return new AccountForCollection($data);
     }
 
     public function destroy(Request $request)
     {
-        $accountFor = $this->repository->find($request->id);
+        $accountFor = $this->service->find($request->id);
         $accountFor->delete();
         return $accountFor;
     }

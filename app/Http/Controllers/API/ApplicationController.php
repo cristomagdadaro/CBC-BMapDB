@@ -8,40 +8,40 @@ use App\Http\Requests\GetApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Http\Resources\ApplicationCollection;
 use App\Models\Application;
-use App\Repository\API\ApplicationRepositoryAbstract;
+use App\Repository\API\ApplicationRepo;
 use Illuminate\Http\Request;
 
 class ApplicationController extends BaseController
 {
 
-    public function __construct(ApplicationRepositoryAbstract $applicationRepository)
+    public function __construct(ApplicationRepo $applicationRepository)
     {
-        $this->repository = $applicationRepository;
+        $this->service = $applicationRepository;
     }
 
     public function index(GetApplicationRequest $request)
     {
-        $data = $this->repository->search($request->collect());
+        $data = $this->service->search($request->collect());
         return new ApplicationCollection($data);
     }
 
     public function show($id)
     {
-        return $this->repository->find($id);
+        return $this->service->find($id);
     }
 
     public function store(CreateApplicationRequest $request)
     {
-        return $this->repository->create($request->validated());
+        return $this->service->create($request->validated());
     }
 
     public function update(UpdateApplicationRequest $request, $id)
     {
-        return $this->repository->update($id, $request->validated());
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+        return $this->service->delete($id);
     }
 }

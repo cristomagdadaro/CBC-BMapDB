@@ -4,10 +4,9 @@ namespace App\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TWGExpert extends Model
+class TWGExpert extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
@@ -27,6 +26,21 @@ class TWGExpert extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+    ];
+
+    protected array $searchable = [
+        'id',
+        'user_id',
+        'name',
+        'position',
+        'educ_level',
+        'expertise',
+        'research_interest',
+        'mobile',
+        'email',
+        'updated_at',
+        'created_at',
+        'deleted_at',
     ];
 
     protected function serializeDate(DateTimeInterface $date): string

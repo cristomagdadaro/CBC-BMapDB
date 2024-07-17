@@ -47,7 +47,7 @@ export default {
             this.$emit('close');
         },
         submitForm() {
-            this.$emit('uploadForm', this.form);
+            this.$emit('submitForm', this.form);
         }
     },
     watch: {

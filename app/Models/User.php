@@ -64,6 +64,17 @@ class User extends Authenticatable implements MustVerifyEmail
         'profile_photo_url',
     ];
 
+    protected array $searchable = [
+        'id',
+        'fname',
+        'mname',
+        'lname',
+        'suffix',
+        'account_for',
+        'email',
+        'mobile_no',
+    ];
+
     protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('g:i a M j, Y');
@@ -74,4 +85,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Breeder::class, 'user_id', 'id');
     }
 
+    public function getSearchable(): array
+    {
+        return $this->searchable;
+    }
 }

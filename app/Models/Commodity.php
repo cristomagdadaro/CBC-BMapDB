@@ -4,16 +4,43 @@ namespace App\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Commodity extends Model
+class Commodity extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
     protected $table = 'commodities';
 
     protected $fillable = [
+        'name',
+        'breeder_id',
+        'scientific_name',
+        'variety',
+        'accession',
+        'germplasm',
+        'population',
+        'maturity_period',
+        'yield',
+        'description',
+        'image',
+        'longitude',
+        'latitude',
+        'address',
+        'city',
+        'province',
+        'country',
+        'postal_code',
+        'formatted_address',
+        'place_id',
+        'status',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
+
+    protected array $searchable = [
+        'id',
         'name',
         'breeder_id',
         'scientific_name',

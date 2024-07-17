@@ -1,18 +1,18 @@
 <?php
 namespace App\Repository;
 
+use App\Http\Interfaces\RepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Symfony\Component\HttpFoundation\Response;
-use function PHPUnit\Framework\isEmpty;
 
 /**
  * Base class for all repositories.
  * This class will be used to handle all the basic CRUD operations.
  * @param Model $model
  **/
-abstract class AbstractBaseRepository
+abstract class AbstractRepoService implements RepositoryInterface
 {
     /**
      * Model to be used
@@ -53,9 +53,9 @@ abstract class AbstractBaseRepository
     /**
      * Create new data
      * @param array $data
-     * @return Model
+     * @return JsonResponse
      **/
-    public function create(array $data): Model | JsonResponse
+    public function create(array $data): JsonResponse
     {
         try {
             $model = $this->model->fill($data);
@@ -76,7 +76,7 @@ abstract class AbstractBaseRepository
      * @param array $data updated set of data
      * @return bool
      **/
-    public function update($id, array $data): bool
+    public function update(int $id, array $data): bool
     {
         return $this->find($id)->update($data);
     }
@@ -104,7 +104,7 @@ abstract class AbstractBaseRepository
     /**
      * Perform multiple model deletion
      * @param array $ids model primary key
-     * @return Model | JsonResponse
+     * @return JsonResponse
      **/
     public function multiDestroy(array $ids): JsonResponse
     {
@@ -159,9 +159,9 @@ abstract class AbstractBaseRepository
      * @param bool $withPagination
      * @return Model
      **/
-    public function search(Collection $parameters, bool $withPagination = true)
+    public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
     {
-        return $this->searchData($parameters, false, $withPagination);
+        return $this->searchData($parameters, $isTrashed, $withPagination);
     }
 
     public function appendWith($tableToAppend)
@@ -180,9 +180,9 @@ abstract class AbstractBaseRepository
         $is_exact = $parameters->get('is_exact', false);
 
         if ($this->apppendWith && $this->apppendWith != '')
-            $builder = $this->model->with($this->apppendWith)->select($this->searchable);
+            $builder = $this->model->with($this->apppendWith)->select($this->model->getSearchable());
         else
-            $builder = $this->model->select($this->searchable);
+            $builder = $this->model->select($this->model->getSearchable());
 
         if($isTrashed)
         {
@@ -192,7 +192,7 @@ abstract class AbstractBaseRepository
         if($search)
         {
             $builder = $builder->where(function($query) use ($search, $filter, $is_exact) {
-                foreach($this->searchable as $column)
+                foreach($this->model->getSearchable() as $column)
                 {
                     if ($filter && $column != $filter)
                         $column = $filter;

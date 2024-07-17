@@ -4,12 +4,11 @@ namespace App\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Breeder extends Model
+class Breeder extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
@@ -27,6 +26,19 @@ class Breeder extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+    ];
+
+    protected array $searchable = [
+        'id',
+        'user_id',
+        'name',
+        'agency',
+        'address',
+        'phone',
+        'email',
+        'updated_at',
+        'created_at',
+        'deleted_at',
     ];
 
     protected function serializeDate(DateTimeInterface $date): string
