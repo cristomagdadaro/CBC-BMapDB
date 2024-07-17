@@ -75,10 +75,16 @@ class Commodity extends BaseModel
         'deleted_at' => 'datetime',
     ];
 
-    protected function serializeDate(DateTimeInterface $date): string
-    {
-        return $date->format('g:i a M j, Y');
-    }
+    protected array $notifMessage = [
+        'created' => 'Commodity created successfully.',
+        'updated' => 'Commodity updated successfully.',
+        'deleted' => 'Commodity deleted successfully.',
+        'restored' => 'Commodity restored successfully.',
+        'forceDeleted' => 'Commodity permanently deleted.',
+        'emptyTrash' => 'Commodity deleted successfully.',
+        'notFound' => 'Commodity not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
 
     public function breeder()
     {

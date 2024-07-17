@@ -15,9 +15,12 @@ use App\Http\Controllers\API\TWGServiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Resources\BaseCollection;
 use App\Mail\UserInvitationEmail;
+use App\Models\Breeder;
+use App\Models\Commodity;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 /*
@@ -62,7 +65,7 @@ Route::prefix('/projects')->group(function () {
 
     Route::get('/breedersmap-db', function (){
         return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic', [
-            'commodities' => \App\Models\Commodity::all(),
+            'commodities' => Commodity::all(),
         ]);
     })->name('projects.breedersmap.public');
 });
@@ -85,13 +88,13 @@ Route::middleware([
         Route::prefix('/breedersmap')->group(function () {
             Route::get('/', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex', [
-                    'commodities' => \App\Models\Commodity::all(),
+                    'commodities' => Commodity::all(),
                 ]);
             })->name('projects.breedersmap.index');
 
             Route::get('/breeder/{id}', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
-                    'id' => request()->id
+                    'breeder' => Breeder::all()->where('id', request()->id)->where('user_id', Auth::id())->first()
                 ]);
             })->name('breedersmap.breeder.view');
 

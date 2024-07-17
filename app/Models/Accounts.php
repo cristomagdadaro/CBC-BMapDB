@@ -30,6 +30,17 @@ class Accounts extends BaseModel
         'account_id',
     ];
 
+    protected array $notifMessage = [
+        'created' => 'Account created successfully.',
+        'updated' => 'Account updated successfully.',
+        'deleted' => 'Account deleted successfully.',
+        'restored' => 'Account restored successfully.',
+        'forceDeleted' => 'Account permanently deleted.',
+        'emptyTrash' => 'Account deleted successfully.',
+        'notFound' => 'Account not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'account_id', 'id');

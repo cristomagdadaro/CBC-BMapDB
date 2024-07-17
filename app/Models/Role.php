@@ -25,4 +25,15 @@ class Role extends BaseModel
         'label',
         'value',
     ];
+
+    protected array $notifMessage = [
+        'created' => 'Role created successfully.',
+        'updated' => 'Role updated successfully.',
+        'deleted' => 'Role deleted successfully.',
+        'restored' => 'Role restored successfully.',
+        'forceDeleted' => 'Role permanently deleted.',
+        'emptyTrash' => 'Role deleted successfully.',
+        'notFound' => 'Role not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
 }

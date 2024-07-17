@@ -33,8 +33,14 @@ class TWGService extends BaseModel
         'cost'
     ];
 
-    protected function serializeDate(DateTimeInterface $date): string
-    {
-        return $date->format('g:i a M j, Y');
-    }
+    protected array $notifMessage = [
+        'created' => 'TWG Service created successfully.',
+        'updated' => 'TWG Service updated successfully.',
+        'deleted' => 'TWG Service deleted successfully.',
+        'restored' => 'TWG Service restored successfully.',
+        'forceDeleted' => 'TWG Service permanently deleted.',
+        'emptyTrash' => 'TWG Service deleted successfully.',
+        'notFound' => 'TWG Service not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
 }

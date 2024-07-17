@@ -27,20 +27,20 @@ class BreederController extends BaseController
 
     public function store(CreateBreederRequest $request): JsonResponse
     {
-        $breeder = $this->service->create($request->validated());
-        return $this->sendResponse('Breeder created successfully.', $breeder);
+        $data = $this->service->create($request->validated());
+        return $this->sendResponse('Breeder created successfully.', $data);
     }
 
     public function show(int $id): JsonResponse
     {
-        $breeder = $this->service->find($id)->load('commodities');
-        return $this->sendResponse('Breeder retrieved successfully.', $breeder);
+        $data = $this->service->find($id)->load('commodities');
+        return $this->sendResponse('Breeder retrieved successfully.', $data);
     }
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
-        $breeder = $this->service->update($id, $request->validated());
-        return $this->sendResponse('Breeder updated successfully.', $breeder);
+        $data = $this->service->update($id, $request->validated());
+        return $this->sendResponse('Breeder updated successfully.', $data);
     }
 
     public function destroy($id): JsonResponse

@@ -41,10 +41,16 @@ class Breeder extends BaseModel
         'deleted_at',
     ];
 
-    protected function serializeDate(DateTimeInterface $date): string
-    {
-        return $date->format('g:i a M j, Y');
-    }
+    protected array $notifMessage = [
+        'created' => 'Breeder created successfully.',
+        'updated' => 'Breeder updated successfully.',
+        'deleted' => 'Breeder deleted successfully.',
+        'restored' => 'Breeder restored successfully.',
+        'forceDeleted' => 'Breeder permanently deleted.',
+        'emptyTrash' => 'Breeder deleted successfully.',
+        'notFound' => 'Breeder not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
 
     /*protected $hidden = [
         'user_id',

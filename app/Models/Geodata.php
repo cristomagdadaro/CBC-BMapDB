@@ -40,6 +40,17 @@ class Geodata extends BaseModel
         'country',
     ];
 
+    protected array $notifMessage = [
+        'created' => 'Geodata created successfully.',
+        'updated' => 'Geodata updated successfully.',
+        'deleted' => 'Geodata deleted successfully.',
+        'restored' => 'Geodata restored successfully.',
+        'forceDeleted' => 'Geodata permanently deleted.',
+        'emptyTrash' => 'Geodata deleted successfully.',
+        'notFound' => 'Geodata not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
+
 
     public function breeder()
     {

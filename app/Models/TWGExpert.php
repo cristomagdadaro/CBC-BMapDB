@@ -43,10 +43,16 @@ class TWGExpert extends BaseModel
         'deleted_at',
     ];
 
-    protected function serializeDate(DateTimeInterface $date): string
-    {
-        return $date->format('g:i a M j, Y');
-    }
+    protected array $notifMessage = [
+        'created' => 'TWG Expert created successfully.',
+        'updated' => 'TWG Expert updated successfully.',
+        'deleted' => 'TWG Expert deleted successfully.',
+        'restored' => 'TWG Expert restored successfully.',
+        'forceDeleted' => 'TWG Expert permanently deleted.',
+        'emptyTrash' => 'TWG Expert deleted successfully.',
+        'notFound' => 'TWG Expert not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
 
     public function twg_projects()
     {

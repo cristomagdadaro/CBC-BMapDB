@@ -62,7 +62,7 @@ abstract class AbstractRepoService implements RepositoryInterface
             $model->save();
 
             return response()->json([
-                'message' => 'Successfully added new data',
+                'message' => $model->getNotifMessage('created'),
                 'data' => $model
             ], Response::HTTP_OK);
         } catch (\Exception $error) {
@@ -74,26 +74,36 @@ abstract class AbstractRepoService implements RepositoryInterface
      * Update data
      * @param int $id model primary key
      * @param array $data updated set of data
-     * @return bool
+     * @return JsonResponse
      **/
-    public function update(int $id, array $data): bool
+    public function update(int $id, array $data): JsonResponse
     {
-        return $this->find($id)->update($data);
+        try {
+            $model = $this->find($id);
+            $model->update($data);
+
+            return response()->json([
+                'message' => $model->getNotifMessage('updated'),
+                'data' => $model
+            ], Response::HTTP_OK);
+        } catch (\Exception $error) {
+            return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
      * Delete data
      * @param int $id model primary key
-     * @return Model | JsonResponse
+     * @return JsonResponse
      **/
-    public function delete(int $id): Model | JsonResponse
+    public function delete(int $id): JsonResponse
     {
         try {
             $model = $this->find($id);
             $model->delete();
 
             return response()->json([
-                'message' => 'Successfully deleted',
+                'message' => $model->getNotifMessage('deleted'),
                 'data' => $model
             ], Response::HTTP_OK);
         } catch (\Exception $error) {
@@ -146,22 +156,33 @@ abstract class AbstractRepoService implements RepositoryInterface
     /**
      * Retrieve a model
      * @param int $id model primary key
-     * @return Model
+     * @return JsonResponse | Model
      **/
-    public function find(int $id): Model
+    public function find(int $id): JsonResponse | Model
     {
-        return $this->model->findOrFail($id);
+        $data = $this->model->find($id);
+        if(!$data)
+            return response()->json([
+                'message' => $this->model->getNotifMessage('notFound'),
+                'data' => null
+            ], Response::HTTP_NOT_FOUND);
+
+        return $data;
     }
 
     /**
      * Data filtering
      * @param Collection $parameters search parameters
      * @param bool $withPagination
-     * @return Model
+     * @return JsonResponse
      **/
     public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
     {
-        return $this->searchData($parameters, $isTrashed, $withPagination);
+        try {
+            return $this->searchData($parameters, $isTrashed, $withPagination);
+        } catch (\Exception $error) {
+            return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function appendWith($tableToAppend)
@@ -218,17 +239,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         $error = new ErrorRepository($error);
         return $error->getErrorMessage();
     }
-
-    /*public function sendResponse($message, $data = null)
-    {
-        $wrapper = [
-            'success' => true,
-            'data' => $data,
-            'message' => $message,
-        ];
-
-        return response()->json($wrapper, 200);
-    }*/
 
     public function summary()
     {

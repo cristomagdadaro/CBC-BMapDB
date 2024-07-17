@@ -35,8 +35,14 @@ class TWGProject extends BaseModel
         'status'
     ];
 
-    protected function serializeDate(DateTimeInterface $date): string
-    {
-        return $date->format('g:i a M j, Y');
-    }
+    protected array $notifMessage = [
+        'created' => 'TWG Project created successfully.',
+        'updated' => 'TWG Project updated successfully.',
+        'deleted' => 'TWG Project deleted successfully.',
+        'restored' => 'TWG Project restored successfully.',
+        'forceDeleted' => 'TWG Project permanently deleted.',
+        'emptyTrash' => 'TWG Project deleted successfully.',
+        'notFound' => 'TWG Project not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
 }

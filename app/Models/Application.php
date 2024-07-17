@@ -31,4 +31,15 @@ class Application extends BaseModel
         'url',
         'icon',
     ];
+
+    protected array $notifMessage = [
+        'created' => 'Application created successfully.',
+        'updated' => 'Application updated successfully.',
+        'deleted' => 'Application deleted successfully.',
+        'restored' => 'Application restored successfully.',
+        'forceDeleted' => 'Application permanently deleted.',
+        'emptyTrash' => 'Application deleted successfully.',
+        'notFound' => 'Application not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
 }

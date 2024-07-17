@@ -26,26 +26,31 @@ class CommodityController extends BaseController
 
     public function store(CreateCommoditiesRequest $request)
     {
-        return $this->service->create($request->validated());
+        $data =  $this->service->create($request->validated());
+        return $this->sendResponse('Commodity created successfully.', $data);
     }
 
     public function show($id)
     {
-        return $this->service->find($id);
+        $data = $this->service->find($id);
+        return $this->sendResponse('Commodity retrieved successfully.', $data);
     }
 
     public function update(UpdateCommoditiesRequest $request, $id)
     {
-        return $this->service->update($id, $request->validated());
+        $data = $this->service->update($id, $request->validated());
+        return $this->sendResponse('Commodity updated successfully.', $data);
     }
 
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        $this->service->delete($id);
+        return $this->sendResponse('Commodity deleted successfully.');
     }
 
     public function multiDestroy(DeleteCommoditiesRequest $request)
     {
-        return $this->service->multiDestroy($request->validated());
+        $this->service->multiDestroy($request->validated());
+        return $this->sendResponse('Commodities deleted successfully.');
     }
 }
