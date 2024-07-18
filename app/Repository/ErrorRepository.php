@@ -19,7 +19,13 @@ class ErrorRepository
     private function findErrorCodeMessage($code): array
     {
         $listOfErrorCodes = config('error_codes');
-
+        //check if the error code exists in the list of error codes
+        if (!array_key_exists($code, $listOfErrorCodes)) {
+            return [
+                'errno' => 500,
+                'message' => 'Unknown error, action failed.',
+            ];
+        }
         return [
             'errno' => $code,
             'message' => $listOfErrorCodes[$code],

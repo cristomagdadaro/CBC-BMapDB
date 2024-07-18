@@ -38,6 +38,7 @@ class CommodityFactory extends Factory
             'address' => $address,
             'city' => $randomLocation['name'],
             'province' => $randomLocation['province'],
+            'region' => $randomLocation['region'],
             'country' => 'Philippines',
             'postal_code' => $this->faker->postcode,
             'formatted_address' => $address . ', ' . $randomLocation['name'] . ', ' . $randomLocation['province'] . ', Philippines',

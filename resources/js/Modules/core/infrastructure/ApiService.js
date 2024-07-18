@@ -3,6 +3,7 @@ import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import {ValidationErrorResponse} from "@/Modules/core/infrastructure/ValidationErrorResponse.js";
 import {NotFoundErrorResponse} from "@/Modules/core/infrastructure/NotFoundErrorResponse.js";
 import {ServerErrorResponse} from "@/Modules/core/infrastructure/ServerErrorResponse.js";
+import {JavascriptErrorResponse} from "@/Modules/core/infrastructure/JavascriptErrorResponse.js";
 export default class ApiService
 {
     constructor(url) {
@@ -28,7 +29,6 @@ export default class ApiService
             }
             return response;
         } catch (error) {
-            console.log(error);
             return this.determineError(error);
         } finally {
             this.processing = false;
@@ -92,17 +92,18 @@ export default class ApiService
 
     determineError(error)
     {
-        console.log(error.response);
-        switch (error.response.status) {
-            case 422:
-                return new ValidationErrorResponse(error.response.data);
-            case 404:
-                return new NotFoundErrorResponse(error.response.data);
-            case 500:
-                return new ServerErrorResponse(error.response.data);
-            default:
-                throw new Error(error);
-        }
+        if(error.response)
+            switch (error.response.status) {
+                case 422:
+                    return new ValidationErrorResponse(error.response.data);
+                case 404:
+                    return new NotFoundErrorResponse(error.response.data);
+                case 500:
+                    return new ServerErrorResponse(error.response.data);
+                default:
+                    throw new Error(error);
+            }
+        return new JavascriptErrorResponse(error);
     }
 }
 

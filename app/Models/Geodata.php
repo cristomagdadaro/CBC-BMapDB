@@ -18,6 +18,7 @@ class Geodata extends BaseModel
         'address',
         'city',
         'province',
+        'region',
         'country',
         'postal_code',
         'formatted_address',
@@ -38,6 +39,7 @@ class Geodata extends BaseModel
         'city',
         'province',
         'country',
+        'region',
     ];
 
     protected array $notifMessage = [

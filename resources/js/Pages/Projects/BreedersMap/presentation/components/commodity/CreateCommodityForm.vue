@@ -5,7 +5,7 @@
         </template>
         <template v-slot:formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                <text-field :error="errors? errors['name']:{}" label="Commodity Name" v-model="form.name" />
+                <text-field :error="errors? errors['name']:{}" label="Commodity" v-model="form.name" />
                 <text-field :error="errors? errors['scientific_name']:{}" label="Scientific Name" v-model="form.scientific_name" />
                 <select-search-field :api-link="route('api.breeders.index')"  :error="errors? errors['breeder_id']:{}" label="Breeder Name" v-model="form.breeder_id" />
                 <text-field :error="errors? errors['variety']:{}" label="Variety" v-model="form.variety" />

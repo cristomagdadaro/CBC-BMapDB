@@ -13,7 +13,6 @@ use App\Http\Controllers\API\TWGProductController;
 use App\Http\Controllers\API\TWGProjectController;
 use App\Http\Controllers\API\TWGServiceController;
 use App\Http\Controllers\UserController;
-use App\Http\Resources\BaseCollection;
 use App\Mail\UserInvitationEmail;
 use App\Models\Breeder;
 use App\Models\Commodity;
@@ -155,6 +154,7 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
     Route::prefix('breeders')->group(function () {
         Route::get('/', [BreederController::class, 'index'])->name('api.breeders.index');
         Route::get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
+        Route::get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
         Route::post('/', [BreederController::class, 'store'])->name('api.breeders.store');
         Route::put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
         Route::delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');

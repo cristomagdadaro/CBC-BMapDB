@@ -19,6 +19,7 @@ export default class Commodity extends BaseClass{
         this.address = params.address ?? null;
         this.city = params.city ?? null;
         this.province = params.province ?? null;
+        this.region = params.region?? null;
         this.country = params.country?? null;
         this.postal_code = params.postal_code ?? null;
         this.formatted_address = params.formatted_address ?? null;
@@ -30,7 +31,7 @@ export default class Commodity extends BaseClass{
     }
 
     static getHiddenColumns() {
-        return ['id','breeder_id','updated_at', 'created_at', 'deleted_at','place_id'];
+        return ['id','breeder_id', 'latitude', 'longitude','updated_at', 'created_at', 'deleted_at','place_id'];
     }
 
     static getColumns(){
@@ -43,7 +44,7 @@ export default class Commodity extends BaseClass{
                 visible: false,
             },
             {
-                title: 'Name',
+                title: 'Commodity',
                 key: 'name',
                 sortable: true,
                 align: 'center',
@@ -169,6 +170,13 @@ export default class Commodity extends BaseClass{
                 visible: true,
             },
             {
+                title: 'Region',
+                key: 'region',
+                sortable: true,
+                align: 'center',
+                visible: true,
+            },
+            {
                 title: 'Country',
                 key: 'country',
                 sortable: true,
@@ -183,7 +191,7 @@ export default class Commodity extends BaseClass{
                 visible: false,
             },
             {
-                title: 'Formatted Address',
+                title: 'Address',
                 key: 'formatted_address',
                 sortable: true,
                 align: 'center',

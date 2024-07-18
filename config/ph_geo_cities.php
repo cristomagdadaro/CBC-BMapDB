@@ -1,7 +1,7 @@
 <?php
 
 return array (
-  0 => 
+  0 =>
   array (
     'name' => 'Quezon City',
     'latitude' => 14.65,
@@ -9,7 +9,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1 => 
+  1 =>
   array (
     'name' => 'Zamboanga City',
     'latitude' => 6.9042,
@@ -17,7 +17,7 @@ return array (
     'province' => 'Zamboanga del Sur',
     'region' => 'IX (Zamboanga Peninsula)',
   ),
-  2 => 
+  2 =>
   array (
     'name' => 'Davao',
     'latitude' => 7.07,
@@ -25,7 +25,7 @@ return array (
     'province' => 'Davao del Sur',
     'region' => 'XI (Davao Region)',
   ),
-  3 => 
+  3 =>
   array (
     'name' => 'Caloocan City',
     'latitude' => 14.65,
@@ -33,7 +33,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  4 => 
+  4 =>
   array (
     'name' => 'Canagatan',
     'latitude' => 18.0,
@@ -41,23 +41,23 @@ return array (
     'province' => 'Apayao',
     'region' => 'CAR',
   ),
-  5 => 
-  array (
-    'name' => 'Cebu City',
-    'latitude' => 10.32,
-    'longitude' => 123.75,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  6 => 
-  array (
-    'name' => 'Antipolo',
-    'latitude' => 14.5842,
-    'longitude' => 121.1763,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  7 => 
+    5 =>
+        array (
+            'name' => 'Cebu City',
+            'latitude' => 10.32,
+            'longitude' => 123.75,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    6 =>
+        array (
+            'name' => 'Antipolo',
+            'latitude' => 14.5842,
+            'longitude' => 121.1763,
+            'province' => 'Rizal',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+  7 =>
   array (
     'name' => 'Taguig City',
     'latitude' => 14.52,
@@ -65,7 +65,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  8 => 
+  8 =>
   array (
     'name' => 'Pasig City',
     'latitude' => 14.5605,
@@ -73,15 +73,15 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  9 => 
-  array (
-    'name' => 'Cagayan de Oro',
-    'latitude' => 8.48,
-    'longitude' => 124.65,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  10 => 
+    9 =>
+        array (
+            'name' => 'Cagayan de Oro',
+            'latitude' => 8.48,
+            'longitude' => 124.65,
+            'province' => 'Misamis Oriental',
+            'region' => 'Northern Mindanao (Region X)',
+        ),
+  10 =>
   array (
     'name' => 'Valenzuela',
     'latitude' => 14.7,
@@ -89,31 +89,31 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  11 => 
-  array (
-    'name' => 'Dasmarinas',
-    'latitude' => 14.33,
-    'longitude' => 120.94,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  12 => 
-  array (
-    'name' => 'General Santos',
-    'latitude' => 6.12,
-    'longitude' => 125.17,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  13 => 
-  array (
-    'name' => 'City of Paranaque',
-    'latitude' => 14.5008,
-    'longitude' => 120.9915,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  14 => 
+    11 =>
+        array (
+            'name' => 'Dasmariñas',
+            'latitude' => 14.33,
+            'longitude' => 120.94,
+            'province' => 'Cavite',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    12 =>
+        array (
+            'name' => 'General Santos',
+            'latitude' => 6.12,
+            'longitude' => 125.17,
+            'province' => 'South Cotabato',
+            'region' => 'SOCCSKSARGEN (Region XII)',
+        ),
+    13 =>
+        array (
+            'name' => 'City of Parañaque',
+            'latitude' => 14.5008,
+            'longitude' => 120.9915,
+            'province' => 'Metro Manila',
+            'region' => 'National Capital Region (NCR)',
+        ),
+  14 =>
   array (
     'name' => 'Bacoor',
     'latitude' => 14.4624,
@@ -121,7 +121,7 @@ return array (
     'province' => 'Cavite',
     'region' => 'IV-A (CALABARZON)',
   ),
-  15 => 
+  15 =>
   array (
     'name' => 'Tondo',
     'latitude' => 14.617,
@@ -129,111 +129,111 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  16 => 
-  array (
-    'name' => 'San Jose del Monte',
-    'latitude' => 14.8139,
-    'longitude' => 121.0453,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  17 => 
-  array (
-    'name' => 'Makati City',
-    'latitude' => 14.5567,
-    'longitude' => 121.0214,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  18 => 
-  array (
-    'name' => 'Las Pinas City',
-    'latitude' => 14.45,
-    'longitude' => 120.98,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  19 => 
-  array (
-    'name' => 'Bacolod',
-    'latitude' => 10.6765,
-    'longitude' => 122.9509,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  20 => 
-  array (
-    'name' => 'Iloilo',
-    'latitude' => 10.72,
-    'longitude' => 122.57,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  21 => 
-  array (
-    'name' => 'Muntinlupa City',
-    'latitude' => 14.38,
-    'longitude' => 121.05,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  22 => 
-  array (
-    'name' => 'City of Calamba',
-    'latitude' => 14.22,
-    'longitude' => 121.17,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  23 => 
-  array (
-    'name' => 'Lapu-Lapu City',
-    'latitude' => 10.3127,
-    'longitude' => 123.9488,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  24 => 
-  array (
-    'name' => 'Imus',
-    'latitude' => 14.4297,
-    'longitude' => 120.9367,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  25 => 
-  array (
-    'name' => 'Angeles City',
-    'latitude' => 15.1472,
-    'longitude' => 120.5847,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  26 => 
-  array (
-    'name' => 'Marikina City',
-    'latitude' => 14.65,
-    'longitude' => 121.1,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  27 => 
-  array (
-    'name' => 'General Trias',
-    'latitude' => 14.38,
-    'longitude' => 120.88,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  28 => 
-  array (
-    'name' => 'Rodriguez',
-    'latitude' => 14.72,
-    'longitude' => 121.12,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  29 => 
+    16 =>
+        array (
+            'name' => 'San Jose del Monte',
+            'latitude' => 14.8139,
+            'longitude' => 121.0453,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    17 =>
+        array (
+            'name' => 'Makati City',
+            'latitude' => 14.5567,
+            'longitude' => 121.0214,
+            'province' => 'Metro Manila',
+            'region' => 'National Capital Region (NCR)',
+        ),
+    18 =>
+        array (
+            'name' => 'Las Piñas City',
+            'latitude' => 14.45,
+            'longitude' => 120.98,
+            'province' => 'Metro Manila',
+            'region' => 'National Capital Region (NCR)',
+        ),
+    19 =>
+        array (
+            'name' => 'Bacolod',
+            'latitude' => 10.6765,
+            'longitude' => 122.9509,
+            'province' => 'Negros Occidental',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    20 =>
+        array (
+            'name' => 'Iloilo',
+            'latitude' => 10.72,
+            'longitude' => 122.57,
+            'province' => 'Iloilo',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    21 =>
+        array (
+            'name' => 'Muntinlupa City',
+            'latitude' => 14.38,
+            'longitude' => 121.05,
+            'province' => 'Metro Manila',
+            'region' => 'National Capital Region (NCR)',
+        ),
+    22 =>
+        array (
+            'name' => 'City of Calamba',
+            'latitude' => 14.22,
+            'longitude' => 121.17,
+            'province' => 'Laguna',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    23 =>
+        array (
+            'name' => 'Lapu-Lapu City',
+            'latitude' => 10.3127,
+            'longitude' => 123.9488,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    24 =>
+        array (
+            'name' => 'Imus',
+            'latitude' => 14.4297,
+            'longitude' => 120.9367,
+            'province' => 'Cavite',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    25 =>
+        array (
+            'name' => 'Angeles City',
+            'latitude' => 15.1472,
+            'longitude' => 120.5847,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    26 =>
+        array (
+            'name' => 'Marikina City',
+            'latitude' => 14.65,
+            'longitude' => 121.1,
+            'province' => 'Metro Manila',
+            'region' => 'National Capital Region (NCR)',
+        ),
+    27 =>
+        array (
+            'name' => 'General Trias',
+            'latitude' => 14.38,
+            'longitude' => 120.88,
+            'province' => 'Cavite',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    28 =>
+        array (
+            'name' => 'Rodriguez',
+            'latitude' => 14.72,
+            'longitude' => 121.12,
+            'province' => 'Rizal',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+  29 =>
   array (
     'name' => 'Pasay City',
     'latitude' => 14.55,
@@ -241,7 +241,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  30 => 
+  30 =>
   array (
     'name' => 'Mandaluyong City',
     'latitude' => 14.58,
@@ -249,23 +249,23 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  31 => 
-  array (
-    'name' => 'Santa Rosa',
-    'latitude' => 14.32,
-    'longitude' => 121.12,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  32 => 
-  array (
-    'name' => 'Binan',
-    'latitude' => 14.33,
-    'longitude' => 121.08,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  33 => 
+    31 =>
+        array (
+            'name' => 'Santa Rosa',
+            'latitude' => 14.32,
+            'longitude' => 121.12,
+            'province' => 'Laguna',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    32 =>
+        array (
+            'name' => 'Biñan',
+            'latitude' => 14.33,
+            'longitude' => 121.08,
+            'province' => 'Laguna',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+  33 =>
   array (
     'name' => 'Sampaloc',
     'latitude' => 14.6031,
@@ -273,23 +273,23 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  34 => 
-  array (
-    'name' => 'Taytay',
-    'latitude' => 14.5692,
-    'longitude' => 121.1325,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  35 => 
-  array (
-    'name' => 'Tarlac City',
-    'latitude' => 15.4869,
-    'longitude' => 120.59,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  36 => 
+    34 =>
+        array (
+            'name' => 'Taytay',
+            'latitude' => 14.5692,
+            'longitude' => 121.1325,
+            'province' => 'Rizal',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    35 =>
+        array (
+            'name' => 'Tarlac City',
+            'latitude' => 15.4869,
+            'longitude' => 120.59,
+            'province' => 'Tarlac',
+            'region' => 'Central Luzon (Region III)',
+        ),
+  36 =>
   array (
     'name' => 'Malabon',
     'latitude' => 14.66,
@@ -297,95 +297,95 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  37 => 
-  array (
-    'name' => 'Cainta',
-    'latitude' => 14.57,
-    'longitude' => 121.12,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  38 => 
-  array (
-    'name' => 'Lipa City',
-    'latitude' => 13.9411,
-    'longitude' => 121.1622,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  39 => 
-  array (
-    'name' => 'Butuan',
-    'latitude' => 8.948,
-    'longitude' => 125.543,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  40 => 
-  array (
-    'name' => 'Baguio City',
-    'latitude' => 16.4119,
-    'longitude' => 120.5933,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  41 => 
-  array (
-    'name' => 'Mandaue City',
-    'latitude' => 10.33,
-    'longitude' => 123.93,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  42 => 
-  array (
-    'name' => 'Iligan',
-    'latitude' => 8.23,
-    'longitude' => 124.25,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  43 => 
-  array (
-    'name' => 'Cabuyao',
-    'latitude' => 14.275,
-    'longitude' => 121.125,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  44 => 
-  array (
-    'name' => 'San Fernando',
-    'latitude' => 15.03,
-    'longitude' => 120.68,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  45 => 
-  array (
-    'name' => 'Batangas',
-    'latitude' => 13.83,
-    'longitude' => 121.0,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  46 => 
-  array (
-    'name' => 'Naga City',
-    'latitude' => 13.6244,
-    'longitude' => 123.1864,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  47 => 
-  array (
-    'name' => 'Cabanatuan City',
-    'latitude' => 15.4908,
-    'longitude' => 120.9678,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  48 => 
+    37 =>
+        array (
+            'name' => 'Cainta',
+            'latitude' => 14.57,
+            'longitude' => 121.12,
+            'province' => 'Rizal',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    38 =>
+        array (
+            'name' => 'Lipa City',
+            'latitude' => 13.9411,
+            'longitude' => 121.1622,
+            'province' => 'Batangas',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    39 =>
+        array (
+            'name' => 'Butuan',
+            'latitude' => 8.948,
+            'longitude' => 125.543,
+            'province' => 'Agusan del Norte',
+            'region' => 'Caraga (Region XIII)',
+        ),
+    40 =>
+        array (
+            'name' => 'Baguio City',
+            'latitude' => 16.4119,
+            'longitude' => 120.5933,
+            'province' => 'Benguet',
+            'region' => 'Cordillera Administrative Region (CAR)',
+        ),
+    41 =>
+        array (
+            'name' => 'Mandaue City',
+            'latitude' => 10.33,
+            'longitude' => 123.93,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    42 =>
+        array (
+            'name' => 'Iligan',
+            'latitude' => 8.23,
+            'longitude' => 124.25,
+            'province' => 'Lanao del Norte',
+            'region' => 'Northern Mindanao (Region X)',
+        ),
+    43 =>
+        array (
+            'name' => 'Cabuyao',
+            'latitude' => 14.275,
+            'longitude' => 121.125,
+            'province' => 'Laguna',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    44 =>
+        array (
+            'name' => 'San Fernando',
+            'latitude' => 15.03,
+            'longitude' => 120.68,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    45 =>
+        array (
+            'name' => 'Batangas',
+            'latitude' => 13.83,
+            'longitude' => 121.0,
+            'province' => 'Batangas',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    46 =>
+        array (
+            'name' => 'Naga City',
+            'latitude' => 13.6244,
+            'longitude' => 123.1864,
+            'province' => 'Camarines Sur',
+            'region' => 'Bicol Region (Region V)',
+        ),
+    47 =>
+        array (
+            'name' => 'Cabanatuan City',
+            'latitude' => 15.4908,
+            'longitude' => 120.9678,
+            'province' => 'Nueva Ecija',
+            'region' => 'Central Luzon (Region III)',
+        ),
+  48 =>
   array (
     'name' => 'San Pedro',
     'latitude' => 14.3583,
@@ -393,135 +393,135 @@ return array (
     'province' => 'Laguna',
     'region' => 'IV-A (CALABARZON)',
   ),
-  49 => 
-  array (
-    'name' => 'Cotabato',
-    'latitude' => 7.22,
-    'longitude' => 124.25,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  50 => 
-  array (
-    'name' => 'Binangonan',
-    'latitude' => 14.4514,
-    'longitude' => 121.1919,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  51 => 
-  array (
-    'name' => 'Tanza',
-    'latitude' => 14.3944,
-    'longitude' => 120.8531,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  52 => 
-  array (
-    'name' => 'Puerto Princesa',
-    'latitude' => 9.75,
-    'longitude' => 118.75,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  53 => 
-  array (
-    'name' => 'Tagum',
-    'latitude' => 7.4478,
-    'longitude' => 125.8078,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  54 => 
-  array (
-    'name' => 'Silang',
-    'latitude' => 14.2306,
-    'longitude' => 120.975,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  55 => 
-  array (
-    'name' => 'Mabalacat',
-    'latitude' => 15.22,
-    'longitude' => 120.58,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  56 => 
-  array (
-    'name' => 'Santa Maria',
-    'latitude' => 14.82,
-    'longitude' => 120.96,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  57 => 
-  array (
-    'name' => 'San Pablo',
-    'latitude' => 14.07,
-    'longitude' => 121.325,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  58 => 
-  array (
-    'name' => 'Lucena',
-    'latitude' => 13.93,
-    'longitude' => 121.62,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  59 => 
-  array (
-    'name' => 'San Mateo',
-    'latitude' => 14.6969,
-    'longitude' => 121.1219,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  60 => 
-  array (
-    'name' => 'Talisay',
-    'latitude' => 10.25,
-    'longitude' => 123.83,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  61 => 
-  array (
-    'name' => 'Malolos',
-    'latitude' => 14.8433,
-    'longitude' => 120.8114,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  62 => 
-  array (
-    'name' => 'Olongapo',
-    'latitude' => 14.83,
-    'longitude' => 120.28,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  63 => 
-  array (
-    'name' => 'Marilao',
-    'latitude' => 14.7581,
-    'longitude' => 120.9481,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  64 => 
-  array (
-    'name' => 'Tacloban',
-    'latitude' => 11.24,
-    'longitude' => 125.0,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  65 => 
+    49 =>
+        array (
+            'name' => 'Cotabato',
+            'latitude' => 7.22,
+            'longitude' => 124.25,
+            'province' => 'Maguindanao del Norte',
+            'region' => 'Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)',
+        ),
+    50 =>
+        array (
+            'name' => 'Binangonan',
+            'latitude' => 14.4514,
+            'longitude' => 121.1919,
+            'province' => 'Rizal',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    51 =>
+        array (
+            'name' => 'Tanza',
+            'latitude' => 14.3944,
+            'longitude' => 120.8531,
+            'province' => 'Cavite',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    52 =>
+        array (
+            'name' => 'Puerto Princesa',
+            'latitude' => 9.75,
+            'longitude' => 118.75,
+            'province' => 'Palawan',
+            'region' => 'MIMAROPA (Region IV-B)',
+        ),
+    53 =>
+        array (
+            'name' => 'Tagum',
+            'latitude' => 7.4478,
+            'longitude' => 125.8078,
+            'province' => 'Davao del Norte',
+            'region' => 'Davao Region (Region XI)',
+        ),
+    54 =>
+        array (
+            'name' => 'Silang',
+            'latitude' => 14.2306,
+            'longitude' => 120.975,
+            'province' => 'Cavite',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    55 =>
+        array (
+            'name' => 'Mabalacat',
+            'latitude' => 15.22,
+            'longitude' => 120.58,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    56 =>
+        array (
+            'name' => 'Santa Maria',
+            'latitude' => 14.82,
+            'longitude' => 120.96,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    57 =>
+        array (
+            'name' => 'San Pablo',
+            'latitude' => 14.07,
+            'longitude' => 121.325,
+            'province' => 'Laguna',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    58 =>
+        array (
+            'name' => 'Lucena',
+            'latitude' => 13.93,
+            'longitude' => 121.62,
+            'province' => 'Quezon',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    59 =>
+        array (
+            'name' => 'San Mateo',
+            'latitude' => 14.6969,
+            'longitude' => 121.1219,
+            'province' => 'Rizal',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    60 =>
+        array (
+            'name' => 'Talisay',
+            'latitude' => 10.25,
+            'longitude' => 123.83,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    61 =>
+        array (
+            'name' => 'Malolos',
+            'latitude' => 14.8433,
+            'longitude' => 120.8114,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    62 =>
+        array (
+            'name' => 'Olongapo',
+            'latitude' => 14.83,
+            'longitude' => 120.28,
+            'province' => 'Zambales',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    63 =>
+        array (
+            'name' => 'Marilao',
+            'latitude' => 14.7581,
+            'longitude' => 120.9481,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    64 =>
+        array (
+            'name' => 'Tacloban',
+            'latitude' => 11.24,
+            'longitude' => 125.0,
+            'province' => 'Leyte',
+            'region' => 'Eastern Visayas (Region VIII)',
+        ),
+  65 =>
   array (
     'name' => 'Navotas',
     'latitude' => 14.6667,
@@ -529,95 +529,95 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  66 => 
-  array (
-    'name' => 'Ormoc',
-    'latitude' => 11.0106,
-    'longitude' => 124.6075,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  67 => 
-  array (
-    'name' => 'Meycauayan',
-    'latitude' => 14.73,
-    'longitude' => 120.95,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  68 => 
-  array (
-    'name' => 'Santo Tomas',
-    'latitude' => 14.08,
-    'longitude' => 121.18,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  69 => 
-  array (
-    'name' => 'Valencia',
-    'latitude' => 7.9042,
-    'longitude' => 125.0928,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  70 => 
-  array (
-    'name' => 'Trece Martires City',
-    'latitude' => 14.28,
-    'longitude' => 120.87,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  71 => 
-  array (
-    'name' => 'Pagadian',
-    'latitude' => 7.8272,
-    'longitude' => 123.4364,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  72 => 
-  array (
-    'name' => 'Legazpi City',
-    'latitude' => 13.13,
-    'longitude' => 123.73,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  73 => 
-  array (
-    'name' => 'Panabo',
-    'latitude' => 7.3,
-    'longitude' => 125.68,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  74 => 
-  array (
-    'name' => 'Toledo',
-    'latitude' => 10.38,
-    'longitude' => 123.65,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  75 => 
-  array (
-    'name' => 'Marawi City',
-    'latitude' => 8.0031,
-    'longitude' => 124.285,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  76 => 
-  array (
-    'name' => 'San Carlos City',
-    'latitude' => 15.9281,
-    'longitude' => 120.3489,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  77 => 
+    66 =>
+        array (
+            'name' => 'Ormoc',
+            'latitude' => 11.0106,
+            'longitude' => 124.6075,
+            'province' => 'Leyte',
+            'region' => 'Eastern Visayas (Region VIII)',
+        ),
+    67 =>
+        array (
+            'name' => 'Meycauayan',
+            'latitude' => 14.73,
+            'longitude' => 120.95,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    68 =>
+        array (
+            'name' => 'Santo Tomas',
+            'latitude' => 14.08,
+            'longitude' => 121.18,
+            'province' => 'Batangas',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    69 =>
+        array (
+            'name' => 'Valencia',
+            'latitude' => 7.9042,
+            'longitude' => 125.0928,
+            'province' => 'Bukidnon',
+            'region' => 'Northern Mindanao (Region X)',
+        ),
+    70 =>
+        array (
+            'name' => 'Trece Martires City',
+            'latitude' => 14.28,
+            'longitude' => 120.87,
+            'province' => 'Cavite',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    71 =>
+        array (
+            'name' => 'Pagadian',
+            'latitude' => 7.8272,
+            'longitude' => 123.4364,
+            'province' => 'Zamboanga del Sur',
+            'region' => 'Zamboanga Peninsula (Region IX)',
+        ),
+    72 =>
+        array (
+            'name' => 'Legazpi City',
+            'latitude' => 13.13,
+            'longitude' => 123.73,
+            'province' => 'Albay',
+            'region' => 'Bicol Region (Region V)',
+        ),
+    73 =>
+        array (
+            'name' => 'Panabo',
+            'latitude' => 7.3,
+            'longitude' => 125.68,
+            'province' => 'Davao del Norte',
+            'region' => 'Davao Region (Region XI)',
+        ),
+    74 =>
+        array (
+            'name' => 'Toledo',
+            'latitude' => 10.38,
+            'longitude' => 123.65,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    75 =>
+        array (
+            'name' => 'Marawi City',
+            'latitude' => 8.0031,
+            'longitude' => 124.285,
+            'province' => 'Lanao del Sur',
+            'region' => 'Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)',
+        ),
+    76 =>
+        array (
+            'name' => 'San Carlos City',
+            'latitude' => 15.9281,
+            'longitude' => 120.3489,
+            'province' => 'Pangasinan',
+            'region' => 'Ilocos Region (Region I)',
+        ),
+  77 =>
   array (
     'name' => 'Santa Ana',
     'latitude' => 14.58,
@@ -625,111 +625,111 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  78 => 
-  array (
-    'name' => 'Kabankalan',
-    'latitude' => 9.98,
-    'longitude' => 122.82,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  79 => 
-  array (
-    'name' => 'Koronadal',
-    'latitude' => 6.5,
-    'longitude' => 124.85,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  80 => 
-  array (
-    'name' => 'Tanauan',
-    'latitude' => 14.08,
-    'longitude' => 121.15,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  81 => 
-  array (
-    'name' => 'Bago',
-    'latitude' => 10.5388,
-    'longitude' => 122.8384,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  82 => 
-  array (
-    'name' => 'Malaybalay',
-    'latitude' => 8.1564,
-    'longitude' => 125.1333,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  83 => 
-  array (
-    'name' => 'Digos',
-    'latitude' => 6.75,
-    'longitude' => 125.35,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  84 => 
-  array (
-    'name' => 'Calbayog City',
-    'latitude' => 12.07,
-    'longitude' => 124.6,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  85 => 
-  array (
-    'name' => 'Sorsogon',
-    'latitude' => 12.9742,
-    'longitude' => 124.0058,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  86 => 
-  array (
-    'name' => 'Roxas City',
-    'latitude' => 11.5894,
-    'longitude' => 122.7511,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  87 => 
-  array (
-    'name' => 'Dagupan City',
-    'latitude' => 16.043,
-    'longitude' => 120.334,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  88 => 
-  array (
-    'name' => 'Lubao',
-    'latitude' => 14.93,
-    'longitude' => 120.6,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  89 => 
-  array (
-    'name' => 'Mexico',
-    'latitude' => 15.07,
-    'longitude' => 120.72,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  90 => 
-  array (
-    'name' => 'Polomolok',
-    'latitude' => 6.22,
-    'longitude' => 125.07,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  91 => 
+    78 =>
+        array (
+            'name' => 'Kabankalan',
+            'latitude' => 9.98,
+            'longitude' => 122.82,
+            'province' => 'Negros Occidental',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    79 =>
+        array (
+            'name' => 'Koronadal',
+            'latitude' => 6.5,
+            'longitude' => 124.85,
+            'province' => 'South Cotabato',
+            'region' => 'SOCCSKSARGEN (Region XII)',
+        ),
+    80 =>
+        array (
+            'name' => 'Tanauan',
+            'latitude' => 14.08,
+            'longitude' => 121.15,
+            'province' => 'Batangas',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    81 =>
+        array (
+            'name' => 'Bago',
+            'latitude' => 10.5388,
+            'longitude' => 122.8384,
+            'province' => 'Negros Occidental',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    82 =>
+        array (
+            'name' => 'Malaybalay',
+            'latitude' => 8.1564,
+            'longitude' => 125.1333,
+            'province' => 'Bukidnon',
+            'region' => 'Northern Mindanao (Region X)',
+        ),
+    83 =>
+        array (
+            'name' => 'Digos',
+            'latitude' => 6.75,
+            'longitude' => 125.35,
+            'province' => 'Davao del Sur',
+            'region' => 'Davao Region (Region XI)',
+        ),
+    84 =>
+        array (
+            'name' => 'Calbayog City',
+            'latitude' => 12.07,
+            'longitude' => 124.6,
+            'province' => 'Samar',
+            'region' => 'Eastern Visayas (Region VIII)',
+        ),
+    85 =>
+        array (
+            'name' => 'Sorsogon',
+            'latitude' => 12.9742,
+            'longitude' => 124.0058,
+            'province' => 'Sorsogon',
+            'region' => 'Bicol Region (Region V)',
+        ),
+    86 =>
+        array (
+            'name' => 'Roxas City',
+            'latitude' => 11.5894,
+            'longitude' => 122.7511,
+            'province' => 'Capiz',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    87 =>
+        array (
+            'name' => 'Dagupan City',
+            'latitude' => 16.043,
+            'longitude' => 120.334,
+            'province' => 'Pangasinan',
+            'region' => 'Ilocos Region (Region I)',
+        ),
+    88 =>
+        array (
+            'name' => 'Lubao',
+            'latitude' => 14.93,
+            'longitude' => 120.6,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    89 =>
+        array (
+            'name' => 'Mexico',
+            'latitude' => 15.07,
+            'longitude' => 120.72,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    90 =>
+        array (
+            'name' => 'Polomolok',
+            'latitude' => 6.22,
+            'longitude' => 125.07,
+            'province' => 'South Cotabato',
+            'region' => 'SOCCSKSARGEN (Region XII)',
+        ),
+  91 =>
   array (
     'name' => 'General Mariano Alvarez',
     'latitude' => 14.3,
@@ -737,119 +737,119 @@ return array (
     'province' => 'Cavite',
     'region' => 'IV-A (CALABARZON)',
   ),
-  92 => 
-  array (
-    'name' => 'San Miguel',
-    'latitude' => 15.1458,
-    'longitude' => 120.9783,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  93 => 
-  array (
-    'name' => 'Surigao',
-    'latitude' => 9.7897,
-    'longitude' => 125.4958,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  94 => 
-  array (
-    'name' => 'Concepcion',
-    'latitude' => 15.3249,
-    'longitude' => 120.6554,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  95 => 
-  array (
-    'name' => 'Baliuag',
-    'latitude' => 14.954,
-    'longitude' => 120.901,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  96 => 
-  array (
-    'name' => 'Tuguegarao',
-    'latitude' => 17.6133,
-    'longitude' => 121.7303,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  97 => 
-  array (
-    'name' => 'Sariaya',
-    'latitude' => 13.97,
-    'longitude' => 121.53,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  98 => 
-  array (
-    'name' => 'Naic',
-    'latitude' => 14.32,
-    'longitude' => 120.77,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  99 => 
-  array (
-    'name' => 'Kidapawan',
-    'latitude' => 7.0083,
-    'longitude' => 125.0894,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  100 => 
-  array (
-    'name' => 'Cadiz',
-    'latitude' => 10.95,
-    'longitude' => 123.3,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  101 => 
-  array (
-    'name' => 'Ilagan',
-    'latitude' => 17.1489,
-    'longitude' => 121.8894,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  102 => 
-  array (
-    'name' => 'Danao',
-    'latitude' => 10.53,
-    'longitude' => 123.93,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  103 => 
-  array (
-    'name' => 'Capas',
-    'latitude' => 15.3372,
-    'longitude' => 120.59,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  104 => 
-  array (
-    'name' => 'Pandi',
-    'latitude' => 14.87,
-    'longitude' => 120.95,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  105 => 
-  array (
-    'name' => 'San Jose',
-    'latitude' => 12.3528,
-    'longitude' => 121.0676,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  106 => 
+    92 =>
+        array (
+            'name' => 'San Miguel',
+            'latitude' => 15.1458,
+            'longitude' => 120.9783,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    93 =>
+        array (
+            'name' => 'Surigao',
+            'latitude' => 9.7897,
+            'longitude' => 125.4958,
+            'province' => 'Surigao del Norte',
+            'region' => 'Caraga Region (Region XIII)',
+        ),
+    94 =>
+        array (
+            'name' => 'Concepcion',
+            'latitude' => 15.3249,
+            'longitude' => 120.6554,
+            'province' => 'Tarlac',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    95 =>
+        array (
+            'name' => 'Baliuag',
+            'latitude' => 14.954,
+            'longitude' => 120.901,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    96 =>
+        array (
+            'name' => 'Tuguegarao',
+            'latitude' => 17.6133,
+            'longitude' => 121.7303,
+            'province' => 'Cagayan',
+            'region' => 'Cagayan Valley (Region II)',
+        ),
+    97 =>
+        array (
+            'name' => 'Sariaya',
+            'latitude' => 13.97,
+            'longitude' => 121.53,
+            'province' => 'Quezon',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    98 =>
+        array (
+            'name' => 'Naic',
+            'latitude' => 14.32,
+            'longitude' => 120.77,
+            'province' => 'Cavite',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    99 =>
+        array (
+            'name' => 'Kidapawan',
+            'latitude' => 7.0083,
+            'longitude' => 125.0894,
+            'province' => 'Cotabato',
+            'region' => 'SOCCSKSARGEN (Region XII)',
+        ),
+    100 =>
+        array (
+            'name' => 'Cadiz',
+            'latitude' => 10.95,
+            'longitude' => 123.3,
+            'province' => 'Negros Occidental',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    101 =>
+        array (
+            'name' => 'Ilagan',
+            'latitude' => 17.1489,
+            'longitude' => 121.8894,
+            'province' => 'Isabela',
+            'region' => 'Cagayan Valley (Region II)',
+        ),
+    102 =>
+        array (
+            'name' => 'Danao',
+            'latitude' => 10.53,
+            'longitude' => 123.93,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    103 =>
+        array (
+            'name' => 'Capas',
+            'latitude' => 15.3372,
+            'longitude' => 120.59,
+            'province' => 'Tarlac',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    104 =>
+        array (
+            'name' => 'Pandi',
+            'latitude' => 14.87,
+            'longitude' => 120.95,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    105 =>
+        array (
+            'name' => 'San Jose',
+            'latitude' => 12.3528,
+            'longitude' => 121.0676,
+            'province' => 'Occidental Mindoro',
+            'region' => 'MIMAROPA (Region IV-B)',
+        ),
+  106 =>
   array (
     'name' => 'Poblacion',
     'latitude' => 10.42,
@@ -857,143 +857,143 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  107 => 
-  array (
-    'name' => 'Minglanilla',
-    'latitude' => 10.245,
-    'longitude' => 123.7964,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  108 => 
-  array (
-    'name' => 'San Jose',
-    'latitude' => 15.8037,
-    'longitude' => 120.9991,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  109 => 
-  array (
-    'name' => 'Mariveles',
-    'latitude' => 14.43,
-    'longitude' => 120.48,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  110 => 
-  array (
-    'name' => 'Sagay',
-    'latitude' => 10.9,
-    'longitude' => 123.42,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  111 => 
-  array (
-    'name' => 'Santiago',
-    'latitude' => 16.68,
-    'longitude' => 121.55,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  112 => 
-  array (
-    'name' => 'Consolacion',
-    'latitude' => 10.4,
-    'longitude' => 123.95,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  113 => 
-  array (
-    'name' => 'Mati',
-    'latitude' => 6.9483,
-    'longitude' => 126.2272,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  114 => 
-  array (
-    'name' => 'Calapan',
-    'latitude' => 13.414,
-    'longitude' => 121.18,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  115 => 
-  array (
-    'name' => 'Calapan',
-    'latitude' => 13.414,
-    'longitude' => 121.18,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  116 => 
-  array (
-    'name' => 'Arayat',
-    'latitude' => 15.1493,
-    'longitude' => 120.7692,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  117 => 
-  array (
-    'name' => 'Urdaneta',
-    'latitude' => 15.9761,
-    'longitude' => 120.5711,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  118 => 
-  array (
-    'name' => 'Calabayan',
-    'latitude' => 16.77,
-    'longitude' => 121.78,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  119 => 
-  array (
-    'name' => 'Malasiqui',
-    'latitude' => 15.92,
-    'longitude' => 120.42,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  120 => 
-  array (
-    'name' => 'Bocaue',
-    'latitude' => 14.8,
-    'longitude' => 120.93,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  121 => 
-  array (
-    'name' => 'Tabaco',
-    'latitude' => 13.35,
-    'longitude' => 123.73,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  122 => 
-  array (
-    'name' => 'Porac',
-    'latitude' => 15.0719,
-    'longitude' => 120.5419,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  123 => 
-  array (
-    'name' => 'Ozamiz City',
-    'latitude' => 8.15,
-    'longitude' => 123.85,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  124 => 
+    107 =>
+        array (
+            'name' => 'Minglanilla',
+            'latitude' => 10.245,
+            'longitude' => 123.7964,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    108 =>
+        array (
+            'name' => 'San Jose',
+            'latitude' => 15.8037,
+            'longitude' => 120.9991,
+            'province' => 'Nueva Ecija',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    109 =>
+        array (
+            'name' => 'Mariveles',
+            'latitude' => 14.43,
+            'longitude' => 120.48,
+            'province' => 'Bataan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    110 =>
+        array (
+            'name' => 'Sagay',
+            'latitude' => 10.9,
+            'longitude' => 123.42,
+            'province' => 'Negros Occidental',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    111 =>
+        array (
+            'name' => 'Santiago',
+            'latitude' => 16.68,
+            'longitude' => 121.55,
+            'province' => 'Isabela',
+            'region' => 'Cagayan Valley (Region II)',
+        ),
+    112 =>
+        array (
+            'name' => 'Consolacion',
+            'latitude' => 10.4,
+            'longitude' => 123.95,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    113 =>
+        array (
+            'name' => 'Mati',
+            'latitude' => 6.9483,
+            'longitude' => 126.2272,
+            'province' => 'Davao Oriental',
+            'region' => 'Davao Region (Region XI)',
+        ),
+    114 =>
+        array (
+            'name' => 'Calapan',
+            'latitude' => 13.414,
+            'longitude' => 121.18,
+            'province' => 'Oriental Mindoro',
+            'region' => 'MIMAROPA (Region IV-B)',
+        ),
+    115 =>
+        array (
+            'name' => 'Calapan',
+            'latitude' => 13.414,
+            'longitude' => 121.18,
+            'province' => 'Oriental Mindoro',
+            'region' => 'MIMAROPA (Region IV-B)',
+        ),
+    116 =>
+        array (
+            'name' => 'Arayat',
+            'latitude' => 15.1493,
+            'longitude' => 120.7692,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    117 =>
+        array (
+            'name' => 'Urdaneta',
+            'latitude' => 15.9761,
+            'longitude' => 120.5711,
+            'province' => 'Pangasinan',
+            'region' => 'Ilocos Region (Region I)',
+        ),
+    118 =>
+        array (
+            'name' => 'Calabayan',
+            'latitude' => 16.77,
+            'longitude' => 121.78,
+            'province' => 'Isabela',
+            'region' => 'Cagayan Valley (Region II)',
+        ),
+    119 =>
+        array (
+            'name' => 'Malasiqui',
+            'latitude' => 15.92,
+            'longitude' => 120.42,
+            'province' => 'Pangasinan',
+            'region' => 'Ilocos Region (Region I)',
+        ),
+    120 =>
+        array (
+            'name' => 'Bocaue',
+            'latitude' => 14.8,
+            'longitude' => 120.93,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    121 =>
+        array (
+            'name' => 'Tabaco',
+            'latitude' => 13.35,
+            'longitude' => 123.73,
+            'province' => 'Albay',
+            'region' => 'Bicol Region (Region V)',
+        ),
+    122 =>
+        array (
+            'name' => 'Porac',
+            'latitude' => 15.0719,
+            'longitude' => 120.5419,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    123 =>
+        array (
+            'name' => 'Ozamiz City',
+            'latitude' => 8.15,
+            'longitude' => 123.85,
+            'province' => 'Misamis Occidental',
+            'region' => 'Northern Mindanao (Region X)',
+        ),
+  124 =>
   array (
     'name' => 'Payatas',
     'latitude' => 14.7099,
@@ -1001,103 +1001,103 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  125 => 
-  array (
-    'name' => 'Tanay',
-    'latitude' => 14.4972,
-    'longitude' => 121.2864,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  126 => 
-  array (
-    'name' => 'Dipolog',
-    'latitude' => 8.5872,
-    'longitude' => 123.3408,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  127 => 
-  array (
-    'name' => 'Candelaria',
-    'latitude' => 13.9311,
-    'longitude' => 121.4233,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  128 => 
-  array (
-    'name' => 'La Trinidad',
-    'latitude' => 16.46,
-    'longitude' => 120.59,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  129 => 
-  array (
-    'name' => 'Jolo',
-    'latitude' => 6.0,
-    'longitude' => 121.0,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  130 => 
-  array (
-    'name' => 'Gingoog',
-    'latitude' => 8.82,
-    'longitude' => 125.1,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  131 => 
-  array (
-    'name' => 'Nasugbu',
-    'latitude' => 14.07,
-    'longitude' => 120.63,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  132 => 
-  array (
-    'name' => 'Carcar',
-    'latitude' => 10.12,
-    'longitude' => 123.63,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  133 => 
-  array (
-    'name' => 'Norzagaray',
-    'latitude' => 14.92,
-    'longitude' => 121.05,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  134 => 
-  array (
-    'name' => 'Floridablanca',
-    'latitude' => 14.974,
-    'longitude' => 120.528,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  135 => 
-  array (
-    'name' => 'Dumaguete City',
-    'latitude' => 9.3103,
-    'longitude' => 123.3081,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  136 => 
-  array (
-    'name' => 'Daraga',
-    'latitude' => 13.1619,
-    'longitude' => 123.6939,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  137 => 
+    125 =>
+        array (
+            'name' => 'Tanay',
+            'latitude' => 14.4972,
+            'longitude' => 121.2864,
+            'province' => 'Rizal',
+            'region' => 'Calabarzon (Region IV-A)',
+        ),
+    126 =>
+        array (
+            'name' => 'Dipolog',
+            'latitude' => 8.5872,
+            'longitude' => 123.3408,
+            'province' => 'Zamboanga del Norte',
+            'region' => 'Zamboanga Peninsula (Region IX)',
+        ),
+    127 =>
+        array (
+            'name' => 'Candelaria',
+            'latitude' => 13.9311,
+            'longitude' => 121.4233,
+            'province' => 'Quezon',
+            'region' => 'Calabarzon (Region IV-A)',
+        ),
+    128 =>
+        array (
+            'name' => 'La Trinidad',
+            'latitude' => 16.46,
+            'longitude' => 120.59,
+            'province' => 'Benguet',
+            'region' => 'Cordillera Administrative Region (CAR)',
+        ),
+    129 =>
+        array (
+            'name' => 'Jolo',
+            'latitude' => 6.0,
+            'longitude' => 121.0,
+            'province' => 'Sulu',
+            'region' => 'Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)',
+        ),
+    130 =>
+        array (
+            'name' => 'Gingoog',
+            'latitude' => 8.82,
+            'longitude' => 125.1,
+            'province' => 'Misamis Oriental',
+            'region' => 'Northern Mindanao (Region X)',
+        ),
+    131 =>
+        array (
+            'name' => 'Nasugbu',
+            'latitude' => 14.07,
+            'longitude' => 120.63,
+            'province' => 'Batangas',
+            'region' => 'Calabarzon (Region IV-A)',
+        ),
+    132 =>
+        array (
+            'name' => 'Carcar',
+            'latitude' => 10.12,
+            'longitude' => 123.63,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    133 =>
+        array (
+            'name' => 'Norzagaray',
+            'latitude' => 14.92,
+            'longitude' => 121.05,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    134 =>
+        array (
+            'name' => 'Floridablanca',
+            'latitude' => 14.974,
+            'longitude' => 120.528,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    135 =>
+        array (
+            'name' => 'Dumaguete City',
+            'latitude' => 9.3103,
+            'longitude' => 123.3081,
+            'province' => 'Negros Oriental',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    136 =>
+        array (
+            'name' => 'Daraga',
+            'latitude' => 13.1619,
+            'longitude' => 123.6939,
+            'province' => 'Albay',
+            'region' => 'Bicol Region (Region V)',
+        ),
+  137 =>
   array (
     'name' => 'San Andres',
     'latitude' => 14.5739,
@@ -1105,87 +1105,87 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  138 => 
-  array (
-    'name' => 'Hagonoy',
-    'latitude' => 14.83,
-    'longitude' => 120.73,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  139 => 
-  array (
-    'name' => 'Naga',
-    'latitude' => 10.22,
-    'longitude' => 123.75,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  140 => 
-  array (
-    'name' => 'San Carlos',
-    'latitude' => 10.4929,
-    'longitude' => 123.4095,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  141 => 
-  array (
-    'name' => 'Talavera',
-    'latitude' => 15.5839,
-    'longitude' => 120.9189,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  142 => 
-  array (
-    'name' => 'Angono',
-    'latitude' => 14.5234,
-    'longitude' => 121.1536,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  143 => 
-  array (
-    'name' => 'Silay',
-    'latitude' => 10.8,
-    'longitude' => 122.97,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  144 => 
-  array (
-    'name' => 'City of Isabela',
-    'latitude' => 6.7,
-    'longitude' => 121.97,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  145 => 
-  array (
-    'name' => 'Bamban',
-    'latitude' => 15.2742,
-    'longitude' => 120.5669,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  146 => 
-  array (
-    'name' => 'Guagua',
-    'latitude' => 14.97,
-    'longitude' => 120.63,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  147 => 
-  array (
-    'name' => 'Santo Tomas',
-    'latitude' => 7.53,
-    'longitude' => 125.62,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  148 => 
+    138 =>
+        array (
+            'name' => 'Hagonoy',
+            'latitude' => 14.83,
+            'longitude' => 120.73,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    139 =>
+        array (
+            'name' => 'Naga',
+            'latitude' => 10.22,
+            'longitude' => 123.75,
+            'province' => 'Cebu',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    140 =>
+        array (
+            'name' => 'San Carlos',
+            'latitude' => 10.4929,
+            'longitude' => 123.4095,
+            'province' => 'Negros Occidental',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    141 =>
+        array (
+            'name' => 'Talavera',
+            'latitude' => 15.5839,
+            'longitude' => 120.9189,
+            'province' => 'Nueva Ecija',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    142 =>
+        array (
+            'name' => 'Angono',
+            'latitude' => 14.5234,
+            'longitude' => 121.1536,
+            'province' => 'Rizal',
+            'region' => 'Calabarzon (Region IV-A)',
+        ),
+    143 =>
+        array (
+            'name' => 'Silay',
+            'latitude' => 10.8,
+            'longitude' => 122.97,
+            'province' => 'Negros Occidental',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    144 =>
+        array (
+            'name' => 'City of Isabela',
+            'latitude' => 6.7,
+            'longitude' => 121.97,
+            'province' => 'Basilan',
+            'region' => 'Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)',
+        ),
+    145 =>
+        array (
+            'name' => 'Bamban',
+            'latitude' => 15.2742,
+            'longitude' => 120.5669,
+            'province' => 'Tarlac',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    146 =>
+        array (
+            'name' => 'Guagua',
+            'latitude' => 14.97,
+            'longitude' => 120.63,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    147 =>
+        array (
+            'name' => 'Santo Tomas',
+            'latitude' => 7.53,
+            'longitude' => 125.62,
+            'province' => 'Davao del Norte',
+            'region' => 'Davao Region (Region XI)',
+        ),
+  148 =>
   array (
     'name' => 'Rosario',
     'latitude' => 13.846,
@@ -1193,15 +1193,15 @@ return array (
     'province' => 'Cavite',
     'region' => 'IV-A (CALABARZON)',
   ),
-  149 => 
-  array (
-    'name' => 'Guimba',
-    'latitude' => 15.6606,
-    'longitude' => 120.765,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  150 => 
+    149 =>
+        array (
+            'name' => 'Guimba',
+            'latitude' => 15.6606,
+            'longitude' => 120.765,
+            'province' => 'Nueva Ecija',
+            'region' => 'Central Luzon (Region III)',
+        ),
+  150 =>
   array (
     'name' => 'Santa Cruz',
     'latitude' => 14.5998,
@@ -1209,7 +1209,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  151 => 
+  151 =>
   array (
     'name' => 'San Juan',
     'latitude' => 14.604,
@@ -1217,271 +1217,271 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  152 => 
-  array (
-    'name' => 'San Fernando',
-    'latitude' => 16.62,
-    'longitude' => 120.32,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  153 => 
-  array (
-    'name' => 'Magalang',
-    'latitude' => 15.22,
-    'longitude' => 120.67,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  154 => 
-  array (
-    'name' => 'Santa Cruz',
-    'latitude' => 14.28,
-    'longitude' => 121.42,
-    'province' => 'Metro Manila',
-    'region' => 'NCR',
-  ),
-  155 => 
-  array (
-    'name' => 'Gapan',
-    'latitude' => 15.3122,
-    'longitude' => 120.9489,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  156 => 
-  array (
-    'name' => 'Bayawan',
-    'latitude' => 9.37,
-    'longitude' => 122.8,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  157 => 
-  array (
-    'name' => 'Tabuk',
-    'latitude' => 17.4069,
-    'longitude' => 121.4425,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  158 => 
-  array (
-    'name' => 'Poblacion',
-    'latitude' => 14.3854,
-    'longitude' => 121.029,
-    'province' => 'Metro Manila',
-    'region' => 'NCR',
-  ),
-  159 => 
-  array (
-    'name' => 'Candaba',
-    'latitude' => 15.0933,
-    'longitude' => 120.8283,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  160 => 
-  array (
-    'name' => 'Calumpit',
-    'latitude' => 14.92,
-    'longitude' => 120.77,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  161 => 
-  array (
-    'name' => 'Dinalupihan',
-    'latitude' => 14.88,
-    'longitude' => 120.47,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  162 => 
-  array (
-    'name' => 'Malita',
-    'latitude' => 6.4108,
-    'longitude' => 125.6144,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  163 => 
-  array (
-    'name' => 'Ligao',
-    'latitude' => 13.22,
-    'longitude' => 123.52,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  164 => 
-  array (
-    'name' => 'Midsayap',
-    'latitude' => 7.19,
-    'longitude' => 124.53,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  165 => 
-  array (
-    'name' => 'Apalit',
-    'latitude' => 14.9496,
-    'longitude' => 120.7587,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  166 => 
-  array (
-    'name' => 'Samal',
-    'latitude' => 7.05,
-    'longitude' => 125.73,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  167 => 
-  array (
-    'name' => 'Datu Odin Sinsuat',
-    'latitude' => 7.1889,
-    'longitude' => 124.1839,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  168 => 
-  array (
-    'name' => 'Himamaylan',
-    'latitude' => 10.1,
-    'longitude' => 122.87,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  169 => 
-  array (
-    'name' => 'Bongao',
-    'latitude' => 5.0292,
-    'longitude' => 119.7731,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  170 => 
-  array (
-    'name' => 'San Ildefonso',
-    'latitude' => 15.0789,
-    'longitude' => 120.9419,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  171 => 
-  array (
-    'name' => 'Los Banos',
-    'latitude' => 14.17,
-    'longitude' => 121.22,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  172 => 
-  array (
-    'name' => 'Iriga City',
-    'latitude' => 13.4231,
-    'longitude' => 123.4122,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  173 => 
-  array (
-    'name' => 'Plaridel',
-    'latitude' => 14.8869,
-    'longitude' => 120.8569,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  174 => 
-  array (
-    'name' => 'San Juan',
-    'latitude' => 13.826,
-    'longitude' => 121.396,
-    'province' => 'Metro Manila',
-    'region' => 'NCR',
-  ),
-  175 => 
-  array (
-    'name' => 'Guiguinto',
-    'latitude' => 14.83,
-    'longitude' => 120.88,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  176 => 
-  array (
-    'name' => 'Manolo Fortich',
-    'latitude' => 8.3675,
-    'longitude' => 124.8656,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  177 => 
-  array (
-    'name' => 'Mangaldan',
-    'latitude' => 16.07,
-    'longitude' => 120.4039,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  178 => 
-  array (
-    'name' => 'Libmanan',
-    'latitude' => 13.6964,
-    'longitude' => 123.06,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  179 => 
-  array (
-    'name' => 'Tayabas',
-    'latitude' => 14.02,
-    'longitude' => 121.58,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  180 => 
-  array (
-    'name' => 'Subic',
-    'latitude' => 14.8769,
-    'longitude' => 120.2328,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  181 => 
-  array (
-    'name' => 'Baybay',
-    'latitude' => 10.68,
-    'longitude' => 124.8,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  182 => 
-  array (
-    'name' => 'Daet',
-    'latitude' => 14.1142,
-    'longitude' => 122.9564,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  183 => 
-  array (
-    'name' => 'Laoag',
-    'latitude' => 18.1978,
-    'longitude' => 120.5936,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
-  ),
-  184 => 
-  array (
-    'name' => 'Santamesa',
-    'latitude' => 14.6,
-    'longitude' => 121.0167,
-    'province' => 'Metro Manila',
-    'region' => 'NCR',
-  ),
-  185 => 
+    152 =>
+        array (
+            'name' => 'San Fernando',
+            'latitude' => 16.62,
+            'longitude' => 120.32,
+            'province' => 'La Union',
+            'region' => 'Ilocos Region (Region I)',
+        ),
+    153 =>
+        array (
+            'name' => 'Magalang',
+            'latitude' => 15.22,
+            'longitude' => 120.67,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    154 =>
+        array (
+            'name' => 'Santa Cruz',
+            'latitude' => 14.28,
+            'longitude' => 121.42,
+            'province' => 'Laguna',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    155 =>
+        array (
+            'name' => 'Gapan',
+            'latitude' => 15.3122,
+            'longitude' => 120.9489,
+            'province' => 'Nueva Ecija',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    156 =>
+        array (
+            'name' => 'Bayawan',
+            'latitude' => 9.37,
+            'longitude' => 122.8,
+            'province' => 'Negros Oriental',
+            'region' => 'Central Visayas (Region VII)',
+        ),
+    157 =>
+        array (
+            'name' => 'Tabuk',
+            'latitude' => 17.4069,
+            'longitude' => 121.4425,
+            'province' => 'Kalinga',
+            'region' => 'Cordillera Administrative Region (CAR)',
+        ),
+    158 =>
+        array (
+            'name' => 'Poblacion',
+            'latitude' => 14.3854,
+            'longitude' => 121.029,
+            'province' => 'Metro Manila',
+            'region' => 'NCR (National Capital Region)',
+        ),
+    159 =>
+        array (
+            'name' => 'Candaba',
+            'latitude' => 15.0933,
+            'longitude' => 120.8283,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    160 =>
+        array (
+            'name' => 'Calumpit',
+            'latitude' => 14.92,
+            'longitude' => 120.77,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    161 =>
+        array (
+            'name' => 'Dinalupihan',
+            'latitude' => 14.88,
+            'longitude' => 120.47,
+            'province' => 'Bataan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    162 =>
+        array (
+            'name' => 'Malita',
+            'latitude' => 6.4108,
+            'longitude' => 125.6144,
+            'province' => 'Davao Occidental',
+            'region' => 'Davao Region (Region XI)',
+        ),
+    163 =>
+        array (
+            'name' => 'Ligao',
+            'latitude' => 13.22,
+            'longitude' => 123.52,
+            'province' => 'Albay',
+            'region' => 'Bicol Region (Region V)',
+        ),
+    164 =>
+        array (
+            'name' => 'Midsayap',
+            'latitude' => 7.19,
+            'longitude' => 124.53,
+            'province' => 'Cotabato',
+            'region' => 'SOCCSKSARGEN (Region XII)',
+        ),
+    165 =>
+        array (
+            'name' => 'Apalit',
+            'latitude' => 14.9496,
+            'longitude' => 120.7587,
+            'province' => 'Pampanga',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    166 =>
+        array (
+            'name' => 'Samal',
+            'latitude' => 7.05,
+            'longitude' => 125.73,
+            'province' => 'Davao del Norte',
+            'region' => 'Davao Region (Region XI)',
+        ),
+    167 =>
+        array (
+            'name' => 'Datu Odin Sinsuat',
+            'latitude' => 7.1889,
+            'longitude' => 124.1839,
+            'province' => 'Maguindanao',
+            'region' => 'Bangsamoro Autonomous Region in Muslim Mindanao (BARMM)',
+        ),
+    168 =>
+        array (
+            'name' => 'Himamaylan',
+            'latitude' => 10.1,
+            'longitude' => 122.87,
+            'province' => 'Negros Occidental',
+            'region' => 'Western Visayas (Region VI)',
+        ),
+    169 =>
+        array (
+            'name' => 'Bongao',
+            'latitude' => 5.0292,
+            'longitude' => 119.7731,
+            'province' => 'Tawi-Tawi',
+            'region' => 'Autonomous Region in Muslim Mindanao (ARMM)',
+        ),
+    170 =>
+        array (
+            'name' => 'San Ildefonso',
+            'latitude' => 15.0789,
+            'longitude' => 120.9419,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    171 =>
+        array (
+            'name' => 'Los Banos',
+            'latitude' => 14.17,
+            'longitude' => 121.22,
+            'province' => 'Laguna',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    172 =>
+        array (
+            'name' => 'Iriga City',
+            'latitude' => 13.4231,
+            'longitude' => 123.4122,
+            'province' => 'Camarines Sur',
+            'region' => 'Bicol Region (Region V)',
+        ),
+    173 =>
+        array (
+            'name' => 'Plaridel',
+            'latitude' => 14.8869,
+            'longitude' => 120.8569,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    174 =>
+        array (
+            'name' => 'San Juan',
+            'latitude' => 13.826,
+            'longitude' => 121.396,
+            'province' => 'Metro Manila',
+            'region' => 'NCR (National Capital Region)',
+        ),
+    175 =>
+        array (
+            'name' => 'Guiguinto',
+            'latitude' => 14.83,
+            'longitude' => 120.88,
+            'province' => 'Bulacan',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    176 =>
+        array (
+            'name' => 'Manolo Fortich',
+            'latitude' => 8.3675,
+            'longitude' => 124.8656,
+            'province' => 'Bukidnon',
+            'region' => 'Northern Mindanao (Region X)',
+        ),
+    177 =>
+        array (
+            'name' => 'Mangaldan',
+            'latitude' => 16.07,
+            'longitude' => 120.4039,
+            'province' => 'Pangasinan',
+            'region' => 'Ilocos Region (Region I)',
+        ),
+    178 =>
+        array (
+            'name' => 'Libmanan',
+            'latitude' => 13.6964,
+            'longitude' => 123.06,
+            'province' => 'Camarines Sur',
+            'region' => 'Bicol Region (Region V)',
+        ),
+    179 =>
+        array (
+            'name' => 'Tayabas',
+            'latitude' => 14.02,
+            'longitude' => 121.58,
+            'province' => 'Quezon',
+            'region' => 'CALABARZON (Region IV-A)',
+        ),
+    180 =>
+        array (
+            'name' => 'Subic',
+            'latitude' => 14.8769,
+            'longitude' => 120.2328,
+            'province' => 'Zambales',
+            'region' => 'Central Luzon (Region III)',
+        ),
+    181 =>
+        array (
+            'name' => 'Baybay',
+            'latitude' => 10.68,
+            'longitude' => 124.8,
+            'province' => 'Leyte',
+            'region' => 'Eastern Visayas (Region VIII)',
+        ),
+    182 =>
+        array (
+            'name' => 'Daet',
+            'latitude' => 14.1142,
+            'longitude' => 122.9564,
+            'province' => 'Camarines Norte',
+            'region' => 'Bicol Region (Region V)',
+        ),
+    183 =>
+        array (
+            'name' => 'Laoag',
+            'latitude' => 18.1978,
+            'longitude' => 120.5936,
+            'province' => 'Ilocos Norte',
+            'region' => 'Ilocos Region (Region I)',
+        ),
+    184 =>
+        array (
+            'name' => 'Santamesa',
+            'latitude' => 14.6,
+            'longitude' => 121.0167,
+            'province' => 'Metro Manila',
+            'region' => 'NCR (National Capital Region)',
+        ),
+    185 =>
   array (
     'name' => 'Rosario',
     'latitude' => 14.42,
@@ -1489,7 +1489,7 @@ return array (
     'province' => 'Cavite',
     'region' => 'IV-A (CALABARZON)',
   ),
-  186 => 
+  186 =>
   array (
     'name' => 'Quezon',
     'latitude' => 7.7306,
@@ -1497,7 +1497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  187 => 
+  187 =>
   array (
     'name' => 'Naujan',
     'latitude' => 13.3233,
@@ -1505,7 +1505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  188 => 
+  188 =>
   array (
     'name' => 'Glan',
     'latitude' => 5.82,
@@ -1513,7 +1513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  189 => 
+  189 =>
   array (
     'name' => 'Bayugan',
     'latitude' => 8.71,
@@ -1521,7 +1521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  190 => 
+  190 =>
   array (
     'name' => 'Tacurong',
     'latitude' => 6.68,
@@ -1529,7 +1529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  191 => 
+  191 =>
   array (
     'name' => 'Labo',
     'latitude' => 14.1561,
@@ -1537,7 +1537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  192 => 
+  192 =>
   array (
     'name' => 'Talisay',
     'latitude' => 10.73,
@@ -1545,7 +1545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  193 => 
+  193 =>
   array (
     'name' => 'Pulilan',
     'latitude' => 14.902,
@@ -1553,7 +1553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  194 => 
+  194 =>
   array (
     'name' => 'Cawayan',
     'latitude' => 9.97,
@@ -1561,7 +1561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  195 => 
+  195 =>
   array (
     'name' => 'Maramag',
     'latitude' => 7.7631,
@@ -1569,7 +1569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  196 => 
+  196 =>
   array (
     'name' => 'Lingayen',
     'latitude' => 16.0167,
@@ -1577,7 +1577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  197 => 
+  197 =>
   array (
     'name' => 'Kawit',
     'latitude' => 14.43,
@@ -1585,7 +1585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  198 => 
+  198 =>
   array (
     'name' => 'Bagong Silangan',
     'latitude' => 14.7094,
@@ -1593,7 +1593,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  199 => 
+  199 =>
   array (
     'name' => 'Catbalogan',
     'latitude' => 11.78,
@@ -1601,7 +1601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  200 => 
+  200 =>
   array (
     'name' => 'Tiaong',
     'latitude' => 13.95,
@@ -1609,7 +1609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  201 => 
+  201 =>
   array (
     'name' => 'Carmona',
     'latitude' => 14.32,
@@ -1617,7 +1617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  202 => 
+  202 =>
   array (
     'name' => 'Malungun',
     'latitude' => 6.27,
@@ -1625,7 +1625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  203 => 
+  203 =>
   array (
     'name' => 'Bulan',
     'latitude' => 12.6697,
@@ -1633,7 +1633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  204 => 
+  204 =>
   array (
     'name' => 'Sultan Kudarat',
     'latitude' => 7.23,
@@ -1641,7 +1641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  205 => 
+  205 =>
   array (
     'name' => 'Tagbilaran City',
     'latitude' => 9.65,
@@ -1649,7 +1649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  206 => 
+  206 =>
   array (
     'name' => 'Masbate',
     'latitude' => 12.27,
@@ -1657,7 +1657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  207 => 
+  207 =>
   array (
     'name' => 'Balanga',
     'latitude' => 14.68,
@@ -1665,7 +1665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  208 => 
+  208 =>
   array (
     'name' => 'Sindangan',
     'latitude' => 8.2386,
@@ -1673,7 +1673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  209 => 
+  209 =>
   array (
     'name' => 'San Rafael',
     'latitude' => 14.95,
@@ -1681,7 +1681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  210 => 
+  210 =>
   array (
     'name' => 'Paniqui',
     'latitude' => 15.6681,
@@ -1689,7 +1689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  211 => 
+  211 =>
   array (
     'name' => 'Parang',
     'latitude' => 7.3744,
@@ -1697,7 +1697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  212 => 
+  212 =>
   array (
     'name' => 'Guihulngan',
     'latitude' => 10.12,
@@ -1705,7 +1705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  213 => 
+  213 =>
   array (
     'name' => 'Santa Cruz',
     'latitude' => 6.83,
@@ -1713,7 +1713,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  214 => 
+  214 =>
   array (
     'name' => 'Cavite City',
     'latitude' => 14.48,
@@ -1721,7 +1721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  215 => 
+  215 =>
   array (
     'name' => 'Calasiao',
     'latitude' => 16.02,
@@ -1729,7 +1729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  216 => 
+  216 =>
   array (
     'name' => 'Lamitan',
     'latitude' => 6.65,
@@ -1737,7 +1737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  217 => 
+  217 =>
   array (
     'name' => 'Talipao',
     'latitude' => 5.976,
@@ -1745,7 +1745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  218 => 
+  218 =>
   array (
     'name' => 'Putatan',
     'latitude' => 14.3984,
@@ -1753,7 +1753,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  219 => 
+  219 =>
   array (
     'name' => 'Alaminos',
     'latitude' => 16.1553,
@@ -1761,7 +1761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  220 => 
+  220 =>
   array (
     'name' => 'Bislig',
     'latitude' => 8.2133,
@@ -1769,7 +1769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  221 => 
+  221 =>
   array (
     'name' => 'Malate',
     'latitude' => 14.5642,
@@ -1777,7 +1777,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  222 => 
+  222 =>
   array (
     'name' => 'Pili',
     'latitude' => 13.5542,
@@ -1785,7 +1785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  223 => 
+  223 =>
   array (
     'name' => 'Oton',
     'latitude' => 10.6931,
@@ -1793,7 +1793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  224 => 
+  224 =>
   array (
     'name' => 'M\'lang',
     'latitude' => 6.95,
@@ -1801,7 +1801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  225 => 
+  225 =>
   array (
     'name' => 'Catarman',
     'latitude' => 12.4994,
@@ -1809,7 +1809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  226 => 
+  226 =>
   array (
     'name' => 'Isulan',
     'latitude' => 6.63,
@@ -1817,7 +1817,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  227 => 
+  227 =>
   array (
     'name' => 'Escalante',
     'latitude' => 10.83,
@@ -1825,7 +1825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  228 => 
+  228 =>
   array (
     'name' => 'Balayan',
     'latitude' => 13.93,
@@ -1833,7 +1833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  229 => 
+  229 =>
   array (
     'name' => 'Balamban',
     'latitude' => 10.47,
@@ -1841,7 +1841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  230 => 
+  230 =>
   array (
     'name' => 'Lopez',
     'latitude' => 13.884,
@@ -1849,7 +1849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  231 => 
+  231 =>
   array (
     'name' => 'Gerona',
     'latitude' => 15.6069,
@@ -1857,7 +1857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  232 => 
+  232 =>
   array (
     'name' => 'Monkayo',
     'latitude' => 7.8239,
@@ -1865,7 +1865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  233 => 
+  233 =>
   array (
     'name' => 'Daanbantayan',
     'latitude' => 11.25,
@@ -1873,7 +1873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  234 => 
+  234 =>
   array (
     'name' => 'Lemery',
     'latitude' => 13.92,
@@ -1881,7 +1881,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  235 => 
+  235 =>
   array (
     'name' => 'Indanan',
     'latitude' => 6.0,
@@ -1889,7 +1889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  236 => 
+  236 =>
   array (
     'name' => 'Palimbang',
     'latitude' => 6.22,
@@ -1897,7 +1897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  237 => 
+  237 =>
   array (
     'name' => 'Sablayan',
     'latitude' => 12.8428,
@@ -1905,7 +1905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  238 => 
+  238 =>
   array (
     'name' => 'Santa Barbara',
     'latitude' => 16.0031,
@@ -1913,7 +1913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  239 => 
+  239 =>
   array (
     'name' => 'Salaman',
     'latitude' => 6.63,
@@ -1921,7 +1921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  240 => 
+  240 =>
   array (
     'name' => 'Bauan',
     'latitude' => 13.7917,
@@ -1929,7 +1929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  241 => 
+  241 =>
   array (
     'name' => 'Pantukan',
     'latitude' => 7.1269,
@@ -1937,7 +1937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  242 => 
+  242 =>
   array (
     'name' => 'Pongotan',
     'latitude' => 7.1269,
@@ -1945,7 +1945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  243 => 
+  243 =>
   array (
     'name' => 'Pinamalayan',
     'latitude' => 13.0364,
@@ -1953,7 +1953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  244 => 
+  244 =>
   array (
     'name' => 'Victorias',
     'latitude' => 10.9,
@@ -1961,7 +1961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  245 => 
+  245 =>
   array (
     'name' => 'Compostela',
     'latitude' => 7.67,
@@ -1969,7 +1969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  246 => 
+  246 =>
   array (
     'name' => 'Ipil',
     'latitude' => 7.7822,
@@ -1977,7 +1977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  247 => 
+  247 =>
   array (
     'name' => 'Surallah',
     'latitude' => 6.37,
@@ -1985,7 +1985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  248 => 
+  248 =>
   array (
     'name' => 'Polangui',
     'latitude' => 13.2922,
@@ -1993,7 +1993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  249 => 
+  249 =>
   array (
     'name' => 'Banga',
     'latitude' => 6.3,
@@ -2001,7 +2001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  250 => 
+  250 =>
   array (
     'name' => 'Kalibo',
     'latitude' => 11.7072,
@@ -2009,7 +2009,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  251 => 
+  251 =>
   array (
     'name' => 'Hinigaran',
     'latitude' => 10.27,
@@ -2017,7 +2017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  252 => 
+  252 =>
   array (
     'name' => 'Calabanga',
     'latitude' => 13.7089,
@@ -2025,7 +2025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  253 => 
+  253 =>
   array (
     'name' => 'Passi',
     'latitude' => 11.1,
@@ -2033,7 +2033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  254 => 
+  254 =>
   array (
     'name' => 'Murcia',
     'latitude' => 10.6,
@@ -2041,7 +2041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  255 => 
+  255 =>
   array (
     'name' => 'Bogo',
     'latitude' => 11.02,
@@ -2049,7 +2049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  256 => 
+  256 =>
   array (
     'name' => 'Solana',
     'latitude' => 17.6522,
@@ -2057,7 +2057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  257 => 
+  257 =>
   array (
     'name' => 'Echague',
     'latitude' => 16.7056,
@@ -2065,7 +2065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  258 => 
+  258 =>
   array (
     'name' => 'Aroroy',
     'latitude' => 12.5125,
@@ -2073,7 +2073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  259 => 
+  259 =>
   array (
     'name' => 'Prosperidad',
     'latitude' => 8.61,
@@ -2081,7 +2081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  260 => 
+  260 =>
   array (
     'name' => 'Alabel',
     'latitude' => 6.1023,
@@ -2089,7 +2089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  261 => 
+  261 =>
   array (
     'name' => 'Makilala',
     'latitude' => 6.97,
@@ -2097,7 +2097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  262 => 
+  262 =>
   array (
     'name' => 'Baggao',
     'latitude' => 17.9347,
@@ -2105,7 +2105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  263 => 
+  263 =>
   array (
     'name' => 'Calauan',
     'latitude' => 14.15,
@@ -2113,7 +2113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  264 => 
+  264 =>
   array (
     'name' => 'Baras',
     'latitude' => 14.52,
@@ -2121,7 +2121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  265 => 
+  265 =>
   array (
     'name' => 'Western Bicutan',
     'latitude' => 14.5094,
@@ -2129,7 +2129,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  266 => 
+  266 =>
   array (
     'name' => 'Maasin',
     'latitude' => 10.13,
@@ -2137,7 +2137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  267 => 
+  267 =>
   array (
     'name' => 'San Fabian',
     'latitude' => 16.15,
@@ -2145,7 +2145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  268 => 
+  268 =>
   array (
     'name' => 'Calaca',
     'latitude' => 13.93,
@@ -2153,7 +2153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  269 => 
+  269 =>
   array (
     'name' => 'Camiling',
     'latitude' => 15.6867,
@@ -2161,7 +2161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  270 => 
+  270 =>
   array (
     'name' => 'Binmaley',
     'latitude' => 16.0323,
@@ -2169,7 +2169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  271 => 
+  271 =>
   array (
     'name' => 'Nabua',
     'latitude' => 13.4083,
@@ -2177,7 +2177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  272 => 
+  272 =>
   array (
     'name' => 'Bantayan',
     'latitude' => 11.2,
@@ -2185,7 +2185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  273 => 
+  273 =>
   array (
     'name' => 'Cabiao',
     'latitude' => 15.2522,
@@ -2193,7 +2193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  274 => 
+  274 =>
   array (
     'name' => 'Guinobatan',
     'latitude' => 13.18,
@@ -2201,7 +2201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  275 => 
+  275 =>
   array (
     'name' => 'Batarasa',
     'latitude' => 8.67,
@@ -2209,7 +2209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  276 => 
+  276 =>
   array (
     'name' => 'Tagaytay',
     'latitude' => 14.1,
@@ -2217,7 +2217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  277 => 
+  277 =>
   array (
     'name' => 'Dapitan',
     'latitude' => 8.6549,
@@ -2225,7 +2225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  278 => 
+  278 =>
   array (
     'name' => 'Pandacan',
     'latitude' => 14.594,
@@ -2233,7 +2233,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  279 => 
+  279 =>
   array (
     'name' => 'Nabunturan',
     'latitude' => 7.6008,
@@ -2241,7 +2241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  280 => 
+  280 =>
   array (
     'name' => 'Bais',
     'latitude' => 9.5907,
@@ -2249,7 +2249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  281 => 
+  281 =>
   array (
     'name' => 'Science City of Munoz',
     'latitude' => 15.7153,
@@ -2257,7 +2257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  282 => 
+  282 =>
   array (
     'name' => 'Bolinao',
     'latitude' => 16.3881,
@@ -2265,7 +2265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  283 => 
+  283 =>
   array (
     'name' => 'Taytay',
     'latitude' => 10.82,
@@ -2273,7 +2273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  284 => 
+  284 =>
   array (
     'name' => 'Maco',
     'latitude' => 7.3619,
@@ -2281,7 +2281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  285 => 
+  285 =>
   array (
     'name' => 'Siaton',
     'latitude' => 9.07,
@@ -2289,7 +2289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  286 => 
+  286 =>
   array (
     'name' => 'San Antonio',
     'latitude' => 15.3078,
@@ -2297,7 +2297,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  287 => 
+  287 =>
   array (
     'name' => 'Mabinay',
     'latitude' => 9.73,
@@ -2305,7 +2305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  288 => 
+  288 =>
   array (
     'name' => 'Tanjay',
     'latitude' => 9.52,
@@ -2313,7 +2313,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  289 => 
+  289 =>
   array (
     'name' => 'Calatrava',
     'latitude' => 10.6,
@@ -2321,7 +2321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  290 => 
+  290 =>
   array (
     'name' => 'Carmen',
     'latitude' => 7.3606,
@@ -2329,7 +2329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  291 => 
+  291 =>
   array (
     'name' => 'Ubay',
     'latitude' => 10.056,
@@ -2337,7 +2337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  292 => 
+  292 =>
   array (
     'name' => 'Banco Filipino International Village',
     'latitude' => 14.4499,
@@ -2345,7 +2345,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  293 => 
+  293 =>
   array (
     'name' => 'Siasi',
     'latitude' => 5.5462,
@@ -2353,7 +2353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  294 => 
+  294 =>
   array (
     'name' => 'Matalam',
     'latitude' => 7.08,
@@ -2361,7 +2361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  295 => 
+  295 =>
   array (
     'name' => 'Buhi',
     'latitude' => 13.4347,
@@ -2369,7 +2369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  296 => 
+  296 =>
   array (
     'name' => 'Lambunao',
     'latitude' => 11.05,
@@ -2377,7 +2377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  297 => 
+  297 =>
   array (
     'name' => 'Bulacan',
     'latitude' => 14.7928,
@@ -2385,7 +2385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  298 => 
+  298 =>
   array (
     'name' => 'Kapalong',
     'latitude' => 7.5854,
@@ -2393,7 +2393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  299 => 
+  299 =>
   array (
     'name' => 'San Francisco',
     'latitude' => 8.51,
@@ -2401,7 +2401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  300 => 
+  300 =>
   array (
     'name' => 'Malapatan',
     'latitude' => 5.97,
@@ -2409,7 +2409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  301 => 
+  301 =>
   array (
     'name' => 'Barili',
     'latitude' => 10.12,
@@ -2417,7 +2417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  302 => 
+  302 =>
   array (
     'name' => 'Cabadbaran',
     'latitude' => 9.12,
@@ -2425,7 +2425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  303 => 
+  303 =>
   array (
     'name' => 'Tagoloan',
     'latitude' => 8.53,
@@ -2433,7 +2433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  304 => 
+  304 =>
   array (
     'name' => 'San Jose',
     'latitude' => 13.8772,
@@ -2441,7 +2441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  305 => 
+  305 =>
   array (
     'name' => 'Paco',
     'latitude' => 14.583,
@@ -2449,7 +2449,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  306 => 
+  306 =>
   array (
     'name' => 'Poblacion',
     'latitude' => 6.8,
@@ -2457,7 +2457,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  307 => 
+  307 =>
   array (
     'name' => 'Patikul',
     'latitude' => 6.07,
@@ -2465,7 +2465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  308 => 
+  308 =>
   array (
     'name' => 'Robles',
     'latitude' => 10.35,
@@ -2473,7 +2473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  309 => 
+  309 =>
   array (
     'name' => 'San Isidro',
     'latitude' => 14.4685,
@@ -2481,7 +2481,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  310 => 
+  310 =>
   array (
     'name' => 'Mangatarem',
     'latitude' => 15.7874,
@@ -2489,7 +2489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  311 => 
+  311 =>
   array (
     'name' => 'Jaen',
     'latitude' => 15.3392,
@@ -2497,7 +2497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  312 => 
+  312 =>
   array (
     'name' => 'Carmen',
     'latitude' => 7.2,
@@ -2505,7 +2505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  313 => 
+  313 =>
   array (
     'name' => 'Pagbilao',
     'latitude' => 13.972,
@@ -2513,7 +2513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  314 => 
+  314 =>
   array (
     'name' => 'Bauang',
     'latitude' => 16.53,
@@ -2521,7 +2521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  315 => 
+  315 =>
   array (
     'name' => 'Pototan',
     'latitude' => 10.95,
@@ -2529,7 +2529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  316 => 
+  316 =>
   array (
     'name' => 'Limay',
     'latitude' => 14.5619,
@@ -2537,7 +2537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  317 => 
+  317 =>
   array (
     'name' => 'Bamban',
     'latitude' => 15.2742,
@@ -2545,7 +2545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  318 => 
+  318 =>
   array (
     'name' => 'Argao',
     'latitude' => 9.88,
@@ -2553,7 +2553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  319 => 
+  319 =>
   array (
     'name' => 'Macabebe',
     'latitude' => 14.9081,
@@ -2561,7 +2561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  320 => 
+  320 =>
   array (
     'name' => 'Narra',
     'latitude' => 9.28,
@@ -2569,7 +2569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  321 => 
+  321 =>
   array (
     'name' => 'Santa Catalina',
     'latitude' => 9.3331,
@@ -2577,7 +2577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  322 => 
+  322 =>
   array (
     'name' => 'Hermosa',
     'latitude' => 14.83,
@@ -2585,7 +2585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  323 => 
+  323 =>
   array (
     'name' => 'Bustos',
     'latitude' => 14.95,
@@ -2593,7 +2593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  324 => 
+  324 =>
   array (
     'name' => 'Kabacan',
     'latitude' => 7.12,
@@ -2601,7 +2601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  325 => 
+  325 =>
   array (
     'name' => 'Umingan',
     'latitude' => 15.9289,
@@ -2609,7 +2609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  326 => 
+  326 =>
   array (
     'name' => 'Talakag',
     'latitude' => 8.2319,
@@ -2617,7 +2617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  327 => 
+  327 =>
   array (
     'name' => 'Balagtas',
     'latitude' => 14.8145,
@@ -2625,7 +2625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  328 => 
+  328 =>
   array (
     'name' => 'Bongabong',
     'latitude' => 12.7469,
@@ -2633,7 +2633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  329 => 
+  329 =>
   array (
     'name' => 'Virac',
     'latitude' => 13.58,
@@ -2641,7 +2641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  330 => 
+  330 =>
   array (
     'name' => 'Palo',
     'latitude' => 11.1583,
@@ -2649,7 +2649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  331 => 
+  331 =>
   array (
     'name' => 'Infanta',
     'latitude' => 14.7425,
@@ -2657,7 +2657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  332 => 
+  332 =>
   array (
     'name' => 'Manaoag',
     'latitude' => 16.0439,
@@ -2665,7 +2665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  333 => 
+  333 =>
   array (
     'name' => 'Pilar',
     'latitude' => 12.9244,
@@ -2673,7 +2673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  334 => 
+  334 =>
   array (
     'name' => 'Santa Rosa',
     'latitude' => 15.4239,
@@ -2681,7 +2681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  335 => 
+  335 =>
   array (
     'name' => 'Pinamungahan',
     'latitude' => 10.27,
@@ -2689,7 +2689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  336 => 
+  336 =>
   array (
     'name' => 'Libon',
     'latitude' => 13.3,
@@ -2697,7 +2697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  337 => 
+  337 =>
   array (
     'name' => 'Bugallon',
     'latitude' => 15.92,
@@ -2705,7 +2705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  338 => 
+  338 =>
   array (
     'name' => 'Pozorrubio',
     'latitude' => 16.12,
@@ -2713,7 +2713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  339 => 
+  339 =>
   array (
     'name' => 'Esperanza',
     'latitude' => 6.7167,
@@ -2721,7 +2721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  340 => 
+  340 =>
   array (
     'name' => 'Dalaguete',
     'latitude' => 9.7612,
@@ -2729,7 +2729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  341 => 
+  341 =>
   array (
     'name' => 'Balingasag',
     'latitude' => 8.75,
@@ -2737,7 +2737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  342 => 
+  342 =>
   array (
     'name' => 'Brookes Point',
     'latitude' => 8.78,
@@ -2745,7 +2745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  343 => 
+  343 =>
   array (
     'name' => 'Dumangas',
     'latitude' => 10.83,
@@ -2753,7 +2753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  344 => 
+  344 =>
   array (
     'name' => 'Alicia',
     'latitude' => 16.7787,
@@ -2761,7 +2761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  345 => 
+  345 =>
   array (
     'name' => 'Tupi',
     'latitude' => 6.33,
@@ -2769,7 +2769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  346 => 
+  346 =>
   array (
     'name' => 'Lala',
     'latitude' => 7.97,
@@ -2777,7 +2777,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  347 => 
+  347 =>
   array (
     'name' => 'Jose Abad Santos',
     'latitude' => 5.92,
@@ -2785,7 +2785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  348 => 
+  348 =>
   array (
     'name' => 'Bula',
     'latitude' => 13.4694,
@@ -2793,7 +2793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  349 => 
+  349 =>
   array (
     'name' => 'Catanauan',
     'latitude' => 13.5917,
@@ -2801,7 +2801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  350 => 
+  350 =>
   array (
     'name' => 'Carles',
     'latitude' => 11.57,
@@ -2809,7 +2809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  351 => 
+  351 =>
   array (
     'name' => 'San Dionisio',
     'latitude' => 14.4839,
@@ -2817,7 +2817,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  352 => 
+  352 =>
   array (
     'name' => 'Bacacay',
     'latitude' => 13.2925,
@@ -2825,7 +2825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  353 => 
+  353 =>
   array (
     'name' => 'Sipalay',
     'latitude' => 9.75,
@@ -2833,7 +2833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  354 => 
+  354 =>
   array (
     'name' => 'Oroquieta',
     'latitude' => 8.48,
@@ -2841,7 +2841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  355 => 
+  355 =>
   array (
     'name' => 'San Fernando',
     'latitude' => 10.17,
@@ -2849,7 +2849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  356 => 
+  356 =>
   array (
     'name' => 'Camalig',
     'latitude' => 13.13,
@@ -2857,7 +2857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  357 => 
+  357 =>
   array (
     'name' => 'Borongan',
     'latitude' => 11.6094,
@@ -2865,7 +2865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  358 => 
+  358 =>
   array (
     'name' => 'Gumaca',
     'latitude' => 13.921,
@@ -2873,7 +2873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  359 => 
+  359 =>
   array (
     'name' => 'Calauag',
     'latitude' => 13.9575,
@@ -2881,7 +2881,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  360 => 
+  360 =>
   array (
     'name' => 'Pililla',
     'latitude' => 14.48,
@@ -2889,7 +2889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  361 => 
+  361 =>
   array (
     'name' => 'Parang',
     'latitude' => 5.92,
@@ -2897,7 +2897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  362 => 
+  362 =>
   array (
     'name' => 'Binalbagan',
     'latitude' => 10.2,
@@ -2905,7 +2905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  363 => 
+  363 =>
   array (
     'name' => 'Goa',
     'latitude' => 13.6983,
@@ -2913,7 +2913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  364 => 
+  364 =>
   array (
     'name' => 'Talibon',
     'latitude' => 10.12,
@@ -2921,7 +2921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  365 => 
+  365 =>
   array (
     'name' => 'Morong',
     'latitude' => 14.5119,
@@ -2929,7 +2929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  366 => 
+  366 =>
   array (
     'name' => 'Mauban',
     'latitude' => 14.1911,
@@ -2937,7 +2937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  367 => 
+  367 =>
   array (
     'name' => 'Alabang',
     'latitude' => 14.4184,
@@ -2945,7 +2945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  368 => 
+  368 =>
   array (
     'name' => 'Tumauini',
     'latitude' => 17.27,
@@ -2953,7 +2953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  369 => 
+  369 =>
   array (
     'name' => 'Poblacion',
     'latitude' => 10.25,
@@ -2961,7 +2961,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  370 => 
+  370 =>
   array (
     'name' => 'Pavia',
     'latitude' => 10.775,
@@ -2969,7 +2969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  371 => 
+  371 =>
   array (
     'name' => 'Aliaga',
     'latitude' => 15.5036,
@@ -2977,7 +2977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  372 => 
+  372 =>
   array (
     'name' => 'Orani',
     'latitude' => 14.8,
@@ -2985,7 +2985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  373 => 
+  373 =>
   array (
     'name' => 'Rizal',
     'latitude' => 15.71,
@@ -2993,7 +2993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  374 => 
+  374 =>
   array (
     'name' => 'Tinambac',
     'latitude' => 13.8183,
@@ -3001,7 +3001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  375 => 
+  375 =>
   array (
     'name' => 'San Antonio',
     'latitude' => 14.4656,
@@ -3009,7 +3009,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  376 => 
+  376 =>
   array (
     'name' => 'Roxas',
     'latitude' => 10.3197,
@@ -3017,7 +3017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  377 => 
+  377 =>
   array (
     'name' => 'Victoria',
     'latitude' => 15.5781,
@@ -3025,7 +3025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  378 => 
+  378 =>
   array (
     'name' => 'Don Carlos',
     'latitude' => 7.6808,
@@ -3033,7 +3033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  379 => 
+  379 =>
   array (
     'name' => 'Cawayan',
     'latitude' => 11.9303,
@@ -3041,7 +3041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  380 => 
+  380 =>
   array (
     'name' => 'San Pascual',
     'latitude' => 13.8,
@@ -3049,7 +3049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  381 => 
+  381 =>
   array (
     'name' => 'La Paz',
     'latitude' => 15.4431,
@@ -3057,7 +3057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  382 => 
+  382 =>
   array (
     'name' => 'Bagumbayan',
     'latitude' => 6.5339,
@@ -3065,7 +3065,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  383 => 
+  383 =>
   array (
     'name' => 'Buenavista',
     'latitude' => 8.97,
@@ -3073,7 +3073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  384 => 
+  384 =>
   array (
     'name' => 'Aparri',
     'latitude' => 18.3575,
@@ -3081,7 +3081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  385 => 
+  385 =>
   array (
     'name' => 'Indang',
     'latitude' => 14.2,
@@ -3089,7 +3089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  386 => 
+  386 =>
   array (
     'name' => 'Alamada',
     'latitude' => 7.3868,
@@ -3097,7 +3097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  387 => 
+  387 =>
   array (
     'name' => 'San Leonardo',
     'latitude' => 15.3611,
@@ -3105,7 +3105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  388 => 
+  388 =>
   array (
     'name' => 'Mamungan',
     'latitude' => 8.12,
@@ -3113,7 +3113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  389 => 
+  389 =>
   array (
     'name' => 'Tangub',
     'latitude' => 8.0667,
@@ -3121,7 +3121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  390 => 
+  390 =>
   array (
     'name' => 'Sipocot',
     'latitude' => 13.7675,
@@ -3129,7 +3129,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  391 => 
+  391 =>
   array (
     'name' => 'Tuburan',
     'latitude' => 10.73,
@@ -3137,7 +3137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  392 => 
+  392 =>
   array (
     'name' => 'Miagao',
     'latitude' => 10.6442,
@@ -3145,7 +3145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  393 => 
+  393 =>
   array (
     'name' => 'Cuyapo',
     'latitude' => 15.7778,
@@ -3153,7 +3153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  394 => 
+  394 =>
   array (
     'name' => 'Castillejos',
     'latitude' => 14.93,
@@ -3161,7 +3161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  395 => 
+  395 =>
   array (
     'name' => 'Bayombong',
     'latitude' => 16.48,
@@ -3169,7 +3169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  396 => 
+  396 =>
   array (
     'name' => 'Santa Barbara',
     'latitude' => 10.8231,
@@ -3177,7 +3177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  397 => 
+  397 =>
   array (
     'name' => 'Bay',
     'latitude' => 14.18,
@@ -3185,7 +3185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  398 => 
+  398 =>
   array (
     'name' => 'Pikit',
     'latitude' => 7.05,
@@ -3193,7 +3193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  399 => 
+  399 =>
   array (
     'name' => 'Lupon',
     'latitude' => 6.8969,
@@ -3201,7 +3201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  400 => 
+  400 =>
   array (
     'name' => 'Bongabon',
     'latitude' => 15.6321,
@@ -3209,7 +3209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  401 => 
+  401 =>
   array (
     'name' => 'Janiuay',
     'latitude' => 10.95,
@@ -3217,7 +3217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  402 => 
+  402 =>
   array (
     'name' => 'Botolan',
     'latitude' => 15.2896,
@@ -3225,7 +3225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  403 => 
+  403 =>
   array (
     'name' => 'Rosales',
     'latitude' => 15.8944,
@@ -3233,7 +3233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  404 => 
+  404 =>
   array (
     'name' => 'La Carlota',
     'latitude' => 10.42,
@@ -3241,7 +3241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  405 => 
+  405 =>
   array (
     'name' => 'San Mateo',
     'latitude' => 16.88,
@@ -3249,7 +3249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  406 => 
+  406 =>
   array (
     'name' => 'Opol',
     'latitude' => 8.52,
@@ -3257,7 +3257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  407 => 
+  407 =>
   array (
     'name' => 'Oas',
     'latitude' => 13.2589,
@@ -3265,7 +3265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  408 => 
+  408 =>
   array (
     'name' => 'Agoo',
     'latitude' => 16.322,
@@ -3273,7 +3273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  409 => 
+  409 =>
   array (
     'name' => 'Lantapan',
     'latitude' => 8.0,
@@ -3281,7 +3281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  410 => 
+  410 =>
   array (
     'name' => 'Coron',
     'latitude' => 12.0,
@@ -3289,7 +3289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  411 => 
+  411 =>
   array (
     'name' => 'Roxas',
     'latitude' => 17.12,
@@ -3297,7 +3297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  412 => 
+  412 =>
   array (
     'name' => 'Kiamba',
     'latitude' => 5.98,
@@ -3305,7 +3305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  413 => 
+  413 =>
   array (
     'name' => 'San Remigio',
     'latitude' => 11.0,
@@ -3313,7 +3313,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  414 => 
+  414 =>
   array (
     'name' => 'Lutayan',
     'latitude' => 6.6,
@@ -3321,7 +3321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  415 => 
+  415 =>
   array (
     'name' => 'Angat',
     'latitude' => 14.9281,
@@ -3329,7 +3329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  416 => 
+  416 =>
   array (
     'name' => 'Solano',
     'latitude' => 16.5183,
@@ -3337,7 +3337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  417 => 
+  417 =>
   array (
     'name' => 'Quezon',
     'latitude' => 9.235,
@@ -3345,7 +3345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  418 => 
+  418 =>
   array (
     'name' => 'Tigbauan',
     'latitude' => 10.6747,
@@ -3353,7 +3353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  419 => 
+  419 =>
   array (
     'name' => 'Pateros',
     'latitude' => 14.5448,
@@ -3361,7 +3361,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  420 => 
+  420 =>
   array (
     'name' => 'San Jose',
     'latitude' => 10.7433,
@@ -3369,7 +3369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  421 => 
+  421 =>
   array (
     'name' => 'Villasis',
     'latitude' => 15.9,
@@ -3377,7 +3377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  422 => 
+  422 =>
   array (
     'name' => 'Maasin',
     'latitude' => 5.87,
@@ -3385,7 +3385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  423 => 
+  423 =>
   array (
     'name' => 'Nagcarlan',
     'latitude' => 14.1364,
@@ -3393,7 +3393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  424 => 
+  424 =>
   array (
     'name' => 'Isabela',
     'latitude' => 10.2,
@@ -3401,7 +3401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  425 => 
+  425 =>
   array (
     'name' => 'Hilongos',
     'latitude' => 10.37,
@@ -3409,7 +3409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  426 => 
+  426 =>
   array (
     'name' => 'Malvar',
     'latitude' => 14.0417,
@@ -3417,7 +3417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  427 => 
+  427 =>
   array (
     'name' => 'Sibulan',
     'latitude' => 9.35,
@@ -3425,7 +3425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  428 => 
+  428 =>
   array (
     'name' => 'Saravia',
     'latitude' => 10.88,
@@ -3433,7 +3433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  429 => 
+  429 =>
   array (
     'name' => 'Atimonan',
     'latitude' => 14.0036,
@@ -3441,7 +3441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  430 => 
+  430 =>
   array (
     'name' => 'Teresa',
     'latitude' => 14.5586,
@@ -3449,7 +3449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  431 => 
+  431 =>
   array (
     'name' => 'Tuao',
     'latitude' => 17.735,
@@ -3457,7 +3457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  432 => 
+  432 =>
   array (
     'name' => 'Santa Cruz',
     'latitude' => 15.77,
@@ -3465,7 +3465,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  433 => 
+  433 =>
   array (
     'name' => 'Sibalom',
     'latitude' => 10.7883,
@@ -3473,7 +3473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  434 => 
+  434 =>
   array (
     'name' => 'Jose Panganiban',
     'latitude' => 14.2922,
@@ -3481,7 +3481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  435 => 
+  435 =>
   array (
     'name' => 'San Fernando',
     'latitude' => 7.9178,
@@ -3489,7 +3489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  436 => 
+  436 =>
   array (
     'name' => 'Calinog',
     'latitude' => 11.13,
@@ -3497,7 +3497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  437 => 
+  437 =>
   array (
     'name' => 'Moncada',
     'latitude' => 15.7331,
@@ -3505,7 +3505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  438 => 
+  438 =>
   array (
     'name' => 'Bansalan',
     'latitude' => 6.78,
@@ -3513,7 +3513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  439 => 
+  439 =>
   array (
     'name' => 'Tandag',
     'latitude' => 9.0789,
@@ -3521,7 +3521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  440 => 
+  440 =>
   array (
     'name' => 'Kapatagan',
     'latitude' => 7.9,
@@ -3529,7 +3529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  441 => 
+  441 =>
   array (
     'name' => 'Aurora',
     'latitude' => 13.35,
@@ -3537,7 +3537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  442 => 
+  442 =>
   array (
     'name' => 'Cambanugoy',
     'latitude' => 7.5386,
@@ -3545,7 +3545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  443 => 
+  443 =>
   array (
     'name' => 'Santa Ana',
     'latitude' => 15.0939,
@@ -3553,7 +3553,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  444 => 
+  444 =>
   array (
     'name' => 'Itogon',
     'latitude' => 16.37,
@@ -3561,7 +3561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  445 => 
+  445 =>
   array (
     'name' => 'Baao',
     'latitude' => 13.4535,
@@ -3569,7 +3569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  446 => 
+  446 =>
   array (
     'name' => 'Taal',
     'latitude' => 13.88,
@@ -3577,7 +3577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  447 => 
+  447 =>
   array (
     'name' => 'Candon',
     'latitude' => 17.1958,
@@ -3585,7 +3585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  448 => 
+  448 =>
   array (
     'name' => 'Tunasan',
     'latitude' => 14.3725,
@@ -3593,7 +3593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  449 => 
+  449 =>
   array (
     'name' => 'Abuyog',
     'latitude' => 10.7458,
@@ -3601,7 +3601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  450 => 
+  450 =>
   array (
     'name' => 'Cabatuan',
     'latitude' => 10.88,
@@ -3609,7 +3609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  451 => 
+  451 =>
   array (
     'name' => 'Santo Domingo',
     'latitude' => 15.59,
@@ -3617,7 +3617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  452 => 
+  452 =>
   array (
     'name' => 'Tulunan',
     'latitude' => 6.83,
@@ -3625,7 +3625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  453 => 
+  453 =>
   array (
     'name' => 'Jinoba-an',
     'latitude' => 9.6018,
@@ -3633,7 +3633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  454 => 
+  454 =>
   array (
     'name' => 'Orion',
     'latitude' => 14.6206,
@@ -3641,7 +3641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  455 => 
+  455 =>
   array (
     'name' => 'Castilla',
     'latitude' => 12.9553,
@@ -3649,7 +3649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  456 => 
+  456 =>
   array (
     'name' => 'Laoang',
     'latitude' => 12.57,
@@ -3657,7 +3657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  457 => 
+  457 =>
   array (
     'name' => 'Tigaon',
     'latitude' => 13.6319,
@@ -3665,7 +3665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  458 => 
+  458 =>
   array (
     'name' => 'Matanao',
     'latitude' => 6.75,
@@ -3673,7 +3673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  459 => 
+  459 =>
   array (
     'name' => 'Gubat',
     'latitude' => 12.9189,
@@ -3681,7 +3681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  460 => 
+  460 =>
   array (
     'name' => 'Rosario',
     'latitude' => 16.23,
@@ -3689,7 +3689,7 @@ return array (
     'province' => 'Cavite',
     'region' => 'IV-A (CALABARZON)',
   ),
-  461 => 
+  461 =>
   array (
     'name' => 'Paracale',
     'latitude' => 14.2797,
@@ -3697,7 +3697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  462 => 
+  462 =>
   array (
     'name' => 'San Mariano',
     'latitude' => 16.98,
@@ -3705,7 +3705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  463 => 
+  463 =>
   array (
     'name' => 'Malay',
     'latitude' => 11.8997,
@@ -3713,7 +3713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  464 => 
+  464 =>
   array (
     'name' => 'Obando',
     'latitude' => 14.7083,
@@ -3721,7 +3721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  465 => 
+  465 =>
   array (
     'name' => 'Sigaboy',
     'latitude' => 6.6536,
@@ -3729,7 +3729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  466 => 
+  466 =>
   array (
     'name' => 'Ilog',
     'latitude' => 10.03,
@@ -3737,7 +3737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  467 => 
+  467 =>
   array (
     'name' => 'Ragay',
     'latitude' => 13.8217,
@@ -3745,7 +3745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  468 => 
+  468 =>
   array (
     'name' => 'Kananya',
     'latitude' => 11.1856,
@@ -3753,7 +3753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  469 => 
+  469 =>
   array (
     'name' => 'Medellin',
     'latitude' => 11.1286,
@@ -3761,7 +3761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  470 => 
+  470 =>
   array (
     'name' => 'Maimbung',
     'latitude' => 5.93,
@@ -3769,7 +3769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  471 => 
+  471 =>
   array (
     'name' => 'Esperanza',
     'latitude' => 8.68,
@@ -3777,7 +3777,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  472 => 
+  472 =>
   array (
     'name' => 'Alfonso',
     'latitude' => 14.1379,
@@ -3785,7 +3785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  473 => 
+  473 =>
   array (
     'name' => 'Irosin',
     'latitude' => 12.705,
@@ -3793,7 +3793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  474 => 
+  474 =>
   array (
     'name' => 'San Francisco',
     'latitude' => 10.65,
@@ -3801,7 +3801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  475 => 
+  475 =>
   array (
     'name' => 'San Simon',
     'latitude' => 14.998,
@@ -3809,7 +3809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  476 => 
+  476 =>
   array (
     'name' => 'Mansalay',
     'latitude' => 12.5204,
@@ -3817,7 +3817,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  477 => 
+  477 =>
   array (
     'name' => 'Upi',
     'latitude' => 7.0106,
@@ -3825,7 +3825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  478 => 
+  478 =>
   array (
     'name' => 'Gattaran',
     'latitude' => 18.0611,
@@ -3833,7 +3833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  479 => 
+  479 =>
   array (
     'name' => 'Roxas',
     'latitude' => 12.58,
@@ -3841,7 +3841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  480 => 
+  480 =>
   array (
     'name' => 'Canlaon',
     'latitude' => 10.38,
@@ -3849,7 +3849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  481 => 
+  481 =>
   array (
     'name' => 'El Salvador',
     'latitude' => 8.57,
@@ -3857,7 +3857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  482 => 
+  482 =>
   array (
     'name' => 'Calatagan',
     'latitude' => 13.8322,
@@ -3865,7 +3865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  483 => 
+  483 =>
   array (
     'name' => 'Baganga',
     'latitude' => 7.5752,
@@ -3873,7 +3873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  484 => 
+  484 =>
   array (
     'name' => 'San Luis',
     'latitude' => 15.04,
@@ -3881,7 +3881,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  485 => 
+  485 =>
   array (
     'name' => 'Ibaan',
     'latitude' => 13.8176,
@@ -3889,7 +3889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  486 => 
+  486 =>
   array (
     'name' => 'Palompon',
     'latitude' => 11.05,
@@ -3897,7 +3897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  487 => 
+  487 =>
   array (
     'name' => 'Naval',
     'latitude' => 11.58,
@@ -3905,7 +3905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  488 => 
+  488 =>
   array (
     'name' => 'Barotac Nuevo',
     'latitude' => 10.9,
@@ -3913,7 +3913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  489 => 
+  489 =>
   array (
     'name' => 'Masantol',
     'latitude' => 14.9,
@@ -3921,7 +3921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  490 => 
+  490 =>
   array (
     'name' => 'New Corella',
     'latitude' => 7.5866,
@@ -3929,7 +3929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  491 => 
+  491 =>
   array (
     'name' => 'Cogan',
     'latitude' => 10.58,
@@ -3937,7 +3937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  492 => 
+  492 =>
   array (
     'name' => 'Dumanjog',
     'latitude' => 10.05,
@@ -3945,7 +3945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  493 => 
+  493 =>
   array (
     'name' => 'Asingan',
     'latitude' => 16.0023,
@@ -3953,7 +3953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  494 => 
+  494 =>
   array (
     'name' => 'Milagros',
     'latitude' => 12.2192,
@@ -3961,7 +3961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  495 => 
+  495 =>
   array (
     'name' => 'Santa Maria',
     'latitude' => 6.55,
@@ -3969,7 +3969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  496 => 
+  496 =>
   array (
     'name' => 'Tanauan',
     'latitude' => 11.12,
@@ -3977,7 +3977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  497 => 
+  497 =>
   array (
     'name' => 'Buluan',
     'latitude' => 6.7154,
@@ -3985,7 +3985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  498 => 
+  498 =>
   array (
     'name' => 'Boac',
     'latitude' => 13.45,
@@ -3993,7 +3993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  499 => 
+  499 =>
   array (
     'name' => 'Cupang',
     'latitude' => 14.4315,
@@ -4001,7 +4001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  500 => 
+  500 =>
   array (
     'name' => 'Alangalang',
     'latitude' => 11.2061,
@@ -4009,7 +4009,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  501 => 
+  501 =>
   array (
     'name' => 'Uson',
     'latitude' => 12.2253,
@@ -4017,7 +4017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  502 => 
+  502 =>
   array (
     'name' => 'Jasaan',
     'latitude' => 8.65,
@@ -4025,7 +4025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  503 => 
+  503 =>
   array (
     'name' => 'Hagonoy',
     'latitude' => 6.68,
@@ -4033,7 +4033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  504 => 
+  504 =>
   array (
     'name' => 'Pinagkaisahan',
     'latitude' => 14.5229,
@@ -4041,7 +4041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  505 => 
+  505 =>
   array (
     'name' => 'Lagonoy',
     'latitude' => 13.7353,
@@ -4049,7 +4049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  506 => 
+  506 =>
   array (
     'name' => 'Basey',
     'latitude' => 11.2817,
@@ -4057,7 +4057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  507 => 
+  507 =>
   array (
     'name' => 'Pangantocan',
     'latitude' => 7.8331,
@@ -4065,7 +4065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  508 => 
+  508 =>
   array (
     'name' => 'Ramon',
     'latitude' => 16.78,
@@ -4073,7 +4073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  509 => 
+  509 =>
   array (
     'name' => 'Tiwi',
     'latitude' => 13.4585,
@@ -4081,7 +4081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  510 => 
+  510 =>
   array (
     'name' => 'Binalonan',
     'latitude' => 16.05,
@@ -4089,7 +4089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  511 => 
+  511 =>
   array (
     'name' => 'Sucat',
     'latitude' => 14.46,
@@ -4097,7 +4097,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  512 => 
+  512 =>
   array (
     'name' => 'Placer',
     'latitude' => 11.8689,
@@ -4105,7 +4105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  513 => 
+  513 =>
   array (
     'name' => 'Lian',
     'latitude' => 14.03,
@@ -4113,7 +4113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  514 => 
+  514 =>
   array (
     'name' => 'Libungan',
     'latitude' => 7.25,
@@ -4121,7 +4121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  515 => 
+  515 =>
   array (
     'name' => 'Magsaysay',
     'latitude' => 6.77,
@@ -4129,7 +4129,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  516 => 
+  516 =>
   array (
     'name' => 'Diffun',
     'latitude' => 16.5936,
@@ -4137,7 +4137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  517 => 
+  517 =>
   array (
     'name' => 'Lower Bicutan',
     'latitude' => 14.5033,
@@ -4145,7 +4145,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  518 => 
+  518 =>
   array (
     'name' => 'General Tinio',
     'latitude' => 15.35,
@@ -4153,7 +4153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  519 => 
+  519 =>
   array (
     'name' => 'Poblacion',
     'latitude' => 10.47,
@@ -4161,7 +4161,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  520 => 
+  520 =>
   array (
     'name' => 'Bambang',
     'latitude' => 16.3872,
@@ -4169,7 +4169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  521 => 
+  521 =>
   array (
     'name' => 'Paombong',
     'latitude' => 14.8311,
@@ -4177,7 +4177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  522 => 
+  522 =>
   array (
     'name' => 'Iba',
     'latitude' => 15.33,
@@ -4185,7 +4185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  523 => 
+  523 =>
   array (
     'name' => 'Mulanay',
     'latitude' => 13.5222,
@@ -4193,7 +4193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  524 => 
+  524 =>
   array (
     'name' => 'Urbiztondo',
     'latitude' => 15.8227,
@@ -4201,7 +4201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  525 => 
+  525 =>
   array (
     'name' => 'Batac',
     'latitude' => 18.0554,
@@ -4209,7 +4209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  526 => 
+  526 =>
   array (
     'name' => 'Tatalon',
     'latitude' => 14.6242,
@@ -4217,7 +4217,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  527 => 
+  527 =>
   array (
     'name' => 'Asturias',
     'latitude' => 10.5679,
@@ -4225,7 +4225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  528 => 
+  528 =>
   array (
     'name' => 'Mercedes',
     'latitude' => 14.1093,
@@ -4233,7 +4233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  529 => 
+  529 =>
   array (
     'name' => 'Manapla',
     'latitude' => 10.958,
@@ -4241,7 +4241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  530 => 
+  530 =>
   array (
     'name' => 'Santa Cruz',
     'latitude' => 13.48,
@@ -4249,7 +4249,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  531 => 
+  531 =>
   array (
     'name' => 'Carigara',
     'latitude' => 11.3,
@@ -4257,7 +4257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  532 => 
+  532 =>
   array (
     'name' => 'Sara',
     'latitude' => 11.25,
@@ -4265,7 +4265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  533 => 
+  533 =>
   array (
     'name' => 'Pila',
     'latitude' => 14.23,
@@ -4273,7 +4273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  534 => 
+  534 =>
   array (
     'name' => 'Masinloc',
     'latitude' => 15.53,
@@ -4281,7 +4281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  535 => 
+  535 =>
   array (
     'name' => 'Pontevedra',
     'latitude' => 10.37,
@@ -4289,7 +4289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  536 => 
+  536 =>
   array (
     'name' => 'Trento',
     'latitude' => 8.05,
@@ -4297,7 +4297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  537 => 
+  537 =>
   array (
     'name' => 'Tapas',
     'latitude' => 11.2622,
@@ -4305,7 +4305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  538 => 
+  538 =>
   array (
     'name' => 'San Isidro',
     'latitude' => 15.3097,
@@ -4313,7 +4313,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  539 => 
+  539 =>
   array (
     'name' => 'San Manuel',
     'latitude' => 16.0656,
@@ -4321,7 +4321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  540 => 
+  540 =>
   array (
     'name' => 'Don Bosco',
     'latitude' => 14.4817,
@@ -4329,7 +4329,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  541 => 
+  541 =>
   array (
     'name' => 'Tagkawayan',
     'latitude' => 13.97,
@@ -4337,7 +4337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  542 => 
+  542 =>
   array (
     'name' => 'Titay',
     'latitude' => 7.8703,
@@ -4345,7 +4345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  543 => 
+  543 =>
   array (
     'name' => 'Minalabac',
     'latitude' => 13.57,
@@ -4353,7 +4353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  544 => 
+  544 =>
   array (
     'name' => 'Vigan',
     'latitude' => 17.5747,
@@ -4361,7 +4361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  545 => 
+  545 =>
   array (
     'name' => 'Cabagan',
     'latitude' => 17.43,
@@ -4369,7 +4369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  546 => 
+  546 =>
   array (
     'name' => 'Impasugong',
     'latitude' => 8.3028,
@@ -4377,7 +4377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  547 => 
+  547 =>
   array (
     'name' => 'Magpet',
     'latitude' => 7.12,
@@ -4385,7 +4385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  548 => 
+  548 =>
   array (
     'name' => 'Kitaotao',
     'latitude' => 7.6406,
@@ -4393,7 +4393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  549 => 
+  549 =>
   array (
     'name' => 'Ajuy',
     'latitude' => 11.1725,
@@ -4401,7 +4401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  550 => 
+  550 =>
   array (
     'name' => 'Pasacao',
     'latitude' => 13.5103,
@@ -4409,7 +4409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  551 => 
+  551 =>
   array (
     'name' => 'Sibonga',
     'latitude' => 10.03,
@@ -4417,7 +4417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  552 => 
+  552 =>
   array (
     'name' => 'Guiuan',
     'latitude' => 11.03,
@@ -4425,7 +4425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  553 => 
+  553 =>
   array (
     'name' => 'Estancia',
     'latitude' => 11.45,
@@ -4433,7 +4433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  554 => 
+  554 =>
   array (
     'name' => 'Barobo',
     'latitude' => 8.5292,
@@ -4441,7 +4441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  555 => 
+  555 =>
   array (
     'name' => 'Molave',
     'latitude' => 8.0933,
@@ -4449,7 +4449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  556 => 
+  556 =>
   array (
     'name' => 'Lucban',
     'latitude' => 14.1133,
@@ -4457,7 +4457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  557 => 
+  557 =>
   array (
     'name' => 'Zaragoza',
     'latitude' => 15.4492,
@@ -4465,7 +4465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  558 => 
+  558 =>
   array (
     'name' => 'Aurora',
     'latitude' => 7.9484,
@@ -4473,7 +4473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  559 => 
+  559 =>
   array (
     'name' => 'Buenavista',
     'latitude' => 10.7,
@@ -4481,7 +4481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  560 => 
+  560 =>
   array (
     'name' => 'Pigcawayan',
     'latitude' => 7.28,
@@ -4489,7 +4489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  561 => 
+  561 =>
   array (
     'name' => 'Hamtic',
     'latitude' => 10.7,
@@ -4497,7 +4497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  562 => 
+  562 =>
   array (
     'name' => 'San Joaquin',
     'latitude' => 10.6,
@@ -4505,7 +4505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  563 => 
+  563 =>
   array (
     'name' => 'Bani',
     'latitude' => 16.1869,
@@ -4513,7 +4513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  564 => 
+  564 =>
   array (
     'name' => 'President Roxas',
     'latitude' => 7.1544,
@@ -4521,7 +4521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  565 => 
+  565 =>
   array (
     'name' => 'Burauen',
     'latitude' => 10.9833,
@@ -4529,7 +4529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  566 => 
+  566 =>
   array (
     'name' => 'Dauis',
     'latitude' => 9.625,
@@ -4537,7 +4537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  567 => 
+  567 =>
   array (
     'name' => 'Claveria',
     'latitude' => 8.61,
@@ -4545,7 +4545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  568 => 
+  568 =>
   array (
     'name' => 'Ibajay',
     'latitude' => 11.8211,
@@ -4553,7 +4553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  569 => 
+  569 =>
   array (
     'name' => 'Sison',
     'latitude' => 16.17,
@@ -4561,7 +4561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  570 => 
+  570 =>
   array (
     'name' => 'Naguilian',
     'latitude' => 16.53,
@@ -4569,7 +4569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  571 => 
+  571 =>
   array (
     'name' => 'Victoria',
     'latitude' => 13.1719,
@@ -4577,7 +4577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  572 => 
+  572 =>
   array (
     'name' => 'Bato',
     'latitude' => 13.3578,
@@ -4585,7 +4585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  573 => 
+  573 =>
   array (
     'name' => 'Leon',
     'latitude' => 10.7808,
@@ -4593,7 +4593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  574 => 
+  574 =>
   array (
     'name' => 'Padre Garcia',
     'latitude' => 13.88,
@@ -4601,7 +4601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  575 => 
+  575 =>
   array (
     'name' => 'Caramoan',
     'latitude' => 13.7707,
@@ -4609,7 +4609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  576 => 
+  576 =>
   array (
     'name' => 'Santa Ignacia',
     'latitude' => 15.62,
@@ -4617,7 +4617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  577 => 
+  577 =>
   array (
     'name' => 'Alaminos',
     'latitude' => 14.0635,
@@ -4625,7 +4625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  578 => 
+  578 =>
   array (
     'name' => 'Bantacan',
     'latitude' => 7.5483,
@@ -4633,7 +4633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  579 => 
+  579 =>
   array (
     'name' => 'Ocampo',
     'latitude' => 13.5594,
@@ -4641,7 +4641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  580 => 
+  580 =>
   array (
     'name' => 'San Narciso',
     'latitude' => 13.5677,
@@ -4649,7 +4649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  581 => 
+  581 =>
   array (
     'name' => 'Kalamansig',
     'latitude' => 6.57,
@@ -4657,7 +4657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  582 => 
+  582 =>
   array (
     'name' => 'Mabini',
     'latitude' => 13.72,
@@ -4665,7 +4665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  583 => 
+  583 =>
   array (
     'name' => 'Cataingan',
     'latitude' => 12.0028,
@@ -4673,7 +4673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  584 => 
+  584 =>
   array (
     'name' => 'Gloria',
     'latitude' => 12.9722,
@@ -4681,7 +4681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  585 => 
+  585 =>
   array (
     'name' => 'El Nido',
     'latitude' => 11.1956,
@@ -4689,7 +4689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  586 => 
+  586 =>
   array (
     'name' => 'Bangued',
     'latitude' => 17.6,
@@ -4697,7 +4697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  587 => 
+  587 =>
   array (
     'name' => 'Aringay',
     'latitude' => 16.3982,
@@ -4705,7 +4705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  588 => 
+  588 =>
   array (
     'name' => 'Wao',
     'latitude' => 7.6404,
@@ -4713,7 +4713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  589 => 
+  589 =>
   array (
     'name' => 'Amulung',
     'latitude' => 17.8387,
@@ -4721,7 +4721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  590 => 
+  590 =>
   array (
     'name' => 'Penablanca',
     'latitude' => 17.6258,
@@ -4729,7 +4729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  591 => 
+  591 =>
   array (
     'name' => 'Donsol',
     'latitude' => 12.9083,
@@ -4737,7 +4737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  592 => 
+  592 =>
   array (
     'name' => 'Cardona',
     'latitude' => 14.4861,
@@ -4745,7 +4745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  593 => 
+  593 =>
   array (
     'name' => 'Tubod',
     'latitude' => 8.05,
@@ -4753,7 +4753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  594 => 
+  594 =>
   array (
     'name' => 'Pananaw',
     'latitude' => 5.98,
@@ -4761,7 +4761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  595 => 
+  595 =>
   array (
     'name' => 'Pontevedra',
     'latitude' => 11.48,
@@ -4769,7 +4769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  596 => 
+  596 =>
   array (
     'name' => 'Bignay',
     'latitude' => 14.7456,
@@ -4777,7 +4777,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  597 => 
+  597 =>
   array (
     'name' => 'Rosario',
     'latitude' => 8.38,
@@ -4785,7 +4785,7 @@ return array (
     'province' => 'Cavite',
     'region' => 'IV-A (CALABARZON)',
   ),
-  598 => 
+  598 =>
   array (
     'name' => 'Dumarao',
     'latitude' => 11.2631,
@@ -4793,7 +4793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  599 => 
+  599 =>
   array (
     'name' => 'Noveleta',
     'latitude' => 14.43,
@@ -4801,7 +4801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  600 => 
+  600 =>
   array (
     'name' => 'Kiblawan',
     'latitude' => 6.62,
@@ -4809,7 +4809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  601 => 
+  601 =>
   array (
     'name' => 'Bagumbayan',
     'latitude' => 14.4744,
@@ -4817,7 +4817,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  602 => 
+  602 =>
   array (
     'name' => 'Odiongan',
     'latitude' => 12.4,
@@ -4825,7 +4825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  603 => 
+  603 =>
   array (
     'name' => 'Carmen',
     'latitude' => 9.82,
@@ -4833,7 +4833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  604 => 
+  604 =>
   array (
     'name' => 'Malabang',
     'latitude' => 7.5903,
@@ -4841,7 +4841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  605 => 
+  605 =>
   array (
     'name' => 'Pio Duran',
     'latitude' => 13.03,
@@ -4849,7 +4849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  606 => 
+  606 =>
   array (
     'name' => 'Vinzons',
     'latitude' => 14.1739,
@@ -4857,7 +4857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  607 => 
+  607 =>
   array (
     'name' => 'Dulag',
     'latitude' => 10.9525,
@@ -4865,7 +4865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  608 => 
+  608 =>
   array (
     'name' => 'Libona',
     'latitude' => 8.3333,
@@ -4873,7 +4873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  609 => 
+  609 =>
   array (
     'name' => 'Alcala',
     'latitude' => 15.8468,
@@ -4881,7 +4881,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  610 => 
+  610 =>
   array (
     'name' => 'Panay',
     'latitude' => 11.5553,
@@ -4889,7 +4889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  611 => 
+  611 =>
   array (
     'name' => 'Dumingag',
     'latitude' => 8.155,
@@ -4897,7 +4897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  612 => 
+  612 =>
   array (
     'name' => 'Lal-lo',
     'latitude' => 18.2,
@@ -4905,7 +4905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  613 => 
+  613 =>
   array (
     'name' => 'Barotac Viejo',
     'latitude' => 11.05,
@@ -4913,7 +4913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  614 => 
+  614 =>
   array (
     'name' => 'Inabanga',
     'latitude' => 10.03,
@@ -4921,7 +4921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  615 => 
+  615 =>
   array (
     'name' => 'Siocon',
     'latitude' => 7.7067,
@@ -4929,7 +4929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  616 => 
+  616 =>
   array (
     'name' => 'Minalin',
     'latitude' => 14.97,
@@ -4937,7 +4937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  617 => 
+  617 =>
   array (
     'name' => 'Tuba',
     'latitude' => 16.3928,
@@ -4945,7 +4945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  618 => 
+  618 =>
   array (
     'name' => 'Mahayag',
     'latitude' => 8.1297,
@@ -4953,7 +4953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  619 => 
+  619 =>
   array (
     'name' => 'Santa Rita',
     'latitude' => 14.9953,
@@ -4961,7 +4961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  620 => 
+  620 =>
   array (
     'name' => 'Bacolor',
     'latitude' => 14.9984,
@@ -4969,7 +4969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  621 => 
+  621 =>
   array (
     'name' => 'Balimbing',
     'latitude' => 5.0728,
@@ -4977,7 +4977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  622 => 
+  622 =>
   array (
     'name' => 'New Washington',
     'latitude' => 11.6483,
@@ -4985,7 +4985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  623 => 
+  623 =>
   array (
     'name' => 'Tibigan',
     'latitude' => 9.95,
@@ -4993,7 +4993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  624 => 
+  624 =>
   array (
     'name' => 'Mamburao',
     'latitude' => 13.2233,
@@ -5001,7 +5001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  625 => 
+  625 =>
   array (
     'name' => 'Sogod',
     'latitude' => 10.38,
@@ -5009,7 +5009,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  626 => 
+  626 =>
   array (
     'name' => 'Bunawan',
     'latitude' => 8.18,
@@ -5017,7 +5017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  627 => 
+  627 =>
   array (
     'name' => 'Malinao',
     'latitude' => 13.4,
@@ -5025,7 +5025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  628 => 
+  628 =>
   array (
     'name' => 'Sumisip',
     'latitude' => 6.42,
@@ -5033,7 +5033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  629 => 
+  629 =>
   array (
     'name' => 'Albuera',
     'latitude' => 10.9186,
@@ -5041,7 +5041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  630 => 
+  630 =>
   array (
     'name' => 'Ayungon',
     'latitude' => 9.8584,
@@ -5049,7 +5049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  631 => 
+  631 =>
   array (
     'name' => 'Pilar',
     'latitude' => 11.4878,
@@ -5057,7 +5057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  632 => 
+  632 =>
   array (
     'name' => 'Banisilan',
     'latitude' => 7.5,
@@ -5065,7 +5065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  633 => 
+  633 =>
   array (
     'name' => 'Kabasalan',
     'latitude' => 7.7968,
@@ -5073,7 +5073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  634 => 
+  634 =>
   array (
     'name' => 'Isabel',
     'latitude' => 10.93,
@@ -5081,7 +5081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  635 => 
+  635 =>
   array (
     'name' => 'Norala',
     'latitude' => 6.55,
@@ -5089,7 +5089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  636 => 
+  636 =>
   array (
     'name' => 'Montevista',
     'latitude' => 7.7053,
@@ -5097,7 +5097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  637 => 
+  637 =>
   array (
     'name' => 'Tuy',
     'latitude' => 14.02,
@@ -5105,7 +5105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  638 => 
+  638 =>
   array (
     'name' => 'Lower Tungawan',
     'latitude' => 7.6047,
@@ -5113,7 +5113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  639 => 
+  639 =>
   array (
     'name' => 'Cordon',
     'latitude' => 16.67,
@@ -5121,7 +5121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  640 => 
+  640 =>
   array (
     'name' => 'Pagalungan',
     'latitude' => 7.0592,
@@ -5129,7 +5129,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  641 => 
+  641 =>
   array (
     'name' => 'Pilar',
     'latitude' => 14.67,
@@ -5137,7 +5137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  642 => 
+  642 =>
   array (
     'name' => 'Talisay',
     'latitude' => 14.1,
@@ -5145,7 +5145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  643 => 
+  643 =>
   array (
     'name' => 'Narvacan',
     'latitude' => 17.4192,
@@ -5153,7 +5153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  644 => 
+  644 =>
   array (
     'name' => 'Dingle',
     'latitude' => 11.05,
@@ -5161,7 +5161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  645 => 
+  645 =>
   array (
     'name' => 'Lupao',
     'latitude' => 15.8794,
@@ -5169,7 +5169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  646 => 
+  646 =>
   array (
     'name' => 'Lumba-a-Bayabao',
     'latitude' => 7.88,
@@ -5177,7 +5177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  647 => 
+  647 =>
   array (
     'name' => 'Tantangan',
     'latitude' => 6.62,
@@ -5185,7 +5185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  648 => 
+  648 =>
   array (
     'name' => 'Maluso',
     'latitude' => 6.55,
@@ -5193,7 +5193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  649 => 
+  649 =>
   array (
     'name' => 'Jones',
     'latitude' => 16.5583,
@@ -5201,7 +5201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  650 => 
+  650 =>
   array (
     'name' => 'Talagutong',
     'latitude' => 6.27,
@@ -5209,7 +5209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  651 => 
+  651 =>
   array (
     'name' => 'Palayan City',
     'latitude' => 15.5422,
@@ -5217,7 +5217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  652 => 
+  652 =>
   array (
     'name' => 'Tayug',
     'latitude' => 16.0267,
@@ -5225,7 +5225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  653 => 
+  653 =>
   array (
     'name' => 'Basud',
     'latitude' => 14.07,
@@ -5233,7 +5233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  654 => 
+  654 =>
   array (
     'name' => 'Aguilar',
     'latitude' => 15.8899,
@@ -5241,7 +5241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  655 => 
+  655 =>
   array (
     'name' => 'Angadanan',
     'latitude' => 16.7571,
@@ -5249,7 +5249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  656 => 
+  656 =>
   array (
     'name' => 'Maria Aurora',
     'latitude' => 15.7967,
@@ -5257,7 +5257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  657 => 
+  657 =>
   array (
     'name' => 'Buguias',
     'latitude' => 16.8033,
@@ -5265,7 +5265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  658 => 
+  658 =>
   array (
     'name' => 'Nasipit',
     'latitude' => 8.99,
@@ -5273,7 +5273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  659 => 
+  659 =>
   array (
     'name' => 'Manjuyod',
     'latitude' => 9.68,
@@ -5281,7 +5281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  660 => 
+  660 =>
   array (
     'name' => 'Katipunan',
     'latitude' => 8.5134,
@@ -5289,7 +5289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  661 => 
+  661 =>
   array (
     'name' => 'Concepcion',
     'latitude' => 11.2,
@@ -5297,7 +5297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  662 => 
+  662 =>
   array (
     'name' => 'Dolores',
     'latitude' => 12.0378,
@@ -5305,7 +5305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  663 => 
+  663 =>
   array (
     'name' => 'Upper Bicutan',
     'latitude' => 14.4873,
@@ -5313,7 +5313,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  664 => 
+  664 =>
   array (
     'name' => 'Culasi',
     'latitude' => 11.4272,
@@ -5321,7 +5321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  665 => 
+  665 =>
   array (
     'name' => 'Banaybanay',
     'latitude' => 6.9664,
@@ -5329,7 +5329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  666 => 
+  666 =>
   array (
     'name' => 'San Pascual',
     'latitude' => 13.1286,
@@ -5337,7 +5337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  667 => 
+  667 =>
   array (
     'name' => 'Bacnotan',
     'latitude' => 16.7197,
@@ -5345,7 +5345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  668 => 
+  668 =>
   array (
     'name' => 'Bulalacao',
     'latitude' => 12.325,
@@ -5353,7 +5353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  669 => 
+  669 =>
   array (
     'name' => 'San Jacinto',
     'latitude' => 16.0725,
@@ -5361,7 +5361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  670 => 
+  670 =>
   array (
     'name' => 'Pagsanjan',
     'latitude' => 14.27,
@@ -5369,7 +5369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  671 => 
+  671 =>
   array (
     'name' => 'General Mamerto Natividad',
     'latitude' => 15.603,
@@ -5377,7 +5377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  672 => 
+  672 =>
   array (
     'name' => 'Labangan',
     'latitude' => 7.8667,
@@ -5385,7 +5385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  673 => 
+  673 =>
   array (
     'name' => 'Loon',
     'latitude' => 9.8,
@@ -5393,7 +5393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  674 => 
+  674 =>
   array (
     'name' => 'Cateel',
     'latitude' => 7.79,
@@ -5401,7 +5401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  675 => 
+  675 =>
   array (
     'name' => 'Maitum',
     'latitude' => 6.03,
@@ -5409,7 +5409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  676 => 
+  676 =>
   array (
     'name' => 'Central Signal Village',
     'latitude' => 14.5106,
@@ -5417,7 +5417,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  677 => 
+  677 =>
   array (
     'name' => 'Mandaon',
     'latitude' => 12.2259,
@@ -5425,7 +5425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  678 => 
+  678 =>
   array (
     'name' => 'Guinayangan',
     'latitude' => 13.9,
@@ -5433,7 +5433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  679 => 
+  679 =>
   array (
     'name' => 'San Jose',
     'latitude' => 13.6981,
@@ -5441,7 +5441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  680 => 
+  680 =>
   array (
     'name' => 'Labason',
     'latitude' => 8.0647,
@@ -5449,7 +5449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  681 => 
+  681 =>
   array (
     'name' => 'Loreto',
     'latitude' => 8.19,
@@ -5457,7 +5457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  682 => 
+  682 =>
   array (
     'name' => 'Hinatuan',
     'latitude' => 8.3661,
@@ -5465,7 +5465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  683 => 
+  683 =>
   array (
     'name' => 'Baler',
     'latitude' => 15.7583,
@@ -5473,7 +5473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  684 => 
+  684 =>
   array (
     'name' => 'Jaro',
     'latitude' => 11.1894,
@@ -5481,7 +5481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  685 => 
+  685 =>
   array (
     'name' => 'Badian',
     'latitude' => 9.8694,
@@ -5489,7 +5489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  686 => 
+  686 =>
   array (
     'name' => 'Kalilangan',
     'latitude' => 7.7464,
@@ -5497,7 +5497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  687 => 
+  687 =>
   array (
     'name' => 'Santa Elena',
     'latitude' => 14.1797,
@@ -5505,7 +5505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  688 => 
+  688 =>
   array (
     'name' => 'Roseller Lim',
     'latitude' => 7.6583,
@@ -5513,7 +5513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  689 => 
+  689 =>
   array (
     'name' => 'Guambog',
     'latitude' => 7.3092,
@@ -5521,7 +5521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  690 => 
+  690 =>
   array (
     'name' => 'Moises Padilla',
     'latitude' => 10.27,
@@ -5529,7 +5529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  691 => 
+  691 =>
   array (
     'name' => 'Toboso',
     'latitude' => 10.72,
@@ -5537,7 +5537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  692 => 
+  692 =>
   array (
     'name' => 'Victoria',
     'latitude' => 14.225,
@@ -5545,7 +5545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  693 => 
+  693 =>
   array (
     'name' => 'Laurel',
     'latitude' => 14.05,
@@ -5553,7 +5553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  694 => 
+  694 =>
   array (
     'name' => 'South Upi',
     'latitude' => 6.8548,
@@ -5561,7 +5561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  695 => 
+  695 =>
   array (
     'name' => 'Abucay',
     'latitude' => 14.7222,
@@ -5569,7 +5569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  696 => 
+  696 =>
   array (
     'name' => 'Villaba',
     'latitude' => 11.22,
@@ -5577,7 +5577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  697 => 
+  697 =>
   array (
     'name' => 'Santo Tomas',
     'latitude' => 15.0,
@@ -5585,7 +5585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  698 => 
+  698 =>
   array (
     'name' => 'Nueva Valencia',
     'latitude' => 10.5259,
@@ -5593,7 +5593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  699 => 
+  699 =>
   array (
     'name' => 'Proper Bansud',
     'latitude' => 12.8594,
@@ -5601,7 +5601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  700 => 
+  700 =>
   array (
     'name' => 'Panitan',
     'latitude' => 11.4639,
@@ -5609,7 +5609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  701 => 
+  701 =>
   array (
     'name' => 'Balabac',
     'latitude' => 7.98,
@@ -5617,7 +5617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  702 => 
+  702 =>
   array (
     'name' => 'Tucuran',
     'latitude' => 7.8547,
@@ -5625,7 +5625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  703 => 
+  703 =>
   array (
     'name' => 'Carranglan',
     'latitude' => 15.9608,
@@ -5633,7 +5633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  704 => 
+  704 =>
   array (
     'name' => 'Santa Cruz',
     'latitude' => 13.0831,
@@ -5641,7 +5641,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  705 => 
+  705 =>
   array (
     'name' => 'Santa Rita',
     'latitude' => 11.4522,
@@ -5649,7 +5649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  706 => 
+  706 =>
   array (
     'name' => 'Llanera',
     'latitude' => 15.6625,
@@ -5657,7 +5657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  707 => 
+  707 =>
   array (
     'name' => 'Polanco',
     'latitude' => 8.5319,
@@ -5665,7 +5665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  708 => 
+  708 =>
   array (
     'name' => 'President Quirino',
     'latitude' => 6.7,
@@ -5673,7 +5673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  709 => 
+  709 =>
   array (
     'name' => 'Liloy',
     'latitude' => 8.1228,
@@ -5681,7 +5681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  710 => 
+  710 =>
   array (
     'name' => 'Aritao',
     'latitude' => 16.2973,
@@ -5689,7 +5689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  711 => 
+  711 =>
   array (
     'name' => 'Claveria',
     'latitude' => 12.9035,
@@ -5697,7 +5697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  712 => 
+  712 =>
   array (
     'name' => 'Madridejos',
     'latitude' => 11.27,
@@ -5705,7 +5705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  713 => 
+  713 =>
   array (
     'name' => 'Matnog',
     'latitude' => 12.5856,
@@ -5713,7 +5713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  714 => 
+  714 =>
   array (
     'name' => 'Puerto Galera',
     'latitude' => 13.5,
@@ -5721,7 +5721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  715 => 
+  715 =>
   array (
     'name' => 'Amadeo',
     'latitude' => 14.1728,
@@ -5729,7 +5729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  716 => 
+  716 =>
   array (
     'name' => 'Kibawe',
     'latitude' => 7.5678,
@@ -5737,7 +5737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  717 => 
+  717 =>
   array (
     'name' => 'Quezon',
     'latitude' => 15.5542,
@@ -5745,7 +5745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  718 => 
+  718 =>
   array (
     'name' => 'San Miguel',
     'latitude' => 8.9322,
@@ -5753,7 +5753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  719 => 
+  719 =>
   array (
     'name' => 'Kasibu',
     'latitude' => 16.3181,
@@ -5761,7 +5761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  720 => 
+  720 =>
   array (
     'name' => 'Naga',
     'latitude' => 7.7978,
@@ -5769,7 +5769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  721 => 
+  721 =>
   array (
     'name' => 'Gonzaga',
     'latitude' => 18.2614,
@@ -5777,7 +5777,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  722 => 
+  722 =>
   array (
     'name' => 'Daram',
     'latitude' => 11.6341,
@@ -5785,7 +5785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  723 => 
+  723 =>
   array (
     'name' => 'Socorro',
     'latitude' => 13.0583,
@@ -5793,7 +5793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  724 => 
+  724 =>
   array (
     'name' => 'Anda',
     'latitude' => 16.2896,
@@ -5801,7 +5801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  725 => 
+  725 =>
   array (
     'name' => 'Tagudin',
     'latitude' => 16.9361,
@@ -5809,7 +5809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  726 => 
+  726 =>
   array (
     'name' => 'Tabogon',
     'latitude' => 10.93,
@@ -5817,7 +5817,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  727 => 
+  727 =>
   array (
     'name' => 'Mondragon',
     'latitude' => 12.52,
@@ -5825,7 +5825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  728 => 
+  728 =>
   array (
     'name' => 'Santa Cruz',
     'latitude' => 17.0853,
@@ -5833,7 +5833,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  729 => 
+  729 =>
   array (
     'name' => 'Alcala',
     'latitude' => 17.9031,
@@ -5841,7 +5841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  730 => 
+  730 =>
   array (
     'name' => 'Maayon',
     'latitude' => 11.3903,
@@ -5849,7 +5849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  731 => 
+  731 =>
   array (
     'name' => 'Lasam',
     'latitude' => 18.07,
@@ -5857,7 +5857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  732 => 
+  732 =>
   array (
     'name' => 'Bacong',
     'latitude' => 9.2464,
@@ -5865,7 +5865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  733 => 
+  733 =>
   array (
     'name' => 'San Jose de Urquico',
     'latitude' => 15.4781,
@@ -5873,7 +5873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  734 => 
+  734 =>
   array (
     'name' => 'Mambajao',
     'latitude' => 9.25,
@@ -5881,7 +5881,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  735 => 
+  735 =>
   array (
     'name' => 'La Libertad',
     'latitude' => 10.03,
@@ -5889,7 +5889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  736 => 
+  736 =>
   array (
     'name' => 'Tagbina',
     'latitude' => 8.4578,
@@ -5897,7 +5897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  737 => 
+  737 =>
   array (
     'name' => 'Tampakan',
     'latitude' => 6.45,
@@ -5905,7 +5905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  738 => 
+  738 =>
   array (
     'name' => 'Marikina Heights',
     'latitude' => 14.6534,
@@ -5913,7 +5913,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  739 => 
+  739 =>
   array (
     'name' => 'Maddela',
     'latitude' => 16.3411,
@@ -5921,7 +5921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  740 => 
+  740 =>
   array (
     'name' => 'Malilipot',
     'latitude' => 13.32,
@@ -5929,7 +5929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  741 => 
+  741 =>
   array (
     'name' => 'Santo Tomas',
     'latitude' => 16.28,
@@ -5937,7 +5937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  742 => 
+  742 =>
   array (
     'name' => 'Mobo',
     'latitude' => 12.3372,
@@ -5945,7 +5945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  743 => 
+  743 =>
   array (
     'name' => 'Vallehermoso',
     'latitude' => 10.33,
@@ -5953,7 +5953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  744 => 
+  744 =>
   array (
     'name' => 'Lobo',
     'latitude' => 13.65,
@@ -5961,7 +5961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  745 => 
+  745 =>
   array (
     'name' => 'Mambusao',
     'latitude' => 11.43,
@@ -5969,7 +5969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  746 => 
+  746 =>
   array (
     'name' => 'Maragondon',
     'latitude' => 14.27,
@@ -5977,7 +5977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  747 => 
+  747 =>
   array (
     'name' => 'Nabas',
     'latitude' => 11.8278,
@@ -5985,7 +5985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  748 => 
+  748 =>
   array (
     'name' => 'Siay',
     'latitude' => 7.7056,
@@ -5993,7 +5993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  749 => 
+  749 =>
   array (
     'name' => 'Romblon',
     'latitude' => 12.55,
@@ -6001,7 +6001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  750 => 
+  750 =>
   array (
     'name' => 'San Juan',
     'latitude' => 16.67,
@@ -6009,7 +6009,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  751 => 
+  751 =>
   array (
     'name' => 'Rizal',
     'latitude' => 12.47,
@@ -6017,7 +6017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  752 => 
+  752 =>
   array (
     'name' => 'Villanueva',
     'latitude' => 8.58,
@@ -6025,7 +6025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  753 => 
+  753 =>
   array (
     'name' => 'Leyte',
     'latitude' => 11.37,
@@ -6033,7 +6033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  754 => 
+  754 =>
   array (
     'name' => 'Balaoan',
     'latitude' => 16.82,
@@ -6041,7 +6041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  755 => 
+  755 =>
   array (
     'name' => 'Banga',
     'latitude' => 11.6389,
@@ -6049,7 +6049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  756 => 
+  756 =>
   array (
     'name' => 'Payabon',
     'latitude' => 9.77,
@@ -6057,7 +6057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  757 => 
+  757 =>
   array (
     'name' => 'Malalag',
     'latitude' => 6.6,
@@ -6065,7 +6065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  758 => 
+  758 =>
   array (
     'name' => 'Balud',
     'latitude' => 12.0369,
@@ -6073,7 +6073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  759 => 
+  759 =>
   array (
     'name' => 'Taysan',
     'latitude' => 13.78,
@@ -6081,7 +6081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  760 => 
+  760 =>
   array (
     'name' => 'Dingras',
     'latitude' => 18.1036,
@@ -6089,7 +6089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  761 => 
+  761 =>
   array (
     'name' => 'Valladolid',
     'latitude' => 10.47,
@@ -6097,7 +6097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  762 => 
+  762 =>
   array (
     'name' => 'Cabatuan',
     'latitude' => 16.9589,
@@ -6105,7 +6105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  763 => 
+  763 =>
   array (
     'name' => 'Plaridel',
     'latitude' => 8.6214,
@@ -6113,7 +6113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  764 => 
+  764 =>
   array (
     'name' => 'Panglao',
     'latitude' => 9.579,
@@ -6121,7 +6121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  765 => 
+  765 =>
   array (
     'name' => 'Tago',
     'latitude' => 9.0192,
@@ -6129,7 +6129,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  766 => 
+  766 =>
   array (
     'name' => 'Baco',
     'latitude' => 13.3584,
@@ -6137,7 +6137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  767 => 
+  767 =>
   array (
     'name' => 'Pamplona',
     'latitude' => 9.47,
@@ -6145,7 +6145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  768 => 
+  768 =>
   array (
     'name' => 'Santo Nino',
     'latitude' => 6.43,
@@ -6153,7 +6153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  769 => 
+  769 =>
   array (
     'name' => 'Palauig',
     'latitude' => 15.4336,
@@ -6161,7 +6161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  770 => 
+  770 =>
   array (
     'name' => 'San Nicolas',
     'latitude' => 16.07,
@@ -6169,7 +6169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  771 => 
+  771 =>
   array (
     'name' => 'Magsaysay',
     'latitude' => 12.3117,
@@ -6177,7 +6177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  772 => 
+  772 =>
   array (
     'name' => 'Alimodian',
     'latitude' => 10.8196,
@@ -6185,7 +6185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  773 => 
+  773 =>
   array (
     'name' => 'Veruela',
     'latitude' => 8.07,
@@ -6193,7 +6193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  774 => 
+  774 =>
   array (
     'name' => 'Caraga',
     'latitude' => 7.3283,
@@ -6201,7 +6201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  775 => 
+  775 =>
   array (
     'name' => 'Buldon',
     'latitude' => 7.52,
@@ -6209,7 +6209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  776 => 
+  776 =>
   array (
     'name' => 'Talacogon',
     'latitude' => 8.45,
@@ -6217,7 +6217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  777 => 
+  777 =>
   array (
     'name' => 'Poblacion',
     'latitude' => 7.5086,
@@ -6225,7 +6225,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  778 => 
+  778 =>
   array (
     'name' => 'Manay',
     'latitude' => 7.2108,
@@ -6233,7 +6233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  779 => 
+  779 =>
   array (
     'name' => 'Jordan',
     'latitude' => 10.6,
@@ -6241,7 +6241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  780 => 
+  780 =>
   array (
     'name' => 'Kalingalan Caluang',
     'latitude' => 5.88,
@@ -6249,7 +6249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  781 => 
+  781 =>
   array (
     'name' => 'Lilio',
     'latitude' => 14.13,
@@ -6257,7 +6257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  782 => 
+  782 =>
   array (
     'name' => 'Siniloan',
     'latitude' => 14.42,
@@ -6265,7 +6265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  783 => 
+  783 =>
   array (
     'name' => 'Alicia',
     'latitude' => 7.506,
@@ -6273,7 +6273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  784 => 
+  784 =>
   array (
     'name' => 'Sogod',
     'latitude' => 10.75,
@@ -6281,7 +6281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  785 => 
+  785 =>
   array (
     'name' => 'Clarin',
     'latitude' => 8.2,
@@ -6289,7 +6289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  786 => 
+  786 =>
   array (
     'name' => 'Pamplona',
     'latitude' => 13.5925,
@@ -6297,7 +6297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  787 => 
+  787 =>
   array (
     'name' => 'Damulog',
     'latitude' => 7.4853,
@@ -6305,7 +6305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  788 => 
+  788 =>
   array (
     'name' => 'Bayanan',
     'latitude' => 14.4078,
@@ -6313,7 +6313,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  789 => 
+  789 =>
   array (
     'name' => 'Agoncillo',
     'latitude' => 13.9334,
@@ -6321,7 +6321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  790 => 
+  790 =>
   array (
     'name' => 'Sual',
     'latitude' => 16.0661,
@@ -6329,7 +6329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  791 => 
+  791 =>
   array (
     'name' => 'San Dionisio',
     'latitude' => 11.2711,
@@ -6337,7 +6337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  792 => 
+  792 =>
   array (
     'name' => 'Gabaldon',
     'latitude' => 15.4506,
@@ -6345,7 +6345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  793 => 
+  793 =>
   array (
     'name' => 'Caluya',
     'latitude' => 11.932,
@@ -6353,7 +6353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  794 => 
+  794 =>
   array (
     'name' => 'San Nicolas',
     'latitude' => 18.175,
@@ -6361,7 +6361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  795 => 
+  795 =>
   array (
     'name' => 'Cabugao',
     'latitude' => 17.7947,
@@ -6369,7 +6369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  796 => 
+  796 =>
   array (
     'name' => 'Aborlan',
     'latitude' => 9.4386,
@@ -6377,7 +6377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  797 => 
+  797 =>
   array (
     'name' => 'Valencia',
     'latitude' => 9.28,
@@ -6385,7 +6385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  798 => 
+  798 =>
   array (
     'name' => 'Real',
     'latitude' => 14.67,
@@ -6393,7 +6393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  799 => 
+  799 =>
   array (
     'name' => 'Jamindan',
     'latitude' => 11.4094,
@@ -6401,7 +6401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  800 => 
+  800 =>
   array (
     'name' => 'Margosatubig',
     'latitude' => 7.5783,
@@ -6409,7 +6409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  801 => 
+  801 =>
   array (
     'name' => 'San Fernando',
     'latitude' => 13.5661,
@@ -6417,7 +6417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  802 => 
+  802 =>
   array (
     'name' => 'San Andres',
     'latitude' => 13.5961,
@@ -6425,7 +6425,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  803 => 
+  803 =>
   array (
     'name' => 'Maasin',
     'latitude' => 10.88,
@@ -6433,7 +6433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  804 => 
+  804 =>
   array (
     'name' => 'Olutanga',
     'latitude' => 7.3106,
@@ -6441,7 +6441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  805 => 
+  805 =>
   array (
     'name' => 'Buug',
     'latitude' => 7.7286,
@@ -6449,7 +6449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  806 => 
+  806 =>
   array (
     'name' => 'Patnongon',
     'latitude' => 10.9142,
@@ -6457,7 +6457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  807 => 
+  807 =>
   array (
     'name' => 'Samal',
     'latitude' => 14.7678,
@@ -6465,7 +6465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  808 => 
+  808 =>
   array (
     'name' => 'Laur',
     'latitude' => 15.5797,
@@ -6473,7 +6473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  809 => 
+  809 =>
   array (
     'name' => 'Borbon',
     'latitude' => 10.83,
@@ -6481,7 +6481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  810 => 
+  810 =>
   array (
     'name' => 'Tayasan',
     'latitude' => 9.92,
@@ -6489,7 +6489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  811 => 
+  811 =>
   array (
     'name' => 'Mapandan',
     'latitude' => 16.026,
@@ -6497,7 +6497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  812 => 
+  812 =>
   array (
     'name' => 'Bangar',
     'latitude' => 16.9,
@@ -6505,7 +6505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  813 => 
+  813 =>
   array (
     'name' => 'Bagabag',
     'latitude' => 16.6044,
@@ -6513,7 +6513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  814 => 
+  814 =>
   array (
     'name' => 'Luuk',
     'latitude' => 5.9676,
@@ -6521,7 +6521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  815 => 
+  815 =>
   array (
     'name' => 'Santo Domingo',
     'latitude' => 13.235,
@@ -6529,7 +6529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  816 => 
+  816 =>
   array (
     'name' => 'Marantao',
     'latitude' => 7.95,
@@ -6537,7 +6537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  817 => 
+  817 =>
   array (
     'name' => 'Karuhatan',
     'latitude' => 14.6883,
@@ -6545,7 +6545,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  818 => 
+  818 =>
   array (
     'name' => 'San Marcelino',
     'latitude' => 14.9742,
@@ -6553,7 +6553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  819 => 
+  819 =>
   array (
     'name' => 'Basista',
     'latitude' => 15.8524,
@@ -6561,7 +6561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  820 => 
+  820 =>
   array (
     'name' => 'Tambulig',
     'latitude' => 8.07,
@@ -6569,7 +6569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  821 => 
+  821 =>
   array (
     'name' => 'San Andres',
     'latitude' => 13.3231,
@@ -6577,7 +6577,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  822 => 
+  822 =>
   array (
     'name' => 'Oras',
     'latitude' => 12.1414,
@@ -6585,7 +6585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  823 => 
+  823 =>
   array (
     'name' => 'San Antonio',
     'latitude' => 14.9486,
@@ -6593,7 +6593,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  824 => 
+  824 =>
   array (
     'name' => 'Magallanes',
     'latitude' => 12.8283,
@@ -6601,7 +6601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  825 => 
+  825 =>
   array (
     'name' => 'Mabuhay',
     'latitude' => 7.4176,
@@ -6609,7 +6609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  826 => 
+  826 =>
   array (
     'name' => 'Sitangkai',
     'latitude' => 4.6615,
@@ -6617,7 +6617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  827 => 
+  827 =>
   array (
     'name' => 'Luna',
     'latitude' => 16.85,
@@ -6625,7 +6625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  828 => 
+  828 =>
   array (
     'name' => 'Mankayan',
     'latitude' => 16.8567,
@@ -6633,7 +6633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  829 => 
+  829 =>
   array (
     'name' => 'Bantay',
     'latitude' => 17.5839,
@@ -6641,7 +6641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  830 => 
+  830 =>
   array (
     'name' => 'Imbatug',
     'latitude' => 8.3128,
@@ -6649,7 +6649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  831 => 
+  831 =>
   array (
     'name' => 'Languyan',
     'latitude' => 5.2667,
@@ -6657,7 +6657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  832 => 
+  832 =>
   array (
     'name' => 'Moalboal',
     'latitude' => 9.95,
@@ -6665,7 +6665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  833 => 
+  833 =>
   array (
     'name' => 'Basilisa',
     'latitude' => 10.0654,
@@ -6673,7 +6673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  834 => 
+  834 =>
   array (
     'name' => 'San Enrique',
     'latitude' => 11.0697,
@@ -6681,7 +6681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  835 => 
+  835 =>
   array (
     'name' => 'Manucan',
     'latitude' => 8.5161,
@@ -6689,7 +6689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  836 => 
+  836 =>
   array (
     'name' => 'Sagnay',
     'latitude' => 13.6039,
@@ -6697,7 +6697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  837 => 
+  837 =>
   array (
     'name' => 'Magsaysay',
     'latitude' => 9.02,
@@ -6705,7 +6705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  838 => 
+  838 =>
   array (
     'name' => 'Enrile',
     'latitude' => 17.5622,
@@ -6713,7 +6713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  839 => 
+  839 =>
   array (
     'name' => 'Aurora',
     'latitude' => 16.9918,
@@ -6721,7 +6721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  840 => 
+  840 =>
   array (
     'name' => 'Las Navas',
     'latitude' => 12.34,
@@ -6729,7 +6729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  841 => 
+  841 =>
   array (
     'name' => 'Simbahan',
     'latitude' => 6.3,
@@ -6737,7 +6737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  842 => 
+  842 =>
   array (
     'name' => 'Dinas',
     'latitude' => 7.6161,
@@ -6745,7 +6745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  843 => 
+  843 =>
   array (
     'name' => 'Cabanglasan',
     'latitude' => 8.0772,
@@ -6753,7 +6753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  844 => 
+  844 =>
   array (
     'name' => 'Siayan',
     'latitude' => 8.2517,
@@ -6761,7 +6761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  845 => 
+  845 =>
   array (
     'name' => 'Cuenca',
     'latitude' => 13.92,
@@ -6769,7 +6769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  846 => 
+  846 =>
   array (
     'name' => 'Capalonga',
     'latitude' => 14.3314,
@@ -6777,7 +6777,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  847 => 
+  847 =>
   array (
     'name' => 'Canaman',
     'latitude' => 13.6481,
@@ -6785,7 +6785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  848 => 
+  848 =>
   array (
     'name' => 'Gasan',
     'latitude' => 13.32,
@@ -6793,7 +6793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  849 => 
+  849 =>
   array (
     'name' => 'Dagami',
     'latitude' => 11.0611,
@@ -6801,7 +6801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  850 => 
+  850 =>
   array (
     'name' => 'San Luis',
     'latitude' => 13.83,
@@ -6809,7 +6809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  851 => 
+  851 =>
   array (
     'name' => 'Rapu-Rapu',
     'latitude' => 13.18,
@@ -6817,7 +6817,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  852 => 
+  852 =>
   array (
     'name' => 'Barira',
     'latitude' => 7.4706,
@@ -6825,7 +6825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  853 => 
+  853 =>
   array (
     'name' => 'Gutalac',
     'latitude' => 7.98,
@@ -6833,7 +6833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  854 => 
+  854 =>
   array (
     'name' => 'Sibuco',
     'latitude' => 7.2928,
@@ -6841,7 +6841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  855 => 
+  855 =>
   array (
     'name' => 'Matanog',
     'latitude' => 7.47,
@@ -6849,7 +6849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  856 => 
+  856 =>
   array (
     'name' => 'Claveria',
     'latitude' => 9.5742,
@@ -6857,7 +6857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  857 => 
+  857 =>
   array (
     'name' => 'Bel-Air',
     'latitude' => 14.5639,
@@ -6865,7 +6865,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  858 => 
+  858 =>
   array (
     'name' => 'Pandan',
     'latitude' => 11.7206,
@@ -6873,7 +6873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  859 => 
+  859 =>
   array (
     'name' => 'San Antonio',
     'latitude' => 13.9,
@@ -6881,7 +6881,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  860 => 
+  860 =>
   array (
     'name' => 'Jagna',
     'latitude' => 9.65,
@@ -6889,7 +6889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  861 => 
+  861 =>
   array (
     'name' => 'Numancia',
     'latitude' => 11.7042,
@@ -6897,7 +6897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  862 => 
+  862 =>
   array (
     'name' => 'Santa Ana',
     'latitude' => 18.4589,
@@ -6905,7 +6905,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  863 => 
+  863 =>
   array (
     'name' => 'Medina',
     'latitude' => 8.92,
@@ -6913,7 +6913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  864 => 
+  864 =>
   array (
     'name' => 'Casiguran',
     'latitude' => 12.8731,
@@ -6921,7 +6921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  865 => 
+  865 =>
   array (
     'name' => 'Pambujan',
     'latitude' => 12.57,
@@ -6929,7 +6929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  866 => 
+  866 =>
   array (
     'name' => 'Pola',
     'latitude' => 13.1439,
@@ -6937,7 +6937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  867 => 
+  867 =>
   array (
     'name' => 'Bautista',
     'latitude' => 15.8103,
@@ -6945,7 +6945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  868 => 
+  868 =>
   array (
     'name' => 'Morong',
     'latitude' => 14.68,
@@ -6953,7 +6953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  869 => 
+  869 =>
   array (
     'name' => 'Juban',
     'latitude' => 12.8478,
@@ -6961,7 +6961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  870 => 
+  870 =>
   array (
     'name' => 'Pansol',
     'latitude' => 14.6514,
@@ -6969,7 +6969,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  871 => 
+  871 =>
   array (
     'name' => 'Gandara',
     'latitude' => 12.013,
@@ -6977,7 +6977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  872 => 
+  872 =>
   array (
     'name' => 'Allacapan',
     'latitude' => 18.227,
@@ -6985,7 +6985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  873 => 
+  873 =>
   array (
     'name' => 'San Luis',
     'latitude' => 8.5,
@@ -6993,7 +6993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  874 => 
+  874 =>
   array (
     'name' => 'Abra de Ilog',
     'latitude' => 13.4448,
@@ -7001,7 +7001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  875 => 
+  875 =>
   array (
     'name' => 'Sulop',
     'latitude' => 6.5986,
@@ -7009,7 +7009,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  876 => 
+  876 =>
   array (
     'name' => 'Lingig',
     'latitude' => 8.0381,
@@ -7017,7 +7017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  877 => 
+  877 =>
   array (
     'name' => 'Trinidad',
     'latitude' => 10.0795,
@@ -7025,7 +7025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  878 => 
+  878 =>
   array (
     'name' => 'Balasan',
     'latitude' => 11.4728,
@@ -7033,7 +7033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  879 => 
+  879 =>
   array (
     'name' => 'Guimbal',
     'latitude' => 10.67,
@@ -7041,7 +7041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  880 => 
+  880 =>
   array (
     'name' => 'Munai',
     'latitude' => 7.9758,
@@ -7049,7 +7049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  881 => 
+  881 =>
   array (
     'name' => 'Payao',
     'latitude' => 7.5857,
@@ -7057,7 +7057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  882 => 
+  882 =>
   array (
     'name' => 'Mendez-Nunez',
     'latitude' => 14.1286,
@@ -7065,7 +7065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  883 => 
+  883 =>
   array (
     'name' => 'Leganes',
     'latitude' => 10.78,
@@ -7073,7 +7073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  884 => 
+  884 =>
   array (
     'name' => 'Bugasong',
     'latitude' => 11.0447,
@@ -7081,7 +7081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  885 => 
+  885 =>
   array (
     'name' => 'Duenas',
     'latitude' => 11.07,
@@ -7089,7 +7089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  886 => 
+  886 =>
   array (
     'name' => 'Abulug',
     'latitude' => 18.4441,
@@ -7097,7 +7097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  887 => 
+  887 =>
   array (
     'name' => 'Bonifacio',
     'latitude' => 8.0527,
@@ -7105,7 +7105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  888 => 
+  888 =>
   array (
     'name' => 'Bayog',
     'latitude' => 7.8474,
@@ -7113,7 +7113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  889 => 
+  889 =>
   array (
     'name' => 'Mogpog',
     'latitude' => 13.48,
@@ -7121,7 +7121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  890 => 
+  890 =>
   array (
     'name' => 'Santa Maria',
     'latitude' => 14.475,
@@ -7129,7 +7129,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  891 => 
+  891 =>
   array (
     'name' => 'Barugo',
     'latitude' => 11.32,
@@ -7137,7 +7137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  892 => 
+  892 =>
   array (
     'name' => 'Ballesteros',
     'latitude' => 18.4108,
@@ -7145,7 +7145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  893 => 
+  893 =>
   array (
     'name' => 'Santa Fe',
     'latitude' => 11.15,
@@ -7153,7 +7153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  894 => 
+  894 =>
   array (
     'name' => 'Aloguinsan',
     'latitude' => 10.2229,
@@ -7161,7 +7161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  895 => 
+  895 =>
   array (
     'name' => 'Tandubas',
     'latitude' => 5.134,
@@ -7169,7 +7169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  896 => 
+  896 =>
   array (
     'name' => 'Pinukpuk',
     'latitude' => 17.5731,
@@ -7177,7 +7177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  897 => 
+  897 =>
   array (
     'name' => 'New Panamao',
     'latitude' => 5.97,
@@ -7185,7 +7185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  898 => 
+  898 =>
   array (
     'name' => 'Simunul',
     'latitude' => 4.898,
@@ -7193,7 +7193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  899 => 
+  899 =>
   array (
     'name' => 'Sibutu',
     'latitude' => 4.85,
@@ -7201,7 +7201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  900 => 
+  900 =>
   array (
     'name' => 'General Nakar',
     'latitude' => 14.7631,
@@ -7209,7 +7209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  901 => 
+  901 =>
   array (
     'name' => 'Santa Maria',
     'latitude' => 15.9808,
@@ -7217,7 +7217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  902 => 
+  902 =>
   array (
     'name' => 'Talayan',
     'latitude' => 6.9844,
@@ -7225,7 +7225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  903 => 
+  903 =>
   array (
     'name' => 'Laoac East',
     'latitude' => 16.0333,
@@ -7233,7 +7233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  904 => 
+  904 =>
   array (
     'name' => 'Guindulman',
     'latitude' => 9.762,
@@ -7241,7 +7241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  905 => 
+  905 =>
   array (
     'name' => 'San Manuel',
     'latitude' => 17.02,
@@ -7249,7 +7249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  906 => 
+  906 =>
   array (
     'name' => 'Cantilan',
     'latitude' => 9.3356,
@@ -7257,7 +7257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  907 => 
+  907 =>
   array (
     'name' => 'San Remigio',
     'latitude' => 10.8331,
@@ -7265,7 +7265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  908 => 
+  908 =>
   array (
     'name' => 'Palapag',
     'latitude' => 12.547,
@@ -7273,7 +7273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  909 => 
+  909 =>
   array (
     'name' => 'Jalajala',
     'latitude' => 14.354,
@@ -7281,7 +7281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  910 => 
+  910 =>
   array (
     'name' => 'Shariff Aguak',
     'latitude' => 6.8647,
@@ -7289,7 +7289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  911 => 
+  911 =>
   array (
     'name' => 'San Quintin',
     'latitude' => 15.9844,
@@ -7297,7 +7297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  912 => 
+  912 =>
   array (
     'name' => 'Milaor',
     'latitude' => 13.5956,
@@ -7305,7 +7305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  913 => 
+  913 =>
   array (
     'name' => 'Sibagat',
     'latitude' => 8.82,
@@ -7313,7 +7313,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  914 => 
+  914 =>
   array (
     'name' => 'Initao',
     'latitude' => 8.5,
@@ -7321,7 +7321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  915 => 
+  915 =>
   array (
     'name' => 'Lupi Viejo',
     'latitude' => 13.7908,
@@ -7329,7 +7329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  916 => 
+  916 =>
   array (
     'name' => 'Lianga',
     'latitude' => 8.633,
@@ -7337,7 +7337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  917 => 
+  917 =>
   array (
     'name' => 'Tabango',
     'latitude' => 11.3067,
@@ -7345,7 +7345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  918 => 
+  918 =>
   array (
     'name' => 'Baclaran',
     'latitude' => 14.5319,
@@ -7353,7 +7353,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  919 => 
+  919 =>
   array (
     'name' => 'Dao',
     'latitude' => 11.38,
@@ -7361,7 +7361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  920 => 
+  920 =>
   array (
     'name' => 'Tobias Fornier',
     'latitude' => 10.5178,
@@ -7369,7 +7369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  921 => 
+  921 =>
   array (
     'name' => 'Naguilian',
     'latitude' => 17.02,
@@ -7377,7 +7377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  922 => 
+  922 =>
   array (
     'name' => 'Catmon',
     'latitude' => 10.67,
@@ -7385,7 +7385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  923 => 
+  923 =>
   array (
     'name' => 'Kadingilan',
     'latitude' => 7.6003,
@@ -7393,7 +7393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  924 => 
+  924 =>
   array (
     'name' => 'Capoocan',
     'latitude' => 11.2944,
@@ -7401,7 +7401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  925 => 
+  925 =>
   array (
     'name' => 'Midsalip',
     'latitude' => 8.0328,
@@ -7409,7 +7409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  926 => 
+  926 =>
   array (
     'name' => 'Datu Paglas',
     'latitude' => 6.7669,
@@ -7417,7 +7417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  927 => 
+  927 =>
   array (
     'name' => 'Batobato',
     'latitude' => 6.8361,
@@ -7425,7 +7425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  928 => 
+  928 =>
   array (
     'name' => 'Masiu',
     'latitude' => 7.82,
@@ -7433,7 +7433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  929 => 
+  929 =>
   array (
     'name' => 'Sapa Sapa',
     'latitude' => 5.0899,
@@ -7441,7 +7441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  930 => 
+  930 =>
   array (
     'name' => 'Cabarroguis',
     'latitude' => 16.5103,
@@ -7449,7 +7449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  931 => 
+  931 =>
   array (
     'name' => 'Columbio',
     'latitude' => 6.7,
@@ -7457,7 +7457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  932 => 
+  932 =>
   array (
     'name' => 'San Vicente',
     'latitude' => 10.5281,
@@ -7465,7 +7465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  933 => 
+  933 =>
   array (
     'name' => 'Bacarra',
     'latitude' => 18.2519,
@@ -7473,7 +7473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  934 => 
+  934 =>
   array (
     'name' => 'Batan',
     'latitude' => 11.5853,
@@ -7481,7 +7481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  935 => 
+  935 =>
   array (
     'name' => 'Getafe',
     'latitude' => 10.15,
@@ -7489,7 +7489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  936 => 
+  936 =>
   array (
     'name' => 'Banate',
     'latitude' => 11.05,
@@ -7497,7 +7497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  937 => 
+  937 =>
   array (
     'name' => 'Vintar',
     'latitude' => 18.2306,
@@ -7505,7 +7505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  938 => 
+  938 =>
   array (
     'name' => 'Dupax Del Norte',
     'latitude' => 16.3075,
@@ -7513,7 +7513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  939 => 
+  939 =>
   array (
     'name' => 'Pandami',
     'latitude' => 5.53,
@@ -7521,7 +7521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  940 => 
+  940 =>
   array (
     'name' => 'Dipaculao',
     'latitude' => 15.98,
@@ -7529,7 +7529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  941 => 
+  941 =>
   array (
     'name' => 'Calape',
     'latitude' => 9.88,
@@ -7537,7 +7537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  942 => 
+  942 =>
   array (
     'name' => 'Dumalinao',
     'latitude' => 7.82,
@@ -7545,7 +7545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  943 => 
+  943 =>
   array (
     'name' => 'Mayantoc',
     'latitude' => 15.6203,
@@ -7553,7 +7553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  944 => 
+  944 =>
   array (
     'name' => 'Matalom',
     'latitude' => 10.28,
@@ -7561,7 +7561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  945 => 
+  945 =>
   array (
     'name' => 'Diplahan',
     'latitude' => 7.6911,
@@ -7569,7 +7569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  946 => 
+  946 =>
   array (
     'name' => 'Balindong',
     'latitude' => 7.92,
@@ -7577,7 +7577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  947 => 
+  947 =>
   array (
     'name' => 'Badoc',
     'latitude' => 17.9267,
@@ -7585,7 +7585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  948 => 
+  948 =>
   array (
     'name' => 'Dolores',
     'latitude' => 14.0157,
@@ -7593,7 +7593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  949 => 
+  949 =>
   array (
     'name' => 'Lumbang',
     'latitude' => 14.297,
@@ -7601,7 +7601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  950 => 
+  950 =>
   array (
     'name' => 'Penaranda',
     'latitude' => 15.3531,
@@ -7609,7 +7609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  951 => 
+  951 =>
   array (
     'name' => 'Jimalalud',
     'latitude' => 9.9797,
@@ -7617,7 +7617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  952 => 
+  952 =>
   array (
     'name' => 'Mallig',
     'latitude' => 17.2086,
@@ -7625,7 +7625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  953 => 
+  953 =>
   array (
     'name' => 'Igbaras',
     'latitude' => 10.72,
@@ -7633,7 +7633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  954 => 
+  954 =>
   array (
     'name' => 'Catubig',
     'latitude' => 12.4,
@@ -7641,7 +7641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  955 => 
+  955 =>
   array (
     'name' => 'Alubijid',
     'latitude' => 8.5714,
@@ -7649,7 +7649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  956 => 
+  956 =>
   array (
     'name' => 'Buguey',
     'latitude' => 18.2882,
@@ -7657,7 +7657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  957 => 
+  957 =>
   array (
     'name' => 'Salug',
     'latitude' => 8.1075,
@@ -7665,7 +7665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  958 => 
+  958 =>
   array (
     'name' => 'Balimbing',
     'latitude' => 7.9,
@@ -7673,7 +7673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  959 => 
+  959 =>
   array (
     'name' => 'Caramoran',
     'latitude' => 13.98,
@@ -7681,7 +7681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  960 => 
+  960 =>
   array (
     'name' => 'Tamparan',
     'latitude' => 7.879,
@@ -7689,7 +7689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  961 => 
+  961 =>
   array (
     'name' => 'Malangas',
     'latitude' => 7.6317,
@@ -7697,7 +7697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  962 => 
+  962 =>
   array (
     'name' => 'Bauko',
     'latitude' => 16.9917,
@@ -7705,7 +7705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  963 => 
+  963 =>
   array (
     'name' => 'Sergio Osmena Sr',
     'latitude' => 8.3003,
@@ -7713,7 +7713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  964 => 
+  964 =>
   array (
     'name' => 'Polillo',
     'latitude' => 14.72,
@@ -7721,7 +7721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  965 => 
+  965 =>
   array (
     'name' => 'Claveria',
     'latitude' => 18.6061,
@@ -7729,7 +7729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  966 => 
+  966 =>
   array (
     'name' => 'Pantabangan',
     'latitude' => 15.8086,
@@ -7737,7 +7737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  967 => 
+  967 =>
   array (
     'name' => 'Tubao',
     'latitude' => 16.35,
@@ -7745,7 +7745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  968 => 
+  968 =>
   array (
     'name' => 'Sigma',
     'latitude' => 11.4214,
@@ -7753,7 +7753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  969 => 
+  969 =>
   array (
     'name' => 'Calubian',
     'latitude' => 11.4467,
@@ -7761,7 +7761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  970 => 
+  970 =>
   array (
     'name' => 'Merida',
     'latitude' => 10.9098,
@@ -7769,7 +7769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  971 => 
+  971 =>
   array (
     'name' => 'Lemery',
     'latitude' => 11.23,
@@ -7777,7 +7777,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  972 => 
+  972 =>
   array (
     'name' => 'Bagac',
     'latitude' => 14.5951,
@@ -7785,7 +7785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  973 => 
+  973 =>
   array (
     'name' => 'Dasol',
     'latitude' => 15.9896,
@@ -7793,7 +7793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  974 => 
+  974 =>
   array (
     'name' => 'Dimataling',
     'latitude' => 7.5297,
@@ -7801,7 +7801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  975 => 
+  975 =>
   array (
     'name' => 'Magsingal',
     'latitude' => 17.685,
@@ -7809,7 +7809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  976 => 
+  976 =>
   array (
     'name' => 'Ivisan',
     'latitude' => 11.5217,
@@ -7817,7 +7817,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  977 => 
+  977 =>
   array (
     'name' => 'President Roxas',
     'latitude' => 11.4297,
@@ -7825,7 +7825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  978 => 
+  978 =>
   array (
     'name' => 'Paracelis',
     'latitude' => 17.1811,
@@ -7833,7 +7833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  979 => 
+  979 =>
   array (
     'name' => 'Siraway',
     'latitude' => 7.5853,
@@ -7841,7 +7841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  980 => 
+  980 =>
   array (
     'name' => 'Buenavista',
     'latitude' => 13.7394,
@@ -7849,7 +7849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  981 => 
+  981 =>
   array (
     'name' => 'Gata',
     'latitude' => 7.85,
@@ -7857,7 +7857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  982 => 
+  982 =>
   array (
     'name' => 'Tairan Camp',
     'latitude' => 6.65,
@@ -7865,7 +7865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  983 => 
+  983 =>
   array (
     'name' => 'La Paz',
     'latitude' => 8.28,
@@ -7873,7 +7873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  984 => 
+  984 =>
   array (
     'name' => 'Ganassi',
     'latitude' => 7.8269,
@@ -7881,7 +7881,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  985 => 
+  985 =>
   array (
     'name' => 'San Narciso',
     'latitude' => 15.02,
@@ -7889,7 +7889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  986 => 
+  986 =>
   array (
     'name' => 'San Isidro',
     'latitude' => 11.42,
@@ -7897,7 +7897,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  987 => 
+  987 =>
   array (
     'name' => 'Aglipay',
     'latitude' => 16.4889,
@@ -7905,7 +7905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  988 => 
+  988 =>
   array (
     'name' => 'Balatan',
     'latitude' => 13.32,
@@ -7913,7 +7913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  989 => 
+  989 =>
   array (
     'name' => 'Gamu',
     'latitude' => 17.05,
@@ -7921,7 +7921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  990 => 
+  990 =>
   array (
     'name' => 'Mataas Na Kahoy',
     'latitude' => 13.97,
@@ -7929,7 +7929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  991 => 
+  991 =>
   array (
     'name' => 'Anilao',
     'latitude' => 10.9785,
@@ -7937,7 +7937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  992 => 
+  992 =>
   array (
     'name' => 'Torrijos',
     'latitude' => 13.32,
@@ -7945,7 +7945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  993 => 
+  993 =>
   array (
     'name' => 'Maguing',
     'latitude' => 7.9,
@@ -7953,7 +7953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  994 => 
+  994 =>
   array (
     'name' => 'Candelaria',
     'latitude' => 15.63,
@@ -7961,7 +7961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  995 => 
+  995 =>
   array (
     'name' => 'Pantao-Ragat',
     'latitude' => 8.05,
@@ -7969,7 +7969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  996 => 
+  996 =>
   array (
     'name' => 'Las Nieves',
     'latitude' => 8.74,
@@ -7977,7 +7977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  997 => 
+  997 =>
   array (
     'name' => 'Calintaan',
     'latitude' => 12.5756,
@@ -7985,7 +7985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  998 => 
+  998 =>
   array (
     'name' => 'Piagapo',
     'latitude' => 8.0,
@@ -7993,7 +7993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  999 => 
+  999 =>
   array (
     'name' => 'Candijay',
     'latitude' => 9.818,
@@ -8001,7 +8001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1000 => 
+  1000 =>
   array (
     'name' => 'Marogong',
     'latitude' => 7.67,
@@ -8009,7 +8009,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1001 => 
+  1001 =>
   array (
     'name' => 'Pulupandan',
     'latitude' => 10.52,
@@ -8017,7 +8017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1002 => 
+  1002 =>
   array (
     'name' => 'San Miguel',
     'latitude' => 10.78,
@@ -8025,7 +8025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1003 => 
+  1003 =>
   array (
     'name' => 'Dumalag',
     'latitude' => 11.3039,
@@ -8033,7 +8033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1004 => 
+  1004 =>
   array (
     'name' => 'Balete',
     'latitude' => 11.5553,
@@ -8041,7 +8041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1005 => 
+  1005 =>
   array (
     'name' => 'Iguig',
     'latitude' => 17.7517,
@@ -8049,7 +8049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1006 => 
+  1006 =>
   array (
     'name' => 'Dauin',
     'latitude' => 9.2,
@@ -8057,7 +8057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1007 => 
+  1007 =>
   array (
     'name' => 'Santa Maria',
     'latitude' => 17.3719,
@@ -8065,7 +8065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1008 => 
+  1008 =>
   array (
     'name' => 'Balungao',
     'latitude' => 15.9,
@@ -8073,7 +8073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1009 => 
+  1009 =>
   array (
     'name' => 'Salay',
     'latitude' => 8.87,
@@ -8081,7 +8081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1010 => 
+  1010 =>
   array (
     'name' => 'Agno',
     'latitude' => 16.1161,
@@ -8089,7 +8089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1011 => 
+  1011 =>
   array (
     'name' => 'Ragan Sur',
     'latitude' => 17.32,
@@ -8097,7 +8097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1012 => 
+  1012 =>
   array (
     'name' => 'San Roque',
     'latitude' => 12.533,
@@ -8105,7 +8105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1013 => 
+  1013 =>
   array (
     'name' => 'Padada',
     'latitude' => 6.63,
@@ -8113,7 +8113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1014 => 
+  1014 =>
   array (
     'name' => 'Balabagan',
     'latitude' => 7.53,
@@ -8121,7 +8121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1015 => 
+  1015 =>
   array (
     'name' => 'Quiapo',
     'latitude' => 14.6,
@@ -8129,7 +8129,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1016 => 
+  1016 =>
   array (
     'name' => 'San Luis',
     'latitude' => 15.72,
@@ -8137,7 +8137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1017 => 
+  1017 =>
   array (
     'name' => 'Bontoc',
     'latitude' => 10.35,
@@ -8145,7 +8145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1018 => 
+  1018 =>
   array (
     'name' => 'Benito Soliven',
     'latitude' => 16.98,
@@ -8153,7 +8153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1019 => 
+  1019 =>
   array (
     'name' => 'Makato',
     'latitude' => 11.712,
@@ -8161,7 +8161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1020 => 
+  1020 =>
   array (
     'name' => 'Buenavista',
     'latitude' => 10.08,
@@ -8169,7 +8169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1021 => 
+  1021 =>
   array (
     'name' => 'San Jacinto',
     'latitude' => 12.5683,
@@ -8177,7 +8177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1022 => 
+  1022 =>
   array (
     'name' => 'Pasuquin',
     'latitude' => 18.3342,
@@ -8185,7 +8185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1023 => 
+  1023 =>
   array (
     'name' => 'West Rembo',
     'latitude' => 14.5667,
@@ -8193,7 +8193,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1024 => 
+  1024 =>
   array (
     'name' => 'Placer',
     'latitude' => 9.657,
@@ -8201,7 +8201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1025 => 
+  1025 =>
   array (
     'name' => 'South Ubian',
     'latitude' => 5.18,
@@ -8209,7 +8209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1026 => 
+  1026 =>
   array (
     'name' => 'Zamboanguita',
     'latitude' => 9.1,
@@ -8217,7 +8217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1027 => 
+  1027 =>
   array (
     'name' => 'Sumilao',
     'latitude' => 8.3281,
@@ -8225,7 +8225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1028 => 
+  1028 =>
   array (
     'name' => 'Kumalarang',
     'latitude' => 7.7478,
@@ -8233,7 +8233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1029 => 
+  1029 =>
   array (
     'name' => 'Manticao',
     'latitude' => 8.4042,
@@ -8241,7 +8241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1030 => 
+  1030 =>
   array (
     'name' => 'Garchitorena',
     'latitude' => 13.88,
@@ -8249,7 +8249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1031 => 
+  1031 =>
   array (
     'name' => 'Lavezares',
     'latitude' => 12.53,
@@ -8257,7 +8257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1032 => 
+  1032 =>
   array (
     'name' => 'Bagong Pag-Asa',
     'latitude' => 14.6622,
@@ -8265,7 +8265,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1033 => 
+  1033 =>
   array (
     'name' => 'Licab',
     'latitude' => 15.54,
@@ -8273,7 +8273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1034 => 
+  1034 =>
   array (
     'name' => 'Oslob',
     'latitude' => 9.55,
@@ -8281,7 +8281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1035 => 
+  1035 =>
   array (
     'name' => 'Poona-Piagapo',
     'latitude' => 8.08,
@@ -8289,7 +8289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1036 => 
+  1036 =>
   array (
     'name' => 'Hinunangan',
     'latitude' => 10.4,
@@ -8297,7 +8297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1037 => 
+  1037 =>
   array (
     'name' => 'Sexmoan',
     'latitude' => 14.936,
@@ -8305,7 +8305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1038 => 
+  1038 =>
   array (
     'name' => 'Lugus',
     'latitude' => 5.7,
@@ -8313,7 +8313,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1039 => 
+  1039 =>
   array (
     'name' => 'Santo Domingo',
     'latitude' => 17.6414,
@@ -8321,7 +8321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1040 => 
+  1040 =>
   array (
     'name' => 'Dapa',
     'latitude' => 9.7578,
@@ -8329,7 +8329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1041 => 
+  1041 =>
   array (
     'name' => 'Ampatuan',
     'latitude' => 6.8348,
@@ -8337,7 +8337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1042 => 
+  1042 =>
   array (
     'name' => 'Santo Nino',
     'latitude' => 14.5033,
@@ -8345,7 +8345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1043 => 
+  1043 =>
   array (
     'name' => 'Siquijor',
     'latitude' => 9.18,
@@ -8353,7 +8353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1044 => 
+  1044 =>
   array (
     'name' => 'Jimenez',
     'latitude' => 8.3333,
@@ -8361,7 +8361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1045 => 
+  1045 =>
   array (
     'name' => 'Tabuelan',
     'latitude' => 10.85,
@@ -8369,7 +8369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1046 => 
+  1046 =>
   array (
     'name' => 'Ponot',
     'latitude' => 8.4428,
@@ -8377,7 +8377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1047 => 
+  1047 =>
   array (
     'name' => 'Baleno',
     'latitude' => 12.4739,
@@ -8385,7 +8385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1048 => 
+  1048 =>
   array (
     'name' => 'Babatngon',
     'latitude' => 11.4207,
@@ -8393,7 +8393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1049 => 
+  1049 =>
   array (
     'name' => 'Tibiao',
     'latitude' => 11.2892,
@@ -8401,7 +8401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1050 => 
+  1050 =>
   array (
     'name' => 'Mabini',
     'latitude' => 9.865,
@@ -8409,7 +8409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1051 => 
+  1051 =>
   array (
     'name' => 'Pilar',
     'latitude' => 9.83,
@@ -8417,7 +8417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1052 => 
+  1052 =>
   array (
     'name' => 'Santiago',
     'latitude' => 9.27,
@@ -8425,7 +8425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1053 => 
+  1053 =>
   array (
     'name' => 'Dona Remedios Trinidad',
     'latitude' => 15.0,
@@ -8433,7 +8433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1054 => 
+  1054 =>
   array (
     'name' => 'Tudela',
     'latitude' => 8.2472,
@@ -8441,7 +8441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1055 => 
+  1055 =>
   array (
     'name' => 'Santo Nino',
     'latitude' => 17.8861,
@@ -8449,7 +8449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1056 => 
+  1056 =>
   array (
     'name' => 'Basay',
     'latitude' => 9.42,
@@ -8457,7 +8457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1057 => 
+  1057 =>
   array (
     'name' => 'Saint Bernard',
     'latitude' => 10.28,
@@ -8465,7 +8465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1058 => 
+  1058 =>
   array (
     'name' => 'Valencia',
     'latitude' => 9.6097,
@@ -8473,7 +8473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1059 => 
+  1059 =>
   array (
     'name' => 'San Manuel',
     'latitude' => 15.7975,
@@ -8481,7 +8481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1060 => 
+  1060 =>
   array (
     'name' => 'Datu Piang',
     'latitude' => 7.0178,
@@ -8489,7 +8489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1061 => 
+  1061 =>
   array (
     'name' => 'Libacao',
     'latitude' => 11.48,
@@ -8497,7 +8497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1062 => 
+  1062 =>
   array (
     'name' => 'Kolambugan',
     'latitude' => 8.1144,
@@ -8505,7 +8505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1063 => 
+  1063 =>
   array (
     'name' => 'Pinyahan',
     'latitude' => 14.64,
@@ -8513,7 +8513,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1064 => 
+  1064 =>
   array (
     'name' => 'Cabangan',
     'latitude' => 15.13,
@@ -8521,7 +8521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1065 => 
+  1065 =>
   array (
     'name' => 'Bayang',
     'latitude' => 7.793,
@@ -8529,7 +8529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1066 => 
+  1066 =>
   array (
     'name' => 'Mainit',
     'latitude' => 9.5369,
@@ -8537,7 +8537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1067 => 
+  1067 =>
   array (
     'name' => 'Cuartero',
     'latitude' => 11.3428,
@@ -8545,7 +8545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1068 => 
+  1068 =>
   array (
     'name' => 'Aloran',
     'latitude' => 8.4146,
@@ -8553,7 +8553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1069 => 
+  1069 =>
   array (
     'name' => 'Reina Mercedes Viejo',
     'latitude' => 16.9872,
@@ -8561,7 +8561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1070 => 
+  1070 =>
   array (
     'name' => 'Reina Mercedes',
     'latitude' => 16.9872,
@@ -8569,7 +8569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1071 => 
+  1071 =>
   array (
     'name' => 'Majayjay',
     'latitude' => 14.1463,
@@ -8577,7 +8577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1072 => 
+  1072 =>
   array (
     'name' => 'Caridad',
     'latitude' => 14.4828,
@@ -8585,7 +8585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1073 => 
+  1073 =>
   array (
     'name' => 'Dingalan',
     'latitude' => 15.38,
@@ -8593,7 +8593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1074 => 
+  1074 =>
   array (
     'name' => 'Talusan',
     'latitude' => 7.4263,
@@ -8601,7 +8601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1075 => 
+  1075 =>
   array (
     'name' => 'San Isidro',
     'latitude' => 12.388,
@@ -8609,7 +8609,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1076 => 
+  1076 =>
   array (
     'name' => 'Mahaplag',
     'latitude' => 10.6072,
@@ -8617,7 +8617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1077 => 
+  1077 =>
   array (
     'name' => 'Magdalena',
     'latitude' => 14.2,
@@ -8625,7 +8625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1078 => 
+  1078 =>
   array (
     'name' => 'Lapuyan',
     'latitude' => 7.6325,
@@ -8633,7 +8633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1079 => 
+  1079 =>
   array (
     'name' => 'Leon Postigo',
     'latitude' => 8.1514,
@@ -8641,7 +8641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1080 => 
+  1080 =>
   array (
     'name' => 'Conner',
     'latitude' => 17.8086,
@@ -8649,7 +8649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1081 => 
+  1081 =>
   array (
     'name' => 'Pitogo',
     'latitude' => 7.4536,
@@ -8657,7 +8657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1082 => 
+  1082 =>
   array (
     'name' => 'Villareal',
     'latitude' => 11.57,
@@ -8665,7 +8665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1083 => 
+  1083 =>
   array (
     'name' => 'Palanas',
     'latitude' => 12.1464,
@@ -8673,7 +8673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1084 => 
+  1084 =>
   array (
     'name' => 'Macalelon',
     'latitude' => 13.75,
@@ -8681,7 +8681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1085 => 
+  1085 =>
   array (
     'name' => 'Zarraga',
     'latitude' => 10.82,
@@ -8689,7 +8689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1086 => 
+  1086 =>
   array (
     'name' => 'Ramon Magsaysay',
     'latitude' => 8.0053,
@@ -8697,7 +8697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1087 => 
+  1087 =>
   array (
     'name' => 'Talisay',
     'latitude' => 14.1356,
@@ -8705,7 +8705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1088 => 
+  1088 =>
   array (
     'name' => 'Taraka',
     'latitude' => 7.8994,
@@ -8713,7 +8713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1089 => 
+  1089 =>
   array (
     'name' => 'Badiangan',
     'latitude' => 10.986,
@@ -8721,7 +8721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1090 => 
+  1090 =>
   array (
     'name' => 'San Isidro',
     'latitude' => 16.87,
@@ -8729,7 +8729,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1091 => 
+  1091 =>
   array (
     'name' => 'Quezon',
     'latitude' => 17.3119,
@@ -8737,7 +8737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1092 => 
+  1092 =>
   array (
     'name' => 'Tarragona',
     'latitude' => 7.0491,
@@ -8745,7 +8745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1093 => 
+  1093 =>
   array (
     'name' => 'Tambo',
     'latitude' => 14.5164,
@@ -8753,7 +8753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1094 => 
+  1094 =>
   array (
     'name' => 'Alitagtag',
     'latitude' => 13.865,
@@ -8761,7 +8761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1095 => 
+  1095 =>
   array (
     'name' => 'Santa Margarita',
     'latitude' => 12.0378,
@@ -8769,7 +8769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1096 => 
+  1096 =>
   array (
     'name' => 'Labrador',
     'latitude' => 16.0339,
@@ -8777,7 +8777,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1097 => 
+  1097 =>
   array (
     'name' => 'Magarao',
     'latitude' => 13.6619,
@@ -8785,7 +8785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1098 => 
+  1098 =>
   array (
     'name' => 'Malitbog',
     'latitude' => 8.5361,
@@ -8793,7 +8793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1099 => 
+  1099 =>
   array (
     'name' => 'Saguiaran',
     'latitude' => 8.03,
@@ -8801,7 +8801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1100 => 
+  1100 =>
   array (
     'name' => 'Sapian',
     'latitude' => 11.4939,
@@ -8809,7 +8809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1101 => 
+  1101 =>
   array (
     'name' => 'San Juan',
     'latitude' => 17.7431,
@@ -8817,7 +8817,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1102 => 
+  1102 =>
   array (
     'name' => 'Bien Unido',
     'latitude' => 10.13,
@@ -8825,7 +8825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1103 => 
+  1103 =>
   array (
     'name' => 'Bugho',
     'latitude' => 10.8,
@@ -8833,7 +8833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1104 => 
+  1104 =>
   array (
     'name' => 'San Pablo',
     'latitude' => 7.6578,
@@ -8841,7 +8841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1105 => 
+  1105 =>
   array (
     'name' => 'Pantar',
     'latitude' => 8.0667,
@@ -8849,7 +8849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1106 => 
+  1106 =>
   array (
     'name' => 'Macrohon',
     'latitude' => 10.0797,
@@ -8857,7 +8857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1107 => 
+  1107 =>
   array (
     'name' => 'Lauaan',
     'latitude' => 11.1429,
@@ -8865,7 +8865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1108 => 
+  1108 =>
   array (
     'name' => 'Casiguran',
     'latitude' => 16.28,
@@ -8873,7 +8873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1109 => 
+  1109 =>
   array (
     'name' => 'Plainview',
     'latitude' => 14.5777,
@@ -8881,7 +8881,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1110 => 
+  1110 =>
   array (
     'name' => 'Bubong',
     'latitude' => 8.02,
@@ -8889,7 +8889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1111 => 
+  1111 =>
   array (
     'name' => 'Madalum',
     'latitude' => 7.853,
@@ -8897,7 +8897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1112 => 
+  1112 =>
   array (
     'name' => 'Kayapa',
     'latitude' => 16.3583,
@@ -8905,7 +8905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1113 => 
+  1113 =>
   array (
     'name' => 'Mabini',
     'latitude' => 16.0697,
@@ -8913,7 +8913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1114 => 
+  1114 =>
   array (
     'name' => 'Santa Josefa',
     'latitude' => 7.98,
@@ -8921,7 +8921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1115 => 
+  1115 =>
   array (
     'name' => 'Del Gallego',
     'latitude' => 13.9233,
@@ -8929,7 +8929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1116 => 
+  1116 =>
   array (
     'name' => 'San Jose',
     'latitude' => 10.0083,
@@ -8937,7 +8937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1117 => 
+  1117 =>
   array (
     'name' => 'Lagindingan',
     'latitude' => 8.58,
@@ -8945,7 +8945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1118 => 
+  1118 =>
   array (
     'name' => 'Pandag',
     'latitude' => 6.7411,
@@ -8953,7 +8953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1119 => 
+  1119 =>
   array (
     'name' => 'San Pablo',
     'latitude' => 17.4478,
@@ -8961,7 +8961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1120 => 
+  1120 =>
   array (
     'name' => 'Infanta',
     'latitude' => 15.8208,
@@ -8969,7 +8969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1121 => 
+  1121 =>
   array (
     'name' => 'Lamut',
     'latitude' => 16.6517,
@@ -8977,7 +8977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1122 => 
+  1122 =>
   array (
     'name' => 'Poro',
     'latitude' => 10.629,
@@ -8985,7 +8985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1123 => 
+  1123 =>
   array (
     'name' => 'Sanchez-Mira',
     'latitude' => 18.5611,
@@ -8993,7 +8993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1124 => 
+  1124 =>
   array (
     'name' => 'Manito',
     'latitude' => 13.1235,
@@ -9001,7 +9001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1125 => 
+  1125 =>
   array (
     'name' => 'Sierra Bullones',
     'latitude' => 9.82,
@@ -9009,7 +9009,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1126 => 
+  1126 =>
   array (
     'name' => 'Dancagan',
     'latitude' => 7.6119,
@@ -9017,7 +9017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1127 => 
+  1127 =>
   array (
     'name' => 'Buenavista',
     'latitude' => 13.25,
@@ -9025,7 +9025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1128 => 
+  1128 =>
   array (
     'name' => 'Burgos',
     'latitude' => 17.07,
@@ -9033,7 +9033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1129 => 
+  1129 =>
   array (
     'name' => 'Sinait',
     'latitude' => 17.8667,
@@ -9041,7 +9041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1130 => 
+  1130 =>
   array (
     'name' => 'Santa Lucia',
     'latitude' => 17.1222,
@@ -9049,7 +9049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1131 => 
+  1131 =>
   array (
     'name' => 'Binidayan',
     'latitude' => 7.8,
@@ -9057,7 +9057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1132 => 
+  1132 =>
   array (
     'name' => 'Bobon',
     'latitude' => 12.52,
@@ -9065,7 +9065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1133 => 
+  1133 =>
   array (
     'name' => 'Socorro',
     'latitude' => 9.6181,
@@ -9073,7 +9073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1134 => 
+  1134 =>
   array (
     'name' => 'Tubay',
     'latitude' => 9.16,
@@ -9081,7 +9081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1135 => 
+  1135 =>
   array (
     'name' => 'Santo Cristo',
     'latitude' => 14.6603,
@@ -9089,7 +9089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1136 => 
+  1136 =>
   array (
     'name' => 'Pura',
     'latitude' => 15.6248,
@@ -9097,7 +9097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1137 => 
+  1137 =>
   array (
     'name' => 'Natividad',
     'latitude' => 16.0422,
@@ -9105,7 +9105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1138 => 
+  1138 =>
   array (
     'name' => 'Talisayan',
     'latitude' => 8.9917,
@@ -9113,7 +9113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1139 => 
+  1139 =>
   array (
     'name' => 'Santa Maria',
     'latitude' => 17.47,
@@ -9121,7 +9121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1140 => 
+  1140 =>
   array (
     'name' => 'Tabina',
     'latitude' => 7.4655,
@@ -9129,7 +9129,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1141 => 
+  1141 =>
   array (
     'name' => 'Tarangnan',
     'latitude' => 11.9,
@@ -9137,7 +9137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1142 => 
+  1142 =>
   array (
     'name' => 'Altavas',
     'latitude' => 11.5383,
@@ -9145,7 +9145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1143 => 
+  1143 =>
   array (
     'name' => 'Alegria',
     'latitude' => 9.7243,
@@ -9153,7 +9153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1144 => 
+  1144 =>
   array (
     'name' => 'Busuanga',
     'latitude' => 12.1335,
@@ -9161,7 +9161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1145 => 
+  1145 =>
   array (
     'name' => 'Tipo-Tipo',
     'latitude' => 6.53,
@@ -9169,7 +9169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1146 => 
+  1146 =>
   array (
     'name' => 'Ayuquitan',
     'latitude' => 9.4644,
@@ -9177,7 +9177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1147 => 
+  1147 =>
   array (
     'name' => 'Lopez Jaena',
     'latitude' => 8.55,
@@ -9185,7 +9185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1148 => 
+  1148 =>
   array (
     'name' => 'Unisan',
     'latitude' => 13.8413,
@@ -9193,7 +9193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1149 => 
+  1149 =>
   array (
     'name' => 'Tumbao',
     'latitude' => 7.12,
@@ -9201,7 +9201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1150 => 
+  1150 =>
   array (
     'name' => 'Nagtipunan',
     'latitude' => 16.22,
@@ -9209,7 +9209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1151 => 
+  1151 =>
   array (
     'name' => 'San Miguel',
     'latitude' => 10.0,
@@ -9217,7 +9217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1152 => 
+  1152 =>
   array (
     'name' => 'Talugtug',
     'latitude' => 15.7789,
@@ -9225,7 +9225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1153 => 
+  1153 =>
   array (
     'name' => 'Camalaniugan',
     'latitude' => 18.2756,
@@ -9233,7 +9233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1154 => 
+  1154 =>
   array (
     'name' => 'Allen',
     'latitude' => 12.5013,
@@ -9241,7 +9241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1155 => 
+  1155 =>
   array (
     'name' => 'Sarrat',
     'latitude' => 18.1578,
@@ -9249,7 +9249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1156 => 
+  1156 =>
   array (
     'name' => 'Monreal',
     'latitude' => 12.644,
@@ -9257,7 +9257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1157 => 
+  1157 =>
   array (
     'name' => 'Pagudpud',
     'latitude' => 18.5614,
@@ -9265,7 +9265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1158 => 
+  1158 =>
   array (
     'name' => 'Soccorro',
     'latitude' => 14.6179,
@@ -9273,7 +9273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1159 => 
+  1159 =>
   array (
     'name' => 'Camaligan',
     'latitude' => 13.6208,
@@ -9281,7 +9281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1160 => 
+  1160 =>
   array (
     'name' => 'San Felipe',
     'latitude' => 15.0619,
@@ -9289,7 +9289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1161 => 
+  1161 =>
   array (
     'name' => 'Pangil',
     'latitude' => 14.4,
@@ -9297,7 +9297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1162 => 
+  1162 =>
   array (
     'name' => 'Quirino',
     'latitude' => 17.1356,
@@ -9305,7 +9305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1163 => 
+  1163 =>
   array (
     'name' => 'Paoay',
     'latitude' => 18.0625,
@@ -9313,7 +9313,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1164 => 
+  1164 =>
   array (
     'name' => 'Paete',
     'latitude' => 14.37,
@@ -9321,7 +9321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1165 => 
+  1165 =>
   array (
     'name' => 'Dimasalang',
     'latitude' => 12.1933,
@@ -9329,7 +9329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1166 => 
+  1166 =>
   array (
     'name' => 'Jabonga',
     'latitude' => 9.3431,
@@ -9337,7 +9337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1167 => 
+  1167 =>
   array (
     'name' => 'Solsona',
     'latitude' => 18.0961,
@@ -9345,7 +9345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1168 => 
+  1168 =>
   array (
     'name' => 'Piat',
     'latitude' => 17.7919,
@@ -9353,7 +9353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1169 => 
+  1169 =>
   array (
     'name' => 'General Luna',
     'latitude' => 13.6881,
@@ -9361,7 +9361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1170 => 
+  1170 =>
   array (
     'name' => 'Poblacion',
     'latitude' => 10.1614,
@@ -9369,7 +9369,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1171 => 
+  1171 =>
   array (
     'name' => 'Pamplona',
     'latitude' => 18.4661,
@@ -9377,7 +9377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1172 => 
+  1172 =>
   array (
     'name' => 'Tugaya',
     'latitude' => 7.884,
@@ -9385,7 +9385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1173 => 
+  1173 =>
   array (
     'name' => 'Kalayaan',
     'latitude' => 14.328,
@@ -9393,7 +9393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1174 => 
+  1174 =>
   array (
     'name' => 'Tuburan',
     'latitude' => 6.6,
@@ -9401,7 +9401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1175 => 
+  1175 =>
   array (
     'name' => 'Patian',
     'latitude' => 5.8444,
@@ -9409,7 +9409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1176 => 
+  1176 =>
   array (
     'name' => 'Baroy',
     'latitude' => 8.03,
@@ -9417,7 +9417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1177 => 
+  1177 =>
   array (
     'name' => 'Tamilisan',
     'latitude' => 7.9761,
@@ -9425,7 +9425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1178 => 
+  1178 =>
   array (
     'name' => 'Ternate',
     'latitude' => 14.28,
@@ -9433,7 +9433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1179 => 
+  1179 =>
   array (
     'name' => 'Burdeos',
     'latitude' => 14.8436,
@@ -9441,7 +9441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1180 => 
+  1180 =>
   array (
     'name' => 'Carrascal',
     'latitude' => 9.3683,
@@ -9449,7 +9449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1181 => 
+  1181 =>
   array (
     'name' => 'Santo Tomas',
     'latitude' => 17.4,
@@ -9457,7 +9457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1182 => 
+  1182 =>
   array (
     'name' => 'Malinao',
     'latitude' => 11.6431,
@@ -9465,7 +9465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1183 => 
+  1183 =>
   array (
     'name' => 'Garcia Hernandez',
     'latitude' => 9.6144,
@@ -9473,7 +9473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1184 => 
+  1184 =>
   array (
     'name' => 'Ramain',
     'latitude' => 7.97,
@@ -9481,7 +9481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1185 => 
+  1185 =>
   array (
     'name' => 'Alicia',
     'latitude' => 9.8957,
@@ -9489,7 +9489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1186 => 
+  1186 =>
   array (
     'name' => 'Bacolod',
     'latitude' => 8.1892,
@@ -9497,7 +9497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1187 => 
+  1187 =>
   array (
     'name' => 'Sagbayan',
     'latitude' => 9.92,
@@ -9505,7 +9505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1188 => 
+  1188 =>
   array (
     'name' => 'Lucena',
     'latitude' => 10.88,
@@ -9513,7 +9513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1189 => 
+  1189 =>
   array (
     'name' => 'Kauswagan',
     'latitude' => 8.1917,
@@ -9521,7 +9521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1190 => 
+  1190 =>
   array (
     'name' => 'Lagonglong',
     'latitude' => 8.8,
@@ -9529,7 +9529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1191 => 
+  1191 =>
   array (
     'name' => 'San Enrique',
     'latitude' => 10.42,
@@ -9537,7 +9537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1192 => 
+  1192 =>
   array (
     'name' => 'San Fernando',
     'latitude' => 12.32,
@@ -9545,7 +9545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1193 => 
+  1193 =>
   array (
     'name' => 'Caibiran',
     'latitude' => 11.57,
@@ -9553,7 +9553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1194 => 
+  1194 =>
   array (
     'name' => 'San Agustin',
     'latitude' => 12.5689,
@@ -9561,7 +9561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1195 => 
+  1195 =>
   array (
     'name' => 'Bontoc',
     'latitude' => 17.09,
@@ -9569,7 +9569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1196 => 
+  1196 =>
   array (
     'name' => 'Balete',
     'latitude' => 14.02,
@@ -9577,7 +9577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1197 => 
+  1197 =>
   array (
     'name' => 'Quezon',
     'latitude' => 16.4894,
@@ -9585,7 +9585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1198 => 
+  1198 =>
   array (
     'name' => 'Mina',
     'latitude' => 10.93,
@@ -9593,7 +9593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1199 => 
+  1199 =>
   array (
     'name' => 'Cavinti',
     'latitude' => 14.245,
@@ -9601,7 +9601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1200 => 
+  1200 =>
   array (
     'name' => 'General Emilio Aguinaldo',
     'latitude' => 14.18,
@@ -9609,7 +9609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1201 => 
+  1201 =>
   array (
     'name' => 'Bulusan',
     'latitude' => 12.7522,
@@ -9617,7 +9617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1202 => 
+  1202 =>
   array (
     'name' => 'San Nicolas',
     'latitude' => 13.9283,
@@ -9625,7 +9625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1203 => 
+  1203 =>
   array (
     'name' => 'Magallanes',
     'latitude' => 14.18,
@@ -9633,7 +9633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1204 => 
+  1204 =>
   array (
     'name' => 'Kalawit',
     'latitude' => 7.9051,
@@ -9641,7 +9641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1205 => 
+  1205 =>
   array (
     'name' => 'Catigbian',
     'latitude' => 9.83,
@@ -9649,7 +9649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1206 => 
+  1206 =>
   array (
     'name' => 'Baliguian',
     'latitude' => 7.8088,
@@ -9657,7 +9657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1207 => 
+  1207 =>
   array (
     'name' => 'Candoni',
     'latitude' => 9.82,
@@ -9665,7 +9665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1208 => 
+  1208 =>
   array (
     'name' => 'Burgos',
     'latitude' => 16.0465,
@@ -9673,7 +9673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1209 => 
+  1209 =>
   array (
     'name' => 'Limbuhan',
     'latitude' => 11.8836,
@@ -9681,7 +9681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1210 => 
+  1210 =>
   array (
     'name' => 'Tangalan',
     'latitude' => 11.7775,
@@ -9689,7 +9689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1211 => 
+  1211 =>
   array (
     'name' => 'Pitogo',
     'latitude' => 10.121,
@@ -9697,7 +9697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1212 => 
+  1212 =>
   array (
     'name' => 'Dumaran',
     'latitude' => 10.53,
@@ -9705,7 +9705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1213 => 
+  1213 =>
   array (
     'name' => 'Pakil',
     'latitude' => 14.38,
@@ -9713,7 +9713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1214 => 
+  1214 =>
   array (
     'name' => 'Cuyo',
     'latitude' => 10.85,
@@ -9721,7 +9721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1215 => 
+  1215 =>
   array (
     'name' => 'Padre Burgos',
     'latitude' => 13.9226,
@@ -9729,7 +9729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1216 => 
+  1216 =>
   array (
     'name' => 'Maharlika Village',
     'latitude' => 14.4989,
@@ -9737,7 +9737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1217 => 
+  1217 =>
   array (
     'name' => 'Gamay',
     'latitude' => 12.38,
@@ -9745,7 +9745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1218 => 
+  1218 =>
   array (
     'name' => 'Barbasa',
     'latitude' => 11.1961,
@@ -9753,7 +9753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1219 => 
+  1219 =>
   array (
     'name' => 'Maigo',
     'latitude' => 8.15,
@@ -9761,7 +9761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1220 => 
+  1220 =>
   array (
     'name' => 'Calbiga',
     'latitude' => 11.63,
@@ -9769,7 +9769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1221 => 
+  1221 =>
   array (
     'name' => 'Tugatog',
     'latitude' => 14.6629,
@@ -9777,7 +9777,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1222 => 
+  1222 =>
   array (
     'name' => 'Cajidiocan',
     'latitude' => 12.37,
@@ -9785,7 +9785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1223 => 
+  1223 =>
   array (
     'name' => 'Maibog',
     'latitude' => 10.15,
@@ -9793,7 +9793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1224 => 
+  1224 =>
   array (
     'name' => 'Calamba',
     'latitude' => 8.5583,
@@ -9801,7 +9801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1225 => 
+  1225 =>
   array (
     'name' => 'Culion',
     'latitude' => 11.8944,
@@ -9809,7 +9809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1226 => 
+  1226 =>
   array (
     'name' => 'Carmen',
     'latitude' => 9.0,
@@ -9817,7 +9817,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1227 => 
+  1227 =>
   array (
     'name' => 'Caba',
     'latitude' => 16.4316,
@@ -9825,7 +9825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1228 => 
+  1228 =>
   array (
     'name' => 'Tubungan',
     'latitude' => 10.78,
@@ -9833,7 +9833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1229 => 
+  1229 =>
   array (
     'name' => 'Ramos',
     'latitude' => 15.6667,
@@ -9841,7 +9841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1230 => 
+  1230 =>
   array (
     'name' => 'Viga',
     'latitude' => 13.87,
@@ -9849,7 +9849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1231 => 
+  1231 =>
   array (
     'name' => 'Oteiza',
     'latitude' => 8.7437,
@@ -9857,7 +9857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1232 => 
+  1232 =>
   array (
     'name' => 'General Luna',
     'latitude' => 9.7836,
@@ -9865,7 +9865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1233 => 
+  1233 =>
   array (
     'name' => 'Pitogo',
     'latitude' => 13.785,
@@ -9873,7 +9873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1234 => 
+  1234 =>
   array (
     'name' => 'Lumbatan',
     'latitude' => 7.785,
@@ -9881,7 +9881,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1235 => 
+  1235 =>
   array (
     'name' => 'Butig',
     'latitude' => 7.7239,
@@ -9889,7 +9889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1236 => 
+  1236 =>
   array (
     'name' => 'Prieto Diaz',
     'latitude' => 13.0408,
@@ -9897,7 +9897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1237 => 
+  1237 =>
   array (
     'name' => 'Parabcan',
     'latitude' => 13.71,
@@ -9905,7 +9905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1238 => 
+  1238 =>
   array (
     'name' => 'Sarangani',
     'latitude' => 5.412,
@@ -9913,7 +9913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1239 => 
+  1239 =>
   array (
     'name' => 'Lazi',
     'latitude' => 9.128,
@@ -9921,7 +9921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1240 => 
+  1240 =>
   array (
     'name' => 'Piddig',
     'latitude' => 18.1647,
@@ -9929,7 +9929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1241 => 
+  1241 =>
   array (
     'name' => 'Baclayon',
     'latitude' => 9.6227,
@@ -9937,7 +9937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1242 => 
+  1242 =>
   array (
     'name' => 'Naawan',
     'latitude' => 8.4333,
@@ -9945,7 +9945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1243 => 
+  1243 =>
   array (
     'name' => 'Magallanes',
     'latitude' => 9.02,
@@ -9953,7 +9953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1244 => 
+  1244 =>
   array (
     'name' => 'Ugong',
     'latitude' => 14.5842,
@@ -9961,7 +9961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1245 => 
+  1245 =>
   array (
     'name' => 'Maribojoc',
     'latitude' => 9.75,
@@ -9969,7 +9969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1246 => 
+  1246 =>
   array (
     'name' => 'Batad',
     'latitude' => 11.42,
@@ -9977,7 +9977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1247 => 
+  1247 =>
   array (
     'name' => 'Salcedo',
     'latitude' => 11.15,
@@ -9985,7 +9985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1248 => 
+  1248 =>
   array (
     'name' => 'Santa Fe',
     'latitude' => 11.1856,
@@ -9993,7 +9993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1249 => 
+  1249 =>
   array (
     'name' => 'San Agustin',
     'latitude' => 16.52,
@@ -10001,7 +10001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1250 => 
+  1250 =>
   array (
     'name' => 'Madamba',
     'latitude' => 7.88,
@@ -10009,7 +10009,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1251 => 
+  1251 =>
   array (
     'name' => 'Anini-y',
     'latitude' => 10.4325,
@@ -10017,7 +10017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1252 => 
+  1252 =>
   array (
     'name' => 'San Jose',
     'latitude' => 9.42,
@@ -10025,7 +10025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1253 => 
+  1253 =>
   array (
     'name' => 'Gigaquit',
     'latitude' => 9.5947,
@@ -10033,7 +10033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1254 => 
+  1254 =>
   array (
     'name' => 'Looc',
     'latitude' => 12.2605,
@@ -10041,7 +10041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1255 => 
+  1255 =>
   array (
     'name' => 'Bato',
     'latitude' => 13.6,
@@ -10049,7 +10049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1256 => 
+  1256 =>
   array (
     'name' => 'Cagwait',
     'latitude' => 8.9181,
@@ -10057,7 +10057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1257 => 
+  1257 =>
   array (
     'name' => 'Guipos',
     'latitude' => 7.735,
@@ -10065,7 +10065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1258 => 
+  1258 =>
   array (
     'name' => 'Can-Avid',
     'latitude' => 12.0,
@@ -10073,7 +10073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1259 => 
+  1259 =>
   array (
     'name' => 'Tigbao',
     'latitude' => 7.8205,
@@ -10081,7 +10081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1260 => 
+  1260 =>
   array (
     'name' => 'San Fernando',
     'latitude' => 12.4858,
@@ -10089,7 +10089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1261 => 
+  1261 =>
   array (
     'name' => 'MacArthur',
     'latitude' => 10.8356,
@@ -10097,7 +10097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1262 => 
+  1262 =>
   array (
     'name' => 'Rancheria Payau',
     'latitude' => 7.8509,
@@ -10105,7 +10105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1263 => 
+  1263 =>
   array (
     'name' => 'Santa Teresita',
     'latitude' => 13.8664,
@@ -10113,7 +10113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1264 => 
+  1264 =>
   array (
     'name' => 'Cabucgayan',
     'latitude' => 11.4719,
@@ -10121,7 +10121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1265 => 
+  1265 =>
   array (
     'name' => 'Pandan',
     'latitude' => 14.05,
@@ -10129,7 +10129,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1266 => 
+  1266 =>
   array (
     'name' => 'Llorente',
     'latitude' => 11.4125,
@@ -10137,7 +10137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1267 => 
+  1267 =>
   array (
     'name' => 'Inopacan',
     'latitude' => 10.5,
@@ -10145,7 +10145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1268 => 
+  1268 =>
   array (
     'name' => 'Luna',
     'latitude' => 18.3311,
@@ -10153,7 +10153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1269 => 
+  1269 =>
   array (
     'name' => 'Krus na Ligas',
     'latitude' => 14.6442,
@@ -10161,7 +10161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1270 => 
+  1270 =>
   array (
     'name' => 'Kitcharao',
     'latitude' => 9.46,
@@ -10169,7 +10169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1271 => 
+  1271 =>
   array (
     'name' => 'Mabitac',
     'latitude' => 14.43,
@@ -10177,7 +10177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1272 => 
+  1272 =>
   array (
     'name' => 'Linamon',
     'latitude' => 8.18,
@@ -10185,7 +10185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1273 => 
+  1273 =>
   array (
     'name' => 'Dupax del Sur',
     'latitude' => 16.2842,
@@ -10193,7 +10193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1274 => 
+  1274 =>
   array (
     'name' => 'Clarin',
     'latitude' => 9.97,
@@ -10201,7 +10201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1275 => 
+  1275 =>
   array (
     'name' => 'Loyola Heights',
     'latitude' => 14.6403,
@@ -10209,7 +10209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1276 => 
+  1276 =>
   array (
     'name' => 'Aguinaldo',
     'latitude' => 16.9789,
@@ -10217,7 +10217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1277 => 
+  1277 =>
   array (
     'name' => 'Ronda',
     'latitude' => 10.0003,
@@ -10225,7 +10225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1278 => 
+  1278 =>
   array (
     'name' => 'Barcelona',
     'latitude' => 12.8694,
@@ -10233,7 +10233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1279 => 
+  1279 =>
   array (
     'name' => 'Punturin',
     'latitude' => 14.7381,
@@ -10241,7 +10241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1280 => 
+  1280 =>
   array (
     'name' => 'San Guillermo',
     'latitude' => 16.7244,
@@ -10249,7 +10249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1281 => 
+  1281 =>
   array (
     'name' => 'Luisiana',
     'latitude' => 14.185,
@@ -10257,7 +10257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1282 => 
+  1282 =>
   array (
     'name' => 'Hindang',
     'latitude' => 10.4339,
@@ -10265,7 +10265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1283 => 
+  1283 =>
   array (
     'name' => 'Banting',
     'latitude' => 5.7167,
@@ -10273,7 +10273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1284 => 
+  1284 =>
   array (
     'name' => 'Tolosa',
     'latitude' => 11.0633,
@@ -10281,7 +10281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1285 => 
+  1285 =>
   array (
     'name' => 'Luna',
     'latitude' => 16.97,
@@ -10289,7 +10289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1286 => 
+  1286 =>
   array (
     'name' => 'Banaue',
     'latitude' => 16.9119,
@@ -10297,7 +10297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1287 => 
+  1287 =>
   array (
     'name' => 'Kapay',
     'latitude' => 8.08,
@@ -10305,7 +10305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1288 => 
+  1288 =>
   array (
     'name' => 'Lugait',
     'latitude' => 8.3411,
@@ -10313,7 +10313,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1289 => 
+  1289 =>
   array (
     'name' => 'Guadalupe Nuevo',
     'latitude' => 14.5587,
@@ -10321,7 +10321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1290 => 
+  1290 =>
   array (
     'name' => 'Binondo',
     'latitude' => 14.6,
@@ -10329,7 +10329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1291 => 
+  1291 =>
   array (
     'name' => 'Sapang Dalaga',
     'latitude' => 8.55,
@@ -10337,7 +10337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1292 => 
+  1292 =>
   array (
     'name' => 'Magsaysay',
     'latitude' => 8.03,
@@ -10345,7 +10345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1293 => 
+  1293 =>
   array (
     'name' => 'Kawayan',
     'latitude' => 11.7,
@@ -10353,7 +10353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1294 => 
+  1294 =>
   array (
     'name' => 'Samboan',
     'latitude' => 9.5288,
@@ -10361,7 +10361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1295 => 
+  1295 =>
   array (
     'name' => 'San Martin De Porres',
     'latitude' => 14.4817,
@@ -10369,7 +10369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1296 => 
+  1296 =>
   array (
     'name' => 'Danao',
     'latitude' => 10.02,
@@ -10377,7 +10377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1297 => 
+  1297 =>
   array (
     'name' => 'Pinan',
     'latitude' => 8.4822,
@@ -10385,7 +10385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1298 => 
+  1298 =>
   array (
     'name' => 'Del Carmen',
     'latitude' => 9.869,
@@ -10393,7 +10393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1299 => 
+  1299 =>
   array (
     'name' => 'Villa Verde',
     'latitude' => 16.6067,
@@ -10401,7 +10401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1300 => 
+  1300 =>
   array (
     'name' => 'Valderrama',
     'latitude' => 11.0036,
@@ -10409,7 +10409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1301 => 
+  1301 =>
   array (
     'name' => 'Mulundo',
     'latitude' => 7.93,
@@ -10417,7 +10417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1302 => 
+  1302 =>
   array (
     'name' => 'Dagohoy',
     'latitude' => 9.92,
@@ -10425,7 +10425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1303 => 
+  1303 =>
   array (
     'name' => 'San Miguel',
     'latitude' => 7.65,
@@ -10433,7 +10433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1304 => 
+  1304 =>
   array (
     'name' => 'Malabuyoc',
     'latitude' => 9.65,
@@ -10441,7 +10441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1305 => 
+  1305 =>
   array (
     'name' => 'San Miguel',
     'latitude' => 11.2942,
@@ -10449,7 +10449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1306 => 
+  1306 =>
   array (
     'name' => 'Sinacaban',
     'latitude' => 8.2854,
@@ -10457,7 +10457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1307 => 
+  1307 =>
   array (
     'name' => 'Caoayan',
     'latitude' => 17.5469,
@@ -10465,7 +10465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1308 => 
+  1308 =>
   array (
     'name' => 'Santa Teresita',
     'latitude' => 18.2519,
@@ -10473,7 +10473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1309 => 
+  1309 =>
   array (
     'name' => 'Rizal',
     'latitude' => 17.5,
@@ -10481,7 +10481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1310 => 
+  1310 =>
   array (
     'name' => 'Santiago',
     'latitude' => 17.2947,
@@ -10489,7 +10489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1311 => 
+  1311 =>
   array (
     'name' => 'Cervantes',
     'latitude' => 16.9917,
@@ -10497,7 +10497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1312 => 
+  1312 =>
   array (
     'name' => 'Marihatag',
     'latitude' => 8.8008,
@@ -10505,7 +10505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1313 => 
+  1313 =>
   array (
     'name' => 'Tublay',
     'latitude' => 16.4764,
@@ -10513,7 +10513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1314 => 
+  1314 =>
   array (
     'name' => 'Siruma',
     'latitude' => 14.0219,
@@ -10521,7 +10521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1315 => 
+  1315 =>
   array (
     'name' => 'Pastrana',
     'latitude' => 11.13,
@@ -10529,7 +10529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1316 => 
+  1316 =>
   array (
     'name' => 'Buruanga',
     'latitude' => 11.8438,
@@ -10537,7 +10537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1317 => 
+  1317 =>
   array (
     'name' => 'Napindan',
     'latitude' => 14.5398,
@@ -10545,7 +10545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1318 => 
+  1318 =>
   array (
     'name' => 'Tadian',
     'latitude' => 16.9961,
@@ -10553,7 +10553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1319 => 
+  1319 =>
   array (
     'name' => 'Pugo',
     'latitude' => 16.28,
@@ -10561,7 +10561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1320 => 
+  1320 =>
   array (
     'name' => 'San Roque',
     'latitude' => 14.48,
@@ -10569,7 +10569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1321 => 
+  1321 =>
   array (
     'name' => 'Espiritu',
     'latitude' => 17.9806,
@@ -10577,7 +10577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1322 => 
+  1322 =>
   array (
     'name' => 'Kapangan',
     'latitude' => 16.5764,
@@ -10585,7 +10585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1323 => 
+  1323 =>
   array (
     'name' => 'Balintawak',
     'latitude' => 14.6506,
@@ -10593,7 +10593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1324 => 
+  1324 =>
   array (
     'name' => 'Cabusao',
     'latitude' => 13.7275,
@@ -10601,7 +10601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1325 => 
+  1325 =>
   array (
     'name' => 'Diadi',
     'latitude' => 16.66,
@@ -10609,7 +10609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1326 => 
+  1326 =>
   array (
     'name' => 'Atok',
     'latitude' => 16.6272,
@@ -10617,7 +10617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1327 => 
+  1327 =>
   array (
     'name' => 'Tingloy',
     'latitude' => 13.65,
@@ -10625,7 +10625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1328 => 
+  1328 =>
   array (
     'name' => 'Jiabong',
     'latitude' => 11.7625,
@@ -10633,7 +10633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1329 => 
+  1329 =>
   array (
     'name' => 'Ermita',
     'latitude' => 14.583,
@@ -10641,7 +10641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1330 => 
+  1330 =>
   array (
     'name' => 'Alcoy',
     'latitude' => 9.7082,
@@ -10649,7 +10649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1331 => 
+  1331 =>
   array (
     'name' => 'La Paz',
     'latitude' => 10.8911,
@@ -10657,7 +10657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1332 => 
+  1332 =>
   array (
     'name' => 'San Teodoro',
     'latitude' => 13.4358,
@@ -10665,7 +10665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1333 => 
+  1333 =>
   array (
     'name' => 'Lumbayanague',
     'latitude' => 7.78,
@@ -10673,7 +10673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1334 => 
+  1334 =>
   array (
     'name' => 'Rizal',
     'latitude' => 17.8478,
@@ -10681,7 +10681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1335 => 
+  1335 =>
   array (
     'name' => 'Malanday',
     'latitude' => 14.7194,
@@ -10689,7 +10689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1336 => 
+  1336 =>
   array (
     'name' => 'San Gabriel',
     'latitude' => 16.67,
@@ -10697,7 +10697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1337 => 
+  1337 =>
   array (
     'name' => 'Madalag',
     'latitude' => 11.5269,
@@ -10705,7 +10705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1338 => 
+  1338 =>
   array (
     'name' => 'Lagawe',
     'latitude' => 16.7975,
@@ -10713,7 +10713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1339 => 
+  1339 =>
   array (
     'name' => 'Duero',
     'latitude' => 9.72,
@@ -10721,7 +10721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1340 => 
+  1340 =>
   array (
     'name' => 'Malimono',
     'latitude' => 9.6183,
@@ -10729,7 +10729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1341 => 
+  1341 =>
   array (
     'name' => 'Nunungan',
     'latitude' => 7.82,
@@ -10737,7 +10737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1342 => 
+  1342 =>
   array (
     'name' => 'Sebaste',
     'latitude' => 11.5901,
@@ -10745,7 +10745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1343 => 
+  1343 =>
   array (
     'name' => 'Taft',
     'latitude' => 11.9058,
@@ -10753,7 +10753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1344 => 
+  1344 =>
   array (
     'name' => 'Paglat',
     'latitude' => 6.7811,
@@ -10761,7 +10761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1345 => 
+  1345 =>
   array (
     'name' => 'Balilihan',
     'latitude' => 9.75,
@@ -10769,7 +10769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1346 => 
+  1346 =>
   array (
     'name' => 'San Miguel',
     'latitude' => 14.6,
@@ -10777,7 +10777,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1347 => 
+  1347 =>
   array (
     'name' => 'Paluan',
     'latitude' => 13.42,
@@ -10785,7 +10785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1348 => 
+  1348 =>
   array (
     'name' => 'Santander',
     'latitude' => 9.45,
@@ -10793,7 +10793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1349 => 
+  1349 =>
   array (
     'name' => 'Bilar',
     'latitude' => 9.7,
@@ -10801,7 +10801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1350 => 
+  1350 =>
   array (
     'name' => 'Tinoc',
     'latitude' => 16.675,
@@ -10809,7 +10809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1351 => 
+  1351 =>
   array (
     'name' => 'Baliangao',
     'latitude' => 8.67,
@@ -10817,7 +10817,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1352 => 
+  1352 =>
   array (
     'name' => 'Tinajeros',
     'latitude' => 14.6733,
@@ -10825,7 +10825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1353 => 
+  1353 =>
   array (
     'name' => 'Cagdianao',
     'latitude' => 9.92,
@@ -10833,7 +10833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1354 => 
+  1354 =>
   array (
     'name' => 'Cortes',
     'latitude' => 9.72,
@@ -10841,7 +10841,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1355 => 
+  1355 =>
   array (
     'name' => 'Rizal',
     'latitude' => 14.1083,
@@ -10849,7 +10849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1356 => 
+  1356 =>
   array (
     'name' => 'Santa Fe',
     'latitude' => 16.1592,
@@ -10857,7 +10857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1357 => 
+  1357 =>
   array (
     'name' => 'Pinabacdao',
     'latitude' => 11.62,
@@ -10865,7 +10865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1358 => 
+  1358 =>
   array (
     'name' => 'Mayorga',
     'latitude' => 10.9,
@@ -10873,7 +10873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1359 => 
+  1359 =>
   array (
     'name' => 'Santa Ana',
     'latitude' => 14.5277,
@@ -10881,7 +10881,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1360 => 
+  1360 =>
   array (
     'name' => 'Libjo',
     'latitude' => 10.196,
@@ -10889,7 +10889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1361 => 
+  1361 =>
   array (
     'name' => 'Buadiposo-Buntong',
     'latitude' => 7.97,
@@ -10897,7 +10897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1362 => 
+  1362 =>
   array (
     'name' => 'Marcos',
     'latitude' => 18.0444,
@@ -10905,7 +10905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1363 => 
+  1363 =>
   array (
     'name' => 'Bombon',
     'latitude' => 13.6867,
@@ -10913,7 +10913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1364 => 
+  1364 =>
   array (
     'name' => 'Almeria',
     'latitude' => 11.6206,
@@ -10921,7 +10921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1365 => 
+  1365 =>
   array (
     'name' => 'Bucay',
     'latitude' => 17.54,
@@ -10929,7 +10929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1366 => 
+  1366 =>
   array (
     'name' => 'Flora',
     'latitude' => 18.2147,
@@ -10937,7 +10937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1367 => 
+  1367 =>
   array (
     'name' => 'Cortes',
     'latitude' => 9.2753,
@@ -10945,7 +10945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1368 => 
+  1368 =>
   array (
     'name' => 'Gitagum',
     'latitude' => 8.5956,
@@ -10953,7 +10953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1369 => 
+  1369 =>
   array (
     'name' => 'Loay',
     'latitude' => 9.6,
@@ -10961,7 +10961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1370 => 
+  1370 =>
   array (
     'name' => 'Marabut',
     'latitude' => 11.12,
@@ -10969,7 +10969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1371 => 
+  1371 =>
   array (
     'name' => 'Santa Fe',
     'latitude' => 12.15,
@@ -10977,7 +10977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1372 => 
+  1372 =>
   array (
     'name' => 'San Rafael',
     'latitude' => 11.1728,
@@ -10985,7 +10985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1373 => 
+  1373 =>
   array (
     'name' => 'Jovellar',
     'latitude' => 13.07,
@@ -10993,7 +10993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1374 => 
+  1374 =>
   array (
     'name' => 'Anda',
     'latitude' => 9.744,
@@ -11001,7 +11001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1375 => 
+  1375 =>
   array (
     'name' => 'Kiangan',
     'latitude' => 16.7775,
@@ -11009,7 +11009,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1376 => 
+  1376 =>
   array (
     'name' => 'Palanan',
     'latitude' => 17.0589,
@@ -11017,7 +11017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1377 => 
+  1377 =>
   array (
     'name' => 'Biliran',
     'latitude' => 11.58,
@@ -11025,7 +11025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1378 => 
+  1378 =>
   array (
     'name' => 'San Jose',
     'latitude' => 12.531,
@@ -11033,7 +11033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1379 => 
+  1379 =>
   array (
     'name' => 'Pinili',
     'latitude' => 17.954,
@@ -11041,7 +11041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1380 => 
+  1380 =>
   array (
     'name' => 'San Jorge',
     'latitude' => 11.9833,
@@ -11049,7 +11049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1381 => 
+  1381 =>
   array (
     'name' => 'Catarman',
     'latitude' => 9.13,
@@ -11057,7 +11057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1382 => 
+  1382 =>
   array (
     'name' => 'Esperanza',
     'latitude' => 11.7369,
@@ -11065,7 +11065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1383 => 
+  1383 =>
   array (
     'name' => 'Boljoon',
     'latitude' => 9.63,
@@ -11073,7 +11073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1384 => 
+  1384 =>
   array (
     'name' => 'Matagob',
     'latitude' => 11.1469,
@@ -11081,7 +11081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1385 => 
+  1385 =>
   array (
     'name' => 'Libertad',
     'latitude' => 11.769,
@@ -11089,7 +11089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1386 => 
+  1386 =>
   array (
     'name' => 'Talitay',
     'latitude' => 7.0353,
@@ -11097,7 +11097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1387 => 
+  1387 =>
   array (
     'name' => 'Sibutao',
     'latitude' => 8.6131,
@@ -11105,7 +11105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1388 => 
+  1388 =>
   array (
     'name' => 'Lubang',
     'latitude' => 13.8586,
@@ -11113,7 +11113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1389 => 
+  1389 =>
   array (
     'name' => 'Loboc',
     'latitude' => 9.63,
@@ -11121,7 +11121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1390 => 
+  1390 =>
   array (
     'name' => 'Calayan',
     'latitude' => 19.2619,
@@ -11129,7 +11129,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1391 => 
+  1391 =>
   array (
     'name' => 'Tagana-an',
     'latitude' => 9.6964,
@@ -11137,7 +11137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1392 => 
+  1392 =>
   array (
     'name' => 'Sudipen',
     'latitude' => 16.9,
@@ -11145,7 +11145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1393 => 
+  1393 =>
   array (
     'name' => 'Alcantara',
     'latitude' => 12.2584,
@@ -11153,7 +11153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1394 => 
+  1394 =>
   array (
     'name' => 'Saguday',
     'latitude' => 16.5394,
@@ -11161,7 +11161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1395 => 
+  1395 =>
   array (
     'name' => 'Dilasag',
     'latitude' => 16.4,
@@ -11169,7 +11169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1396 => 
+  1396 =>
   array (
     'name' => 'Santa Magdalena',
     'latitude' => 12.6489,
@@ -11177,7 +11177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1397 => 
+  1397 =>
   array (
     'name' => 'Kibungan',
     'latitude' => 16.6939,
@@ -11185,7 +11185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1398 => 
+  1398 =>
   array (
     'name' => 'Tomas Oppus',
     'latitude' => 10.25,
@@ -11193,7 +11193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1399 => 
+  1399 =>
   array (
     'name' => 'Alcantara',
     'latitude' => 9.9715,
@@ -11201,7 +11201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1400 => 
+  1400 =>
   array (
     'name' => 'Ginatilan',
     'latitude' => 9.6,
@@ -11209,7 +11209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1401 => 
+  1401 =>
   array (
     'name' => 'Tubaran',
     'latitude' => 7.72,
@@ -11217,7 +11217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1402 => 
+  1402 =>
   array (
     'name' => 'Famy',
     'latitude' => 14.43,
@@ -11225,7 +11225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1403 => 
+  1403 =>
   array (
     'name' => 'Madrid',
     'latitude' => 9.2619,
@@ -11233,7 +11233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1404 => 
+  1404 =>
   array (
     'name' => 'Barangka',
     'latitude' => 14.6297,
@@ -11241,7 +11241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1405 => 
+  1405 =>
   array (
     'name' => 'La Paz',
     'latitude' => 17.6739,
@@ -11249,7 +11249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1406 => 
+  1406 =>
   array (
     'name' => 'San Miguel',
     'latitude' => 11.492,
@@ -11257,7 +11257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1407 => 
+  1407 =>
   array (
     'name' => 'Panukulan',
     'latitude' => 14.93,
@@ -11265,7 +11265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1408 => 
+  1408 =>
   array (
     'name' => 'San Juan',
     'latitude' => 9.159,
@@ -11273,7 +11273,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1409 => 
+  1409 =>
   array (
     'name' => 'Arteche',
     'latitude' => 12.2694,
@@ -11281,7 +11281,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1410 => 
+  1410 =>
   array (
     'name' => 'Zumarraga',
     'latitude' => 11.639,
@@ -11289,7 +11289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1411 => 
+  1411 =>
   array (
     'name' => 'Kabugao',
     'latitude' => 18.0239,
@@ -11297,7 +11297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1412 => 
+  1412 =>
   array (
     'name' => 'Alegria',
     'latitude' => 9.4667,
@@ -11305,7 +11305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1413 => 
+  1413 =>
   array (
     'name' => 'Bingawan',
     'latitude' => 11.23,
@@ -11313,7 +11313,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1414 => 
+  1414 =>
   array (
     'name' => 'Tankal',
     'latitude' => 8.0,
@@ -11321,7 +11321,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1415 => 
+  1415 =>
   array (
     'name' => 'Despujols',
     'latitude' => 12.5183,
@@ -11329,7 +11329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1416 => 
+  1416 =>
   array (
     'name' => 'Alabat',
     'latitude' => 14.1023,
@@ -11337,7 +11337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1417 => 
+  1417 =>
   array (
     'name' => 'Quezon',
     'latitude' => 14.05,
@@ -11345,7 +11345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1418 => 
+  1418 =>
   array (
     'name' => 'Kabayan',
     'latitude' => 16.6233,
@@ -11353,7 +11353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1419 => 
+  1419 =>
   array (
     'name' => 'Sulat',
     'latitude' => 11.82,
@@ -11361,7 +11361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1420 => 
+  1420 =>
   array (
     'name' => 'San Miguel',
     'latitude' => 13.6411,
@@ -11369,7 +11369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1421 => 
+  1421 =>
   array (
     'name' => 'Leso',
     'latitude' => 11.6697,
@@ -11377,7 +11377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1422 => 
+  1422 =>
   array (
     'name' => 'Mayoyao',
     'latitude' => 16.9736,
@@ -11385,7 +11385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1423 => 
+  1423 =>
   array (
     'name' => 'Calumpang',
     'latitude' => 14.6249,
@@ -11393,7 +11393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1424 => 
+  1424 =>
   array (
     'name' => 'Julita',
     'latitude' => 10.9731,
@@ -11401,7 +11401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1425 => 
+  1425 =>
   array (
     'name' => 'Pudtol',
     'latitude' => 18.2356,
@@ -11409,7 +11409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1426 => 
+  1426 =>
   array (
     'name' => 'Ambaguio',
     'latitude' => 16.5316,
@@ -11417,7 +11417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1427 => 
+  1427 =>
   array (
     'name' => 'Magdiwang',
     'latitude' => 12.48,
@@ -11425,7 +11425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1428 => 
+  1428 =>
   array (
     'name' => 'San Policarpo',
     'latitude' => 12.1791,
@@ -11433,7 +11433,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1429 => 
+  1429 =>
   array (
     'name' => 'Victoria',
     'latitude' => 12.45,
@@ -11441,7 +11441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1430 => 
+  1430 =>
   array (
     'name' => 'Anao-aon',
     'latitude' => 9.7778,
@@ -11449,7 +11449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1431 => 
+  1431 =>
   array (
     'name' => 'Maydolong',
     'latitude' => 11.5,
@@ -11457,7 +11457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1432 => 
+  1432 =>
   array (
     'name' => 'Motiong',
     'latitude' => 11.78,
@@ -11465,7 +11465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1433 => 
+  1433 =>
   array (
     'name' => 'Project Six',
     'latitude' => 14.6561,
@@ -11473,7 +11473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1434 => 
+  1434 =>
   array (
     'name' => 'Libagon',
     'latitude' => 10.3,
@@ -11481,7 +11481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1435 => 
+  1435 =>
   array (
     'name' => 'Silvino Lobos',
     'latitude' => 12.3281,
@@ -11489,7 +11489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1436 => 
+  1436 =>
   array (
     'name' => 'Tagoloan',
     'latitude' => 8.1333,
@@ -11497,7 +11497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1437 => 
+  1437 =>
   array (
     'name' => 'Tatarikan',
     'latitude' => 7.73,
@@ -11505,7 +11505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1438 => 
+  1438 =>
   array (
     'name' => 'Patnanungan',
     'latitude' => 14.78,
@@ -11513,7 +11513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1439 => 
+  1439 =>
   array (
     'name' => 'Rizal',
     'latitude' => 8.5272,
@@ -11521,7 +11521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1440 => 
+  1440 =>
   array (
     'name' => 'Tubod',
     'latitude' => 9.5547,
@@ -11529,7 +11529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1441 => 
+  1441 =>
   array (
     'name' => 'Bangui',
     'latitude' => 18.5378,
@@ -11537,7 +11537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1442 => 
+  1442 =>
   array (
     'name' => 'Santa',
     'latitude' => 17.486,
@@ -11545,7 +11545,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1443 => 
+  1443 =>
   array (
     'name' => 'Antequera',
     'latitude' => 9.7812,
@@ -11553,7 +11553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1444 => 
+  1444 =>
   array (
     'name' => 'Calanogas',
     'latitude' => 7.75,
@@ -11561,7 +11561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1445 => 
+  1445 =>
   array (
     'name' => 'Lagangilang',
     'latitude' => 17.61,
@@ -11569,7 +11569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1446 => 
+  1446 =>
   array (
     'name' => 'San Juan',
     'latitude' => 10.27,
@@ -11577,7 +11577,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1447 => 
+  1447 =>
   array (
     'name' => 'Dimiao',
     'latitude' => 9.62,
@@ -11585,7 +11585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1448 => 
+  1448 =>
   array (
     'name' => 'Bacuag',
     'latitude' => 9.6081,
@@ -11593,7 +11593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1449 => 
+  1449 =>
   array (
     'name' => 'San Tomas',
     'latitude' => 15.8792,
@@ -11601,7 +11601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1450 => 
+  1450 =>
   array (
     'name' => 'Tayum',
     'latitude' => 17.62,
@@ -11609,7 +11609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1451 => 
+  1451 =>
   array (
     'name' => 'San Julian',
     'latitude' => 11.7536,
@@ -11617,7 +11617,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1452 => 
+  1452 =>
   array (
     'name' => 'Matungao',
     'latitude' => 8.13,
@@ -11625,7 +11625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1453 => 
+  1453 =>
   array (
     'name' => 'Lope de Vega',
     'latitude' => 12.2983,
@@ -11633,7 +11633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1454 => 
+  1454 =>
   array (
     'name' => 'Mahinog',
     'latitude' => 9.15,
@@ -11641,7 +11641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1455 => 
+  1455 =>
   array (
     'name' => 'Boston',
     'latitude' => 7.8697,
@@ -11649,7 +11649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1456 => 
+  1456 =>
   array (
     'name' => 'Batuan',
     'latitude' => 12.4222,
@@ -11657,7 +11657,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1457 => 
+  1457 =>
   array (
     'name' => 'Bakun',
     'latitude' => 16.7925,
@@ -11665,7 +11665,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1458 => 
+  1458 =>
   array (
     'name' => 'Pualas',
     'latitude' => 7.82,
@@ -11673,7 +11673,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1459 => 
+  1459 =>
   array (
     'name' => 'Quinapundan',
     'latitude' => 11.1578,
@@ -11681,7 +11681,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1460 => 
+  1460 =>
   array (
     'name' => 'Santa Catalina',
     'latitude' => 17.5917,
@@ -11689,7 +11689,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1461 => 
+  1461 =>
   array (
     'name' => 'Nampicuan',
     'latitude' => 15.7342,
@@ -11697,7 +11697,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1462 => 
+  1462 =>
   array (
     'name' => 'Larena',
     'latitude' => 9.249,
@@ -11705,7 +11705,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1463 => 
+  1463 =>
   array (
     'name' => 'Bokod',
     'latitude' => 16.4914,
@@ -11713,7 +11713,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1464 => 
+  1464 =>
   array (
     'name' => 'Araceli',
     'latitude' => 10.5529,
@@ -11721,7 +11721,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1465 => 
+  1465 =>
   array (
     'name' => 'Bagulin',
     'latitude' => 16.6079,
@@ -11729,7 +11729,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1466 => 
+  1466 =>
   array (
     'name' => 'General MacArthur',
     'latitude' => 11.2486,
@@ -11737,7 +11737,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1467 => 
+  1467 =>
   array (
     'name' => 'Maria',
     'latitude' => 9.196,
@@ -11745,7 +11745,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1468 => 
+  1468 =>
   array (
     'name' => 'Balangiga',
     'latitude' => 11.1092,
@@ -11753,7 +11753,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1469 => 
+  1469 =>
   array (
     'name' => 'Balangkas',
     'latitude' => 14.7381,
@@ -11761,7 +11761,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1470 => 
+  1470 =>
   array (
     'name' => 'Sison',
     'latitude' => 9.6592,
@@ -11769,7 +11769,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1471 => 
+  1471 =>
   array (
     'name' => 'Mapanas',
     'latitude' => 12.475,
@@ -11777,7 +11777,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1472 => 
+  1472 =>
   array (
     'name' => 'Santol',
     'latitude' => 16.77,
@@ -11785,7 +11785,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1473 => 
+  1473 =>
   array (
     'name' => 'Belison',
     'latitude' => 10.8381,
@@ -11793,7 +11793,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1474 => 
+  1474 =>
   array (
     'name' => 'Kinogitan',
     'latitude' => 8.9855,
@@ -11801,7 +11801,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1475 => 
+  1475 =>
   array (
     'name' => 'Bambang',
     'latitude' => 14.5228,
@@ -11809,7 +11809,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1476 => 
+  1476 =>
   array (
     'name' => 'Batuan',
     'latitude' => 9.8,
@@ -11817,7 +11817,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1477 => 
+  1477 =>
   array (
     'name' => 'Hinabangan',
     'latitude' => 11.7,
@@ -11825,7 +11825,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1478 => 
+  1478 =>
   array (
     'name' => 'Lanuza',
     'latitude' => 9.2322,
@@ -11833,7 +11833,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1479 => 
+  1479 =>
   array (
     'name' => 'Sampaloc',
     'latitude' => 14.1625,
@@ -11841,7 +11841,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1480 => 
+  1480 =>
   array (
     'name' => 'Baras',
     'latitude' => 13.67,
@@ -11849,7 +11849,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1481 => 
+  1481 =>
   array (
     'name' => 'Dakit',
     'latitude' => 10.06,
@@ -11857,7 +11857,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1482 => 
+  1482 =>
   array (
     'name' => 'Buli',
     'latitude' => 14.443,
@@ -11865,7 +11865,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1483 => 
+  1483 =>
   array (
     'name' => 'Santa Marcela',
     'latitude' => 18.2872,
@@ -11873,7 +11873,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1484 => 
+  1484 =>
   array (
     'name' => 'Lawang Bato',
     'latitude' => 14.73,
@@ -11881,7 +11881,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1485 => 
+  1485 =>
   array (
     'name' => 'San Clemente',
     'latitude' => 15.7119,
@@ -11889,7 +11889,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1486 => 
+  1486 =>
   array (
     'name' => 'Tinglayan',
     'latitude' => 17.265,
@@ -11897,7 +11897,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1487 => 
+  1487 =>
   array (
     'name' => 'San Vicente',
     'latitude' => 17.5947,
@@ -11905,7 +11905,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1488 => 
+  1488 =>
   array (
     'name' => 'Giporlos',
     'latitude' => 11.1208,
@@ -11913,7 +11913,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1489 => 
+  1489 =>
   array (
     'name' => 'Silago',
     'latitude' => 10.5291,
@@ -11921,7 +11921,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1490 => 
+  1490 =>
   array (
     'name' => 'Lawaan',
     'latitude' => 11.1408,
@@ -11929,7 +11929,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1491 => 
+  1491 =>
   array (
     'name' => 'Culaba',
     'latitude' => 11.6578,
@@ -11937,7 +11937,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1492 => 
+  1492 =>
   array (
     'name' => 'Libertad',
     'latitude' => 8.5583,
@@ -11945,7 +11945,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1493 => 
+  1493 =>
   array (
     'name' => 'Balbalan',
     'latitude' => 17.4436,
@@ -11953,7 +11953,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1494 => 
+  1494 =>
   array (
     'name' => 'Agutaya',
     'latitude' => 11.152,
@@ -11961,7 +11961,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1495 => 
+  1495 =>
   array (
     'name' => 'Sagay',
     'latitude' => 9.12,
@@ -11969,7 +11969,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1496 => 
+  1496 =>
   array (
     'name' => 'Burgos',
     'latitude' => 17.3331,
@@ -11977,7 +11977,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1497 => 
+  1497 =>
   array (
     'name' => 'Perez',
     'latitude' => 14.18,
@@ -11985,7 +11985,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1498 => 
+  1498 =>
   array (
     'name' => 'Agdangan',
     'latitude' => 13.8758,
@@ -11993,7 +11993,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1499 => 
+  1499 =>
   array (
     'name' => 'Magsaysay',
     'latitude' => 10.87,
@@ -12001,7 +12001,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1500 => 
+  1500 =>
   array (
     'name' => 'Tagoloan',
     'latitude' => 8.1092,
@@ -12009,7 +12009,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1501 => 
+  1501 =>
   array (
     'name' => 'San Vicente',
     'latitude' => 14.1061,
@@ -12017,7 +12017,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1502 => 
+  1502 =>
   array (
     'name' => 'Calanasan',
     'latitude' => 18.255,
@@ -12025,7 +12025,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1503 => 
+  1503 =>
   array (
     'name' => 'Santo Nino',
     'latitude' => 11.9263,
@@ -12033,7 +12033,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1504 => 
+  1504 =>
   array (
     'name' => 'Pilar',
     'latitude' => 10.807,
@@ -12041,7 +12041,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1505 => 
+  1505 =>
   array (
     'name' => 'Pidigan',
     'latitude' => 17.57,
@@ -12049,7 +12049,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1506 => 
+  1506 =>
   array (
     'name' => 'Hinundayan',
     'latitude' => 10.35,
@@ -12057,7 +12057,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1507 => 
+  1507 =>
   array (
     'name' => 'Capul',
     'latitude' => 12.423,
@@ -12065,7 +12065,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1508 => 
+  1508 =>
   array (
     'name' => 'Lila',
     'latitude' => 9.6,
@@ -12073,7 +12073,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1509 => 
+  1509 =>
   array (
     'name' => 'Currimao',
     'latitude' => 18.0203,
@@ -12081,7 +12081,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1510 => 
+  1510 =>
   array (
     'name' => 'Anao',
     'latitude' => 15.7304,
@@ -12089,7 +12089,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1511 => 
+  1511 =>
   array (
     'name' => 'Josefina',
     'latitude' => 8.2144,
@@ -12097,7 +12097,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1512 => 
+  1512 =>
   array (
     'name' => 'Nueva Era',
     'latitude' => 17.92,
@@ -12105,7 +12105,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1513 => 
+  1513 =>
   array (
     'name' => 'Mariana',
     'latitude' => 14.6194,
@@ -12113,7 +12113,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1514 => 
+  1514 =>
   array (
     'name' => 'Fort Bonifacio',
     'latitude' => 14.5311,
@@ -12121,7 +12121,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1515 => 
+  1515 =>
   array (
     'name' => 'Tabontabon',
     'latitude' => 11.03,
@@ -12129,7 +12129,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1516 => 
+  1516 =>
   array (
     'name' => 'Lapinig',
     'latitude' => 12.315,
@@ -12137,7 +12137,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1517 => 
+  1517 =>
   array (
     'name' => 'Agcogon',
     'latitude' => 12.07,
@@ -12145,7 +12145,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1518 => 
+  1518 =>
   array (
     'name' => 'Mutia',
     'latitude' => 8.4176,
@@ -12153,7 +12153,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1519 => 
+  1519 =>
   array (
     'name' => 'Carmen',
     'latitude' => 9.2289,
@@ -12161,7 +12161,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1520 => 
+  1520 =>
   array (
     'name' => 'Manabo',
     'latitude' => 17.43,
@@ -12169,7 +12169,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1521 => 
+  1521 =>
   array (
     'name' => 'Sablan',
     'latitude' => 16.4967,
@@ -12177,7 +12177,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1522 => 
+  1522 =>
   array (
     'name' => 'Gainza',
     'latitude' => 13.6167,
@@ -12185,7 +12185,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1523 => 
+  1523 =>
   array (
     'name' => 'Dolores',
     'latitude' => 17.65,
@@ -12193,7 +12193,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1524 => 
+  1524 =>
   array (
     'name' => 'Sagada',
     'latitude' => 17.0842,
@@ -12201,7 +12201,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1525 => 
+  1525 =>
   array (
     'name' => 'Sevilla',
     'latitude' => 9.7,
@@ -12209,7 +12209,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1526 => 
+  1526 =>
   array (
     'name' => 'Calatrava',
     'latitude' => 12.6167,
@@ -12217,7 +12217,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1527 => 
+  1527 =>
   array (
     'name' => 'Tudela',
     'latitude' => 10.636,
@@ -12225,7 +12225,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1528 => 
+  1528 =>
   array (
     'name' => 'Biri',
     'latitude' => 12.67,
@@ -12233,7 +12233,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1529 => 
+  1529 =>
   array (
     'name' => 'Alburquerque',
     'latitude' => 9.6104,
@@ -12241,7 +12241,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1530 => 
+  1530 =>
   array (
     'name' => 'Padre Burgos',
     'latitude' => 10.03,
@@ -12249,7 +12249,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1531 => 
+  1531 =>
   array (
     'name' => 'Salcedo',
     'latitude' => 17.1517,
@@ -12257,7 +12257,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1532 => 
+  1532 =>
   array (
     'name' => 'Bagamanoc',
     'latitude' => 13.9408,
@@ -12265,7 +12265,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1533 => 
+  1533 =>
   array (
     'name' => 'Balingoan',
     'latitude' => 9.0,
@@ -12273,7 +12273,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1534 => 
+  1534 =>
   array (
     'name' => 'Rosario',
     'latitude' => 12.52,
@@ -12281,7 +12281,7 @@ return array (
     'province' => 'Cavite',
     'region' => 'IV-A (CALABARZON)',
   ),
-  1535 => 
+  1535 =>
   array (
     'name' => 'Panaon',
     'latitude' => 8.3667,
@@ -12289,7 +12289,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1536 => 
+  1536 =>
   array (
     'name' => 'Suyo',
     'latitude' => 16.9839,
@@ -12297,7 +12297,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1537 => 
+  1537 =>
   array (
     'name' => 'Burgos',
     'latitude' => 18.5114,
@@ -12305,7 +12305,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1538 => 
+  1538 =>
   array (
     'name' => 'Tuktukan',
     'latitude' => 14.528,
@@ -12313,7 +12313,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1539 => 
+  1539 =>
   array (
     'name' => 'San Juan',
     'latitude' => 17.68,
@@ -12321,7 +12321,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1540 => 
+  1540 =>
   array (
     'name' => 'Dinagat',
     'latitude' => 9.9561,
@@ -12329,7 +12329,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1541 => 
+  1541 =>
   array (
     'name' => 'Pasil',
     'latitude' => 17.3894,
@@ -12337,7 +12337,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1542 => 
+  1542 =>
   array (
     'name' => 'Don Galo',
     'latitude' => 14.5072,
@@ -12345,7 +12345,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1543 => 
+  1543 =>
   array (
     'name' => 'San Ricardo',
     'latitude' => 9.92,
@@ -12353,7 +12353,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1544 => 
+  1544 =>
   array (
     'name' => 'Pilar',
     'latitude' => 9.8639,
@@ -12361,7 +12361,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1545 => 
+  1545 =>
   array (
     'name' => 'Natonin',
     'latitude' => 17.1089,
@@ -12369,7 +12369,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1546 => 
+  1546 =>
   array (
     'name' => 'Galimuyod',
     'latitude' => 17.18,
@@ -12377,7 +12377,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1547 => 
+  1547 =>
   array (
     'name' => 'Pintuyan',
     'latitude' => 9.95,
@@ -12385,7 +12385,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1548 => 
+  1548 =>
   array (
     'name' => 'Balangkayan',
     'latitude' => 11.4728,
@@ -12393,7 +12393,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1549 => 
+  1549 =>
   array (
     'name' => 'Pilar',
     'latitude' => 17.42,
@@ -12401,7 +12401,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1550 => 
+  1550 =>
   array (
     'name' => 'Plaridel',
     'latitude' => 13.9511,
@@ -12409,7 +12409,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1551 => 
+  1551 =>
   array (
     'name' => 'Corcuera',
     'latitude' => 12.8,
@@ -12417,7 +12417,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1552 => 
+  1552 =>
   array (
     'name' => 'Hingyon',
     'latitude' => 16.8522,
@@ -12425,7 +12425,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1553 => 
+  1553 =>
   array (
     'name' => 'San Isidro',
     'latitude' => 9.8,
@@ -12433,7 +12433,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1554 => 
+  1554 =>
   array (
     'name' => 'Sugbongkogon',
     'latitude' => 8.95,
@@ -12441,7 +12441,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1555 => 
+  1555 =>
   array (
     'name' => 'Panganiban',
     'latitude' => 13.9,
@@ -12449,7 +12449,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1556 => 
+  1556 =>
   array (
     'name' => 'Loreto',
     'latitude' => 10.3586,
@@ -12457,7 +12457,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1557 => 
+  1557 =>
   array (
     'name' => 'Sabangan',
     'latitude' => 17.0044,
@@ -12465,7 +12465,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1558 => 
+  1558 =>
   array (
     'name' => 'Basco',
     'latitude' => 20.45,
@@ -12473,7 +12473,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1559 => 
+  1559 =>
   array (
     'name' => 'Corella',
     'latitude' => 9.68,
@@ -12481,7 +12481,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1560 => 
+  1560 =>
   array (
     'name' => 'Santa Monica',
     'latitude' => 10.02,
@@ -12489,7 +12489,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1561 => 
+  1561 =>
   array (
     'name' => 'Concepcion',
     'latitude' => 8.4167,
@@ -12497,7 +12497,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1562 => 
+  1562 =>
   array (
     'name' => 'Lubuagan',
     'latitude' => 17.35,
@@ -12505,7 +12505,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1563 => 
+  1563 =>
   array (
     'name' => 'Quirino',
     'latitude' => 17.1383,
@@ -12513,7 +12513,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1564 => 
+  1564 =>
   array (
     'name' => 'Almagro',
     'latitude' => 11.9108,
@@ -12521,7 +12521,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1565 => 
+  1565 =>
   array (
     'name' => 'Burgos',
     'latitude' => 16.525,
@@ -12529,7 +12529,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1566 => 
+  1566 =>
   array (
     'name' => 'Bayabas',
     'latitude' => 8.9678,
@@ -12537,7 +12537,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1567 => 
+  1567 =>
   array (
     'name' => 'San Antonio',
     'latitude' => 12.414,
@@ -12545,7 +12545,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1568 => 
+  1568 =>
   array (
     'name' => 'Hunduan',
     'latitude' => 16.83,
@@ -12553,7 +12553,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1569 => 
+  1569 =>
   array (
     'name' => 'Tagapul-an',
     'latitude' => 12.05,
@@ -12561,7 +12561,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1570 => 
+  1570 =>
   array (
     'name' => 'Tanudan',
     'latitude' => 17.2814,
@@ -12569,7 +12569,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1571 => 
+  1571 =>
   array (
     'name' => 'Gigmoto',
     'latitude' => 13.78,
@@ -12577,7 +12577,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1572 => 
+  1572 =>
   array (
     'name' => 'San Sebastian',
     'latitude' => 11.7,
@@ -12585,7 +12585,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1573 => 
+  1573 =>
   array (
     'name' => 'La Huerta',
     'latitude' => 14.4972,
@@ -12593,7 +12593,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1574 => 
+  1574 =>
   array (
     'name' => 'Alfonso Castaneda',
     'latitude' => 15.7933,
@@ -12601,7 +12601,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1575 => 
+  1575 =>
   array (
     'name' => 'Hernani',
     'latitude' => 11.3239,
@@ -12609,7 +12609,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1576 => 
+  1576 =>
   array (
     'name' => 'San Isidro',
     'latitude' => 9.9369,
@@ -12617,7 +12617,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1577 => 
+  1577 =>
   array (
     'name' => 'Magugpo Poblacion',
     'latitude' => 7.3821,
@@ -12625,7 +12625,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1578 => 
+  1578 =>
   array (
     'name' => 'Pili',
     'latitude' => 13.7177,
@@ -12633,7 +12633,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1579 => 
+  1579 =>
   array (
     'name' => 'Tabuk',
     'latitude' => 17.4084,
@@ -12641,7 +12641,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1580 => 
+  1580 =>
   array (
     'name' => 'San Jose',
     'latitude' => 10.18,
@@ -12649,7 +12649,7 @@ return array (
     'province' => 'Unknown Province',
     'region' => 'Unknown Region',
   ),
-  1581 => 
+  1581 =>
   array (
     'name' => 'Santa Cruz',
     'latitude' => 14.1167,
@@ -12657,7 +12657,7 @@ return array (
     'province' => 'Metro Manila',
     'region' => 'NCR',
   ),
-  1582 => 
+  1582 =>
   array (
     'name' => 'Koronadal',
     'latitude' => 6.2541,

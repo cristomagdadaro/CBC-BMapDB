@@ -34,6 +34,12 @@ export default {
         }
     },
     computed: {
+        Breeder() {
+            return Breeder
+        },
+        Commodity() {
+            return Commodity
+        },
         commodities() {
             if (this.breeder.commodities)
                 return this.breeder.commodities.map(commodity => new Commodity(commodity));
@@ -44,7 +50,6 @@ export default {
         getDataFromAPI() {
             this.axiosInstance.get().then(response => {
                 this.data = response.data
-                console.log(this.data);
             }).catch(error => {
                 console.log(error);
             });
@@ -98,9 +103,9 @@ export default {
                         <commodity-table :params="{ filter:'breeder_id', is_exact:true, search:this.$page.props.breeder.id }" />
                     </template>
                     <template #tab2>
-                        <div class="p-2 relative" v-if="commodities.length">
+                        <div class="p-2 relative" v-if="axiosInstance && axiosInstance.baseUrl">
                             <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>
-                            <Map :custom-point="commodities" />
+                            <Map :base-url="route('api.breeders.noPageSearch', breeder.id)" :model="Commodity"/>
                         </div>
                     </template>
                 </Tab>

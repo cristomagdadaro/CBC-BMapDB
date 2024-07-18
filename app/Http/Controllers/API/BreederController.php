@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\GetBreederRequest;
 use App\Http\Requests\CreateBreederRequest;
+use App\Http\Requests\GetCommoditiesRequest;
 use App\Http\Requests\UpdateBreederRequest;
 use App\Http\Requests\DeleteBreederRequest;
 use App\Repository\API\BreederRepo;
@@ -35,6 +36,12 @@ class BreederController extends BaseController
     {
         $data = $this->service->find($id);
         return $this->sendResponse('Breeder retrieved successfully.', $data);
+    }
+
+    public function noPageSearch(int $id, GetCommoditiesRequest $request)
+    {
+        $data = $this->service->find($id)->load('commodities');
+        return new BaseCollection($data->commodities);
     }
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse

@@ -7,7 +7,8 @@ import {
     LPopup,
     LControlLayers,
     LGeoJson,
-    LTooltip
+    LTooltip,
+    LControl,
 } from "@vue-leaflet/vue-leaflet";
 import 'leaflet/dist/leaflet.css';
 import { icon } from 'leaflet';
@@ -18,10 +19,12 @@ import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue
 import ExportIcon from "@/Components/Icons/ExportIcon.vue";
 import ShareIcon from "@/Components/Icons/ShareIcon.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
-import ApiService from "@/Modules/core/infrastructure/ApiService.js";
+import MapApiService from "@/Pages/Projects/BreedersMap/presentation/components/map/infrastructure/MapApiService.js";
+import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 
 export default {
     components: {
+        LoaderIcon,
         CloseIcon,
         InfoSidebar,
         SearchBox,
@@ -35,7 +38,8 @@ export default {
         LPopup,
         LControlLayers,
         LGeoJson,
-        LTooltip
+        LTooltip,
+        LControl,
     },
     props: {
         customPoint: {
@@ -58,34 +62,23 @@ export default {
             }
         },
         model: {
-            type: Object,
+            type: [Object, Function],
             required: false,
         }
     },
     data() {
         return {
-            api: null,
+            mapApi: null,
             icon: icon({
                 iconUrl: "/public/img/logo_no_bg.png",
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],
             }),
             showListOfPlaces: false,
-            sidebarVisible: false,
             commodities: [],
             isHovered: false,
             tiles: null,
             map: null,
-            zoom: 5.9,
-            minZoom: 5.9,
-            maxZoom: 15,
-            center: [12.296167, 122.763835],
-            maxBound: {
-                southwest: [4.284376, 116.521894],
-                northeast: [21.327897, 126.895418]
-            },
-            markerLatLng: null,
-            selectedPlace: null,
             placesSearched: [],
             placesFiltered: [],
             tileProviders: [
@@ -123,77 +116,69 @@ export default {
         };
     },
     computed: {
+        sidebarVisible() {
+            if (this.mapApi)
+                return this.mapApi.sidebarVisible;
+        },
         province() {
             return regions;
         },
         mapOptions() {
-            return {
-                zoomControl: true,
-                attributionControl: false,
-                maxBoundsViscosity: 1,
-                zoomAnimation: true,
-                fadeAnimation: true,
-                markerZoomAnimation: true,
-                zoomAnimationThreshold: 4,
-                doubleClickZoom: true,
-                keyboard: true,
-                closePopupOnClick: false,
-                dragging: true,
-                touchZoom: true,
-                scrollWheelZoom: true,
-                tap: true
-            };
+            if (this.mapApi)
+                return this.mapApi.mapOptions;
         },
+        processing() {
+            if (this.mapApi)
+                return this.mapApi.processing;
+        },
+        dataPoints() {
+            if (this.mapApi)
+                return this.mapApi.getDataPoint();
+        }
     },
     mounted() {
-        this.commodities = this.$page.props.commodities || this.customPoint;
-        this.placesFiltered = this.commodities;
-        this.placesSearched = this.placesFiltered;
-        this.initializeApi();
+        this.initializeMap();
     },
     methods: {
+        async initializeMap() {
+            this.mapApi = new MapApiService(this.baseUrl, this.baseModel);
+            await this.mapApi.init();
+            this.loadData();
+        },
+        async refreshData() {
+            await this.mapApi.refresh();
+            this.loadData();
+        },
+        async updateFilters(param, value) {
+            // prevent multiple request when typing
+            if (this.mapApi && this.mapApi.processing) {
+                return;
+            }
+            this.params[param] = value;
+            await this.mapApi.updateParam(this.params);
+            this.loadData();
+        },
+        loadData() {
+            this.commodities = this.dataPoints || this.customPoint;
+            this.placesFiltered = this.commodities;
+            this.placesSearched = this.placesFiltered;
+        },
         selectPoint(point) {
             if (!this.$refs.map) return;
-            this.markerLatLng = [point.latitude, point.longitude];
-            this.selectedPlace = point;
-            this.updateCenter(this.markerLatLng);
-            this.updateZoom(8);
-            this.sidebarVisible = true; // open the sidebar on point selection
+            this.mapApi.selectPoint(point);
         },
         updateCenter(center) {
-            this.center = center;
+            this.mapApi.updateCenter(center);
         },
         updateZoom(zoom) {
-            this.zoom = zoom;
+            this.mapApi.updateZoom(zoom);
         },
         isPointSelected(point) {
-            return this.markerLatLng && this.markerLatLng[0] === point.latitude && this.markerLatLng[1] === point.longitude;
+            return this.mapApi.isPointSelected(point);
         },
         deselectPoint() {
-            this.markerLatLng = null;
-            this.selectedPlace = null;
-            this.sidebarVisible = false;
-            this.updateZoom(this.minZoom);
+            this.mapApi.deselectPoint();
         },
-        initializeApi() {
-            if (this.baseUrl && !this.api) {
-                this.api = new ApiService(this.baseUrl);
-                this.getPlacesFromAPI();
-            }
-        },
-        getPlacesFromAPI(search = null) {
-            if (this.api || search) {
-                this.api.get({
-                    search: search,
-                }, this.model).then(response => {
-                    this.commodities = response.data.data;
-                    this.placesFiltered = this.commodities;
-                    this.placesSearched = this.placesFiltered;
-                }).catch(error => {
-                    console.log(error);
-                });
-            }
-        }
     },
     watch: {
         customPoint: {
@@ -211,6 +196,12 @@ export default {
 
 <template>
     <div class="flex gap-1 justify-end">
+        <top-action-btn @click="refreshData" class="bg-add text-xs" title="Export data">
+            <template v-if="processing" #icon>
+                <loader-icon class="h-auto sm:w-6 w-4" />
+            </template>
+            <span>Refresh</span>
+        </top-action-btn>
         <top-action-btn class="bg-add text-xs" title="Export data">
             <template #icon>
                 <export-icon class="h-auto sm:w-6 w-4" />
@@ -224,20 +215,20 @@ export default {
             <span>Share</span>
         </top-action-btn>
     </div>
-    <div class="flex flex-col max-h-fit gap-2">
+    <div class="flex flex-col max-h-fit gap-2" v-if="mapApi">
         <div class="relative gap-2">
             <search-box
-                :value="selectedPlace ? selectedPlace.city : ''"
+                :value="mapApi.selectedPlace ? mapApi.selectedPlace.city : ''"
                 :options="placesFiltered"
-                :label="selectedPlace ? selectedPlace.city : 'Select a place'"
-                @searchString="getPlacesFromAPI($event.target.value)"
-                @input="getPlacesFromAPI($event.target.value)"
+                :label="mapApi.selectedPlace ? mapApi.selectedPlace.city : 'Select a place'"
+                @searchString="updateFilters('search', $event)"
+                @input="updateFilters('search', $event.target.value)"
                 @focusin="showListOfPlaces = true"
             />
 
             <div v-if="showListOfPlaces" class="absolute mt-1 rounded border-2 z-[999] bg-gray-100 shadow flex-col flex gap-1 overflow-y-auto max-h-96 p-2">
                 <div
-                    v-if="placesSearched.length"
+                    v-if="placesSearched && placesSearched.length"
                     v-for="point in placesSearched"
                     :key="point.id"
                     @click="selectPoint(point)"
@@ -265,11 +256,11 @@ export default {
                 :use-global-leaflet="true"
                 class="z-0 border rounded"
                 style="height: 800px"
-                :zoom="zoom"
-                :center="center"
-                :maxZoom="maxZoom"
-                :minZoom="minZoom"
-                :max-bounds="[maxBound.southwest, maxBound.northeast]"
+                :zoom="mapApi.zoom"
+                :center="mapApi.center"
+                :maxZoom="mapApi.maxZoom"
+                :minZoom="mapApi.minZoom"
+                :max-bounds="[mapApi.maxBound.southwest, mapApi.maxBound.northeast]"
                 :options="mapOptions"
                 @update:center="updateCenter"
                 @update:zoom="updateZoom"
@@ -294,7 +285,7 @@ export default {
                     :attribution="tileProvider.attribution"
                     layer-type="base"
                 />
-                <l-marker v-if="markerLatLng" :lat-lng="markerLatLng" ref="marker" />
+                <l-marker v-if="mapApi.markerLatLng" :lat-lng="mapApi.markerLatLng" ref="marker" />
                 <l-circle-marker
                     v-for="place in placesFiltered"
                     :key="place.id"
@@ -305,12 +296,33 @@ export default {
                     @click="selectPoint(place)"
                 >
                     <l-tooltip :content="place.city" />
-<!--                    <l-popup>
-                        <h1>{{ place.city }}</h1>
-                    </l-popup>-->
                 </l-circle-marker>
+                <l-control>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex flex-row gap-2">
+                            <div class="flex flex-row gap-2">
+                                <input type="checkbox" class="h-4 w-4" />
+                                <label>Commodity</label>
+                            </div>
+                            <div class="flex flex-row gap-2">
+                                <input type="checkbox" class="h-4 w-4" />
+                                <label>Region</label>
+                            </div>
+                        </div>
+                        <div class="flex flex-row gap-2">
+                            <div class="flex flex-row gap-2">
+                                <input type="checkbox" class="h-4 w-4" />
+                                <label>Province</label>
+                            </div>
+                            <div class="flex flex-row gap-2">
+                                <input type="checkbox" class="h-4 w-4" />
+                                <label>City</label>
+                            </div>
+                        </div>
+                    </div>
+                </l-control>
             </l-map>
-            <info-sidebar :point="selectedPlace" :visible="sidebarVisible" @close="sidebarVisible = false" />
+            <info-sidebar :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
         </div>
     </div>
 </template>

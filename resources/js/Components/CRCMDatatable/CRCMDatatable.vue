@@ -307,7 +307,7 @@ export default {
             required: true,
         },
         baseModel: {
-            type: Function,
+            type: [Object, Function],
             required: false,
         },
         importModal: {

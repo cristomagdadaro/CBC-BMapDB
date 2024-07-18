@@ -38,6 +38,7 @@ class UpdateCommoditiesRequest extends FormRequest
             'address' => 'nullable|string',
             'city' => 'nullable|string',
             'province' => 'nullable|string',
+            'region' => 'nullable|string',
             'country' => 'nullable|string',
             'postal_code' => 'nullable|string',
             'formatted_address' => 'nullable|string',

@@ -18,7 +18,6 @@ export default class BaseRequest{
             this.removeParam(key);
         else
             this.params[key] = value;
-
         this.saveParamsLocal();
     }
 

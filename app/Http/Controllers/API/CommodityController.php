@@ -24,6 +24,7 @@ class CommodityController extends BaseController
         return new BaseCollection($data);
     }
 
+    /** API used at Map search box*/
     public function noPage(GetCommoditiesRequest $request)
     {
         $data = $this->service->search(new Collection($request->validated()), false);
