@@ -16,10 +16,13 @@ export default class MapApiService{
         this._center = [12.296167, 122.763835];
         this._minZoom = 5.9;
         this._maxZoom = 15;
-        this.maxBound = {
-            southwest: [4.284376, 116.521894],
-            northeast: [21.327897, 126.895418]
-        };
+        this.maxBound = [
+            [4.225, 116.9],
+            [19.5, 130.5]
+        ]; /*{
+            southwest: [3.834376, 116.071894],
+            northeast: [21.777897, 127.345418]
+        }*/
         this._markerLatLng = null;
         this._selectedPlace = null;
         this._sidebarVisible = false;
@@ -155,7 +158,10 @@ export default class MapApiService{
     }
 
     updateZoom(zoom) {
-        this._zoom = zoom;
+        if (this._zoom === zoom)
+            return;
+        if (zoom >= this._minZoom && zoom <= this._maxZoom)
+            this._zoom = zoom;
     }
 
     isPointSelected(point) {

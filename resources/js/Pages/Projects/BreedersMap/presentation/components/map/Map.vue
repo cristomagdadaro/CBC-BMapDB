@@ -262,7 +262,7 @@ export default {
                 :minZoom="mapApi.minZoom"
                 :max-bounds="[mapApi.maxBound.southwest, mapApi.maxBound.northeast]"
                 :options="mapOptions"
-                @update:center="updateCenter"
+
                 @update:zoom="updateZoom"
                 @click="showListOfPlaces = false"
             >
