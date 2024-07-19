@@ -8,6 +8,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PageLayout from '@/Layouts/PageLayout.vue';
 import Logo from "@/Components/Icons/Logo.vue";
+import GreenWaves from "@/Components/GreenWaves.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -40,11 +41,12 @@ function onSignIn(googleUser) {
 <template>
     <Head title="Log in" />
     <PageLayout :is-wide-display="true">
+        <green-waves />
         <AuthenticationCard>
             <div class="flex sm:flex-row flex-col items-center">
                 <div class="flex justify-between z-0">
                     <div class="text-gray-700 flex flex-col sm:w-full w-1/2">
-                        <span class="text-sm leading-5">
+                        <span class="text-lg leading-5">
                             Department&nbsp;of&nbsp;Agriculture
                         </span>
                         <span class="font-bold sm:text-4xl text-xl sm:leading-8 leading-4">
@@ -55,7 +57,7 @@ function onSignIn(googleUser) {
                         </span>
                     </div>
                     <div class="flex justify-center h-auto sm:w-1/2 w-auto">
-                        <img src="../../../../public/img/cbc_statue_cartoon.png" class="sm:h-[27rem] h-28 w-auto sm:absolute bottom-0 drop-shadow-lg" alt="DA-CBC Statue" />
+                        <img src="../../../../public/img/cbc_statue_cartoon.png" class="sm:h-[27rem] h-28 w-auto sm:absolute bottom-0 drop-shadow" alt="DA-CBC Statue" />
                     </div>
                 </div>
                 <div class="bg-cbc-dark-green sm:p-2 p-4 rounded-md sm:min-w-[15rem] min-w-full">

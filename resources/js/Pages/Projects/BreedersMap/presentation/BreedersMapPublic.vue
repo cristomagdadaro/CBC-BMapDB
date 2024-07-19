@@ -2,10 +2,12 @@
 import {Head} from "@inertiajs/vue3";
 import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue";
 import PageLayout from "@/Layouts/PageLayout.vue";
+import GreenWaves from "@/Components/GreenWaves.vue";
 </script>
 
 <template>
     <Head title="Breeder's Map" />
+    <green-waves />
     <page-layout :is-wide-display="false">
         <div class="min-h-screen sm:p-4 p-1 bg-white flex flex-col gap-2">
             <div>

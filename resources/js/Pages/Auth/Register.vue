@@ -10,6 +10,7 @@ import Logo from "@/Components/Icons/Logo.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import { Projects } from "@/Pages/constants.ts";
+import GreenWaves from "@/Components/GreenWaves.vue";
 
 const form = useForm({
     fname: '',
@@ -38,6 +39,7 @@ const submit = () => {
 <template>
     <Head title="Register" />
     <page-layout>
+        <green-waves />
         <AuthenticationCard>
             <template #logo>
                 <Logo classes="sm:h-24 h-14" />

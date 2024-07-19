@@ -5,10 +5,12 @@ import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
 import TWGCard from "@/Pages/Projects/TWG/presentation/components/TWGCard.vue";
 import TWGApiService from "@/Pages/Projects/TWG/infrastructure/TWGApiService.js";
+import GreenWaves from "@/Components/GreenWaves.vue";
 
 export default {
     name: "TWGPublic",
     components: {
+        GreenWaves,
         PageLayout,
         SearchBy,
         SearchBox,
@@ -47,6 +49,7 @@ export default {
 
 <template>
     <Head title="Breeder's Map" />
+    <green-waves />
     <page-layout :isWideDisplay="false">
         <div class="min-h-screen sm:p-4 p-1 bg-white flex flex-col gap-2">
             <div>

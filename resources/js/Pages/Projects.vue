@@ -2,13 +2,15 @@
 import PageLayout from "@/Layouts/PageLayout.vue";
 import { CBCProjectsPublic } from "@/Pages/constants.ts";
 import { Link, Head } from '@inertiajs/vue3';
+import GreenWaves from "@/Components/GreenWaves.vue";
 </script>
 
 <template>
     <Head title="Databases" />
+    <green-waves />
     <PageLayout :is-wide-display="false">
-        <div class="flex flex-col gap-5 p-3">
-            <div class="">
+        <div class="flex flex-col gap-5 text-gray-700 p-2">
+            <div class="bg-cbc-yellow p-5 drop-shadow-lg rounded-md">
                 <p class="font-medium text-lg">
                     Welcome to the DA-Crop Biotechnology Center's proprietary Database Web Application.
                 </p>
