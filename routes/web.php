@@ -67,6 +67,8 @@ Route::prefix('/projects')->group(function () {
             'commodities' => Commodity::all(),
         ]);
     })->name('projects.breedersmap.public');
+
+    Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
 });
 
 

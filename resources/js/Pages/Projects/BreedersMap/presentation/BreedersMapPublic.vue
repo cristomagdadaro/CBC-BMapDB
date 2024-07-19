@@ -19,7 +19,7 @@ import PageLayout from "@/Layouts/PageLayout.vue";
                     <button class="bg-gray-300 rounded py-0.5 px-2 text-sm">Quick Guide?</button>
                 </div>
             </div>
-            <Map />
+            <Map :base-url="route('api.commodities.noPage.public')" />
         </div>
     </page-layout>
 </template>
