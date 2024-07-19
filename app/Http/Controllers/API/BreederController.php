@@ -2,45 +2,63 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\CreateBreederRequest;
+use App\Http\Controllers\BaseController;
 use App\Http\Requests\GetBreederRequest;
+use App\Http\Requests\CreateBreederRequest;
+use App\Http\Requests\GetCommoditiesRequest;
 use App\Http\Requests\UpdateBreederRequest;
-use App\Http\Resources\BreederCollection;
-use App\Repository\API\BreederRepository;
+use App\Http\Requests\DeleteBreederRequest;
+use App\Repository\API\BreederRepo;
 use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
+use App\Http\Resources\BaseCollection;
 
-class BreederController extends Controller
+class BreederController extends BaseController
 {
-
-    public function __construct(BreederRepository $breederRepository)
+    public function __construct(BreederRepo $breederRepository)
     {
-        $this->repository = $breederRepository;
+        $this->service = $breederRepository;
     }
 
-    public function index(GetBreederRequest $request)
+    public function index(GetBreederRequest $request): BaseCollection
     {
-        $data = $this->repository->search(new Collection($request->validated()));
-        return new BreederCollection($data);
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
-    public function store(CreateBreederRequest $request)
+    public function store(CreateBreederRequest $request): JsonResponse
     {
-        return $this->repository->create($request->validated());
+        $data = $this->service->create($request->validated());
+        return $this->sendResponse('Breeder created successfully.', $data);
     }
 
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
-        return $this->repository->find($id);
+        $data = $this->service->find($id);
+        return $this->sendResponse('Breeder retrieved successfully.', $data);
     }
 
-    public function update(UpdateBreederRequest $request, $id)
+    public function noPageSearch(int $id, GetCommoditiesRequest $request)
     {
-        return $this->repository->update($id, $request->validated());
+        $data = $this->service->find($id)->load('commodities');
+        return new BaseCollection($data->commodities);
     }
 
-    public function destroy($id)
+    public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
-        return $this->repository->delete($id);
+        $data = $this->service->update($id, $request->validated());
+        return $this->sendResponse('Breeder updated successfully.', $data);
+    }
+
+    public function destroy($id): JsonResponse
+    {
+        $this->service->delete($id);
+        return $this->sendResponse('Breeder deleted successfully.');
+    }
+
+    public function multiDestroy(DeleteBreederRequest $request): JsonResponse
+    {
+        $this->service->multiDestroy($request->validated());
+        return $this->sendResponse('Breeders deleted successfully.');
     }
 }

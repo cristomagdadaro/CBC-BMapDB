@@ -22,11 +22,12 @@ class CreateBreederRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+            'name' => 'required|string|unique:breeders,name',
             'agency' => 'required|string',
-            'address' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|email',
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string|unique:breeders,phone',
+            'email' => 'required|email|unique:breeders,email',
         ];
     }
 }

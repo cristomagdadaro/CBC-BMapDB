@@ -10,41 +10,41 @@ use App\Http\Requests\GetRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\RoleCollection;
 use App\Models\Role;
-use App\Repository\API\RoleRepository;
+use App\Repository\API\RoleRepo;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class RoleController extends BaseController
 {
-    public function __construct(RoleRepository $repository)
+    public function __construct(RoleRepo $repository)
     {
-        $this->repository = $repository;
+        $this->service = $repository;
     }
 
     public function index(GetRoleRequest $request): RoleCollection
     {
-        $data = $this->repository->search($request->collect());
+        $data = $this->service->search($request->collect());
         return new RoleCollection($data);
     }
 
     public function show($id)
     {
-        return  $this->repository->find($id);
+        return  $this->service->find($id);
     }
 
     public function store(CreateRoleRequest $request)
     {
-        return $this->repository->create($request->validated());
+        return $this->service->create($request->validated());
     }
 
     public function update(UpdateRoleRequest $request, $id)
     {
-        return $this->repository->update($id, $request->validated());
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+        return $this->service->delete($id);
     }
 }

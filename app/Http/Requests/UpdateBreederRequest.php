@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateBreederRequest extends FormRequest
 {
@@ -23,11 +24,16 @@ class UpdateBreederRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'user_id' => 'required|exists:users,id',
+            'name' => 'required|string|unique:breeders,name,'.$this->id,
             'agency' => 'required|string',
-            'address' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|email|unique:breeders,email',
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string|unique:breeders,phone,'.$this->id,
+            'email' => [
+                'required',
+                'email',
+                'unique:breeders,email,'.$this->id,
+            ],
         ];
     }
 }

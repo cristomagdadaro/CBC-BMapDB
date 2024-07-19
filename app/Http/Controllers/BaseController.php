@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Repository\BaseRepository;
+use App\Http\Interfaces\BaseControllerInterface;
+use App\Repository\AbstractRepoService;
 use Faker\Provider\Base;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -12,9 +13,9 @@ use Illuminate\Support\Collection;
 
 abstract class BaseController extends Controller
 {
-    protected $repository;
+    protected AbstractRepoService $service;
 
-    public function sendResponse($message, $data = null)
+    public function sendResponse($message, $data = null): JsonResponse
     {
         $response = [
             'success' => true,
@@ -22,7 +23,7 @@ abstract class BaseController extends Controller
             'message' => $message,
         ];
 
-        return $response;
+        return response()->json($response);
     }
 
 
@@ -37,7 +38,9 @@ abstract class BaseController extends Controller
         return response()->json($response, $error_code);
     }
 
-    public function sendError(\Exception $error): JsonResponse
+    /* To Delete if not used
+     *
+     * public function sendError(\Exception $error, $status = 500): JsonResponse
     {
         $error = new ErrorRepository($error);
         $response = [
@@ -49,6 +52,6 @@ abstract class BaseController extends Controller
             $response['data'] = $error->getErrorMessage();
         }
 
-        return response()->json($response, 500);
-    }
+        return response()->json($response, $status);
+    }*/
 }

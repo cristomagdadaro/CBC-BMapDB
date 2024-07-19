@@ -1,0 +1,82 @@
+<script setup>
+import headerlayout from '@/Layouts/HeaderLayout.vue';
+import tablink from '@/Components/Header/TabLink.vue';
+import Logo from '@/Components/Icons/Logo.vue';
+import HoverDropdownLink from '@/Components/Header/HoverDropdownLink.vue';
+import HoverDropdownVue from '@/Components/Header/HoverDropdown.vue';
+import {CBCProjectsPublic} from "@/Pages/constants.ts";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import Dropdown from "@/Components/Dropdown.vue";
+
+defineProps({
+    canLogin: Boolean,
+    canRegister: Boolean,
+});
+
+const TabLinks = [
+    /*{
+        name: 'Home',
+        link: 'home',
+    },
+    {
+       name: 'Projects',
+       link: '#',
+   },*//*
+   {     name: 'Articles',
+       link: '#',
+   },
+   {
+       name: 'Careers',
+       link: '#',
+   },
+   {
+       name: 'Services',
+       link: '#',
+   },
+   {
+       name: 'Resources',
+       link: '#',
+   },
+   {
+       name: 'About Us',
+       link: '#',
+   },*/
+];
+</script>
+<template>
+    <headerlayout :active="route().current('dashboard')">
+        <template #icon>
+            <Logo />
+        </template>
+        <template #subtitle>
+            Department of Agriculture
+        </template>
+        <template #title>
+            Crop Biotechnology Center
+        </template>
+        <template #links>
+            <ul class="lg:flex sm:gap-2">
+                <tablink v-if="$page.props.auth.user" :link="route('dashboard')" :active="route().current('dashboard')">Dashboard</tablink>
+                <template v-for="link in TabLinks">
+                    <tablink :link="route(link.link)" :active="route().current(link.link)">
+                        {{ link.name }}
+                    </tablink>
+                </template>
+                <tablink :sublinks="true" :link="route('projects')" :active="route().current('projects') || route().current('home')">
+                    <template #trigger>
+                        Databases
+                    </template>
+                    <template #content>
+                        <tablink v-for="project in CBCProjectsPublic" :key="project.id" :link="route(project.value)" class="text-gray-700">
+                            {{ project.label }}
+                        </tablink>
+                    </template>
+                </tablink>
+                <template v-if="$page.props.auth.user === null ">
+                    <tablink v-if="canLogin" :link="route('login')" :active="route().current('login')">Log in</tablink>
+                    <tablink v-if="canRegister" :link="route('register')" :active="route().current('register')">Register</tablink>
+                </template>
+            </ul>
+        </template>
+    </headerlayout>
+</template>

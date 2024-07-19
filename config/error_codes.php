@@ -1,7 +1,7 @@
 <?php
 
 return [
-    '23000' => 'Cannot delete or update a parent key',
+    '23000' => 'Cannot delete or remove a parent row',
     '23503' => 'The record is being referenced by other records',
     '42P01' => 'Table does not exist',
     '23505' => 'Unique constraint violation: Duplicate entry',

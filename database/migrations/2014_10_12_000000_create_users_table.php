@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('suffix')->nullable();
             $table->string('email')->unique();
             $table->string('mobile_no')->nullable();
+            $table->string('affiliation')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role',[0,1])->default(0); // 0 for user and 1 for admin

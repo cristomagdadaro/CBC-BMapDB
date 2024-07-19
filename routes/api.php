@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
-|--------------------------------------------------------------------------
+|-------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
 |
@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('/auth')->group(function () {
     Route::controller(AuthController::class)->group(function () {
-        Route::post('register', 'register')->name('register');
-        Route::post('login', 'login')->name('login');
+        Route::post('register', 'register')->name('api.register');
+        Route::post('login', 'login')->name('api.login');
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('logout', 'logout');

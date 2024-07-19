@@ -29,6 +29,7 @@ class UserFactory extends Factory
             'suffix' => $this->faker->randomElement(['','','','Jr.','','Sr.','','','','I','','','II','','','III','','','','','IV']),
             'email' => $this->faker->unique()->safeEmail(),
             'mobile_no' => $this->faker->phoneNumber(),
+            'affiliation' => $this->faker->randomElement(['Crop Biotechnology Center','Philippine Rice Research Institute', 'Central Luzon State University', 'Visayas State University', 'Mindanao State University', 'Philippine Rubber Research Institute']),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'role' => 1,

@@ -2,21 +2,19 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use DateTimeInterface;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens;
-    use HasFactory;
-    use HasProfilePhoto;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +29,7 @@ class User extends Authenticatable
         'email',
         'mobile_no',
         'password',
+        'affiliation'
     ];
 
     /**
@@ -66,4 +65,34 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    protected array $searchable = [
+        'id',
+        'fname',
+        'mname',
+        'lname',
+        'suffix',
+        'email',
+        'mobile_no',
+        'affiliation'
+    ];
+
+    protected function serializeDate(DateTimeInterface $date): string
+    {
+        return $date->format('g:i a M j, Y');
+    }
+
+    public function breeder(): HasMany
+    {
+        return $this->hasMany(Breeder::class, 'user_id', 'id');
+    }
+
+    public function twgexpert(): HasMany
+    {
+        return $this->hasMany(TWGExpert::class, 'user_id', 'id');
+    }
+
+    public function getSearchable(): array
+    {
+        return $this->searchable;
+    }
 }

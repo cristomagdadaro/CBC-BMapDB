@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Breeder extends Model
+class Breeder extends BaseModel
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'breeders';
 
     protected $fillable = [
+        'user_id',
         'name',
         'agency',
         'address',
@@ -24,8 +28,48 @@ class Breeder extends Model
         'updated_at' => 'datetime',
     ];
 
-    protected $hidden = [
+    protected array $searchable = [
+        'id',
+        'user_id',
+        'name',
+        'agency',
+        'address',
+        'phone',
+        'email',
+        'updated_at',
+        'created_at',
+        'deleted_at',
+    ];
+
+    protected array $notifMessage = [
+        'created' => 'Breeder created successfully.',
+        'updated' => 'Breeder updated successfully.',
+        'deleted' => 'Breeder deleted successfully.',
+        'restored' => 'Breeder restored successfully.',
+        'forceDeleted' => 'Breeder permanently deleted.',
+        'emptyTrash' => 'Breeder deleted successfully.',
+        'notFound' => 'Breeder not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
+
+    /*protected $hidden = [
+        'user_id',
         'created_at',
         'updated_at',
-    ];
+    ];*/
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function geodata(): HasMany
+    {
+        return $this->hasMany(Geodata::class, 'breeder_id', 'id');
+    }
+
+    public function commodities(): HasMany
+    {
+        return $this->hasMany(Commodity::class, 'breeder_id', 'id');
+    }
 }

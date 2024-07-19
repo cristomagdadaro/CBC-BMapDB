@@ -1,0 +1,39 @@
+<script setup>
+import Modal from '@/Components/Modal.vue';
+import CloseIcon from "@/Components/Icons/CloseIcon.vue";
+const emit = defineEmits(['close']);
+
+defineProps({
+    show: {
+        type: Boolean,
+        default: false,
+    },
+    maxWidth: {
+        type: String,
+        default: '2xl',
+    },
+    closeable: {
+        type: Boolean,
+        default: true,
+    },
+});
+
+const close = () => {
+    emit('close');
+};
+
+const submit = () => {
+    emit('submit');
+};
+</script>
+
+<template>
+    <Modal
+        :show="show"
+        :max-width="maxWidth"
+        :closeable="closeable"
+        @close="close"
+    >
+        <slot />
+    </Modal>
+</template>

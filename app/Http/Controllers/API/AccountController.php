@@ -9,41 +9,41 @@ use App\Http\Requests\GetAccountForRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Resources\AccountsCollection;
 use App\Models\Accounts;
-use App\Repository\API\AccountsRepository;
+use App\Repository\API\AccountsRepo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 
 class AccountController extends BaseController
 {
 
-    public function __construct(AccountsRepository $accountRepository)
+    public function __construct(AccountsRepo $accountRepository)
     {
-        $this->repository = $accountRepository;
+        $this->service = $accountRepository;
     }
 
     public function index(GetAccountForRequest $request)
     {
-        $data = $this->repository->search($request->collect());
+        $data = $this->service->search($request->collect());
         return new AccountsCollection($data);
     }
 
     public function show($id)
     {
-        return $this->repository->find($id);
+        return $this->service->find($id);
     }
 
     public function store(CreateAccountRequest $request)
     {
-        return $this->repository->create($request->validated());
+        return $this->service->create($request->validated());
     }
 
     public function update(UpdateAccountRequest $request, $id)
     {
-        return $this->repository->update($id, $request->validated());
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+        return $this->service->delete($id);
     }
 }

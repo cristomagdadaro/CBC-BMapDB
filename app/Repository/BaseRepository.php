@@ -2,7 +2,6 @@
 namespace App\Repository;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
 class BaseRepository
@@ -38,7 +37,7 @@ class BaseRepository
         return $this->find($id)->delete();
     }
 
-    public function find(int $id): Model
+    public function find($id): Model
     {
         return $this->model->findOrFail($id);
     }
