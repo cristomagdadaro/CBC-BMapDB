@@ -24,7 +24,7 @@ abstract class AbstractRepoService implements RepositoryInterface
      * Table to append with
      * @var string
     */
-    private string $apppendWith = '';
+    private array $appendWith = [];
 
     /**
      * List of searchable and viewable columns
@@ -187,7 +187,7 @@ abstract class AbstractRepoService implements RepositoryInterface
 
     public function appendWith($tableToAppend)
     {
-        $this->apppendWith = $tableToAppend;
+        $this->appendWith = $tableToAppend;
     }
 
     private function searchData(Collection $parameters, bool $isTrashed, $withPagination)
@@ -200,10 +200,15 @@ abstract class AbstractRepoService implements RepositoryInterface
         $filter = $parameters->get('filter', null);
         $is_exact = $parameters->get('is_exact', false);
 
-        if ($this->apppendWith && $this->apppendWith != '')
-            $builder = $this->model->with($this->apppendWith)->select($this->model->getSearchable());
-        else
+        if ($this->appendWith) {
+            $builder = $this->model;
+            foreach ($this->appendWith as $table) {
+                $builder = $builder->with($table);
+            }
+            $builder = $builder->select($this->model->getSearchable());
+        } else {
             $builder = $this->model->select($this->model->getSearchable());
+        }
 
         if($isTrashed)
         {

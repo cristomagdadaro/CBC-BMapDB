@@ -62,6 +62,10 @@ Route::prefix('/projects')->group(function () {
         return Inertia::render('Projects/TWG/presentation/TWGPublic');
     })->name('projects.twgdb.public');
 
+    Route::prefix('/summary')->group(function () {
+        Route::get('/twg-db', [TWGController::class, 'index'])->name('api.twg.summary.public');
+    });
+
     Route::get('/breedersmap-db', function (){
         return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic', [
             'commodities' => Commodity::all(),

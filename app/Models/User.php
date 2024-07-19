@@ -71,7 +71,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'mname',
         'lname',
         'suffix',
-        'account_for',
         'email',
         'mobile_no',
         'affiliation'
@@ -85,6 +84,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function breeder(): HasMany
     {
         return $this->hasMany(Breeder::class, 'user_id', 'id');
+    }
+
+    public function twgexpert(): HasMany
+    {
+        return $this->hasMany(TWGExpert::class, 'user_id', 'id');
     }
 
     public function getSearchable(): array

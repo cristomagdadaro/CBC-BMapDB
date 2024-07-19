@@ -7,10 +7,20 @@ import { Link, Head } from '@inertiajs/vue3';
 <template>
     <Head title="Databases" />
     <PageLayout :is-wide-display="false">
-        <div class="flex flex-wrap gap-2 p-2">
-            <Link v-for="project in CBCProjectsPublic" :href="route(project.value)" class="shadow-md hover:bg-gray-600 text-gray-100 bg-gray-400 px-5 py-3 rounded">
-                {{ project.label }}
-            </Link>
+        <div class="flex flex-col gap-5 p-3">
+            <div class="">
+                <p class="font-medium text-lg">
+                    Welcome to the DA-Crop Biotechnology Center's proprietary Database Web Application.
+                </p>
+                <p>
+                    This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
+                </p>
+            </div>
+            <div class="flex flex-wrap gap-2 p-2">
+                <Link v-for="project in CBCProjectsPublic" :href="route(project.value)" class="shadow-md hover:bg-gray-600 text-gray-100 bg-gray-400 px-5 py-3 rounded">
+                    {{ project.label }}
+                </Link>
+            </div>
         </div>
     </PageLayout>
 </template>

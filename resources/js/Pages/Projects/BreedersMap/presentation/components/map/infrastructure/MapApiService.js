@@ -6,7 +6,6 @@ export default class MapApiService{
     constructor(baseUrl, model = Object) {
         this.api = new ApiService(baseUrl);
         this.model = ref(model);
-        this._processing = ref(false);
         this.response = ref(null);
         const localParams = BaseRequest.getParamsLocal();
         this.request = localParams? new BaseRequest(localParams) : new BaseRequest();
@@ -72,11 +71,11 @@ export default class MapApiService{
         this._maxZoom = value;
     }
     get processing() {
-        return this._processing;
+        return this.api.processing;
     }
 
     set processing(value) {
-        this._processing = value;
+        this.api.processing = value;
     }
 
     get zoom() {
@@ -120,17 +119,7 @@ export default class MapApiService{
     }
 
     async refresh() {
-        try {
-            this._processing = true;
-            await this.api.get(this.request.toObject(), this.model)
-                .then(response => {
-                    this.response = response;
-                });
-            this._processing = false;
-        } catch (error) {
-            console.log(error);
-            throw new Error(error);
-        }
+        this.response = await this.api.get(this.request.toObject(), this.model);
     }
 
     getDataPoint() {
