@@ -20,6 +20,7 @@ const form = useForm({
     lname: props.user.lname,
     suffix: props.user.suffix,
     mobile_no: props.user.mobile_no,
+    affiliation: props.user.affiliation,
     email: props.user.email,
     photo: null,
 });
@@ -80,6 +81,21 @@ const clearPhotoFileInput = () => {
         </template>
 
         <template #form>
+            <div class="col-span-6 sm:col-span-4">
+                <div>
+                    <InputLabel for="affiliation" value="Affiliation" />
+                    <TextInput
+                        id="affiliation"
+                        v-model="form.affiliation"
+                        type="text"
+                        :class="!form.affiliation?'opacity-30':''"
+                        placeholder="Agency/Institute/Office"
+                        class="mt-1 block w-full"
+                        autocomplete="affiliation"
+                    />
+                    <InputError :message="form.errors.affiliation" class="mt-2" />
+                </div>
+            </div>
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="name" value="Name" />

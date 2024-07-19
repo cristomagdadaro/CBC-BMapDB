@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email',
         'mobile_no',
         'password',
+        'affiliation'
     ];
 
     /**
@@ -73,6 +74,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'account_for',
         'email',
         'mobile_no',
+        'affiliation'
     ];
 
     protected function serializeDate(DateTimeInterface $date): string

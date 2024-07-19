@@ -2,16 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Breeder;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-
-class BreederSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Breeder::factory()->count(15)->create();
+        User::factory()
+            ->count(20)
+            ->create();
     }
 }

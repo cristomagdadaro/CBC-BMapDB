@@ -17,9 +17,11 @@ class DatabaseSeeder extends Seeder
             'fname' => 'Test',
             'lname' => 'User',
             'email' => 'sample@cbc.philrice.gov.ph',
+            'affiliation' => 'Crop Biotechnology Center'
         ]);
 
         $this->call([
+            UserSeeder::class,
             RolesSeeder::class,
             PermissionSeeder::class,
             ApplicationSeeder::class,

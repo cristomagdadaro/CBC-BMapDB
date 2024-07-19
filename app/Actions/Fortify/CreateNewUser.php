@@ -26,6 +26,7 @@ class CreateNewUser implements CreatesNewUsers
             'suffix' => ['nullable', 'string', 'max:255'],
             'mobile_no' =>  ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'affiliation' => ['required', 'string', 'max:255'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
@@ -40,6 +41,7 @@ class CreateNewUser implements CreatesNewUsers
             'lname' => $input['lname'],
             'suffix' => $input['suffix'],
             'mobile_no' => $input['mobile_no'],
+            'affiliation' => $input['affiliation'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
