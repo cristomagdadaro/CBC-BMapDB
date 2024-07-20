@@ -4,39 +4,48 @@ import {ref} from "vue";
 export default class Notification extends BaseClass {
     static notifications = ref([]);
 
-    constructor(notify = {
-        id: 0,
-        title: '',
-        message: '',
-        type: 'failed',
-        timeout: 5000,
-        show: true,
-    }) {
-        super(notify);
+    constructor(id = 0,
+                title = '',
+                message = '',
+                type = 'failed',
+                timeout = 5000,
+                show= true) {
+        super();
         this.id = Notification.notifications.value.length + 1;
-        this.title = notify.title;
-        this.message = notify.message;
-        this.type = notify.type;
-        this.timeout = notify.timeout;
-        this.show = notify.show;
+        this.title = title;
+        this.message = message;
+        this.type = type;
+        this.timeout = timeout;
+        this.show = show;
+
+        if (this.show) {
+            Notification.notifications.value.push(this);
+        }
     }
 
-    static pushNotification(notification = {
+    static pushNotification( param = {
         id: 0,
         title: '',
         message: '',
         type: 'failed',
         timeout: 5000,
-        show: true,
+        show: true
     }){
-        this.notifications.value.push(new this.prototype.constructor(notification));
+        new this.prototype.constructor(
+            param.id,
+            param.title,
+            param.message,
+            param.type,
+            param.timeout,
+            param.show,
+        );
 
-        if (!notification.timeout)
+        if (!param.timeout)
             return;
 
         setTimeout(() => {
             this.notifications.value.shift();
-        }, notification.timeout);
+        }, param.timeout);
     }
 
     close(){

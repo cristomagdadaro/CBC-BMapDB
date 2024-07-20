@@ -72,6 +72,7 @@ export default {
         },
     },
     mounted() {
+        if (!this.options) return;
         this.selected = this.options.find(option => option.selected);
         this.selectByValue(this.value);
     }

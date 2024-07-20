@@ -94,13 +94,7 @@ export default {
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                       <top-action-btn
                           class="shadow-none hover:scale-105 active:scale-100"
-                          @click="Notification.pushNotification({
-                          title: 'Test',
-                          message: 'This is a test notification   '+ Notification.notifications.value.length,
-                          type: Array.from(['error', 'success', 'warning', 'failed'])[Math.floor(Math.random() * 4)],
-                          timeout: 5000,
-                          show: true,
-                        })">
+                          @click="new Notification('Test','This is a test notification '+ Notification.notifications.value.length, Array.from(['error', 'success', 'warning', 'failed'])[Math.floor(Math.random() * 4)], 5000, true)">
                         <template #icon>
                           <bell-icon class="h-auto sm:w-6 w-4" :class="Notification.notifications.value.length?'animate-wiggle':''" />
                         </template>

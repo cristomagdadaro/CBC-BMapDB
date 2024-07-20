@@ -1,9 +1,9 @@
 <template>
-    <div class="relative max-h-[800px] flex flex-col w-1/4 bg-gray-100 rounded" :class="{ 'hidden': !visible }">
+    <div class="relative max-h-[800px] flex flex-col w-2/5 bg-gray-100 rounded" :class="{ 'hidden': !visible }">
         <button @click="closeSidebar" class="absolute z-[999] top-0 w-fit right-3 p-1">
             <close-icon class="w-8 h-8 text-red-700 drop-shadow " />
         </button>
-        <div v-if="point" class="max-h-[80vh] drop-shadow overflow-y-auto overflow-x-hidden border">
+        <div v-if="point" class="drop-shadow overflow-y-auto overflow-x-hidden border">
             <table>
                 <tr v-for="(value, key) in point" :key="key">
                     <th class="text-right text-white bg-[#006837] p-2 py-4">{{ formatName(key) }}</th>

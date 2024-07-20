@@ -2,6 +2,7 @@
 namespace App\Repository;
 
 use App\Http\Interfaces\RepositoryInterface;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
@@ -65,7 +66,7 @@ abstract class AbstractRepoService implements RepositoryInterface
                 'message' => $model->getNotifMessage('created'),
                 'data' => $model
             ], Response::HTTP_OK);
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -86,7 +87,7 @@ abstract class AbstractRepoService implements RepositoryInterface
                 'message' => $model->getNotifMessage('updated'),
                 'data' => $model
             ], Response::HTTP_OK);
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -106,7 +107,7 @@ abstract class AbstractRepoService implements RepositoryInterface
                 'message' => $model->getNotifMessage('deleted'),
                 'data' => $model
             ], Response::HTTP_OK);
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -127,7 +128,7 @@ abstract class AbstractRepoService implements RepositoryInterface
                 try {
                     $model->delete();
                     $counter++;
-                } catch (\Exception $error) {
+                } catch (Exception $error) {
                     $failed[] = $this->sendError($error);
                 }
             });
@@ -148,7 +149,7 @@ abstract class AbstractRepoService implements RepositoryInterface
                 'message' => 'Failed to delete ' . count($failed) . ' rows of data',
                 'failed' => $failed
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }catch (\Exception $error) {
+        }catch (Exception $error) {
             return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -180,7 +181,7 @@ abstract class AbstractRepoService implements RepositoryInterface
     {
         try {
             return $this->searchData($parameters, $isTrashed, $withPagination);
-        } catch (\Exception $error) {
+        } catch (Exception $error) {
             return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -238,7 +239,7 @@ abstract class AbstractRepoService implements RepositoryInterface
         return $builder->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
 
-    private function sendError(\Exception $error): array
+    private function sendError(Exception $error): array
     {
         $error = new ErrorRepository($error);
         return $error->getErrorMessage();
