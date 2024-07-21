@@ -6,6 +6,7 @@ use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -15,7 +16,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable, HasRoles;
+    use SoftDeletes, HasApiTokens, HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable, HasRoles;
+
+    protected $table = 'users';
 
     /**
      * The attributes that are mass assignable.
@@ -74,8 +77,25 @@ class User extends Authenticatable implements MustVerifyEmail
         'suffix',
         'email',
         'mobile_no',
-        'affiliation'
+        'affiliation',
+        'email_verified_at',
     ];
+
+    protected array $notifMessage = [
+        'created' => 'User created successfully.',
+        'updated' => 'User updated successfully.',
+        'deleted' => 'User deleted successfully.',
+        'restored' => 'User restored successfully.',
+        'forceDeleted' => 'User permanently deleted.',
+        'emptyTrash' => 'User deleted successfully.',
+        'notFound' => 'User not found.',
+        'unknown' => 'Unknown error, action failed.',
+    ];
+
+    public function getNotifMessage($action = null): string
+    {
+        return $this->notifMessage[$action];
+    }
 
     protected function serializeDate(DateTimeInterface $date): string
     {
@@ -90,6 +110,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function twgexpert(): HasMany
     {
         return $this->hasMany(TWGExpert::class, 'user_id', 'id');
+    }
+
+    public function accounts(): HasMany
+    {
+        return $this->hasMany(Accounts::class, 'user_id', 'id');
     }
 
     public function getSearchable(): array

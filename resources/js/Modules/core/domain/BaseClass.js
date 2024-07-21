@@ -24,4 +24,8 @@ export class BaseClass
             })
         ];
     }
+
+    static getHiddenColumns() {
+        return [];
+    }
 }

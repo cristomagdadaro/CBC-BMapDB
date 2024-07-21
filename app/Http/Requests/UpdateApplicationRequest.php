@@ -26,6 +26,7 @@ class UpdateApplicationRequest extends FormRequest
             'description' => 'required|string|max:255',
             'url' => 'required|string|max:255|unique:applications,url',
             'icon' => 'required|string|max:255',
+            'status' => 'required|boolean',
         ];
     }
 }

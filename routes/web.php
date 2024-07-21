@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\API\AdminController;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
@@ -41,6 +43,12 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 })->name('home');
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/administrator', function () {
+        return Inertia::render('Admin/Administrator');
+    })->name('administrator.index');
+});
 
 Route::prefix('email')->group(function () {
     Route::get('/invite/{name}/{email}', function($name, $email) {
@@ -113,6 +121,16 @@ Route::middleware([
 });
 
 Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
+    /*Admin Related APIs*/
+    Route::middleware(['verified'])->prefix('administrator')->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('api.administrator.index');
+        Route::get('/{id}', [AdminController::class, 'show'])->name('api.administrator.show');
+        Route::post('/', [AdminController::class, 'store'])->name('api.administrator.store');
+        Route::put('/{id}', [AdminController::class, 'update'])->name('api.administrator.update');
+        Route::delete('/{id}', [AdminController::class, 'destroy'])->name('api.administrator.destroy');
+        Route::delete('/delete', [AdminController::class, 'multiDestroy'])->name('api.administrator.destroy.multi');
+    });
+
     /*TWG Related APIs*/
     Route::prefix('twg')->group(function () {
         Route::prefix('summary')->group(function () {

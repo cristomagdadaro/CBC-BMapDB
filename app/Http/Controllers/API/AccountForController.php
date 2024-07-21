@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\GetAccountForRequest;
-use App\Http\Resources\AccountForCollection;
-use App\Models\AccountFor;
+use App\Http\Resources\BaseCollection;
 use App\Repository\API\AccountForRepo;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 
 class AccountForController extends BaseController
@@ -23,7 +20,7 @@ class AccountForController extends BaseController
         $request->merge(['user_id' => $user_id]);
 
         $data = $this->service->search($request->collect());
-        return new AccountForCollection($data);
+        return new BaseCollection($data);
     }
 
     public function destroy(Request $request)

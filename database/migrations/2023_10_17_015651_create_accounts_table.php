@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('account_id')->index()->nullable();
             $table->foreignId('user_id')->constrained('users', 'id');
             $table->foreignId('app_id')->constrained('applications', 'id');
+            $table->timestamp('approved_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

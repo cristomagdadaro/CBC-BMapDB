@@ -13,12 +13,24 @@ export const ErrorResponse  = [
 export const CBCProjects = [
     {
         id: 1,
+        label: 'Dashboard',
+        icon: null,
+        value: 'dashboard',
+    },
+    {
+        id: 2,
+        label: 'Administrator',
+        icon: null,
+        value: 'administrator.index',
+    },
+    {
+        id: 3,
         label: 'TWG Database',
         icon: TWGLogo,
         value: 'projects.twg.index',
     },
     {
-        id: 2,
+        id: 4,
         label: "Breeder's Map",
         icon: BreedersMapLogo,
         value: 'projects.breedersmap.index',

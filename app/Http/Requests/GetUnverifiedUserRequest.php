@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class CreateApplicationRequest extends FormRequest
+class GetUnverifiedUserRequest extends BaseRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,12 +19,8 @@ class CreateApplicationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|max:255|unique:applications',
-            'description' => 'required|string|max:255',
-            'url' => 'required|string|max:255|unique:applications',
-            'icon' => 'required|string|max:255',
-            'status' => 'required|boolean',
-        ];
+        return array_merge([
+            // add your rules here
+        ],config('system_variables.paginate_parameters'));
     }
 }

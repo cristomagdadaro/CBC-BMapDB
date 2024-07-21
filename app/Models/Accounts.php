@@ -16,6 +16,7 @@ class Accounts extends BaseModel
         'user_id',
         'app_id',
         'account_id',
+        'approved_at',
     ];
 
     protected $hidden = [
@@ -43,7 +44,7 @@ class Accounts extends BaseModel
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'account_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function application()

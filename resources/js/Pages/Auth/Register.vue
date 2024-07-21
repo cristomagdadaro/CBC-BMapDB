@@ -19,6 +19,7 @@ const form = useForm({
     suffix: '',
     account_for: '',
     email: '',
+    affiliation: '',
     mobile_no: '',
     password: '',
     password_confirmation: '',
@@ -56,6 +57,7 @@ const submit = () => {
                 <SelectField id="account_for" label="Account For" v-model="form.account_for" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="Projects" />
                 <TextField id="mobile_no" label="Mobile No." v-model="form.mobile_no" type="text" autofocus autocomplete="name" :error="form.errors.mobile_no" />
                 <TextField id="email" label="Email" v-model="form.email" type="email" required autocomplete="email" :error="form.errors.email" />
+                <TextField id="affiliation" label="Agency/Institution/Office" v-model="form.affiliation" type="text" required autocomplete="affiliation" :error="form.errors.affiliation" />
                 <TextField id="password" label="Password" v-model="form.password" typeInput="password" required autocomplete="new-password" :error="form.errors.password" />
                 <TextField id="password_confirmation" label="Confirm Password" v-model="form.password_confirmation" typeInput="password" required autocomplete="new-password" :error="form.errors.password_confirmation" />
 

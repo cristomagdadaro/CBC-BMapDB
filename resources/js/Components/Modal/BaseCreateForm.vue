@@ -18,7 +18,7 @@
         </div>
         <div class="flex flex-row justify-between gap-1 px-6 py-4 bg-gray-100 text-right">
             <cancel-button @click="close">Cancel</cancel-button>
-            <button class="bg-add text-white px-4 py-2 rounded-md hover:bg-red-600 active:bg-red-700 duration-200" type="submit">Save</button>
+            <button v-if="form" class="bg-add text-white px-4 py-2 rounded-md hover:bg-red-600 active:bg-red-700 duration-200" type="submit">Save</button>
         </div>
     </form>
 </template>
@@ -35,7 +35,7 @@ export default {
     props: {
         form: {
             type: Object,
-            default: () => ({})
+            default: null,
         },
         forceClose: {
             type: Boolean,
@@ -47,7 +47,8 @@ export default {
             this.$emit('close');
         },
         submitForm() {
-            this.$emit('submitForm', this.form);
+            if (this.form)
+                this.$emit('submitForm', this.form);
         }
     },
     watch: {

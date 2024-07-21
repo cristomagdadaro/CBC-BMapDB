@@ -20,6 +20,7 @@ class AccountsFactory extends Factory
             'user_id' => \App\Models\User::inRandomOrder()->first(),
             'app_id' => \App\Models\Application::inRandomOrder()->first(),
             'account_id' => $this->faker->uuid(),
+            'approved_at' => $this->faker->randomElement([null, $this->faker->dateTime()]),
         ];
     }
 }

@@ -9,6 +9,7 @@ export default class User extends BaseClass
         this.mname = resp.mname ?? null;
         this.lname = resp.lname ?? null;
         this.suffix = resp.suffix ?? null;
+        this.accounts = resp.accounts ?? null;
         this.email = resp.email ?? null;
         this.affiliation = resp.affiliation ?? null;
         this.mobile_no = resp.mobile_no ?? null;
@@ -57,6 +58,13 @@ export default class User extends BaseClass
             {
                 title: 'Suffix',
                 key: 'suffix',
+                align: 'center',
+                sortable: true,
+                visible: true,
+            },
+            {
+                title: 'Accounts',
+                key: 'accounts',
                 align: 'center',
                 sortable: true,
                 visible: true,

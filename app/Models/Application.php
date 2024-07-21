@@ -17,6 +17,7 @@ class Application extends BaseModel
         'description',
         'url',
         'icon',
+        'status',
     ];
 
     protected $hidden = [
@@ -30,6 +31,7 @@ class Application extends BaseModel
         'description',
         'url',
         'icon',
+        'status',
     ];
 
     protected array $notifMessage = [
