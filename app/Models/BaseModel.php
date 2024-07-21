@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
+    protected $table = null;
+
     protected array $searchable = [];
 
     protected array $notifMessage = [];
@@ -24,5 +26,10 @@ class BaseModel extends Model
     protected function serializeDate(DateTimeInterface $date): string
     {
         return $date->format('g:i a M j, Y');
+    }
+
+    public function getTableName(): string
+    {
+        return $this->table;
     }
 }

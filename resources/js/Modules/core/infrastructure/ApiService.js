@@ -36,11 +36,11 @@ export default class ApiService
                 params: params
             });
 
-            if (!model) {
+            if (model) {
                 response.data.data = this.castToModel(response.data.data, model);
                 return new BaseResponse(response.data);
             }
-            return new BaseResponse(response.data);
+            return new BaseResponse(response);
         } catch (error) {
             return this.determineError(error);
         } finally {

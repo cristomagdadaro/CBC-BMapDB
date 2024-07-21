@@ -4,6 +4,7 @@ export default class Product extends BaseClass {
     constructor(params = {}) {
         super();
         this.id = params.id ?? null;
+        this.twg_expert_id = params.twg_expert_id ?? null;
         this.name = params.name ?? null;
         this.brand = params.brand ?? null;
         this.purpose = params.purpose ?? null;
@@ -14,7 +15,7 @@ export default class Product extends BaseClass {
     }
 
     static getHiddenColumns() {
-        return ['id', 'updated_at', 'created_at', 'deleted_at'];
+        return ['id', 'twg_expert_id', 'updated_at', 'created_at', 'deleted_at'];
     }
     static getColumns() {
         return [
@@ -23,7 +24,14 @@ export default class Product extends BaseClass {
                 key: 'id',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
+            },
+            {
+                title: 'Expert ID',
+                key: 'twg_expert_id',
+                align: 'center',
+                sortable: true,
+                visible: false,
             },
             {
                 title: 'Name',

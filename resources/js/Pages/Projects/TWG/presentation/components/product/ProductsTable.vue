@@ -18,6 +18,8 @@ export default {
     <CRCMDatatable
         :base-url="TWGPages.api.product.path"
         :base-model="TWGPages.api.product.model"
+        :add-form="TWGPages.api.product.create.component"
+        :edit-form="TWGPages.api.product.edit.component"
     />
 </template>
 
