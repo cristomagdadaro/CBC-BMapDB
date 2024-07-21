@@ -1,6 +1,7 @@
 <template>
     <Head title="Breeder's Map" />
     <app-layout>
+        {{ $page.props.permissions }}
         <Tab :tabs="tabs" v-if="$page.props.auth.user">
             <template #tab1>
                 <breeders-table />

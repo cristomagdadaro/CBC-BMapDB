@@ -90,7 +90,9 @@ export default {
                             </NavLink>
                         </div>-->
                     </div>
-
+                    <span class="flex items-center text-gray-100">
+                        {{$page.props.auth.user.email}}
+                    </span>
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                       <top-action-btn
                           class="shadow-none hover:scale-105 active:scale-100"

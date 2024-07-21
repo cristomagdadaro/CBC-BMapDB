@@ -13,22 +13,40 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
-            'fname' => 'Test',
-            'lname' => 'User',
-            'email' => 'sample@cbc.philrice.gov.ph',
+        $admin = User::factory()->create([
+            'fname' => 'Cristo Rey',
+            'lname' => 'Magdadaro',
+            'email' => 'admin@cbc.gov.ph',
             'affiliation' => 'Crop Biotechnology Center'
         ]);
 
+        $breeder = User::factory()->create([
+            'fname' => 'Reynaldo',
+            'lname' => 'Diocton',
+            'email' => 'breeder@cbc.gov.ph',
+            'affiliation' => 'Crop Biotechnology Center'
+        ]);
+
+        $researcher = User::factory()->create([
+            'fname' => 'Precious Mae',
+            'lname' => 'Gabato',
+            'email' => 'researcher@cbc.gov.ph',
+            'affiliation' => 'Crop Biotechnology Center'
+        ]);
+
+
         $this->call([
+            RoleAndPermissionSeeder::class,
             UserSeeder::class,
-            RolesSeeder::class,
-            PermissionSeeder::class,
             ApplicationSeeder::class,
             AccountsSeeder::class,
             BreederSeeder::class,
             CommoditySeeder::class,
             TWGDatabaseSeeder::class
         ]);
+
+        $admin->assignRole('Administrator');
+        $breeder->assignRole('Breeder');
+        $researcher->assignRole('Researcher');
     }
 }

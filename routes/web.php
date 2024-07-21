@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\BreederController;
@@ -92,7 +92,20 @@ Route::middleware([
 
         Route::prefix('/breedersmap')->group(function () {
             Route::get('/', function () {
-                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex', [
+                    'permissions' => [
+                        'role' => auth()->user()->getRoleNames(),
+                        'createBreeder' => Gate::allows('create-breeder', App\Models\Permission::class),
+                        'editBreeder' => Gate::allows('update-breeder', App\Models\Permission::class),
+                        'deleteBreeder' => Gate::allows('delete-breeder', App\Models\Permission::class),
+                        'viewBreeder' => Gate::allows('read-breeder', App\Models\Permission::class),
+
+                        'createCommodity' => Gate::allows('update-commodity', App\Models\Permission::class),
+                        'editCommodity' => Gate::allows('update-commodity', App\Models\Permission::class),
+                        'deleteCommodity' => Gate::allows('delete-commodity', App\Models\Permission::class),
+                        'viewCommodity' => Gate::allows('read-commodity', App\Models\Permission::class),
+                    ]
+                ]);
             })->name('projects.breedersmap.index');
 
             Route::get('/breeder/{id}', function ($id) {
@@ -158,23 +171,23 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
 
     /*Breeders Map Related APIs*/
     Route::prefix('breeders')->group(function () {
-        Route::get('/', [BreederController::class, 'index'])->name('api.breeders.index');
-        Route::get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
-        Route::get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
-        Route::post('/', [BreederController::class, 'store'])->name('api.breeders.store');
-        Route::put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
-        Route::delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
-        Route::delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
+        Route::middleware('can:read-breeder')->get('/', [BreederController::class, 'index'])->name('api.breeders.index');
+        Route::middleware('can:read-breeder')->get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
+        Route::middleware('can:read-breeder')->get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
+        Route::middleware('can:create-breeder')->post('/', [BreederController::class, 'store'])->name('api.breeders.store');
+        Route::middleware('can:update-breeder')->put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
+        Route::middleware('can:delete-breeder')->delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
+        Route::middleware('can:delete-breeder')->delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
     });
 
     Route::prefix('commodities')->group(function () {
-       Route::get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
-       Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
-       Route::get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
-       Route::post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
-       Route::put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');
-       Route::delete('/delete', [CommodityController::class, 'multiDestroy'])->name('api.commodities.destroy.multi');
-       Route::delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
+       Route::middleware('can:read-breeder')->get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
+       Route::middleware('can:read-breeder')->get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
+       Route::middleware('can:read-breeder')->get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
+       Route::middleware('can:create-breeder')->post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
+       Route::middleware('can:update-breeder')->put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');
+       Route::middleware('can:delete-breeder')->delete('/delete', [CommodityController::class, 'multiDestroy'])->name('api.commodities.destroy.multi');
+       Route::middleware('can:delete-breeder')->delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
     });
 
     Route::prefix('geodata')->group(function () {

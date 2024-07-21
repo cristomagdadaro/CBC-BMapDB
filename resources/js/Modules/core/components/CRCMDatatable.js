@@ -300,26 +300,14 @@ export default class CRCMDatatable
     async update(data) {
         this.processing = true;
         const response = await this.api.put(this.model.toObject(data));
+
+        Notification.pushNotification(response);
+
         if (ErrorResponse.some(error => response instanceof error)){
             this.errorBag = response.toObject();
             this.processing = false;
-            Notification.pushNotification({
-                title: 'Failed',
-                message: "Failed to update",
-                type: 'failed',
-                timeout: 5000,
-                show: true,
-            });
             return;
         }
-
-        Notification.pushNotification({
-            title: 'Success',
-            message: "Updated successfully",
-            type: 'success',
-            timeout: 5000,
-            show: true,
-        });
 
         this.processing = false;
 
