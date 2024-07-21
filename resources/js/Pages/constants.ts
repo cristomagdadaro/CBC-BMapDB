@@ -70,3 +70,10 @@ export const ProjectStatus = [
         label: 'On Hold',
     }
 ]
+
+export const Permission = Object.freeze({
+    CREATE: 'create',
+    VIEW: 'view',
+    UPDATE: 'update',
+    DELETE: 'delete',
+});

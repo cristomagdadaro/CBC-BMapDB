@@ -92,20 +92,7 @@ Route::middleware([
 
         Route::prefix('/breedersmap')->group(function () {
             Route::get('/', function () {
-                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex', [
-                    'permissions' => [
-                        'role' => auth()->user()->getRoleNames(),
-                        'createBreeder' => Gate::allows('create-breeder', App\Models\Permission::class),
-                        'editBreeder' => Gate::allows('update-breeder', App\Models\Permission::class),
-                        'deleteBreeder' => Gate::allows('delete-breeder', App\Models\Permission::class),
-                        'viewBreeder' => Gate::allows('read-breeder', App\Models\Permission::class),
-
-                        'createCommodity' => Gate::allows('update-commodity', App\Models\Permission::class),
-                        'editCommodity' => Gate::allows('update-commodity', App\Models\Permission::class),
-                        'deleteCommodity' => Gate::allows('delete-commodity', App\Models\Permission::class),
-                        'viewCommodity' => Gate::allows('read-commodity', App\Models\Permission::class),
-                    ]
-                ]);
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
             })->name('projects.breedersmap.index');
 
             Route::get('/breeder/{id}', function ($id) {
