@@ -5,6 +5,7 @@ export default class Service extends BaseClass {
     constructor(params = {}) {
         super();
         this.id = params.id ?? null;
+        this.twg_expert_id = params.twg_expert_id ?? null;
         this.type = params.type ?? null;
         this.purpose = params.purpose ?? null;
         this.direct_beneficiaries = params.direct_beneficiaries ?? null;
@@ -17,7 +18,7 @@ export default class Service extends BaseClass {
     }
 
     static getHiddenColumns() {
-        return ['id', 'updated_at', 'created_at', 'deleted_at'];
+        return ['id', 'twg_expert_id', 'updated_at', 'created_at', 'deleted_at'];
     }
 
     static getColumns() {
@@ -27,7 +28,14 @@ export default class Service extends BaseClass {
                 key: 'id',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
+            },
+            {
+                title: 'Expert',
+                key: 'twg_expert_id',
+                align: 'center',
+                sortable: true,
+                visible: false,
             },
             {
                 title: 'Type',

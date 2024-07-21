@@ -35,12 +35,19 @@ export default {
         getError(field) {
             return this.errors[field] ? this.errors[field] : [];
         },
+        resetForm() {
+            this.form = Object.assign({}, this.data);
+        }
     },
     watch: {
+        forceClose() {
+            this.resetForm();
+            this.$emit('close');
+        },
         data() {
             this.form = Object.assign({}, this.data);
         }
-    }
+    },
 }
 </script>
 

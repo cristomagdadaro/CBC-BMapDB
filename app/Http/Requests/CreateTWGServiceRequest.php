@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\TWGExpert;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateTWGServiceRequest extends FormRequest
@@ -22,7 +23,7 @@ class CreateTWGServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'twg_expert_id' => ['required', 'exists:twg_expert,user_id'],
+            'twg_expert_id' => ['required', 'integer', 'exists:'.((new TWGExpert())->getTableName()).',id'],
             'type' => ['required', 'string'],
             'purpose' => ['required', 'string'],
             'direct_beneficiaries' => ['required', 'string'],

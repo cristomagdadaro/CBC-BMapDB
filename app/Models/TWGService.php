@@ -25,6 +25,7 @@ class TWGService extends BaseModel
 
     protected array $searchable = [
         'id',
+        'twg_expert_id',
         'type',
         'purpose',
         'direct_beneficiaries',
