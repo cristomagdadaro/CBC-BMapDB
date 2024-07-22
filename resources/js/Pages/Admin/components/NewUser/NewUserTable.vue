@@ -1,7 +1,7 @@
 <script>
 import {Permission} from "@/Pages/constants.ts";
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
-import {BreedersMapPages} from "@/Pages/Projects/BreedersMap/components/components.js";
+import {AdminPages} from "@/Pages/Admin/components/components.js";
 
 export default {
     name: "NewUserTable",
@@ -19,8 +19,8 @@ export default {
         },
     },
     computed: {
-        BreedersMapPages() {
-            return BreedersMapPages
+        AdminPages() {
+            return AdminPages
         },
         Permission() {
             return Permission;
@@ -45,11 +45,11 @@ export default {
 }
 </script>
 <!--Url For Only Unverified Account-->
-<!--BreedersMapPages.api.user.path + '?filter=email_verified_at&search=null&is_exact=true'-->
+<!--AdminPages.api.user.path + '?filter=email_verified_at&search=null&is_exact=true'-->
 <template>
     <CRCMDatatable
-        :base-url="BreedersMapPages.api.user.path"
-        :base-model="BreedersMapPages.api.user.model"
+        :base-url="AdminPages.api.user.path"
+        :base-model="AdminPages.api.user.model"
         :can-create="canCreate"
         :can-update="canUpdate"
         :can-delete="canDelete"

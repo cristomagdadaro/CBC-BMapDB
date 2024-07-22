@@ -4,12 +4,19 @@ export default class User extends BaseClass
     constructor(resp = {})
     {
         super();
+
         this.id = resp.id ?? null;
         this.fname = resp.fname ?? null;
         this.mname = resp.mname ?? null;
         this.lname = resp.lname ?? null;
         this.suffix = resp.suffix ?? null;
-        this.accounts = resp.accounts ?? null;
+        this.fullName = this.getFullName();
+        // count the number of accounts
+        let accounts = resp.accounts ?? null;
+        if(accounts)
+            this.accounts = accounts.length;
+        else
+            this.accounts = 0;
         this.email = resp.email ?? null;
         this.affiliation = resp.affiliation ?? null;
         this.mobile_no = resp.mobile_no ?? null;
@@ -35,35 +42,42 @@ export default class User extends BaseClass
                 visible: false,
             },
             {
+                title: 'Name',
+                key: 'fullName',
+                align: 'center',
+                sortable: true,
+                visible: true,
+            },
+            {
                 title: 'First Name',
                 key: 'fname',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Middle Name',
                 key: 'mname',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Last Name',
                 key: 'lname',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Suffix',
                 key: 'suffix',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
-                title: 'Accounts',
+                title: 'No. of Accounts',
                 key: 'accounts',
                 align: 'center',
                 sortable: true,

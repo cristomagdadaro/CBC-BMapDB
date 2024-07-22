@@ -45,4 +45,9 @@ class Application extends BaseModel
         'notFound' => 'Application not found.',
         'unknown' => 'Unknown error, action failed.',
     ];
+
+    public function accounts()
+    {
+        return $this->hasMany(Accounts::class, 'app_id', 'id');
+    }
 }

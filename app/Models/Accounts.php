@@ -15,7 +15,6 @@ class Accounts extends BaseModel
     protected $fillable = [
         'user_id',
         'app_id',
-        'account_id',
         'approved_at',
     ];
 
@@ -29,7 +28,7 @@ class Accounts extends BaseModel
         'id',
         'user_id',
         'app_id',
-        'account_id',
+        'approved_at',
     ];
 
     protected array $notifMessage = [

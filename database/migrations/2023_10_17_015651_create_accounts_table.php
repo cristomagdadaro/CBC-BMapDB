@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->id();
-            $table->uuid('account_id')->index()->nullable();
+            $table->uuid('id')->unique()->primary();
             $table->foreignId('user_id')->constrained('users', 'id');
             $table->foreignId('app_id')->constrained('applications', 'id');
             $table->timestamp('approved_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->unique(['user_id', 'app_id']);
         });
     }
 

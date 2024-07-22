@@ -60,6 +60,9 @@ export default {
             this.input = option.label;
             this.closeDropdown();
         },
+        fullnameOption(option) {
+            return `${option.fname} ${option.mname} ${option.lname} ${option.suffix}`;
+        },
         /**
          * Fetch options from the api
          * */
@@ -77,7 +80,7 @@ export default {
                 return;
             }
 
-            this.filteredOptions = response.data.data.map((option) => ({value: option.id, label: option.name || option.title || option.label || option.value }));
+            this.filteredOptions = response.data.data.map((option) => ({value: option.id, label: option.name || option.title || option.label || option.value || this.fullnameOption(option) }));
         },
         /**
          * Handle scroll event to fetch more options from the api
@@ -132,6 +135,7 @@ export default {
                 @click="toggleDropdown()"
                 @keyup="getOptionsFromApi(1, input)"
             />
+
             <div v-show="showDropdown" class="fixed inset-0 z-40" @click="closeDropdown()" />
             <div v-show="showDropdown" class="relative z-50">
                 <div

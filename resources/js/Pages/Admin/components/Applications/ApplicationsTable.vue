@@ -1,6 +1,6 @@
 <script>
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
-import {BreedersMapPages} from "@/Pages/Projects/BreedersMap/components/components.js";
+import {AdminPages} from "@/Pages/Admin/components/components.js";
 import {Permission} from "@/Pages/constants.ts";
 
 export default {
@@ -19,8 +19,8 @@ export default {
         },
     },
     computed: {
-        BreedersMapPages() {
-            return BreedersMapPages
+        AdminPages() {
+            return AdminPages
         },
         Permission() {
             return Permission;
@@ -46,13 +46,12 @@ export default {
 </script>
 
 <template>
-    {{BreedersMapPages.api.app.view.path}}
     <CRCMDatatable
-        :base-url="BreedersMapPages.api.app.path"
-        :base-model="BreedersMapPages.api.app.model"
-        :edit-form="BreedersMapPages.api.app.edit.component"
-        :add-form="BreedersMapPages.api.app.create.component"
-        :view-form="BreedersMapPages.api.app.view.path"
+        :base-url="AdminPages.api.app.path"
+        :base-model="AdminPages.api.app.model"
+        :edit-form="AdminPages.api.app.edit.component"
+        :add-form="AdminPages.api.app.create.component"
+        :view-form="AdminPages.api.app.view.path"
         :can-create="canCreate"
         :can-update="canUpdate"
         :can-delete="canDelete"

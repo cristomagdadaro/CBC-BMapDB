@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\GetUserRequest;
+use App\Http\Resources\BaseCollection;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
 use App\Repository\API\UserRepo;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
 
     protected UserRepo $userRepository;
 
     public function __construct(UserRepo $userRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->service = $userRepository;
     }
 
     /**
@@ -24,16 +27,8 @@ class UserController extends Controller
      */
     public function index(GetUserRequest $request)
     {
-        $data = $this->userRepository->search($request->collect());
-        return new UserCollection($data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
     /**
@@ -47,17 +42,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show(int $id): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
+        $data = $this->service->find($id);
+        return $this->sendResponse('User retrieved successfully.', $data);
     }
 
     /**

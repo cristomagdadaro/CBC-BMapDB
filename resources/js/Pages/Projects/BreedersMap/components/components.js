@@ -1,50 +1,11 @@
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder.js";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.js";
 import {defineAsyncComponent} from "vue";
-import User from "@/Pages/Admin/domain/User.js";
-import Account from "@/Pages/Admin/domain/Account.js";
-import Application from "@/Pages/Admin/domain/Application.js";
 /**
  * Contains the forms, pages, api routes, and models for the BreedersMap project
  **/
 export const BreedersMapPages = {
     api: {
-        user: {
-            path: route('api.administrator.index'),
-            name: 'Users Model',
-            model: User,
-        },
-        account: {
-            path: route('api.accounts.index'),
-            name: 'Accounts Model',
-            model: Account,
-        },
-        app: {
-            path: route('api.applications.index'),
-            name: 'Application Model',
-            model: Application,
-            create: {
-                path: null,
-                name: 'CreateUserForm',
-                component: defineAsyncComponent(
-                    () => import('@/Pages/Admin/components/Applications/CreateApplicationForm.vue')
-                ),
-            },
-            edit: {
-                path: null,
-                name: 'EditUserForm',
-                component: defineAsyncComponent(
-                    () => import('@/Pages/Admin/components/Applications/EditApplicationForm.vue')
-                ),
-            },
-            view: {
-                path: null,
-                name: 'ViewApplication',
-                component: defineAsyncComponent(
-                    () => null,
-                ),
-            }
-        },
         breeder: {
             path: route('api.breeders.index'),
             name: 'Breeders Model',

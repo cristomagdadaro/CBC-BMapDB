@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Resources\AccountsCollection;
 use App\Models\Accounts;
 use App\Repository\API\AccountsRepo;
+use Faker\Core\Uuid;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Request;
 
@@ -23,6 +24,7 @@ class AccountController extends BaseController
 
     public function index(GetAccountForRequest $request)
     {
+        $this->service->appendWith(['user', 'application']);
         $data = $this->service->search($request->collect());
         return new AccountsCollection($data);
     }
