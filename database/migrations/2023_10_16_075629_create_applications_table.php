@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('url')->unique()->nullable();
             $table->string('icon')->nullable();
-            $table->enum('status', [true, false])->default(true);
+            $table->enum('status', ["true", "false"])->default("true");
             $table->timestamps();
             $table->softDeletes();
         });

@@ -27,6 +27,7 @@ class Application extends BaseModel
     ];
 
     protected array $searchable = [
+        'id',
         'name',
         'description',
         'url',

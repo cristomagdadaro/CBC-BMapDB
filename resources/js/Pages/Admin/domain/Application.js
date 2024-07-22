@@ -9,7 +9,7 @@ export default class Application extends BaseClass
         this.description = resp.description ?? null;
         this.url = resp.url ?? null;
         this.icon = resp.icon ?? null;
-        this.status = resp.status ? "Active" : "Inactive";
+        this.status = resp.status ?? false;
     }
 
     static getHiddenColumns() {

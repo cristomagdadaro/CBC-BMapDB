@@ -44,12 +44,6 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/administrator', function () {
-        return Inertia::render('Admin/Administrator');
-    })->name('administrator.index');
-});
-
 Route::prefix('email')->group(function () {
     Route::get('/invite/{name}/{email}', function($name, $email) {
         Mail::to($email)->send(new UserInvitationEmail($name));
@@ -89,6 +83,13 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
+    Route::prefix('administrator')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('Admin/Administrator');
+        })->name('administrator.index');
+    });
+
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');

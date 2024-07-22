@@ -73,6 +73,11 @@ export default class CRCMDatatable
         await this.refresh();
     }
 
+    async gotoPage(page) {
+        this.request.updateParam('page', page);
+        await this.refresh();
+    }
+
     async sortFunc(params) {
         this.request.updateParam('sort', params.sort);
         this.request.updateParam('order', this.request.getParam('order') === 'asc' ? 'desc' : 'asc');

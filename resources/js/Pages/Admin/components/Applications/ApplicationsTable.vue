@@ -46,9 +46,13 @@ export default {
 </script>
 
 <template>
+    {{BreedersMapPages.api.app.view.path}}
     <CRCMDatatable
         :base-url="BreedersMapPages.api.app.path"
         :base-model="BreedersMapPages.api.app.model"
+        :edit-form="BreedersMapPages.api.app.edit.component"
+        :add-form="BreedersMapPages.api.app.create.component"
+        :view-form="BreedersMapPages.api.app.view.path"
         :can-create="canCreate"
         :can-update="canUpdate"
         :can-delete="canDelete"

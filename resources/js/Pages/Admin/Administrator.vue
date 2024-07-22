@@ -17,7 +17,7 @@ export default {
                     active: true,
                 },{
                     name: "tab2",
-                    label: "Accounts",
+                    label: "Accounts Approval",
                     active: false,
                 },{
                     name: "tab3",

@@ -26,6 +26,7 @@ class Accounts extends BaseModel
     ];
 
     protected array $searchable = [
+        'id',
         'user_id',
         'app_id',
         'account_id',

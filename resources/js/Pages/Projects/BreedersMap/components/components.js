@@ -23,6 +23,27 @@ export const BreedersMapPages = {
             path: route('api.applications.index'),
             name: 'Application Model',
             model: Application,
+            create: {
+                path: null,
+                name: 'CreateUserForm',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Admin/components/Applications/CreateApplicationForm.vue')
+                ),
+            },
+            edit: {
+                path: null,
+                name: 'EditUserForm',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Admin/components/Applications/EditApplicationForm.vue')
+                ),
+            },
+            view: {
+                path: null,
+                name: 'ViewApplication',
+                component: defineAsyncComponent(
+                    () => null,
+                ),
+            }
         },
         breeder: {
             path: route('api.breeders.index'),
