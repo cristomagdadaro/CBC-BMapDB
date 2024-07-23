@@ -21,11 +21,12 @@ import ShareIcon from "@/Components/Icons/ShareIcon.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import MapApiService from "@/Pages/Projects/BreedersMap/presentation/components/map/infrastructure/MapApiService.js";
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
+import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import {Permission} from "@/Pages/constants.ts";
-
 
 export default {
     components: {
+        SearchBy,
         LoaderIcon,
         CloseIcon,
         InfoSidebar,
@@ -187,6 +188,12 @@ export default {
         deselectPoint() {
             this.mapApi.deselectPoint();
         },
+        recenter() {
+            this.mapApi.recenter();
+        },
+        selectedPoint() {
+            return this.mapApi.selectedPlace;
+        },
     },
     watch: {
         customPoint: {
@@ -203,7 +210,7 @@ export default {
 
 
 <template>
-    <div v-if="mapApi && canView" class="flex gap-1 justify-end">
+<div v-if="mapApi && canView" class="flex gap-1 justify-end">
         <top-action-btn @click="refreshData" class="bg-add text-xs" title="Export data">
             <template v-if="processing" #icon>
                 <loader-icon class="h-auto sm:w-6 w-4" />
@@ -225,14 +232,23 @@ export default {
     </div>
     <div class="flex flex-col max-h-fit gap-2" v-if="mapApi && canView">
         <div class="relative gap-2">
-            <search-box
-                :value="mapApi.selectedPlace ? mapApi.selectedPlace.city : ''"
-                :options="placesFiltered"
-                :label="mapApi.selectedPlace ? mapApi.selectedPlace.city : 'Select a place'"
-                @searchString="updateFilters('search', $event)"
-                @input="updateFilters('search', $event.target.value)"
-                @focusin="showListOfPlaces = true"
-            />
+            <div class="w-full flex gap-1">
+                <search-box
+                    :value="mapApi.selectedPlace ? mapApi.selectedPlace.city : ''"
+                    :options="placesFiltered"
+                    :label="mapApi.selectedPlace ? mapApi.selectedPlace.city : 'Select a place'"
+                    @searchString="updateFilters('search', $event)"
+                    @input="updateFilters('search', $event.target.value)"
+                    @focusin="showListOfPlaces = true"
+                    class="w-full"
+                />
+                <search-by :value="mapApi.request.params.filter"
+                           :is-exact="mapApi.request.params.is_exact"
+                           :options="mapApi.columns"
+                           @isExact="mapApi.isExactFilter({ is_exact: $event })"
+                           @searchBy="mapApi.filterByColumn({ column: $event })"
+                />
+            </div>
 
             <div v-if="showListOfPlaces" class="absolute mt-1 rounded border-2 z-[999] bg-gray-100 shadow flex-col flex gap-1 overflow-y-auto max-h-96 p-2">
                 <div
@@ -258,7 +274,10 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="w-full flex gap-2">
+        <div class="w-full flex gap-2 relative">
+            <div v-if="processing" class="flex gap-1 absolute top-0 left-0 min-w-full min-h-full">
+                <span class="whitespace-nowrap">Fetching data</span>
+            </div>
             <l-map
                 ref="map"
                 :use-global-leaflet="true"
@@ -272,6 +291,7 @@ export default {
                 :options="mapOptions"
 
                 @update:zoom="updateZoom"
+                @update:center="updateCenter"
                 @click="showListOfPlaces = false"
             >
                 <l-geo-json
@@ -306,28 +326,15 @@ export default {
                     <l-tooltip :content="place.city" />
                 </l-circle-marker>
                 <l-control>
-                    <div class="flex flex-col gap-2">
-                        <div class="flex flex-row gap-2">
-                            <div class="flex flex-row gap-2">
-                                <input type="checkbox" class="h-4 w-4" />
-                                <label>Commodity</label>
-                            </div>
-                            <div class="flex flex-row gap-2">
-                                <input type="checkbox" class="h-4 w-4" />
-                                <label>Region</label>
-                            </div>
-                        </div>
-                        <div class="flex flex-row gap-2">
-                            <div class="flex flex-row gap-2">
-                                <input type="checkbox" class="h-4 w-4" />
-                                <label>Province</label>
-                            </div>
-                            <div class="flex flex-row gap-2">
-                                <input type="checkbox" class="h-4 w-4" />
-                                <label>City</label>
-                            </div>
-                        </div>
-                    </div>
+                    <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
+                        <span>Recenter</span>
+                    </top-action-btn>
+                    <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
+                        <template #icon>
+                            <close-icon class="h-auto sm:w-6 w-4" />
+                        </template>
+                        <span>Deselect</span>
+                    </top-action-btn>
                 </l-control>
             </l-map>
             <info-sidebar :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />

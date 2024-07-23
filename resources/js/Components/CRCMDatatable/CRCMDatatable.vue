@@ -180,7 +180,7 @@
                                         class="break-words text-sm border border-gray-300"
                                         v-on:dblclick="dt.addSelected(row.id)"
                                         v-on:click.ctrl="dt.addSelected(row.id)"
-                                        v-if="Array.from(dt.model.getColumns()).find(col => col.key === label).visible && true">
+                                        v-if="dataValue(label)">
                                         {{ value }}
                                     </t-d>
                                 </template>
@@ -436,6 +436,13 @@ export default {
         },
     },
     methods: {
+        dataValue(label) {
+            try {
+                return Array.from(this.dt.model.getColumns()).find(col => col.key === label).visible && true
+            } catch (e) {
+                return false;
+            }
+        },
         toggleShowIconText() {
             this.$store.dispatch("asyncToggleShowTextWithIcon");
         },

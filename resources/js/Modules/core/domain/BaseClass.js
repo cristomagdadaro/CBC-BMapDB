@@ -1,6 +1,7 @@
-export class BaseClass
+export class BaseClass extends Object
 {
     constructor(resp = {}) {
+        super();
         Object.assign(this, resp);
     }
 

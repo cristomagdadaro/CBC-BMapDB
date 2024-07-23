@@ -8,6 +8,11 @@ import {ForbiddenErrorResponse} from "@/Modules/core/infrastructure/ForbiddenErr
 
 export default class ApiService
 {
+    constructor(url) {
+        this._processing = false;
+        this._baseUrl = url;
+    }
+
     get processing() {
         return this._processing;
     }
@@ -15,13 +20,13 @@ export default class ApiService
     set processing(value) {
         this._processing = value;
     }
-    constructor(url) {
-        this._processing = false;
-        this.baseUrl = url;
+
+    set baseUrl(url) {
+        this._baseUrl = url;
     }
 
-    setBaseUrl(url) {
-        this.baseUrl = url;
+    get baseUrl() {
+        return this._baseUrl;
     }
 
     async get(params, model = undefined)
@@ -32,11 +37,11 @@ export default class ApiService
                 params: params
             });
 
-            if (model !== undefined) {
+            if (model) {
                 response.data.data = this.castToModel(response.data.data, model);
                 return new BaseResponse(response.data);
             }
-            return response;
+            return new BaseResponse(response);
         } catch (error) {
             return this.determineError(error);
         } finally {
@@ -109,10 +114,8 @@ export default class ApiService
                     return new ForbiddenErrorResponse(error.response.data);
                 case 404:
                     return new NotFoundErrorResponse(error.response.data);
-                case 500:
-                    return new ServerErrorResponse(error.response.data);
                 default:
-                    throw new Error(error);
+                    return new ServerErrorResponse(error.response.data);
             }
         return new JavascriptErrorResponse(error);
     }

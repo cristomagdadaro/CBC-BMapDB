@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -22,6 +21,7 @@ class TWGProduct extends BaseModel
 
     protected array $searchable = [
         'id',
+        'twg_expert_id',
         'name',
         'brand',
         'purpose',

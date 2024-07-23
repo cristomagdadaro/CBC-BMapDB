@@ -48,13 +48,17 @@ class TWGController extends BaseController
 
     public function summary()
     {
-        return response()->json([
-            'totalExperts' => TWGExpert::all()->count(),
-            'totalProjects' => TWGProject::all()->count(),
-            'totalProducts' => TWGProduct::all()->count(),
-            'totalServices' => TWGService::all()->count(),
-            'totalOnGoingProjects' => TWGProject::select('status', DB::raw('count(*) as total'))->groupBy('status')->get()->pluck('total', 'status'),
-        ]);
+        try {
+            return response()->json([
+                'totalExperts' => TWGExpert::all()->count(),
+                'totalProjects' => TWGProject::all()->count(),
+                'totalProducts' => TWGProduct::all()->count(),
+                'totalServices' => TWGService::all()->count(),
+                'totalOnGoingProjects' => TWGProject::select('status', DB::raw('count(*) as total'))->groupBy('status')->get()->pluck('total', 'status'),
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 }

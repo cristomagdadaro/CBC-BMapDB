@@ -3,10 +3,10 @@ export class ServerErrorResponse extends Error{
         super();
         this.title = response.title || 'Internal Server Error';
         this.message = response.message || 'Something went wrong';
-        this.type = response.type || 'failed';
+        this.type = 'warning';
         this.timeout = response.timeout || 5000;
         this.show = response.show || true;
-        this.errno = response.errno || null;
+        this.errno = 500;
         Object.assign(this, response.errors);
     }
 

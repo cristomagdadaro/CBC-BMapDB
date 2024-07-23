@@ -4,22 +4,21 @@ import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
 import {ref} from "vue";
 import Notification from "@/Components/Modal/Notification/Notification.js";
 import { ErrorResponse } from "@/Pages/constants";
+import {BaseClass} from "@/Modules/core/domain/BaseClass.js";
 
 export default class CRCMDatatable
 {
-    constructor(baseUrl, model = Object) {
+    constructor(baseUrl, model = BaseClass) {
         // api service class instance
         this.api = new ApiService(baseUrl);
         // array of columns to display
         this.columns = ref([]);
         // response from the server
         this.response = ref(new BaseResponse);
-        // when true, the datatable will show a loading spinner
-        this.processing = ref(false);
         // array of ids that are currently selected
         this.selected = ref([]);
         // class model that are current being handled in the CRMDatatable
-        this.model = ref(model);
+        this.model = model;
         // array of ids to delete, can be multiple ids
         this.toDelete = ref([]);
         // when create or update, the modal will be forced to close after successful request
@@ -34,22 +33,26 @@ export default class CRCMDatatable
     }
 
     async init() {
-        try {
-            this.processing = true;
-            this.response = await this.api.get(this.request.toObject(), this.model);
+        this.response = await this.api.get(this.request.toObject(), this.model);
+        if (this.response instanceof BaseResponse){
             this.getColumnsFromResponse(this.response);
-            this.processing = false;
-        } catch (error) {
-            throw new Error(error);
+            this.closeAllModal = true;
+        }
+        else {
+            new Notification(this.response);
         }
     }
 
+    get processing(){
+        return this.api._processing;
+    }
+
+    set processing(value){
+        this.api._processing = value;
+    }
+
     async refresh() {
-        this.processing = true;
-        this.response = await this.api.get(this.request.toObject(), this.model);
-        this.getColumnsFromResponse(this.response);
-        this.processing = false;
-        this.closeAllModal = true;
+        await this.init();
     }
 
     async nextPage() {
@@ -95,19 +98,6 @@ export default class CRCMDatatable
     async searchFunc(params) {
         this.request.updateParam('search', params.search);
         await this.refresh();
-        /*if (params.search) {`
-            const mark = (text, search) => {
-                return text.replace(new RegExp(search, 'g'), `*${search}*`);
-            }
-
-            this.response['data'] = this.response['data'].map(item => {
-                Object.keys(item).forEach(key => {
-                    if (typeof item[key] === 'string' || item[key] instanceof String)
-                        item[key] = mark(item[key], params.search);
-                });
-                return item;
-            });
-        }*/
     }
 
     async perPageFunc(params){
@@ -145,8 +135,6 @@ export default class CRCMDatatable
     async exportCSV() {
         let link = document.createElement("a");
         try {
-            this.processing = true;
-
             // Update per_page parameter to fetch all data in one request
             this.request.updateParam('per_page', this.response.meta.total);
 
@@ -193,24 +181,11 @@ export default class CRCMDatatable
             link.click();
 
             setTimeout(() => {
-                Notification.pushNotification({
-                    title: 'Success',
-                    message: "Exported successfully",
-                    type: 'success',
-                    timeout: 5000,
-                    show: true,
-                });
+                new Notification('Success', "Exported successfully", 'success', 5000, true);
             }, 3000);
         } catch (error) {
-            Notification.pushNotification({
-                title: 'Failed',
-                message: "Failed to export data",
-                type: 'failed',
-                timeout: 5000,
-                show: true,
-            });
+            new Notification('Failed', "Failed to export data", 'failed', 5000, true);
         } finally {
-            this.processing = false;
             // Clean up: remove link from body
             if (link) {
                 document.body.removeChild(link);
@@ -220,7 +195,6 @@ export default class CRCMDatatable
 
 
     async importCSV(data) {
-        this.processing = true;
         let success = 0;
         let failed = 0;
         let total = 0;
@@ -237,110 +211,67 @@ export default class CRCMDatatable
         }
 
         if (success === total)
-            Notification.pushNotification({
-                title: 'Success',
-                message: `Imported ${total} rows successfully`,
-                type: 'success',
-                timeout: 5000,
-                show: true,
-            });
+            new Notification('Success', `Imported ${total} rows successfully`, 'success', 5000, true);
 
         else if (failed > 0 && success > 0 && success < total)
-            Notification.pushNotification({
-                title: 'Success',
-                message: `Imported ${success} out of ${total} successfully`,
-                type: 'success',
-                timeout: 5000,
-                show: true,
-            });
+            new Notification('Success', `Imported ${success} out of ${total} successfully`, 'success', 5000, true);
 
         else if (failed === total)
-            Notification.pushNotification({
-                title: 'Failed',
-                message: `Failed to import all ${total} rows`,
-                type: 'failed',
-                timeout: 5000,
-                show: true,
-            });
-
-        this.processing = false;
+            new Notification('Failed', `Failed to import all ${total} rows`, 'failed', 5000, true);
         await this.refresh();
         this.errorBag = {};
     }
 
     async create(data) {
-        this.processing = true;
         const response = await this.api.post(this.model.toObject(data));
 
         Notification.pushNotification(response);
         if (ErrorResponse.some(error => response instanceof error)){
-            this.errorBag = response;
-            this.processing = false;
+            this.errorBag = response.toObject();
             return;
         }
 
-        this.processing = false;
         await this.refresh();
         this.errorBag = {};
     }
 
     async delete(id) {
-        this.processing = true;
         const response = await this.api.delete(id);
 
         Notification.pushNotification(response);
 
         if (ErrorResponse.some(error => response instanceof error)){
             this.errorBag = response.toObject();
-            this.processing = false;
             return;
         }
-
-        this.processing = false;
         await this.refresh();
-
         this.selected = this.selected.filter(item => item !== id);
     }
 
     async update(data) {
-        this.processing = true;
         const response = await this.api.put(this.model.toObject(data));
 
         Notification.pushNotification(response);
 
         if (ErrorResponse.some(error => response instanceof error)){
             this.errorBag = response.toObject();
-            this.processing = false;
-            return;
+        } else {
+          await this.refresh();
+          this.errorBag = {};
         }
 
-        this.processing = false;
-
-        await this.refresh();
-        this.errorBag = {};
+        this.processing = false;        
     }
 
     async deleteSelected() {
-        this.processing = true;
         const response = await this.api.delete(this.selected);
 
-        if (response instanceof BaseResponse){
-            Notification.pushNotification({
-                title: 'Success',
-                message: "Deleted successfully",
-                type: 'success',
-                timeout: 5000,
-                show: true,
-            });
-        }
-        else if (ErrorResponse.some(error => response instanceof error)){
+        Notification.pushNotification(response);
+
+        if (ErrorResponse.some(error => response instanceof error)){
             this.errorBag = response.toObject();
-            this.processing = false;
-            Notification.pushNotification(response);
             return;
         }
-
-        this.processing = false;
 
         await this.refresh();
         this.selected = [];

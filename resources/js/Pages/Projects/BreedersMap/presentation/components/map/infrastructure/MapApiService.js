@@ -9,10 +9,11 @@ export default class MapApiService{
         this.response = ref(null);
         const localParams = BaseRequest.getParamsLocal();
         this.request = localParams? new BaseRequest(localParams) : new BaseRequest();
-
+        // Default Map Center
+        this.PHCenter = [12.296167, 122.763835];
 
         this._zoom = 2;
-        this._center = [12.296167, 122.763835];
+        this._center = this.PHCenter;
         this._minZoom = 5.9;
         this._maxZoom = 15;
         this.maxBound = [
@@ -127,6 +128,15 @@ export default class MapApiService{
         return this.response.data;
     }
 
+    recenter() {
+        // set the currently selected point as the center of the map or the PH center
+        if (this._selectedPlace)
+            this.updateCenter([this._selectedPlace.latitude, this._selectedPlace.longitude]);
+        else
+            this.updateCenter(this.PHCenter);
+        this.updateZoom(2);
+    }
+
     async updateParam(params) {
         for (const key in params) {
             this.request.updateParam(key, params[key]);
@@ -138,7 +148,7 @@ export default class MapApiService{
         this._markerLatLng = [point.latitude, point.longitude];
         this._selectedPlace = point;
         this.updateCenter(this._markerLatLng);
-        this.updateZoom(8);
+        this.updateZoom(8);0
         this.sidebarVisible = true; // open the sidebar on point selection
     }
 
@@ -162,5 +172,13 @@ export default class MapApiService{
         this._selectedPlace = null;
         this._sidebarVisible = false;
         this.updateZoom(this._minZoom);
+    }
+
+    isExactFilter(filter) {
+        this.request.updateParam('exact', filter);
+    }
+
+    filterByColumn(params) {
+        this.request.updateParam('filter', params.column);
     }
 }

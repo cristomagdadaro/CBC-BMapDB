@@ -52,12 +52,16 @@ export const TWGPages = {
             create:{
                 path: null,
                 name: 'CreateProductForm',
-                component: null,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/TWG/presentation/components/product/CreateProductForm.vue')
+                ),
             },
             edit:{
                 path: null,
                 name: 'EditProductForm',
-                component: null,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/TWG/presentation/components/product/EditProductForm.vue')
+                ),
             }
         },
         service: {
@@ -67,12 +71,16 @@ export const TWGPages = {
             create:{
                 path: null,
                 name: 'CreateServiceForm',
-                component: null,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/TWG/presentation/components/service/CreateServiceForm.vue')
+                ),
             },
             edit:{
                 path: null,
                 name: 'EditServiceForm',
-                component: null,
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/TWG/presentation/components/service/EditServiceForm.vue')
+                ),
             }
         },
     },
