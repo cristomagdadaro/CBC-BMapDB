@@ -24,8 +24,9 @@ class CreateApplicationRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:applications',
             'description' => 'required|string|max:255',
-            'url' => 'required|string|max:255|unique:applications',
-            'icon' => 'required|string|max:255',
+            'url' => 'nullable|string|max:255|unique:applications',
+            'icon' => 'nullable|string|max:255',
+            'status' => 'required|in:true,false',
         ];
     }
 }

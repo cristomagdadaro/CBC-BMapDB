@@ -8,96 +8,123 @@
     <div v-if="baseUrl === null || baseUrl === undefined || baseUrl === ''">
         Unable to to retrieve data, please check your base url.
     </div>
+    <div v-else-if="!canView">
+        You don't have permission to view this data.
+    </div>
     <div v-else
         id="dtContainer"
          v-if="dt instanceof CRCMDatatable && dt.response['meta']"
          class="flex flex-col sm:gap-2 gap-1 bg-transparent sm:p-3 p-1 overflow-x-auto">
         <top-container>
-            <per-page class="sm:w-1/3 w-full" :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
-            <action-container class="sm:w-1/3 w-full">
-                <top-action-btn
-                    v-if="showActionBtns"
-                    @click="showAddDialogFunc()"
-                    class="bg-add"
-                    title="Add new data">
-                    <template #icon>
-                        <add-icon class="h-auto sm:w-6 w-4" />
-                    </template>
-                    <span v-show="showIconText">Add</span>
-                </top-action-btn>
-                <top-action-btn
-                    :class="dt.processing? 'bg-gray-300 text-gray-800': 'bg-refresh'"
-                    @click="dt.refresh()"
-                    title="Refresh table">
-                    <template #icon>
-                        <refresh-icon class="h-auto sm:w-6 w-4" :class="dt.processing?'animate-spin':'animate-none'" />
-                    </template>
-                    <span v-show="showIconText">Refresh</span>
-                </top-action-btn>
-                <top-action-btn
-                    v-if="data.length && dt.selected.length && showActionBtns"
-                    class="bg-delete"
-                    @click="showDeleteSelectedDialogFunc()"
-                    title="Delete all the selected rows">
-                    <template #icon>
-                        <delete-icon class="h-auto sm:w-6 w-4" />
-                    </template>
-                    <span v-show="showIconText">Delete Selected</span>
-                </top-action-btn>
-                <top-action-btn
-                    v-if="data.length && showActionBtns"
-                    class="bg-select"
-                    @click="dt.selectAll()"
-                    title="Select all loaded rows">
-                    <template #icon>
-                        <checkall-icon class="h-auto sm:w-6 w-4" />
-                    </template>
-                    <span v-show="showIconText">Select All</span>
-                </top-action-btn>
-                <top-action-btn
-                    v-if="selected.length && data.length && showActionBtns"
-                    class="bg-deselect"
-                    @click="dt.deselectAll()"
-                    title="Deselect selected rows">
-                    <template #icon>
-                        <deselect-icon class="h-auto sm:w-6 w-4" />
-                    </template>
-                    <span v-show="showIconText">Deselect All</span>
-                </top-action-btn>
-                <top-action-btn
-                    v-if="data.length"
-                    class="bg-export"
-                    @click="dt.exportCSV()"
-                    title="Export data into a CSV file">
-                    <template #icon>
-                        <export-icon class="h-auto sm:w-6 w-4" />
-                    </template>
-                    <span v-show="showIconText">Export</span>
-                </top-action-btn>
-                <top-action-btn
-                    v-if="showActionBtns"
-                    class="bg-import"
-                    @click="showImportModal = true"
-                    title="Import data from a CSV file">
-                    <template #icon>
-                        <import-icon class="h-auto sm:w-6 w-4" />
-                    </template>
-                    <span v-show="showIconText">Import</span>
-                </top-action-btn>
-                <top-action-btn
-                    class="bg-add"
-                    @click="toggleShowIconText"
-                    title="Toggle icon with text">
-                    <template #icon>
-                        <toggle-off-icon class="h-auto sm:w-6 w-4" v-show="!showIconText" />
-                        <toggle-on-icon class="h-auto sm:w-6 w-4" v-show="showIconText" />
-                    </template>
-                </top-action-btn>
-            </action-container>
-            <div class="flex flex-row items-center sm:w-1/3 w-full sm:justify-end justify-between gap-2">
-                <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
-                <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
+            <div class="flex justify-between gap-2">
+                <per-page class="sm:w-1/3 w-full" :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
+                <action-container class="w-full">
+                    <top-action-btn
+                        v-if="showActionBtns && canCreate"
+                        @click="showAddDialogFunc()"
+                        class="bg-add"
+                        title="Add new data">
+                        <template #icon>
+                            <add-icon class="h-auto sm:w-6 w-4" />
+                        </template>
+                        <span v-show="showIconText">Add</span>
+                    </top-action-btn>
+                    <top-action-btn
+                        :class="dt.processing? 'bg-gray-300 text-gray-800': 'bg-refresh'"
+                        @click="dt.refresh()"
+                        title="Refresh table">
+                        <template #icon>
+                            <refresh-icon class="h-auto sm:w-6 w-4" :class="dt.processing?'animate-spin':'animate-none'" />
+                        </template>
+                        <span v-show="showIconText">Refresh</span>
+                    </top-action-btn>
+                    <top-action-btn
+                        v-if="canDelete && data.length && dt.selected.length && showActionBtns"
+                        class="bg-delete"
+                        @click="showDeleteSelectedDialogFunc()"
+                        title="Delete all the selected rows">
+                        <template #icon>
+                            <delete-icon class="h-auto sm:w-6 w-4" />
+                        </template>
+                        <span v-show="showIconText">Delete Selected</span>
+                    </top-action-btn>
+                    <top-action-btn
+                        v-if="data.length && showActionBtns"
+                        class="bg-select"
+                        @click="dt.selectAll()"
+                        :topText="dt.selected.length"
+                        title="Select all loaded rows">
+                        <template #icon>
+                            <checkall-icon class="h-auto sm:w-6 w-4" />
+                        </template>
+                        <span v-show="showIconText">Select All</span>
+                    </top-action-btn>
+                    <top-action-btn
+                        v-if="selected.length && data.length && showActionBtns"
+                        class="bg-deselect"
+                        @click="dt.deselectAll()"
+                        title="Deselect selected rows">
+                        <template #icon>
+                            <deselect-icon class="h-auto sm:w-6 w-4" />
+                        </template>
+                        <span v-show="showIconText">Deselect All</span>
+                    </top-action-btn>
+                    <top-action-btn
+                        v-if="data.length"
+                        class="bg-export"
+                        @click="dt.exportCSV()"
+                        title="Export data into a CSV file">
+                        <template #icon>
+                            <export-icon class="h-auto sm:w-6 w-4" />
+                        </template>
+                        <span v-show="showIconText">Export</span>
+                    </top-action-btn>
+                    <top-action-btn
+                        v-if="showActionBtns"
+                        class="bg-import"
+                        @click="showImportModal = true"
+                        title="Import data from a CSV file">
+                        <template #icon>
+                            <import-icon class="h-auto sm:w-6 w-4" />
+                        </template>
+                        <span v-show="showIconText">Import</span>
+                    </top-action-btn>
+                    <top-action-btn
+                        class="bg-add"
+                        @click="toggleShowIconText"
+                        title="Toggle icon with text">
+                        <template #icon>
+                            <toggle-off-icon class="h-auto sm:w-6 w-4" v-show="!showIconText" />
+                            <toggle-on-icon class="h-auto sm:w-6 w-4" v-show="showIconText" />
+                        </template>
+                    </top-action-btn>
+                </action-container>
+                <div id="dtPaginatorContainer" class="flex gap-1 items-center">
+                    <paginate-btn @click="dt.firstPage()" :disabled="current_page === first_page">First</paginate-btn>
+                    <paginate-btn @click="dt.prevPage()" :disabled="!prev_page"> <arrow-left class="h-auto w-6" />Prev</paginate-btn>
+                    <div class="text-xs flex flex-col whitespace-nowrap text-center">
+                        <span class="font-medium mx-1" title="current page and total pages">
+                        <input
+                            ref="input"
+                            type="text"
+                            :value="current_page"
+                            class="border-x-0 text-right border-t-0 border-b p-0"
+                            :style="{ width: inputWidth + 'px' }"
+                            @keydown.enter="updateWidth"
+                        /> / {{ total_pages }}
+                        </span>
+                    </div>
+                    <paginate-btn @click="dt.nextPage()" :disabled="current_page === last_page">Next <arrow-right class="h-auto w-6" /></paginate-btn>
+                    <paginate-btn @click="dt.lastPage()" :disabled="current_page === last_page">Last</paginate-btn>
+                </div>
+                <div class="flex flex-row items-center sm:w-1/3 w-full sm:justify-end justify-between gap-2">
+                    <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
+                    <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
+                </div>
             </div>
+            <div id="dtFooterContainer" class="flex flex-wrap-reverse items-center sm:justify-between justify-center gap-5 select-none" v-if="dt.response instanceof BaseResponse">
+        </div>
+
         </top-container>
         <div id="dtTableContainer" class="flex relative w-full justify-center overflow-x-auto">
             <transition
@@ -161,6 +188,7 @@
                                 <t-d class="items-center" v-if="showActionBtns">
                                     <div class="flex justify-center sm:gap-1 gap-0.5">
                                         <top-action-btn
+                                            v-if="canView && viewForm"
                                             @click="showViewDialogFunc(row.id)"
                                             class="bg-view"
                                             title="View">
@@ -170,6 +198,7 @@
                                             <span v-show="showIconText">View</span>
                                         </top-action-btn>
                                         <top-action-btn
+                                            v-if="canUpdate"
                                             @click="showEditDialogFunc(row.id)"
                                             class="bg-edit"
                                             title="Modify this row">
@@ -179,6 +208,7 @@
                                             <span v-show="showIconText">Edit</span>
                                         </top-action-btn>
                                         <top-action-btn
+                                            v-if="canDelete"
                                             @click="showDeleteDialogFunc(row.id)"
                                             class="bg-delete"
                                             title="Delete this row">
@@ -194,33 +224,24 @@
                         </template>
                     </crcm-tbody>
                 </crcm-table>
-            </div>
-        </div>
-        <div id="dtFooterContainer" class="flex flex-wrap-reverse sm:justify-between justify-center gap-5 select-none" v-if="dt.response instanceof BaseResponse">
-            <div id="dtPageDetails">
-                Showing {{ meta_from }} to {{ meta_to }} of {{ total_entries }} entries
-            </div>
-            <selected-count :count="dt.selected.length" />
-            <div id="dtPaginatorContainer" class="flex flex-wrap gap-0.5 items-center sca">
-                <paginate-btn @click="dt.firstPage()" :disabled="current_page === first_page">First</paginate-btn>
-                <paginate-btn @click="dt.prevPage()" :disabled="!prev_page"> <arrow-left class="h-auto w-6" />Prev</paginate-btn>
-                <div class="text-xs flex flex-col text-center">
-                    <span class="font-medium mx-1" title="current page and total pages">{{ current_page }} / {{ total_pages }}</span>
+                <div class="flex w-full justify-between p-2">
+                    <div id="dtPageDetails">
+                        Showing {{ meta_from }} to {{ meta_to }} of {{ total_entries }} entries
+                    </div>
+                    <selected-count :count="dt.selected.length" />
                 </div>
-                <paginate-btn @click="dt.nextPage()" :disabled="current_page === last_page">Next <arrow-right class="h-auto w-6" /></paginate-btn>
-                <paginate-btn @click="dt.lastPage()" :disabled="current_page === last_page">Last</paginate-btn>
             </div>
         </div>
-        <dialog-form-modal :show="showImportModal" @close="closeDialog">
+        <dialog-form-modal :show="showImportModal && canCreate" @close="closeDialog">
             <component :is="importModal" v-if="importModal" :errors="dt.errorBag" @uploadForm="dt.importCSV($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
-        <dialog-form-modal :show="showAddDialog" @close="closeDialog">
+        <dialog-form-modal :show="showAddDialog && canCreate" @close="closeDialog">
             <component :is="addForm" v-if="addForm" :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
-        <dialog-form-modal :show="showEditDialog" @close="closeDialog">
+        <dialog-form-modal :show="showEditDialog && canUpdate" @close="closeDialog">
             <component :is="editForm" v-if="editForm" :errors="dt.errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
         </dialog-form-modal>
-        <dialog-modal :show="showDeleteDialog" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
+        <dialog-modal :show="showDeleteDialog && canDelete" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
             <template #title>
                 Delete
             </template>
@@ -234,7 +255,7 @@
                 <cancel-button @click="closeDialog">Cancel</cancel-button>
             </template>
         </dialog-modal>
-        <dialog-modal :show="showDeleteSelectedDialog" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
+        <dialog-modal :show="showDeleteSelectedDialog && canDelete" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
             <template #title>
                 Delete Multiple Rows
             </template>
@@ -296,7 +317,7 @@ import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 <script>
 import CRCMDatatable from "@/Modules/core/components/CRCMDatatable.js";
 import { router } from "@inertiajs/vue3";
-import {defineAsyncComponent, ref} from "vue";
+import {defineAsyncComponent} from "vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 
 export default {
@@ -332,16 +353,34 @@ export default {
             }),
         },
         viewForm: {
-            type: [Object, Function, String],
+            type: [String, Object, Function],
             required: false,
-            default: defineAsyncComponent({
-                loader: () => import("@/Components/CRCMDatatable/Layouts/DefaultBlankForm.vue"),
-            }),
+            default: null,
         },
         showActionBtns: {
             type: Boolean,
             required: false,
             default: true,
+        },
+        canCreate: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        canUpdate: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        canDelete: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
+        canView: {
+            type: Boolean,
+            required: false,
+            default: false,
         },
     },
     data() {
@@ -355,6 +394,7 @@ export default {
             toEditData: null,
             showAddDialog: false,
             showImportModal: false,
+            inputWidth: 1
         }
     },
     computed: {
@@ -409,7 +449,14 @@ export default {
             this.toDeleteId = id;
         },
         showViewDialogFunc(id) {
-            router.get(route(this.viewForm, id));
+            if (typeof this.viewForm == "object"){
+                console.log("Object is passed, not yet implemented. Try passing a route name.");
+            }
+            else if (typeof this.viewForm == "string") {
+                router.get(route(this.viewForm, id));
+            } else {
+                alert("None is given");
+            }
         },
         async showEditDialogFunc(id) {
             this.showModal = true;
@@ -440,12 +487,26 @@ export default {
         async initializeDatatable() {
             this.dt = new CRCMDatatable(this.baseUrl, this.baseModel);
             await this.dt.init();
+        },
+        updateWidth() {
+            this.$nextTick(() => {
+                const input = this.$refs.input;
+                if (input) {
+                    this.inputWidth = input.scrollWidth;
+                }
+            });
+            if (this.$refs.input.value > 0 && this.$refs.input.value <= this.total_pages)
+                this.dt.gotoPage(this.$refs.input.value);
+            else
+                this.dt.gotoPage(this.total_pages);
         }
     },
     async mounted() {
         if (this.baseUrl){
             await this.initializeDatatable();
         }
+
+        this.updateWidth();
     },
     setup() {
         return {

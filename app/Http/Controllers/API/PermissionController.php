@@ -12,6 +12,8 @@ use App\Http\Resources\PermissionCollection;
 use App\Models\Permission;
 use App\Repository\API\PermissionRepo;
 use App\Repository\ErrorRepository;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
 
 class PermissionController extends BaseController
 {
@@ -44,5 +46,32 @@ class PermissionController extends BaseController
     public function destroy($id)
     {
         return $this->service->delete($id);
+    }
+
+    public static function getPermissions()
+    {
+        $permissionsToCheck = [
+            'create' => 'create-breeder',
+            'update' => 'update-breeder',
+            'delete' => 'delete-breeder',
+            'view' => 'read-breeder',
+          /*  'createCommodity' => 'create-commodity',
+            'editCommodity' => 'update-commodity',
+            'deleteCommodity' => 'delete-commodity',
+            'viewCommodity' => 'read-commodity',*/
+        ];
+
+        return PermissionController::checkPermissions($permissionsToCheck);
+    }
+
+    private static function checkPermissions(array $permissions): array
+    {
+        $permissionChecks = [];
+
+        foreach ($permissions as $key => $permission) {
+            $permissionChecks[$key] = Gate::allows($permission, Permission::class);
+        }
+
+        return $permissionChecks;
     }
 }

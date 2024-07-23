@@ -11,7 +11,7 @@ class DeleteBreederRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->can('delete-breeder');
     }
 
     /**

@@ -1,0 +1,91 @@
+<script>
+import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
+import TextField from "@/Components/Form/TextField.vue";
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
+import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
+
+export default {
+    name: "EditAccountForm",
+    components: {
+        BaseButton,
+        SelectSearchField,
+        BaseCreateForm,
+        TextField,
+    },
+    props: {
+        errors: {
+            type: Object,
+            default: () => ({})
+        },
+        forceClose: {
+            type: Boolean,
+            default: false
+        },
+        data: {
+            type: Object,
+            default: null
+        }
+    },
+    data() {
+        return {
+            form: {
+                user_id: null,
+                app_id: null,
+                approved_at: null,
+            },
+        };
+    },
+    methods: {
+        resetForm() {
+            this.form = Object.assign({}, this.data);
+        },
+        dateNow() {
+            this.form.approved_at = new Date().toISOString().slice(0, 16).replace('T', ' ');
+        },
+        removeDateNow() {
+            this.form.approved_at = null;
+        }
+    },
+    watch: {
+        forceClose() {
+            this.resetForm();
+            this.$emit('close');
+        },
+        data() {
+            this.form = Object.assign({}, this.data);
+        }
+    },
+}
+</script>
+
+<template>
+    <base-create-form :form="form" :forceClose="forceClose">
+        <template v-slot:formTitle>
+            Approve User Account
+        </template>
+        <template v-slot:formFields>
+            <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
+                <select-search-field :api-link="route('api.users.index')" :error="errors? errors['user_id']:{}" label="User" v-model="form.user_id" required />
+                <select-search-field :api-link="route('api.applications.index')" :error="errors? errors['app_id']:{}" label="App" v-model="form.app_id" required />
+            </div>
+            <div v-if="!form.approved_at" class="p-2 my-2 rounded-md">
+                Take this action with caution. This will approve the user account and grant access to the application.
+            </div>
+            <div v-else class="p-2 my-2 rounded-md">
+                Take this action with caution. This will remove the user's access to the application.
+            </div>
+            <div class="flex flex-col gap-2">
+                <span>
+                    <span v-if="form.approved_at">Approved at: {{ form.approved_at }}</span>
+                    <span v-else>Not yet approved</span>
+                </span>
+                <base-button v-if="!form.approved_at" @click.prevent="dateNow" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded items-center flex justify-center">Approve Now</base-button>
+                <base-button v-else @click.prevent="removeDateNow" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded items-center flex justify-center">Remove Access</base-button>
+            </div>
+        </template>
+    </base-create-form>
+</template>
+
+<style scoped>
+
+</style>

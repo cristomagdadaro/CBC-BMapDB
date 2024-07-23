@@ -21,6 +21,8 @@ import ShareIcon from "@/Components/Icons/ShareIcon.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import MapApiService from "@/Pages/Projects/BreedersMap/presentation/components/map/infrastructure/MapApiService.js";
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
+import {Permission} from "@/Pages/constants.ts";
+
 
 export default {
     components: {
@@ -116,6 +118,9 @@ export default {
         };
     },
     computed: {
+        Permission() {
+            return Permission;
+        },
         sidebarVisible() {
             if (this.mapApi)
                 return this.mapApi.sidebarVisible;
@@ -134,7 +139,10 @@ export default {
         dataPoints() {
             if (this.mapApi)
                 return this.mapApi.getDataPoint();
-        }
+        },
+        canView() {
+            return this.$page.props.permissions[Permission.VIEW];
+        },
     },
     mounted() {
         this.initializeMap();
@@ -195,7 +203,7 @@ export default {
 
 
 <template>
-    <div class="flex gap-1 justify-end">
+    <div v-if="mapApi && canView" class="flex gap-1 justify-end">
         <top-action-btn @click="refreshData" class="bg-add text-xs" title="Export data">
             <template v-if="processing" #icon>
                 <loader-icon class="h-auto sm:w-6 w-4" />
@@ -215,7 +223,7 @@ export default {
             <span>Share</span>
         </top-action-btn>
     </div>
-    <div class="flex flex-col max-h-fit gap-2" v-if="mapApi">
+    <div class="flex flex-col max-h-fit gap-2" v-if="mapApi && canView">
         <div class="relative gap-2">
             <search-box
                 :value="mapApi.selectedPlace ? mapApi.selectedPlace.city : ''"
@@ -324,5 +332,8 @@ export default {
             </l-map>
             <info-sidebar :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
         </div>
+    </div>
+    <div v-else class="flex flex-col max-h-fit gap-2" >
+        You do not have permission to view this page
     </div>
 </template>

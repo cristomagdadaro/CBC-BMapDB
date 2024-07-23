@@ -17,6 +17,7 @@ class Application extends BaseModel
         'description',
         'url',
         'icon',
+        'status',
     ];
 
     protected $hidden = [
@@ -26,10 +27,12 @@ class Application extends BaseModel
     ];
 
     protected array $searchable = [
+        'id',
         'name',
         'description',
         'url',
         'icon',
+        'status',
     ];
 
     protected array $notifMessage = [
@@ -42,4 +45,9 @@ class Application extends BaseModel
         'notFound' => 'Application not found.',
         'unknown' => 'Unknown error, action failed.',
     ];
+
+    public function accounts()
+    {
+        return $this->hasMany(Accounts::class, 'app_id', 'id');
+    }
 }

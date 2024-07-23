@@ -9,7 +9,7 @@ class RoleCrudTest extends TestCase
     /** @test **/
     public function get_all_roles(): void
     {
-        $response = $this->getJson('/api/roles');
+        $response = $this->getJson('/api/public/roles');
 
         $response->assertOk();
         $this->assertEquals(3, $response['meta']['total']);
