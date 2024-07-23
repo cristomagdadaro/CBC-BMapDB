@@ -3,8 +3,8 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 import {Head, Link} from "@inertiajs/vue3";
 import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
+import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
+import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 </script>
 
 <template>
@@ -12,6 +12,7 @@ import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
     <page-layout :is-wide-display="true">
         <green-waves />
         <AuthenticationCard>
+            <new-account-progress-view />
             <h2 class="font-semibold text-2xl text-center text-gray-800">Please Wait for Admin Approval</h2>
             <div class="text-center pt-5">
                 <p class="text-md text-gray-600">{{ $page.props.message }}</p>

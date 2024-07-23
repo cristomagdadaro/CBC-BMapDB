@@ -6,6 +6,8 @@ import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import PageLayout from "@/Layouts/PageLayout.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
+import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
+import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 
 const props = defineProps({
     status: String,
@@ -28,6 +30,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
             <template #logo>
                 <AuthenticationCardLogo />
             </template>
+            <new-account-progress-view />
             <div class="mb-4 text-lg text-gray-600 font-bold">
                 You only have limited access. Please verify your email address to continue.
             </div>
@@ -38,7 +41,6 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
             <div class="mb-4 text-sm text-gray-600">
                 Note: After you have verified your email address, you will have to wait for the administrator to approve your account. This might take a some time, please be patient.
             </div>
-
             <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-green-600">
                 A new verification link has been sent to the email address you provided in your profile settings.
             </div>

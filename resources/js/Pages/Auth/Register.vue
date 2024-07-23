@@ -13,6 +13,7 @@ import { Projects } from "@/Pages/constants.ts";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import {onBeforeMount, ref} from "vue";
+import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 
 const form = useForm({
     fname: '',
@@ -86,6 +87,7 @@ onBeforeMount(async () => {
             <template #logo>
                 <Logo classes="sm:h-24 h-14" />
             </template>
+            <new-account-progress-view />
             <div class="border-b pb-1 mb-2">
                 <h1 class="font-medium">Registration Form</h1>
                 <p class="text-xs text-gray-600">Fill in all the required(<span class="text-red-600">*</span>) fields.</p>
