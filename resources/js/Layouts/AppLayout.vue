@@ -16,8 +16,9 @@ import Footer from "@/Pages/Footer.vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";
 import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
-
+import UserPermissions from "@/Pages/mixins/UserPermissions.js";
 export default {
+    mixins: [UserPermissions],
     components: {
         NotifBanner,
         SidebarLayout,
@@ -46,6 +47,13 @@ export default {
             showSidebar: true,
             CBCProjects,
         }
+    },
+    mounted() {
+      /*CBCProjects.forEach((project) => {
+        project.show = this.hasPermission(project.permission);
+      });
+
+      console.log(CBCProjects);*/
     },
     setup(props) {
         const showingNavigationDropdown = ref(false);
@@ -216,14 +224,16 @@ export default {
         <!-- Page Content -->
         <sidebar-layout>
             <template #options>
-                <NavLink class="text-white" v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
-                    <div class="flex gap-1 select-none items-center">
-                        <img :src="project.icon" class="hidden h-8 w-8"  :alt="project.label"/>
-                        <span class="sm:flex hidden whitespace-nowrap">
+                <template v-for="project in CBCProjects" :key="project.id" >
+                    <NavLink v-if="project.show" class="text-white" :href="route(project.value)" :active="route().current(project.value)">
+                        <div class="flex gap-1 select-none items-center">
+                            <img :src="project.icon" class="hidden h-8 w-8"  :alt="project.label"/>
+                            <span class="sm:flex hidden whitespace-nowrap">
                             {{ project.label }}
                         </span>
-                    </div>
-                </NavLink>
+                        </div>
+                    </NavLink>
+                </template>
             </template>
             <template #content>
                 <main>

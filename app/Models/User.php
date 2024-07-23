@@ -126,4 +126,24 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->roles->pluck('name')->first();
     }
+
+    public function getPermissions(): array
+    {
+        return $this->getAllPermissions()->pluck('name')->toArray();
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->hasRole(\App\Enums\Role::ADMIN->value);
+    }
+
+    public function isBreeder(): bool
+    {
+        return $this->hasRole(\App\Enums\Role::BREEDER->value);
+    }
+
+    public function isResearcher(): bool
+    {
+        return $this->hasRole(\App\Enums\Role::RESEARCHER->value);
+    }
 }

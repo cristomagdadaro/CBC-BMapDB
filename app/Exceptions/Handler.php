@@ -27,4 +27,21 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * Render an exception into an HTTP response.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param Throwable $exception
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @throws Throwable
+     */
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
+            return response()->json(['message' => 'You are not authorized to access this page.'], 403);
+        }
+        return parent::render($request, $exception);
+    }
 }

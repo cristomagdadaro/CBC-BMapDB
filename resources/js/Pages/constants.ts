@@ -2,12 +2,13 @@
 import TWGLogo from "../../../public/img/twg-db-logo.png";
 // @ts-ignore
 import BreedersMapLogo from "../../../public/img/breeders-map-logo.png";
-import { ValidationErrorResponse, NotFoundErrorResponse, ServerErrorResponse } from "@/Modules/core/infrastructure/index";
-
+import { ForbiddenErrorResponse, ValidationErrorResponse, NotFoundErrorResponse, ServerErrorResponse } from "@/Modules/core/infrastructure/index";
+import UserPermissions from "@/Pages/mixins/UserPermissions.js";
 export const ErrorResponse  = [
     ValidationErrorResponse,
     ServerErrorResponse,
     NotFoundErrorResponse,
+    ForbiddenErrorResponse,
 ]
 
 export const CBCProjects = [
@@ -16,24 +17,28 @@ export const CBCProjects = [
         label: 'Dashboard',
         icon: null,
         value: 'dashboard',
+        show: true,
     },
     {
         id: 2,
         label: 'Administrator',
         icon: null,
         value: 'administrator.index',
+        show: true,
     },
     {
         id: 3,
         label: 'TWG Database',
         icon: TWGLogo,
         value: 'projects.twg.index',
+        show: true,
     },
     {
         id: 4,
         label: "Breeder's Map",
         icon: BreedersMapLogo,
         value: 'projects.breedersmap.index',
+        show: true,
     },
 ]
 
