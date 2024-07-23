@@ -28,13 +28,13 @@ class Permission extends BaseModel
     ];
 
     protected array $notifMessage = [
-        'created' => 'Permission created successfully.',
-        'updated' => 'Permission updated successfully.',
-        'deleted' => 'Permission deleted successfully.',
-        'restored' => 'Permission restored successfully.',
-        'forceDeleted' => 'Permission permanently deleted.',
-        'emptyTrash' => 'Permission deleted successfully.',
-        'notFound' => 'Permission not found.',
+        'created' => 'Role created successfully.',
+        'updated' => 'Role updated successfully.',
+        'deleted' => 'Role deleted successfully.',
+        'restored' => 'Role restored successfully.',
+        'forceDeleted' => 'Role permanently deleted.',
+        'emptyTrash' => 'Role deleted successfully.',
+        'notFound' => 'Role not found.',
         'unknown' => 'Unknown error, action failed.',
     ];
 }

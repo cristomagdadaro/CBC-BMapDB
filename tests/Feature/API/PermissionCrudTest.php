@@ -33,7 +33,7 @@ class PermissionCrudTest extends TestCase
 
         $response = $this->postJson('/api/permissions', [
             'role_id' => $role->id,
-            'label' => 'Sample Permission',
+            'label' => 'Sample Role',
             'value' => 'sample_permission',
         ]);
 
@@ -41,7 +41,7 @@ class PermissionCrudTest extends TestCase
 
         $this->assertDatabaseHas('permissions', [
             'role_id' => $role->id,
-            'label' => 'Sample Permission',
+            'label' => 'Sample Role',
             'value' => 'sample_permission',
         ]);
     }
@@ -52,7 +52,7 @@ class PermissionCrudTest extends TestCase
         $permission = Permission::factory()->create(
             [
                 'role_id' => '1',
-                'label' => 'Sample Permission',
+                'label' => 'Sample Role',
                 'value' => 'sample_permission',
             ]
         );
@@ -60,7 +60,7 @@ class PermissionCrudTest extends TestCase
         $response = $this->putJson('/api/permissions/'.$permission->id, [
 
             'role_id' => '2',
-            'label' => 'Updated Sample Permission',
+            'label' => 'Updated Sample Role',
             'value' => 'updated_sample_permission',
         ]);
 
@@ -68,7 +68,7 @@ class PermissionCrudTest extends TestCase
 
         $this->assertDatabaseHas('permissions', [
             'role_id' => '2',
-            'label' => 'Updated Sample Permission',
+            'label' => 'Updated Sample Role',
             'value' => 'updated_sample_permission',
         ]);
     }
@@ -98,7 +98,7 @@ class PermissionCrudTest extends TestCase
     {
         $response = $this->postJson('/api/permissions', [
             'role_id' => 9999,
-            'label' => 'Sample Permission',
+            'label' => 'Sample Role',
             'value' => 'sample_permission',
         ]);
 

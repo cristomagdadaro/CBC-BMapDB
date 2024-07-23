@@ -14,7 +14,6 @@ class AccountCrudTest extends TestCase
     public function get_all_applications(): void
     {
         $response = $this->getJson('/api/accounts');
-
         $response->assertStatus(200);
         $this->assertEquals(147, $response['meta']['total']);
     }

@@ -13,6 +13,20 @@ class ApplicationSeeder extends Seeder
      */
     public function run(): void
     {
-        Application::factory()->count(10)->create();
+        //Application::factory()->count(10)->create();
+
+        Application::factory()->create([
+            'name' => 'TWG Database',
+            'description' => 'Technical Working Group Database for the Biotechnology Related Projects and Researches',
+            'url' => null,
+            'icon' => null,
+        ]);
+
+        Application::factory()->create([
+            'name' => 'Breeder\'s Map',
+            'description' => 'This interactive platform provides a comprehensive overview of the Philippines\' biotechnology-driven plant breeding community.',
+            'url' => null,
+            'icon' => null,
+        ]);
     }
 }

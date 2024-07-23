@@ -11,8 +11,8 @@ class Role extends BaseModel
     protected $table = 'roles';
 
     protected $fillable = [
-        'label',
-        'value',
+        'name',
+        'guard_name',
     ];
 
     protected $hidden = [
@@ -22,8 +22,8 @@ class Role extends BaseModel
 
     protected array $searchable = [
         'id',
-        'label',
-        'value',
+        'name',
+        'guard_name',
     ];
 
     protected array $notifMessage = [

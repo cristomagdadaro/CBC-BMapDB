@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\AdminController;
+use App\Http\Middleware\AdminApprovedUser;
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\BreederController;
@@ -53,6 +55,13 @@ Route::prefix('email')->group(function () {
     })->name('email.verify');
 });
 
+/* Public Api */
+Route::prefix('/api/public')->group(function () {
+    Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
+    Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
+});
+
+
 Route::prefix('/projects')->group(function () {
     Route::get('/', function () {
         return Inertia::render('Projects');
@@ -80,7 +89,15 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    AdminApprovedUser::class,
 ])->group(function () {
+
+    Route::prefix('administrator')->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('Admin/Administrator');
+        })->name('administrator.index');
+    });
+
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
@@ -112,7 +129,17 @@ Route::middleware([
     });
 });
 
-Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
+Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function() {
+    /*Admin Related APIs*/
+    Route::prefix('administrator')->group(function () {
+        Route::middleware(['can:read-user'])->get('/', [AdminController::class, 'index'])->name('api.administrator.index');
+        Route::middleware(['can:read-user'])->get('/{id}', [AdminController::class, 'show'])->name('api.administrator.show');
+        Route::middleware(['can:create-user'])->post('/', [AdminController::class, 'store'])->name('api.administrator.store');
+        Route::middleware(['can:update-user'])->put('/{id}', [AdminController::class, 'update'])->name('api.administrator.update');
+        Route::middleware(['can:delete-user'])->delete('/{id}', [AdminController::class, 'destroy'])->name('api.administrator.destroy');
+        Route::middleware(['can:delete-user'])->delete('/delete', [AdminController::class, 'multiDestroy'])->name('api.administrator.destroy.multi');
+    });
+
     /*TWG Related APIs*/
     Route::prefix('twg')->group(function () {
         Route::prefix('summary')->group(function () {
@@ -158,23 +185,23 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
 
     /*Breeders Map Related APIs*/
     Route::prefix('breeders')->group(function () {
-        Route::get('/', [BreederController::class, 'index'])->name('api.breeders.index');
-        Route::get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
-        Route::get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
-        Route::post('/', [BreederController::class, 'store'])->name('api.breeders.store');
-        Route::put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
-        Route::delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
-        Route::delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
+        Route::middleware('can:read-breeder')->get('/', [BreederController::class, 'index'])->name('api.breeders.index');
+        Route::middleware('can:read-breeder')->get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
+        Route::middleware('can:read-breeder')->get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
+        Route::middleware('can:create-breeder')->post('/', [BreederController::class, 'store'])->name('api.breeders.store');
+        Route::middleware('can:update-breeder')->put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
+        Route::middleware('can:delete-breeder')->delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
+        Route::middleware('can:delete-breeder')->delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
     });
 
     Route::prefix('commodities')->group(function () {
-       Route::get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
-       Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
-       Route::get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
-       Route::post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
-       Route::put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');
-       Route::delete('/delete', [CommodityController::class, 'multiDestroy'])->name('api.commodities.destroy.multi');
-       Route::delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
+       Route::middleware('can:read-commodity')->get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
+       Route::middleware('can:read-commodity')->get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
+       Route::middleware('can:read-commodity')->get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
+       Route::middleware('can:create-commodity')->post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
+       Route::middleware('can:update-commodity')->put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');
+       Route::middleware('can:delete-commodity')->delete('/delete', [CommodityController::class, 'multiDestroy'])->name('api.commodities.destroy.multi');
+       Route::middleware('can:delete-commodity')->delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
     });
 
     Route::prefix('geodata')->group(function () {
@@ -200,22 +227,22 @@ Route::middleware('auth:sanctum')->prefix('/api')->group(function() {
     });
 
     Route::prefix('applications')->group(function () {
-        Route::get('/', [ApplicationController::class, 'index'])->name('api.applications.index');
-        Route::get('/{id}', [ApplicationController::class, 'show'])->name('api.applications.show');
-        Route::post('/', [ApplicationController::class, 'store'])->name('api.applications.store');
-        Route::put('/{id}', [ApplicationController::class, 'update'])->name('api.applications.update');
-        Route::delete('/{id}', [ApplicationController::class, 'destroy'])->name('api.applications.destroy');
+        Route::middleware(['can:read-app'])->get('/', [ApplicationController::class, 'index'])->name('api.applications.index');
+        Route::middleware(['can:read-app'])->get('/{id}', [ApplicationController::class, 'show'])->name('api.applications.show');
+        Route::middleware(['can:create-app'])->post('/', [ApplicationController::class, 'store'])->name('api.applications.store');
+        Route::middleware(['can:update-app'])->put('/{id}', [ApplicationController::class, 'update'])->name('api.applications.update');
+        Route::middleware(['can:delete-app'])->delete('/{id}', [ApplicationController::class, 'destroy'])->name('api.applications.destroy');
     });
 
     Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('api.users.index');
+        Route::middleware(['can:read-user'])->get('/', [UserController::class, 'index'])->name('api.users.index');
     });
 
     Route::prefix('accounts')->group(function () {
-        Route::get('/', [AccountController::class, 'index'])->name('api.accounts.index');
-        Route::get('/{id}', [AccountController::class, 'show'])->name('api.accounts.show');
-        Route::post('/', [AccountController::class, 'store'])->name('api.accounts.store');
-        Route::put('/{id}', [AccountController::class, 'update'])->name('api.accounts.update');
-        Route::delete('/{id}', [AccountController::class, 'destroy'])->name('api.accounts.destroy');
+        Route::middleware(['can:read-user'])->get('/', [AccountController::class, 'index'])->name('api.accounts.index');
+        Route::middleware(['can:read-user'])->get('/{id}', [AccountController::class, 'show'])->name('api.accounts.show');
+        Route::middleware(['can:create-user'])->post('/', [AccountController::class, 'store'])->name('api.accounts.store');
+        Route::middleware(['can:update-user'])->put('/{id}', [AccountController::class, 'update'])->name('api.accounts.update');
+        Route::middleware(['can:delete-user'])->delete('/{id}', [AccountController::class, 'destroy'])->name('api.accounts.destroy');
     });
 });

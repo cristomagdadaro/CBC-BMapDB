@@ -186,7 +186,7 @@ abstract class AbstractRepoService implements RepositoryInterface
         }
     }
 
-    public function appendWith($tableToAppend)
+    public function appendWith(array $tableToAppend)
     {
         $this->appendWith = $tableToAppend;
     }

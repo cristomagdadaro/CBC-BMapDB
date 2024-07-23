@@ -24,7 +24,7 @@ class CreateAccountRequest extends FormRequest
         return [
             'user_id' => 'required|integer|exists:users,id',
             'app_id' => 'required|integer|exists:applications,id',
-            'account_id' => 'required|string|max:255|unique:accounts,account_id',
+            'approved_at' => 'nullable|date',
         ];
     }
 }

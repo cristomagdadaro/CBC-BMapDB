@@ -76,6 +76,11 @@ export default class CRCMDatatable
         await this.refresh();
     }
 
+    async gotoPage(page) {
+        this.request.updateParam('page', page);
+        await this.refresh();
+    }
+
     async sortFunc(params) {
         this.request.updateParam('sort', params.sort);
         this.request.updateParam('order', this.request.getParam('order') === 'asc' ? 'desc' : 'asc');
@@ -247,13 +252,15 @@ export default class CRCMDatatable
         const response = await this.api.put(this.model.toObject(data));
 
         Notification.pushNotification(response);
+
         if (ErrorResponse.some(error => response instanceof error)){
             this.errorBag = response.toObject();
-            return;
+        } else {
+          await this.refresh();
+          this.errorBag = {};
         }
 
-        await this.refresh();
-        this.errorBag = {};
+        this.processing = false;        
     }
 
     async deleteSelected() {

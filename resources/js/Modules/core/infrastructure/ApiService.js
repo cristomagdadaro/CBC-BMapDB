@@ -4,6 +4,7 @@ import {ValidationErrorResponse} from "@/Modules/core/infrastructure/ValidationE
 import {NotFoundErrorResponse} from "@/Modules/core/infrastructure/NotFoundErrorResponse.js";
 import {ServerErrorResponse} from "@/Modules/core/infrastructure/ServerErrorResponse.js";
 import {JavascriptErrorResponse} from "@/Modules/core/infrastructure/JavascriptErrorResponse.js";
+import {ForbiddenErrorResponse} from "@/Modules/core/infrastructure/ForbiddenErrorResponse.js";
 
 export default class ApiService
 {
@@ -109,6 +110,8 @@ export default class ApiService
             switch (error.response.status) {
                 case 422:
                     return new ValidationErrorResponse(error.response.data);
+                case 403:
+                    return new ForbiddenErrorResponse(error.response.data);
                 case 404:
                     return new NotFoundErrorResponse(error.response.data);
                 default:

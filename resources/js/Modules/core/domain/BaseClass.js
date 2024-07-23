@@ -25,4 +25,8 @@ export class BaseClass extends Object
             })
         ];
     }
+
+    static getHiddenColumns() {
+        return [];
+    }
 }
