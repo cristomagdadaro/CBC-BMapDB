@@ -1,10 +1,4 @@
 <template>
-    <template v-if="dt">
-        <div v-if="dt.api.processing" class="flex items-center w-full gap-2 justify-center">
-            <loader-icon class="h-5 w-5" />
-            <span>Initializing data table, please wait...</span>
-        </div>
-    </template>
     <div v-if="baseUrl === null || baseUrl === undefined || baseUrl === ''">
         Unable to to retrieve data, please check your base url.
     </div>
@@ -13,7 +7,7 @@
     </div>
     <div v-else
         id="dtContainer"
-         v-if="dt instanceof CRCMDatatable && dt.response['meta']"
+         v-if="dt instanceof CRCMDatatable"
          class="flex flex-col sm:gap-2 gap-1 bg-transparent sm:p-3 p-1 overflow-x-auto">
         <top-container>
             <div class="flex justify-between gap-2">
@@ -399,41 +393,62 @@ export default {
     },
     computed: {
         data() {
-            return this.dt.response['data'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['data'];
+            return [];
         },
         selected(){
             return this.dt.selected;
         },
         current_page() {
-            return this.dt.response['meta']['current_page'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['current_page'];
+            return 0;
         },
         last_page() {
-            return this.dt.response['meta']['last_page'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['last_page'];
+            return 0;
         },
         next_page() {
-            return this.dt.response['meta']['current_page'] + 1;
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['current_page'] + 1;
+            return 0;
         },
         prev_page() {
-            return this.dt.response['meta']['current_page'] - 1;
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['current_page'] - 1;
+            return 0;
         },
         first_page() {
-            return 1;
+            return 0;
         },
         total_pages() {
-            return this.dt.response['meta']['last_page'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['last_page'];
+            return 0;
         },
         total_entries() {
-            return this.dt.response['meta']['total'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['total'];
+            return 0;
         },
         meta_from() {
-            return this.dt.response['meta']['from'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['from'];
+            return 0;
         },
         meta_to() {
-            return this.dt.response['meta']['to'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['to'];
+            return 0;
         },
         showIconText() {
             return this.$store.state.showTextWithIcon;
         },
+        checkIfDataIsLoaded() {
+            return !!this.dt.response && !!this.dt.response['meta'] && !!this.dt.response['data'];
+        }
     },
     methods: {
         dataValue(label) {
@@ -502,7 +517,7 @@ export default {
                     this.inputWidth = input.scrollWidth;
                 }
             });
-            if (this.$refs.input.value > 0 && this.$refs.input.value <= this.total_pages)
+            if (this.$refs.input && this.$refs.input.value > 0 && this.$refs.input.value <= this.total_pages)
                 this.dt.gotoPage(this.$refs.input.value);
             else
                 this.dt.gotoPage(this.total_pages);

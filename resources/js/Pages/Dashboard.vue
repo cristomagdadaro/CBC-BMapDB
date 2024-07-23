@@ -6,7 +6,7 @@ import UnderDevelop from "@/Components/Modal/UnderDevelop.vue";
 <template>
     <AppLayout title="Dashboard">
         <pre>
-            {{ $page.props.permissions}}
+            {{ $page.props }}
         </pre>
         <under-develop />
     </AppLayout>

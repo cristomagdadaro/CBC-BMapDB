@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Permission;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Middleware\AdminApprovedUser;
 use App\Http\Controllers\API\AccountController;
@@ -132,12 +133,12 @@ Route::middleware([
 Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function() {
     /*Admin Related APIs*/
     Route::prefix('administrator')->group(function () {
-        Route::middleware(['can:read-user'])->get('/', [AdminController::class, 'index'])->name('api.administrator.index');
-        Route::middleware(['can:read-user'])->get('/{id}', [AdminController::class, 'show'])->name('api.administrator.show');
-        Route::middleware(['can:create-user'])->post('/', [AdminController::class, 'store'])->name('api.administrator.store');
-        Route::middleware(['can:update-user'])->put('/{id}', [AdminController::class, 'update'])->name('api.administrator.update');
-        Route::middleware(['can:delete-user'])->delete('/{id}', [AdminController::class, 'destroy'])->name('api.administrator.destroy');
-        Route::middleware(['can:delete-user'])->delete('/delete', [AdminController::class, 'multiDestroy'])->name('api.administrator.destroy.multi');
+        Route::middleware(['can:'. Permission::READ_USER->value])->get('/', [AdminController::class, 'index'])->name('api.administrator.index');
+        Route::middleware(['can:'. Permission::READ_USER->value])->get('/{id}', [AdminController::class, 'show'])->name('api.administrator.show');
+        Route::middleware(['can:'. Permission::CREATE_USER->value])->post('/', [AdminController::class, 'store'])->name('api.administrator.store');
+        Route::middleware(['can:'. Permission::UPDATE_USER->value])->put('/{id}', [AdminController::class, 'update'])->name('api.administrator.update');
+        Route::middleware(['can:'. Permission::DELETE_USER->value])->delete('/{id}', [AdminController::class, 'destroy'])->name('api.administrator.destroy');
+        Route::middleware(['can:'. Permission::DELETE_USER->value])->delete('/delete', [AdminController::class, 'multiDestroy'])->name('api.administrator.destroy.multi');
     });
 
     /*TWG Related APIs*/
@@ -147,61 +148,61 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
         });
 
        Route::prefix('experts')->group(function () {
-           Route::get('/', [TWGExpertController::class, 'index'])->name('api.twg.experts.index');
-           Route::get('/{id}', [TWGExpertController::class, 'show'])->name('api.twg.experts.show');
-           Route::post('/', [TWGExpertController::class, 'store'])->name('api.twg.experts.store');
-           Route::put('/{id}', [TWGExpertController::class, 'update'])->name('api.twg.experts.update');
-           Route::delete('/delete', [TWGExpertController::class, 'multiDestroy'])->name('api.twg.experts.destroy.multi');
-           Route::delete('/{id}', [TWGExpertController::class, 'destroy'])->name('api.twg.experts.destroy');
+           Route::middleware(['can:'. Permission::READ_TWG_EXPERT->value])->get('/', [TWGExpertController::class, 'index'])->name('api.twg.experts.index');
+           Route::middleware(['can:'. Permission::READ_TWG_EXPERT->value])->get('/{id}', [TWGExpertController::class, 'show'])->name('api.twg.experts.show');
+           Route::middleware(['can:'. Permission::CREATE_TWG_EXPERT->value])->post('/', [TWGExpertController::class, 'store'])->name('api.twg.experts.store');
+           Route::middleware(['can:'. Permission::UPDATE_TWG_EXPERT->value])->put('/{id}', [TWGExpertController::class, 'update'])->name('api.twg.experts.update');
+           Route::middleware(['can:'. Permission::DELETE_TWG_EXPERT->value])->delete('/delete', [TWGExpertController::class, 'multiDestroy'])->name('api.twg.experts.destroy.multi');
+           Route::middleware(['can:'. Permission::DELETE_TWG_EXPERT->value])->delete('/{id}', [TWGExpertController::class, 'destroy'])->name('api.twg.experts.destroy');
        });
 
         Route::prefix('projects')->group(function () {
-            Route::get('/', [TWGProjectController::class, 'index'])->name('api.twg.projects.index');
-            Route::get('/{id}', [TWGProjectController::class, 'show'])->name('api.twg.projects.show');
-            Route::post('/', [TWGProjectController::class, 'store'])->name('api.twg.projects.store');
-            Route::put('/{id}', [TWGProjectController::class, 'update'])->name('api.twg.projects.update');
-            Route::delete('/delete', [TWGProjectController::class, 'multiDestroy'])->name('api.twg.projects.destroy.multi');
-            Route::delete('/{id}', [TWGProjectController::class, 'destroy'])->name('api.twg.projects.destroy');
+            Route::middleware(['can:'. Permission::READ_TWG_PROJECT->value])->get('/', [TWGProjectController::class, 'index'])->name('api.twg.projects.index');
+            Route::middleware(['can:'. Permission::READ_TWG_PROJECT->value])->get('/{id}', [TWGProjectController::class, 'show'])->name('api.twg.projects.show');
+            Route::middleware(['can:'. Permission::CREATE_TWG_PROJECT->value])->post('/', [TWGProjectController::class, 'store'])->name('api.twg.projects.store');
+            Route::middleware(['can:'. Permission::UPDATE_TWG_PROJECT->value])->put('/{id}', [TWGProjectController::class, 'update'])->name('api.twg.projects.update');
+            Route::middleware(['can:'. Permission::DELETE_TWG_PROJECT->value])->delete('/delete', [TWGProjectController::class, 'multiDestroy'])->name('api.twg.projects.destroy.multi');
+            Route::middleware(['can:'. Permission::DELETE_TWG_PROJECT->value])->delete('/{id}', [TWGProjectController::class, 'destroy'])->name('api.twg.projects.destroy');
         });
 
         Route::prefix('products')->group(function () {
-            Route::get('/', [TWGProductController::class, 'index'])->name('api.twg.products.index');
-            Route::get('/{id}', [TWGProductController::class, 'show'])->name('api.twg.products.show');
-            Route::post('/', [TWGProductController::class, 'store'])->name('api.twg.products.store');
-            Route::put('/{id}', [TWGProductController::class, 'update'])->name('api.twg.products.update');
-            Route::delete('/delete', [TWGProductController::class, 'multiDestroy'])->name('api.twg.products.destroy.multi');
-            Route::delete('/{id}', [TWGProductController::class, 'destroy'])->name('api.twg.products.destroy');
+            Route::middleware(['can:'. Permission::READ_TWG_PRODUCT->value])->get('/', [TWGProductController::class, 'index'])->name('api.twg.products.index');
+            Route::middleware(['can:'. Permission::READ_TWG_PRODUCT->value])->get('/{id}', [TWGProductController::class, 'show'])->name('api.twg.products.show');
+            Route::middleware(['can:'. Permission::CREATE_TWG_PRODUCT->value])->post('/', [TWGProductController::class, 'store'])->name('api.twg.products.store');
+            Route::middleware(['can:'. Permission::UPDATE_TWG_PRODUCT->value])->put('/{id}', [TWGProductController::class, 'update'])->name('api.twg.products.update');
+            Route::middleware(['can:'. Permission::DELETE_TWG_PRODUCT->value])->delete('/delete', [TWGProductController::class, 'multiDestroy'])->name('api.twg.products.destroy.multi');
+            Route::middleware(['can:'. Permission::DELETE_TWG_PRODUCT->value])->delete('/{id}', [TWGProductController::class, 'destroy'])->name('api.twg.products.destroy');
         });
 
         Route::prefix('services')->group(function () {
-            Route::get('/', [TWGServiceController::class, 'index'])->name('api.twg.services.index');
-            Route::get('/{id}', [TWGServiceController::class, 'show'])->name('api.twg.services.show');
-            Route::post('/', [TWGServiceController::class, 'store'])->name('api.twg.services.store');
-            Route::put('/{id}', [TWGServiceController::class, 'update'])->name('api.twg.services.update');
-            Route::delete('/delete', [TWGServiceController::class, 'multiDestroy'])->name('api.twg.services.destroy.multi');
-            Route::delete('/{id}', [TWGServiceController::class, 'destroy'])->name('api.twg.services.destroy');
+            Route::middleware(['can:'. Permission::READ_TWG_SERVICE->value])->get('/', [TWGServiceController::class, 'index'])->name('api.twg.services.index');
+            Route::middleware(['can:'. Permission::READ_TWG_SERVICE->value])->get('/{id}', [TWGServiceController::class, 'show'])->name('api.twg.services.show');
+            Route::middleware(['can:'. Permission::CREATE_TWG_SERVICE->value])->post('/', [TWGServiceController::class, 'store'])->name('api.twg.services.store');
+            Route::middleware(['can:'. Permission::UPDATE_TWG_SERVICE->value])->put('/{id}', [TWGServiceController::class, 'update'])->name('api.twg.services.update');
+            Route::middleware(['can:'. Permission::DELETE_TWG_SERVICE->value])->delete('/delete', [TWGServiceController::class, 'multiDestroy'])->name('api.twg.services.destroy.multi');
+            Route::middleware(['can:'. Permission::DELETE_TWG_SERVICE->value])->delete('/{id}', [TWGServiceController::class, 'destroy'])->name('api.twg.services.destroy');
         });
     });
 
     /*Breeders Map Related APIs*/
     Route::prefix('breeders')->group(function () {
-        Route::middleware('can:read-breeder')->get('/', [BreederController::class, 'index'])->name('api.breeders.index');
-        Route::middleware('can:read-breeder')->get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
-        Route::middleware('can:read-breeder')->get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
-        Route::middleware('can:create-breeder')->post('/', [BreederController::class, 'store'])->name('api.breeders.store');
-        Route::middleware('can:update-breeder')->put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
-        Route::middleware('can:delete-breeder')->delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
-        Route::middleware('can:delete-breeder')->delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
+        Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/', [BreederController::class, 'index'])->name('api.breeders.index');
+        Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
+        Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
+        Route::middleware('can:'. Permission::CREATE_BREEDER->value)->post('/', [BreederController::class, 'store'])->name('api.breeders.store');
+        Route::middleware('can:'. Permission::UPDATE_BREEDER->value)->put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
+        Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
+        Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
     });
 
     Route::prefix('commodities')->group(function () {
-       Route::middleware('can:read-commodity')->get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
-       Route::middleware('can:read-commodity')->get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
-       Route::middleware('can:read-commodity')->get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
-       Route::middleware('can:create-commodity')->post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
-       Route::middleware('can:update-commodity')->put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');
-       Route::middleware('can:delete-commodity')->delete('/delete', [CommodityController::class, 'multiDestroy'])->name('api.commodities.destroy.multi');
-       Route::middleware('can:delete-commodity')->delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
+       Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
+       Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
+       Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
+       Route::middleware('can:'. Permission::CREATE_COMMODITY->value)->post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
+       Route::middleware('can:'. Permission::UPDATE_COMMODITY->value)->put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');
+       Route::middleware('can:'. Permission::DELETE_COMMODITY->value)->delete('/delete', [CommodityController::class, 'multiDestroy'])->name('api.commodities.destroy.multi');
+       Route::middleware('can:'. Permission::DELETE_COMMODITY->value)->delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
     });
 
     Route::prefix('geodata')->group(function () {
@@ -227,22 +228,22 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
     });
 
     Route::prefix('applications')->group(function () {
-        Route::middleware(['can:read-app'])->get('/', [ApplicationController::class, 'index'])->name('api.applications.index');
-        Route::middleware(['can:read-app'])->get('/{id}', [ApplicationController::class, 'show'])->name('api.applications.show');
-        Route::middleware(['can:create-app'])->post('/', [ApplicationController::class, 'store'])->name('api.applications.store');
-        Route::middleware(['can:update-app'])->put('/{id}', [ApplicationController::class, 'update'])->name('api.applications.update');
-        Route::middleware(['can:delete-app'])->delete('/{id}', [ApplicationController::class, 'destroy'])->name('api.applications.destroy');
+        Route::middleware(['can:'. Permission::READ_APP->value])->get('/', [ApplicationController::class, 'index'])->name('api.applications.index');
+        Route::middleware(['can:'. Permission::READ_APP->value])->get('/{id}', [ApplicationController::class, 'show'])->name('api.applications.show');
+        Route::middleware(['can:'. Permission::CREATE_APP->value])->post('/', [ApplicationController::class, 'store'])->name('api.applications.store');
+        Route::middleware(['can:'. Permission::UPDATE_APP->value])->put('/{id}', [ApplicationController::class, 'update'])->name('api.applications.update');
+        Route::middleware(['can:'. Permission::DELETE_APP->value])->delete('/{id}', [ApplicationController::class, 'destroy'])->name('api.applications.destroy');
     });
 
     Route::prefix('users')->group(function () {
-        Route::middleware(['can:read-user'])->get('/', [UserController::class, 'index'])->name('api.users.index');
+        Route::middleware(['can:'. Permission::READ_USER->value])->get('/', [UserController::class, 'index'])->name('api.users.index');
     });
 
     Route::prefix('accounts')->group(function () {
-        Route::middleware(['can:read-user'])->get('/', [AccountController::class, 'index'])->name('api.accounts.index');
-        Route::middleware(['can:read-user'])->get('/{id}', [AccountController::class, 'show'])->name('api.accounts.show');
-        Route::middleware(['can:create-user'])->post('/', [AccountController::class, 'store'])->name('api.accounts.store');
-        Route::middleware(['can:update-user'])->put('/{id}', [AccountController::class, 'update'])->name('api.accounts.update');
-        Route::middleware(['can:delete-user'])->delete('/{id}', [AccountController::class, 'destroy'])->name('api.accounts.destroy');
+        Route::middleware(['can:'. Permission::READ_USER->value])->get('/', [AccountController::class, 'index'])->name('api.accounts.index');
+        Route::middleware(['can:'. Permission::READ_USER->value])->get('/{id}', [AccountController::class, 'show'])->name('api.accounts.show');
+        Route::middleware(['can:'. Permission::CREATE_USER->value])->post('/', [AccountController::class, 'store'])->name('api.accounts.store');
+        Route::middleware(['can:'. Permission::UPDATE_USER->value])->put('/{id}', [AccountController::class, 'update'])->name('api.accounts.update');
+        Route::middleware(['can:'. Permission::DELETE_USER->value])->delete('/{id}', [AccountController::class, 'destroy'])->name('api.accounts.destroy');
     });
 });

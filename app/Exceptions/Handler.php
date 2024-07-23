@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
-            return response()->json(['message' => 'You are not authorized to access this page.'], 403);
+            return response()->json(['message' => 'You are not authorized to access.', 'title' => 'Access Denied'], 403);
         }
         return parent::render($request, $exception);
     }

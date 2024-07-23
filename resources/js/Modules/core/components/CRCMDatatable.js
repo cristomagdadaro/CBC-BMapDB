@@ -14,7 +14,7 @@ export default class CRCMDatatable
         // array of columns to display
         this.columns = ref([]);
         // response from the server
-        this.response = ref(new BaseResponse);
+        this.response = ref([]);
         // array of ids that are currently selected
         this.selected = ref([]);
         // class model that are current being handled in the CRMDatatable
@@ -23,8 +23,6 @@ export default class CRCMDatatable
         this.toDelete = ref([]);
         // when create or update, the modal will be forced to close after successful request
         this.closeAllModal = ref(false);
-        // error bag from the server
-        this.errorBag = ref();
 
         // retrieve params from local storage, if not found, create a new instance of BaseRequest
         // so that when the page is refreshed, the datatable will remember the last state
@@ -34,6 +32,9 @@ export default class CRCMDatatable
 
     async init() {
         this.response = await this.api.get(this.request.toObject(), this.model);
+
+        this.checkForErrors(this.response);
+
         if (this.response instanceof BaseResponse){
             this.getColumnsFromResponse(this.response);
             this.closeAllModal = true;
@@ -41,6 +42,20 @@ export default class CRCMDatatable
         else {
             new Notification(this.response);
         }
+    }
+
+    checkForErrors(response){
+        console.log(response);
+        if (!response && this.api._errorBag.length){
+            new Notification(this.api._errorBag[0]);
+            this.api._errorBag = [];
+        } else {
+            new Notification(response);
+        }
+    }
+
+    get errorBag(){
+        return this.api._errorBag;
     }
 
     get processing(){
@@ -225,54 +240,35 @@ export default class CRCMDatatable
     async create(data) {
         const response = await this.api.post(this.model.toObject(data));
 
-        Notification.pushNotification(response);
-        if (ErrorResponse.some(error => response instanceof error)){
-            this.errorBag = response.toObject();
+        if (!this.response && this.api._errorBag.length){
+            new Notification(this.api._errorBag[0]);
+            this.api._errorBag = [];
             return;
         }
 
         await this.refresh();
-        this.errorBag = {};
     }
 
     async delete(id) {
-        const response = await this.api.delete(id);
+        this.response = await this.api.delete(id);
 
-        Notification.pushNotification(response);
+        this.checkForErrors(this.response);
 
-        if (ErrorResponse.some(error => response instanceof error)){
-            this.errorBag = response.toObject();
-            return;
-        }
         await this.refresh();
         this.selected = this.selected.filter(item => item !== id);
     }
 
     async update(data) {
-        const response = await this.api.put(this.model.toObject(data));
+        this.response = await this.api.put(this.model.toObject(data));
 
-        Notification.pushNotification(response);
-
-        if (ErrorResponse.some(error => response instanceof error)){
-            this.errorBag = response.toObject();
-        } else {
-          await this.refresh();
-          this.errorBag = {};
-        }
-
-        this.processing = false;        
+        this.checkForErrors(this.response);
+        await this.refresh();
     }
 
     async deleteSelected() {
-        const response = await this.api.delete(this.selected);
+        this.response = await this.api.delete(this.selected);
 
-        Notification.pushNotification(response);
-
-        if (ErrorResponse.some(error => response instanceof error)){
-            this.errorBag = response.toObject();
-            return;
-        }
-
+        this.checkForErrors(this.response);
         await this.refresh();
         this.selected = [];
     }

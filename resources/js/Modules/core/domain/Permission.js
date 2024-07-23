@@ -4,17 +4,15 @@ export default class Permission extends BaseClass {
     constructor(resp) {
         super(resp);
         this.id = resp.id;
-        this.role_id = resp.role_id;
-        this.label = resp.label;
-        this.value = resp.value;
+        this.name = resp.name;
+        this.guard_name = resp.guard_name;
     }
 
     toObject() {
         return {
             id: this.id,
-            role_id: this.role_id,
-            label: this.label,
-            value: this.value
+            name: this.name,
+            guard_name: this.guard_name
         }
     }
 

@@ -3,11 +3,11 @@ export default class BaseResponse {
             data = null,
             meta = null,
             links = null,
-            title = 'Success',
-            message = 'Operation was successful.',
-            type = 'success',
+            title = null,
+            message = null,
+            type = 'warning',
             timeout = 5000,
-            show = true
+            show = false
         } = {}) {
         this.data = data;
         this.meta = meta;

@@ -1,13 +1,12 @@
 export class ForbiddenErrorResponse extends Error{
     constructor( response = {} ) {
         super();
-        this.title = 'Warning';
-        this.message = "Failed to execute, you're not authorized to perform this action";
-        this.type = 'warning';
+        this.title = response.statusText || 'Caution';
+        this.message = response.data.message || "You are not authorized";
+        this.type = 'failed';
         this.timeout = 5000;
-        this.errno = response.errno || null;
+        this.errno = response.data.status || 403;
         this.show = true;
-        Object.assign(this, response.errors);
     }
 
     static fromObject(response) {

@@ -1,7 +1,6 @@
 <template>
     <Head title="Breeder's Map" />
     <app-layout>
-        {{ permissions }}
         <Tab :tabs="tabs" v-if="$page.props.auth.user">
             <template #tab1>
                 <breeders-table />
@@ -27,10 +26,8 @@
 <script>
 import { Head } from "@inertiajs/vue3";
 import { defineAsyncComponent } from "vue";
-import UserPermissions from "@/Pages/mixins/UserPermissions.js";
 
 export default {
-    mixins: [UserPermissions],
     components: {
         Head,
         AppLayout: defineAsyncComponent({

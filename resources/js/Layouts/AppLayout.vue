@@ -17,9 +17,12 @@ import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";
 import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
 import UserPermissions from "@/Pages/mixins/UserPermissions.js";
+import SelectField from "@/Components/Form/SelectField.vue";
+
 export default {
     mixins: [UserPermissions],
     components: {
+        SelectField,
         NotifBanner,
         SidebarLayout,
         Head,
@@ -88,7 +91,7 @@ export default {
     <div class="min-h-screen bg-gray-100">
         <nav v-if="$page.props.auth.user" class="bg-white border-b border-gray-100">
             <!-- Primary Navigation Menu -->
-            <div class="px-4 sm:px-6 lg:px-8 bg-cbc-dark-green">
+            <div class="px-4 sm:px-6 py-2 lg:px-8 bg-cbc-dark-green">
                 <div class="flex justify-between h-10">
                     <div class="flex">
                         <!-- Navigation Links -->
@@ -98,8 +101,17 @@ export default {
                             </NavLink>
                         </div>-->
                     </div>
-                    <span class="flex items-center text-gray-100">
+                    <span class="flex gap-2 items-center text-gray-100">
                         {{$page.props.auth.user.email}}
+                        <select-field
+                            v-if="permissions"
+                            class="text-gray-900"
+                            :options="permissions.map(
+                                (permission) => ({
+                                    label: permission,
+                                    value: permission,
+                                })
+                            )" />
                     </span>
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                       <top-action-btn

@@ -5,12 +5,14 @@ import {NotFoundErrorResponse} from "@/Modules/core/infrastructure/NotFoundError
 import {ServerErrorResponse} from "@/Modules/core/infrastructure/ServerErrorResponse.js";
 import {JavascriptErrorResponse} from "@/Modules/core/infrastructure/JavascriptErrorResponse.js";
 import {ForbiddenErrorResponse} from "@/Modules/core/infrastructure/ForbiddenErrorResponse.js";
+import {ref} from "vue";
 
 export default class ApiService
 {
     constructor(url) {
         this._processing = false;
         this._baseUrl = url;
+        this._errorBag = ref([]);
     }
 
     get processing() {
@@ -41,9 +43,11 @@ export default class ApiService
                 response.data.data = this.castToModel(response.data.data, model);
                 return new BaseResponse(response.data);
             }
+
             return new BaseResponse(response);
         } catch (error) {
-            return this.determineError(error);
+            console.log(error);
+            this._errorBag.push(this.determineError(error));
         } finally {
             this._processing = false;
         }
@@ -56,7 +60,7 @@ export default class ApiService
             const response = await axios.post(this.baseUrl, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            return this.determineError(error);
+            this._errorBag.push(this.determineError(error));
         } finally {
             this._processing = false;
         }
@@ -69,7 +73,7 @@ export default class ApiService
             const response = await axios.put(this.baseUrl + '/' + data.id, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            return this.determineError(error);
+            this._errorBag.push(this.determineError(error));
         } finally {
             this._processing = false;
         }
@@ -92,7 +96,7 @@ export default class ApiService
                 return new BaseResponse(response.data);
             }
         } catch (error) {
-            return this.determineError(error);
+            this._errorBag.push(this.determineError(error));
         } finally {
             this._processing = false;
         }
@@ -111,7 +115,7 @@ export default class ApiService
                 case 422:
                     return new ValidationErrorResponse(error.response.data);
                 case 403:
-                    return new ForbiddenErrorResponse(error.response.data);
+                    return new ForbiddenErrorResponse(error.response);
                 case 404:
                     return new NotFoundErrorResponse(error.response.data);
                 default:
