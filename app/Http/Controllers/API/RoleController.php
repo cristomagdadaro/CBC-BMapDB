@@ -8,6 +8,7 @@ use App\Http\Requests\CreateRoleRequest;
 use App\Http\Requests\DeleteRoleRequest;
 use App\Http\Requests\GetRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Resources\BaseCollection;
 use App\Http\Resources\RoleCollection;
 use App\Models\Role;
 use App\Repository\API\RoleRepo;
@@ -22,10 +23,16 @@ class RoleController extends BaseController
         $this->service = $repository;
     }
 
-    public function index(GetRoleRequest $request): RoleCollection
+    public function index(GetRoleRequest $request): BaseCollection
     {
-        $data = $this->service->search($request->collect());
-        return new RoleCollection($data);
+        $data = $this->service->search(new Collection($request->validated()));
+        // remove the Admin role from the list
+        foreach ($data->items() as $key => $value) {
+            if ($value->name == \App\Enums\Role::ADMIN->value) {
+                unset($data[$key]);
+            }
+        }
+        return new BaseCollection($data);
     }
 
     public function show($id)

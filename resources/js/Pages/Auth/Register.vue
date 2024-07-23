@@ -11,6 +11,8 @@ import TextField from "@/Components/Form/TextField.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import { Projects } from "@/Pages/constants.ts";
 import GreenWaves from "@/Components/GreenWaves.vue";
+import ApiService from "@/Modules/core/infrastructure/ApiService.js";
+import {onBeforeMount, ref} from "vue";
 
 const form = useForm({
     fname: '',
@@ -18,6 +20,7 @@ const form = useForm({
     lname: '',
     suffix: '',
     account_for: '',
+    role: '',
     email: '',
     affiliation: '',
     mobile_no: '',
@@ -26,15 +29,53 @@ const form = useForm({
     terms: false,
 });
 
+const applications = ref([]);
+const roles = ref([]);
+let api = null;
+
 const submit = () => {
     form.post(route('register'), {
-        onBefore: () => console.log(form),
         onFinish: (response) => function (){
-            console.log(response);
             form.reset('password', 'password_confirmation');
         },
     });
 };
+
+async function getListOfApplications() {
+    api = new ApiService(route('api.applications.index.public'));
+    await api.get().then(response => {
+        applications.value = response.data.data;
+    });
+}
+
+async function getListOfRoles() {
+    api = new ApiService(route('api.roles.index.public'));
+    await api.get().then(response => {
+        roles.value = response.data.data;
+        console.log(roles);
+    });
+}
+
+onBeforeMount(async () => {
+    await getListOfApplications();
+    await getListOfRoles();
+
+    applications.value = applications.value.map((application) => {
+        return {
+            id: application.id,
+            value: application.id,
+            label: application.name,
+        };
+    });
+
+    roles.value = roles.value.map((role) => {
+        return {
+            id: role.id,
+            value: role.id,
+            label: role.name,
+        };
+    });
+});
 </script>
 
 <template>
@@ -54,7 +95,8 @@ const submit = () => {
                 <TextField id="mname" label="Middle Name" v-model="form.mname" type="text" autofocus autocomplete="name" :error="form.errors.mname" />
                 <TextField id="lname" label="Last Name" v-model="form.lname" type="text" required autofocus autocomplete="name" :error="form.errors.lname" />
                 <TextField id="suffix" label="Suffix" v-model="form.suffix" type="text" autofocus autocomplete="name" :error="form.errors.suffix" />
-                <SelectField id="account_for" label="Account For" v-model="form.account_for" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="Projects" />
+                <SelectField v-if="applications" id="account_for" label="Account For" v-model="form.account_for" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="applications" />
+                <SelectField v-if="roles" id="role" label="Access Level" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form.errors.role" :options="roles" />
                 <TextField id="mobile_no" label="Mobile No." v-model="form.mobile_no" type="text" autofocus autocomplete="name" :error="form.errors.mobile_no" />
                 <TextField id="email" label="Email" v-model="form.email" type="email" required autocomplete="email" :error="form.errors.email" />
                 <TextField id="affiliation" label="Agency/Institution/Office" v-model="form.affiliation" type="text" required autocomplete="affiliation" :error="form.errors.affiliation" />

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AdminController;
+use App\Http\Middleware\AdminApprovedUser;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
@@ -55,6 +56,9 @@ Route::prefix('email')->group(function () {
     })->name('email.verify');
 });
 
+Route::get('/api/public/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
+Route::get('/api/public/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
+
 Route::prefix('/projects')->group(function () {
     Route::get('/', function () {
         return Inertia::render('Projects');
@@ -82,6 +86,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    AdminApprovedUser::class
 ])->group(function () {
 
     Route::prefix('administrator')->group(function () {

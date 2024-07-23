@@ -15,9 +15,10 @@ export default class User extends BaseClass
         this.email_verified_at = resp.email_verified_at ? resp.email_verified_at : "Not Verified";
     }
 
-    getFullName()
-    {
-        return this.fname + " " + this.mname + " " + this.lname + " " + this.suffix;
+    getFullName() {
+        return [this.fname, this.mname, this.lname, this.suffix]
+            .filter(part => part) // Filters out null, undefined, and empty strings
+            .join(" ");
     }
 
     static getHiddenColumns() {

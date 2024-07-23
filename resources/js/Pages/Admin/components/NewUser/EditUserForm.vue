@@ -1,10 +1,10 @@
 <script>
+import RadioField from "@/Components/Form/RadioField.vue";
 import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
 import TextField from "@/Components/Form/TextField.vue";
-import RadioField from "@/Components/Form/RadioField.vue";
 
 export default {
-    name: "EditApplicationForm",
+    name: "EditUserForm",
     components: {
         RadioField,
         BaseCreateForm,
@@ -55,16 +55,23 @@ export default {
 <template>
     <base-create-form :form="form" :forceClose="forceClose">
         <template v-slot:formTitle>
-            Update Details for Database Application
+            Update User Details
         </template>
         <template v-slot:formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                <text-field required :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
-                <text-field required :error="errors? errors['description']:{}" label="Description" v-model="form.description" />
-                <text-field class="hidden" :error="errors? errors['url']:{}" label="URL" v-model="form.url" />
-                <text-field class="hidden" :error="errors? errors['icon']:{}" label="Icon" v-model="form.icon" />
-                <radio-field required :error="errors? errors['status']:{}" label="Status" v-model="form.status" :options="[{label: 'Active', value: 'true'}, {label: 'Inactive', value: 'false'}]" />
+                <text-field required :error="errors? errors['fname']:{}" label="First Name" v-model="form.fname" />
+                <text-field :error="errors? errors['mname']:{}" label="Middle Name" v-model="form.mname" />
+                <text-field required :error="errors? errors['lname']:{}" label="Surname" v-model="form.lname" />
+                <text-field :error="errors? errors['suffix']:{}" label="Suffix" v-model="form.suffix" />
+                <text-field :error="errors? errors['mobile_no']:{}" label="Mobile No." v-model="form.mobile_no" />
+                <text-field required :error="errors? errors['email']:{}" label="Email" v-model="form.email" />
+                <text-field required :error="errors? errors['affiliation']:{}" label="Agency/Institution/Office" v-model="form.affiliation" />
+                <text-field :error="errors? errors['password']:{}" label="New Password" v-model="form.password" />
             </div>
         </template>
     </base-create-form>
 </template>
+
+<style scoped>
+
+</style>

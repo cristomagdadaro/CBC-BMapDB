@@ -11,6 +11,20 @@ export const AdminPages = {
             path: route('api.administrator.index'),
             name: 'Users Model',
             model: User,
+            create: {
+                path: null,
+                name: 'CreateUserForm',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Admin/components/NewUser/CreateUserForm.vue')
+                ),
+            },
+            edit: {
+                path: null,
+                name: 'EditUserForm',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Admin/components/NewUser/EditUserForm.vue')
+                ),
+            }
         },
         account: {
             path: route('api.accounts.index'),

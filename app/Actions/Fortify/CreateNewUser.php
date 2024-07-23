@@ -2,7 +2,10 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Accounts;
+use App\Models\Role;
 use App\Models\User;
+use Faker\Core\Uuid;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -27,15 +30,15 @@ class CreateNewUser implements CreatesNewUsers
             'mobile_no' =>  ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'affiliation' => ['required', 'string', 'max:255'],
+            'account_for' => ['required', 'numeric', 'exists:applications,id'],
+            'role' => ['required', 'exists:roles,id'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
         //set the created user as authenticated
 
-
-
-        return User::create([
+        $user = User::create([
             'fname' => $input['fname'],
             'mname' => $input['mname'],
             'lname' => $input['lname'],
@@ -45,5 +48,15 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        $user->assignRole(Role::findOrFail($input['role'])->name);
+
+        Accounts::create([
+            'id' => (new Uuid())->uuid3(),
+            'user_id' => $user->id,
+            'app_id' => $input['account_for'],
+        ]);
+
+        return $user;
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\GetAccountForRequest;
 use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Resources\AccountsCollection;
+use App\Http\Resources\BaseCollection;
 use App\Models\Accounts;
 use App\Repository\API\AccountsRepo;
 use Faker\Core\Uuid;
@@ -25,27 +26,31 @@ class AccountController extends BaseController
     public function index(GetAccountForRequest $request)
     {
         $this->service->appendWith(['user', 'application']);
-        $data = $this->service->search($request->collect());
-        return new AccountsCollection($data);
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
     public function show($id)
     {
-        return $this->service->find($id);
+        $data = $this->service->find($id);
+        return $this->sendResponse('Account retrieved successfully.', $data);
     }
 
     public function store(CreateAccountRequest $request)
     {
-        return $this->service->create($request->validated());
+        $data = $this->service->create($request->validated());
+        return $this->sendResponse('Account created successfully.', $data);
     }
 
     public function update(UpdateAccountRequest $request, $id)
     {
-        return $this->service->update($id, $request->validated());
+        $data = $this->service->update($id, $request->validated());
+        return $this->sendResponse('Account updated successfully.', $data);
     }
 
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        $data = $this->service->delete($id);
+        return $this->sendResponse('Account deleted successfully.', $data);
     }
 }

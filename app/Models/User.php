@@ -121,4 +121,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->searchable;
     }
+
+    public function getRole(): string
+    {
+        return $this->roles->pluck('name')->first();
+    }
 }

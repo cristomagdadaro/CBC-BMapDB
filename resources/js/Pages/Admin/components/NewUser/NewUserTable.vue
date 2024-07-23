@@ -50,6 +50,8 @@ export default {
     <CRCMDatatable
         :base-url="AdminPages.api.user.path"
         :base-model="AdminPages.api.user.model"
+        :add-form="AdminPages.api.user.create.component"
+        :edit-form="AdminPages.api.user.edit.component"
         :can-create="canCreate"
         :can-update="canUpdate"
         :can-delete="canDelete"

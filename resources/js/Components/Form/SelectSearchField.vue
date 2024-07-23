@@ -61,7 +61,9 @@ export default {
             this.closeDropdown();
         },
         fullnameOption(option) {
-            return `${option.fname} ${option.mname} ${option.lname} ${option.suffix}`;
+            return [option.fname, option.mname, option.lname, option.suffix]
+                .filter(part => part)
+                .join(" ");
         },
         /**
          * Fetch options from the api

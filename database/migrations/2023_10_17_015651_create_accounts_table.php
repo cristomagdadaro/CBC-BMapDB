@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('accounts', function (Blueprint $table) {
-            $table->uuid('id')->unique()->primary();
+            $table->id();
             $table->foreignId('user_id')->constrained('users', 'id');
             $table->foreignId('app_id')->constrained('applications', 'id');
             $table->timestamp('approved_at')->nullable();

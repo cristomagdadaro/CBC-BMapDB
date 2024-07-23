@@ -18,7 +18,6 @@ class AccountsFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => $this->faker->uuid(),
             'user_id' => \App\Models\User::inRandomOrder()->first(),
             'app_id' => \App\Models\Application::inRandomOrder()->first(),
             'approved_at' => $this->faker->randomElement([null, $this->faker->dateTime()]),
