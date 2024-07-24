@@ -45,7 +45,7 @@ defineExpose({ focus: () => input.value.focus() });
                 {{ label }}
                 <span v-if="required" class="text-red-500 font-bold text-xs">*</span>
             </label>
-            <InputError :message="error" />
+            <InputError :message="Array.isArray(error) ? error[0] : error" />
         </div>
         <select
             :id="id"

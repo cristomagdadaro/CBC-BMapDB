@@ -51,17 +51,9 @@ class DatabaseSeeder extends Seeder
             TWGDatabaseSeeder::class
         ]);
 
-        foreach ($admin->accounts as $account) {
-            $account->approved(now());
-        }
-
-        foreach ($breeder->accounts as $account) {
-            $account->approved(now());
-        }
-
-        foreach ($researcher->accounts as $account) {
-            $account->approved(now());
-        }
+        $admin->approve();
+        $breeder->approve();
+        $researcher->approve();
 
         $admin->assignRole('Administrator');
         $breeder->assignRole('Breeder');

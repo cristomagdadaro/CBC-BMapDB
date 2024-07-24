@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Interfaces\BaseControllerInterface;
 use App\Http\Requests\CreateCommoditiesRequest;
 use App\Http\Requests\DeleteCommoditiesRequest;
 use App\Http\Requests\GetCommoditiesRequest;
@@ -33,31 +34,26 @@ class CommodityController extends BaseController
 
     public function store(CreateCommoditiesRequest $request)
     {
-        $data =  $this->service->create($request->validated());
-        return $this->sendResponse('Commodity created successfully.', $data);
+        return $this->service->create($request->validated());
     }
 
     public function show($id)
     {
-        $data = $this->service->find($id);
-        return $this->sendResponse('Commodity retrieved successfully.', $data);
+        return $this->service->find($id);
     }
 
     public function update(UpdateCommoditiesRequest $request, $id)
     {
-        $data = $this->service->update($id, $request->validated());
-        return $this->sendResponse('Commodity updated successfully.', $data);
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        $this->service->delete($id);
-        return $this->sendResponse('Commodity deleted successfully.');
+        return $this->service->delete($id);
     }
 
     public function multiDestroy(DeleteCommoditiesRequest $request)
     {
-        $this->service->multiDestroy($request->validated());
-        return $this->sendResponse('Commodities deleted successfully.');
+        return $this->service->multiDestroy($request->validated());
     }
 }

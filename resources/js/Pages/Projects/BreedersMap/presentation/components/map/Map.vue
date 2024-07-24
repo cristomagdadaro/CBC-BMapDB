@@ -23,9 +23,11 @@ import MapApiService from "@/Pages/Projects/BreedersMap/presentation/components/
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import {Permission} from "@/Pages/constants.ts";
+import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 
 export default {
     components: {
+        ViewIcon,
         SearchBy,
         LoaderIcon,
         CloseIcon,
@@ -336,9 +338,15 @@ export default {
                         </template>
                         <span>Deselect</span>
                     </top-action-btn>
+                    <top-action-btn v-if="mapApi.selectedPlace" @click="mapApi.sidebarVisible = true" class="bg-add text-xs" title="Deselect Point">
+                        <template #icon>
+                            <view-icon class="h-auto sm:w-4 w-3" />
+                        </template>
+                        <span>View Details</span>
+                    </top-action-btn>
+                    <info-sidebar :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
                 </l-control>
             </l-map>
-            <info-sidebar :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
         </div>
     </div>
     <div v-else class="flex flex-col max-h-fit gap-2" >

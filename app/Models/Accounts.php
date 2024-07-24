@@ -51,10 +51,4 @@ class Accounts extends BaseModel
     {
         return $this->hasOne(Application::class, 'id', 'app_id');
     }
-
-    public function approved($date)
-    {
-        $this->approved_at = $date;
-        $this->save();
-    }
 }

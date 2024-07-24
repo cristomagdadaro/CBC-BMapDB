@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import {onMounted, ref, watch} from 'vue';
 import InputError from "@/Components/InputError.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
@@ -38,7 +38,6 @@ onMounted(() => {
     }
 });
 
-
 defineExpose({ focus: () => input.value.focus() });
 </script>
 
@@ -49,7 +48,7 @@ defineExpose({ focus: () => input.value.focus() });
                 {{ label }}
                 <span v-if="required" class="text-red-500 font-bold text-xs">*</span>
             </label>
-            <InputError :message="error" />
+            <InputError :message="Array.isArray(error) ? error[0] : error" />
         </div>
         <div v-if="typeInput === 'password'" class="flex relative rounded-md shadow-sm border bg-white hover:ring-1 active:ring-1" :class="error && error.length? 'border-red-300 focus:border-red-500 focus:ring-red-500':'border-gray-300 focus:border-indigo-500 overflow-ellipsis focus:ring-indigo-500'">
             <input :id="id"

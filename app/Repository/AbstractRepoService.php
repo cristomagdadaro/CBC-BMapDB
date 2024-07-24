@@ -105,6 +105,10 @@ abstract class AbstractRepoService implements RepositoryInterface
 
             return response()->json([
                 'message' => $model->getNotifMessage('deleted'),
+                'show' => true,
+                'title' => "Deleted",
+                'type' => "type",
+                'timeout' => 5000,
                 'data' => $model
             ], Response::HTTP_OK);
         } catch (Exception $error) {

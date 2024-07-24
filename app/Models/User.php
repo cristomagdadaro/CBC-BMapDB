@@ -146,4 +146,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasRole(\App\Enums\Role::RESEARCHER->value);
     }
+
+    public function approve(): void
+    {
+        foreach ($this->accounts as $account) {
+            $account->approved(now());
+        }
+    }
 }

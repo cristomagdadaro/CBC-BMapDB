@@ -40,7 +40,7 @@
                         <template #icon>
                             <delete-icon class="h-auto sm:w-6 w-4" />
                         </template>
-                        <span v-show="showIconText">Delete Selected</span>
+                        <span v-show="showIconText">Delete</span>
                     </top-action-btn>
                     <top-action-btn
                         v-if="data.length && showActionBtns"
@@ -139,7 +139,7 @@
                                 v-for="column in dt.model.getColumns()"
                                 :visible="column.visible"
                                 :sortable="column.sortable"
-                                :key="column.key"
+                                :key="column.key + column.title"
                                 :sortedValue="column.key === dt.request.getParam('sort')"
                                 :column="column.title"
                                 :order="dt.request.getParam('order')"
@@ -169,7 +169,7 @@
                                     </div>
                                 </t-d>
                                 <!-- Cell Data -->
-                                <template v-for="(value, label) in row" :key="value">
+                                <template v-for="(value, label) in row" :key="value + label">
                                     <t-d
                                         class="break-words text-sm border border-gray-300"
                                         v-on:dblclick="dt.addSelected(row.id)"
