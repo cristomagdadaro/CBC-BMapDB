@@ -248,5 +248,5 @@ export default {
             </template>
         </sidebar-layout>
     </div>
-<!--    <Footer />-->
+    <Footer />
 </template>

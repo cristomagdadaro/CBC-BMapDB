@@ -5,12 +5,10 @@ import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
 import TWGCard from "@/Pages/Projects/TWG/presentation/components/TWGCard.vue";
 import TWGApiService from "@/Pages/Projects/TWG/infrastructure/TWGApiService.js";
-import GreenWaves from "@/Components/GreenWaves.vue";
 
 export default {
     name: "TWGPublic",
     components: {
-        GreenWaves,
         PageLayout,
         SearchBy,
         SearchBox,
@@ -49,14 +47,13 @@ export default {
 
 <template>
     <Head title="Breeder's Map" />
-    <green-waves />
-    <page-layout :isWideDisplay="false">
-        <div class="min-h-screen sm:p-4 p-1 bg-white flex flex-col gap-2">
+    <page-layout>
+        <div class="flex flex-col gap-5 shadow-lg bg-cbc-yellow text-gray-700 sm:p-10 mb-10 p-1 flex flex-col gap-2 rounded-md">
             <div>
-                <h1 class="text-2xl font-medium font-monospace">
+                <h1 class="text-2xl leading-relaxed font-medium font-monospace">
                     Welcome to the TWG Database.
                 </h1>
-                <p class="leading-tight text-justify">
+                <p class="leading-relaxed text-justify">
                     This centralized repository houses comprehensive information on biotechnology-related funded projects undertaken by different institutes, state universities, and regional field offices. Explore this database to access valuable insights, project details, and collaborative opportunities within the biotechnology research community.
                 </p>
             </div>

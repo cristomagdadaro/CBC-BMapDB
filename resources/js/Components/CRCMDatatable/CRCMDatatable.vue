@@ -421,6 +421,8 @@ export default {
             return 0;
         },
         first_page() {
+            if (this.checkIfDataIsLoaded)
+                return 1;
             return 0;
         },
         total_pages() {

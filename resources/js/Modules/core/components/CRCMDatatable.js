@@ -33,24 +33,23 @@ export default class CRCMDatatable
     async init() {
         this.response = await this.api.get(this.request.toObject(), this.model);
 
-        this.checkForErrors(this.response);
-
-        if (this.response instanceof BaseResponse){
+        if (this.response instanceof BaseResponse && !this.checkForErrors(this.response)){
             this.getColumnsFromResponse(this.response);
-            this.closeAllModal = true;
-        }
-        else {
-            new Notification(this.response);
-        }
+        } else
+            this.checkForErrors(this.response);
+
+        this.closeAllModal = true;
     }
 
+    /** Return false when o error is found */
     checkForErrors(response){
-        console.log(response);
-        if (!response && this.api._errorBag.length){
-            new Notification(this.api._errorBag[0]);
-            this.api._errorBag = [];
+        if (!response && this.api._errorBag.value){
+            new Notification(this.api._errorBag.value);
+            this.api._errorBag.value= [];
+            return true;
         } else {
             new Notification(response);
+            return false;
         }
     }
 
@@ -240,11 +239,7 @@ export default class CRCMDatatable
     async create(data) {
         const response = await this.api.post(this.model.toObject(data));
 
-        if (!this.response && this.api._errorBag.length){
-            new Notification(this.api._errorBag[0]);
-            this.api._errorBag = [];
-            return;
-        }
+        this.checkForErrors(this.response);
 
         await this.refresh();
     }

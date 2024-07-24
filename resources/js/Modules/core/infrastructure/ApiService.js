@@ -46,8 +46,7 @@ export default class ApiService
 
             return new BaseResponse(response);
         } catch (error) {
-            console.log(error);
-            this._errorBag.push(this.determineError(error));
+            this._errorBag.value = this.determineError(error);
         } finally {
             this._processing = false;
         }
@@ -60,7 +59,7 @@ export default class ApiService
             const response = await axios.post(this.baseUrl, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            this._errorBag.push(this.determineError(error));
+            this._errorBag.value = this.determineError(error);
         } finally {
             this._processing = false;
         }
@@ -73,7 +72,7 @@ export default class ApiService
             const response = await axios.put(this.baseUrl + '/' + data.id, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            this._errorBag.push(this.determineError(error));
+            this._errorBag.value = this.determineError(error);
         } finally {
             this._processing = false;
         }
@@ -96,8 +95,7 @@ export default class ApiService
                 return new BaseResponse(response.data);
             }
         } catch (error) {
-            this._errorBag.push(this.determineError(error));
-        } finally {
+            this._errorBag.value = this.determineError(error);
             this._processing = false;
         }
     }

@@ -51,4 +51,10 @@ class Accounts extends BaseModel
     {
         return $this->belongsTo(Application::class, 'app_id', 'id');
     }
+
+    public function approved($date)
+    {
+        $this->approved_at = $date;
+        $this->save();
+    }
 }

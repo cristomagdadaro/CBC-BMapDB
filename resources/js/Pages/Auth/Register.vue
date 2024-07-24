@@ -6,11 +6,8 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import PageLayout from '@/Layouts/PageLayout.vue';
-import Logo from "@/Components/Icons/Logo.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
-import { Projects } from "@/Pages/constants.ts";
-import GreenWaves from "@/Components/GreenWaves.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import {onBeforeMount, ref} from "vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
@@ -53,7 +50,6 @@ async function getListOfRoles() {
     api = new ApiService(route('api.roles.index.public'));
     await api.get().then(response => {
         roles.value = response.data.data;
-        console.log(roles);
     });
 }
 
@@ -82,29 +78,32 @@ onBeforeMount(async () => {
 <template>
     <Head title="Register" />
     <page-layout>
-        <green-waves />
         <AuthenticationCard>
-            <template #logo>
-                <Logo classes="sm:h-24 h-14" />
-            </template>
             <new-account-progress-view />
             <div class="border-b pb-1 mb-2">
-                <h1 class="font-medium">Registration Form</h1>
-                <p class="text-xs text-gray-600">Fill in all the required(<span class="text-red-600">*</span>) fields.</p>
+                <h1 class="font-medium text-lg">Registration Form</h1>
+                <p class="text-sm text-gray-600">Fill in all the required(<span class="text-red-600">*</span>) fields.</p>
             </div>
-            <form @submit.prevent="submit" class="grid sm:grid-cols-2 grid-cols-1 gap-2">
-                <TextField id="fname" label="First Name" v-model="form.fname" type="text" required autofocus autocomplete="name" :error="form.errors.fname" />
-                <TextField id="mname" label="Middle Name" v-model="form.mname" type="text" autofocus autocomplete="name" :error="form.errors.mname" />
-                <TextField id="lname" label="Last Name" v-model="form.lname" type="text" required autofocus autocomplete="name" :error="form.errors.lname" />
-                <TextField id="suffix" label="Suffix" v-model="form.suffix" type="text" autofocus autocomplete="name" :error="form.errors.suffix" />
-                <SelectField v-if="applications" id="account_for" label="Account For" v-model="form.account_for" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="applications" />
-                <SelectField v-if="roles" id="role" label="Access Level" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form.errors.role" :options="roles" />
-                <TextField id="mobile_no" label="Mobile No." v-model="form.mobile_no" type="text" autofocus autocomplete="name" :error="form.errors.mobile_no" />
-                <TextField id="email" label="Email" v-model="form.email" type="email" required autocomplete="email" :error="form.errors.email" />
+            <form @submit.prevent="submit" class="flex flex-col gap-2">
+                <div class="grid sm:grid-cols-2 grid-cols-1 gap-2">
+                    <SelectField v-if="applications" id="account_for" label="Account For" v-model="form.account_for" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="applications" />
+                    <SelectField v-if="roles" id="role" label="Access Level" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form.errors.role" :options="roles" />
+                </div>
+                <div class="grid sm:grid-cols-4 grid-cols-1 gap-2">
+                    <TextField id="fname" label="First Name" v-model="form.fname" type="text" required autofocus autocomplete="name" :error="form.errors.fname" />
+                    <TextField id="mname" label="Middle Name" v-model="form.mname" type="text" autofocus autocomplete="name" :error="form.errors.mname" />
+                    <TextField id="lname" label="Surname" v-model="form.lname" type="text" required autofocus autocomplete="name" :error="form.errors.lname" />
+                    <TextField id="suffix" label="Suffix" v-model="form.suffix" type="text" autofocus autocomplete="name" :error="form.errors.suffix" />
+                </div>
+                <div class="grid sm:grid-cols-2 grid-cols-1 gap-2">
+                    <TextField id="mobile_no" label="Mobile No." v-model="form.mobile_no" type="text" autofocus autocomplete="name" :error="form.errors.mobile_no" />
+                    <TextField id="email" label="Email" v-model="form.email" type="email" required autocomplete="email" :error="form.errors.email" />
+                </div>
                 <TextField id="affiliation" label="Agency/Institution/Office" v-model="form.affiliation" type="text" required autocomplete="affiliation" :error="form.errors.affiliation" />
-                <TextField id="password" label="Password" v-model="form.password" typeInput="password" required autocomplete="new-password" :error="form.errors.password" />
-                <TextField id="password_confirmation" label="Confirm Password" v-model="form.password_confirmation" typeInput="password" required autocomplete="new-password" :error="form.errors.password_confirmation" />
-
+                <div class="grid sm:grid-cols-2 grid-cols-1 gap-2">
+                    <TextField id="password" label="Password" v-model="form.password" typeInput="password" required autocomplete="new-password" :error="form.errors.password" />
+                    <TextField id="password_confirmation" label="Confirm Password" v-model="form.password_confirmation" typeInput="password" required autocomplete="new-password" :error="form.errors.password_confirmation" />
+                </div>
                 <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-4">
                     <InputLabel for="terms">
                         <div class="flex items-center">
