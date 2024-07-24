@@ -49,7 +49,7 @@ class Accounts extends BaseModel
 
     public function application()
     {
-        return $this->belongsTo(Application::class, 'app_id', 'id');
+        return $this->hasOne(Application::class, 'id', 'app_id');
     }
 
     public function approved($date)

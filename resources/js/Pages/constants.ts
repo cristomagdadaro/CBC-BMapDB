@@ -13,20 +13,6 @@ export const ErrorResponse  = [
 
 export const CBCProjects = [
     {
-        id: 1,
-        label: 'Dashboard',
-        icon: null,
-        value: 'dashboard',
-        show: true,
-    },
-    {
-        id: 2,
-        label: 'Administrator',
-        icon: null,
-        value: 'administrator.index',
-        show: true,
-    },
-    {
         id: 3,
         label: 'TWG Database',
         icon: TWGLogo,

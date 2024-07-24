@@ -16,11 +16,10 @@ import Footer from "@/Pages/Footer.vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";
 import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
-import UserPermissions from "@/Pages/mixins/UserPermissions.js";
 import SelectField from "@/Components/Form/SelectField.vue";
+import User from "@/Modules/core/domain/User.js";
 
 export default {
-    mixins: [UserPermissions],
     components: {
         SelectField,
         NotifBanner,
@@ -49,6 +48,7 @@ export default {
         return {
             showSidebar: true,
             CBCProjects,
+            user: new User(this.$page.props.auth.user),
         }
     },
     mounted() {
@@ -57,6 +57,11 @@ export default {
       });
 
       console.log(CBCProjects);*/
+    },
+    computed: {
+        User() {
+            return User;
+        },
     },
     setup(props) {
         const showingNavigationDropdown = ref(false);
@@ -89,30 +94,30 @@ export default {
     <NotifBanner />
 
     <div class="min-h-screen bg-gray-100">
-        <nav v-if="$page.props.auth.user" class="bg-white border-b border-gray-100">
+        <nav v-if="$page.props.auth.user" class="bg-white shadow">
             <!-- Primary Navigation Menu -->
             <div class="px-4 sm:px-6 py-2 lg:px-8 bg-cbc-dark-green">
-                <div class="flex justify-between h-10">
-                    <div class="flex">
-                        <!-- Navigation Links -->
-<!--                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <NavLink class="text-white" v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
-                                {{ project.label }}
-                            </NavLink>
-                        </div>-->
+                <div class="flex justify-between items-center h-10">
+                    <div class="flex flex-col text-gray-50">
+                        <div class="flex items-center">
+                            <span class="leading-tight text-sm uppercase">
+                                {{ user.getFullName() }}
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1 text-xs">
+                            <span class="leading-tight">
+                            {{ user.getRole() }}
+                            </span>
+                            <span class="mx-1">|</span>
+                            <span class="leading-tight">
+                                {{ user.affiliation }}
+                            </span>
+                            <span class="mx-1">|</span>
+                            <span class="leading-tight">
+                                {{ user.email }}
+                            </span>
+                        </div>
                     </div>
-                    <span class="flex gap-2 items-center text-gray-100">
-                        {{$page.props.auth.user.email}}
-                        <select-field
-                            v-if="permissions"
-                            class="text-gray-900"
-                            :options="permissions.map(
-                                (permission) => ({
-                                    label: permission,
-                                    value: permission,
-                                })
-                            )" />
-                    </span>
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                       <top-action-btn
                           class="shadow-none hover:scale-105 active:scale-100"
@@ -187,12 +192,15 @@ export default {
                     </div>
                 </div>
             </div>
-
             <!-- Responsive Navigation Menu -->
             <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                <div class="pt-2 pb-3 space-y-1">
-                    <ResponsiveNavLink v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
-                        {{ project.label }}
+                <div class="pt-2 pb-3 space-y-1" v-if="user.accounts">
+                    <ResponsiveNavLink v-for="account in user.accounts"
+                                       :key="account.id"
+                                       :href="route(account.application.url)"
+                                       :active="route().current(account.application.url)"
+                    >
+                        {{ account.application.name }}
                     </ResponsiveNavLink>
                 </div>
 
@@ -230,13 +238,30 @@ export default {
         <!-- Page Content -->
         <sidebar-layout>
             <template #options>
-                <template v-for="project in CBCProjects" :key="project.id" >
-                    <NavLink v-if="project.show" class="text-white" :href="route(project.value)" :active="route().current(project.value)">
-                        <div class="flex gap-1 select-none items-center">
-                            <img :src="project.icon" class="hidden h-8 w-8"  :alt="project.label"/>
-                            <span class="sm:flex hidden whitespace-nowrap">
-                            {{ project.label }}
+                <NavLink class="text-white" :href="route('dashboard')" :active="route().current('dashboard')">
+                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                        <span class="sm:flex hidden whitespace-nowrap">
+                           Dashboard
                         </span>
+                    </div>
+                </NavLink>
+                <NavLink v-if="user.isAdmin()" class="text-white" :href="route('administrator.index')" :active="route().current('administrator.index')">
+                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                        <span class="sm:flex hidden whitespace-nowrap">
+                           Administrator
+                        </span>
+                    </div>
+                </NavLink>
+                <template v-for="account in user.accounts" :key="account.application.id" >
+                    <NavLink v-if="account.application"
+                             class="text-white"
+                             :href="route(account.application.url)"
+                             :active="route().current(account.application.url)"
+                    >
+                        <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                            <span class="sm:flex hidden whitespace-nowrap">
+                            {{ account.application.name }}
+                            </span>
                         </div>
                     </NavLink>
                 </template>

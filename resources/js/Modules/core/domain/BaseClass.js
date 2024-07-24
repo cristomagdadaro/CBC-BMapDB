@@ -13,6 +13,14 @@ export class BaseClass extends Object
         return Object.assign({}, obj);
     }
 
+    static makeAsOptions(options) {
+        return options.map((option) => {
+            return {
+                value: option.id || option.value,
+                label: option.name || option.title || option.label || option.value || option.id
+            };
+        });
+    }
     static getColumns() {
         return [
             Object.keys(this.toObject(new this())).map((key) => {

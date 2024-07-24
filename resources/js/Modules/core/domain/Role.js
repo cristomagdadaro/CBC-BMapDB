@@ -4,15 +4,15 @@ export default class Role extends BaseClass {
         constructor(resp) {
             super(resp);
             this.id = resp.id;
-            this.value = resp.value;
-            this.label = resp.label;
+            this.name = resp.name;
+            this.guard_name = resp.guard_name;
         }
 
         toObject() {
             return {
                 id: this.id,
-                name: this.value,
-                label: this.label,
+                name: this.name,
+                guard_name: this.guard_name
             }
         }
 }

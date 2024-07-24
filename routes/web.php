@@ -93,7 +93,7 @@ Route::middleware([
     AdminApprovedUser::class,
 ])->group(function () {
 
-    Route::prefix('administrator')->group(function () {
+    Route::middleware('admin')->prefix('administrator')->group(function () {
         Route::get('/', function () {
             return Inertia::render('Admin/Administrator');
         })->name('administrator.index');
@@ -132,7 +132,7 @@ Route::middleware([
 
 Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function() {
     /*Admin Related APIs*/
-    Route::prefix('administrator')->group(function () {
+    Route::middleware('admin')->prefix('administrator')->group(function () {
         Route::middleware(['can:'. Permission::READ_USER->value])->get('/', [AdminController::class, 'index'])->name('api.administrator.index');
         Route::middleware(['can:'. Permission::READ_USER->value])->get('/{id}', [AdminController::class, 'show'])->name('api.administrator.show');
         Route::middleware(['can:'. Permission::CREATE_USER->value])->post('/', [AdminController::class, 'store'])->name('api.administrator.store');

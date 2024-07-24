@@ -13,6 +13,10 @@ export default class Account extends BaseClass
         this.app_name = resp.application ? (new Application(resp.application)).name : null;
         this.approved_at = resp.approved_at ?? null;
         this.approved = resp.approved_at ? 'Approved': 'Pending Approval';
+
+        this.application = new Application(resp.application);
+
+        console.log(resp);
     }
 
     static getHiddenColumns() {
