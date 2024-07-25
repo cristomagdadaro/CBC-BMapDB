@@ -1,10 +1,10 @@
 import axios from "axios";
-import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
-import {ValidationErrorResponse} from "@/Modules/core/infrastructure/ValidationErrorResponse.js";
-import {NotFoundErrorResponse} from "@/Modules/core/infrastructure/NotFoundErrorResponse.js";
-import {ServerErrorResponse} from "@/Modules/core/infrastructure/ServerErrorResponse.js";
-import {JavascriptErrorResponse} from "@/Modules/core/infrastructure/JavascriptErrorResponse.js";
-import {ForbiddenErrorResponse} from "@/Modules/core/infrastructure/ForbiddenErrorResponse.js";
+import BaseResponse from "@/Modules/core/domain/base/BaseResponse.js";
+import {ValidationErrorResponse} from "@/Modules/core/domain/response/ValidationErrorResponse.js";
+import {NotFoundErrorResponse} from "@/Modules/core/domain/response/NotFoundErrorResponse.js";
+import {ServerErrorResponse} from "@/Modules/core/domain/response/ServerErrorResponse.js";
+import {JavascriptErrorResponse} from "@/Modules/core/domain/response/JavascriptErrorResponse.js";
+import {ForbiddenErrorResponse} from "@/Modules/core/domain/response/ForbiddenErrorResponse.js";
 import {ref} from "vue";
 
 export default class ApiService

@@ -22,6 +22,7 @@ class TWGProjectController extends BaseController
 
     public function index(GetTWGProjectRequest $request)
     {
+        $this->service->appendWith(['expert']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }

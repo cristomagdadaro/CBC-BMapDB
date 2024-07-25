@@ -22,6 +22,7 @@ class TWGServiceController extends BaseController
 
     public function index(GetTWGServiceRequest $request)
     {
+        $this->service->appendWith(['expert']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }

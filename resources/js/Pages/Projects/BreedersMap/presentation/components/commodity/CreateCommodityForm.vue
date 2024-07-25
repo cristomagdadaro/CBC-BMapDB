@@ -34,7 +34,7 @@
 import TextField from "@/Components/Form/TextField.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
-import BreedersMapApiService from "@/Pages/Projects/BreedersMap/intrastructure/BreedersMapApiService.js";
+import BreedersMapApiService from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapApiService.js";
 import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
 
 export default {

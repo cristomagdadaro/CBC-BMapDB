@@ -2,8 +2,8 @@
 import { Head } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.js";
-import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder.js";
-import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.js";
+import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder.ts";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.ts";
 import CommodityTable from "@/Pages/Projects/BreedersMap/presentation/components/commodity/CommodityTable.vue";
 import Tab from "@/Components/Tab/Tab.vue";
 import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue";

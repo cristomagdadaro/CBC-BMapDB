@@ -1,4 +1,4 @@
-import {BaseClass} from "@/Modules/core/domain/BaseClass.js";
+import BaseClass from "@/Modules/core/domain/base/BaseClass.ts";
 import {ref} from "vue";
 
 export default class Notification extends BaseClass {

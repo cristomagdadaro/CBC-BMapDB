@@ -21,6 +21,7 @@ class CommodityController extends BaseController
 
     public function index(GetCommoditiesRequest $request)
     {
+        $this->service->appendWith(['breeder']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }

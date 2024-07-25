@@ -17,7 +17,7 @@ import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";
 import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
-import User from "@/Modules/core/domain/User.js";
+import User from "@/Modules/core/domain/auth/User";
 
 export default {
     components: {
@@ -101,12 +101,12 @@ export default {
                     <div class="flex flex-col text-gray-50">
                         <div class="flex items-center">
                             <span class="leading-tight text-sm uppercase">
-                                {{ user.getFullName() }}
+                                {{ user.getFullName }}
                             </span>
                         </div>
                         <div class="flex items-center gap-1 text-xs">
                             <span class="leading-tight">
-                            {{ user.getRole() }}
+                            {{ user.getRole }}
                             </span>
                             <span class="mx-1">|</span>
                             <span class="leading-tight">
@@ -245,7 +245,7 @@ export default {
                         </span>
                     </div>
                 </NavLink>
-                <NavLink v-if="user.isAdmin()" class="text-white" :href="route('administrator.index')" :active="route().current('administrator.index')">
+                <NavLink v-if="user.isAdmin" class="text-white" :href="route('administrator.index')" :active="route().current('administrator.index')">
                     <div class="flex gap-1 select-none items-center sm:p-2 p-1">
                         <span class="sm:flex hidden whitespace-nowrap">
                            Administrator

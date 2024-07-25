@@ -2,13 +2,14 @@
 import TWGLogo from "../../../public/img/twg-db-logo.png";
 // @ts-ignore
 import BreedersMapLogo from "../../../public/img/breeders-map-logo.png";
-import { ForbiddenErrorResponse, ValidationErrorResponse, NotFoundErrorResponse, ServerErrorResponse } from "@/Modules/core/infrastructure/index";
-import UserPermissions from "@/Pages/mixins/UserPermissions.js";
+import { JavascriptErrorResponse, ForbiddenErrorResponse, ValidationErrorResponse, NotFoundErrorResponse, ServerErrorResponse } from "@/Modules/core/domain/response/index";
+
 export const ErrorResponse  = [
     ValidationErrorResponse,
     ServerErrorResponse,
     NotFoundErrorResponse,
     ForbiddenErrorResponse,
+    JavascriptErrorResponse
 ]
 
 export const CBCProjects = [

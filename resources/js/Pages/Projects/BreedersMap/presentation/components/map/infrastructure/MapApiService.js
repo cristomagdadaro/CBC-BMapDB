@@ -1,6 +1,6 @@
 import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import {ref} from "vue";
-import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
+import BaseRequest from "@/Modules/core/domain/base/BaseRequest.js";
 
 export default class MapApiService{
     constructor(baseUrl, model = Object) {

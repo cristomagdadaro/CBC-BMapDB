@@ -1,7 +1,7 @@
-import Expert from "@/Pages/Projects/TWG/domain/Expert.js";
-import Project from "@/Pages/Projects/TWG/domain/Project.js";
-import Product from "@/Pages/Projects/TWG/domain/Product.js";
-import Service from "@/Pages/Projects/TWG/domain/Service.js";
+import Expert from "@/Pages/Projects/TWG/domain/Expert.ts";
+import Project from "@/Pages/Projects/TWG/domain/Project.ts";
+import Product from "@/Pages/Projects/TWG/domain/Product.ts";
+import Service from "@/Pages/Projects/TWG/domain/Service.ts";
 
 import { defineAsyncComponent } from "vue";
 export const TWGPages = {

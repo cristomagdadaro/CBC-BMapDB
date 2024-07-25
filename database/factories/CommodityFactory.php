@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Breeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +24,7 @@ class CommodityFactory extends Factory
         $address = $this->faker->address;
         return [
             'name' => $this->faker->name,
-            'breeder_id' => $this->faker->randomElement(\App\Models\Breeder::pluck('id')->toArray()),
+            'breeder_id' => Breeder::all()->random()->id,
             'scientific_name' => $this->faker->name,
             'variety' => $this->faker->name,
             'accession' => $this->faker->name,

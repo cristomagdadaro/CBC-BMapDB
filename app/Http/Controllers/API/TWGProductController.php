@@ -20,6 +20,7 @@ class TWGProductController extends BaseController
 
     public function index(GetTWGProductRequest $request)
     {
+        $this->service->appendWith(['expert']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }

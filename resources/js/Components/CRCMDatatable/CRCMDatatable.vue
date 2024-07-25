@@ -169,15 +169,13 @@
                                     </div>
                                 </t-d>
                                 <!-- Cell Data -->
-                                <template v-for="(value, label) in row" :key="value + label">
-                                    <t-d
-                                        class="break-words text-sm border border-gray-300"
-                                        v-on:dblclick="dt.addSelected(row.id)"
-                                        v-on:click.ctrl="dt.addSelected(row.id)"
-                                        v-if="dataValue(label)">
-                                        {{ value }}
-                                    </t-d>
-                                </template>
+                                <t-d v-for="column in visibleColumns" :key="column.key + column.title"
+                                    class="break-words border border-gray-300"
+                                    :class="'text-' + column.align"
+                                    @dblclick="dt.addSelected(row.id)"
+                                    @click.ctrl="dt.addSelected(row.id)">
+                                    {{ getNestedValue(row, column.key)  }}
+                                </t-d>
                                 <!-- Cell Actions -->
                                 <t-d class="items-center" v-if="showActionBtns">
                                     <div class="flex justify-center sm:gap-1 gap-0.5">
@@ -269,7 +267,7 @@
     </div>
 </template>
 <script setup>
-import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
+import BaseResponse from "@/Modules/core/domain/base/BaseResponse.js";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import PaginateBtn from "@/Components/CRCMDatatable/Components/PaginateBtn.vue";
 import ActionContainer from "@/Components/CRCMDatatable/Layouts/ActionContainer.vue";
@@ -309,7 +307,7 @@ import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 </script>
 
 <script>
-import CRCMDatatable from "@/Modules/core/components/CRCMDatatable.js";
+import CRCMDatatable from "@/Components/CRCMDatatable/core/infra/CRCMDatatable.js";
 import { router } from "@inertiajs/vue3";
 import {defineAsyncComponent} from "vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.js";
@@ -397,23 +395,26 @@ export default {
                 return this.dt.response['data'];
             return [];
         },
+        visibleColumns() {
+            return this.dt.model.getColumns().filter(column => column.visible);
+        },
         selected(){
             return this.dt.selected;
         },
         current_page() {
             if (this.checkIfDataIsLoaded)
                 return this.dt.response['meta']['current_page'];
-            return 0;
+            return 1;
         },
         last_page() {
             if (this.checkIfDataIsLoaded)
                 return this.dt.response['meta']['last_page'];
-            return 0;
+            return 1;
         },
         next_page() {
             if (this.checkIfDataIsLoaded)
                 return this.dt.response['meta']['current_page'] + 1;
-            return 0;
+            return 1;
         },
         prev_page() {
             if (this.checkIfDataIsLoaded)
@@ -423,12 +424,12 @@ export default {
         first_page() {
             if (this.checkIfDataIsLoaded)
                 return 1;
-            return 0;
+            return 1;
         },
         total_pages() {
             if (this.checkIfDataIsLoaded)
                 return this.dt.response['meta']['last_page'];
-            return 0;
+            return 1;
         },
         total_entries() {
             if (this.checkIfDataIsLoaded)
@@ -459,6 +460,9 @@ export default {
             } catch (e) {
                 return false;
             }
+        },
+        getNestedValue(obj, path) {
+            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
         },
         toggleShowIconText() {
             this.$store.dispatch("asyncToggleShowTextWithIcon");

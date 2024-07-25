@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Accounts;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,7 +18,7 @@ class DatabaseSeeder extends Seeder
             ApplicationSeeder::class,
         ]);
 
-        $admin = User::factory()->unapproved()->create([
+        $admin = User::factory()->create([
             'fname' => 'Cristo Rey',
             'lname' => 'Magdadaro',
             'email' => 'admin@cbc.gov.ph',
@@ -25,9 +26,10 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now()
         ]);
 
+        $admin->approve(1);
+        $admin->approve(2);
 
-
-        $breeder = User::factory()->unapproved()->create([
+        $breeder = User::factory()->approved()->create([
             'fname' => 'Reynaldo',
             'lname' => 'Diocton',
             'email' => 'breeder@cbc.gov.ph',
@@ -35,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now()
         ]);
 
-        $researcher = User::factory()->unapproved()->create([
+        $researcher = User::factory()->approved()->create([
             'fname' => 'Precious Mae',
             'lname' => 'Gabato',
             'email' => 'researcher@cbc.gov.ph',
@@ -51,9 +53,6 @@ class DatabaseSeeder extends Seeder
             TWGDatabaseSeeder::class
         ]);
 
-        $admin->approve();
-        $breeder->approve();
-        $researcher->approve();
 
         $admin->assignRole('Administrator');
         $breeder->assignRole('Breeder');
