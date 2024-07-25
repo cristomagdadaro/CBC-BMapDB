@@ -94,11 +94,11 @@ export default {
     <NotifBanner />
 
     <div class="min-h-screen bg-gray-100">
-        <nav v-if="$page.props.auth.user" class="bg-white shadow">
+        <nav v-if="user" class="bg-white shadow">
             <!-- Primary Navigation Menu -->
             <div class="px-4 sm:px-6 py-2 lg:px-8 bg-cbc-dark-green">
                 <div class="flex justify-between items-center h-10">
-                    <div class="flex flex-col text-gray-50">
+                    <div class="sm:flex hidden flex-col text-gray-50">
                         <div class="flex items-center">
                             <span class="leading-tight text-sm uppercase">
                                 {{ user.getFullName }}
@@ -194,7 +194,16 @@ export default {
             </div>
             <!-- Responsive Navigation Menu -->
             <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                <div class="pt-2 pb-3 space-y-1" v-if="user.accounts">
+                <ResponsiveNavLink :href="route('dashboard')"
+                                   :active="route().current('dashboard')">
+                    Dashboard
+                </ResponsiveNavLink>
+                <ResponsiveNavLink v-if="user.isAdmin"
+                                   :href="route('administrator.index')"
+                                   :active="route().current('administrator.index')">
+                    Administrator
+                </ResponsiveNavLink>
+                <template v-if="user.accounts">
                     <ResponsiveNavLink v-for="account in user.accounts"
                                        :key="account.id"
                                        :href="route(account.application.url)"
@@ -202,19 +211,37 @@ export default {
                     >
                         {{ account.application.name }}
                     </ResponsiveNavLink>
-                </div>
+                </template>
 
                 <!-- Responsive Settings Options -->
                 <div class="pt-4 pb-1 border-t border-gray-200">
                     <div class="flex items-center px-4">
-                        <div v-if="$page.props.auth.user">
-                            <div class="font-medium text-base text-gray-800">
-                                {{ $page.props.auth.user.fname }} {{ $page.props.auth.user.lname }}
+                        <div v-if="user">
+                            <div class="flex flex-col text-gray-700 whitespace-nowrap">
+                                <div class="flex items-center">
+                                    <span class="leading-tight uppercase">
+                                        {{ user.getFullName }}
+                                    </span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                        <span class="leading-tight">
+                                            {{ user.getRole }}
+                                        </span>
+
+<!--                                        <span class="mx-1">|</span>
+
+                                        <span class="leading-tight">
+                                            {{ user.affiliation }}
+                                        </span>-->
+
+                                        <span class="mx-1">|</span>
+
+                                        <span class="leading-tight">
+                                            {{ user.email }}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="font-medium text-sm text-gray-500">
-                                {{ $page.props.auth.user.email }}
-                            </div>
-                        </div>
                         <div v-else>
                             Please Login
                         </div>

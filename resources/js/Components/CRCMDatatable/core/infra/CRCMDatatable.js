@@ -32,7 +32,7 @@ export default class CRCMDatatable
 
     async init() {
         this.response = await this.api.get(this.request.toObject(), this.model);
-        console.log(this.response);
+
         if (this.response instanceof BaseResponse && !this.checkForErrors(this.response)){
             this.getColumnsFromResponse(this.response);
         } else

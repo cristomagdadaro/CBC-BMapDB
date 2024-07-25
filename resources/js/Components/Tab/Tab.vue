@@ -44,7 +44,7 @@ export default {
 </script>
 <template>
   <div class="flex flex-col bg-transparent">
-    <div class="flex gap-1 select-none p-2 mx-2 mt-2 shadow rounded-md bg-white">
+    <div class="flex gap-1 select-none p-2 mx-2 mt-2 shadow rounded-md bg-white max-w-screen overflow-x-auto">
       <button
           v-for="tab in tabs"
           @click="setActiveTab(tab)"
