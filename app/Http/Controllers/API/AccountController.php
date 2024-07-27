@@ -32,25 +32,21 @@ class AccountController extends BaseController
 
     public function show($id)
     {
-        $data = $this->service->find($id);
-        return $this->sendResponse('Account retrieved successfully.', $data);
+        return $this->service->find($id);
     }
 
     public function store(CreateAccountRequest $request)
     {
-        $data = $this->service->create($request->validated());
-        return $this->sendResponse('Account created successfully.', $data);
+        return $this->service->create($request->validated());
     }
 
     public function update(UpdateAccountRequest $request, $id)
     {
-        $data = $this->service->update($id, $request->validated());
-        return $this->sendResponse('Account updated successfully.', $data);
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        $data = $this->service->delete($id);
-        return $this->sendResponse('Account deleted successfully.', $data);
+        return $this->service->delete($id);
     }
 }

@@ -64,7 +64,11 @@ abstract class AbstractRepoService implements RepositoryInterface
 
             return response()->json([
                 'message' => $model->getNotifMessage('created'),
-                'data' => $model
+                'data' => $model,
+                'show' => true,
+                'title' => "Created",
+                'type' => "success",
+                'timeout' => 10000,
             ], Response::HTTP_OK);
         } catch (Exception $error) {
             return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -85,7 +89,11 @@ abstract class AbstractRepoService implements RepositoryInterface
 
             return response()->json([
                 'message' => $model->getNotifMessage('updated'),
-                'data' => $model
+                'data' => $model,
+                'show' => true,
+                'title' => "Updated",
+                'type' => "success",
+                'timeout' => 10000,
             ], Response::HTTP_OK);
         } catch (Exception $error) {
             return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -105,11 +113,11 @@ abstract class AbstractRepoService implements RepositoryInterface
 
             return response()->json([
                 'message' => $model->getNotifMessage('deleted'),
+                'data' => $model,
                 'show' => true,
                 'title' => "Deleted",
-                'type' => "type",
-                'timeout' => 5000,
-                'data' => $model
+                'type' => "warning",
+                'timeout' => 10000
             ], Response::HTTP_OK);
         } catch (Exception $error) {
             return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -140,18 +148,30 @@ abstract class AbstractRepoService implements RepositoryInterface
             if ($counter && count($failed) == 0)
                 return response()->json([
                     'message' => 'Successfully deleted all data',
-                    'deleted' => $models
+                    'data' => $models,
+                    'show' => true,
+                    'title' => "Deleted",
+                    'type' => "warning",
+                    'timeout' => 10000
                 ], Response::HTTP_OK);
 
             else if ($counter && count($failed) > 0)
                 return response()->json([
                     'message' => $counter. ' rows successfully deleted but failed to delete ' . count($failed) . ' rows',
-                    'failed' => $failed
+                    'data' => $failed,
+                    'show' => true,
+                    'title' => "Deleted",
+                    'type' => "warning",
+                    'timeout' => 10000
                 ], Response::HTTP_INTERNAL_SERVER_ERROR);
 
             return response()->json([
                 'message' => 'Failed to delete ' . count($failed) . ' rows of data',
-                'failed' => $failed
+                'data' => $failed,
+                'show' => true,
+                'title' => "Deleted",
+                'type' => "warning",
+                'timeout' => 10000
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }catch (Exception $error) {
             return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -169,7 +189,11 @@ abstract class AbstractRepoService implements RepositoryInterface
         if(!$data)
             return response()->json([
                 'message' => $this->model->getNotifMessage('notFound'),
-                'data' => null
+                'data' => null,
+                'show' => true,
+                'title' => "Not Found",
+                'type' => "warning",
+                'timeout' => 10000
             ], Response::HTTP_NOT_FOUND);
 
         return $data;

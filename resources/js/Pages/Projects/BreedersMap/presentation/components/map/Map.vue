@@ -148,8 +148,14 @@ export default {
             return true;
         },
     },
-    mounted() {
+    created() {
         this.initializeMap();
+    },
+    beforeMount() {
+        this.updateZoom(6);
+    },
+    mounted() {
+        this.updateZoom(6);
     },
     methods: {
         async initializeMap() {
@@ -171,13 +177,20 @@ export default {
             this.loadData();
         },
         loadData() {
-            this.commodities = this.dataPoints || this.customPoint;
+            if (this.dataPoints) {
+                this.commodities = this.dataPoints;
+            }else {
+                this.commodities = this.customPoint;
+                if (this.commodities.length === 1) {
+                    this.selectPoint(this.commodities[0]);
+                }
+            }
             this.placesFiltered = this.commodities;
             this.placesSearched = this.placesFiltered;
         },
         selectPoint(point) {
             if (!this.$refs.map) return;
-            this.mapApi.selectPoint(point);
+                this.mapApi.selectPoint(point);
         },
         updateCenter(center) {
             this.mapApi.updateCenter(center);
@@ -213,7 +226,7 @@ export default {
 
 
 <template>
-<div v-if="mapApi && canView" class="flex gap-1 justify-end">
+    <div v-if="mapApi && canView" class="flex gap-1 justify-end">
         <top-action-btn @click="refreshData" class="bg-add text-xs" title="Export data">
             <template v-if="processing" #icon>
                 <loader-icon class="h-auto sm:w-6 w-4" />
@@ -233,8 +246,8 @@ export default {
             <span>Share</span>
         </top-action-btn>
     </div>
-    <div class="flex flex-col max-h-fit gap-2" v-if="mapApi && canView">
-        <div class="relative gap-2">
+    <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2">
+        <div v-if="placesSearched.length > 1" class="relative gap-2">
             <div class="w-full flex gap-1">
                 <search-box
                     :value="mapApi.selectedPlace ? mapApi.selectedPlace.city : ''"
@@ -245,8 +258,8 @@ export default {
                     @focusin="showListOfPlaces = true"
                     class="w-full"
                 />
-                <search-by :value="mapApi.request.params.filter"
-                           :is-exact="mapApi.request.params.is_exact"
+                <search-by :value="mapApi.request.getFilter"
+                           :is-exact="mapApi.request.getIsExact"
                            :options="mapApi.columns"
                            @isExact="mapApi.isExactFilter({ is_exact: $event })"
                            @searchBy="mapApi.filterByColumn({ column: $event })"
@@ -277,7 +290,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="w-full flex gap-2 relative">
+        <div class="w-full flex gap-2 relative mt-1">
             <div v-if="processing" class="flex gap-1 absolute top-0 left-0 min-w-full min-h-full">
                 <span class="whitespace-nowrap">Fetching data</span>
             </div>

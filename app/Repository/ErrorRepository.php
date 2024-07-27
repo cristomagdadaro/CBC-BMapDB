@@ -24,11 +24,19 @@ class ErrorRepository
             return [
                 'errno' => 500,
                 'message' => 'Unknown error, action failed.',
+                'title' => 'Unknown error',
+                'type' => 'failed',
+                'timeout' => 10000,
+                'show' => true,
             ];
         }
         return [
             'errno' => $code,
             'message' => $listOfErrorCodes[$code],
+            'title' => 'Failed',
+            'type' => 'failed',
+            'timeout' => 10000,
+            'show' => true,
         ];
     }
 

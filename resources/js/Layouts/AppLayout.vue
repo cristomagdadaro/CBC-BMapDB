@@ -11,7 +11,7 @@ import FullscreenToggle from "@/Components/FullscreenToggle.vue";
 import {CBCProjects} from "@/Pages/constants.ts";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import BellIcon from "@/Components/Icons/BellIcon.vue";
-import Notification from "@/Components/Modal/Notification/Notification.js";
+import Notification from "@/Components/Modal/Notification/Notification.ts";
 import Footer from "@/Pages/Footer.vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";

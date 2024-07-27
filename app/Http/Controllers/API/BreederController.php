@@ -28,14 +28,12 @@ class BreederController extends BaseController
 
     public function store(CreateBreederRequest $request): JsonResponse
     {
-        $data = $this->service->create($request->validated());
-        return $this->sendResponse('Breeder created successfully.', $data);
+        return $this->service->create($request->validated());
     }
 
     public function show(int $id): JsonResponse
     {
-        $data = $this->service->find($id);
-        return $this->sendResponse('Breeder retrieved successfully.', $data);
+        return $this->service->find($id);
     }
 
     public function noPageSearch(int $id, GetCommoditiesRequest $request)
@@ -46,19 +44,16 @@ class BreederController extends BaseController
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
-        $data = $this->service->update($id, $request->validated());
-        return $this->sendResponse('Breeder updated successfully.', $data);
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id): JsonResponse
     {
-        $this->service->delete($id);
-        return $this->sendResponse('Breeder deleted successfully.');
+        return $this->service->delete($id);
     }
 
     public function multiDestroy(DeleteBreederRequest $request): JsonResponse
     {
-        $this->service->multiDestroy($request->validated());
-        return $this->sendResponse('Breeders deleted successfully.');
+        return $this->service->multiDestroy($request->validated());
     }
 }

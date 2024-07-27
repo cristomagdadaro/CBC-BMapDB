@@ -8,7 +8,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import PageLayout from '@/Layouts/PageLayout.vue';
 import TextField from "@/Components/Form/TextField.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
-import ApiService from "@/Modules/core/infrastructure/ApiService.js";
+import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 import {onBeforeMount, ref} from "vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 

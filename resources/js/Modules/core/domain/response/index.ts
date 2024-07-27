@@ -1,6 +1,6 @@
-export { NotFoundErrorResponse } from "./NotFoundErrorResponse.js";
-export { ServerErrorResponse } from "./ServerErrorResponse.js";
-export { ValidationErrorResponse } from "./ValidationErrorResponse.js";
-export { UnknownErrorResponse } from "./UnknownErrorResponse.js";
-export { ForbiddenErrorResponse } from "./ForbiddenErrorResponse.js";
-export { JavascriptErrorResponse } from "./JavascriptErrorResponse.js";
+export { NotFoundErrorResponse } from "./NotFoundErrorResponse";
+export { ServerErrorResponse } from "./ServerErrorResponse";
+export { ValidationErrorResponse } from "./ValidationErrorResponse";
+export { UnknownErrorResponse } from "./UnknownErrorResponse";
+export { ForbiddenErrorResponse } from "./ForbiddenErrorResponse";
+export { JavascriptErrorResponse } from "./JavascriptErrorResponse";

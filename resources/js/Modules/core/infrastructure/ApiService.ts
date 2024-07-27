@@ -1,18 +1,24 @@
 import axios from "axios";
-import BaseResponse from "@/Modules/core/domain/base/BaseResponse.js";
-import {ValidationErrorResponse} from "@/Modules/core/domain/response/ValidationErrorResponse.js";
-import {NotFoundErrorResponse} from "@/Modules/core/domain/response/NotFoundErrorResponse.js";
-import {ServerErrorResponse} from "@/Modules/core/domain/response/ServerErrorResponse.js";
-import {JavascriptErrorResponse} from "@/Modules/core/domain/response/JavascriptErrorResponse.js";
-import {ForbiddenErrorResponse} from "@/Modules/core/domain/response/ForbiddenErrorResponse.js";
-import {ref} from "vue";
+import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
+import {ValidationErrorResponse} from "@/Modules/core/domain/response/ValidationErrorResponse";
+import {NotFoundErrorResponse} from "@/Modules/core/domain/response/NotFoundErrorResponse";
+import {ServerErrorResponse} from "@/Modules/core/domain/response/ServerErrorResponse";
+import {JavascriptErrorResponse} from "@/Modules/core/domain/response/JavascriptErrorResponse";
+import {ForbiddenErrorResponse} from "@/Modules/core/domain/response/ForbiddenErrorResponse";
+import {Ref, ref} from "vue";
+import IApiService from "../interface/IApiService";
+import DtoError from "../dto/base/DtoError";
 
-export default class ApiService
+export default class ApiService implements IApiService
 {
-    constructor(url) {
+    _processing: boolean;
+    _baseUrl: string;
+    _errorBag: Ref<[DtoError]>;
+
+    constructor(url: string) {
         this._processing = false;
         this._baseUrl = url;
-        this._errorBag = ref([]);
+        this._errorBag = ref();
     }
 
     get processing() {
@@ -46,7 +52,8 @@ export default class ApiService
 
             return new BaseResponse(response);
         } catch (error) {
-            this._errorBag.value = this.determineError(error);
+            //this._errorBag = [this.determineError(error)];
+            return this.determineError(error);
         } finally {
             this._processing = false;
         }
@@ -59,7 +66,8 @@ export default class ApiService
             const response = await axios.post(this.baseUrl, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            this._errorBag.value = this.determineError(error);
+            //this._errorBag = [this.determineError(error)];
+            return this.determineError(error);
         } finally {
             this._processing = false;
         }
@@ -72,7 +80,8 @@ export default class ApiService
             const response = await axios.put(this.baseUrl + '/' + data.id, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            this._errorBag.value = this.determineError(error);
+            //this._errorBag = [this.determineError(error)];
+            return this.determineError(error);
         } finally {
             this._processing = false;
         }
@@ -95,7 +104,9 @@ export default class ApiService
                 return new BaseResponse(response.data);
             }
         } catch (error) {
-            this._errorBag.value = this.determineError(error);
+            //this._errorBag = [this.determineError(error)];
+            return this.determineError(error);
+        } finally {
             this._processing = false;
         }
     }
@@ -106,20 +117,25 @@ export default class ApiService
         });
     }
 
-    determineError(error)
+    determineError(error: any): DtoError
     {
+        let errorResponse = new JavascriptErrorResponse(error);
         if(error.response)
             switch (error.response.status) {
                 case 422:
-                    return new ValidationErrorResponse(error.response.data);
+                    errorResponse = new ValidationErrorResponse(error.response.data);
+                    break;
                 case 403:
-                    return new ForbiddenErrorResponse(error.response);
+                    errorResponse = new ForbiddenErrorResponse(error.response.data);
+                    break;
                 case 404:
-                    return new NotFoundErrorResponse(error.response.data);
+                    errorResponse = new NotFoundErrorResponse(error.response.data);
+                    break;
                 default:
-                    return new ServerErrorResponse(error.response.data);
+                    errorResponse = new ServerErrorResponse(error.response.data);
             }
-        return new JavascriptErrorResponse(error);
+
+        return errorResponse;
     }
 }
 

@@ -11,7 +11,7 @@
          class="flex flex-col sm:gap-2 gap-1 bg-transparent sm:p-3 p-1 overflow-x-auto">
         <top-container>
             <div class="flex justify-between gap-2">
-                <per-page class="sm:w-1/3 w-full" :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
+                <per-page class="sm:w-1/3 w-full" :value="dt.request.getPerPage" @changePerPage="dt.perPageFunc({ per_page: $event })" />
                 <action-container class="w-full">
                     <top-action-btn
                         v-if="showActionBtns && canCreate"
@@ -112,8 +112,8 @@
                     <paginate-btn @click="dt.lastPage()" :disabled="current_page === last_page">Last</paginate-btn>
                 </div>
                 <div class="flex flex-row items-center sm:w-1/3 w-full sm:justify-end justify-between gap-2">
-                    <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
-                    <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
+                    <search-by :value="dt.request.getFilter" :is-exact="dt.request.getIsExact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
+                    <search-filter :value="dt.request.getSearch" @searchString="dt.searchFunc({ search: $event })" />
                 </div>
             </div>
             <div id="dtFooterContainer" class="flex flex-wrap-reverse items-center sm:justify-between justify-center gap-5 select-none" v-if="dt.response instanceof BaseResponse">
@@ -180,7 +180,7 @@
                                 <t-d class="items-center" v-if="showActionBtns">
                                     <div class="flex justify-center sm:gap-1 gap-0.5">
                                         <top-action-btn
-                                            v-if="canView && viewForm"
+                                            v-if="canView && viewForm && route().has(viewForm)"
                                             @click="showViewDialogFunc(row.id)"
                                             class="bg-view"
                                             title="View">
@@ -267,7 +267,7 @@
     </div>
 </template>
 <script setup>
-import BaseResponse from "@/Modules/core/domain/base/BaseResponse.js";
+import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import PaginateBtn from "@/Components/CRCMDatatable/Components/PaginateBtn.vue";
 import ActionContainer from "@/Components/CRCMDatatable/Layouts/ActionContainer.vue";
@@ -310,7 +310,7 @@ import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 import CRCMDatatable from "@/Components/CRCMDatatable/core/infra/CRCMDatatable.js";
 import { router } from "@inertiajs/vue3";
 import {defineAsyncComponent} from "vue";
-import ApiService from "@/Modules/core/infrastructure/ApiService.js";
+import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 
 export default {
     name: "CRCMDatatable",

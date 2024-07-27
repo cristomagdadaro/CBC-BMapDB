@@ -1,17 +1,25 @@
-import BaseClass from "@/Modules/core/domain/base/BaseClass.ts";
 import {ref} from "vue";
+import BaseClass from "@/Modules/core/domain/base/BaseClass";
+import INotification from "./INotification";
 
-export default class Notification extends BaseClass {
+export default class Notification extends BaseClass implements INotification{
+    id: number;
+    message: string;
+    show: boolean;
+    timeout: number;
+    title: string;
+    type: string;
+
     static notifications = ref([]);
 
-    constructor(param = {
-                    id: 0,
-                    title: 'Warning',
-                    message: 'Unknown Error',
-                    type: 'failed',
-                    timeout: 3000,
-                    show: true
-                }) {
+    constructor(param: INotification = {
+        id: 0,
+        title: 'Unknown',
+        message: 'No Message',
+        type: 'warning',
+        timeout: 10000,
+        show: true
+    }) {
         super();
         this.id = Notification.notifications.value.length + 1;
         this.title = param.title;
@@ -31,13 +39,13 @@ export default class Notification extends BaseClass {
 
     static pushNotification( param = {
         id: 0,
-        title: 'Warning',
-        message: 'Unknown Error',
-        type: 'failed',
-        timeout: 3000,
+        title: 'Unknown',
+        message: 'No Message',
+        type: 'warning',
+        timeout: 10000,
         show: true
     }){
-        new this.prototype.constructor(param);
+        new this(param);
 
         if (!param.timeout)
             return;

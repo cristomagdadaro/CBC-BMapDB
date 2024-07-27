@@ -1,10 +1,11 @@
-import ApiService from "@/Modules/core/infrastructure/ApiService.js";
-import BaseRequest from "@/Modules/core/domain/base/BaseRequest.js";
-import BaseResponse from "@/Modules/core/domain/base/BaseResponse.js";
 import {ref} from "vue";
-import Notification from "@/Components/Modal/Notification/Notification.js";
+import ApiService from "@/Modules/core/infrastructure/ApiService";
+import BaseRequest from "@/Modules/core/domain/base/BaseRequest";
+import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
+import Notification from "@/Components/Modal/Notification/Notification";
 import { ErrorResponse } from "@/Pages/constants";
-import BaseClass from "@/Modules/core/domain/base/BaseClass.ts";
+import BaseClass from "@/Modules/core/domain/base/BaseClass";
+import DtoError from "@/Modules/core/dto/base/DtoError";
 
 export default class CRCMDatatable
 {
@@ -32,25 +33,50 @@ export default class CRCMDatatable
 
     async init() {
         this.response = await this.api.get(this.request.toObject(), this.model);
+        if (!this.checkForErrors(this.response)){
+            this.getColumnsFromResponse(this.response)
+            this.closeAllModal = true;
+        }
+    }
 
-        if (this.response instanceof BaseResponse && !this.checkForErrors(this.response)){
-            this.getColumnsFromResponse(this.response);
-        } else
-            this.checkForErrors(this.response);
+    async create(data) {
+        const response = await this.api.post(this.model.toObject(data));
 
-        this.closeAllModal = true;
+        if (!this.checkForErrors(response)){
+            await this.refresh();
+        }
+    }
+
+    async delete(id) {
+        const response = await this.api.delete(id);
+
+        if (!this.checkForErrors(response)) {
+            await this.refresh();
+            this.selected = this.selected.filter(item => item !== id);
+        }
+    }
+
+    async update(data) {
+        const response = await this.api.put(this.model.toObject(data));
+
+        if (!this.checkForErrors(response)){
+            await this.refresh();
+        }
+    }
+
+    async deleteSelected() {
+        const response = await this.api.delete(this.selected);
+
+        if (!this.checkForErrors(response)){
+            await this.refresh();
+            this.selected = [];
+        }
     }
 
     /** Return false when o error is found */
     checkForErrors(response){
-        if (!response && this.api._errorBag.value){
-            new Notification(this.api._errorBag.value);
-            this.api._errorBag.value= [];
-            return true;
-        } else {
-            new Notification(response);
-            return false;
-        }
+        new Notification(response);
+        return response instanceof DtoError;
     }
 
     get errorBag(){
@@ -195,10 +221,24 @@ export default class CRCMDatatable
             link.click();
 
             setTimeout(() => {
-                new Notification('Success', "Exported successfully", 'success', 5000, true);
+                Notification.pushNotification({
+                    id: null,
+                    title: 'Success',
+                    message: 'Data exported successfully',
+                    type: 'success',
+                    timeout: 10000,
+                    show: true
+                });
             }, 3000);
         } catch (error) {
-            new Notification('Failed', "Failed to export data", 'failed', 5000, true);
+            Notification.pushNotification({
+                id: null,
+                title: 'Failed',
+                message: 'Failed to export data',
+                type: 'failed',
+                timeout: 10000,
+                show: true
+            });
         } finally {
             // Clean up: remove link from body
             if (link) {
@@ -225,47 +265,36 @@ export default class CRCMDatatable
         }
 
         if (success === total)
-            new Notification('Success', `Imported ${total} rows successfully`, 'success', 5000, true);
+            Notification.pushNotification({
+                id: null,
+                title: 'Success',
+                message: `Imported ${success} out of ${total} successfully`,
+                type: 'success',
+                timeout: 5000,
+                show: true
+            });
 
         else if (failed > 0 && success > 0 && success < total)
-            new Notification('Success', `Imported ${success} out of ${total} successfully`, 'success', 5000, true);
+            Notification.pushNotification({
+                id: null,
+                title: 'Partial Success',
+                message: `Imported ${success} out of ${total} successfully, failed to import ${failed} rows`,
+                type: 'warning',
+                timeout: 5000,
+                show: true
+            });
 
         else if (failed === total)
-            new Notification('Failed', `Failed to import all ${total} rows`, 'failed', 5000, true);
+            Notification.pushNotification({
+                id: null,
+                title: 'Failed',
+                message: `Failed to import ${failed} rows`,
+                type: 'failed',
+                timeout: 5000,
+                show: true
+            });
         await this.refresh();
         this.errorBag = {};
-    }
-
-    async create(data) {
-        const response = await this.api.post(this.model.toObject(data));
-
-        this.checkForErrors(this.response);
-
-        await this.refresh();
-    }
-
-    async delete(id) {
-        this.response = await this.api.delete(id);
-
-        this.checkForErrors(this.response);
-
-        await this.refresh();
-        this.selected = this.selected.filter(item => item !== id);
-    }
-
-    async update(data) {
-        this.response = await this.api.put(this.model.toObject(data));
-
-        this.checkForErrors(this.response);
-        await this.refresh();
-    }
-
-    async deleteSelected() {
-        this.response = await this.api.delete(this.selected);
-
-        this.checkForErrors(this.response);
-        await this.refresh();
-        this.selected = [];
     }
 
     getColumnsFromResponse(response) {

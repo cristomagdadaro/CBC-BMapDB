@@ -1,6 +1,6 @@
-import ApiService from "@/Modules/core/infrastructure/ApiService.js";
+import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 import {ref} from "vue";
-import BaseRequest from "@/Modules/core/domain/base/BaseRequest.js";
+import BaseRequest from "@/Modules/core/domain/base/BaseRequest.ts";
 
 export default class TWGApiService {
     constructor(baseUrl, model = Object) {
