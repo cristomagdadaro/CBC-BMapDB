@@ -1,5 +1,5 @@
 <template>
-    <base-edit-form :data="form" :force-close="forceClose">
+    <base-edit-form :data="form" :force-close="forceClose" @resetForm="resetForm">
         <template #formTitle>
             Update Expert Details
         </template>
@@ -18,37 +18,15 @@
 </template>
 
 <script>
-import TextField from "@/Components/Form/TextField.vue";
 import { TWGPages } from "@/Pages/Projects/TWG/components/components.js";
-import SelectField from "@/Components/Form/SelectField.vue";
-import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
-import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
+import FormMixin from "@/Pages/mixins/FormMixin.js";
 
 export default {
+    mixins: [FormMixin],
     name: "EditExpertForm",
     computed: {
         TWGPages() {
             return TWGPages
-        }
-    },
-    components: {
-        BaseCreateForm,
-        SelectField,
-        TextField,
-        BaseEditForm
-    },
-    props: {
-        errors: {
-            type: Object,
-            default: () => ({})
-        },
-        forceClose: {
-            type: Boolean,
-            default: false
-        },
-        data: {
-            type: Object,
-            default: null
         }
     },
     data() {
@@ -65,15 +43,5 @@ export default {
             },
         };
     },
-    methods: {
-        getError(field) {
-            return this.errors[field] ? this.errors[field] : [];
-        },
-    },
-    watch: {
-        data() {
-            this.form = Object.assign({}, this.data);
-        }
-    }
 };
 </script>

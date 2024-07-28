@@ -38,8 +38,12 @@ class BreederController extends BaseController
 
     public function noPageSearch(int $id, GetCommoditiesRequest $request)
     {
-        $data = $this->service->find($id)->load('commodities');
-        return new BaseCollection($data->commodities);
+        $this->service->appendWith(['commodities']);
+        $data = $this->service->search(new Collection($request->validated()), false);
+        if (count($data) === 0) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+        return response()->json(['data' => $data[0]->commodities]);
     }
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse

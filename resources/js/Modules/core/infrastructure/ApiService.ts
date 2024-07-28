@@ -13,12 +13,11 @@ export default class ApiService implements IApiService
 {
     _processing: boolean;
     _baseUrl: string;
-    _errorBag: Ref<[DtoError]>;
+    _errorBag: Ref<DtoError>  = ref();
 
     constructor(url: string) {
         this._processing = false;
         this._baseUrl = url;
-        this._errorBag = ref();
     }
 
     get processing() {
@@ -52,7 +51,6 @@ export default class ApiService implements IApiService
 
             return new BaseResponse(response);
         } catch (error) {
-            //this._errorBag = [this.determineError(error)];
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -66,7 +64,6 @@ export default class ApiService implements IApiService
             const response = await axios.post(this.baseUrl, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            //this._errorBag = [this.determineError(error)];
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -80,7 +77,6 @@ export default class ApiService implements IApiService
             const response = await axios.put(this.baseUrl + '/' + data.id, data);
             return new BaseResponse(response.data);
         } catch (error) {
-            //this._errorBag = [this.determineError(error)];
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -104,7 +100,6 @@ export default class ApiService implements IApiService
                 return new BaseResponse(response.data);
             }
         } catch (error) {
-            //this._errorBag = [this.determineError(error)];
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -134,7 +129,8 @@ export default class ApiService implements IApiService
                 default:
                     errorResponse = new ServerErrorResponse(error.response.data);
             }
-
+        //@ts-ignore
+        this._errorBag = errorResponse;
         return errorResponse;
     }
 }

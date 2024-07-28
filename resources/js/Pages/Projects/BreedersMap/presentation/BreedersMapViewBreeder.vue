@@ -13,13 +13,14 @@ export default {
     props: {
         breeder: {
             type: Object,
-            required: true
+            required: false,
+            default: null
         }
     },
     data() {
         return {
             data: null,
-            axiosInstance: new ApiService(route('api.breeders.show', this.breeder.id)),
+            axiosInstance: null,
             tabs: [
                 {
                     name: "tab1",
@@ -41,7 +42,7 @@ export default {
             return Commodity
         },
         commodities() {
-            if (this.breeder.commodities)
+            if (this.breeder && this.breeder.commodities)
                 return this.breeder.commodities.map(commodity => new Commodity(commodity));
             return [];
         }
@@ -57,11 +58,15 @@ export default {
     },
     watch: {
         breeder() {
+            if (this.breeder)
             this.breeder = new Breeder(this.breeder);
         }
     },
     mounted() {
-        this.getDataFromAPI();
+        if (this.breeder){
+            this.axiosInstance = new ApiService(route('api.breeders.show', this.breeder.id));
+            this.getDataFromAPI();
+        }
     }
 }
 </script>
@@ -72,9 +77,9 @@ export default {
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
             <div v-if="breeder" class="flex flex-col">
                 <h1 class="text-lg font-semibold uppercase select-none px-3 pb-2 mx-2">Breeder Information</h1>
-                <div class="border p-3 rounded-lg bg-white mx-2">
+                <div class="border p-3 rounded-lg bg-white mx-2 grid sm:grid-cols-2 grid-cols-1">
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Identification No.: </h2>
+                        <h2 class="h2 font-semibold select-none">Breeder ID: </h2>
                         <p>{{ breeder.id }}</p>
                     </div>
                     <div class="flex gap-1">
@@ -82,11 +87,11 @@ export default {
                         <p>{{ breeder.name }}</p>
                     </div>
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Agency/Institution/Affiliation: </h2>
+                        <h2 class="h2 font-semibold select-none">Affiliation: </h2>
                         <p>{{ breeder.agency }}</p>
                     </div>
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Affiliation Address: </h2>
+                        <h2 class="h2 font-semibold select-none whitespace-nowrap">Office Address: </h2>
                         <p>{{ breeder.address }}</p>
                     </div>
                     <div class="flex gap-1">
@@ -100,12 +105,12 @@ export default {
                 </div>
                 <Tab :tabs="tabs">
                     <template #tab1>
-                        <commodity-table :params="{ filter:'breeder_id', is_exact:true, search:this.$page.props.breeder.id }" />
+                        <commodity-table :params="{ filter:'breeder_id', is_exact:true, search: breeder.id }" />
                     </template>
                     <template #tab2>
                         <div class="p-2 relative" v-if="axiosInstance && axiosInstance.baseUrl">
                             <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>
-                            <Map :base-url="route('api.breeders.noPageSearch', breeder.id)" :model="Commodity"/>
+                            <Map :base-url="route('api.commodities.index', breeder.id)" :model="Commodity"/>
                         </div>
                     </template>
                 </Tab>

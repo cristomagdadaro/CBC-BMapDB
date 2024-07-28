@@ -19,19 +19,27 @@ class CommodityController extends BaseController
         $this->service = $commodityRepository;
     }
 
-    public function index(GetCommoditiesRequest $request)
+    public function index(GetCommoditiesRequest $request, $id = null)
     {
         $this->service->appendWith(['breeder']);
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        if ($id) {
+            // Set withPagination to false to return the builder instead of the paginator, for the Map search box. By Breeder.
+            $data = $this->service->search(new Collection($request->validated()), false);
+            return new BaseCollection($data->where('breeder_id', $id)->orderBy('id', 'asc')->paginate($request->validated()['per_page'], ['*'], 'page', $request->validated()['page'])->withQueryString());
+        } else {
+            $data = $this->service->search(new Collection($request->validated()));
+            return new BaseCollection($data);
+        }
     }
 
     /** API used at Map search box*/
-    public function noPage(GetCommoditiesRequest $request)
+    /*public function noPage(GetCommoditiesRequest $request)
     {
+        // Set withPagination to false to return the builder instead of the paginator, for the Map search box. All Commodities.
+        $this->service->appendWith(['breeder']);
         $data = $this->service->search(new Collection($request->validated()), false);
-        return new BaseCollection($data);
-    }
+        return new BaseCollection($data->get());
+    }*/
 
     public function store(CreateCommoditiesRequest $request)
     {

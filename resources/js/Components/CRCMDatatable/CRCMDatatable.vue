@@ -8,10 +8,14 @@
     <div v-else
         id="dtContainer"
          v-if="dt instanceof CRCMDatatable"
-         class="flex flex-col sm:gap-2 gap-1 bg-transparent sm:p-3 p-1 overflow-x-auto">
+         class="flex flex-col sm:gap-2 gap-1 bg-transparent sm:p-3 p-1 overflow-x-hidden">
         <top-container>
-            <div class="flex justify-between gap-2">
-                <per-page class="sm:w-1/3 w-full" :value="dt.request.getPerPage" @changePerPage="dt.perPageFunc({ per_page: $event })" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-2">
+                <div class="flex flex-row items-center w-full sm:justify-end justify-between gap-2">
+                    <per-page :value="dt.request.getPerPage" @changePerPage="dt.perPageFunc({ per_page: $event })" />
+                    <search-by :value="dt.request.getFilter" :is-exact="dt.request.getIsExact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
+                    <search-filter :value="dt.request.getSearch" @searchString="dt.searchFunc({ search: $event })" class="w-full" />
+                </div>
                 <action-container class="w-full">
                     <top-action-btn
                         v-if="showActionBtns && canCreate"
@@ -93,7 +97,7 @@
                         </template>
                     </top-action-btn>
                 </action-container>
-                <div id="dtPaginatorContainer" class="flex gap-1 items-center">
+                <div id="dtPaginatorContainer" class="flex gap-1 items-center w-full justify-center">
                     <paginate-btn @click="dt.firstPage()" :disabled="current_page === first_page">First</paginate-btn>
                     <paginate-btn @click="dt.prevPage()" :disabled="!prev_page"> <arrow-left class="h-auto w-6" />Prev</paginate-btn>
                     <div class="text-xs flex flex-col whitespace-nowrap text-center">
@@ -111,16 +115,9 @@
                     <paginate-btn @click="dt.nextPage()" :disabled="current_page === last_page">Next <arrow-right class="h-auto w-6" /></paginate-btn>
                     <paginate-btn @click="dt.lastPage()" :disabled="current_page === last_page">Last</paginate-btn>
                 </div>
-                <div class="flex flex-row items-center sm:w-1/3 w-full sm:justify-end justify-between gap-2">
-                    <search-by :value="dt.request.getFilter" :is-exact="dt.request.getIsExact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
-                    <search-filter :value="dt.request.getSearch" @searchString="dt.searchFunc({ search: $event })" />
-                </div>
             </div>
-            <div id="dtFooterContainer" class="flex flex-wrap-reverse items-center sm:justify-between justify-center gap-5 select-none" v-if="dt.response instanceof BaseResponse">
-        </div>
-
         </top-container>
-        <div id="dtTableContainer" class="flex relative w-full justify-center overflow-x-auto">
+        <div id="dtTableContainer" class="flex relative w-full justify-center overflow-x-hidden">
             <transition
                 leave-active-class="transition ease-in duration-200"
                 leave-from-class="transform opacity-100"
@@ -140,11 +137,11 @@
                                 :visible="column.visible"
                                 :sortable="column.sortable"
                                 :key="column.key + column.title"
-                                :sortedValue="column.key === dt.request.getParam('sort')"
+                                :sortedValue="!!clickSortCtr && column.key === dt.request.getParam('sort')"
                                 :column="column.title"
-                                :order="dt.request.getParam('order')"
+                                :order="clickSortCtr ? dt.request.getParam('order') : null"
                                 :class="column.sortable?'cursor-pointer':'cursor-auto'"
-                                @click="column.sortable && dt.sortFunc({ sort: column.key })"
+                                @click="onColumnSort(column)"
                             />
                             <t-h
                                 v-if="showActionBtns"
@@ -225,13 +222,13 @@
             </div>
         </div>
         <dialog-form-modal :show="showImportModal && canCreate" @close="closeDialog">
-            <component :is="importModal" v-if="importModal" :errors="dt.errorBag" @uploadForm="dt.importCSV($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+            <component :is="importModal" v-if="importModal" :errors="errorBag" @uploadForm="dt.importCSV($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
         <dialog-form-modal :show="showAddDialog && canCreate" @close="closeDialog">
-            <component :is="addForm" v-if="addForm" :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+            <component :is="addForm" v-if="addForm" :errors="errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
         <dialog-form-modal :show="showEditDialog && canUpdate" @close="closeDialog">
-            <component :is="editForm" v-if="editForm" :errors="dt.errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
+            <component :is="editForm" v-if="editForm" :errors="errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
         </dialog-form-modal>
         <dialog-modal :show="showDeleteDialog && canDelete" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
             <template #title>
@@ -386,7 +383,8 @@ export default {
             toEditData: null,
             showAddDialog: false,
             showImportModal: false,
-            inputWidth: 1
+            inputWidth: 1,
+            clickSortCtr: 0,
         }
     },
     computed: {
@@ -394,6 +392,11 @@ export default {
             if (this.checkIfDataIsLoaded)
                 return this.dt.response['data'];
             return [];
+        },
+        errorBag() {
+            if (this.dt.errorBag)
+                return this.dt.errorBag.errors;
+            return null;
         },
         visibleColumns() {
             return this.dt.model.getColumns().filter(column => column.visible);
@@ -507,14 +510,16 @@ export default {
             this.showImportModal = false;
             this.showDeleteSelectedDialog = false;
             this.dt.closeAllModal = false;
-            this.dt.errorBag = {};
+            this.dt.errorBag = null;
 
             this.toDeleteId = null;
             this.toEditId = null;
         },
         async initializeDatatable() {
             this.dt = new CRCMDatatable(this.baseUrl, this.baseModel);
-            await this.dt.init();
+            //await this.dt.init();
+            //the same as above, to initialize the table and the width of goto page field
+            this.updateWidth();
         },
         updateWidth() {
             this.$nextTick(() => {
@@ -527,14 +532,26 @@ export default {
                 this.dt.gotoPage(this.$refs.input.value);
             else
                 this.dt.gotoPage(this.total_pages);
+        },
+        onColumnSort(column) {
+            if (!column.sortable) {
+                return false;
+            }
+
+            this.clickSortCtr = (this.clickSortCtr + 1) % 3;
+
+            if (this.clickSortCtr === 0) {
+                return false;
+            } else {
+                return this.dt.sortFunc({ sort: column.key });
+            }
         }
+
     },
     async mounted() {
         if (this.baseUrl){
             await this.initializeDatatable();
         }
-
-        this.updateWidth();
     },
     setup() {
         return {

@@ -11,7 +11,7 @@
             <template #tab3>
                 <div class="p-2 relative">
 <!--                    <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>-->
-                    <Map :base-url="route('api.commodities.noPage')" />
+                    <Map :base-url="route('api.commodities.noPage')" :model="Commodity"/>
                 </div>
             </template>
         </Tab>
@@ -26,8 +26,14 @@
 <script>
 import { Head } from "@inertiajs/vue3";
 import { defineAsyncComponent } from "vue";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 
 export default {
+    computed: {
+        Commodity() {
+            return Commodity
+        }
+    },
     components: {
         Head,
         AppLayout: defineAsyncComponent({

@@ -42,7 +42,7 @@ function onSignIn(googleUser) {
                 <div class="absolute hidden z-0 drop-shadow-2xl bottom-0 left-0 flex justify-center h-auto sm:w-1/2 w-auto">
                     <img src="../../../../public/img/cbc_statue_cartoon.png" class="select-none sm:h-[27rem] h-28 w-auto sm:absolute bottom-0 drop-shadow" alt="DA-CBC Statue" />
                 </div>
-                <div class=" drop-shadow-lg select-none text-gray-50 flex flex-col sm:w-full w-1/2 z-50">
+                <div class="drop-shadow-lg select-none text-gray-50 flex flex-col w-full z-50 sm:text-left text-center">
                     <span class="text-lg leading-tight">
                         Welcome to
                     </span>

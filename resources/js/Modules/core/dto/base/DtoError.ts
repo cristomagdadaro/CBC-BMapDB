@@ -7,6 +7,7 @@ export default class DtoError implements IBaseError {
     timeout: number;
     title: string;
     type: string;
+    errors?: Object;
 
     constructor(params: IBaseError = {
         status: null,
@@ -14,7 +15,8 @@ export default class DtoError implements IBaseError {
         show: true,
         timeout: 10000,
         title: null,
-        type: null
+        type: null,
+        errors: null
     }) {
         this.status = params.status;
         this.message = params.message;
@@ -22,6 +24,7 @@ export default class DtoError implements IBaseError {
         this.timeout = params.timeout;
         this.title = params.title;
         this.type = params.type;
+        this.errors = params.errors;
     }
 
     static fromObject(response: IBaseError) {

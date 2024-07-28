@@ -12,7 +12,7 @@ class CommodityCrudTest extends BaseTest
      */
     public function get_all_commodities(): void
     {
-        $response = $this->getJson('/api/commodities');
+        $response = $this->getJson('/api/commodities/1');
 
         $response->assertStatus(200);
         $this->assertEquals(10, $response['meta']['total']);

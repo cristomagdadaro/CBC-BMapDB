@@ -24,9 +24,11 @@ import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import {Permission} from "@/Pages/constants.ts";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
+import FullscreenToggle from "@/Components/FullscreenToggle.vue";
 
 export default {
     components: {
+        FullscreenToggle,
         ViewIcon,
         SearchBy,
         LoaderIcon,
@@ -160,6 +162,7 @@ export default {
     methods: {
         async initializeMap() {
             this.mapApi = new MapApiService(this.baseUrl, this.baseModel);
+            console.log(this.baseUrl);
             await this.mapApi.init();
             this.loadData();
         },
@@ -247,7 +250,7 @@ export default {
         </top-action-btn>
     </div>
     <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2">
-        <div v-if="placesSearched.length > 1" class="relative gap-2">
+        <div class="relative gap-2">
             <div class="w-full flex gap-1">
                 <search-box
                     :value="mapApi.selectedPlace ? mapApi.selectedPlace.city : ''"
@@ -290,7 +293,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div class="w-full flex gap-2 relative mt-1">
+        <div ref="mapContainer" class="w-full flex gap-2 relative mt-1">
             <div v-if="processing" class="flex gap-1 absolute top-0 left-0 min-w-full min-h-full">
                 <span class="whitespace-nowrap">Fetching data</span>
             </div>
@@ -298,7 +301,7 @@ export default {
                 ref="map"
                 :use-global-leaflet="true"
                 class="z-0 border rounded"
-                style="height: 800px"
+                style="height: 100%; min-height: 800px;"
                 :zoom="mapApi.zoom"
                 :center="mapApi.center"
                 :maxZoom="mapApi.maxZoom"
@@ -342,6 +345,7 @@ export default {
                     <l-tooltip :content="place.city" />
                 </l-circle-marker>
                 <l-control>
+                    <FullscreenToggle :element="$refs.mapContainer" />
                     <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
                         <span>Recenter</span>
                     </top-action-btn>

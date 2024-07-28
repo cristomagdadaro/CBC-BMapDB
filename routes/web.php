@@ -82,7 +82,7 @@ Route::prefix('/projects')->group(function () {
         ]);
     })->name('projects.breedersmap.public');
 
-    Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
+    //Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
 });
 
 
@@ -114,7 +114,11 @@ Route::middleware([
             })->name('projects.breedersmap.index');
 
             Route::get('/breeder/{id}', function ($id) {
-                $breeder = Breeder::where('id', $id)->where('user_id', Auth::id())->with('commodities')->firstOrFail();
+
+                //if (Auth::user()->isAdmin())
+                    $breeder = Breeder::find($id)->load('commodities');
+                //else
+                    //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load('commodities');
 
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
                     'breeder' => $breeder
@@ -196,8 +200,8 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
     });
 
     Route::prefix('commodities')->group(function () {
-       Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/', [CommodityController::class, 'index'])->name('api.commodities.index');
-       Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
+       Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/{id?}', [CommodityController::class, 'index'])->name('api.commodities.index');
+       Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/view-in-map', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
        Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
        Route::middleware('can:'. Permission::CREATE_COMMODITY->value)->post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
        Route::middleware('can:'. Permission::UPDATE_COMMODITY->value)->put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');

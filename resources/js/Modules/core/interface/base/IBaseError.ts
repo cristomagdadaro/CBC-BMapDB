@@ -5,4 +5,5 @@ export default interface IBaseError {
     timeout: number;
     status: number;
     show: boolean;
+    errors?: Object;
 }

@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         $admin->approve(1);
         $admin->approve(2);
 
-        $breeder = User::factory()->approved()->create([
+        $breeder = User::factory()->create([
             'fname' => 'Reynaldo',
             'lname' => 'Diocton',
             'email' => 'breeder@cbc.gov.ph',
@@ -37,13 +37,18 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now()
         ]);
 
-        $researcher = User::factory()->approved()->create([
+        $breeder->approve(2);
+
+        $researcher = User::factory()->create([
             'fname' => 'Precious Mae',
             'lname' => 'Gabato',
             'email' => 'researcher@cbc.gov.ph',
             'affiliation' => 'Crop Biotechnology Center',
             'email_verified_at' => now()
         ]);
+
+        $researcher->approve(1);
+        $researcher->approve(2);
 
         $this->call([
             RoleAndPermissionSeeder::class,

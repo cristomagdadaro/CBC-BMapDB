@@ -74,10 +74,7 @@ export default class DtoBaseRequest implements IBaseRequest {
     }
 
     toObject() {
-        if (localStorage.getItem('params') !== null)
-            return JSON.parse(localStorage.getItem('params'));
-        else
-            return this;
+        return this;
     }
 
     saveParamsLocal() {
