@@ -26,10 +26,12 @@ export default {
                     name: "tab1",
                     label: "Commodities",
                     active: true,
+                    route: { name: 'breedersmap.breeder.view' },
                 },{
                     name: "tab2",
                     label: "Geo Map",
                     active: false,
+                    route: { name: 'breedersmap.commodity.view' },
                 },
             ],
         }

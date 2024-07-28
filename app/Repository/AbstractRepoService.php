@@ -108,7 +108,7 @@ abstract class AbstractRepoService implements RepositoryInterface
     public function delete(int $id): JsonResponse
     {
         try {
-            $model = $this->find($id);
+            $model = $this->model->find($id);
             $model->delete();
 
             return response()->json([

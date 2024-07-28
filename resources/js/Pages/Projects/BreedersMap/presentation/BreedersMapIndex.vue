@@ -10,7 +10,6 @@
             </template>
             <template #tab3>
                 <div class="p-2 relative">
-<!--                    <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>-->
                     <Map :base-url="route('api.commodities.noPage')" :model="Commodity"/>
                 </div>
             </template>
@@ -54,21 +53,26 @@ export default {
     },
     data() {
       return {
-        tabs: [
-          {
-            name: "tab1",
-            label: "Breeders",
-            active: true,
-          },{
-            name: "tab2",
-            label: "Commodities",
-            active: false,
-          },{
-            name: "tab3",
-            label: "Geo Map",
-            active: false,
-          },
-        ],
+          tabs: [
+              {
+                  name: "tab1",
+                  label: "Breeders",
+                  active: true,
+                  route: { name: 'projects.breedersmap.breeder' },
+              },
+              {
+                  name: "tab2",
+                  label: "Commodities",
+                  active: false,
+                  route: { name: 'projects.breedersmap.commodity' },
+              },
+              {
+                  name: "tab3",
+                  label: "Geo Map",
+                  active: false,
+                  route: { name: 'projects.breedersmap.geomap' },
+              },
+          ],
       }
     },
 }

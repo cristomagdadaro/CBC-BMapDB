@@ -176,16 +176,22 @@
                                 <!-- Cell Actions -->
                                 <t-d class="items-center" v-if="showActionBtns">
                                     <div class="flex justify-center sm:gap-1 gap-0.5">
-                                        <top-action-btn
+                                        <Link
                                             v-if="canView && viewForm && route().has(viewForm)"
-                                            @click="showViewDialogFunc(row.id)"
-                                            class="bg-view"
-                                            title="View">
-                                            <template #icon>
-                                                <view-icon class="h-auto sm:w-4 w-3" />
-                                            </template>
-                                            <span v-show="showIconText">View</span>
-                                        </top-action-btn>
+                                            class="bg-view rounded p-0"
+                                            title="View"
+                                            :href="route(viewForm, row.id)"
+                                        >
+                                            <top-action-btn
+                                                class="bg-view"
+                                                title="View">
+                                                <template #icon>
+                                                    <view-icon class="h-auto sm:w-4 w-3" />
+                                                </template>
+                                                <span v-show="showIconText">View</span>
+                                            </top-action-btn>
+                                        </Link>
+
                                         <top-action-btn
                                             v-if="canUpdate"
                                             @click="showEditDialogFunc(row.id)"
@@ -264,7 +270,7 @@
     </div>
 </template>
 <script setup>
-import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
+import { Link } from '@inertiajs/vue3';
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import PaginateBtn from "@/Components/CRCMDatatable/Components/PaginateBtn.vue";
 import ActionContainer from "@/Components/CRCMDatatable/Layouts/ActionContainer.vue";
@@ -308,7 +314,6 @@ import CRCMDatatable from "@/Components/CRCMDatatable/core/infra/CRCMDatatable.j
 import { router } from "@inertiajs/vue3";
 import {defineAsyncComponent} from "vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
-
 export default {
     name: "CRCMDatatable",
     props: {

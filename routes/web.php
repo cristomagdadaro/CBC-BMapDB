@@ -69,7 +69,9 @@ Route::prefix('/projects')->group(function () {
     })->name('projects');
 
     Route::get('/twg-db', function (){
-        return Inertia::render('Projects/TWG/presentation/TWGPublic');
+        return Inertia::render('Projects/TWG/presentation/TWGPublic', [
+            'breadcrumbs' => [['label' => 'Home', 'to' => '/']],
+        ]);
     })->name('projects.twgdb.public');
 
     Route::prefix('/summary')->group(function () {
@@ -79,10 +81,11 @@ Route::prefix('/projects')->group(function () {
     Route::get('/breedersmap-db', function (){
         return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic', [
             'commodities' => Commodity::all(),
+            'breadcrumbs' => [['label' => 'Home', 'to' => '/']],
         ]);
     })->name('projects.breedersmap.public');
 
-    //Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
+    Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
 });
 
 
@@ -94,7 +97,7 @@ Route::middleware([
 ])->group(function () {
 
     Route::middleware('admin')->prefix('administrator')->group(function () {
-        Route::get('/', function () {
+        Route::get('/{any?}', function () {
             return Inertia::render('Admin/Administrator');
         })->name('administrator.index');
     });
@@ -104,12 +107,12 @@ Route::middleware([
     })->name('dashboard');
 
     Route::prefix('/projects')->group(function () {
-        Route::get('/twg', function () {
+        Route::get('/twgdb/{any?}', function () {
             return Inertia::render('Projects/TWG/presentation/TWGIndex');
         })->name('projects.twg.index');
 
         Route::prefix('/breedersmap')->group(function () {
-            Route::get('/', function () {
+            Route::get('/{any?}', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
             })->name('projects.breedersmap.index');
 
@@ -121,7 +124,8 @@ Route::middleware([
                     //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load('commodities');
 
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
-                    'breeder' => $breeder
+                    'breeder' => $breeder,
+                    'breadcrumbs' => [['label' => 'Breeders', 'to' => route('projects.breedersmap.index')]],
                 ]);
             })->name('breedersmap.breeder.view');
 
