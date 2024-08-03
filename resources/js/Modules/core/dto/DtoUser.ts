@@ -38,4 +38,6 @@ export default class DtoUser extends BaseClass implements IUser {
             //@ts-ignore
             this.accounts = dto.accounts.map(account => new Account(account));
     }
+
+
 }

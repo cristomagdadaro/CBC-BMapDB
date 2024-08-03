@@ -201,7 +201,8 @@ export default {
                 </ResponsiveNavLink>
                 <ResponsiveNavLink v-if="user.isAdmin"
                                    :href="route('administrator.index')"
-                                   :active="route().current('administrator.index')">
+                                   :active="route().current('administrator.index')"
+                >
                     Administrator
                 </ResponsiveNavLink>
                 <template v-if="user.accounts">
@@ -279,6 +280,26 @@ export default {
                            Administrator
                         </span>
                     </div>
+                    <template #subLinks>
+                        <router-link  v-for="subLink in  [
+                            {
+                                name: 'administrator.unverified-users',
+                                label: 'Unverified Users',
+                            },
+                            {
+                                name: 'administrator.approved-accounts',
+                                label: 'Approved Accounts',
+                            },
+                            {
+                                name: 'administrator.applications',
+                                label: 'Applications',
+                            }
+                        ]"
+                            :to="{ name: subLink.name }"
+                                     :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
+                            {{ subLink.label }}
+                        </router-link>
+                    </template>
                 </NavLink>
                 <template v-for="account in user.accounts" :key="account.application.id" >
                     <NavLink v-if="account.application"
@@ -291,6 +312,11 @@ export default {
                             {{ account.application.name }}
                             </span>
                         </div>
+                        <template #subLinks>
+                            <router-link v-for="subLink in account.application.appTabs" :to="{ name: subLink.name }" :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
+                                {{ subLink.label }}
+                            </router-link>
+                        </template>
                     </NavLink>
                 </template>
             </template>
