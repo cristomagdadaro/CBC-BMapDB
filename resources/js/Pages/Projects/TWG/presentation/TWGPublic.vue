@@ -48,8 +48,8 @@ export default {
 <template>
     <Head title="Breeder's Map" />
     <page-layout>
-        <div class="flex flex-col gap-5 shadow-lg bg-cbc-yellow text-gray-700 sm:p-10 mb-10 p-1 flex flex-col gap-2 rounded-md">
-            <div>
+        <div class="drop-shadow-md flex flex-col gap-5 shadow-lg bg-cbc-yellow mb-10 rounded-md sm:gap-1 sm:p-8 p-5 sm:text-left text-center">
+            <div class="text-gray-700 ">
                 <h1 class="text-2xl leading-relaxed font-medium font-monospace">
                     Welcome to the TWG Database.
                 </h1>
@@ -58,9 +58,9 @@ export default {
                 </p>
             </div>
             <div v-if="apiService" class="flex flex-col gap-3">
-                <div v-if="apiService.request && apiService.request.params" class="hidden flex gap-2 justify-end">
-                    <search-by :value="apiService.request.params.filter"
-                               :is-exact="apiService.request.params.is_exact"
+                <div v-if="apiService.request" class="flex gap-2 justify-start sm:mb-2 mb-1 pb-4 border-b">
+                    <search-by :value="apiService.request.getFilter"
+                               :is-exact="apiService.request.getIsExact"
                                :options="[]"
                                @isExact="apiService.isExactFilter({ is_exact: $event })"
                                @searchBy="apiService.filterByColumn({ column: $event })"/>

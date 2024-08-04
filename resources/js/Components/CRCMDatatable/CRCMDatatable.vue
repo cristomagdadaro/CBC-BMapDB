@@ -157,6 +157,7 @@
                             <tbody-row v-if="data.length && !dt.processing"
                                        v-for="row in data"
                                        :isSelected="dt.isSelected(row.id)"
+                                       @contextmenu="showContextMenu($event, row)"
                             >
                                 <!-- Cell No. -->
                                 <t-d class="text-xs text-gray-600 items-center">
@@ -176,16 +177,22 @@
                                 <!-- Cell Actions -->
                                 <t-d class="items-center" v-if="showActionBtns">
                                     <div class="flex justify-center sm:gap-1 gap-0.5">
-                                        <top-action-btn
+                                        <Link
                                             v-if="canView && viewForm && route().has(viewForm)"
-                                            @click="showViewDialogFunc(row.id)"
-                                            class="bg-view"
-                                            title="View">
-                                            <template #icon>
-                                                <view-icon class="h-auto sm:w-4 w-3" />
-                                            </template>
-                                            <span v-show="showIconText">View</span>
-                                        </top-action-btn>
+                                            class="bg-view rounded p-0"
+                                            title="View"
+                                            :href="route(viewForm, row.id)"
+                                        >
+                                            <top-action-btn
+                                                class="bg-view"
+                                                title="View">
+                                                <template #icon>
+                                                    <view-icon class="h-auto sm:w-4 w-3" />
+                                                </template>
+                                                <span v-show="showIconText">View</span>
+                                            </top-action-btn>
+                                        </Link>
+
                                         <top-action-btn
                                             v-if="canUpdate"
                                             @click="showEditDialogFunc(row.id)"
@@ -207,6 +214,38 @@
                                             <span v-show="showIconText">Delete</span>
                                         </top-action-btn>
                                     </div>
+                                    <context-menu ref="contextMenu">
+                                        <div class="flex flex-col justify-center sm:gap-1 gap-0.5">
+                                            <Link
+                                                v-if="canView && viewForm && route().has(viewForm)"
+                                                title="View"
+                                                class="flex gap-1 p-1 items-center hover:bg-gray-200 cursor-pointer"
+                                                :href="route(viewForm, row.id)"
+                                            >
+                                                <view-icon class="h-auto sm:w-5 w-4 p-0.5 text-view" />
+                                                <span>View</span>
+                                            </Link>
+
+                                            <button
+                                                v-if="canUpdate"
+                                                @click="showEditDialogFunc(row.id)"
+                                                title="Modify this row"
+                                                class="flex gap-1 p-1 items-center hover:bg-gray-200"
+                                            >
+                                                <edit-icon class="h-auto sm:w-5 w-4 p-0.5 text-edit" />
+                                                <span>Update</span>
+                                            </button>
+                                            <div
+                                                v-if="canDelete"
+                                                @click="showDeleteDialogFunc(row.id)"
+                                                title="Delete this row"
+                                                class="flex gap-1 p-1 items-center hover:bg-gray-200 cursor-pointer"
+                                            >
+                                                <delete-icon class="h-auto sm:w-5 w-4 p-0.5 text-delete" />
+                                                <span>Delete</span>
+                                            </div>
+                                        </div>
+                                    </context-menu>
                                 </t-d>
                             </tbody-row>
                             <not-found-row v-else :colspan="dt.model.getColumns().length+2" />
@@ -264,7 +303,7 @@
     </div>
 </template>
 <script setup>
-import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
+import { Link } from '@inertiajs/vue3';
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import PaginateBtn from "@/Components/CRCMDatatable/Components/PaginateBtn.vue";
 import ActionContainer from "@/Components/CRCMDatatable/Layouts/ActionContainer.vue";
@@ -301,6 +340,7 @@ import CrcmThead from "@/Components/CRCMDatatable/Components/CrcmThead.vue";
 import TheadRow from "@/Components/CRCMDatatable/Components/TheadRow.vue";
 import CrcmTbody from "@/Components/CRCMDatatable/Components/CrcmTbody.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
+import ContextMenu from "@/Components/CRCMDatatable/Components/ContextMenu.vue";
 </script>
 
 <script>
@@ -308,7 +348,6 @@ import CRCMDatatable from "@/Components/CRCMDatatable/core/infra/CRCMDatatable.j
 import { router } from "@inertiajs/vue3";
 import {defineAsyncComponent} from "vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
-
 export default {
     name: "CRCMDatatable",
     props: {
@@ -385,6 +424,7 @@ export default {
             showImportModal: false,
             inputWidth: 1,
             clickSortCtr: 0,
+            rowContextMenu: null,
         }
     },
     computed: {
@@ -462,6 +502,18 @@ export default {
                 return Array.from(this.dt.model.getColumns()).find(col => col.key === label).visible && true
             } catch (e) {
                 return false;
+            }
+        },
+        showContextMenu(event, row) {
+            event.preventDefault();
+            if (this.$refs.contextMenu) {
+                try {
+                    this.$refs.contextMenu.showMenu(event);
+                } catch (e) {
+                    console.log('Error at the showContextMenu');
+                }
+            } else {
+                console.error('ContextMenu ref is not defined');
             }
         },
         getNestedValue(obj, path) {

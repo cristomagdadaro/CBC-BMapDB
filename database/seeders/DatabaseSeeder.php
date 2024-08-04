@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\Role;
 use App\Models\Accounts;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -28,6 +29,16 @@ class DatabaseSeeder extends Seeder
 
         $admin->approve(1);
         $admin->approve(2);
+
+        $twgAdmin = User::factory()->create([
+            'fname' => 'TWG',
+            'lname' => 'Admin',
+            'email' => 'twgadmin@cbc.gov.ph',
+            'affiliation' => 'Crop Biotechnology Center',
+            'email_verified_at' => now()
+        ]);
+
+        $twgAdmin->approve(1);
 
         $breeder = User::factory()->create([
             'fname' => 'Reynaldo',
@@ -59,8 +70,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        $admin->assignRole('Administrator');
-        $breeder->assignRole('Breeder');
-        $researcher->assignRole('Researcher');
+        $admin->assignRole(Role::ADMIN->value);
+        $twgAdmin->assignRole(Role::TWG_ADMIN->value);
+        $breeder->assignRole(Role::BREEDER->value);
+        $researcher->assignRole(Role::RESEARCHER->value);
     }
 }

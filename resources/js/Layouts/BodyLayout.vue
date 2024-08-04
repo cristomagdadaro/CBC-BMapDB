@@ -15,7 +15,7 @@ const props = defineProps({
         <div>
             <slot name="header"></slot>
         </div>
-        <div>
+        <div class="flex flex-row resp-container">
             <slot name="breadcrumbs"></slot>
         </div>
         <div class="pt-3 h-full w-full min-h-full justify-center overflow-y-auto">

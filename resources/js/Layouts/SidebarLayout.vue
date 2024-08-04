@@ -1,8 +1,10 @@
 <script>
 import Hamburger from "@/Components/Icons/Hamburger.vue";
+import BreadCrumb from "@/Components/BreadCrumb.vue";
 
 export default {
     components: {
+        BreadCrumb,
         Hamburger,
     },
     computed: {
@@ -33,6 +35,7 @@ export default {
             </div>
         </div>
         <div class="w-full min-h-screen sm:p-3 p-0">
+            <BreadCrumb />
             <slot name="content" />
         </div>
     </div>

@@ -7,7 +7,7 @@ export default class AuthAccount extends Account
     }
 
     static getHiddenColumns() {
-        return ['id','user_name','approved','app_name','updated_at', 'created_at', 'deleted_at'];
+        return ['id','table','user_id','app_id','updated_at', 'created_at', 'deleted_at'];
     }
 
     static getColumns() {
@@ -16,7 +16,7 @@ export default class AuthAccount extends Account
                 title: 'ID',
                 key: 'id',
                 align: 'center',
-                sortable: true,
+                sortable: false,
                 visible: false,
             },
             {
@@ -30,14 +30,14 @@ export default class AuthAccount extends Account
                 title: 'User',
                 key: 'user.getFullName',
                 align: 'center',
-                sortable: true,
+                sortable: false,
                 visible: true,
             },
             {
                 title: 'Email',
                 key: 'user.email',
                 align: 'center',
-                sortable: true,
+                sortable: false,
                 visible: true,
             },
 
@@ -45,21 +45,21 @@ export default class AuthAccount extends Account
                 title: 'Affiliation',
                 key: 'user.affiliation',
                 align: 'center',
-                sortable: true,
+                sortable: false,
                 visible: true,
             },
             {
                 title: 'App',
                 key: 'app_id',
                 align: 'center',
-                sortable: true,
+                sortable: false,
                 visible: false,
             },
             {
                 title: 'Applying ',
                 key: 'application.name',
                 align: 'center',
-                sortable: true,
+                sortable: false,
                 visible: true,
             },
             {

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateAccountRequest extends FormRequest
 {
@@ -21,10 +22,27 @@ class UpdateAccountRequest extends FormRequest
      */
     public function rules(): array
     {
+        $accountId = $this->route('id'); // assuming the route parameter is named 'account'
+
         return [
-            'user_id' => 'required|integer|exists:users,id',
-            'app_id' => 'required|integer|exists:applications,id',
+            'user_id' => [
+                'required',
+                'integer',
+                'exists:users,id',
+                Rule::unique('accounts')->where(function ($query) use ($accountId) {
+                    return $query->where('app_id', $this->app_id)->where('id', '!=', $accountId);
+                })->ignore($accountId)
+            ],
+            'app_id' => [
+                'required',
+                'integer',
+                'exists:applications,id',
+                Rule::unique('accounts')->where(function ($query) use ($accountId) {
+                    return $query->where('user_id', $this->user_id)->where('id', '!=', $accountId);
+                })->ignore($accountId)
+            ],
             'approved_at' => 'nullable|date',
+            'permissions' => 'array|nullable',
         ];
     }
 }

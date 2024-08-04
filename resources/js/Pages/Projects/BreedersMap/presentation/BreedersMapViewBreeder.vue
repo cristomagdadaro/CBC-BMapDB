@@ -26,10 +26,12 @@ export default {
                     name: "tab1",
                     label: "Commodities",
                     active: true,
+                    route: { name: 'breedersmap.breeder.view' },
                 },{
                     name: "tab2",
                     label: "Geo Map",
                     active: false,
+                    route: { name: 'projects.breedersmap.geomap' },
                 },
             ],
         }
@@ -64,8 +66,9 @@ export default {
     },
     mounted() {
         if (this.breeder){
-            this.axiosInstance = new ApiService(route('api.breeders.show', this.breeder.id));
-            this.getDataFromAPI();
+            //this.axiosInstance = new ApiService(route('api.breeders.show', this.breeder.id));
+            //this.getDataFromAPI();w
+            //
         }
     }
 }

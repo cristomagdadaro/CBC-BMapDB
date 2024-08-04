@@ -28,5 +28,4 @@ export default class DtoAccount extends BaseClass implements IAccount {
             //@ts-ignore
             this.user = new User(dto.user);
     }
-
 }

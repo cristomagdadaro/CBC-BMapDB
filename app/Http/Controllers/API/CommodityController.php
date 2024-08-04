@@ -33,13 +33,13 @@ class CommodityController extends BaseController
     }
 
     /** API used at Map search box*/
-    /*public function noPage(GetCommoditiesRequest $request)
+    public function noPage(GetCommoditiesRequest $request)
     {
         // Set withPagination to false to return the builder instead of the paginator, for the Map search box. All Commodities.
         $this->service->appendWith(['breeder']);
         $data = $this->service->search(new Collection($request->validated()), false);
         return new BaseCollection($data->get());
-    }*/
+    }
 
     public function store(CreateCommoditiesRequest $request)
     {

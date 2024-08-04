@@ -7,7 +7,7 @@ export default class AuthUser extends User
     }
 
     static getHiddenColumns() {
-        return ['id','updated_at', 'created_at', 'deleted_at'];
+        return ['id','table','roles','accounts','permissions','updated_at', 'created_at', 'deleted_at'];
     }
 
     static getColumns() {
@@ -22,8 +22,8 @@ export default class AuthUser extends User
             {
                 title: 'Name',
                 key: 'getFullName', // a get fullName() from DtoUser.ts
-                align: 'left font-bold animate-pulse',
-                sortable: true,
+                align: 'left',
+                sortable: false,
                 visible: true,
             },
             {
@@ -58,7 +58,7 @@ export default class AuthUser extends User
                 title: 'No. of Accounts',
                 key: 'accountsCount',
                 align: 'center',
-                sortable: true,
+                sortable: false,
                 visible: true,
             },
             {

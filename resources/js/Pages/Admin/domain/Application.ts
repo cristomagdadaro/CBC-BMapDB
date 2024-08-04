@@ -7,7 +7,7 @@ export default class AuthApplication extends Application
     }
 
     static getHiddenColumns() {
-        return ['id','updated_at', 'created_at', 'deleted_at'];
+        return ['id','table','icon','updated_at', 'created_at', 'deleted_at'];
     }
 
     static getColumns() {
@@ -36,9 +36,9 @@ export default class AuthApplication extends Application
             {
                 title: 'URL',
                 key: 'url',
-                align: 'center',
+                align: 'left',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Icon',
