@@ -11,6 +11,7 @@ use App\Http\Requests\UpdateAccountRequest;
 use App\Http\Resources\AccountsCollection;
 use App\Http\Resources\BaseCollection;
 use App\Models\Accounts;
+use App\Models\Permission;
 use App\Models\User;
 use App\Repository\API\AccountsRepo;
 use Faker\Core\Uuid;
@@ -73,7 +74,7 @@ class AccountController extends BaseController
         }
 
         // Get the permissions based on the app ID
-        $validPermissionIds = $this->getPermissionsForApp($appId);
+        $validPermissionIds = $this->getPermissionsFromRequest($request->get('permissions', []));
 
         if ($user) {
             // If approved_at has a value, assign the permissions
@@ -81,11 +82,29 @@ class AccountController extends BaseController
                 $user->givePermissionTo($validPermissionIds);
             } else {
                 // If approved_at is null, remove the permissions
-                $user->revokePermissionTo($validPermissionIds);
+                $user->revokePermissionTo(Permission::all());
             }
         }
 
         return $data;
+    }
+
+    /**
+     * Get permissions from the permissions request.
+     *
+     * @param Request $request
+     * @return array
+    */
+    protected function getPermissionsFromRequest($ids): array
+    {
+        // The permissions request should be an array of permission IDs
+        // e.g. ['1', '2', '3']
+        // get the permissions name in the permission table
+        return DB::table('permissions')
+            ->whereIn('id', $ids)
+            ->pluck('name')
+            ->toArray();
+
     }
 
     /**

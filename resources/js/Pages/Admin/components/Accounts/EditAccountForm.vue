@@ -80,11 +80,11 @@ export default {
             </div>
             <div>
                 <p class="font-bold">
-                    Permissions:
+                    Customize Permissions:
                 </p>
-                <ul class="grid grid-cols-2">
-                    <li v-for="permission in permissions" :key="permission.id">
-                        <input type="checkbox" :value="permission.id" @change="checkBoxChange($event, permission.id)" />
+                <ul class="grid grid-cols-2 text-lg">
+                    <li v-for="permission in permissions" :key="permission.id" class="flex items-center gap-1 select-none" >
+                        <input type="checkbox" :value="permission.id" @change="checkBoxChange($event, permission.id)" class="rounded-full" />
                         {{ permission.name }}
                     </li>
                 </ul>

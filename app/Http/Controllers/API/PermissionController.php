@@ -11,6 +11,7 @@ use App\Http\Requests\UpdatePermissionRequest;
 use App\Http\Resources\BaseCollection;
 use App\Http\Resources\PermissionCollection;
 use App\Models\Permission;
+use App\Models\Role;
 use App\Repository\API\PermissionRepo;
 use App\Repository\ErrorRepository;
 use Illuminate\Http\JsonResponse;
