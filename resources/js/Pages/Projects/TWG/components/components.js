@@ -23,6 +23,13 @@ export const TWGPages = {
                 component: defineAsyncComponent(
                     () => import('@/Pages/Projects/TWG/presentation/components/expert/EditExpertForm.vue')
                 ),
+            },
+            view:{
+                path: 'twg.expert.view',
+                name: 'ViewExpertForm',
+                component: defineAsyncComponent(
+                    () => null
+                ),
             }
         },
         project: {

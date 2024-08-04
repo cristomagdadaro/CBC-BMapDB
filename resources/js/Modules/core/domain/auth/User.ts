@@ -19,14 +19,21 @@ export default class User extends DtoUser {
         return 0;
     }
 
-    get accountsNames(): string {
-        if (this.accounts)
-            return this.accounts.map(account => {
-                if (account.application)
-                    return account.application.name;
-                return null;
-            }).join(', ');
-        return null;
+    get accountsList(): string[] {
+        return this.accounts.map(account => {
+            if (account.application)
+                return account.application.name;
+            return null;
+        });
+    }
+
+    get permissionsList(): string[] {
+        return this.roles.map(role => {
+            return role.permissions.map(permission => {
+                return permission.name;
+            });
+        // @ts-ignore
+        }).flat();
     }
 
     static getHiddenColumns() {

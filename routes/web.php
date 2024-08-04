@@ -107,9 +107,18 @@ Route::middleware([
     })->name('dashboard');
 
     Route::prefix('/projects')->group(function () {
-        Route::get('/twgdb/{any?}', function () {
-            return Inertia::render('Projects/TWG/presentation/TWGIndex');
-        })->name('projects.twg.index');
+        Route::prefix('/twgdb')->group(function () {
+            Route::get('/{any?}', function () {
+                return Inertia::render('Projects/TWG/presentation/TWGIndex');
+            })->name('projects.twg.index');
+
+            Route::get('/expert/{id}', function ($id) {
+                return Inertia::render('Projects/TWG/presentation/components/expert/ViewExpert', [
+                    'expert' => \App\Models\TWGExpert::find($id),
+                    'breadcrumbs' => [['label' => 'Experts', 'to' => '/projects/twgdb/expert']],
+                ]);
+            })->name('twg.expert.view');
+        });
 
         Route::prefix('/breedersmap')->group(function () {
             Route::get('/{any?}', function () {

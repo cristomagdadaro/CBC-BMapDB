@@ -29,7 +29,7 @@ export default class DtoApplication extends BaseClass implements IApplication {
                     },
                     {
                         name: 'projects.breedersmap.commodity',
-                        label: 'Commoditie',
+                        label: 'Commodities',
                     },
                     {
                         name: 'projects.breedersmap.geomap',

@@ -40,6 +40,7 @@ export default {
         :base-model="TWGPages.api.expert.model"
         :add-form="TWGPages.api.expert.create.component"
         :edit-form="TWGPages.api.expert.edit.component"
+        :view-form="TWGPages.api.expert.view.path"
         :can-create="canCreate"
         :can-update="canUpdate"
         :can-delete="canDelete"
