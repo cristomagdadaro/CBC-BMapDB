@@ -5,8 +5,8 @@ import Breeder from "../domain/Breeder";
 
 export default class DtoCommodity extends BaseClass implements ICommodity {
     id: number;
-    name: string;
     breeder_id: number;
+    name: string;
     scientific_name: string;
     variety: string;
     accession: string;

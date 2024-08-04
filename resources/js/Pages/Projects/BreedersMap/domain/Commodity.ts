@@ -19,8 +19,8 @@ export default class Commodity extends DtoCommodity {
                 visible: false,
             },
             {
-                title: 'Commodity',
-                key: 'name',
+                title: 'Breeder',
+                key: 'breeder.getFullName',
                 sortable: true,
                 align: 'center',
                 visible: true,
@@ -33,8 +33,8 @@ export default class Commodity extends DtoCommodity {
                 visible: false,
             },
             {
-                title: 'Breeder',
-                key: 'breeder.getFullName',
+                title: 'Commodity',
+                key: 'name',
                 sortable: true,
                 align: 'center',
                 visible: true,

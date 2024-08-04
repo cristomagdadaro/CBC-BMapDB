@@ -236,44 +236,63 @@ abstract class AbstractRepoService implements RepositoryInterface
         $filter = $parameters->get('filter', null);
         $is_exact = $parameters->get('is_exact', false);
 
+        $builder = $this->model->select($this->model->getSearchable());
+
         if ($this->appendWith) {
-            $builder = $this->model;
             foreach ($this->appendWith as $table) {
-                $builder = $builder->with($table);
+                $builder->with($table);
             }
-            $builder = $builder->select($this->model->getSearchable());
-        } else {
-            $builder = $this->model->select($this->model->getSearchable());
         }
 
-        if($isTrashed)
-        {
+        if ($isTrashed) {
             $builder = $builder->onlyTrashed();
         }
 
-        if($search)
-        {
-            $builder = $builder->where(function($query) use ($search, $filter, $is_exact, $isTrashed) {
-                foreach($this->model->getSearchable() as $column)
-                {
-                    if ($filter && $column != $filter)
+        if ($search) {
+            $builder->where(function ($query) use ($search, $filter, $is_exact) {
+                foreach ($this->model->getSearchable() as $column) {
+                    if ($filter && $column != $filter) {
                         $column = $filter;
+                    }
 
-                    if($is_exact)
+                    if ($is_exact) {
                         $query->orWhere($column, $search);
-                    else
+                    } else {
                         $query->orWhere($column, 'like', "%{$search}%");
+                    }
                 }
             });
+
+            if ($this->appendWith) {
+                foreach ($this->appendWith as $table) {
+                    $relatedModel = $this->model->{$table}()->getModel();
+                    $builder->orWhereHas($table, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
+                        $query->where(function ($query) use ($search, $filter, $is_exact, $relatedModel) {
+                            foreach ($relatedModel->getSearchable() as $column) {
+                                if ($filter && $column != $filter) {
+                                    $column = $filter;
+                                }
+
+                                if ($is_exact) {
+                                    $query->orWhere($column, $search);
+                                } else {
+                                    $query->orWhere($column, 'like', "%{$search}%");
+                                }
+                            }
+                        });
+                    });
+                }
+            }
         }
 
-        if(!$withPagination)
-        {
-            return $builder->orderBy($sort, $order);
+        if (!$withPagination) {
+            return $builder->orderBy($sort, $order)->get();
         }
 
         return $builder->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
+
+
 
     private function sendError(Exception $error): array
     {
