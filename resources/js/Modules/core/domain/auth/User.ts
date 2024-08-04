@@ -27,13 +27,19 @@ export default class User extends DtoUser {
         });
     }
 
-    get permissionsList(): string[] {
+    get rolePermissionsList(): string[] {
         return this.roles.map(role => {
             return role.permissions.map(permission => {
                 return permission.name;
             });
         // @ts-ignore
         }).flat();
+    }
+
+    get userPermissionsList(): string[] {
+        return this.permissions.map(permission => {
+            return permission.name;
+        });
     }
 
     static getHiddenColumns() {

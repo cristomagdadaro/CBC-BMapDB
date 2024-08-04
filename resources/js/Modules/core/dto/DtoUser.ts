@@ -1,9 +1,11 @@
 import IUser from "../interface/auth/IUser";
 import Role from "../domain/auth/Role";
 import Account from "../domain/auth/Account";
+import Permission from "../domain/auth/Permission";
 import IRole from "../interface/auth/IRole";
 import IAccount from "../interface/auth/IAccount";
 import BaseClass from "../domain/base/BaseClass";
+import IPermission from "../interface/auth/IPermission";
 
 export default class DtoUser extends BaseClass implements IUser {
     id: number = null;
@@ -18,6 +20,7 @@ export default class DtoUser extends BaseClass implements IUser {
 
     roles?: IRole[] = [];
     accounts?: IAccount[] = [];
+    permissions?: IPermission[] = [];
 
     constructor(dto: IUser) {
         super();
@@ -37,6 +40,9 @@ export default class DtoUser extends BaseClass implements IUser {
         if (dto.accounts)
             //@ts-ignore
             this.accounts = dto.accounts.map(account => new Account(account));
+        if (dto.permissions)
+            //@ts-ignore
+            this.permissions = dto.permissions.map(permission => new Permission(permission));
     }
 
 

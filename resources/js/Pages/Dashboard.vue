@@ -35,21 +35,33 @@ const user = new User(page.props.auth.user);
                     </div>
                 </div>
                 <div class="p-3">
-                    <h3>
-                        Permissions
-                    </h3>
-                    <div>
-                        <p>
-                            You have the following permissions:
-                        </p>
-                        <ul>
-                            <li v-for="permission in user.permissionsList" :key="permission">
-                                {{ permission }}
-                            </li>
-                        </ul>
+                    <div class="flex flex-col gap-5">
+                        <div>
+                            <p class="font-bold">
+                                Permissions according to your role:
+                            </p>
+                            <ul>
+                                <li v-for="permission in user.rolePermissionsList" :key="permission">
+                                    {{ permission }}
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p class="font-bold">
+                                Permissions granted to your account:
+                            </p>
+                            <ul>
+                                <li v-for="permission in user.userPermissionsList" :key="permission">
+                                    {{ permission }}
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
+            <pre>
+                {{ $page.props.auth.user }}
+            </pre>
         </div>
     </AppLayout>
 </template>

@@ -8,11 +8,13 @@ use App\Http\Requests\CreatePermissionRequest;
 use App\Http\Requests\DeletePermissionRequest;
 use App\Http\Requests\GetPermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
+use App\Http\Resources\BaseCollection;
 use App\Http\Resources\PermissionCollection;
 use App\Models\Permission;
 use App\Repository\API\PermissionRepo;
 use App\Repository\ErrorRepository;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 
 class PermissionController extends BaseController
@@ -24,8 +26,8 @@ class PermissionController extends BaseController
 
     public function index(GetPermissionRequest $request)
     {
-        $data = $this->service->search($request->collect());
-        return new PermissionCollection($data);
+        $data = $this->service->search(new Collection($request->validated()),false);
+        return new BaseCollection($data->get());
     }
 
     public function show($id)
