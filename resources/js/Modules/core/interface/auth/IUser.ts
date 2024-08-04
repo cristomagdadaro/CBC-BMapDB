@@ -3,7 +3,7 @@ import IAccount from "./IAccount";
 import IPermission from "./IPermission";
 
 export default interface IUser {
-    id: number;
+    id?: number;
     fname: string;
     mname?: string;
     lname: string;

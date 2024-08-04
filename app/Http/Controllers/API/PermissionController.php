@@ -27,7 +27,7 @@ class PermissionController extends BaseController
     public function index(GetPermissionRequest $request)
     {
         $data = $this->service->search(new Collection($request->validated()),false);
-        return new BaseCollection($data->get());
+        return new BaseCollection($data->orderBy('name','asc')->get());
     }
 
     public function show($id)

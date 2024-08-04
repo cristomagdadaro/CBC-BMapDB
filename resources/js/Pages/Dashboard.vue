@@ -20,23 +20,18 @@ const user = new User(page.props.auth.user);
             </p>
             <div class="grid grid-cols-2">
                 <div class="p-3">
-                    <h3>
-                        Accounts
-                    </h3>
-                    <div>
-                        <p>
-                            You have the following accounts:
-                        </p>
-                        <ul>
-                            <li v-for="account in user.accountsList">
-                                {{ account }}
-                            </li>
-                        </ul>
-                    </div>
+                    <p class="font-bold">
+                        You have the following accounts:
+                    </p>
+                    <ul>
+                        <li v-for="account in user.accountsList">
+                            {{ account }}
+                        </li>
+                    </ul>
                 </div>
                 <div class="p-3">
-                    <div class="flex flex-col gap-5">
-                        <div>
+                    <div class="flex gap-5">
+                        <div v-if="user.rolePermissionsList.length">
                             <p class="font-bold">
                                 Permissions according to your role:
                             </p>
@@ -46,7 +41,7 @@ const user = new User(page.props.auth.user);
                                 </li>
                             </ul>
                         </div>
-                        <div>
+                        <div v-if="user.userPermissionsList.length">
                             <p class="font-bold">
                                 Permissions granted to your account:
                             </p>
@@ -59,9 +54,6 @@ const user = new User(page.props.auth.user);
                     </div>
                 </div>
             </div>
-            <pre>
-                {{ $page.props.auth.user }}
-            </pre>
         </div>
     </AppLayout>
 </template>

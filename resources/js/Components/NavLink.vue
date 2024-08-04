@@ -18,7 +18,7 @@ const classes = computed(() => {
 </script>
 
 <template>
-    <div class="flex flex-col relative" @mouseleave="showSubLinks = false">
+    <div class="flex flex-col relative">
         <Link :href="href" :class="classes" @mouseenter="showSubLinks = true" @click="showSubLinks = !showSubLinks" >
             <slot />
             <svg v-if="$slots.subLinks" class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">

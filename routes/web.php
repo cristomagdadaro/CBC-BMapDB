@@ -257,10 +257,10 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
     });
 
     Route::prefix('accounts')->group(function () {
-        Route::middleware(['can:'. Permission::READ_USER->value])->get('/', [AccountController::class, 'index'])->name('api.accounts.index');
-        Route::middleware(['can:'. Permission::READ_USER->value])->get('/{id}', [AccountController::class, 'show'])->name('api.accounts.show');
-        Route::middleware(['can:'. Permission::CREATE_USER->value])->post('/', [AccountController::class, 'store'])->name('api.accounts.store');
-        Route::middleware(['can:'. Permission::UPDATE_USER->value])->put('/{id}', [AccountController::class, 'update'])->name('api.accounts.update');
-        Route::middleware(['can:'. Permission::DELETE_USER->value])->delete('/{id}', [AccountController::class, 'destroy'])->name('api.accounts.destroy');
+        Route::middleware(['can:'. Permission::READ_APP_ACCOUNT->value])->get('/', [AccountController::class, 'index'])->name('api.accounts.index');
+        Route::middleware(['can:'. Permission::READ_APP_ACCOUNT->value])->get('/{id}', [AccountController::class, 'show'])->name('api.accounts.show');
+        Route::middleware(['can:'. Permission::CREATE_APP_ACCOUNT->value])->post('/', [AccountController::class, 'store'])->name('api.accounts.store');
+        Route::middleware(['can:'. Permission::UPDATE_APP_ACCOUNT->value])->put('/{id}', [AccountController::class, 'update'])->name('api.accounts.update');
+        Route::middleware(['can:'. Permission::DELETE_APP_ACCOUNT->value])->delete('/{id}', [AccountController::class, 'destroy'])->name('api.accounts.destroy');
     });
 });

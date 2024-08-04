@@ -8,7 +8,7 @@ import BaseClass from "../domain/base/BaseClass";
 import IPermission from "../interface/auth/IPermission";
 
 export default class DtoUser extends BaseClass implements IUser {
-    id: number = null;
+    id?: number = null;
     fname: string = null;
     mname: string = null;
     lname: string = null;

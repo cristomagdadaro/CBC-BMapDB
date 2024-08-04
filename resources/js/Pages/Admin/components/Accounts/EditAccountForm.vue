@@ -36,6 +36,11 @@ export default {
         },
         checkBoxChange(event, permissionId) {
             if (event.target.checked) {
+                // check if form has permissions
+                if (!this.form.permissions) {
+                    this.form.permissions = [];
+                }
+
                 this.form.permissions.push(permissionId);
             } else {
                 this.form.permissions = this.form.permissions.filter(permission => permission !== permissionId);

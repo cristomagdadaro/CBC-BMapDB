@@ -15,7 +15,9 @@ use App\Models\User;
 use App\Repository\API\AccountsRepo;
 use Faker\Core\Uuid;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Validation\ValidationException;
 
 class AccountController extends BaseController
 {
@@ -42,6 +44,9 @@ class AccountController extends BaseController
         return $this->service->create($request->validated());
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function update(UpdateAccountRequest $request, $id)
     {
         // Validate and update the account
@@ -52,17 +57,31 @@ class AccountController extends BaseController
         $user = User::find($validatedData['user_id']);
         $appId = $validatedData['app_id'];
         $approvedAt = $validatedData['approved_at']; // Get the approved_at value
+        $permissionIds = $validatedData['permissions'] ?? [];
+
+        // Validate that all permission IDs exist in the permissions table
+        $validPermissionIds = DB::table('permissions')
+            ->whereIn('id', $permissionIds)
+            ->pluck('id')
+            ->toArray();
+
+        if (count($validPermissionIds) !== count($permissionIds)) {
+            // Throw a validation exception if there are invalid permission IDs
+            throw ValidationException::withMessages([
+                'permissions' => ['Some of the permission IDs do not exist in the permissions table.']
+            ]);
+        }
+
+        // Get the permissions based on the app ID
+        $validPermissionIds = $this->getPermissionsForApp($appId);
 
         if ($user) {
-            // Retrieve app-specific permissions
-            $permissions = $this->getPermissionsForApp($appId);
-
+            // If approved_at has a value, assign the permissions
             if ($approvedAt) {
-                // If approved_at has a value, assign the permissions
-                $user->givePermissionTo($permissions);
+                $user->givePermissionTo($validPermissionIds);
             } else {
                 // If approved_at is null, remove the permissions
-                $user->revokePermissionTo($permissions);
+                $user->revokePermissionTo($validPermissionIds);
             }
         }
 

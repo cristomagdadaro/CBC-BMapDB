@@ -42,6 +42,7 @@ class UpdateAccountRequest extends FormRequest
                 })->ignore($accountId)
             ],
             'approved_at' => 'nullable|date',
+            'permissions' => 'array|nullable',
         ];
     }
 }
