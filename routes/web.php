@@ -107,7 +107,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::prefix('/projects')->group(function () {
-        Route::prefix('/twgdb')->group(function () {
+        Route::middleware(['check.status.twg'])->prefix('/twgdb')->group(function () {
             Route::get('/{any?}', function () {
                 return Inertia::render('Projects/TWG/presentation/TWGIndex');
             })->name('projects.twg.index');
@@ -120,7 +120,7 @@ Route::middleware([
             })->name('twg.expert.view');
         });
 
-        Route::prefix('/breedersmap')->group(function () {
+        Route::middleware(['check.status.breedersmap'])->prefix('/breedersmap')->group(function () {
             Route::get('/{any?}', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
             })->name('projects.breedersmap.index');
@@ -159,7 +159,7 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
     });
 
     /*TWG Related APIs*/
-    Route::prefix('twg')->group(function () {
+    Route::middleware(['check.status.twg'])->prefix('twg')->group(function () {
         Route::prefix('summary')->group(function () {
             Route::get('/', [TWGController::class, 'summary'])->name('api.twg.summary');
         });
@@ -202,7 +202,7 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
     });
 
     /*Breeders Map Related APIs*/
-    Route::prefix('breeders')->group(function () {
+    Route::middleware(['check.status.breedersmap'])->prefix('breeders')->group(function () {
         Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/', [BreederController::class, 'index'])->name('api.breeders.index');
         Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
         Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
@@ -212,7 +212,7 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
         Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
     });
 
-    Route::prefix('commodities')->group(function () {
+    Route::middleware(['check.status.breedersmap'])->prefix('commodities')->group(function () {
        Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/{id?}', [CommodityController::class, 'index'])->name('api.commodities.index');
        Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/view-in-map', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
        Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
@@ -222,7 +222,7 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
        Route::middleware('can:'. Permission::DELETE_COMMODITY->value)->delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
     });
 
-    Route::prefix('geodata')->group(function () {
+    Route::middleware(['check.status.breedersmap'])->prefix('geodata')->group(function () {
         Route::get('/', [GeodataController::Class, 'index'])->name('api.breeders.geodata.index');
     });
 
