@@ -1,10 +1,9 @@
 <script>
+import { ref } from "vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
-import BreadCrumb from "@/Components/BreadCrumb.vue";
 
 export default {
     components: {
-        BreadCrumb,
         Hamburger,
     },
     computed: {
@@ -23,10 +22,10 @@ export default {
 <template>
     <div class="flex z-50">
         <div
-            :class="isOpen ? 'w-64' : 'w-12'"
-            class="sm:flex flex-col p-3 duration-300 bg-[#BBC3A4] shadow hidden">
+            :class="isOpen ? 'w-44' : 'w-12'"
+            class="sm:flex flex-col p-3 duration-300 bg-gray-400 shadow hidden">
             <div class="flex items-center text-gray-100 justify-end">
-                <button @click="toggleSidebar" class="hover:scale-110 hover:drop-shadow duration-100">
+                <button @click="toggleSidebar">
                     <hamburger />
                 </button>
             </div>
@@ -34,8 +33,7 @@ export default {
                 <slot name="options" />
             </div>
         </div>
-        <div class="w-full min-h-screen sm:p-3 p-0">
-            <BreadCrumb />
+        <div class="w-full min-h-screen">
             <slot name="content" />
         </div>
     </div>

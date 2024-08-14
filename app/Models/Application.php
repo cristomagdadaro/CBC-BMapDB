@@ -46,12 +46,8 @@ class Application extends BaseModel
         'unknown' => 'Unknown error, action failed.',
     ];
 
-    public function account()
+    public function accounts()
     {
-        /*return $this->belongsToMany(User::class, 'accounts', 'app_id', 'user_id')
-            ->withPivot('approved_at')
-            ->withTimestamps();*/
-
-        return $this->belongsTo(Accounts::class, 'app_id', 'id');
+        return $this->hasMany(Accounts::class, 'app_id', 'id');
     }
 }

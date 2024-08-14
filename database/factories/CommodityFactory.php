@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\PriorityCommodities;
-use App\Models\Breeder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,27 +21,13 @@ class CommodityFactory extends Factory
 
         $randomLocation = $this->faker->randomElement($locations);
         $address = $this->faker->address;
-
-        $commodities = [
-            PriorityCommodities::COCONUT,
-            PriorityCommodities::RICE,
-            PriorityCommodities::CORN,
-            PriorityCommodities::BANANA,
-            PriorityCommodities::COFFEE,
-            PriorityCommodities::ABACA,
-            PriorityCommodities::RUBBER,
-            PriorityCommodities::CASSAVA,
-        ];
-
-        $commodity = $this->faker->randomElement($commodities);
-
         return [
-            'name' => $commodity['name'],
-            'breeder_id' => Breeder::all()->random()->id,
-            'scientific_name' => $commodity['scientific_name'],
-            'variety' => $this->faker->randomElement($commodity['varieties']),
-            'accession' => $this->faker->randomElement($commodity['accession']),
-            'germplasm' => $this->faker->randomElement($commodity['germplasm']),
+            'name' => $this->faker->name,
+            'breeder_id' => $this->faker->randomElement(\App\Models\Breeder::pluck('id')->toArray()),
+            'scientific_name' => $this->faker->name,
+            'variety' => $this->faker->name,
+            'accession' => $this->faker->name,
+            'germplasm' => $this->faker->name,
             'population' => $this->faker->randomFloat(),
             'maturity_period' => $this->faker->name,
             'yield' => $this->faker->randomFloat(),

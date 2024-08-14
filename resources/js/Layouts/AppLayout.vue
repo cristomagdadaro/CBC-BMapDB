@@ -11,17 +11,15 @@ import FullscreenToggle from "@/Components/FullscreenToggle.vue";
 import {CBCProjects} from "@/Pages/constants.ts";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import BellIcon from "@/Components/Icons/BellIcon.vue";
-import Notification from "@/Components/Modal/Notification/Notification.ts";
+import Notification from "@/Components/Modal/Notification/Notification.js";
 import Footer from "@/Pages/Footer.vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";
 import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
-import SelectField from "@/Components/Form/SelectField.vue";
-import User from "@/Modules/core/domain/auth/User";
-
+import UserPermissions from "@/Pages/mixins/UserPermissions.js";
 export default {
+    mixins: [UserPermissions],
     components: {
-        SelectField,
         NotifBanner,
         SidebarLayout,
         Head,
@@ -48,7 +46,6 @@ export default {
         return {
             showSidebar: true,
             CBCProjects,
-            user: new User(this.$page.props.auth.user),
         }
     },
     mounted() {
@@ -57,11 +54,6 @@ export default {
       });
 
       console.log(CBCProjects);*/
-    },
-    computed: {
-        User() {
-            return User;
-        },
     },
     setup(props) {
         const showingNavigationDropdown = ref(false);
@@ -94,30 +86,21 @@ export default {
     <NotifBanner />
 
     <div class="min-h-screen bg-gray-100">
-        <nav v-if="user" class="bg-white shadow">
+        <nav v-if="$page.props.auth.user" class="bg-white border-b border-gray-100">
             <!-- Primary Navigation Menu -->
-            <div class="px-4 sm:px-6 py-2 lg:px-8 bg-cbc-dark-green">
-                <div class="flex justify-between items-center h-10">
-                    <div class="sm:flex hidden flex-col text-gray-50">
-                        <div class="flex items-center">
-                            <span class="leading-tight text-sm uppercase">
-                                {{ user.getFullName }}
-                            </span>
-                        </div>
-                        <div class="flex items-center gap-1 text-xs">
-                            <span class="leading-tight">
-                            {{ user.getRole }}
-                            </span>
-                            <span class="mx-1">|</span>
-                            <span class="leading-tight">
-                                {{ user.affiliation }}
-                            </span>
-                            <span class="mx-1">|</span>
-                            <span class="leading-tight">
-                                {{ user.email }}
-                            </span>
-                        </div>
+            <div class="px-4 sm:px-6 lg:px-8 bg-cbc-dark-green">
+                <div class="flex justify-between h-10">
+                    <div class="flex">
+                        <!-- Navigation Links -->
+<!--                        <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <NavLink class="text-white" v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
+                                {{ project.label }}
+                            </NavLink>
+                        </div>-->
                     </div>
+                    <span class="flex items-center text-gray-100">
+                        {{$page.props.auth.user.email}}
+                    </span>
                     <div class="hidden sm:flex sm:items-center sm:ml-6">
                       <top-action-btn
                           class="shadow-none hover:scale-105 active:scale-100"
@@ -165,8 +148,7 @@ export default {
                     </div>
 
                     <!-- Hamburger -->
-                    <div class="-mr-2 flex items-center sm:hidden w-full justify-end">
-                        <FullscreenToggle />
+                    <div class="-mr-2 flex items-center sm:hidden">
                         <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out" @click="showingNavigationDropdown = ! showingNavigationDropdown">
                             <svg
                                 class="h-6 w-6"
@@ -193,57 +175,26 @@ export default {
                     </div>
                 </div>
             </div>
+
             <!-- Responsive Navigation Menu -->
             <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                <ResponsiveNavLink :href="route('dashboard')"
-                                   :active="route().current('dashboard')">
-                    Dashboard
-                </ResponsiveNavLink>
-                <ResponsiveNavLink v-if="user.isAdmin"
-                                   :href="route('administrator.index')"
-                                   :active="route().current('administrator.index')"
-                >
-                    Administrator
-                </ResponsiveNavLink>
-                <template v-if="user.accounts">
-                    <ResponsiveNavLink v-for="account in user.accounts"
-                                       :key="account.id"
-                                       :href="route(account.application.url)"
-                                       :active="route().current(account.application.url)"
-                    >
-                        {{ account.application.name }}
+                <div class="pt-2 pb-3 space-y-1">
+                    <ResponsiveNavLink v-for="project in CBCProjects" :key="project.id" :href="route(project.value)" :active="route().current(project.value)">
+                        {{ project.label }}
                     </ResponsiveNavLink>
-                </template>
+                </div>
 
                 <!-- Responsive Settings Options -->
                 <div class="pt-4 pb-1 border-t border-gray-200">
                     <div class="flex items-center px-4">
-                        <div v-if="user">
-                            <div class="flex flex-col text-gray-700 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <span class="leading-tight uppercase">
-                                        {{ user.getFullName }}
-                                    </span>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                        <span class="leading-tight">
-                                            {{ user.getRole }}
-                                        </span>
-
-<!--                                        <span class="mx-1">|</span>
-
-                                        <span class="leading-tight">
-                                            {{ user.affiliation }}
-                                        </span>-->
-
-                                        <span class="mx-1">|</span>
-
-                                        <span class="leading-tight">
-                                            {{ user.email }}
-                                        </span>
-                                    </div>
-                                </div>
+                        <div v-if="$page.props.auth.user">
+                            <div class="font-medium text-base text-gray-800">
+                                {{ $page.props.auth.user.fname }} {{ $page.props.auth.user.lname }}
                             </div>
+                            <div class="font-medium text-sm text-gray-500">
+                                {{ $page.props.auth.user.email }}
+                            </div>
+                        </div>
                         <div v-else>
                             Please Login
                         </div>
@@ -267,56 +218,14 @@ export default {
         <!-- Page Content -->
         <sidebar-layout>
             <template #options>
-                <NavLink class="text-white" :href="route('dashboard')" :active="route().current('dashboard')">
-                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
-                        <span class="sm:flex hidden whitespace-nowrap">
-                           Dashboard
-                        </span>
-                    </div>
-                </NavLink>
-                <NavLink v-if="user.isAdmin" class="text-white" :href="route('administrator.index')" :active="route().current('administrator.index')">
-                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
-                        <span class="sm:flex hidden whitespace-nowrap">
-                           Administrator
-                        </span>
-                    </div>
-                    <template #subLinks>
-                        <router-link  v-for="subLink in  [
-                            {
-                                name: 'administrator.unverified-users',
-                                label: 'Unverified Users',
-                            },
-                            {
-                                name: 'administrator.approved-accounts',
-                                label: 'Approved Accounts',
-                            },
-                            {
-                                name: 'administrator.applications',
-                                label: 'Applications',
-                            }
-                        ]"
-                            :to="{ name: subLink.name }"
-                                     :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
-                            {{ subLink.label }}
-                        </router-link>
-                    </template>
-                </NavLink>
-                <template v-for="account in user.accounts" :key="account.application.id" >
-                    <NavLink v-if="account.application"
-                             class="text-white"
-                             :href="route(account.application.url)"
-                             :active="route().current(account.application.url)"
-                    >
-                        <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                <template v-for="project in CBCProjects" :key="project.id" >
+                    <NavLink v-if="project.show" class="text-white" :href="route(project.value)" :active="route().current(project.value)">
+                        <div class="flex gap-1 select-none items-center">
+                            <img :src="project.icon" class="hidden h-8 w-8"  :alt="project.label"/>
                             <span class="sm:flex hidden whitespace-nowrap">
-                            {{ account.application.name }}
-                            </span>
+                            {{ project.label }}
+                        </span>
                         </div>
-                        <template #subLinks>
-                            <router-link v-for="subLink in account.application.appTabs" :to="{ name: subLink.name }" :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
-                                {{ subLink.label }}
-                            </router-link>
-                        </template>
                     </NavLink>
                 </template>
             </template>
@@ -327,5 +236,5 @@ export default {
             </template>
         </sidebar-layout>
     </div>
-    <Footer />
+<!--    <Footer />-->
 </template>

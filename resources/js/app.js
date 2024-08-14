@@ -6,7 +6,6 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import store from './store.js';
-import router from './router.js';
 
 const appName = import.meta.env.VITE_APP_NAME || 'DA-Crop Biotechnology Center';
 
@@ -18,7 +17,6 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(store)
-            .use(router)
             .mount(el);
     },
  /*   progress: {

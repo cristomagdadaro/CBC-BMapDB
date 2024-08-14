@@ -11,8 +11,9 @@ class Permission extends BaseModel
     protected $table = 'permissions';
 
     protected $fillable = [
-        'name',
-        'guard_name',
+        'role_id',
+        'label',
+        'value',
     ];
 
     protected $hidden = [
@@ -22,8 +23,8 @@ class Permission extends BaseModel
 
     protected array $searchable = [
         'id',
-        'name',
-        'guard_name',
+        'label',
+        'value',
     ];
 
     protected array $notifMessage = [

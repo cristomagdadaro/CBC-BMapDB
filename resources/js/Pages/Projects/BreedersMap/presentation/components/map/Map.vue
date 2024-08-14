@@ -23,13 +23,9 @@ import MapApiService from "@/Pages/Projects/BreedersMap/presentation/components/
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import {Permission} from "@/Pages/constants.ts";
-import ViewIcon from "@/Components/Icons/ViewIcon.vue";
-import FullscreenToggle from "@/Components/FullscreenToggle.vue";
 
 export default {
     components: {
-        FullscreenToggle,
-        ViewIcon,
         SearchBy,
         LoaderIcon,
         CloseIcon,
@@ -146,23 +142,15 @@ export default {
                 return this.mapApi.getDataPoint();
         },
         canView() {
-            //return this.$page.props.permissions[Permission.VIEW];
-            return true;
+            return this.$page.props.permissions[Permission.VIEW];
         },
     },
-    created() {
-        this.initializeMap();
-    },
-    beforeMount() {
-        this.updateZoom(6);
-    },
     mounted() {
-        this.updateZoom(6);
+        this.initializeMap();
     },
     methods: {
         async initializeMap() {
             this.mapApi = new MapApiService(this.baseUrl, this.baseModel);
-            console.log(this.baseUrl);
             await this.mapApi.init();
             this.loadData();
         },
@@ -180,20 +168,13 @@ export default {
             this.loadData();
         },
         loadData() {
-            if (this.dataPoints) {
-                this.commodities = this.dataPoints;
-            }else {
-                this.commodities = this.customPoint;
-                if (this.commodities.length === 1) {
-                    this.selectPoint(this.commodities[0]);
-                }
-            }
+            this.commodities = this.dataPoints || this.customPoint;
             this.placesFiltered = this.commodities;
             this.placesSearched = this.placesFiltered;
         },
         selectPoint(point) {
             if (!this.$refs.map) return;
-                this.mapApi.selectPoint(point);
+            this.mapApi.selectPoint(point);
         },
         updateCenter(center) {
             this.mapApi.updateCenter(center);
@@ -229,7 +210,7 @@ export default {
 
 
 <template>
-    <div v-if="mapApi && canView" class="flex gap-1 justify-end">
+<div v-if="mapApi && canView" class="flex gap-1 justify-end">
         <top-action-btn @click="refreshData" class="bg-add text-xs" title="Export data">
             <template v-if="processing" #icon>
                 <loader-icon class="h-auto sm:w-6 w-4" />
@@ -249,7 +230,7 @@ export default {
             <span>Share</span>
         </top-action-btn>
     </div>
-    <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2">
+    <div class="flex flex-col max-h-fit gap-2" v-if="mapApi && canView">
         <div class="relative gap-2">
             <div class="w-full flex gap-1">
                 <search-box
@@ -261,8 +242,8 @@ export default {
                     @focusin="showListOfPlaces = true"
                     class="w-full"
                 />
-                <search-by :value="mapApi.request.getFilter"
-                           :is-exact="mapApi.request.getIsExact"
+                <search-by :value="mapApi.request.params.filter"
+                           :is-exact="mapApi.request.params.is_exact"
                            :options="mapApi.columns"
                            @isExact="mapApi.isExactFilter({ is_exact: $event })"
                            @searchBy="mapApi.filterByColumn({ column: $event })"
@@ -293,7 +274,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div ref="mapContainer" class="w-full flex gap-2 relative mt-1">
+        <div class="w-full flex gap-2 relative">
             <div v-if="processing" class="flex gap-1 absolute top-0 left-0 min-w-full min-h-full">
                 <span class="whitespace-nowrap">Fetching data</span>
             </div>
@@ -301,7 +282,7 @@ export default {
                 ref="map"
                 :use-global-leaflet="true"
                 class="z-0 border rounded"
-                style="height: 100%; min-height: 800px;"
+                style="height: 800px"
                 :zoom="mapApi.zoom"
                 :center="mapApi.center"
                 :maxZoom="mapApi.maxZoom"
@@ -345,7 +326,6 @@ export default {
                     <l-tooltip :content="place.city" />
                 </l-circle-marker>
                 <l-control>
-                    <FullscreenToggle :element="$refs.mapContainer" />
                     <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
                         <span>Recenter</span>
                     </top-action-btn>
@@ -355,15 +335,9 @@ export default {
                         </template>
                         <span>Deselect</span>
                     </top-action-btn>
-                    <top-action-btn v-if="mapApi.selectedPlace" @click="mapApi.sidebarVisible = true" class="bg-add text-xs" title="Deselect Point">
-                        <template #icon>
-                            <view-icon class="h-auto sm:w-4 w-3" />
-                        </template>
-                        <span>View Details</span>
-                    </top-action-btn>
-                    <info-sidebar :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
                 </l-control>
             </l-map>
+            <info-sidebar :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
         </div>
     </div>
     <div v-else class="flex flex-col max-h-fit gap-2" >

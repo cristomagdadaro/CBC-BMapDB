@@ -1,9 +1,21 @@
 <script>
-import FormMixin from "@/Pages/mixins/FormMixin.js";
+import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
+import TextField from "@/Components/Form/TextField.vue";
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 
 export default {
-    mixins: [FormMixin],
     name: "CreateServiceForm",
+    components: {SelectSearchField, TextField, BaseCreateForm},
+    props: {
+        errors: {
+            type: Object,
+            default: () => ({})
+        },
+        forceClose: {
+            type: Boolean,
+            default: false
+        }
+    },
     data() {
         return {
             form: {
@@ -17,6 +29,20 @@ export default {
             },
         };
     },
+    methods: {
+        getError(field) {
+            return this.errors[field] ? this.errors[field] : [];
+        },
+        close() {
+            this.form = Object.assign({}, this.data);
+        },
+    },
+    watch: {
+        forceClose() {
+            this.$emit('close');
+        }
+    },
+
 }
 </script>
 
@@ -30,7 +56,7 @@ export default {
                 <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                     <text-field required :error="getError('name')" label="Type of service" v-model="form.type" />
                     <text-field required :error="getError('purpose')" label="Direct Beneficiaries" v-model="form.direct_beneficiaries" />
-                    <select-search-field :api-link="route('api.twg.experts.index')"  :error="getError('twg_expert_id')" label="Expert" v-model="form.twg_expert_id" />
+                    <select-search-field :api-link="route('api.twg.experts.index')"  :error="errors? errors['twg_expert_id']:{}" label="Expert" v-model="form.twg_expert_id" />
                     <text-field required :error="getError('cost')" label="Indirect Beneficiaries" v-model="form.indirect_beneficiaries" />
                     <text-field required :error="getError('cost')" label="Officer In-charge" v-model="form.officer_in_charge" />
                     <text-field required :error="getError('cost')" label="Cost" v-model="form.cost" />
@@ -40,3 +66,7 @@ export default {
         </template>
     </base-create-form>
 </template>
+
+<style scoped>
+
+</style>

@@ -18,12 +18,9 @@ class BaseModel extends Model
         return $this->searchable;
     }
 
-    public function getNotifMessage($action = null): string | null
+    public function getNotifMessage($action = null): string
     {
-        if ($action === null || !array_key_exists($action, $this->notifMessage))
-            return null;
-        else
-            return $this->notifMessage[$action];
+        return $this->notifMessage[$action];
     }
 
     protected function serializeDate(DateTimeInterface $date): string

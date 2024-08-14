@@ -1,9 +1,25 @@
 <script>
-import FormMixin from "@/Pages/mixins/FormMixin.js";
+import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
+import TextField from "@/Components/Form/TextField.vue";
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 
 export default {
-    mixins: [FormMixin],
     name: "EditProductForm",
+    components: {SelectSearchField, TextField, BaseCreateForm},
+    props: {
+        errors: {
+            type: Object,
+            default: () => ({})
+        },
+        forceClose: {
+            type: Boolean,
+            default: false
+        },
+        data: {
+            type: Object,
+            default: null
+        }
+    },
     data() {
         return {
             form: {
@@ -15,11 +31,28 @@ export default {
             },
         };
     },
+    methods: {
+        getError(field) {
+            return this.errors[field] ? this.errors[field] : [];
+        },
+        resetForm() {
+            this.form = Object.assign({}, this.data);
+        }
+    },
+    watch: {
+        forceClose() {
+            this.resetForm();
+            this.$emit('close');
+        },
+        data() {
+            this.form = Object.assign({}, this.data);
+        }
+    },
 }
 </script>
 
 <template>
-    <base-edit-form :form="form" :force-close="forceClose" @resetForm="resetForm">
+    <base-create-form :form="form" :force-close="forceClose">
         <template #formTitle>
             Update Product Details
         </template>
@@ -27,12 +60,12 @@ export default {
             <div class="flex flex-col gap-1">
                 <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                     <text-field required :error="getError('name')" label="Name" v-model="form.name" />
-                    <text-field :error="getError('brand')" label="Brand" v-model="form.brand" />
+                    <text-field required :error="getError('brand')" label="Brand" v-model="form.brand" />
                     <text-field required :error="getError('purpose')" label="Purpose" v-model="form.purpose" />
                     <text-field required :error="getError('cost')" label="Cost" v-model="form.cost" />
                 </div>
-                <select-search-field required :api-link="route('api.twg.experts.index')"  :error="getError('twg_expert_id')" label="Expert" v-model="form.twg_expert_id" />
+                <select-search-field :api-link="route('api.twg.experts.index')"  :error="errors? errors['twg_expert_id']:{}" label="Expert" v-model="form.twg_expert_id" />
             </div>
         </template>
-    </base-edit-form>
+    </base-create-form>
 </template>

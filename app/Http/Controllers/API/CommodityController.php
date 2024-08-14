@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Interfaces\BaseControllerInterface;
 use App\Http\Requests\CreateCommoditiesRequest;
 use App\Http\Requests\DeleteCommoditiesRequest;
 use App\Http\Requests\GetCommoditiesRequest;
@@ -19,50 +18,46 @@ class CommodityController extends BaseController
         $this->service = $commodityRepository;
     }
 
-    public function index(GetCommoditiesRequest $request, $id = null)
+    public function index(GetCommoditiesRequest $request)
     {
-        $this->service->appendWith(['breeder']);
-        if ($id) {
-            // Set withPagination to false to return the builder instead of the paginator, for the Map search box. By Breeder.
-            $data = $this->service->search(new Collection($request->validated()), false);
-            return new BaseCollection($data->where('breeder_id', $id)->orderBy('id', 'asc')->paginate($request->validated()['per_page'], ['*'], 'page', $request->validated()['page'])->withQueryString());
-        } else {
-            $data = $this->service->search(new Collection($request->validated()));
-            return new BaseCollection($data);
-        }
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
     /** API used at Map search box*/
     public function noPage(GetCommoditiesRequest $request)
     {
-        // Set withPagination to false to return the builder instead of the paginator, for the Map search box. All Commodities.
-        $this->service->appendWith(['breeder']);
         $data = $this->service->search(new Collection($request->validated()), false);
-        return new BaseCollection($data->get());
+        return new BaseCollection($data);
     }
 
     public function store(CreateCommoditiesRequest $request)
     {
-        return $this->service->create($request->validated());
+        $data =  $this->service->create($request->validated());
+        return $this->sendResponse('Commodity created successfully.', $data);
     }
 
     public function show($id)
     {
-        return $this->service->find($id);
+        $data = $this->service->find($id);
+        return $this->sendResponse('Commodity retrieved successfully.', $data);
     }
 
     public function update(UpdateCommoditiesRequest $request, $id)
     {
-        return $this->service->update($id, $request->validated());
+        $data = $this->service->update($id, $request->validated());
+        return $this->sendResponse('Commodity updated successfully.', $data);
     }
 
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        $this->service->delete($id);
+        return $this->sendResponse('Commodity deleted successfully.');
     }
 
     public function multiDestroy(DeleteCommoditiesRequest $request)
     {
-        return $this->service->multiDestroy($request->validated());
+        $this->service->multiDestroy($request->validated());
+        return $this->sendResponse('Commodities deleted successfully.');
     }
 }

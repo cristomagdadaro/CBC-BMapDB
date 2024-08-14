@@ -13,6 +13,6 @@ class TWGProductSeeder extends Seeder
      */
     public function run(): void
     {
-        TWGProduct::factory()->count(rand(1, 100))->create();
+        TWGProduct::factory()->count(20)->create();
     }
 }

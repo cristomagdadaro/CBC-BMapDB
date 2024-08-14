@@ -1,14 +1,11 @@
 <script setup>
-import {computed, ref} from 'vue';
+import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
-import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 
 const props = defineProps({
     href: String,
     active: Boolean,
 });
-
-const showSubLinks = ref(false);
 
 const classes = computed(() => {
     return props.active
@@ -18,17 +15,7 @@ const classes = computed(() => {
 </script>
 
 <template>
-    <div class="flex flex-col relative">
-        <Link :href="href" :class="classes" @mouseenter="showSubLinks = true" @click="showSubLinks = !showSubLinks" >
-            <slot />
-            <svg v-if="$slots.subLinks" class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-            </svg>
-        </Link>
-        <transition-container v-show="showSubLinks">
-            <div class="flex flex-col px-2 pl-5 gap-2">
-                <slot name="subLinks" />
-            </div>
-        </transition-container>
-    </div>
+    <Link :href="href" :class="classes">
+        <slot />
+    </Link>
 </template>

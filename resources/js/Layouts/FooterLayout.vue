@@ -1,15 +1,16 @@
 <template>
-    <footer class="bottom-0 w-full min-h-fit select-none bg-transparent">
+    <footer class="bottom-0 w-full min-h-fit select-none">
         <div class="relative flex flex-col">
-            <div>
+            <div class="bg-gray-600 text-white">
                 <div class="resp-container">
                     <slot name="phRepublic" />
                 </div>
             </div>
-            <div class="w-full">
+            <div class="w-full bg-gray-700">
                 <slot name="copyright" />
             </div>
         </div>
+
     </footer>
 </template>
 <script setup>

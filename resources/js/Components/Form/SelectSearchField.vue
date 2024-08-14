@@ -1,7 +1,7 @@
 <script>
 import TextField from "@/Components/Form/TextField.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
-import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
+import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 
 export default {
     components: {CloseIcon, TextField},

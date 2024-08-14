@@ -28,21 +28,25 @@ class ApplicationController extends BaseController
 
     public function show($id)
     {
-        return $this->service->find($id);
+        $data = $this->service->find($id);
+        return $this->sendResponse('Application retrieved successfully.', $data);
     }
 
     public function store(CreateApplicationRequest $request)
     {
-        return $this->service->create($request->validated());
+        $data = $this->service->create($request->validated());
+        return $this->sendResponse('Application created successfully.', $data);
     }
 
     public function update(UpdateApplicationRequest $request, $id)
     {
-        return $this->service->update($id, $request->validated());
+        $data = $this->service->update($id, $request->validated());
+        return $this->sendResponse('Application updated successfully.', $data);
     }
 
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        $this->service->delete($id);
+        return $this->sendResponse('Application deleted successfully.');
     }
 }
