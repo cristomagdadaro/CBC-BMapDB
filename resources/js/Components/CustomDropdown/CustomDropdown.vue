@@ -12,10 +12,10 @@
                 v-show="open"
                 class="z-50 absolute border border-gray-300 shadow rounded bg-white mt-1 py-2"
             >
-                <div v-if="options" class="text-xs text-gray-700 px-2 shadow-lg">Options</div>
+                <div v-if="options" class="hidden text-xs text-gray-700 px-2 shadow-lg">Options</div>
                 <dropdown-option v-if="!options">No options available</dropdown-option>
                 <template v-else>
-                    <dropdown-option v-if="withAllOption" @click.prevent="select({name:null, label:'All fields'})">All fields</dropdown-option>
+                    <dropdown-option v-if="withAllOption" @click.prevent="select({name:null, label:'All fields'})" :selected="selected && selected.name === defaultOption.name">All fields</dropdown-option>
                     <dropdown-option v-for="option in options" :key="option.name" @click.prevent="select(option)" :selected="option.name === value">
                         {{ option.label }}
                     </dropdown-option>
@@ -54,6 +54,7 @@ export default {
     data(){
         return {
             open: false,
+            defaultOption: {name: null, label: 'All fields', selected: true},
             selected: null,
         }
     },

@@ -52,6 +52,7 @@ export default {
         :base-model="AdminPages.api.user.model"
         :add-form="AdminPages.api.user.create.component"
         :edit-form="AdminPages.api.user.edit.component"
+        :view-form="AdminPages.api.user.view.path"
         :can-create="canCreate"
         :can-update="canUpdate"
         :can-delete="canDelete"

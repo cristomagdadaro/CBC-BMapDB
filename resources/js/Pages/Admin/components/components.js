@@ -24,6 +24,13 @@ export const AdminPages = {
                 component: defineAsyncComponent(
                     () => import('@/Pages/Admin/components/NewUser/EditUserForm.vue')
                 ),
+            },
+            view: {
+                path: 'administrator.user.view',
+                name: 'ViewUser',
+                component: defineAsyncComponent(
+                    () => null,
+                ),
             }
         },
         account: {

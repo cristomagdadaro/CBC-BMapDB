@@ -13,9 +13,9 @@ export default {
             tabs: [
                 {
                     name: "tab1",
-                    label: "Unverified Users",
+                    label: "Users",
                     active: true,
-                    route: { name: 'administrator.unverified-users' },
+                    route: { name: 'administrator.users' },
                 },{
                     name: "tab2",
                     label: "Accounts Approval",

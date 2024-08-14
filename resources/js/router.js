@@ -42,9 +42,16 @@ const routes = [
         name: 'administrator.index',
         children: [
             {
-                path: '/administrator/unverified-users',
+                path: '/administrator/users',
                 component: async () => await import('@/Pages/Admin/components/NewUser/NewUserTable.vue'),
-                name: 'administrator.unverified-users',
+                name: 'administrator.users',
+                children: [
+                    {
+                        path: '/administrator/users/:id',
+                        component: async () => await import('@/Pages/Admin/components/NewUser/ViewUserAccount.vue'),
+                        name: 'administrator.user.view',
+                    }
+                ]
             },
             {
                 path: '/administrator/approved-accounts',

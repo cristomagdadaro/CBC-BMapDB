@@ -13,18 +13,19 @@ export default class AuthAccount extends Account
     static getColumns() {
         return [
             {
-                title: 'ID',
+                title: 'Accnt.ID',
                 key: 'id',
                 align: 'center',
-                sortable: false,
-                visible: false,
+                sortable: true,
+                visible: true,
             },
             {
-                title: 'User',
+                title: 'UID',
                 key: 'user_id',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true
+                ,
             },
             {
                 title: 'User',

@@ -100,6 +100,13 @@ Route::middleware([
         Route::get('/{any?}', function () {
             return Inertia::render('Admin/Administrator');
         })->name('administrator.index');
+
+        Route::get('/users/{id}', function ($id) {
+            return Inertia::render('Admin/components/NewUser/ViewUserAccount', [
+                'view' => \App\Models\User::with(['accounts', 'roles', 'permissions'])->findOrFail($id),
+                'breadcrumbs' => [['label' => 'Users', 'to' => '/administrator/users']],
+            ]);
+        })->name('administrator.user.view');
     });
 
     Route::get('/dashboard', function () {
@@ -254,6 +261,7 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
 
     Route::prefix('users')->group(function () {
         Route::middleware(['can:'. Permission::READ_USER->value])->get('/', [UserController::class, 'index'])->name('api.users.index');
+        Route::middleware(['can:'. Permission::READ_USER->value])->get('/{id}', [UserController::class, 'show'])->name('api.users.show');
     });
 
     Route::prefix('accounts')->group(function () {

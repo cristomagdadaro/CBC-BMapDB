@@ -60,6 +60,7 @@ class AccountController extends BaseController
         $appId = $validatedData['app_id'];
         $approvedAt = $validatedData['approved_at']; // Get the approved_at value
         $permissionIds = $validatedData['permissions'] ?? [];
+        $role = $validatedData['role'] ?? [];
 
         // Validate that all permission IDs exist in the permissions table
         $validPermissionIds = DB::table('permissions')
@@ -83,7 +84,6 @@ class AccountController extends BaseController
                 $user->givePermissionTo($validPermissionIds);
 
                 // Assign a role to the user with the role ID
-                $role = $validatedData['role'];
                 if ($role) {
                     // remove all roles from the user
                     $user->roles()->detach();

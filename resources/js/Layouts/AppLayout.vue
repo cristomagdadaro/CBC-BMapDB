@@ -283,7 +283,7 @@ export default {
                     <template #subLinks>
                         <router-link  v-for="subLink in  [
                             {
-                                name: 'administrator.unverified-users',
+                                name: 'administrator.users',
                                 label: 'Unverified Users',
                             },
                             {

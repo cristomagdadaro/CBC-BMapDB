@@ -78,6 +78,7 @@ export default {
             Approve User Account
         </template>
         <template v-slot:formFields>
+            {{ form }}
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                 <select-search-field :api-link="route('api.users.index')" :error="getError('user_id')" label="User" v-model="form.user_id" required />
                 <select-search-field :api-link="route('api.applications.index')" :error="getError('app_id')" label="App" v-model="form.app_id" required />

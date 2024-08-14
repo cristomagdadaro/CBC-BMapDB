@@ -1,5 +1,5 @@
 import IBaseRequest from "../../interface/base/IBaseRequest";
-
+import { usePage } from "@inertiajs/vue3";
 export default class DtoBaseRequest implements IBaseRequest {
     page: number;
     per_page: number;
@@ -9,6 +9,8 @@ export default class DtoBaseRequest implements IBaseRequest {
     search?: string;
     filter?: string;
     is_exact?: boolean;
+
+    static props = usePage();
 
     constructor(params : IBaseRequest = {
         page: 1,
@@ -63,6 +65,8 @@ export default class DtoBaseRequest implements IBaseRequest {
             this.removeParam(key);
         else
             this[key] = value;
+
+        //this.saveParamsLocal();
     }
 
     removeParam(key: string) {
@@ -78,13 +82,18 @@ export default class DtoBaseRequest implements IBaseRequest {
     }
 
     saveParamsLocal() {
-        localStorage.setItem('params', JSON.stringify(this));
+        // use the current route name as the key
+        localStorage.setItem(DtoBaseRequest.props.component, JSON.stringify(this));
     }
 
     static getParamsLocal() {
-        if (localStorage.getItem('params') !== null)
-            return JSON.parse(localStorage.getItem('params'));
+        if (localStorage.getItem(DtoBaseRequest.props.component) !== null)
+            return JSON.parse(localStorage.getItem(DtoBaseRequest.props.component));
         else
             return new this();
+    }
+
+    static resetParamsLocal() {
+        localStorage.removeItem(DtoBaseRequest.props.component);
     }
 }
