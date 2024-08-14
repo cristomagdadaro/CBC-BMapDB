@@ -1,6 +1,6 @@
-import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import {ref} from "vue";
-import BaseRequest from "@/Modules/core/infrastructure/BaseRequest.js";
+import ApiService from "@/Modules/core/infrastructure/ApiService";
+import BaseRequest from "@/Modules/core/domain/base/BaseRequest";
 
 export default class MapApiService{
     constructor(baseUrl, model = Object) {
@@ -148,8 +148,8 @@ export default class MapApiService{
         this._markerLatLng = [point.latitude, point.longitude];
         this._selectedPlace = point;
         this.updateCenter(this._markerLatLng);
-        this.updateZoom(8);0
-        this.sidebarVisible = true; // open the sidebar on point selection
+        this.updateZoom(8);
+        //this.sidebarVisible = true; // open the sidebar on point selection
     }
 
     updateCenter(center) {

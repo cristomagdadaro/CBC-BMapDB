@@ -1,7 +1,6 @@
 <template>
     <Head title="Breeder's Map" />
     <app-layout>
-        {{ permissions }}
         <Tab :tabs="tabs" v-if="$page.props.auth.user">
             <template #tab1>
                 <breeders-table />
@@ -11,8 +10,7 @@
             </template>
             <template #tab3>
                 <div class="p-2 relative">
-<!--                    <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>-->
-                    <Map :base-url="route('api.commodities.noPage')" />
+                    <Map :base-url="route('api.commodities.noPage')" :model="Commodity"/>
                 </div>
             </template>
         </Tab>
@@ -27,10 +25,14 @@
 <script>
 import { Head } from "@inertiajs/vue3";
 import { defineAsyncComponent } from "vue";
-import UserPermissions from "@/Pages/mixins/UserPermissions.js";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 
 export default {
-    mixins: [UserPermissions],
+    computed: {
+        Commodity() {
+            return Commodity
+        }
+    },
     components: {
         Head,
         AppLayout: defineAsyncComponent({
@@ -51,21 +53,26 @@ export default {
     },
     data() {
       return {
-        tabs: [
-          {
-            name: "tab1",
-            label: "Breeders",
-            active: true,
-          },{
-            name: "tab2",
-            label: "Commodities",
-            active: false,
-          },{
-            name: "tab3",
-            label: "Geo Map",
-            active: false,
-          },
-        ],
+          tabs: [
+              {
+                  name: "tab1",
+                  label: "Breeders",
+                  active: true,
+                  route: { name: 'projects.breedersmap.breeder' },
+              },
+              {
+                  name: "tab2",
+                  label: "Commodities",
+                  active: false,
+                  route: { name: 'projects.breedersmap.commodity' },
+              },
+              {
+                  name: "tab3",
+                  label: "Geo Map",
+                  active: false,
+                  route: { name: 'projects.breedersmap.geomap' },
+              },
+          ],
       }
     },
 }

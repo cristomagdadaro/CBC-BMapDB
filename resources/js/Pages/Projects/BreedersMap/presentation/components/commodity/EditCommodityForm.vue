@@ -1,5 +1,5 @@
 <template>
-    <base-edit-form :form="form" :force-close="forceClose">
+    <base-edit-form :form="form" :force-close="forceClose" @resetForm="resetForm">
         <template v-slot:formTitle>
             Update Commodity Information
         </template>
@@ -12,63 +12,39 @@
         <template v-slot:formFields>
             <div class="flex flex-col gap-8">
                 <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                    <text-field :show-clear="true" :error="errors? errors['name']:{}" label="Commodity" v-model="form.name" />
-                    <text-field :show-clear="true" :error="errors? errors['scientific_name']:{}" label="Scientific Name" v-model="form.scientific_name" />
-                    <select-search-field :api-link="route('api.breeders.index')" :error="errors? errors['breeder_id']:{}" label="Breeder Name" v-model="form.breeder_id" />
-                    <text-field :show-clear="true" :error="errors? errors['variety']:{}" label="Variety" v-model="form.variety" />
-                    <text-field :show-clear="true" :error="errors? errors['accession']:{}" label="Accession" v-model="form.accession" />
-                    <text-field :show-clear="true" :error="errors? errors['germplasm']:{}" label="Germplasm" v-model="form.germplasm" />
-                    <text-field :show-clear="true" type-input="number" :error="errors? errors['population']:{}" label="Population" v-model="form.population" />
-                    <text-field :show-clear="true" :error="errors? errors['maturity_period']:{}" label="Maturity Period" v-model="form.maturity_period" />
-                    <text-field :show-clear="true" typeInput="number" :error="errors? errors['yield']:{}" label="Yield" v-model="form.yield" />
-                    <radio-field :show-clear="true" :error="errors? errors['status']:{}" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
+                    <text-field required :show-clear="true" :error="getError('name')" label="Commodity" v-model="form.name" />
+                    <text-field required :show-clear="true" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
+                    <select-search-field required :api-link="route('api.breeders.index')" :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
+                    <text-field required :show-clear="true" :error="getError('variety')" label="Variety" v-model="form.variety" />
+                    <text-field required :show-clear="true" :error="getError('accession')" label="Accession" v-model="form.accession" />
+                    <text-field required :show-clear="true" :error="getError('germplasm')" label="Germplasm" v-model="form.germplasm" />
+                    <text-field required :show-clear="true" type-input="number" :error="getError('population')" label="Population" v-model="form.population" />
+                    <text-field required :show-clear="true" :error="getError('maturity_period')" label="Maturity Period" v-model="form.maturity_period" />
+                    <text-field required :show-clear="true" typeInput="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
+                    <radio-field :show-clear="true" :error="getError('status')" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
                 </div>
                 <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                    <text-field :show-clear="true" :error="errors? errors['latitude']:{}" label="Latitude" v-model="form.latitude" />
-                    <text-field :show-clear="true" :error="errors? errors['longitude']:{}" label="Longitude" v-model="form.longitude" />
-                    <text-field :show-clear="true" :error="errors? errors['address']:{}" label="Address" v-model="form.address" />
-                    <text-field :show-clear="true" :error="errors? errors['city']:{}" label="City" v-model="form.city" />
-                    <text-field :show-clear="true" :error="errors? errors['province']:{}" label="Province" v-model="form.province" />
-                    <text-field :show-clear="true" :error="errors? errors['country']:{}" label="Country" v-model="form.country" />
-                    <text-field :show-clear="true" :error="errors? errors['postal_code']:{}" label="Postal Code" v-model="form.postal_code" />
-                    <text-field :show-clear="true" :error="errors? errors['formatted_address']:{}" label="Formatted Address" v-model="form.formatted_address" />
-                    <text-field :show-clear="true" :error="errors? errors['place_id']:{}" label="Place ID" v-model="form.place_id" />
-                    <text-field :show-clear="true" :error="errors? errors['image']:{}" label="Image" v-model="form.image" />
+                    <text-field :show-clear="true" :error="getError('latitude')" label="Latitude" v-model="form.latitude" />
+                    <text-field :show-clear="true" :error="getError('longitude')" label="Longitude" v-model="form.longitude" />
+                    <text-field :show-clear="true" :error="getError('address')" label="Address" v-model="form.address" />
+                    <text-field :show-clear="true" :error="getError('city')" label="City" v-model="form.city" />
+                    <text-field :show-clear="true" :error="getError('province')" label="Province" v-model="form.province" />
+                    <text-field :show-clear="true" :error="getError('country')" label="Country" v-model="form.country" />
+                    <text-field :show-clear="true" :error="getError('postal_code')" label="Postal Code" v-model="form.postal_code" />
+                    <text-field :show-clear="true" :error="getError('formatted_address')" label="Formatted Address" v-model="form.formatted_address" />
+                    <text-field :show-clear="true" :error="getError('place_id')" label="Place ID" v-model="form.place_id" />
+                    <text-field :show-clear="true" :error="getError('image')" label="Image" v-model="form.image" />
                 </div>
-                <text-field :show-clear="true" typeInput="longtext" :error="errors? errors['description']:{}" label="Description" v-model="form.description" />
+                <text-field :show-clear="true" typeInput="longtext" :error="getError('description')" label="Description" v-model="form.description" />
             </div>
         </template>
     </base-edit-form>
 </template>
 <script>
-import TextField from "@/Components/Form/TextField.vue";
-import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
-import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
-import SelectField from "@/Components/Form/SelectField.vue";
-import RadioField from "@/Components/Form/RadioField.vue";
+import FormMixin from "@/Pages/mixins/FormMixin.js";
 
 export default {
-    components: {
-        RadioField,
-        SelectField,
-        BaseEditForm,
-        SelectSearchField,
-        TextField,
-    },
-    props: {
-        errors: {
-            type: Object,
-            default: () => ({})
-        },
-        forceClose: {
-            type: Boolean,
-            default: false
-        },
-        data: {
-            type: Object,
-            default: null
-        }
-    },
+    mixins: [FormMixin],
     data() {
         return {
             form: {
@@ -95,20 +71,6 @@ export default {
                 status: null,
             },
         };
-    },
-    methods: {
-        resetForm() {
-            this.form = Object.assign({}, this.data);
-            this.$emit('close');
-        }
-    },
-    watch: {
-        forceClose() {
-            this.resetForm();
-        },
-        data() {
-            this.form = Object.assign({}, this.data);
-        }
     },
 };
 </script>

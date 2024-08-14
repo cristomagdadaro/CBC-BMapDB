@@ -15,14 +15,17 @@ export default {
                     name: "tab1",
                     label: "Unverified Users",
                     active: true,
+                    route: { name: 'administrator.unverified-users' },
                 },{
                     name: "tab2",
                     label: "Accounts Approval",
                     active: false,
+                    route: { name: 'administrator.approved-accounts' },
                 },{
                     name: "tab3",
                     label: "Applications",
                     active: false,
+                    route: { name: 'administrator.applications' },
                 },
             ],
         }
