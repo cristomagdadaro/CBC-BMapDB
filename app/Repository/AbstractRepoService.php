@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -290,6 +291,11 @@ abstract class AbstractRepoService implements RepositoryInterface
                     });
                 }
             }
+        }
+
+        // Check if the sort column exists in the current table
+        if (!Schema::hasColumn($this->model->getTable(), $sort)) {
+            $sort = 'id'; // Default sort column
         }
 
         if (!$withPagination) {
