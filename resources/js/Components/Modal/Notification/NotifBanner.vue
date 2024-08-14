@@ -1,7 +1,7 @@
 <script setup>
 import WarningIcon from '@/Components/Icons/WarningIcon.vue';
 import CloseIcon from '@/Components/Icons/CloseIcon.vue';
-import Notification from "@/Components/Modal/Notification/Notification.js";
+import Notification from "@/Components/Modal/Notification/Notification.ts";
 import SuccessIcon from "@/Components/Icons/SuccessIcon.vue";
 import ErrorIcon from "@/Components/Icons/ErrorIcon.vue";
 import FailedIcon from "@/Components/Icons/FailedIcon.vue";

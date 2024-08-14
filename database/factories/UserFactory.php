@@ -77,14 +77,16 @@ class UserFactory extends Factory
     /**
      * Indicate that the user should be approved by the admin.
      */
-    public function unapproved(): static
+    public function approved($id = null): static
     {
+        if (!$id)
+            $id = Application::all()->random()->id;
         return $this->has(
             Accounts::factory()
                 ->state(fn (array $attributes, User $user) => [
                     'user_id' => $user->id,
-                    'app_id' => Application::all()->random()->id,
-                    'approved_at' => null,
+                    'app_id' => $id,
+                    'approved_at' => now(),
                 ])
         );
     }

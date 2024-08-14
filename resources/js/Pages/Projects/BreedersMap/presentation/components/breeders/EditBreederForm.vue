@@ -1,27 +1,9 @@
 <script>
-import TextField from "@/Components/Form/TextField.vue";
-import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
+import FormMixin from "@/Pages/mixins/FormMixin.js";
 
 export default {
+    mixins: [FormMixin],
     name: "EditBreederForm",
-    components: {
-        BaseEditForm,
-        TextField,
-    },
-    props: {
-        errors: {
-            type: Object,
-            default: () => ({})
-        },
-        forceClose: {
-            type: Boolean,
-            default: false
-        },
-        data: {
-            type: Object,
-            default: null
-        }
-    },
     data() {
         return {
             form: {
@@ -34,25 +16,11 @@ export default {
             },
         };
     },
-    methods: {
-        resetForm() {
-            this.form = Object.assign({}, this.data);
-        }
-    },
-    watch: {
-        forceClose() {
-            this.resetForm();
-            this.$emit('close');
-        },
-        data() {
-            this.form = Object.assign({}, this.data);
-        }
-    }
 };
 </script>
 
 <template>
-    <base-edit-form :form="form" :force-close="forceClose">
+    <base-edit-form :form="form" :force-close="forceClose" @resetForm="resetForm">
         <template v-slot:formTitle>
             Update Breeder Information
         </template>
@@ -64,13 +32,13 @@ export default {
         </template>
         <template v-slot:formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                <text-field required :show-clear="true" :error="errors? errors['name']:{}" label="Name" v-model="form.name" />
-                <text-field :show-clear="true" :error="errors? errors['phone']:{}" label="Phone Number" v-model="form.phone" />
-                <text-field required :show-clear="true" :error="errors? errors['email']:{}" label="Email" v-model="form.email" />
-                <text-field required :show-clear="true" :error="errors? errors['agency']:{}" label="Agency" v-model="form.agency" />
+                <text-field required :show-clear="true" :error="getError('name')" label="Name" v-model="form.name" />
+                <text-field :show-clear="true" :error="getError('phone')" label="Phone Number" v-model="form.phone" />
+                <text-field required :show-clear="true" :error="getError('email')" label="Email" v-model="form.email" />
+                <text-field required :show-clear="true" :error="getError('agency')" label="Agency" v-model="form.agency" />
             </div>
             <div class="mt-1">
-                <text-field :show-clear="true" :error="errors? errors['address']:{}" label="Address" v-model="form.address" />
+                <text-field :show-clear="true" :error="getError('address')" label="Address" v-model="form.address" />
             </div>
         </template>
     </base-edit-form>

@@ -1,10 +1,4 @@
 <template>
-    <template v-if="dt">
-        <div v-if="dt.api.processing" class="flex items-center w-full gap-2 justify-center">
-            <loader-icon class="h-5 w-5" />
-            <span>Initializing data table, please wait...</span>
-        </div>
-    </template>
     <div v-if="baseUrl === null || baseUrl === undefined || baseUrl === ''">
         Unable to to retrieve data, please check your base url.
     </div>
@@ -13,11 +7,15 @@
     </div>
     <div v-else
         id="dtContainer"
-         v-if="dt instanceof CRCMDatatable && dt.response['meta']"
-         class="flex flex-col sm:gap-2 gap-1 bg-transparent sm:p-3 p-1 overflow-x-auto">
+         v-if="dt instanceof CRCMDatatable"
+         class="flex flex-col sm:gap-2 gap-1 bg-transparent sm:p-3 p-1 overflow-x-hidden">
         <top-container>
-            <div class="flex justify-between gap-2">
-                <per-page class="sm:w-1/3 w-full" :value="dt.request.params.per_page" @changePerPage="dt.perPageFunc({ per_page: $event })" />
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-between gap-2">
+                <div class="flex flex-row items-center w-full sm:justify-end justify-between gap-2">
+                    <per-page :value="dt.request.getPerPage" @changePerPage="dt.perPageFunc({ per_page: $event })" />
+                    <search-by :value="dt.request.getFilter" :is-exact="dt.request.getIsExact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
+                    <search-filter :value="dt.request.getSearch" @searchString="dt.searchFunc({ search: $event })" class="w-full" />
+                </div>
                 <action-container class="w-full">
                     <top-action-btn
                         v-if="showActionBtns && canCreate"
@@ -46,7 +44,7 @@
                         <template #icon>
                             <delete-icon class="h-auto sm:w-6 w-4" />
                         </template>
-                        <span v-show="showIconText">Delete Selected</span>
+                        <span v-show="showIconText">Delete</span>
                     </top-action-btn>
                     <top-action-btn
                         v-if="data.length && showActionBtns"
@@ -99,7 +97,7 @@
                         </template>
                     </top-action-btn>
                 </action-container>
-                <div id="dtPaginatorContainer" class="flex gap-1 items-center">
+                <div id="dtPaginatorContainer" class="flex gap-1 items-center w-full justify-center">
                     <paginate-btn @click="dt.firstPage()" :disabled="current_page === first_page">First</paginate-btn>
                     <paginate-btn @click="dt.prevPage()" :disabled="!prev_page"> <arrow-left class="h-auto w-6" />Prev</paginate-btn>
                     <div class="text-xs flex flex-col whitespace-nowrap text-center">
@@ -117,16 +115,9 @@
                     <paginate-btn @click="dt.nextPage()" :disabled="current_page === last_page">Next <arrow-right class="h-auto w-6" /></paginate-btn>
                     <paginate-btn @click="dt.lastPage()" :disabled="current_page === last_page">Last</paginate-btn>
                 </div>
-                <div class="flex flex-row items-center sm:w-1/3 w-full sm:justify-end justify-between gap-2">
-                    <search-by :value="dt.request.params.filter" :is-exact="dt.request.params.is_exact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
-                    <search-filter :value="dt.request.params.search" @searchString="dt.searchFunc({ search: $event })" />
-                </div>
             </div>
-            <div id="dtFooterContainer" class="flex flex-wrap-reverse items-center sm:justify-between justify-center gap-5 select-none" v-if="dt.response instanceof BaseResponse">
-        </div>
-
         </top-container>
-        <div id="dtTableContainer" class="flex relative w-full justify-center overflow-x-auto">
+        <div id="dtTableContainer" class="flex relative w-full justify-center overflow-x-hidden">
             <transition
                 leave-active-class="transition ease-in duration-200"
                 leave-from-class="transform opacity-100"
@@ -145,12 +136,12 @@
                                 v-for="column in dt.model.getColumns()"
                                 :visible="column.visible"
                                 :sortable="column.sortable"
-                                :key="column.key"
-                                :sortedValue="column.key === dt.request.getParam('sort')"
+                                :key="column.key + column.title"
+                                :sortedValue="!!clickSortCtr && column.key === dt.request.getParam('sort')"
                                 :column="column.title"
-                                :order="dt.request.getParam('order')"
+                                :order="clickSortCtr ? dt.request.getParam('order') : null"
                                 :class="column.sortable?'cursor-pointer':'cursor-auto'"
-                                @click="column.sortable && dt.sortFunc({ sort: column.key })"
+                                @click="onColumnSort(column)"
                             />
                             <t-h
                                 v-if="showActionBtns"
@@ -166,6 +157,7 @@
                             <tbody-row v-if="data.length && !dt.processing"
                                        v-for="row in data"
                                        :isSelected="dt.isSelected(row.id)"
+                                       @contextmenu="showContextMenu($event, row)"
                             >
                                 <!-- Cell No. -->
                                 <t-d class="text-xs text-gray-600 items-center">
@@ -175,28 +167,32 @@
                                     </div>
                                 </t-d>
                                 <!-- Cell Data -->
-                                <template v-for="(value, label) in row" :key="value">
-                                    <t-d
-                                        class="break-words text-sm border border-gray-300"
-                                        v-on:dblclick="dt.addSelected(row.id)"
-                                        v-on:click.ctrl="dt.addSelected(row.id)"
-                                        v-if="dataValue(label)">
-                                        {{ value }}
-                                    </t-d>
-                                </template>
+                                <t-d v-for="column in visibleColumns" :key="column.key + column.title"
+                                    class="break-words border border-gray-300"
+                                    :class="'text-' + column.align"
+                                    @dblclick="dt.addSelected(row.id)"
+                                    @click.ctrl="dt.addSelected(row.id)">
+                                    {{ getNestedValue(row, column.key)  }}
+                                </t-d>
                                 <!-- Cell Actions -->
                                 <t-d class="items-center" v-if="showActionBtns">
                                     <div class="flex justify-center sm:gap-1 gap-0.5">
-                                        <top-action-btn
-                                            v-if="canView && viewForm"
-                                            @click="showViewDialogFunc(row.id)"
-                                            class="bg-view"
-                                            title="View">
-                                            <template #icon>
-                                                <view-icon class="h-auto sm:w-4 w-3" />
-                                            </template>
-                                            <span v-show="showIconText">View</span>
-                                        </top-action-btn>
+                                        <Link
+                                            v-if="canView && viewForm && route().has(viewForm)"
+                                            class="bg-view rounded p-0"
+                                            title="View"
+                                            :href="route(viewForm, row.id)"
+                                        >
+                                            <top-action-btn
+                                                class="bg-view"
+                                                title="View">
+                                                <template #icon>
+                                                    <view-icon class="h-auto sm:w-4 w-3" />
+                                                </template>
+                                                <span v-show="showIconText">View</span>
+                                            </top-action-btn>
+                                        </Link>
+
                                         <top-action-btn
                                             v-if="canUpdate"
                                             @click="showEditDialogFunc(row.id)"
@@ -218,6 +214,38 @@
                                             <span v-show="showIconText">Delete</span>
                                         </top-action-btn>
                                     </div>
+                                    <context-menu ref="contextMenu">
+                                        <div class="flex flex-col justify-center sm:gap-1 gap-0.5">
+                                            <Link
+                                                v-if="canView && viewForm && route().has(viewForm)"
+                                                title="View"
+                                                class="flex gap-1 p-1 items-center hover:bg-gray-200 cursor-pointer"
+                                                :href="route(viewForm, row.id)"
+                                            >
+                                                <view-icon class="h-auto sm:w-5 w-4 p-0.5 text-view" />
+                                                <span>View</span>
+                                            </Link>
+
+                                            <button
+                                                v-if="canUpdate"
+                                                @click="showEditDialogFunc(row.id)"
+                                                title="Modify this row"
+                                                class="flex gap-1 p-1 items-center hover:bg-gray-200"
+                                            >
+                                                <edit-icon class="h-auto sm:w-5 w-4 p-0.5 text-edit" />
+                                                <span>Update</span>
+                                            </button>
+                                            <div
+                                                v-if="canDelete"
+                                                @click="showDeleteDialogFunc(row.id)"
+                                                title="Delete this row"
+                                                class="flex gap-1 p-1 items-center hover:bg-gray-200 cursor-pointer"
+                                            >
+                                                <delete-icon class="h-auto sm:w-5 w-4 p-0.5 text-delete" />
+                                                <span>Delete</span>
+                                            </div>
+                                        </div>
+                                    </context-menu>
                                 </t-d>
                             </tbody-row>
                             <not-found-row v-else :colspan="dt.model.getColumns().length+2" />
@@ -233,13 +261,13 @@
             </div>
         </div>
         <dialog-form-modal :show="showImportModal && canCreate" @close="closeDialog">
-            <component :is="importModal" v-if="importModal" :errors="dt.errorBag" @uploadForm="dt.importCSV($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+            <component :is="importModal" v-if="importModal" :errors="errorBag" @uploadForm="dt.importCSV($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
         <dialog-form-modal :show="showAddDialog && canCreate" @close="closeDialog">
-            <component :is="addForm" v-if="addForm" :errors="dt.errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+            <component :is="addForm" v-if="addForm" :errors="errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
         <dialog-form-modal :show="showEditDialog && canUpdate" @close="closeDialog">
-            <component :is="editForm" v-if="editForm" :errors="dt.errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
+            <component :is="editForm" v-if="editForm" :errors="errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
         </dialog-form-modal>
         <dialog-modal :show="showDeleteDialog && canDelete" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
             <template #title>
@@ -275,7 +303,7 @@
     </div>
 </template>
 <script setup>
-import BaseResponse from "@/Modules/core/infrastructure/BaseResponse.js";
+import { Link } from '@inertiajs/vue3';
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import PaginateBtn from "@/Components/CRCMDatatable/Components/PaginateBtn.vue";
 import ActionContainer from "@/Components/CRCMDatatable/Layouts/ActionContainer.vue";
@@ -312,14 +340,14 @@ import CrcmThead from "@/Components/CRCMDatatable/Components/CrcmThead.vue";
 import TheadRow from "@/Components/CRCMDatatable/Components/TheadRow.vue";
 import CrcmTbody from "@/Components/CRCMDatatable/Components/CrcmTbody.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
+import ContextMenu from "@/Components/CRCMDatatable/Components/ContextMenu.vue";
 </script>
 
 <script>
-import CRCMDatatable from "@/Modules/core/components/CRCMDatatable.js";
+import CRCMDatatable from "@/Components/CRCMDatatable/core/infra/CRCMDatatable.js";
 import { router } from "@inertiajs/vue3";
 import {defineAsyncComponent} from "vue";
-import ApiService from "@/Modules/core/infrastructure/ApiService.js";
-
+import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 export default {
     name: "CRCMDatatable",
     props: {
@@ -394,46 +422,79 @@ export default {
             toEditData: null,
             showAddDialog: false,
             showImportModal: false,
-            inputWidth: 1
+            inputWidth: 1,
+            clickSortCtr: 0,
+            rowContextMenu: null,
         }
     },
     computed: {
         data() {
-            return this.dt.response['data'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['data'];
+            return [];
+        },
+        errorBag() {
+            if (this.dt.errorBag)
+                return this.dt.errorBag.errors;
+            return null;
+        },
+        visibleColumns() {
+            return this.dt.model.getColumns().filter(column => column.visible);
         },
         selected(){
             return this.dt.selected;
         },
         current_page() {
-            return this.dt.response['meta']['current_page'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['current_page'];
+            return 1;
         },
         last_page() {
-            return this.dt.response['meta']['last_page'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['last_page'];
+            return 1;
         },
         next_page() {
-            return this.dt.response['meta']['current_page'] + 1;
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['current_page'] + 1;
+            return 1;
         },
         prev_page() {
-            return this.dt.response['meta']['current_page'] - 1;
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['current_page'] - 1;
+            return 0;
         },
         first_page() {
+            if (this.checkIfDataIsLoaded)
+                return 1;
             return 1;
         },
         total_pages() {
-            return this.dt.response['meta']['last_page'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['last_page'];
+            return 1;
         },
         total_entries() {
-            return this.dt.response['meta']['total'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['total'];
+            return 0;
         },
         meta_from() {
-            return this.dt.response['meta']['from'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['from'];
+            return 0;
         },
         meta_to() {
-            return this.dt.response['meta']['to'];
+            if (this.checkIfDataIsLoaded)
+                return this.dt.response['meta']['to'];
+            return 0;
         },
         showIconText() {
             return this.$store.state.showTextWithIcon;
         },
+        checkIfDataIsLoaded() {
+            return !!this.dt.response && !!this.dt.response['meta'] && !!this.dt.response['data'];
+        }
     },
     methods: {
         dataValue(label) {
@@ -442,6 +503,21 @@ export default {
             } catch (e) {
                 return false;
             }
+        },
+        showContextMenu(event, row) {
+            event.preventDefault();
+            if (this.$refs.contextMenu) {
+                try {
+                    this.$refs.contextMenu.showMenu(event);
+                } catch (e) {
+                    console.log('Error at the showContextMenu');
+                }
+            } else {
+                console.error('ContextMenu ref is not defined');
+            }
+        },
+        getNestedValue(obj, path) {
+            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
         },
         toggleShowIconText() {
             this.$store.dispatch("asyncToggleShowTextWithIcon");
@@ -486,14 +562,16 @@ export default {
             this.showImportModal = false;
             this.showDeleteSelectedDialog = false;
             this.dt.closeAllModal = false;
-            this.dt.errorBag = {};
+            this.dt.errorBag = null;
 
             this.toDeleteId = null;
             this.toEditId = null;
         },
         async initializeDatatable() {
             this.dt = new CRCMDatatable(this.baseUrl, this.baseModel);
-            await this.dt.init();
+            //await this.dt.init();
+            //the same as above, to initialize the table and the width of goto page field
+            this.updateWidth();
         },
         updateWidth() {
             this.$nextTick(() => {
@@ -502,18 +580,30 @@ export default {
                     this.inputWidth = input.scrollWidth;
                 }
             });
-            if (this.$refs.input.value > 0 && this.$refs.input.value <= this.total_pages)
+            if (this.$refs.input && this.$refs.input.value > 0 && this.$refs.input.value <= this.total_pages)
                 this.dt.gotoPage(this.$refs.input.value);
             else
                 this.dt.gotoPage(this.total_pages);
+        },
+        onColumnSort(column) {
+            if (!column.sortable) {
+                return false;
+            }
+
+            this.clickSortCtr = (this.clickSortCtr + 1) % 3;
+
+            if (this.clickSortCtr === 0) {
+                return false;
+            } else {
+                return this.dt.sortFunc({ sort: column.key });
+            }
         }
+
     },
     async mounted() {
         if (this.baseUrl){
             await this.initializeDatatable();
         }
-
-        this.updateWidth();
     },
     setup() {
         return {

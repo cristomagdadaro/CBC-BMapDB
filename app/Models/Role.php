@@ -36,4 +36,9 @@ class Role extends BaseModel
         'notFound' => 'Role not found.',
         'unknown' => 'Unknown error, action failed.',
     ];
+
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class, 'role_has_permissions');
+    }
 }

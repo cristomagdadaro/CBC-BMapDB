@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()
-            ->unapproved()
+            ->approved()
             ->count(20)
             ->create();
     }

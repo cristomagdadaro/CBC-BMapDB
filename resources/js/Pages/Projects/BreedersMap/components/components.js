@@ -1,5 +1,5 @@
-import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder.js";
-import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.js";
+import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import {defineAsyncComponent} from "vue";
 /**
  * Contains the forms, pages, api routes, and models for the BreedersMap project

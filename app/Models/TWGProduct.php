@@ -38,4 +38,9 @@ class TWGProduct extends BaseModel
         'notFound' => 'TWG Product not found.',
         'unknown' => 'Unknown error, action failed.',
     ];
+
+    public function expert()
+    {
+        return $this->belongsTo(TWGExpert::class, 'twg_expert_id');
+    }
 }

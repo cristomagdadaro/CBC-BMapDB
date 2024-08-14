@@ -42,6 +42,10 @@ class Accounts extends BaseModel
         'unknown' => 'Unknown error, action failed.',
     ];
 
+    protected $casts = [
+        'approved_at' => 'datetime',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -49,6 +53,6 @@ class Accounts extends BaseModel
 
     public function application()
     {
-        return $this->belongsTo(Application::class, 'app_id', 'id');
+        return $this->hasOne(Application::class, 'id', 'app_id');
     }
 }

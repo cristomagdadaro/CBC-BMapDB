@@ -1,6 +1,19 @@
 <?php
 
 return [
+    '403' => 'Forbidden',
+    '404' => 'Not Found',
+    '500' => 'Internal Server Error',
+    '204' => 'No Content',
+    '400' => 'Bad Request',
+    '401' => 'Unauthorized',
+    '405' => 'Method Not Allowed',
+    '406' => 'Not Acceptable',
+    '409' => 'Conflict',
+    '422' => 'Unprocessable Entity',
+    '429' => 'Too Many Requests',
+    '503' => 'Service Unavailable',
+    '206' => 'Partial Content',
     '23000' => 'Cannot delete or remove a parent row',
     '23503' => 'The record is being referenced by other records',
     '42P01' => 'Table does not exist',
