@@ -90,6 +90,6 @@ class Commodity extends BaseModel
 
     public function breeder()
     {
-        return $this->belongsTo(Breeder::class, 'breeder_id', 'id');
+        return $this->belongsTo(Breeder::class);
     }
 }

@@ -14,7 +14,7 @@ class TWGServiceSeeder extends Seeder
     public function run(): void
     {
         TWGService::factory()
-            ->count(rand(1, 100))
+            ->count(20)
             ->create();
     }
 }

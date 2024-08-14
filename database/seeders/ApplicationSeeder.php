@@ -18,14 +18,14 @@ class ApplicationSeeder extends Seeder
         Application::factory()->create([
             'name' => 'TWG Database',
             'description' => 'Technical Working Group Database for the Biotechnology Related Projects and Researches',
-            'url' => 'projects.twg.index',
+            'url' => null,
             'icon' => null,
         ]);
 
         Application::factory()->create([
             'name' => 'Breeder\'s Map',
             'description' => 'This interactive platform provides a comprehensive overview of the Philippines\' biotechnology-driven plant breeding community.',
-            'url' => 'projects.breedersmap.index',
+            'url' => null,
             'icon' => null,
         ]);
     }

@@ -15,10 +15,7 @@ defineProps({
     id: String,
     label: String,
     options: Array,
-    error: {
-        type: [String, Array],
-        default: null,
-    },
+    error: Array,
     required: {
         type: Boolean,
         default: false,
@@ -41,11 +38,8 @@ defineExpose({ focus: () => input.value.focus() });
 <template>
     <div class="flex flex-col border-0 p-0 bg-transparent">
         <div class="flex justify-between items-center">
-            <label :for="id" class="flex text-sm gap-0.5 items-center">
-                {{ label }}
-                <span v-if="required" class="text-red-500 font-bold text-xs">*</span>
-            </label>
-            <InputError :message="Array.isArray(error) ? error[0] : error" />
+            <label :for="id" class="text-gray-600">{{ label }} <span v-if="required" class="text-red-500 font-bold">*</span></label>
+            <InputError v-for="msg in error" :message="msg" />
         </div>
         <select
             :id="id"

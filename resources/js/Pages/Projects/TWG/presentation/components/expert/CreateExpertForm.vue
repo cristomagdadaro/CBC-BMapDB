@@ -17,15 +17,31 @@
     </base-create-form>
 </template>
 <script>
+import TextField from "@/Components/Form/TextField.vue";
+import SelectField from "@/Components/Form/SelectField.vue";
 import { TWGPages } from "@/Pages/Projects/TWG/components/components.js";
-import FormMixin from "@/Pages/mixins/FormMixin.js";
+import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
 
 export default {
-    mixins: [FormMixin],
     name: "CreateExpertForm",
     computed: {
         TWGPages() {
             return TWGPages
+        }
+    },
+    components: {
+        BaseCreateForm,
+        SelectField,
+        TextField,
+    },
+    props: {
+        errors: {
+            type: Object,
+            default: () => ({})
+        },
+        forceClose: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -41,6 +57,11 @@ export default {
                 email: null,
             },
         };
+    },
+    methods: {
+        getError(field) {
+            return this.errors[field] ? this.errors[field] : [];
+        },
     },
 };
 </script>

@@ -13,6 +13,6 @@ class TWGExpertSeeder extends Seeder
      */
     public function run(): void
     {
-        TWGExpert::factory()->count(rand(1, 100))->create();
+        TWGExpert::factory()->count(20)->create();
     }
 }

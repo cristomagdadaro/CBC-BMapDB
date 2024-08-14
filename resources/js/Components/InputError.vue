@@ -1,7 +1,7 @@
 <script setup>
-import {ref, watch} from "vue";
+import {ref} from "vue";
 
-const props = defineProps({
+defineProps({
     message: String,
 });
 
@@ -11,20 +11,16 @@ const toggleShow = () => {
     if (show.value) {
         setTimeout(() => {
             show.value = false;
-        }, 3000);
+        }, 5000);
     }
 };
-
-watch(() => props.message, () => {
-    toggleShow();
-});
 </script>
 
 <template>
-    <div v-if="props.message" class="flex items-center gap-0.5 overflow-hidden" :title="props.message">
+    <div v-show="message" class="flex items-center gap-0.5 overflow-hidden">
         <transition name="slide-fade">
-            <p v-show="show" class="text-xs text-red-600 whitespace-nowrap">
-                {{ props.message }}
+            <p v-show="show" class="text-xs text-red-600">
+                {{ message }}
             </p>
         </transition>
         <span @mouseenter="toggleShow" @click="toggleShow"  class="rounded-full border px-[0.4rem] text-xs scale-[80%] select-none text-red-500 border-red-500" :title="message">!</span>

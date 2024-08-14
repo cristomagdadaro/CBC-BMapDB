@@ -52,7 +52,7 @@ export default {
     },
     methods: {
         resetForm() {
-            this.$emit('resetForm');
+            this.form = Object.assign({}, this.data);
         },
         close() {
             this.resetForm();

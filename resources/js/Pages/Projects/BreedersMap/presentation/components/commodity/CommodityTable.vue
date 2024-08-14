@@ -22,10 +22,9 @@ export default {
             return BreedersMapPages
         },
         BaseURL() {
-            //let temp = this.BreedersMapPages.api.commodity.path;
-            let temp = route('api.commodities.index', this.params.search);
-            console.log(temp);
-            /*const queryParams = [];
+            let temp = this.BreedersMapPages.api.commodity.path;
+
+            const queryParams = [];
 
             if (this.params.filter) {
                 queryParams.push(`filter=${this.params.filter}`);
@@ -41,7 +40,9 @@ export default {
 
             if (queryParams.length > 0) {
                 temp += '?' + queryParams.join('&');
-            }*/
+            }
+
+            console.log(temp);
             return temp;
         },
         Permission() {
@@ -82,6 +83,7 @@ export default {
         :can-delete="canDelete"
         :can-view="canView"
     />
+    {{$page.props.params}}
 </template>
 
 <style scoped>

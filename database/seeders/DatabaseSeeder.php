@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Enums\Role;
-use App\Models\Accounts;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -19,47 +17,27 @@ class DatabaseSeeder extends Seeder
             ApplicationSeeder::class,
         ]);
 
-        $admin = User::factory()->create([
+        $admin = User::factory()->unapproved()->create([
             'fname' => 'Cristo Rey',
             'lname' => 'Magdadaro',
             'email' => 'admin@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
-            'email_verified_at' => now()
+            'affiliation' => 'Crop Biotechnology Center'
         ]);
 
-        $admin->approve(1);
-        $admin->approve(2);
-
-        $twgAdmin = User::factory()->create([
-            'fname' => 'TWG',
-            'lname' => 'Admin',
-            'email' => 'twgadmin@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
-            'email_verified_at' => now()
-        ]);
-
-        $twgAdmin->approve(1);
-
-        $breeder = User::factory()->create([
+        $breeder = User::factory()->unapproved()->create([
             'fname' => 'Reynaldo',
             'lname' => 'Diocton',
             'email' => 'breeder@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
-            'email_verified_at' => now()
+            'affiliation' => 'Crop Biotechnology Center'
         ]);
 
-        $breeder->approve(2);
-
-        $researcher = User::factory()->create([
+        $researcher = User::factory()->unapproved()->create([
             'fname' => 'Precious Mae',
             'lname' => 'Gabato',
             'email' => 'researcher@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
-            'email_verified_at' => now()
+            'affiliation' => 'Crop Biotechnology Center'
         ]);
 
-        $researcher->approve(1);
-        $researcher->approve(2);
 
         $this->call([
             RoleAndPermissionSeeder::class,
@@ -69,10 +47,8 @@ class DatabaseSeeder extends Seeder
             TWGDatabaseSeeder::class
         ]);
 
-
-        $admin->assignRole(Role::ADMIN->value);
-        $twgAdmin->assignRole(Role::TWG_ADMIN->value);
-        $breeder->assignRole(Role::BREEDER->value);
-        $researcher->assignRole(Role::RESEARCHER->value);
+        $admin->assignRole('Administrator');
+        $breeder->assignRole('Breeder');
+        $researcher->assignRole('Researcher');
     }
 }

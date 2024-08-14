@@ -22,33 +22,37 @@ class TWGServiceController extends BaseController
 
     public function index(GetTWGServiceRequest $request)
     {
-        $this->service->appendWith(['expert']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
     public function show($id)
     {
-        return $this->service->find($id);
+        $data = $this->service->find($id);
+        return $this->sendResponse('TWG Service retrieved successfully.', $data);
     }
 
     public function store(CreateTWGServiceRequest $request)
     {
-        return $this->service->create($request->validated());
+        $data = $this->service->create($request->validated());
+        return $this->sendResponse('TWG Service created successfully.', $data);
     }
 
     public function update(UpdateTWGServiceRequest $request,$id)
     {
-        return $this->service->update($id, $request->validated());
+        $data = $this->service->update($id, $request->validated());
+        return $this->sendResponse('TWG Service updated successfully.', $data);
     }
 
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        $this->service->delete($id);
+        return $this->sendResponse('TWG Service deleted successfully.');
     }
 
     public function multiDestroy(DeleteTWGServiceRequest $request)
     {
-        return $this->service->multiDestroy($request->validated());
+        $this->service->multiDestroy($request->validated());
+        return $this->sendResponse('TWG Services deleted successfully.');
     }
 }

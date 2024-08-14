@@ -28,36 +28,37 @@ class BreederController extends BaseController
 
     public function store(CreateBreederRequest $request): JsonResponse
     {
-        return $this->service->create($request->validated());
+        $data = $this->service->create($request->validated());
+        return $this->sendResponse('Breeder created successfully.', $data);
     }
 
     public function show(int $id): JsonResponse
     {
-        return $this->service->find($id);
+        $data = $this->service->find($id);
+        return $this->sendResponse('Breeder retrieved successfully.', $data);
     }
 
     public function noPageSearch(int $id, GetCommoditiesRequest $request)
     {
-        $this->service->appendWith(['commodities']);
-        $data = $this->service->search(new Collection($request->validated()), false);
-        if (count($data) === 0) {
-            return response()->json(['message' => 'Data not found'], 404);
-        }
-        return response()->json(['data' => $data[0]->commodities]);
+        $data = $this->service->find($id)->load('commodities');
+        return new BaseCollection($data->commodities);
     }
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
-        return $this->service->update($id, $request->validated());
+        $data = $this->service->update($id, $request->validated());
+        return $this->sendResponse('Breeder updated successfully.', $data);
     }
 
     public function destroy($id): JsonResponse
     {
-        return $this->service->delete($id);
+        $this->service->delete($id);
+        return $this->sendResponse('Breeder deleted successfully.');
     }
 
     public function multiDestroy(DeleteBreederRequest $request): JsonResponse
     {
-        return $this->service->multiDestroy($request->validated());
+        $this->service->multiDestroy($request->validated());
+        return $this->sendResponse('Breeders deleted successfully.');
     }
 }

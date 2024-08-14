@@ -2,9 +2,13 @@
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import Checkbox from '@/Components/Checkbox.vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
 import PageLayout from '@/Layouts/PageLayout.vue';
-import TextField from "@/Components/Form/TextField.vue";
+import Logo from "@/Components/Icons/Logo.vue";
+import GreenWaves from "@/Components/GreenWaves.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -36,50 +40,57 @@ function onSignIn(googleUser) {
 </script>
 <template>
     <Head title="Log in" />
-    <page-layout>
+    <PageLayout :is-wide-display="true">
+        <green-waves />
         <AuthenticationCard>
-            <div class="relative grid sm:grid-cols-2 grid-rows-1 items-center">
-                <div class="absolute hidden z-0 drop-shadow-2xl bottom-0 left-0 flex justify-center h-auto sm:w-1/2 w-auto">
-                    <img src="../../../../public/img/cbc_statue_cartoon.png" class="select-none sm:h-[27rem] h-28 w-auto sm:absolute bottom-0 drop-shadow" alt="DA-CBC Statue" />
+            <div class="flex sm:flex-row flex-col items-center">
+                <div class="flex justify-between z-0">
+                    <div class="text-gray-700 flex flex-col sm:w-full w-1/2">
+                        <span class="text-lg leading-5">
+                            Department&nbsp;of&nbsp;Agriculture
+                        </span>
+                        <span class="font-bold sm:text-4xl text-xl sm:leading-8 leading-4">
+                            Crop Biotechnology Center
+                        </span>
+                            <span class="text-xs opacity-50">
+                            For Authorized Personnel Only
+                        </span>
+                    </div>
+                    <div class="flex justify-center h-auto sm:w-1/2 w-auto">
+                        <img src="../../../../public/img/cbc_statue_cartoon.png" class="sm:h-[27rem] h-28 w-auto sm:absolute bottom-0 drop-shadow" alt="DA-CBC Statue" />
+                    </div>
                 </div>
-                <div class="drop-shadow-lg select-none text-gray-50 flex flex-col w-full z-50 sm:text-left text-center">
-                    <span class="text-lg leading-tight">
-                        Welcome to
-                    </span>
-                    <span class="font-bold sm:text-5xl text-2xl leading-relaxed">
-                        <span class="text-cbc-dark-green">C</span>rop<span class="text-cbc-dark-green">B</span>iotech
-                    </span>
-                    <span class="font-bold sm:text-3xl text-2xl leading-relaxed">
-                        <span class="text-cbc-dark-green">C</span>entralized <span class="text-cbc-dark-green">D</span>atabase
-                    </span>
-                </div>
-                <div class="bg-cbc-dark-green sm:p-3 sm:px-5 p-4 shadow-lg rounded-md sm:min-w-[15rem] min-w-full">
+                <div class="bg-cbc-dark-green sm:p-2 p-4 rounded-md sm:min-w-[15rem] min-w-full">
                     <div v-if="status" class="mb-4 font-medium text-sm">
                         {{ status }}
                     </div>
 
                     <form @submit.prevent="submit">
-                        <text-field
-                            id="email"
-                            v-model="form.email"
-                            type="email"
-                            label="Email"
-                            class="mt-1 block w-full text-white"
-                            required
-                            autofocus
-                            autocomplete="username"
-                            :error="form.errors.email"
-                        />
-                        <text-field
-                            id="password"
-                            v-model="form.password"
-                            type-input="password"
-                            label="Password"
-                            class="mt-4 block w-full text-white"
-                            required
-                            autocomplete="current-password"
-                            :error="form.errors.password"
-                        />
+                        <div>
+                            <InputLabel for="email" value="Email" class="text-gray-100" />
+                            <TextInput
+                                id="email"
+                                v-model="form.email"
+                                type="email"
+                                class="mt-1 block w-full"
+                                required
+                                autofocus
+                                autocomplete="username"
+                            />
+                            <InputError class="mt-2" :message="form.errors.email" />
+                        </div>
+                        <div class="mt-4">
+                            <InputLabel for="password" value="Password" class="text-gray-100" />
+                            <TextInput
+                                id="password"
+                                v-model="form.password"
+                                type="password"
+                                class="mt-1 block w-full"
+                                required
+                                autocomplete="current-password"
+                            />
+                            <InputError class="mt-2" :message="form.errors.password" />
+                        </div>
 
                         <div class="block mt-4">
                             <label class="flex items-center">
@@ -88,7 +99,7 @@ function onSignIn(googleUser) {
                             </label>
                         </div>
 
-                        <div class="flex flex-col text-xs mt-4 sm:gap-5 gap-3">
+                        <div class="flex flex-col text-xs mt-4">
                             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                 Log in
                             </PrimaryButton>
@@ -101,5 +112,5 @@ function onSignIn(googleUser) {
                 </div>
             </div>
         </AuthenticationCard>
-    </page-layout>
+    </PageLayout>
 </template>

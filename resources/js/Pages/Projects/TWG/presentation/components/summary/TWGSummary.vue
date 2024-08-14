@@ -1,5 +1,5 @@
 <script>
-import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
+import ApiService from "@/Modules/core/infrastructure/ApiService.js";
 import Chart from 'chart.js/auto';
 export default {
     name: "TWGSummary",

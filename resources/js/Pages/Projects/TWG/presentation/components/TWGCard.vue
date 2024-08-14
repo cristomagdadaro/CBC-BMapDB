@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-    <div class="flex flex-col w-full sm:p-5 p-4 shadow rounded-md bg-gray-100">
+    <div class="flex flex-col w-full sm:p-3 p-1 shadow rounded-md bg-gray-100">
         <div class="flex gap-5 justify-between items-center pb-2">
             <div class="flex items-center gap-2">
                 <profile-empty-icon class="text-gray-400 w-10 h-10" />

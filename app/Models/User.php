@@ -114,7 +114,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function accounts(): HasMany
     {
-        return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at');
+        return $this->hasMany(Accounts::class, 'user_id', 'id');
     }
 
     public function getSearchable(): array
@@ -145,16 +145,5 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isResearcher(): bool
     {
         return $this->hasRole(\App\Enums\Role::RESEARCHER->value);
-    }
-
-    public function approve($id = null): void
-    {
-        if ($id) {
-            $this->accounts()->create([
-                'user_id' => $this->id,
-                'app_id' => $id,
-                'approved_at' => now(),
-            ]);
-        }
     }
 }

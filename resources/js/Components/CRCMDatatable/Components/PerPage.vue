@@ -1,13 +1,12 @@
 <template>
-    <div class="flex flex-col gap-0.5">
-        <div class="text-xs text-gray-500 flex items-center justify-between">
-            <span class="flex gap-0.5 whitespace-nowrap">Per Page</span>
-        </div>
+    <div class="flex items-center gap-1 text-sm">
+        Show
         <custom-dropdown :value="value" :withAllOption="false" :options="perPage" @selectedChange="$emit('changePerPage', $event)">
             <template #icon>
-                <caret-down  class="h-4 w-4 text-gray-700" />
+                <caret-down  class="h-4 w-4" />
             </template>
         </custom-dropdown>
+        entries
     </div>
 </template>
 <script>

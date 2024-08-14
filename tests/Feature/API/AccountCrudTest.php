@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Enums\Role as RoleEnum;
 use App\Models\Accounts;
 use App\Models\Application;
 use App\Models\User;
@@ -107,19 +106,6 @@ class AccountCrudTest extends TestCase
         $this->assertDatabaseHas('accounts', [
             'account_id' => $uuid->toString(),
         ]);
-    }
-
-    /** @test **/
-    public function update_a_user_permission(): void
-    {
-        $response = $this->putJson('/api/accounts/4', [
-            'user_id' => 3,
-            'app_id' => 1,
-            'approved_at' => now(),
-            'permissions' => [1, 2, 3],
-        ]);
-        //print_r($response);
-        $response->assertStatus(200);
     }
 
     /** @test **/

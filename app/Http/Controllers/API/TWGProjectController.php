@@ -22,33 +22,37 @@ class TWGProjectController extends BaseController
 
     public function index(GetTWGProjectRequest $request)
     {
-        $this->service->appendWith(['expert']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
     public function show($id)
     {
-        return $this->service->find($id);
+        $data = $this->service->find($id);
+        return $this->sendResponse('TWG Project retrieved successfully.', $data);
     }
 
     public function store(CreateTWGProjectRequest $request)
     {
-        return $this->service->create($request->validated());
+        $data = $this->service->create($request->validated());
+        return $this->sendResponse('TWG Project created successfully.', $data);
     }
 
     public function update(UpdateTWGProjectRequest $request, $id)
     {
-        return $this->service->update($id, $request->validated());
+        $data = $this->service->update($id, $request->validated());
+        return $this->sendResponse('TWG Project updated successfully.', $data);
     }
 
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        $this->service->delete($id);
+        return $this->sendResponse('TWG Project deleted successfully.');
     }
 
     public function multiDestroy(DeleteTWGProjectRequest $request)
     {
-        return $this->service->multiDestroy($request->validated());
+        $this->service->multiDestroy($request->validated());
+        return $this->sendResponse('TWG Projects deleted successfully.');
     }
 }

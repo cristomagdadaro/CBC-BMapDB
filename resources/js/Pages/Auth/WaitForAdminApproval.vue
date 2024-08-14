@@ -9,7 +9,8 @@ import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 
 <template>
     <Head title="Wait for Admin Approval" />
-    <page-layout>
+    <page-layout :is-wide-display="true">
+        <green-waves />
         <AuthenticationCard>
             <new-account-progress-view />
             <h2 class="font-semibold text-2xl text-center text-gray-800">Please Wait for Admin Approval</h2>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('commodities', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('name')->unique('unique_commodity_name')->nullable();
             $table->foreignId('breeder_id')->constrained('breeders');
             $table->string('scientific_name')->nullable();
             $table->string('variety')->nullable();

@@ -1,24 +1,6 @@
 <script setup>
-
-const props = defineProps({
-    element: {
-        type: Object,
-        required: false,
-        default: null,
-    },
-});
-
 const toggleFullScreen = function() {
-    if (props.element) {
-        if (!document.fullscreenElement) {
-            props.element.requestFullscreen().catch(err => {
-                console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-    }
-    else if (!document.fullscreenElement)
+    if (!document.fullscreenElement)
         document.documentElement.requestFullscreen();
     else
         document.exitFullscreen();
