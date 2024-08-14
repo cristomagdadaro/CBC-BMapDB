@@ -32,7 +32,6 @@ class UserFactory extends Factory
             'affiliation' => $this->faker->randomElement(['Crop Biotechnology Center','Philippine Rice Research Institute', 'Central Luzon State University', 'Visayas State University', 'Mindanao State University', 'Philippine Rubber Research Institute']),
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'role' => 1,
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),

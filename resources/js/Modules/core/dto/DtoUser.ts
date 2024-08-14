@@ -24,6 +24,7 @@ export default class DtoUser extends BaseClass implements IUser {
 
     constructor(dto: IUser) {
         super();
+        this.table = 'users';
         this.id = dto.id;
         this.fname = dto.fname;
         this.mname = dto.mname;

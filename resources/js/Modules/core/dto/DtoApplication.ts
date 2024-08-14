@@ -11,6 +11,7 @@ export default class DtoApplication extends BaseClass implements IApplication {
 
     constructor(dto: IApplication) {
         super();
+        this.table = 'applications';
         this.id = dto.id;
         this.name = dto.name;
         this.description = dto.description;

@@ -25,6 +25,7 @@ class RoleController extends BaseController
 
     public function index(GetRoleRequest $request): BaseCollection
     {
+        $this->service->appendWith(['permissions']);
         $data = $this->service->search(new Collection($request->validated()));
         // remove the Admin role from the list
         foreach ($data->items() as $key => $value) {

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->unique(['user_id', 'app_id']);
+            $table->unique(['user_id', 'app_id'], 'accounts_user_id_app_id_unique');
         });
     }
 

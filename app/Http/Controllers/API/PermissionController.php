@@ -25,11 +25,30 @@ class PermissionController extends BaseController
         $this->service = $permissionRepository;
     }
 
-    public function index(GetPermissionRequest $request)
+    /*public function index(GetPermissionRequest $request)
     {
         $data = $this->service->search(new Collection($request->validated()),false);
-        return new BaseCollection($data->orderBy('name','asc')->get());
+        return new BaseCollection($data);
+    }*/
+
+    public function index()
+    {
+        $permissions = Permission::all();
+
+        return $permissions->groupBy(function ($permission) {
+            if (str_contains($permission->name, 'create')) {
+                return 'create';
+            } elseif (str_contains($permission->name, 'read')) {
+                return 'read';
+            } elseif (str_contains($permission->name, 'delete')) {
+                return 'delete';
+            } elseif (str_contains($permission->name, 'update')) {
+                return 'update';
+            }
+            return 'other'; // Group for permissions that don't match any of the above
+        });
     }
+
 
     public function show($id)
     {

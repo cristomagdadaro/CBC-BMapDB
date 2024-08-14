@@ -1,13 +1,18 @@
 <script>
 
-import FormMixin from "@/Pages/mixins/FormMixin.js";
+import FormMixin from "@/Pages/mixins/FormMixin";
 import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
 import Permission from "@/Modules/core/domain/auth/Permission";
 import BaseRequest from "@/Modules/core/domain/base/BaseRequest";
+import Role from "@/Modules/core/domain/auth/Role";
+import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
+import User from "@/Modules/core/domain/auth/User";
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
+import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
 
 export default {
-    components: {BaseButton},
+    components: {BaseEditForm, SelectSearchField, CustomDropdown, BaseButton},
     mixins: [FormMixin],
     name: "EditAccountForm",
     data() {
@@ -16,9 +21,11 @@ export default {
                 user_id: null,
                 app_id: null,
                 approved_at: null,
-                permissions: []
+                permissions: [],
+                role: null
             },
             permissions: [],
+            roles: []
         };
     },
     methods: {
@@ -30,8 +37,14 @@ export default {
         },
         getPermissions() {
             const service = new ApiService(route('api.permissions.index'));
-            service.get(new BaseRequest(), Permission).then(response => {
+            service.get(new BaseRequest()).then(response => {
                 this.permissions = response.data;
+            });
+        },
+        getRoles() {
+            const service = new ApiService(route('api.roles.index'));
+            service.get(new BaseRequest(), Role).then(response => {
+                this.roles = response.data;
             });
         },
         checkBoxChange(event, permissionId) {
@@ -45,10 +58,16 @@ export default {
             } else {
                 this.form.permissions = this.form.permissions.filter(permission => permission !== permissionId);
             }
-        }
+        },
     },
-    mounted() {
+    computed: {
+        selectedRole() {
+            return this.roles.find(role => role.id === this.form.role);
+        },
+    },
+    beforeMount() {
         this.getPermissions();
+        this.getRoles();
     }
 }
 </script>
@@ -59,7 +78,6 @@ export default {
             Approve User Account
         </template>
         <template v-slot:formFields>
-            {{ form }}
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                 <select-search-field :api-link="route('api.users.index')" :error="getError('user_id')" label="User" v-model="form.user_id" required />
                 <select-search-field :api-link="route('api.applications.index')" :error="getError('app_id')" label="App" v-model="form.app_id" required />
@@ -79,15 +97,38 @@ export default {
                 <base-button v-else @click.prevent="removeDateNow" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded items-center flex justify-center">Remove Access</base-button>
             </div>
             <div>
-                <p class="font-bold">
-                    Customize Permissions:
+                <p class="mt-2">
+                    Assign Permission by role: The user will inherit the permissions of the role assigned to them
                 </p>
-                <ul class="grid grid-cols-2 text-lg">
-                    <li v-for="permission in permissions" :key="permission.id" class="flex items-center gap-1 select-none" >
-                        <input type="checkbox" :value="permission.id" @change="checkBoxChange($event, permission.id)" class="rounded-full" />
-                        {{ permission.name }}
-                    </li>
-                </ul>
+                <div class="flex flex-col gap-1">
+                    <div class="m-1 p-2 rounded bg-gray-200">
+                        <custom-dropdown :options="roles.map(
+                            role => ({name: role.id, label: role.name})
+                        )" v-model="form.permissions" placeholder="Assign a Role" :with-all-option="false" :value="form.role" @selectedChange="form.role = $event" />
+                        <ul v-if="form.role" class="grid grid-cols-2 m-1 p-2 rounded bg-gray-200">
+                            <li v-for="permission in selectedRole" :key="permission.id" class="flex items-center gap-1 select-none" >
+                                {{ permission.name }}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <div>
+                <p class="mt-2">
+                    Assign Custom Permissions: The user will have these permissions in addition to the permissions of the role assigned to them
+                </p>
+                <div class="flex flex-col gap-1">
+                    <template v-for="action in permissions">
+                        <ul class="grid grid-cols-2 m-1 p-2 rounded bg-gray-200">
+                            <li v-for="permission in action" :key="permission.id" class="flex items-center gap-1 select-none" >
+                                <input type="checkbox" :value="permission.id" @change="checkBoxChange($event, permission.id)" class="rounded-full" />
+                                {{ permission.name }}
+                            </li>
+                        </ul>
+                    </template>
+                </div>
+
             </div>
         </template>
     </base-edit-form>

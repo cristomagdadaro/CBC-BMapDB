@@ -15,6 +15,7 @@ export default class DtoAccount extends BaseClass implements IAccount {
 
     constructor(dto: IAccount) {
         super();
+        this.table = 'accounts';
         this.id = dto.id;
         this.user_id = dto.user_id;
         this.app_id = dto.app_id;

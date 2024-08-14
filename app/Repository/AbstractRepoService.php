@@ -71,7 +71,7 @@ abstract class AbstractRepoService implements RepositoryInterface
                 'timeout' => 10000,
             ], Response::HTTP_OK);
         } catch (Exception $error) {
-            return response()->json($this->sendError($error),  $error->getCode());
+            return response()->json($this->sendError($error),  500);
         }
     }
 
@@ -185,7 +185,14 @@ abstract class AbstractRepoService implements RepositoryInterface
      **/
     public function find(int $id): JsonResponse
     {
-        $data = $this->model->find($id);
+        $query = $this->model;
+
+        if (!empty($this->appendWith)) {
+            $query = $query->with($this->appendWith);
+        }
+
+        $data = $query->find($id);
+
         if(!$data)
             return response()->json([
                 'message' => $this->model->getNotifMessage('notFound'),

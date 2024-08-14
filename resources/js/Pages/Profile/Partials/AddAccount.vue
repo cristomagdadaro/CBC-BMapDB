@@ -32,7 +32,7 @@ export default {
             this.apiService = new ApiService(route('api.accounts.store'));
             const response = await this.apiService.post(this.form);
             if (response instanceof this.DtoError){
-                this.errors = response.errors;
+                this.errors = response;
                 new Notification(response);
             }else
                 this.showAddAccountModal = false;
@@ -81,7 +81,7 @@ export default {
                     <div class="mt-5">
                         <div class="flex justify-between text-sm">
                             <label for="database" class="block font-medium text-gray-700">Application <span class="text-red-700">*</span></label>
-                            <span v-if="errors" class="text-red-700">{{ errors.app_id[0] }}</span>
+                            <span v-if="errors" class="text-red-700">{{ errors.message }}</span>
                         </div>
                         <custom-dropdown
                             placeholder="Select an application"

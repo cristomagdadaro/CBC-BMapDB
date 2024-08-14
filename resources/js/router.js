@@ -7,6 +7,16 @@ const routes = [
         name: 'Home',
     },
     {
+        path: '/dashboard',
+        component: async () => await import('@/Pages/Dashboard.vue'),
+        name: 'Dashboard',
+    },
+    {
+        path: '/user/profile',
+        component: async () => await import('@/Pages/Profile/Show.vue'),
+        name: 'User Profile',
+    },
+    {
         path: '/register',
         component: async () => await import('@/Pages/Auth/Register.vue'),
         name: 'Register',

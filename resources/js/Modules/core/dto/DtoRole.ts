@@ -11,6 +11,7 @@ export default class DtoRole extends BaseClass implements IRole {
 
     constructor(dto: IRole) {
         super();
+        this.table = 'roles';
         this.id = dto.id;
         this.name = dto.name;
         this.guard_name = dto.guard_name;

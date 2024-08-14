@@ -15,5 +15,11 @@ class UserSeeder extends Seeder
             ->approved()
             ->count(20)
             ->create();
+
+        // assign random roles to users
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->assignRole(rand(2, 4));
+        }
     }
 }

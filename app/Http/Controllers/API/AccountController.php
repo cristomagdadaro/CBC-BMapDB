@@ -37,6 +37,7 @@ class AccountController extends BaseController
 
     public function show($id)
     {
+        $this->service->appendWith(['user','application']);
         return $this->service->find($id);
     }
 
@@ -80,6 +81,15 @@ class AccountController extends BaseController
             // If approved_at has a value, assign the permissions
             if ($approvedAt) {
                 $user->givePermissionTo($validPermissionIds);
+
+                // Assign a role to the user with the role ID
+                $role = $validatedData['role'];
+                if ($role) {
+                    // remove all roles from the user
+                    $user->roles()->detach();
+                    // assign the new role to the user
+                    $user->assignRole($role);
+                }
             } else {
                 // If approved_at is null, remove the permissions
                 $user->revokePermissionTo(Permission::all());

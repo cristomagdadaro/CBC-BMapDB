@@ -34,6 +34,13 @@ export default class AuthAccount extends Account
                 visible: true,
             },
             {
+                title: 'Role',
+                key: 'user.getRole',
+                align: 'center',
+                sortable: false,
+                visible: true,
+            },
+            {
                 title: 'Email',
                 key: 'user.email',
                 align: 'center',
