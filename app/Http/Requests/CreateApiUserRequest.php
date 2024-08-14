@@ -28,7 +28,7 @@ class CreateApiUserRequest extends FormRequest
             'lname' => ['required', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
             'mobile_no' =>  ['nullable', 'string', 'max:255'],
-            'affiliation' => ['nullable', 'string', 'max:255'],
+            'affiliation' => ['required', 'string', 'exists:institutes,name'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
         ];

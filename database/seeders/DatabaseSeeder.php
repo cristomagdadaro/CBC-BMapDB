@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             ApplicationSeeder::class,
+            InstituteSeeder::class,
         ]);
 
         $admin = User::factory()->create([
             'fname' => 'Cristo Rey',
             'lname' => 'Magdadaro',
             'email' => 'admin@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
             'email_verified_at' => now()
         ]);
 
@@ -34,7 +34,6 @@ class DatabaseSeeder extends Seeder
             'fname' => 'TWG',
             'lname' => 'Admin',
             'email' => 'twgadmin@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
             'email_verified_at' => now()
         ]);
 
@@ -44,7 +43,6 @@ class DatabaseSeeder extends Seeder
             'fname' => 'Reynaldo',
             'lname' => 'Diocton',
             'email' => 'breeder@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
             'email_verified_at' => now()
         ]);
 
@@ -54,7 +52,6 @@ class DatabaseSeeder extends Seeder
             'fname' => 'Precious Mae',
             'lname' => 'Gabato',
             'email' => 'researcher@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
             'email_verified_at' => now()
         ]);
 

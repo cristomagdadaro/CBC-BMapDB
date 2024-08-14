@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Accounts;
 use App\Models\Application;
+use App\Models\Institute;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -22,6 +23,8 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $instituteName = Institute::all()->random()->name;
+
         return [
             'fname' => $this->faker->name(),
             'mname' => $this->faker->lastName(),
@@ -29,7 +32,7 @@ class UserFactory extends Factory
             'suffix' => $this->faker->randomElement(['','','','Jr.','','Sr.','','','','I','','','II','','','III','','','','','IV']),
             'email' => $this->faker->unique()->safeEmail(),
             'mobile_no' => $this->faker->phoneNumber(),
-            'affiliation' => $this->faker->randomElement(['Crop Biotechnology Center','Philippine Rice Research Institute', 'Central Luzon State University', 'Visayas State University', 'Mindanao State University', 'Philippine Rubber Research Institute']),
+            'affiliation' => $instituteName,
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'two_factor_secret' => null,
