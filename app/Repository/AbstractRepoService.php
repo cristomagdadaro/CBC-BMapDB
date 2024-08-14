@@ -64,10 +64,14 @@ abstract class AbstractRepoService implements RepositoryInterface
 
             return response()->json([
                 'message' => $model->getNotifMessage('created'),
-                'data' => $model
+                'data' => $model,
+                'show' => true,
+                'title' => "Created",
+                'type' => "success",
+                'timeout' => 10000,
             ], Response::HTTP_OK);
         } catch (Exception $error) {
-            return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json($this->sendError($error),  $error->getCode());
         }
     }
 
@@ -80,15 +84,19 @@ abstract class AbstractRepoService implements RepositoryInterface
     public function update(int $id, array $data): JsonResponse
     {
         try {
-            $model = $this->find($id);
+            $model = $this->model->find($id);
             $model->update($data);
 
             return response()->json([
                 'message' => $model->getNotifMessage('updated'),
-                'data' => $model
+                'data' => $model,
+                'show' => true,
+                'title' => "Updated",
+                'type' => "success",
+                'timeout' => 10000,
             ], Response::HTTP_OK);
         } catch (Exception $error) {
-            return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json($this->sendError($error), $error->getCode());
         }
     }
 
@@ -100,15 +108,19 @@ abstract class AbstractRepoService implements RepositoryInterface
     public function delete(int $id): JsonResponse
     {
         try {
-            $model = $this->find($id);
+            $model = $this->model->find($id);
             $model->delete();
 
             return response()->json([
                 'message' => $model->getNotifMessage('deleted'),
-                'data' => $model
+                'data' => $model,
+                'show' => true,
+                'title' => "Deleted",
+                'type' => "warning",
+                'timeout' => 10000
             ], Response::HTTP_OK);
         } catch (Exception $error) {
-            return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json($this->sendError($error),  $error->getCode());
         }
     }
 
@@ -136,39 +148,62 @@ abstract class AbstractRepoService implements RepositoryInterface
             if ($counter && count($failed) == 0)
                 return response()->json([
                     'message' => 'Successfully deleted all data',
-                    'deleted' => $models
+                    'data' => $models,
+                    'show' => true,
+                    'title' => "Deleted",
+                    'type' => "warning",
+                    'timeout' => 10000
                 ], Response::HTTP_OK);
 
             else if ($counter && count($failed) > 0)
                 return response()->json([
                     'message' => $counter. ' rows successfully deleted but failed to delete ' . count($failed) . ' rows',
-                    'failed' => $failed
-                ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                    'data' => $failed,
+                    'show' => true,
+                    'title' => "Deleted",
+                    'type' => "warning",
+                    'timeout' => 10000
+                ],  Response::HTTP_OK);
 
             return response()->json([
                 'message' => 'Failed to delete ' . count($failed) . ' rows of data',
-                'failed' => $failed
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                'data' => $failed,
+                'show' => true,
+                'title' => "Deleted",
+                'type' => "warning",
+                'timeout' => 10000
+            ], Response::HTTP_OK);
         }catch (Exception $error) {
-            return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json($this->sendError($error),  $error->getCode());
         }
     }
 
     /**
      * Retrieve a model
      * @param int $id model primary key
-     * @return JsonResponse | Model
+     * @return JsonResponse
      **/
-    public function find(int $id): JsonResponse | Model
+    public function find(int $id): JsonResponse
     {
         $data = $this->model->find($id);
         if(!$data)
             return response()->json([
                 'message' => $this->model->getNotifMessage('notFound'),
-                'data' => null
+                'data' => null,
+                'show' => true,
+                'title' => "Not Found",
+                'type' => "warning",
+                'timeout' => 10000
             ], Response::HTTP_NOT_FOUND);
 
-        return $data;
+        return response()->json([
+            'message' => $this->model->getNotifMessage('found'),
+            'data' => $data,
+            'show' => true,
+            'title' => "Found",
+            'type' => "success",
+            'timeout' => 10000
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -180,9 +215,9 @@ abstract class AbstractRepoService implements RepositoryInterface
     public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
     {
         try {
-            return $this->searchData($parameters, $isTrashed, $withPagination);
+            return $this->searchData($parameters, $withPagination, $isTrashed);
         } catch (Exception $error) {
-            return response()->json($this->sendError($error), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return response()->json($this->sendError($error),  $error->getCode());
         }
     }
 
@@ -191,7 +226,7 @@ abstract class AbstractRepoService implements RepositoryInterface
         $this->appendWith = $tableToAppend;
     }
 
-    private function searchData(Collection $parameters, bool $isTrashed, $withPagination)
+    private function searchData(Collection $parameters, bool $withPagination, bool $isTrashed)
     {
         $perPage = $parameters->get('per_page', 10);
         $page = $parameters->get('page', 1);
@@ -201,43 +236,63 @@ abstract class AbstractRepoService implements RepositoryInterface
         $filter = $parameters->get('filter', null);
         $is_exact = $parameters->get('is_exact', false);
 
+        $builder = $this->model->select($this->model->getSearchable());
+
         if ($this->appendWith) {
-            $builder = $this->model;
             foreach ($this->appendWith as $table) {
-                $builder = $builder->with($table);
+                $builder->with($table);
             }
-            $builder = $builder->select($this->model->getSearchable());
-        } else {
-            $builder = $this->model->select($this->model->getSearchable());
         }
 
-        if($isTrashed)
-        {
+        if ($isTrashed) {
             $builder = $builder->onlyTrashed();
         }
 
-        if($search)
-        {
-            $builder = $builder->where(function($query) use ($search, $filter, $is_exact) {
-                foreach($this->model->getSearchable() as $column)
-                {
-                    if ($filter && $column != $filter)
+        if ($search) {
+            $builder->where(function ($query) use ($search, $filter, $is_exact) {
+                foreach ($this->model->getSearchable() as $column) {
+                    if ($filter && $column != $filter) {
                         $column = $filter;
+                    }
 
-                    if($is_exact)
+                    if ($is_exact) {
                         $query->orWhere($column, $search);
-                    else
+                    } else {
                         $query->orWhere($column, 'like', "%{$search}%");
+                    }
                 }
             });
+
+            if ($this->appendWith) {
+                foreach ($this->appendWith as $table) {
+                    $relatedModel = $this->model->{$table}()->getModel();
+                    $builder->orWhereHas($table, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
+                        $query->where(function ($query) use ($search, $filter, $is_exact, $relatedModel) {
+                            foreach ($relatedModel->getSearchable() as $column) {
+                                if ($filter && $column != $filter) {
+                                    $column = $filter;
+                                }
+
+                                if ($is_exact) {
+                                    $query->orWhere($column, $search);
+                                } else {
+                                    $query->orWhere($column, 'like', "%{$search}%");
+                                }
+                            }
+                        });
+                    });
+                }
+            }
         }
 
-        if(!$withPagination)
-        {
+        if (!$withPagination) {
             return $builder->orderBy($sort, $order)->get();
         }
+
         return $builder->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
+
+
 
     private function sendError(Exception $error): array
     {

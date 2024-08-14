@@ -17,9 +17,11 @@ const classes = computed(() => {
 
 <template>
     <div>
-        <button v-if="as == 'button'" :class="classes" class="w-full text-left">
-            <slot />
-        </button>
+        <div v-if="as === 'button'">
+            <button :class="classes" class="w-full text-left">
+                <slot />
+            </button>
+        </div>
 
         <Link v-else :href="href" :class="classes">
             <slot />

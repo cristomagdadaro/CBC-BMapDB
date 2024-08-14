@@ -1,5 +1,5 @@
 <template>
-    <div id="dtActionContainer" class="flex-wrap flex w-full gap-1 py-0.5 justify-center items-center">
+    <div id="dtActionContainer" class="flex-wrap flex w-full gap-1 py-0.5 sm:justify-center justify-evenly items-center">
         <slot />
     </div>
 </template>

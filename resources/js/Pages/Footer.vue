@@ -6,7 +6,7 @@ import Logo from '@/Components/Icons/Logo.vue';
 <template>
     <FooterLayout>
         <template #phRepublic>
-            <div class="w-full py-2">
+            <div class="w-full py-2 hidden">
                 <div class="pt-5">
                     <div class="flex flex-wrap justify-evenly">
                         <a href="https://www.officialgazette.gov.ph/programs/freedom-of-information/">
@@ -61,8 +61,9 @@ import Logo from '@/Components/Icons/Logo.vue';
             </div>
         </template>
         <template #copyright>
-            <div class="resp-container py-1 text-center sm:text-sm text-[0.6rem] font-light text-white ">
-                <span>&copy; Copyright {{ new Date().getFullYear() }}, DA-Crop Biotechnology Center. All rights reserve.</span>
+            <div class="flex justify-between resp-container px-2 py-1 text-center sm:text-sm text-[0.6rem] font-light text-gray-700">
+                <span>&copy; Copyright {{ new Date().getFullYear() }}, DA-Crop Biotechnology Center. All rights reserved.</span>
+                <span>Powered by PhilRice</span>
             </div>
         </template>
     </FooterLayout>

@@ -24,7 +24,7 @@ class UpdateApplicationRequest extends FormRequest
         return [
             'name' => 'required|string|max:255|unique:applications,name,'.$this->route('id'),
             'description' => 'required|string|max:255',
-            'url' => 'nullable|string|max:255|unique:applications,url',
+            'url' => 'nullable|string|max:255|unique:applications,url,'.$this->route('id'),
             'icon' => 'nullable|string|max:255',
             'status' => 'required|in:true,false',
         ];

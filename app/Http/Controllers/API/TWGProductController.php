@@ -20,37 +20,33 @@ class TWGProductController extends BaseController
 
     public function index(GetTWGProductRequest $request)
     {
+        $this->service->appendWith(['expert']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
     public function show($id)
     {
-        $data = $this->service->find($id);
-        return $this->sendResponse('TWG Product retrieved successfully.', $data);
+        return $data = $this->service->find($id);
     }
 
     public function store(CreateTWGProductRequest $request)
     {
-        $data = $this->service->create($request->validated());
-        return $this->sendResponse('TWG Product created successfully.', $data);
+        return $this->service->create($request->validated());
     }
 
     public function update(UpdateTWGProductRequest $request, $id)
     {
-        $data = $this->service->update($id, $request->validated());
-        return $this->sendResponse('TWG Product updated successfully.', $data);
+        return $this->service->update($id, $request->validated());
     }
 
     public function destroy($id)
     {
-        $this->service->delete($id);
-        return $this->sendResponse('TWG Product deleted successfully.');
+        return $this->service->delete($id);
     }
 
     public function multiDestroy(DeleteTWGProductRequest $request)
     {
-        $this->service->multiDestroy($request->validated());
-        return $this->sendResponse('TWG Products deleted successfully.');
+        return $this->service->multiDestroy($request->validated());
     }
 }

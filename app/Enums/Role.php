@@ -6,6 +6,8 @@ enum Role: string
 {
     case ADMIN = 'Administrator';
 
+    case TWG_ADMIN = 'TWG Admin';
+
     case BREEDER = 'Breeder';
 
     case RESEARCHER = 'Researcher';

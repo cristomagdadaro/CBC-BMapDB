@@ -2,7 +2,11 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminAccess;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CheckApplicationStatus;
+use App\Http\Middleware\CheckBreedersMapStatus;
+use App\Http\Middleware\CheckTwgDbStatus;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -91,5 +95,8 @@ class Kernel extends HttpKernel
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
+        'admin' => AdminAccess::class,
+        'check.status.twg' => CheckTwgDbStatus::class,
+        'check.status.breedersmap' => CheckBreedersMapStatus::class,
     ];
 }

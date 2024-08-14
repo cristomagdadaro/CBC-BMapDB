@@ -22,13 +22,21 @@ class ErrorRepository
         //check if the error code exists in the list of error codes
         if (!array_key_exists($code, $listOfErrorCodes)) {
             return [
-                'errno' => 500,
-                'message' => 'Unknown error, action failed.',
+                'errno' => $this->exception->getCode(),
+                'message' =>  $this->exception->getMessage(),
+                'title' => 'Internal Server Error',
+                'type' => 'failed',
+                'timeout' => 10000,
+                'show' => true,
             ];
         }
         return [
             'errno' => $code,
             'message' => $listOfErrorCodes[$code],
+            'title' => 'Failed',
+            'type' => 'failed',
+            'timeout' => 10000,
+            'show' => true,
         ];
     }
 
