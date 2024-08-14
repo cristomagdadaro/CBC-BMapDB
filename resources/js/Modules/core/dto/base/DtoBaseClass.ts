@@ -62,22 +62,4 @@ export default class DtoBaseClass extends Object implements IBaseClass {
     static getColumns(): any[] {
         return [];
     }
-
-    /**
-     * Get hidden columns for table
-     * @returns {Array}
-     * @static
-     */
-    static getHiddenColumns(): any[] {
-        return [];
-    }
-
-    /**
-     * Determine if Column is hidden
-     * @returns {Boolean}
-     */
-    static isColumnHidden(column: string): boolean {
-        // @ts-ignore
-        return this.getHiddenColumns().includes(column).visible;
-    }
 }

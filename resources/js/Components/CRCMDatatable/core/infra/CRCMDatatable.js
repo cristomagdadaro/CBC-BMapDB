@@ -301,9 +301,16 @@ export default class CRCMDatatable
         if (response['data'].length > 0)
         {
             this.columns = Object.keys(response['data'][0]);
-            // only include columns that are not in the hidden columns, which is in the this.model.getHiddenColumns()
-            this.columns = this.columns.filter(column => !this.model.getHiddenColumns().includes(column));
+            // only include columns that are visible
+            this.columns = this.model.getColumns()
+                .filter(column => column.visible !== false)
+                .map(column => ({
+                    ...column,
+                    visible: column.visible ?? true
+                }));
+
             this.columns = this.formatColumns(this.columns);
+
             // store columns in the local storage with the current url as key
             localStorage.setItem(window.location.pathname, JSON.stringify(this.columns));
         }
@@ -318,7 +325,7 @@ export default class CRCMDatatable
 
     formatColumns = (columns) => {
         return columns.map(column => {
-            return {name: column, label: this.formatColumnName(column), sortable: true}
+            return {name: column.db_key, label: column.title, sortable: true}
         });
     }
 }

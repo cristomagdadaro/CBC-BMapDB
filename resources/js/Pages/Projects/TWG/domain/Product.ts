@@ -5,10 +5,6 @@ export default class Product extends DtoProduct {
         super(params);
     }
 
-    static getHiddenColumns() {
-        return ['id', 'twg_expert_id', 'updated_at', 'created_at', 'deleted_at'];
-    }
-
     static getColumns() {
         return [
             {

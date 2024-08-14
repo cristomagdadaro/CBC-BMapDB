@@ -5,13 +5,6 @@ export default class Breeder extends DtoBreeder{
         super(params);
     }
 
-    /**
-     * Get the hidden columns, that should not be displayed in the table columns and filter by dropdown
-     * */
-    static getHiddenColumns() {
-        return ['id','user_id','updated_at', 'created_at', 'deleted_at'];
-    }
-
     static getColumns() {
         return [
             {

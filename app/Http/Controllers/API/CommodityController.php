@@ -24,8 +24,10 @@ class CommodityController extends BaseController
         $this->service->appendWith(['breeder']);
         if ($id) {
             // Set withPagination to false to return the builder instead of the paginator, for the Map search box. By Breeder.
+            $per_page = $request->validated()['per_page'] ?? 10;
+            $page = $request->validated()['page'] ?? 1;
             $data = $this->service->search(new Collection($request->validated()), false);
-            return new BaseCollection($data->where('breeder_id', $id)->orderBy('id', 'asc')->paginate($request->validated()['per_page'], ['*'], 'page', $request->validated()['page'])->withQueryString());
+            return new BaseCollection($data->where('breeder_id', $id)->orderBy('id', 'asc')->paginate($per_page, ['*'], 'page', $page)->withQueryString());
         } else {
             $data = $this->service->search(new Collection($request->validated()));
             return new BaseCollection($data);

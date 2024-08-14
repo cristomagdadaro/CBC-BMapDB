@@ -6,23 +6,21 @@ export default class AuthAccount extends Account
         super(account);
     }
 
-    static getHiddenColumns() {
-        return ['id','table','user_id','app_id','updated_at', 'created_at', 'deleted_at'];
-    }
-
     static getColumns() {
         return [
             {
-                title: 'Accnt.ID',
+                title: 'Accnt. ID',
                 key: 'id',
-                align: 'center',
+                db_key: 'id',
+                align: 'text-center',
                 sortable: true,
                 visible: true,
             },
             {
-                title: 'UID',
+                title: 'U. ID',
                 key: 'user_id',
-                align: 'center',
+                db_key: 'user_id',
+                align: 'text-center',
                 sortable: true,
                 visible: true
                 ,
@@ -30,21 +28,24 @@ export default class AuthAccount extends Account
             {
                 title: 'User',
                 key: 'user.getFullName',
-                align: 'center',
+                db_key: 'name',
+                align: 'text-left',
                 sortable: false,
                 visible: true,
             },
             {
                 title: 'Role',
                 key: 'user.getRole',
-                align: 'center',
+                db_key: 'name',
+                align: 'text-left',
                 sortable: false,
                 visible: true,
             },
             {
                 title: 'Email',
                 key: 'user.email',
-                align: 'center',
+                db_key: 'email',
+                align: 'text-left',
                 sortable: false,
                 visible: true,
             },
@@ -52,28 +53,32 @@ export default class AuthAccount extends Account
             {
                 title: 'Affiliation',
                 key: 'user.affiliation',
-                align: 'center',
+                db_key: 'affiliation',
+                align: 'text-left',
                 sortable: false,
                 visible: true,
             },
             {
                 title: 'App',
                 key: 'app_id',
-                align: 'center',
+                db_key: 'app_id',
+                align: 'text-center',
                 sortable: false,
                 visible: false,
             },
             {
-                title: 'Applying ',
+                title: 'Database App',
                 key: 'application.name',
-                align: 'center',
+                db_key: 'name',
+                align: 'text-center',
                 sortable: false,
                 visible: true,
             },
             {
                 title: 'Approved At',
                 key: 'approved_at',
-                align: 'center',
+                db_key: 'approved_at',
+                align: 'text-center',
                 sortable: true,
                 visible: true,
             },

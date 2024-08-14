@@ -6,10 +6,6 @@ export default class AuthApplication extends Application
         super(app);
     }
 
-    static getHiddenColumns() {
-        return ['id','table','icon','updated_at', 'created_at', 'deleted_at'];
-    }
-
     static getColumns() {
         return [
             {

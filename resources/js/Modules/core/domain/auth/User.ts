@@ -41,8 +41,4 @@ export default class User extends DtoUser {
             return permission.name;
         });
     }
-
-    static getHiddenColumns() {
-        return ['id','updated_at', 'created_at', 'deleted_at'];
-    }
 }

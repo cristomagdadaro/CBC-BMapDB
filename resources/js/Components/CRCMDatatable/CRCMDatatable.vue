@@ -137,7 +137,8 @@
                                 :visible="column.visible"
                                 :sortable="column.sortable"
                                 :key="column.key + column.title"
-                                :sortedValue="!!clickSortCtr && column.key === dt.request.getParam('sort')"
+                                :filteredValues="dt.request.getFilter === column.key"
+                                :sortedValue="!!clickSortCtr && column.key === dt.request.getSort"
                                 :column="column.title"
                                 :order="clickSortCtr ? dt.request.getParam('order') : null"
                                 :class="column.sortable?'cursor-pointer':'cursor-auto'"
@@ -169,7 +170,7 @@
                                 <!-- Cell Data -->
                                 <t-d v-for="column in visibleColumns" :key="column.key + column.title"
                                     class="break-words border border-gray-300"
-                                    :class="'text-' + column.align"
+                                    :class="column.align"
                                     @dblclick="dt.addSelected(row.id)"
                                     @click.ctrl="dt.addSelected(row.id)">
                                     {{ getNestedValue(row, column.key)  }}

@@ -5,10 +5,6 @@ export default class Project extends DtoProject{
         super(params);
     }
 
-    static getHiddenColumns() {
-        return ['twg_expert_id','id', 'updated_at', 'created_at', 'deleted_at'];
-    }
-
     static getColumns() {
         return [
             {

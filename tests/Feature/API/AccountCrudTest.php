@@ -159,4 +159,20 @@ class AccountCrudTest extends TestCase
 
         $response->assertStatus(404);
     }
+
+    /** @test **/
+    public function get_accounts_by_user_name_filter(): void
+    {
+        $response = $this->getJson('/api/accounts?page=1&per_page=10&sort=id&order=asc&search=crop&filter=name');
+
+        $response->assertStatus(200);
+    }
+
+    /** @test **/
+    public function get_accounts_by_user_role_filter(): void
+    {
+        $response = $this->getJson('/api/accounts?page=1&per_page=10&sort=id&order=asc&search=admin&filter=email');
+
+        $response->assertStatus(200);
+    }
 }

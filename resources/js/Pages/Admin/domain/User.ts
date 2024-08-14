@@ -6,10 +6,6 @@ export default class AuthUser extends User
         super(user);
     }
 
-    static getHiddenColumns() {
-        return ['id','table','roles','accounts','permissions','updated_at', 'created_at', 'deleted_at'];
-    }
-
     static getColumns() {
         return [
             {

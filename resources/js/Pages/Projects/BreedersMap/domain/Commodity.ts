@@ -5,10 +5,6 @@ export default class Commodity extends DtoCommodity {
         super(params);
     }
 
-    static getHiddenColumns() {
-        return ['id','breeder_id', 'latitude', 'longitude','updated_at', 'created_at', 'deleted_at','place_id'];
-    }
-
     static getColumns(){
         return [
             {
@@ -35,6 +31,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Commodity',
                 key: 'name',
+                keyLabel: 'Commodity',
                 sortable: true,
                 align: 'center',
                 visible: true,
