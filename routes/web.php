@@ -2,6 +2,7 @@
 
 use App\Enums\Permission;
 use App\Http\Controllers\API\AdminController;
+use App\Http\Controllers\API\InstituteController;
 use App\Http\Middleware\AdminApprovedUser;
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
@@ -58,6 +59,7 @@ Route::prefix('email')->group(function () {
 
 /* Public Api */
 Route::prefix('/api/public')->group(function () {
+    Route::get('/institutes', [InstituteController::class, 'index'])->name('api.institutes.index.public');
     Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
     Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
 });
@@ -262,6 +264,11 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
     Route::prefix('users')->group(function () {
         Route::middleware(['can:'. Permission::READ_USER->value])->get('/', [UserController::class, 'index'])->name('api.users.index');
         Route::middleware(['can:'. Permission::READ_USER->value])->get('/{id}', [UserController::class, 'show'])->name('api.users.show');
+    });
+
+    Route::prefix('institutes')->group(function () {
+        Route::get('/', [InstituteController::class, 'index'])->name('api.institutes.index');
+        Route::get('/{id}', [InstituteController::class, 'show'])->name('api.institutes.show');
     });
 
     Route::prefix('accounts')->group(function () {

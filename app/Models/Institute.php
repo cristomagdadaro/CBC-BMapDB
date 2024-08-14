@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Institute extends Model
+class Institute extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
@@ -33,5 +33,15 @@ class Institute extends Model
         'deleted_at' => 'datetime',
     ];
 
-    
+    protected array $searchable = [
+        'id',
+        'name',
+        'inst_type',
+        'city',
+        'province',
+        'region',
+        'website',
+        'email',
+        'phone',
+    ];
 }

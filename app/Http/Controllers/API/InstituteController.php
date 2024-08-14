@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\GetInstituteRequest;
 use App\Http\Resources\BaseCollection;
 use App\Repository\API\InstituteRepo;
+use Illuminate\Support\Collection;
 
 class InstituteController extends BaseController
 {
@@ -16,7 +17,7 @@ class InstituteController extends BaseController
 
     public function index(GetInstituteRequest $request)
     {
-        $data = $this->service->search($request->collect());
+        $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 

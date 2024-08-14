@@ -11,6 +11,7 @@ use App\Http\Resources\BaseCollection;
 use App\Models\Application;
 use App\Repository\API\ApplicationRepo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class ApplicationController extends BaseController
 {
@@ -22,7 +23,7 @@ class ApplicationController extends BaseController
 
     public function index(GetApplicationRequest $request)
     {
-        $data = $this->service->search($request->collect());
+        $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 

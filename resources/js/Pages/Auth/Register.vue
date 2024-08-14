@@ -11,6 +11,7 @@ import SelectField from "@/Components/Form/SelectField.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 import {onBeforeMount, ref} from "vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 
 const form = useForm({
     fname: '',
@@ -99,7 +100,7 @@ onBeforeMount(async () => {
                     <TextField id="mobile_no" label="Mobile No." v-model="form.mobile_no" type="text" autofocus autocomplete="name" :error="form.errors.mobile_no" />
                     <TextField id="email" label="Email" v-model="form.email" type="email" required autocomplete="email" :error="form.errors.email" />
                 </div>
-                <TextField id="affiliation" label="Agency/Institution/Office" v-model="form.affiliation" type="text" required autocomplete="affiliation" :error="form.errors.affiliation" />
+                <select-search-field required :api-link="route('api.institutes.index.public')"  :error="form.errors.affiliation" label="Agency/Institution/Office" v-model="form.affiliation" />
                 <div class="grid sm:grid-cols-2 grid-cols-1 gap-2">
                     <TextField id="password" label="Password" v-model="form.password" typeInput="password" required autocomplete="new-password" :error="form.errors.password" />
                     <TextField id="password_confirmation" label="Confirm Password" v-model="form.password_confirmation" typeInput="password" required autocomplete="new-password" :error="form.errors.password_confirmation" />

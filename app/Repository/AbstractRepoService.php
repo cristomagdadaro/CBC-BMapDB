@@ -225,7 +225,7 @@ abstract class AbstractRepoService implements RepositoryInterface
         try {
             return $this->searchData($parameters, $withPagination, $isTrashed);
         } catch (Exception $error) {
-            return response()->json($this->sendError($error),  $error->getCode());
+            return response()->json($this->sendError($error),  500);
         }
     }
 
