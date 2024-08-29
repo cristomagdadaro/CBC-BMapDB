@@ -24,20 +24,12 @@ class Commodity extends BaseModel
         'yield',
         'description',
         'image',
-        'longitude',
         'latitude',
-        'address',
+        'longitude',
         'city',
         'province',
         'region',
         'country',
-        'postal_code',
-        'formatted_address',
-        'place_id',
-        'status',
-        'created_at',
-        'updated_at',
-        'deleted_at',
     ];
 
     protected array $searchable = [
@@ -53,20 +45,10 @@ class Commodity extends BaseModel
         'yield',
         'description',
         'image',
-        'longitude',
-        'latitude',
-        'address',
         'city',
         'province',
         'region',
         'country',
-        'postal_code',
-        'formatted_address',
-        'place_id',
-        'status',
-        'created_at',
-        'updated_at',
-        'deleted_at',
     ];
 
     protected $casts = [

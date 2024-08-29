@@ -74,7 +74,7 @@ export default {
 </script>
 
 <template>
-    <Head title="Breeder's Map View" />
+    <Head title="Breeders' Map View" />
     <app-layout>
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
             <div v-if="breeder" class="flex flex-col">

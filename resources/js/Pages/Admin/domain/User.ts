@@ -51,9 +51,16 @@ export default class AuthUser extends User
                 visible: false,
             },
             {
+                title: 'Role',
+                key: 'getRole',
+                align: 'left',
+                sortable: true,
+                visible: true,
+            },
+            {
                 title: 'No. of Accounts',
                 key: 'accountsCount',
-                align: 'center',
+                align: 'text-center',
                 sortable: false,
                 visible: true,
             },
@@ -76,7 +83,7 @@ export default class AuthUser extends User
                 key: 'mobile_no',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Verified At',

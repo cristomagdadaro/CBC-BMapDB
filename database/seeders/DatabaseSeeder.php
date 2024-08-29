@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            CityProvinceRegionSeeder::class,
             ApplicationSeeder::class,
             InstituteSeeder::class,
         ]);
@@ -71,5 +72,29 @@ class DatabaseSeeder extends Seeder
         $twgAdmin->assignRole(Role::TWG_ADMIN->value);
         $breeder->assignRole(Role::BREEDER->value);
         $researcher->assignRole(Role::RESEARCHER->value);
+
+        $users = User::all();
+        foreach ($users as $user) {
+            //check if user is already assigned a role
+            if ($user->hasRole(Role::ADMIN->value) || $user->hasRole(Role::TWG_ADMIN->value) || $user->hasRole(Role::BREEDER->value) || $user->hasRole(Role::RESEARCHER->value)) {
+                continue;
+            }
+            $user->assignRole(rand(2, 5));
+            switch ($user->role) {
+                case Role::TWG_ADMIN->value:
+                    $user->approve(1);
+                    break;
+                case Role::BREEDER_ADMIN->value:
+                    $user->approve(2);
+                    break;
+                case Role::BREEDER->value:
+                    $user->approve(2);
+                    break;
+                case Role::RESEARCHER->value:
+                    $user->approve(1);
+                    $user->approve(2);
+                    break;
+            }
+        }
     }
 }

@@ -62,6 +62,7 @@ Route::prefix('/api/public')->group(function () {
     Route::get('/institutes', [InstituteController::class, 'index'])->name('api.institutes.index.public');
     Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
     Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
+    Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
 });
 
 
@@ -80,7 +81,7 @@ Route::prefix('/projects')->group(function () {
         Route::get('/twg-db', [TWGController::class, 'index'])->name('api.twg.summary.public');
     });
 
-    Route::get('/breedersmap-db', function (){
+    Route::get('/breedersmap-db/{any?}', function (){
         return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic', [
             'commodities' => Commodity::all(),
             'breadcrumbs' => [['label' => 'Home', 'to' => '/']],
@@ -210,7 +211,7 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
         });
     });
 
-    /*Breeders Map Related APIs*/
+    /*Breeders' Map Related APIs*/
     Route::middleware(['check.status.breedersmap'])->prefix('breeders')->group(function () {
         Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/', [BreederController::class, 'index'])->name('api.breeders.index');
         Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');

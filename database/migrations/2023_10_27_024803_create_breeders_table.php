@@ -15,10 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('agency');
-            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('province')->nullable();
+            $table->string('region')->nullable();
+            $table->string('country')->nullable();
             $table->string('phone')->nullable();
             $table->string('email');
             $table->foreignId('user_id')->constrained('users');
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

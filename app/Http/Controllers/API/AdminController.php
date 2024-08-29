@@ -30,7 +30,7 @@ class AdminController extends BaseController
 
     public function index(GetUnverifiedUserRequest $request)
     {
-        $this->service->appendWith(['accounts']);
+        $this->service->appendWith(['accounts','roles']);
 
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);

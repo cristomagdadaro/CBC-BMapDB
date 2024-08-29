@@ -46,7 +46,7 @@ export default {
 </script>
 
 <template>
-    <Head title="Breeder's Map" />
+    <Head title="Breeders' Map" />
     <page-layout>
         <div class="drop-shadow-md flex flex-col gap-5 shadow-lg bg-cbc-yellow mb-10 rounded-md sm:gap-1 sm:p-8 p-5 sm:text-left text-center">
             <div class="text-gray-700 ">

@@ -14,14 +14,10 @@ export default interface ICommodity {
     description: string;
     latitude: string;
     longitude: string;
-    address: string;
     city: string;
     province: string;
     region: string;
     country: string;
-    postal_code: string;
-    formatted_address: string;
-    place_id: string;
     status: string;
     created_at: string;
     updated_at: string;

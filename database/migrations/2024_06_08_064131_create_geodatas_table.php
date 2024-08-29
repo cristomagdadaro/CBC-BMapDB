@@ -14,15 +14,6 @@ return new class extends Migration
         Schema::table('commodities', function (Blueprint $table) {
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
-            $table->string('address')->nullable();
-            $table->string('city')->nullable();
-            $table->string('province')->nullable();
-            $table->string('region')->nullable();
-            $table->string('country')->nullable();
-            $table->string('postal_code')->nullable();
-            $table->string('formatted_address')->nullable();
-            $table->string('place_id')->nullable();
-            $table->string('status')->nullable();
         });
     }
 

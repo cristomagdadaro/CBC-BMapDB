@@ -14,7 +14,7 @@ export default class AuthAccount extends Account
                 db_key: 'id',
                 align: 'text-center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'U. ID',
@@ -22,7 +22,7 @@ export default class AuthAccount extends Account
                 db_key: 'user_id',
                 align: 'text-center',
                 sortable: true,
-                visible: true
+                visible: false
                 ,
             },
             {

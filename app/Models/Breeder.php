@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Model;
 
-class Breeder extends BaseModel
+class Breeder extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -18,9 +19,20 @@ class Breeder extends BaseModel
         'user_id',
         'name',
         'agency',
-        'address',
+        'city',
+        'province',
+        'region',
+        'country',
         'phone',
         'email',
+        'password',
+        'remember_token'
+    ];
+
+    protected $guarded = ['id'];
+
+    protected $hidden = [
+        'password', 'remember_token',
     ];
 
     protected $casts = [
@@ -33,7 +45,10 @@ class Breeder extends BaseModel
         'user_id',
         'name',
         'agency',
-        'address',
+        'city',
+        'province',
+        'region',
+        'country',
         'phone',
         'email',
         'updated_at',
@@ -71,5 +86,10 @@ class Breeder extends BaseModel
     public function commodities(): HasMany
     {
         return $this->hasMany(Commodity::class, 'breeder_id', 'id');
+    }
+
+    public function getSearchable(): array
+    {
+        return $this->searchable;
     }
 }

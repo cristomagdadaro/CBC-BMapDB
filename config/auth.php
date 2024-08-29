@@ -40,6 +40,12 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'breeder' => [
+            'redirectTo' => 'breeder.index',
+            'driver' => 'session',
+            'provider' => 'breeder',
+        ],
     ],
 
     /*
@@ -63,6 +69,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'breeder' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Breeder::class,
         ],
 
         // 'users' => [
@@ -111,5 +122,4 @@ return [
     */
 
     'password_timeout' => 10800,
-
 ];

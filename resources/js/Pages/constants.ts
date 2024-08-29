@@ -22,7 +22,7 @@ export const CBCProjects = [
     },
     {
         id: 4,
-        label: "Breeder's Map",
+        label: "Breeders' Map",
         icon: BreedersMapLogo,
         value: 'projects.breedersmap.index',
         show: true,
@@ -37,7 +37,7 @@ export const CBCProjectsPublic = [
     },
     {
         id: 2,
-        label: "Breeder's Map",
+        label: "Breeders' Map",
         value: 'projects.breedersmap.public',
     }
 ]
@@ -51,7 +51,7 @@ export const Projects = [
     },{
         id: 2,
         value: 'projects.breedersmap.index',
-        label: 'Breeders Map',
+        label: 'Breeders\' Map',
     }
 ]
 

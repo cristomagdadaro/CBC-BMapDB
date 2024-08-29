@@ -5,7 +5,10 @@ export default interface IBreeder {
     agency: string;
     phone: string;
     email: string;
-    address: string;
+    city: string;
+    province: string;
+    region: string;
+    country: string;
     updated_at: string;
     created_at: string;
     deleted_at: string;

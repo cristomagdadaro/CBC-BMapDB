@@ -8,6 +8,8 @@ enum Role: string
 
     case TWG_ADMIN = 'TWG Admin';
 
+    case BREEDER_ADMIN = 'Breeder Admin';
+
     case BREEDER = 'Breeder';
 
     case RESEARCHER = 'Researcher';

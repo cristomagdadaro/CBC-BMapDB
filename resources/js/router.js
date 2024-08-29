@@ -112,6 +112,21 @@ const routes = [
                 ]
             },
             {
+                path: '/projects/breedersmap-db',
+                component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapPublic.vue'),
+                name: 'projects.breedersmap.public',
+            },
+            {
+                path: '/projects/breedersmap-db/chart',
+                component: async () => await import('@/Pages/Projects/BreedersMap/presentation/components/summary/Summary.vue'),
+                name: 'projects.breedersmap.chart.public',
+            },
+            {
+                path: '/projects/breedersmap-db/geomap',
+                component: async () => await import('@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue'),
+                name: 'projects.breedersmap.geomap.public',
+            },
+            {
                 path: '/projects/twgdb',
                 component: async () => await import('@/Pages/Projects/TWG/presentation/components/summary/TWGSummary.vue'),
                 name: 'projects.twg.summary',

@@ -42,5 +42,9 @@ return [
         'search' => 'sometimes|string',
         'filter' => 'sometimes|string',
         'is_exact' => 'sometimes|string|in:true,false',
-    ]
+
+        'group_by' => 'sometimes|string',
+        'with' => 'sometimes|string',
+        'with_count' => 'sometimes|string',
+    ],
 ];

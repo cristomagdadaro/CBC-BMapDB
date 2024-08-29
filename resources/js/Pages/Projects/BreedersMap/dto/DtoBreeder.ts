@@ -8,7 +8,10 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
     agency: string;
     phone: string;
     email: string;
-    address: string;
+    city: string;
+    province: string;
+    region: string;
+    country: string;
     updated_at: string;
     created_at: string;
     deleted_at: string;
@@ -21,7 +24,10 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
         this.agency = breeder.agency;
         this.phone = breeder.phone;
         this.email = breeder.email;
-        this.address = breeder.address;
+        this.city = breeder.city;
+        this.province = breeder.province;
+        this.region = breeder.region;
+        this.country = breeder.country;
         this.updated_at = breeder.updated_at;
         this.created_at = breeder.created_at;
         this.deleted_at = breeder.deleted_at;

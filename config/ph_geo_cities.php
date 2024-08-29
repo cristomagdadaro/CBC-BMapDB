@@ -4694,8 +4694,8 @@ return array (
     'name' => 'Bangued',
     'latitude' => 17.6,
     'longitude' => 120.62,
-    'province' => 'Unknown Province',
-    'region' => 'Unknown Region',
+    'province' => 'Abra',
+    'region' => 'Cordillera Administrative Region (CAR)',
   ),
   587 =>
   array (

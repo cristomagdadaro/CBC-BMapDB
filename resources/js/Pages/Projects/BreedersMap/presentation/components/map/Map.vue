@@ -161,7 +161,7 @@ export default {
     },
     methods: {
         async initializeMap() {
-            this.mapApi = new MapApiService(this.baseUrl, this.baseModel);
+            this.mapApi = new MapApiService(this.baseUrl, this.model);
             console.log(this.baseUrl);
             await this.mapApi.init();
             this.loadData();
@@ -263,12 +263,16 @@ export default {
                 />
                 <search-by :value="mapApi.request.getFilter"
                            :is-exact="mapApi.request.getIsExact"
-                           :options="mapApi.columns"
+                           :options="model.getColumns().map(column => {
+                                 return {
+                                      name: column.key,
+                                      label: column.title
+                                 }
+                           })"
                            @isExact="mapApi.isExactFilter({ is_exact: $event })"
                            @searchBy="mapApi.filterByColumn({ column: $event })"
                 />
             </div>
-
             <div v-if="showListOfPlaces" class="absolute mt-1 rounded border-2 z-[999] bg-gray-100 shadow flex-col flex gap-1 overflow-y-auto max-h-96 p-2">
                 <div
                     v-if="placesSearched && placesSearched.length"
@@ -279,7 +283,7 @@ export default {
                     class="flex flex-row items-center gap-1 border p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none"
                 >
                     <h1 class="font-medium leading-5 px-1 w-full flex items-center justify-between">
-                        {{ point.city }}
+                        {{ point.name }} ({{ point.breeder.name}})
                         <close-icon v-if="isPointSelected(point)" @click="deselectPoint(); showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" @click.stop="markerLatLng = null" />
                     </h1>
                 </div>
