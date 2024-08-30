@@ -1,7 +1,27 @@
-<script setup>
+<script>
 import PageLayout from "@/Layouts/PageLayout.vue";
 import { CBCProjectsPublic } from "@/Pages/constants.ts";
 import { Link, Head } from '@inertiajs/vue3';
+import PhilippineMapOutline from "@/Components/Icons/PhilippineMapOutline.vue";
+
+export default {
+    components: {
+        PageLayout,
+        Link,
+        Head,
+        PhilippineMapOutline,
+    },
+    setup() {
+        return {
+            CBCProjectsPublic,
+        };
+    },
+    data() {
+        return {
+            hoveredData: null
+        };
+    },
+};
 </script>
 
 <template>
@@ -23,6 +43,20 @@ import { Link, Head } from '@inertiajs/vue3';
                 <Link v-for="project in CBCProjectsPublic" :href="route(project.value)" class="shadow-md hover:bg-cbc-yellow-green text-gray-700 bg-cbc-yellow px-5 py-3 rounded">
                     {{ project.label }}
                 </Link>
+            </div>
+            <div>
+                <h3 class="text-center select-none lg:text-[3rem] md:text-[2.2rem] sm:text-[1.7rem] text-[1rem] font-bold text-gray-900 drop-shadow">
+                    Breeders' Map Overview
+                </h3>
+                <div class="flex justify-between items-center">
+                    <div v-if="hoveredData" class="select-none lg:text-[3rem] md:text-[2.2rem] sm:text-[1.7rem] text-[1rem] font-bold text-gray-900 drop-shadow">
+                        {{ hoveredData.province }} <br /> has a total of <br /> {{ hoveredData.data }} biotechnology <br /> related commodities
+                    </div>
+                    <div v-else class="text-[2rem] font-normal text-gray-900 drop-shadow">
+                        Hover over a region to see data.
+                    </div>
+                    <philippine-map-outline class="max-w-[30vw] min-w-[7rem] drop-shadow-lg" @hovered="hoveredData = $event"/>
+                </div>
             </div>
         </div>
     </page-layout>
