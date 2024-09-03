@@ -2,8 +2,9 @@
     <div class="text-sm w-full">
         <button class="w-full focus-within:ring-1 flex gap-1 justify-between items-center bg-white rounded px-4 py-2 border-gray-200 border" @click.prevent="toggle">
             <div class="text-gray-600 whitespace-nowrap">{{ selected? selected.label : placeholder }}</div>
-            <div :class="open?'rotate-180':'rotate-360'" class="h-4 w-4 duration-300">
-                <slot name="icon" />
+            <div class="flex gap-2 items-center">
+                <close-icon class="h-6 w-6" v-if="selected && showClear" @click.prevent="select(null)" />
+                <slot name="icon" :class="open?'rotate-180':'rotate-360'" class="h-4 w-4 duration-300" />
             </div>
         </button>
         <div v-show="open" class="fixed inset-0 z-48" @click.prevent="open = false" />
@@ -29,9 +30,10 @@ import TransitionContainer from "@/Components/CustomDropdown/Components/Transiti
 import CaretDown from "@/Components/Icons/CaretDown.vue";
 import CaretUp from "@/Components/Icons/CaretUp.vue";
 import DropdownOption from "@/Components/CustomDropdown/Components/DropdownOption.vue";
+import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 
 export default {
-    components: {DropdownOption, CaretUp, CaretDown, TransitionContainer},
+    components: {CloseIcon, DropdownOption, CaretUp, CaretDown, TransitionContainer},
     props: {
         withAllOption: {
             type: Boolean,
@@ -50,6 +52,10 @@ export default {
             type: [String, Number],
             required: false,
         },
+        showClear: {
+            type: Boolean,
+            default: true,
+        },
     },
     data(){
         return {
@@ -63,8 +69,12 @@ export default {
             this.open = !this.open;
         },
         select(option){
+            if (option){
+                this.$emit('selectedChange', option.name);
+            } else {
+                this.$emit('selectedChange', null);
+            }
             this.selected = option;
-            this.$emit('selectedChange', this.selected.name);
             this.open = false;
         },
         // select the option with value is given

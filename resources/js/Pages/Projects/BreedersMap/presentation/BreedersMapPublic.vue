@@ -53,7 +53,7 @@ export default {
                 </div>
             </div>
         </div>
-        <Tab :tabs="tabs">
+        <Tab :tabs="tabs" class="z-[999]">
             <template #tab1>
                 <Summary />
             </template>

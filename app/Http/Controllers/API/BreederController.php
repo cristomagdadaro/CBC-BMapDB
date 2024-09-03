@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\GetBreederRequest;
 use App\Http\Requests\CreateBreederRequest;
-use App\Http\Requests\GetCommoditiesRequest;
 use App\Http\Requests\UpdateBreederRequest;
 use App\Http\Requests\DeleteBreederRequest;
 use App\Repository\API\BreederRepo;
@@ -26,6 +25,73 @@ class BreederController extends BaseController
         return new BaseCollection($data);
     }
 
+    public function summary(GetBreederRequest $request)
+    {
+        $model = $this->service->model;
+        $group_by = $request->validated('group_by') ?? 'region';
+        $search = $request->validated('search') ?? '';
+        $is_exact = $request->validated('is_exact');
+
+        if ($search)
+            return response()->json([
+                'chart_data' => $model->selectRaw($group_by.' as label, count(*) as total')
+                    ->when($search, function ($query) use ($search, $is_exact, $group_by) {
+                        if ($is_exact == 'true') {
+                            return $query->where($group_by, $search);
+                        } else {
+                            return $query->where($group_by, 'like', '%'.$search.'%');
+                        }
+                    })
+                    ->groupBy($group_by)
+                    ->orderBy('total', 'desc')
+                    ->get(),
+                'breeders' => $model->when($search, function ($query) use ($search, $is_exact, $group_by) {
+                    if ($is_exact == 'true') {
+                        return $query->where($group_by, $search);
+                    } else {
+                        return $query->where($group_by, 'like', '%'.$search.'%');
+                    }
+                })
+                    ->where($group_by, 'like', '%'.$search.'%')
+                    ->get(),
+                'breeders_chart' => $model->selectRaw('name as label, count(*) as total')
+                    ->when($search, function ($query) use ($search, $is_exact, $group_by) {
+                        if ($is_exact == 'true') {
+                            return $query->where($group_by, $search);
+                        } else {
+                            return $query->where($group_by, 'like', '%'.$search.'%');
+                        }
+                    })->groupBy('name')
+                    ->orderBy('total', 'desc')
+                    ->get()
+            ]);
+
+        return response()->json([
+            'chart_data' => $model->selectRaw($group_by.' as label, count(*) as total')
+                ->groupBy($group_by)
+                ->orderBy('total', 'desc')
+                ->get(),
+            'breeders' => $model->when($search, function ($query) use ($search, $is_exact, $group_by) {
+                if ($is_exact == 'true') {
+                    return $query->where($group_by, $search);
+                } else {
+                    return $query->where($group_by, 'like', '%'.$search.'%');
+                }
+            })->get(),
+            'breeders_chart' => $model->selectRaw('name as label, count(*) as total')
+                ->when($search, function ($query) use ($search, $is_exact, $group_by) {
+                    if ($is_exact == 'true') {
+                        return $query->where($group_by, $search);
+                    } else {
+                        return $query->where($group_by, 'like', '%'.$search.'%');
+                    }
+                })
+                ->groupBy('name')
+                ->orderBy('total', 'desc')
+                ->get()
+        ]);
+    }
+
     public function store(CreateBreederRequest $request): JsonResponse
     {
         return $this->service->create($request->validated());
@@ -36,7 +102,7 @@ class BreederController extends BaseController
         return $this->service->find($id);
     }
 
-    public function noPageSearch(int $id, GetCommoditiesRequest $request)
+    public function noPageSearch(int $id, GetBreederRequest $request)
     {
         $this->service->appendWith(['commodities']);
         $data = $this->service->search(new Collection($request->validated()), false);

@@ -12,6 +12,6 @@ class CommoditySeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Commodity::factory()->count(100)->create();
+        \App\Models\Commodity::factory()->count(500)->create();
     }
 }

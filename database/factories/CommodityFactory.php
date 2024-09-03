@@ -49,7 +49,7 @@ class CommodityFactory extends Factory
             'variety' => $this->faker->randomElement($commodity['varieties']),
             'accession' => $this->faker->randomElement($commodity['accession']),
             'germplasm' => $this->faker->randomElement($commodity['germplasm']),
-            'population' => $this->faker->randomFloat(),
+            'population' => $this->faker->randomNumber(6),
             'maturity_period' => $this->faker->name,
             'yield' => $this->faker->randomFloat(),
             'description' => $this->faker->text,

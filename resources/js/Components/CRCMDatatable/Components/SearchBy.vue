@@ -7,7 +7,7 @@
                 <input type="checkbox" v-model="is_exact" @click="toggle()" class="rounded-full h-3 w-4 focus:outline-none focus:ring-0 focus:border-1" title="turn on filter by exact value">
             </div>
         </div>
-        <custom-dropdown :value="value" placeholder="Columns" :options="options" @selectedChange="$emit('searchBy', $event)">
+        <custom-dropdown :show-clear="false" :value="value" placeholder="Columns" :options="options" @selectedChange="$emit('searchBy', $event)">
             <template #icon>
                 <filter-icon class="h-4 w-4" />
             </template>

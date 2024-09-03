@@ -39,7 +39,7 @@ export default {
                     This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
                 </p>
             </div>
-            <div class="flex flex-wrap gap-2 p-2 sm:justify-start justify-center">
+            <div class="flex flex-wrap gap-2 p-2 sm:justify-start justify-center z-[999]">
                 <Link v-for="project in CBCProjectsPublic" :href="route(project.value)" class="shadow-md hover:bg-cbc-yellow-green text-gray-700 bg-cbc-yellow px-5 py-3 rounded">
                     {{ project.label }}
                 </Link>

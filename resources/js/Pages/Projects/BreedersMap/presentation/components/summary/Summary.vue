@@ -2,8 +2,8 @@
 import ApiService from "@/Modules/core/infrastructure/ApiService";
 import CaretDown from "@/Components/Icons/CaretDown.vue";
 import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
-import { Bar, Doughnut } from 'vue-chartjs'
-import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement} from 'chart.js'
+import {Bar, Doughnut, Line} from 'vue-chartjs'
+import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, PointElement, LineElement} from 'chart.js'
 import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
@@ -14,13 +14,15 @@ import TH from "@/Components/CRCMDatatable/Components/TH.vue";
 import CrcmTbody from "@/Components/CRCMDatatable/Components/CrcmTbody.vue";
 import TbodyRow from "@/Components/CRCMDatatable/Components/TbodyRow.vue";
 import TD from "@/Components/CRCMDatatable/Components/TD.vue";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement)
+ChartJS.register(ChartDataLabels, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, PointElement, LineElement)
 export default {
     name: "Summary",
     components: {
         TD,
         Doughnut,
+        Line,
         TbodyRow,
         CrcmTbody, TH, TheadRow, CrcmThead, CrcmTable, SearchBox, SearchBy, CustomDropdown, CaretDown, Bar},
     data() {
@@ -30,30 +32,41 @@ export default {
             filter: {
                 group_by: 'region',
                 search: null,
-                is_exact: false,
+                is_exact: true,
                 filter: null,
+                table_name: 'commodities',
+                commodity: null,
             },
             showListOfPlaces: false,
+            colorOpacity: 1,
             listOfColors: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-            ]
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(255, 206, 86, 0.5)',
+                'rgba(75, 192, 192, 0.5)',
+                'rgba(153, 102, 255, 0.5)',
+                'rgba(255, 159, 64, 0.5)',
+                'rgba(255, 99, 132, 0.5)',
+            ],
         }
     },
     mounted() {
         this.api = new ApiService(route('api.breedersmap.commodities.summary.public'));
         this.getSummary();
+    },
+    watch: {
+        'filter.table_name': function (value) {
+            this.changeListOf(value);
+        },
+        'colorOpacity': function (value) {
+            this.listOfColors = this.listOfColors.map(color => color.replace(/0.\d/, value));
+        }
     },
     computed: {
         Commodity() {
@@ -77,10 +90,27 @@ export default {
                     tooltip: {
                         callbacks: {
                             label: function (tooltipItem) {
-                                return `There are ${tooltipItem.raw} commodities`;
+                                if (!tooltipItem.raw)
+                                    return `There are no entries`;
+                                else if (tooltipItem.raw > 1)
+                                    return `There are ${tooltipItem.raw} entries`;
+                                return `There is ${tooltipItem.raw} entry`;
                             }
                         }
                     },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            let percentage = (value*100 / sum).toFixed(2)+"%";
+                            return percentage;
+                        },
+                        color: '#fff',
+                        display: false,
+                    }
                 },
                 scales: {
                     x: {
@@ -91,7 +121,7 @@ export default {
                         },
                         grid: {
                             display: false
-                        }
+                        },
                     },
                     y: {
                         beginAtZero: true,
@@ -101,8 +131,78 @@ export default {
                         },
                         grid: {
                             display: false
+                        },
+                    },
+                },
+            }
+        },
+        linechartOptions() {
+            return {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        display: true,
+                        onClick: (e, legendItem, legend) => {
+                            // if a hidden legend is clicked, show all
+                            if (legendItem.hidden)
+                                legend.chart.data.datasets.forEach((dataset, i) => {
+                                    dataset.hidden = false;
+                                });
+                            else
+                                legend.chart.data.datasets.forEach((dataset, i) => {
+                                    dataset.hidden = legendItem.text !== dataset.label;
+                                });
+
+                            legend.chart.update();
                         }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                if (!tooltipItem.raw)
+                                    return `There are no entries`;
+                                else if (tooltipItem.raw > 1)
+                                    return `Population of ${tooltipItem.raw}`;
+                                return `Population of ${tooltipItem.raw}`;
+                            }
+                        }
+                    },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            let percentage = (value*100 / sum).toFixed(2)+"%";
+                            return percentage;
+                        },
+                        color: '#fff',
+                        display: false,
                     }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Population per variety'
+                        },
+                        grid: {
+                            display: false
+                        },
+                    },
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: false,
+                            text: this.filter,
+                        },
+                        grid: {
+                            display: false
+                        },
+                    },
                 },
             }
         },
@@ -122,6 +222,19 @@ export default {
                             }
                         }
                     },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            let sum = 0;
+                            let dataArr = ctx.chart.data.datasets[0].data;
+                            dataArr.map(data => {
+                                sum += data;
+                            });
+                            // percentage of the value and the name of the commodity
+                            let percentage = (value*100 / sum).toFixed(0)+"%";
+                            return `${percentage} ${ctx.chart.data.labels[ctx.dataIndex]}`;
+                        },
+                        color: '#fff',
+                    }
                 },
                 scales: {
                     x: {
@@ -157,6 +270,7 @@ export default {
                 search: this.filter.search,
                 is_exact: this.filter.is_exact,
                 filter: this.filter.filter,
+                commodity: this.filter.commodity,
             }).then(response => {
                 this.apiResponse = response.data;
             });
@@ -182,14 +296,16 @@ export default {
         <div>
             <div class="flex flex-col gap-1">
                 <div class="flex flex-row gap-1">
+                    <input type="range" min="0.01" max="1.1" step="0.01" v-model="colorOpacity">
                     <custom-dropdown
+                        :value="filter.table_name"
                         :withAllOption="false"
                         :options="[
                                     {label: 'Breeders', name: 'breeders'},
-                                    {label: 'Commodity', name: 'common_name'},
+                                    {label: 'Commodity', name: 'commodities'},
                                  ]"
                         placeholder="Select a list"
-                        @selectedChange="changeListOf($event); getSummary($event);">
+                        @selectedChange="filter.table_name = $event; changeListOf($event); filter.search = null; getSummary($event);">
                         <template #icon>
                             <caret-down  class="h-4 w-4 text-gray-700" />
                         </template>
@@ -221,31 +337,45 @@ export default {
                             <caret-down  class="h-4 w-4 text-gray-700" />
                         </template>
                     </custom-dropdown>
+                    <custom-dropdown
+                        v-if="data && data.commodities_linechart && data.commodities_linechart.datasets"
+                        :value="filter.commodity"
+                        :withAllOption="false"
+                        :options="data.commodities_linechart.datasets.map(item => {
+                                    return {label: item.label, name: item.label}
+                                 })"
+                        :placeholder="`Select a specific commodity`"
+                        @selectedChange="filter.filter = 'name' ;filter.commodity = $event; getSummary($event)">
+                        <template #icon>
+                            <caret-down  class="h-4 w-4 text-gray-700" />
+                        </template>
+                    </custom-dropdown>
                 </div>
             </div>
-            <div>
-                <Bar
-                    v-if="data.chart_data"
-                    id="my-chart-id"
-                    :options="chartOptions"
-                    :data="{
+            <div class="flex justify-evenly items-center my-5">
+                <div v-if="data.chart_data" class="flex justify-center" style="width: 50%; height: auto">
+                    <Bar
+                        id="my-chart-id"
+                        :options="chartOptions"
+                        :data="{
                     labels: data.chart_data.map(item => item.label),
                     datasets: [
                       {
                         label: 'By Region',
                         data: data.chart_data.map(item => item.total),
                         backgroundColor: listOfColors,
-                        borderColor: listOfColors.map(color => color.replace('0.2', '1')),
-                        borderWidth: 1
+                        borderColor: listOfColors.map(color => color.replace('0.2', this.colorOpacity)),
+                        borderWidth: 1,
                       },
                     ]
                   }"
-                />
-                <Doughnut
-                    v-if="data.commodities_chart"
-                    id="my-chart-id"
-                    :options="piechartOptions"
-                    :data="{
+                    />
+                </div>
+                <div v-if="data.commodities_chart" class="flex justify-center" style="width: 30%; height:auto">
+                    <Doughnut
+                        id="my-chart-id"
+                        :options="piechartOptions"
+                        :data="{
                     labels: data.commodities_chart.map(item => item.label),
                     datasets: [
                       {
@@ -256,6 +386,16 @@ export default {
                       }
                     ]
                   }"
+                    />
+                </div>
+            </div>
+            <div v-if="data.commodities_linechart" class="flex justify-center" style="width: 100%; height:auto">
+                <Line
+                    :options="linechartOptions"
+                    :data="{
+                            labels: data.commodities_linechart.labels,
+                            datasets: data.commodities_linechart.datasets
+                        }"
                 />
             </div>
             <div class="w-full flex flex-row gap-1 my-2">
@@ -295,7 +435,7 @@ export default {
                         </thead-row>
                     </crcm-thead>
                     <crcm-tbody>
-                        <tbody-row v-for="commodity in data.commodities">
+                        <tbody-row v-if="data.commodities.length" v-for="commodity in data.commodities">
                             <t-d>{{ commodity.name }}</t-d>
                             <t-d>{{ commodity.scientific_name }}</t-d>
                             <t-d>{{ commodity.variety }}</t-d>
@@ -304,6 +444,32 @@ export default {
                             <t-d>{{ commodity.population }}</t-d>
                             <t-d>{{ commodity.maturity_period }}</t-d>
                             <t-d>{{ commodity.yield }}</t-d>
+                        </tbody-row>
+                        <tbody-row v-else>
+                            <t-d class="text-center text-gray-500" colspan="8">No Data Found</t-d>
+                        </tbody-row>
+                    </crcm-tbody>
+                </crcm-table>
+            </div>
+            <div v-if="data.breeders" class="text-xs">
+                <crcm-table>
+                    <crcm-thead>
+                        <thead-row>
+                            <t-h column="Breeder" />
+                            <t-h column="Agency" />
+                            <t-h column="Phone" />
+                            <t-h column="Email" />
+                        </thead-row>
+                    </crcm-thead>
+                    <crcm-tbody>
+                        <tbody-row  v-if="data.breeders.length" v-for="breeder in data.breeders">
+                            <t-d>{{ breeder.name }}</t-d>
+                            <t-d>{{ breeder.agency }}</t-d>
+                            <t-d>{{ breeder.phone }}</t-d>
+                            <t-d>{{ breeder.email }}</t-d>
+                        </tbody-row>
+                        <tbody-row v-else>
+                            <t-d class="text-center text-gray-500" colspan="4">No Data Found</t-d>
                         </tbody-row>
                     </crcm-tbody>
                 </crcm-table>
