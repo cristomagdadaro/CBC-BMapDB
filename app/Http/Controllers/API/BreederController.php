@@ -7,6 +7,7 @@ use App\Http\Requests\GetBreederRequest;
 use App\Http\Requests\CreateBreederRequest;
 use App\Http\Requests\UpdateBreederRequest;
 use App\Http\Requests\DeleteBreederRequest;
+use App\Models\Breeder;
 use App\Repository\API\BreederRepo;
 use Illuminate\Support\Collection;
 use Illuminate\Http\JsonResponse;
@@ -34,6 +35,7 @@ class BreederController extends BaseController
 
         if ($search)
             return response()->json([
+                'group_search_labels' => $this->getGroupByLabels($group_by),
                 'chart_data' => $model->selectRaw($group_by.' as label, count(*) as total')
                     ->when($search, function ($query) use ($search, $is_exact, $group_by) {
                         if ($is_exact == 'true') {
@@ -67,6 +69,7 @@ class BreederController extends BaseController
             ]);
 
         return response()->json([
+            'group_search_labels' => $this->getGroupByLabels($group_by),
             'chart_data' => $model->selectRaw($group_by.' as label, count(*) as total')
                 ->groupBy($group_by)
                 ->orderBy('total', 'desc')
@@ -90,6 +93,11 @@ class BreederController extends BaseController
                 ->orderBy('total', 'desc')
                 ->get()
         ]);
+    }
+
+    private function getGroupByLabels($group_by)
+    {
+        return Breeder::select($group_by)->orderBy($group_by)->distinct()->get()->pluck($group_by);
     }
 
     public function store(CreateBreederRequest $request): JsonResponse

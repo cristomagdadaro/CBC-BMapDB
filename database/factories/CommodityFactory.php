@@ -21,12 +21,6 @@ class CommodityFactory extends Factory
      */
     public function definition(): array
     {
-        // $locations = $this->readFromCsv();
-        $locations = config('ph_geo_cities');
-
-        $randomLocation = $this->faker->randomElement($locations);
-        $address = $this->faker->address;
-
         $commodities = [
             PriorityCommodities::COCONUT,
             PriorityCommodities::RICE,
@@ -54,12 +48,12 @@ class CommodityFactory extends Factory
             'yield' => $this->faker->randomFloat(),
             'description' => $this->faker->text,
             'image' => $this->faker->imageUrl(),
-            'city' => $city->citymunDesc,
+            'city' => $city->cityDesc,
             'province' => $province->provDesc,
             'region' => $region->regDesc,
             'country' => 'Philippines',
-            'latitude' => $randomLocation['latitude'],
-            'longitude' => $randomLocation['longitude'],
+            'latitude' => $city->latitude,
+            'longitude' => $city->longitude,
             'status' => $this->faker->randomElement(['active', 'inactive']),
         ];
     }

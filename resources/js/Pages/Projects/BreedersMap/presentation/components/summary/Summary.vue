@@ -15,11 +15,15 @@ import CrcmTbody from "@/Components/CRCMDatatable/Components/CrcmTbody.vue";
 import TbodyRow from "@/Components/CRCMDatatable/Components/TbodyRow.vue";
 import TD from "@/Components/CRCMDatatable/Components/TD.vue";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import FilterIcon from "@/Components/Icons/FilterIcon.vue";
+import CollapsableMenu from "@/Components/Collapsable/CollapsableMenu/CollapsableMenu.vue";
 
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, PointElement, LineElement)
 export default {
     name: "Summary",
     components: {
+        CollapsableMenu,
+        FilterIcon,
         TD,
         Doughnut,
         Line,
@@ -117,7 +121,10 @@ export default {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'No. of Commodities'
+                            text: 'No. of Commodities',
+                            font: {
+                                size: 20,
+                            },
                         },
                         grid: {
                             display: false
@@ -142,7 +149,7 @@ export default {
                 plugins: {
                     legend: {
                         position: 'top',
-                        display: true,
+                        display: false,
                         onClick: (e, legendItem, legend) => {
                             // if a hidden legend is clicked, show all
                             if (legendItem.hidden)
@@ -187,7 +194,10 @@ export default {
                         beginAtZero: false,
                         title: {
                             display: true,
-                            text: 'Population per variety'
+                            text: 'Population per variety',
+                            font: {
+                                size: 20,
+                            },
                         },
                         grid: {
                             display: false
@@ -213,7 +223,7 @@ export default {
                 plugins: {
                     legend: {
                         position: 'bottom',
-                        display: true
+                        display: false
                     },
                     tooltip: {
                         callbacks: {
@@ -240,8 +250,8 @@ export default {
                     x: {
                         beginAtZero: true,
                         title: {
+                            text: 'No. of Commodities',
                             display: true,
-                            text: 'No. of Commodities'
                         },
                         grid: {
                             display: false
@@ -251,8 +261,8 @@ export default {
                     y: {
                         beginAtZero: true,
                         title: {
+                            text: 'No. of Commodities',
                             display: false,
-                            text: this.filter,
                         },
                         grid: {
                             display: false
@@ -276,8 +286,9 @@ export default {
             });
         },
         updateFilters(key, value) {
-            this.filter[key] = value;
-            this.getSummary();
+            /*this.filter[key] = value;
+            this.getSummary();*/
+
         },
         changeListOf(value) {
             // change the api url whether for breeders or commodities
@@ -286,6 +297,17 @@ export default {
             } else {
                 this.api = new ApiService(route('api.breedersmap.commodities.summary.public'));
             }
+        },
+        filterResponse(search)
+        {
+            console.log(this.apiResponse.commodities.filter(commodity => {
+                // loop through the columns of the commodity
+                if (search)
+                for (let column in commodity) {
+                    if (commodity[column] && commodity[column].toLowerCase().includes(search.toLowerCase()))
+                        return commodity;
+                }
+            }));
         }
     }
 }
@@ -295,65 +317,75 @@ export default {
     <div class="shadow-lg bg-gray-100 rounded-md sm:p-4 p-1 flex flex-col gap-2">
         <div>
             <div class="flex flex-col gap-1">
-                <div class="flex flex-row gap-1">
-                    <input type="range" min="0.01" max="1.1" step="0.01" v-model="colorOpacity">
-                    <custom-dropdown
-                        :value="filter.table_name"
-                        :withAllOption="false"
-                        :options="[
+                <label>Color Opacity: {{colorOpacity}}</label>
+                <input type="range" min="0.01" max="1.1" step="0.01" v-model="colorOpacity">
+            </div>
+            <collapsable-menu label="Filters" open-default>
+                <custom-dropdown
+                    label="Select a list"
+                    :value="filter.table_name"
+                    :withAllOption="false"
+                    :options="[
                                     {label: 'Breeders', name: 'breeders'},
                                     {label: 'Commodity', name: 'commodities'},
                                  ]"
-                        placeholder="Select a list"
-                        @selectedChange="filter.table_name = $event; changeListOf($event); filter.search = null; getSummary($event);">
-                        <template #icon>
-                            <caret-down  class="h-4 w-4 text-gray-700" />
-                        </template>
-                    </custom-dropdown>
-                    <custom-dropdown
-                        :value="filter.group_by"
-                        :withAllOption="false"
-                        :options="[
+                    placeholder="Select a list"
+                    @selectedChange="filter.table_name = $event; changeListOf($event); filter.search = null; getSummary($event);">
+                    <template #icon>
+                        <caret-down  class="h-4 w-4 text-gray-700" />
+                    </template>
+                </custom-dropdown>
+                <custom-dropdown
+                    v-if="data && data.commodity_labels && filter.table_name === 'commodities'"
+                    label="Select a specific commodity"
+                    searchable
+                    :value="filter.commodity"
+                    :withAllOption="false"
+                    :options="data.commodity_labels.map(item => {
+                                    return {label: item, name: item}
+                                 })"
+                    placeholder="None"
+                    @selectedChange="filter.filter = 'name' ;filter.commodity = $event; getSummary($event)">
+                    <template #icon>
+                        <caret-down  class="h-4 w-4 text-gray-700" />
+                    </template>
+                </custom-dropdown>
+                <custom-dropdown
+                    label="Group by"
+                    :value="filter.group_by"
+                    :withAllOption="false"
+                    :options="[
                                     {label: 'Region', name: 'region'},
                                     {label: 'Province', name: 'province'},
                                     {label: 'City', name: 'city'},
                                  ]"
-                        placeholder="Group by"
-                        @selectedChange="filter.group_by = $event; filter.search = null; getSummary($event);">
-                        <template #icon>
-                            <caret-down  class="h-4 w-4 text-gray-700" />
-                        </template>
-                    </custom-dropdown>
-                    <custom-dropdown
-                        v-if="data && data.chart_data"
-                        :value="filter.search"
-                        :withAllOption="false"
-                        :options="data.chart_data.map( item => {
-                                    return {label: item.label, name: item.label}
+                    placeholder="None"
+                    @selectedChange="filter.group_by = $event; filter.search = null; getSummary($event);">
+                    <template #icon>
+                        <caret-down  class="h-4 w-4 text-gray-700" />
+                    </template>
+                </custom-dropdown>
+                <custom-dropdown
+                    v-if="data && data.group_search_labels"
+                    searchable
+                    :label="`Select a specific ${filter.group_by}`"
+                    :value="filter.search"
+                    :withAllOption="false"
+                    :options="data.group_search_labels.map( item => {
+                                    return {label: item, name: item}
                                  })"
-                        :placeholder="`Select a specific ${filter.group_by}`"
-                        @selectedChange="filter.search = $event; getSummary($event)">
-                        <template #icon>
-                            <caret-down  class="h-4 w-4 text-gray-700" />
-                        </template>
-                    </custom-dropdown>
-                    <custom-dropdown
-                        v-if="data && data.commodities_linechart && data.commodities_linechart.datasets"
-                        :value="filter.commodity"
-                        :withAllOption="false"
-                        :options="data.commodities_linechart.datasets.map(item => {
-                                    return {label: item.label, name: item.label}
-                                 })"
-                        :placeholder="`Select a specific commodity`"
-                        @selectedChange="filter.filter = 'name' ;filter.commodity = $event; getSummary($event)">
-                        <template #icon>
-                            <caret-down  class="h-4 w-4 text-gray-700" />
-                        </template>
-                    </custom-dropdown>
-                </div>
+                    placeholder="None"
+                    @selectedChange="filter.search = $event; getSummary($event)">
+                    <template #icon>
+                        <caret-down  class="h-4 w-4 text-gray-700" />
+                    </template>
+                </custom-dropdown>
+            </collapsable-menu>
+            <div class="text-center py-2 my-3 rounded text-gray-700 text-2xl">
+                {{ filter.commodity? `${filter.commodity} studies` : `List of ${filter.table_name }` }} {{ filter.search ? `in ${filter.search}` : ` grouped by ${filter.group_by}` }}
             </div>
-            <div class="flex justify-evenly items-center my-5">
-                <div v-if="data.chart_data" class="flex justify-center" style="width: 50%; height: auto">
+            <div class="flex justify-evenly items-center my-5 gap-0.5">
+                <div v-if="data.chart_data && !filter.search" class="flex justify-center" style="width: 100%; height: auto">
                     <Bar
                         id="my-chart-id"
                         :options="chartOptions"
@@ -371,7 +403,7 @@ export default {
                   }"
                     />
                 </div>
-                <div v-if="data.commodities_chart" class="flex justify-center" style="width: 30%; height:auto">
+                <div v-if="data.commodities_chart && !filter.commodity" class="flex justify-center" style="width: 100%; height:auto">
                     <Doughnut
                         id="my-chart-id"
                         :options="piechartOptions"
@@ -388,15 +420,15 @@ export default {
                   }"
                     />
                 </div>
-            </div>
-            <div v-if="data.commodities_linechart" class="flex justify-center" style="width: 100%; height:auto">
-                <Line
-                    :options="linechartOptions"
-                    :data="{
+                <div v-if="data.commodities_linechart && filter.commodity" class="flex justify-center" style="width: 100%; height:auto">
+                    <Line
+                        :options="linechartOptions"
+                        :data="{
                             labels: data.commodities_linechart.labels,
                             datasets: data.commodities_linechart.datasets
                         }"
-                />
+                    />
+                </div>
             </div>
             <div class="w-full flex flex-row gap-1 my-2">
                 <search-box
@@ -404,7 +436,7 @@ export default {
                     :options="{}"
                     :label="filter.search ?? 'Select a place'"
                     @searchString="updateFilters('search', $event)"
-                    @keydown.enter="updateFilters('search', $event.target.value)"
+                    @keydown.enter="filterResponse($event.target.value)"
                     @focusin="showListOfPlaces = true"
                     class="w-full"
                 />

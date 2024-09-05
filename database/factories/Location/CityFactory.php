@@ -21,11 +21,9 @@ class CityFactory extends Factory
         return [
             'latitude' => $this->faker->latitude,
             'longitude' => $this->faker->longitude,
-            'psgcCode' => $this->faker->unique()->numerify('####'),
-            'citymunDesc' => $this->faker->city,
-            'regDesc' => Region::all()->random()->regCode,
-            'provCode' => Province::all()->random()->provCode,
-            'citymunCode' => $this->faker->unique()->numerify('####'),
+            'cityDesc' => $this->faker->city,
+            'regDesc' => Region::all()->random()->regDesc,
+            'provDesc' => Province::all()->random()->provDesc,
         ];
     }
 }

@@ -26,7 +26,7 @@ class BreederFactory extends Factory
             'user_id' => User::all()->random()->id,
             'name' => $this->faker->name(),
             'agency' => $this->faker->company(),
-            'city' => $city->citymunDesc,
+            'city' => $city->cityDesc,
             'province' => $province->provDesc,
             'region' => $region->regDesc,
             'country' => 'Philippines',

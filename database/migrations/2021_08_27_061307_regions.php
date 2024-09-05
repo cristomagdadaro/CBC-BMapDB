@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('loc_regions', function (Blueprint $table) {
             $table->id();
-            $table->string('psgcCode')->unique();
             $table->string('regDesc')->unique();
-            $table->string('regCode')->unique();
+            $table->string('regDescLong')->unique();
             $table->foreignId('country_id')->constrained('loc_countries');
             $table->timestamps();
         });

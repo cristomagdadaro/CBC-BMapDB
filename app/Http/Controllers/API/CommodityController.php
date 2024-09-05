@@ -9,6 +9,10 @@ use App\Http\Requests\DeleteCommoditiesRequest;
 use App\Http\Requests\GetCommoditiesRequest;
 use App\Http\Requests\UpdateCommoditiesRequest;
 use App\Http\Resources\BaseCollection;
+use App\Models\Commodity;
+use App\Models\Location\City;
+use App\Models\Location\Province;
+use App\Models\Location\Region;
 use App\Repository\API\CommodityRepo;
 use Illuminate\Support\Collection;
 
@@ -45,6 +49,8 @@ class CommodityController extends BaseController
 
         if ($search)
         return response()->json([
+            'group_search_labels' => $this->getGroupByLabels($group_by),
+            'commodity_labels' => $this->getCommodityLabels(),
             'chart_data' => $model->selectRaw($group_by.' as label, count(*) as total')
                 ->when($search, function ($query) use ($commodity, $search, $is_exact, $group_by) {
                     if ($commodity)
@@ -82,12 +88,12 @@ class CommodityController extends BaseController
                 ->groupBy('name')
                 ->orderBy('total', 'desc')
                 ->get(),
-            // graph the yield of the commodities
             'commodities_linechart' => $this->linechartData($model, $search, $is_exact, $group_by, $commodity)
         ]);
 
         return response()->json([
-            'request' => $request->all(),
+            'group_search_labels' => $this->getGroupByLabels($group_by),
+            'commodity_labels' => $this->getCommodityLabels(),
             'chart_data' => $model->selectRaw("$group_by as label, count(*) as total")
                 ->when($commodity, function ($query) use ($commodity) {
                     return $query->where('name', $commodity);
@@ -154,7 +160,7 @@ class CommodityController extends BaseController
                 'label' => $name,
                 'data' => $dataGroup->pluck('total')->toArray(),
                 'borderColor' => 'rgba('.rand(0, 255).', '.rand(0, 255).', '.rand(0, 255).', 1)',
-                'fill' => true
+                'fill' => false
             ];
             $datasets[] = $dataset;
         }
@@ -166,13 +172,21 @@ class CommodityController extends BaseController
         ];
     }
 
+    private function getGroupByLabels($group_by)
+    {
+       return Commodity::select($group_by)->whereNotNull('population')->orderBy($group_by)->distinct()->get()->pluck($group_by);
+    }
+
+    private function getCommodityLabels()
+    {
+        return Commodity::select('name')->orderBy('name')->distinct()->get()->pluck('name');
+    }
 
 
     /** API used at Map search box*/
     public function noPage(GetCommoditiesRequest $request)
     {
-        // Set withPagination to false to return the builder instead of the paginator, for the Map search box. All Commodities.
-        $this->service->appendWith(['breeder']);
+        $this->service->appendWith(['breeder','city']);
         $data = $this->service->search(new Collection($request->validated()), false);
         return new BaseCollection($data);
     }

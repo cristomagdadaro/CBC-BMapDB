@@ -17,9 +17,8 @@ class RegionSeeder extends Seeder
 
         foreach ($regions as $region) {
             Region::factory()->create([
-                'psgcCode' => $region['psgcCode'],
-                'regDesc' => $region['regDesc'],
-                'regCode' => $region['regCode'],
+                'regDesc' => trim($region['regDesc']),
+                'regDescLong' => trim($region['regDescLong']),
                 'country_id' => 1
             ]);
         }

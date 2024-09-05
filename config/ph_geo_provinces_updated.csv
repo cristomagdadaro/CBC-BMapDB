@@ -1,0 +1,81 @@
+id,provDesc,regDesc
+1,Abra,CAR
+2,Agusan del Norte,REGION XIII
+3,Agusan del Sur,REGION XIII
+4,Aklan,REGION VI
+5,Albay,REGION V
+6,Antique,REGION VI
+7,Apayao,CAR
+8,Aurora,REGION III
+9,Basilan,BARMM
+10,Bataan,REGION III
+11,Batanes,REGION II
+12,Batangas,REGION IV-A
+13,Benguet,CAR
+14,Biliran,REGION VIII
+15,Bohol,REGION VII
+16,Bukidnon,REGION X
+17,Bulacan,REGION III
+18,Cagayan,REGION II
+19,Camarines Norte,REGION V
+20,Camarines Sur,REGION V
+21,Camiguin,REGION X
+22,Capiz,REGION VI
+23,Catanduanes,REGION V
+24,Cavite,REGION IV-A
+25,Cebu,REGION VII
+26,Compostela Valley,REGION XI
+27,Davao del Norte,REGION XI
+28,Davao Occidental,REGION XI
+29,Davao Oriental,REGION XI
+30,Dinagat Islands,REGION VIII
+31,Eastern Samar,REGION VIII
+32,Guimaras,REGION VI
+33,Ifugao,CAR
+34,Ilocos Norte,REGION I
+35,Ilocos Sur,REGION I
+36,Iloilo,REGION VI
+37,Isabela,REGION II
+38,Kalinga,CAR
+39,La Union,REGION I
+40,Laguna,REGION IV-A
+41,Lanao del Norte,REGION X
+42,Lanao del Sur,BARMM
+43,Leyte,REGION VIII
+44,Maguindanao,BARMM
+45,Marinduque,REGION IV-B
+46,Masbate,REGION V
+47,Metro Manila,NCR
+48,Misamis Occidental,REGION X
+49,Misamis Oriental,REGION X
+50,Mountain Province,CAR
+51,Negros Occidental,REGION VI
+52,Negros Oriental,REGION VII
+53,North Cotabato,REGION XII
+54,Northern Samar,REGION VIII
+55,Nueva Ecija,REGION III
+56,Nueva Vizcaya,REGION II
+57,Occidental Mindoro,REGION IV-B
+58,Oriental Mindoro,REGION IV-B
+59,Palawan,REGION IV-B
+60,Pampanga,REGION III
+61,Pangasinan,REGION I
+62,Quezon,REGION IV-A
+63,Quirino,REGION II
+64,Rizal,REGION IV-A
+65,Romblon,REGION IV-B
+66,Samar,REGION VIII
+67,Sarangani,REGION XII
+68,Siquijor,REGION VII
+69,Sorsogon,REGION V
+70,South Cotabato,REGION XII
+71,Southern Leyte,REGION VIII
+72,Sultan Kudarat,REGION XII
+73,Sulu,BARMM
+74,Surigao del Sur,REGION XIII
+75,Tarlac,REGION III
+76,Tawi-Tawi,BARMM
+77,Zambales,REGION III
+78,Zamboanga del Norte,REGION IX
+79,Zamboanga del Sur,REGION IX
+80,Zamboanga Sibugay,REGION IX

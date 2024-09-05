@@ -25,6 +25,8 @@ import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import {Permission} from "@/Pages/constants.ts";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 import FullscreenToggle from "@/Components/FullscreenToggle.vue";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
+import BaseClass from "@/Modules/core/domain/base/BaseClass";
 
 export default {
     components: {
@@ -69,7 +71,7 @@ export default {
             }
         },
         model: {
-            type: [Object, Function],
+            type: [BaseClass, Function],
             required: false,
         }
     },
@@ -123,6 +125,9 @@ export default {
         };
     },
     computed: {
+        Commodity() {
+            return Commodity
+        },
         Permission() {
             return Permission;
         },
@@ -162,7 +167,6 @@ export default {
     methods: {
         async initializeMap() {
             this.mapApi = new MapApiService(this.baseUrl, this.model);
-            console.log(this.baseUrl);
             await this.mapApi.init();
             this.loadData();
         },
@@ -263,7 +267,7 @@ export default {
                 />
                 <search-by :value="mapApi.request.getFilter"
                            :is-exact="mapApi.request.getIsExact"
-                           :options="model.getColumns().map(column => {
+                           :options="Commodity.getColumns().map(column => {
                                  return {
                                       name: column.key,
                                       label: column.title
@@ -340,8 +344,9 @@ export default {
                 <l-circle-marker
                     v-for="place in placesFiltered"
                     :key="place.id"
-                    :lat-lng="[place.latitude, place.longitude]"
-                    :opacity="0.8"
+                    :lat-lng="[place.city.latitude, place.city.longitude]"
+                    :opacity="1"
+                    :radius="5"
                     color="#3DA5B4"
                     :weight="1"
                     @click="selectPoint(place)"

@@ -12,9 +12,8 @@ class Region extends BaseModel
     protected $table = 'loc_regions';
 
     protected $fillable = [
-        'psgcCode',
         'regDesc',
-        'regCode',
+        'regDescLong',
         'country_id',
     ];
 
@@ -25,11 +24,11 @@ class Region extends BaseModel
 
     public function provinces(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Province::class, 'regCode', 'regCode');
+        return $this->hasMany(Province::class, 'regDesc', 'regDesc');
     }
 
     public function cities()
     {
-        return $this->hasManyThrough(City::class, Province::class, 'regCode', 'provCode', 'regCode', 'provCode');
+        return $this->hasManyThrough(City::class, Province::class, 'regDesc', 'provDesc', 'regDesc', 'provDesc');
     }
 }

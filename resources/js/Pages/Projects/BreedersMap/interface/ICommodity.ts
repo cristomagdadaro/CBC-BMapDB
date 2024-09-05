@@ -1,4 +1,8 @@
 import IBreeder from "./IBreeder";
+import ICity from "../../../../Modules/core/interface/location/ICity";
+import IProvince from "../../../../Modules/core/interface/location/IProvince";
+import IRegion from "../../../../Modules/core/interface/location/IRegion";
+import ICountry from "../../../../Modules/core/interface/location/ICountry";
 
 export default interface ICommodity {
     id: number;
@@ -12,12 +16,10 @@ export default interface ICommodity {
     maturity_period: string;
     yield: string;
     description: string;
-    latitude: string;
-    longitude: string;
-    city: string;
-    province: string;
-    region: string;
-    country: string;
+    city: ICity;
+    province: IProvince;
+    region: IRegion;
+    country: ICountry;
     status: string;
     created_at: string;
     updated_at: string;

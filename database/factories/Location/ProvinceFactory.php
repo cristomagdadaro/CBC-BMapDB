@@ -18,10 +18,8 @@ class ProvinceFactory extends Factory
     public function definition(): array
     {
         return [
-            'psgcCode' => $this->faker->unique()->numerify('####'),
             'provDesc' => $this->faker->state,
-            'regCode' => Region::all()->random()->regCode,
-            'provCode' => $this->faker->unique()->numerify('##'),
+            'regDesc' => Region::all()->random()->regCode,
         ];
     }
 }

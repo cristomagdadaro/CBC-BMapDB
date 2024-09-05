@@ -1,106 +1,88 @@
 <?php
-
-return [
-    [
-        "id" => 1,
-        "psgcCode" => "010000000",
-        "regDesc" => "REGION I (ILOCOS REGION)",
-        "regCode" => "01"
-    ],
-    [
-        "id" => 2,
-        "psgcCode" => "020000000",
-        "regDesc" => "REGION II (CAGAYAN VALLEY)",
-        "regCode" => "02"
-    ],
-    [
-        "id" => 3,
-        "psgcCode" => "030000000",
-        "regDesc" => "REGION III (CENTRAL LUZON)",
-        "regCode" => "03"
-    ],
-    [
-        "id" => 4,
-        "psgcCode" => "040000000",
-        "regDesc" => "REGION IV-A (CALABARZON)",
-        "regCode" => "04"
-    ],
-    [
-        "id" => 5,
-        "psgcCode" => "170000000",
-        "regDesc" => "REGION IV-B (MIMAROPA)",
-        "regCode" => "17"
-    ],
-    [
-        "id" => 6,
-        "psgcCode" => "050000000",
-        "regDesc" => "REGION V (BICOL REGION)",
-        "regCode" => "05"
-    ],
-    [
-        "id" => 7,
-        "psgcCode" => "060000000",
-        "regDesc" => "REGION VI (WESTERN VISAYAS)",
-        "regCode" => "06"
-    ],
-    [
-        "id" => 8,
-        "psgcCode" => "070000000",
-        "regDesc" => "REGION VII (CENTRAL VISAYAS)",
-        "regCode" => "07"
-    ],
-    [
-        "id" => 9,
-        "psgcCode" => "080000000",
-        "regDesc" => "REGION VIII (EASTERN VISAYAS)",
-        "regCode" => "08"
-    ],
-    [
-        "id" => 10,
-        "psgcCode" => "090000000",
-        "regDesc" => "REGION IX (ZAMBOANGA PENINSULA)",
-        "regCode" => "09"
-    ],
-    [
-        "id" => 11,
-        "psgcCode" => "100000000",
-        "regDesc" => "REGION X (NORTHERN MINDANAO)",
-        "regCode" => "10"
-    ],
-    [
-        "id" => 12,
-        "psgcCode" => "110000000",
-        "regDesc" => "REGION XI (DAVAO REGION)",
-        "regCode" => "11"
-    ],
-    [
-        "id" => 13,
-        "psgcCode" => "120000000",
-        "regDesc" => "REGION XII (SOCCSKSARGEN)",
-        "regCode" => "12"
-    ],
-    [
-        "id" => 14,
-        "psgcCode" => "130000000",
-        "regDesc" => "NATIONAL CAPITAL REGION (NCR)",
-        "regCode" => "13"
-    ],
-    [
-        "id" => 15,
-        "psgcCode" => "140000000",
-        "regDesc" => "CORDILLERA ADMINISTRATIVE REGION (CAR)",
-        "regCode" => "14"
-    ],
-    [
-        "id" => 16,
-        "psgcCode" => "150000000",
-        "regDesc" => "BANGSAMORO AUTONOMOUS REGION IN MUSLIM MINDANAO (BARMM)",
-        "regCode" => "15"
-    ],
-    [
-        "id" => 17,
-        "psgcCode" => "160000000",
-        "regDesc" => "REGION XIII (Caraga)",
-        "regCode" => "16"
-    ]
-];
+return array(
+    array(
+        'id' => 1,
+        'regDesc' => 'BARMM',
+        'regDescLong' => 'Bangsamoro Autonomous Region In Muslim Mindanao '
+    ),
+    array(
+        'id' => 2,
+        'regDesc' => 'CAR',
+        'regDescLong' => 'Cordillera Administrative Region'
+    ),
+    array(
+        'id' => 3,
+        'regDesc' => 'NCR',
+        'regDescLong' => 'National Capital Region'
+    ),
+    array(
+        'id' => 5,
+        'regDesc' => 'REGION I',
+        'regDescLong' => 'Ilocos Region'
+    ),
+    array(
+        'id' => 7,
+        'regDesc' => 'REGION II',
+        'regDescLong' => 'Cagayan Valley'
+    ),
+    array(
+        'id' => 8,
+        'regDesc' => 'REGION III',
+        'regDescLong' => 'Central Luzon'
+    ),
+    array(
+        'id' => 9,
+        'regDesc' => 'REGION IV-A',
+        'regDescLong' => 'Calabarzon'
+    ),
+    array(
+        'id' => 10,
+        'regDesc' => 'REGION IV-B',
+        'regDescLong' => 'Mimaropa'
+    ),
+    array(
+        'id' => 11,
+        'regDesc' => 'REGION IX',
+        'regDescLong' => 'Zamboanga Peninsula'
+    ),
+    array(
+        'id' => 12,
+        'regDesc' => 'REGION V',
+        'regDescLong' => 'Bicol Region'
+    ),
+    array(
+        'id' => 13,
+        'regDesc' => 'REGION VI',
+        'regDescLong' => 'Western Visayas'
+    ),
+    array(
+        'id' => 14,
+        'regDesc' => 'REGION VII',
+        'regDescLong' => 'Central Visayas'
+    ),
+    array(
+        'id' => 15,
+        'regDesc' => 'REGION VIII',
+        'regDescLong' => 'Eastern Visayas'
+    ),
+    array(
+        'id' => 16,
+        'regDesc' => 'REGION X',
+        'regDescLong' => 'Northern Mindanao'
+    ),
+    array(
+        'id' => 17,
+        'regDesc' => 'REGION XI',
+        'regDescLong' => 'Davao Region'
+    ),
+    array(
+        'id' => 19,
+        'regDesc' => 'REGION XII',
+        'regDescLong' => 'Soccsksargen'
+    ),
+    array(
+        'id' => 20,
+        'regDesc' => 'REGION XIII',
+        'regDescLong' => 'Caraga'
+    )
+);

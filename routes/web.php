@@ -63,6 +63,7 @@ Route::prefix('/api/public')->group(function () {
     Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
     Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
     Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
+    Route::get('/commodities/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
     Route::get('/breeders/summary', [BreederController::class, 'summary'])->name('api.breedersmap.breeders.summary.public');
 });
 
@@ -88,8 +89,6 @@ Route::prefix('/projects')->group(function () {
             'breadcrumbs' => [['label' => 'Home', 'to' => '/']],
         ]);
     })->name('projects.breedersmap.public');
-
-    Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
 });
 
 

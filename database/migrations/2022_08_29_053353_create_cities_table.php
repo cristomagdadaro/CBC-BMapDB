@@ -15,16 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
-            $table->string('psgcCode')->unique();
-            $table->string('citymunDesc');
-            $table->string('citymunCode')->unique();
-            $table->string('provCode');
+            $table->string('cityDesc');
+            $table->string('provDesc');
+            $table->string('regDesc');
 
-            $table->foreignId('regDesc')->constrained('loc_regions');
+            $table->foreign('provDesc')->references('provDesc')->on('loc_provinces');
+            $table->foreign('regDesc')->references('regDesc')->on('loc_regions');
 
 
-            $table->unique(['citymunDesc', 'provCode']);
-            $table->foreign('provCode')->references('provCode')->on('loc_provinces');
+            $table->unique(['cityDesc', 'provDesc', 'regDesc']);
             $table->timestamps();
         });
     }

@@ -17,9 +17,8 @@ class RegionFactory extends Factory
     public function definition(): array
     {
         return [
-            'psgcCode' => $this->faker->unique()->numerify('####'),
             'regDesc' => $this->faker->city,
-            'regCode' => $this->faker->unique()->numerify('####'),
+            'regDescLong' => $this->faker->unique()->numerify('####'),
             'country_id' => 1,
         ];
     }

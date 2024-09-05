@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Location\City;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -73,5 +74,10 @@ class Commodity extends BaseModel
     public function breeder()
     {
         return $this->belongsTo(Breeder::class, 'breeder_id', 'id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'city', 'citymunDesc');
     }
 }

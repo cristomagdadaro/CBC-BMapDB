@@ -11,10 +11,8 @@ class Province extends BaseModel
     protected $table = 'loc_provinces';
 
     protected $fillable = [
-        'psgcCode',
         'provDesc',
-        'regCode',
-        'provCode',
+        'regDesc',
     ];
 
     public function cities()
@@ -24,7 +22,7 @@ class Province extends BaseModel
 
     public function region()
     {
-        return $this->belongsTo(Region::class, 'regCode', 'regCode');
+        return $this->belongsTo(Region::class, 'regDesc', 'regDesc');
     }
 
     public function country()

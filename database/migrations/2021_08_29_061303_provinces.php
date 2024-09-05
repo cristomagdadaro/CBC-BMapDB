@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('loc_provinces', function (Blueprint $table) {
             $table->id();
-            $table->string('psgcCode')->unique();
             $table->string('provDesc')->unique();
-            $table->foreignId('regCode')->constrained('loc_regions');
-            $table->string('provCode')->unique();
+            $table->string('regDesc');
+            $table->foreign('regDesc')->references('regDesc')->on('loc_regions');
             $table->timestamps();
         });
     }

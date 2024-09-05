@@ -1,0 +1,1636 @@
+id,cityDesc,provDesc,regDesc,latitude,longitude
+1,Aborlan,Palawan,REGION IV-B ,9.433,118.55
+2,Abra de Ilog,Occidental Mindoro,REGION IV-B ,13.45,120.733
+3,Abucay,Bataan,REGION III ,14.733,120.533
+4,Abulug,Cagayan,REGION II ,18.45,121.45
+5,Abuyog,Leyte,REGION VIII ,10.733,125.017
+6,Adams,Ilocos Norte,REGION I ,18.467,120.9
+7,Agdangan,Quezon,REGION IV-A ,13.867,121.917
+8,Aglipay,Quirino,REGION II ,16.467,121.65
+9,Agno,Pangasinan,REGION I ,16.117,119.8
+10,Agoncillo,Batangas,REGION IV-A ,13.933,120.933
+11,Agoo,La Union,REGION I ,16.325,120.36861
+12,Aguilar,Pangasinan,REGION I ,15.833,120.2
+13,Aguinaldo,Ifugao,CAR,16.783,121.317
+14,Agutaya,Palawan,REGION IV-B ,11.15,120.95
+15,Ajuy,Iloilo,REGION VI ,11.167,123.017
+16,Akbar,Basilan,BARMM,6.65,122.217
+17,Alabat,Quezon,REGION IV-A ,14.1,122.017
+18,Alabel,Sarangani,REGION XII ,6.083,125.283
+19,Alamada,North Cotabato,REGION XII ,7.333,124.567
+20,Alaminos,Laguna,REGION IV-A ,14.06306,121.24806
+21,Alaminos City,Pangasinan,REGION I ,16.16028,119.98028
+22,Alangalang,Leyte,REGION VIII ,11.2,124.85
+23,Al-Barka,Basilan,BARMM,6.467,122.183
+24,Albuera,Leyte,REGION VIII ,10.917,124.7
+25,Alburquerque,Bohol,REGION VII ,9.6,123.95
+26,Alcala,Cagayan,REGION II ,17.9,121.65
+27,Alcala,Pangasinan,REGION I ,15.84722,120.52417
+28,Alcantara,Cebu,REGION VII ,9.98,123.4
+29,Alcantara,Romblon,REGION IV-B ,12.267,122.05
+30,Alcoy,Cebu,REGION VII ,9.68,123.5
+31,Alegria,Cebu,REGION XII,9.77,123.38
+32,Alegria,Dinagat Islands,REGION VIII ,9.467,125.583
+33,Aleosan,North Cotabato,REGION XII ,7.15,124.583
+34,Alfonso,Cavite,REGION IV-A ,14.14083,120.85389
+35,Alfonso Castaneda,Nueva Vizcaya,REGION II ,15.8,121.3
+36,Alfonso Lista,Ifugao,CAR,16.9,121.517
+37,Aliaga,Nueva Ecija,REGION III ,15.5,120.84389
+38,Alicia,Bohol,REGION VII ,9.9,124.45
+39,Alicia,Isabela,REGION II ,16.783,121.7
+40,Alicia,Zamboanga Sibugay,REGION IX ,7.50833,122.94167
+41,Alilem,Ilocos Sur,REGION I ,16.883,120.533
+42,Alimodian,Iloilo,REGION VI ,10.817,122.433
+43,Alitagtag,Batangas,REGION IV-A ,13.867,121
+44,Allacapan,Cagayan,REGION II ,18.25,121.583
+45,Allen,Northern Samar,REGION VIII ,12.5,124.283
+46,Almagro,Samar,REGION VIII ,11.917,124.283
+47,Almeria,Biliran,REGION VIII ,11.617,124.383
+48,Aloguinsan,Cebu,REGION VII ,10.22,123.55
+49,Aloran,Misamis Occidental,REGION X ,8.417,123.817
+50,Altavas,Aklan,REGION VI ,11.533,122.483
+51,Alubijid,Misamis Oriental,REGION X ,8.567,124.467
+52,Amadeo,Cavite,REGION IV-A ,14.167,120.917
+53,Ambaguio,Nueva Vizcaya,REGION II ,16.517,121.017
+54,Amlan,Negros Oriental,REGION VII ,9.45,123.233
+55,Ampatuan,Maguindanao,BARMM,6.867,124.467
+56,Amulung,Cagayan,REGION II ,17.833,121.733
+57,Anahawan,Southern Leyte,REGION VIII ,10.283,125.25
+58,Anao,Tarlac,REGION III ,15.72889,120.62611
+59,Anda,Bohol,REGION VII ,9.75,124.57
+60,Anda,Pangasinan,REGION I ,16.283,119.967
+61,Angadanan,Isabela,REGION II ,16.75,121.75
+62,Angat,Bulacan,REGION III ,14.933,121.033
+63,Angeles City,Pampanga,REGION III ,15.15,120.58
+64,Angono,Rizal,REGION IV-A ,14.533,121.15
+65,Anilao,Iloilo,REGION VI ,11,122.717
+66,Anini-y,Antique,REGION VI ,10.433,121.933
+67,Antequera,Bohol,REGION VII ,9.78,123.9
+68,Antipas,North Cotabato,REGION XII ,7.25,125.05
+69,Antipolo City,Rizal,REGION IV-A ,14.583,121.167
+70,Apalit,Pampanga,REGION III ,14.95,120.767
+71,Aparri,Cagayan,REGION II ,18.333,121.667
+72,Araceli,Palawan,REGION IV-B ,10.333,119.6
+73,Arakan,North Cotabato,REGION XII ,7.35,125.133
+74,Arayat,Pampanga,REGION III ,15.15,120.767
+75,Argao,Cebu,REGION VII ,9.88,123.6
+76,Aringay,La Union,REGION I ,16.383,120.417
+77,Aritao,Nueva Vizcaya,REGION II ,16.3,121.033
+78,Aroroy,Masbate,REGION V ,12.5,123.4
+79,Arteche,Eastern Samar,REGION VIII ,12.267,125.367
+80,Asingan,Pangasinan,REGION I ,16,120.667
+81,Asipulo,Ifugao,CAR,16.6,121.05
+82,Asturias,Cebu,REGION VII ,10.57,123.72
+83,Asuncion,Davao del Norte,REGION XI ,7.583,125.767
+84,Atimonan,Quezon,REGION IV-A ,14,121.917
+85,Atok,Benguet,CAR,16.58333,120.7
+86,Aurora,Isabela,REGION II ,16.99194,121.63694
+87,Aurora,Zamboanga del Sur,REGION IX ,7.95,123.583
+88,Ayungon,Negros Oriental,REGION VII ,9.85,123.133
+89,Baao,Camarines Sur,REGION V ,13.45611,123.36389
+90,Babatngon,Leyte,REGION VIII ,11.417,124.85
+91,Bacacay,Albay,REGION V ,13.3,123.8
+92,Bacarra,Ilocos Norte,REGION I ,18.25,120.617
+93,Baclayon,Bohol,REGION VII ,9.63,123.9
+94,Bacnotan,La Union,REGION I ,16.717,120.35
+95,Baco,Oriental Mindoro,REGION IV-B ,13.4125,121.12861
+96,Bacolod,Lanao del Norte,REGION X ,8.183,124.017
+97,Bacolod City,Negros Occidental,REGION VI ,10.67,122.95
+98,Bacolod-Kalawi,Lanao del Sur,BARMM,7.85,124.133
+99,Bacolor,Pampanga,REGION III ,15,120.65
+100,Bacong,Negros Oriental,REGION VII ,9.25,123.283
+101,Bacoor,Cavite,REGION IV-A ,14.45,120.95
+102,Bacuag,Dinagat Islands,REGION XIII ,9.6,125.633
+103,Bacungan,Zamboanga del Norte,REGION IX ,8.083,122.933
+104,Badian,Cebu,REGION VII ,9.87,123.4
+105,Badiangan,Iloilo,REGION VI ,11,122.517
+106,Badoc,Ilocos Norte,REGION I ,17.933,120.467
+107,Bagabag,Nueva Vizcaya,REGION II ,16.6,121.267
+108,Bagac,Bataan,REGION III ,14.6,120.4
+109,Bagamanoc,Catanduanes,REGION V ,13.933,124.283
+110,Baganga,Davao Oriental,REGION XI ,7.567,126.567
+111,Baggao,Cagayan,REGION II ,17.917,121.967
+112,Bago City,Negros Occidental,REGION VI ,10.533,122.833
+113,Baguio City,Benguet,CAR,16.42,120.6
+114,Bagulin,La Union,REGION I ,16.60833,120.43944
+115,Bagumbayan,Sultan Kudarat,REGION XII ,6.533,124.567
+116,Bais City,Negros Oriental,REGION VII ,9.583,123.117
+117,Bakun,Benguet,CAR,16.7922,120.6653
+118,Balabac,Palawan,REGION IV-B ,7.983,117.05
+119,Balabagan,Lanao del Sur,BARMM,7.533,124.117
+120,Balagtas,Bulacan,REGION III ,14.817,120.867
+121,Balamban,Cebu,REGION VII ,10.5,123.72
+122,Balanga City,Bataan,REGION III ,14.6799,120.5421
+123,Balangiga,Eastern Samar,REGION VIII ,11.117,125.383
+124,Balangkayan,Eastern Samar,REGION VIII ,11.467,125.5
+125,Balaoan,La Union,REGION I ,16.817,120.4
+126,Balasan,Iloilo,REGION VI ,11.467,123.083
+127,Balatan,Camarines Sur,REGION V ,13.317,123.233
+128,Balayan,Batangas,REGION IV-A ,13.933,120.733
+129,Balbalan,Kalinga,CAR,17.45,121.15
+130,Baleno,Masbate,REGION V ,12.467,123.483
+131,Baler,Aurora,REGION III ,15.767,121.567
+132,Balete,Aklan,REGION VI ,11.55,122.383
+133,Balete,Batangas,REGION IV-A ,14.02722,121.09806
+134,Baliangao,Misamis Occidental,REGION X ,8.667,123.6
+135,Baliguian,Zamboanga del Norte,REGION IX ,7.817,122.25
+136,Balilihan,Bohol,REGION VII ,9.75,123.97
+137,Balindong,Lanao del Sur,BARMM,7.917,124.2
+138,Balingasag,Misamis Oriental,REGION X ,8.75,124.783
+139,Balingoan,Misamis Oriental,REGION X ,9,124.85
+140,Baliuag,Bulacan,REGION III ,14.95,120.883
+141,Ballesteros,Cagayan,REGION II ,18.4,121.517
+142,Baloi,Lanao del Norte,REGION X ,8.117,124.217
+143,Balud,Masbate,REGION V ,12.033,123.2
+144,Balungao,Pangasinan,REGION I ,15.9,120.7
+145,Bamban,Tarlac,REGION III ,15.283,120.567
+146,Bambang,Nueva Vizcaya,REGION II ,16.383,121.117
+147,Banate,Iloilo,REGION VI ,11.05,122.783
+148,Banaue,Ifugao,CAR,16.91889,121.05889
+149,Banaybanay,Davao Oriental,REGION XI ,7.1,126.067
+150,Banayoyo,Ilocos Sur,REGION I ,17.233,120.483
+151,Banga,Aklan,REGION VI ,11.633,122.333
+152,Banga,South Cotabato,REGION XII ,6.3,124.783
+153,Bangar,La Union,REGION I ,16.89806,120.42306
+154,Bangued,Abra,CAR,17.6,120.617
+155,Bangui,Ilocos Norte,REGION I ,18.533,120.767
+156,Banguingui,Sulu,BARMM,6.067,121.783
+157,Bani,Pangasinan,REGION I ,16.2,119.85
+158,Banisilan,North Cotabato,REGION XII ,7.5,124.7
+159,Banna,Ilocos Norte,REGION I ,17.983,120.65
+160,Bansalan,Davao Occidental,REGION XI ,6.783,125.217
+161,Bansud,Oriental Mindoro,REGION IV-B ,12.833,121.367
+162,Bantay,Ilocos Sur,REGION I ,17.583,120.383
+163,Bantayan,Cebu,REGION VII ,11.17,123.72
+164,Banton,Romblon,REGION IV-B ,12.95,122.08
+165,Baras,Catanduanes,REGION V ,13.667,124.367
+166,Baras,Rizal,REGION IV-A ,14.517,121.267
+167,Barbaza,Antique,REGION VI ,11.2,122.05
+168,Barcelona,Sorsogon,REGION V ,12.867,124.133
+169,Barili,Cebu,REGION VII ,10.12,123.52
+170,Barira,Maguindanao,BARMM,7.483,124.3
+171,Barlig,Mountain Province,CAR,17.083,121.15
+172,Barobo,Surigao del Sur,REGION XIII ,8.55,126.2
+173,Barotac Nuevo,Iloilo,REGION VI ,10.9,122.7
+174,Barotac Viejo,Iloilo,REGION VI ,11.05,122.85
+175,Baroy,Lanao del Norte,REGION X ,8.033,123.783
+176,Barugo,Leyte,REGION VIII ,11.317,124.733
+177,Basay,Negros Oriental,REGION VII ,9.417,122.633
+178,Basco,Batanes,REGION II ,20.4496778,121.9698694
+179,Basey,Samar,REGION VIII ,11.283,125.067
+180,Basilisa,Dinagat Islands,REGION XIII ,10.067,125.6
+181,Basista,Pangasinan,REGION I ,15.85,120.4
+182,Basud,Camarines Norte,REGION V ,14.067,122.967
+183,Batac City,Ilocos Norte,REGION I,18.05,120.567
+184,Batad,Iloilo,REGION VI ,11.417,123.117
+185,Batan,Aklan,REGION VI ,11.583,122.5
+186,Batangas City,Batangas,REGION IV-A ,13.75,121.05
+187,Bataraza,Palawan,REGION IV-B ,8.667,117.617
+188,Bato,Camarines Sur,REGION V ,13.35611,123.36389
+189,Bato,Catanduanes,REGION V ,13.6,124.3
+190,Bato,Leyte,REGION VIII ,10.333,124.8
+191,Batuan,Bohol,REGION VII ,9.8,124.13
+192,Batuan,Masbate,REGION V ,12.417,123.767
+193,Bauan,Batangas,REGION IV-A ,13.80194,121.01306
+194,Bauang,La Union,REGION I ,16.53083,120.33306
+195,Bauko,Mountain Province,CAR,16.983,120.867
+196,Baungon,Bukidnon,REGION X ,8.25,124.717
+197,Bautista,Pangasinan,REGION I ,15.783,120.5
+198,Bay,Laguna,REGION IV-A ,14.183,121.283
+199,Bayabas,Surigao del Sur,REGION XIII ,8.967,126.267
+200,Bayambang,Pangasinan,REGION I ,15.81056,120.45472
+201,Bayang,Lanao del Sur,BARMM,7.79306,124.19194
+202,Bayawan City,Negros Oriental,REGION VII ,9.367,122.8
+203,Baybay,Leyte,REGION VIII ,10.683,124.8
+204,Bayog,Zamboanga del Sur,REGION IX ,7.867,123.033
+205,Bayombong,Nueva Vizcaya,REGION II ,16.483,121.15
+206,Bayugan,Agusan del Sur,REGION XIII ,8.717,125.75
+207,Belison,Antique,REGION VI ,10.717,122.267
+208,Benito Soliven,Isabela,REGION II ,16.983,121.95
+209,Besao,Mountain Province,CAR,17.1,120.817
+210,Bi?an City,Laguna,REGION IV-A ,14.33,121.08
+211,Bien Unido,Bohol,REGION VII ,10.13,124.38
+212,Bilar,Bohol,REGION VII ,9.7,124.1
+213,Biliran,Biliran,REGION VIII ,11.467,124.483
+214,Binalbagan,Negros Occidental,REGION VI ,10.2,122.867
+215,Binalonan,Pangasinan,REGION I ,16.05,120.6
+216,Binangonan,Rizal,REGION IV-A ,14.45139,121.19194
+217,Bindoy,Negros Oriental,REGION VII ,9.767,123.133
+218,Bingawan,Iloilo,REGION VI ,11.233,122.567
+219,Binidayan,Lanao del Sur,BARMM,7.8,124.167
+220,Binmaley,Pangasinan,REGION I ,16.033,120.267
+221,Binuangan,Misamis Oriental,REGION X ,8.917,124.8
+222,Biri,Northern Samar,REGION VIII ,12.667,124.383
+223,Bislig City,Surigao del Sur,REGION XIII ,8.183,126.35
+224,Boac,Marinduque,REGION IV-B ,13.45,121.833
+225,Bobon,Northern Samar,REGION VIII ,12.517,124.567
+226,Bocaue,Bulacan,REGION III ,14.8,120.933
+227,Bogo City,Cebu,REGION VII ,11.03,124
+228,Bokod,Benguet,CAR,16.5,120.833
+229,Bolinao,Pangasinan,REGION I ,16.333,119.883
+230,Boliney,Abra,CAR,17.4,120.8
+231,Boljoon,Cebu,REGION VII ,9.63,123.48
+232,Bombon,Camarines Sur,REGION V ,13.683,123.2
+233,Bongabon,Nueva Ecija,REGION III ,15.63111,121.14389
+234,Bongabong,Oriental Mindoro,REGION IV-B ,12.717,121.367
+235,Bongao,Tawi-Tawi,BARMM,5.033,119.767
+236,Bonifacio,Misamis Occidental,REGION X ,8.1,123.6
+237,Bontoc,Mountain Province,CAR,17.08722,120.97556
+238,Bontoc,Southern Leyte,REGION VIII ,10.35,124.967
+239,Borbon,Cebu,REGION VII ,10.83,124.03
+240,Borongan,Eastern Samar,REGION VIII ,11.6,125.43
+241,Boston,Davao Oriental,REGION XI ,7.867,126.367
+242,Botolan,Zambales,REGION III ,15.283,120.017
+243,Braulio E. Dujali,Davao del Norte,REGION XI ,7.45,125.683
+244,Brookes Point,Palawan,REGION IV-B ,8.8189,117.7842
+245,Buadiposo-Buntong,Lanao del Sur,BARMM,7.967,124.383
+246,Bubong,Lanao del Sur,BARMM,8.017,124.483
+247,Bucay,Abra,CAR,17.533,120.717
+248,Bucloc,Abra,CAR,17.45,120.85
+249,Buenavista,Agusan del Norte,REGION XIII ,8.967,125.417
+250,Buenavista,Bohol,REGION VII ,10.08,124.12
+251,Buenavista,Guimaras,REGION VI ,10.7,122.63
+252,Buenavista,Marinduque,REGION IV-B ,13.25389,121.94361
+253,Buenavista,Quezon,REGION IV-A ,13.73944,122.4675
+254,Bugallon,Pangasinan,REGION I ,15.917,120.183
+255,Bugasong,Antique,REGION VI ,11.05,122.067
+256,Buguey,Cagayan,REGION II ,18.283,121.833
+257,Buguias,Benguet,CAR,16.72306,120.82806
+258,Buhi,Camarines Sur,REGION V ,13.433,123.517
+259,Bula,Camarines Sur,REGION V ,13.467,123.283
+260,Bulacan,Bulacan,REGION III ,14.79306,120.87889
+261,Bulalacao,Oriental Mindoro,REGION IV-B ,12.333,121.35
+262,Bulan,Sorsogon,REGION V ,12.667,123.883
+263,Buldon,Maguindanao,BARMM,7.517,124.367
+264,Buluan,Maguindanao,BARMM,6.86667,124.75
+265,Bulusan,Sorsogon,REGION V ,12.75,124.117
+266,Bumbaran,Lanao del Sur,BARMM,7.8,124.65
+267,Bunawan,Agusan del Sur,REGION XIII ,8.167,126
+268,Burauen,Leyte,REGION VIII ,10.983,124.9
+269,Burdeos,Quezon,REGION IV-A ,14.84361,121.96972
+270,Burgos,Ilocos Norte,REGION I ,18.51611,120.64611
+271,Burgos,Ilocos Sur,REGION I ,17.333,120.5
+272,Burgos,Isabela,REGION II ,17.067,121.7
+273,Burgos,La Union,REGION I ,16.517,120.467
+274,Burgos,Pangasinan,REGION I ,16.04639,119.85667
+275,Burgos,Dinagat Islands,REGION XIII ,10.017,126.067
+276,Buruanga,Aklan,REGION VI ,11.85,121.9
+277,Bustos,Bulacan,REGION III ,14.95,120.917
+278,Busuanga,Palawan,REGION IV-B ,12.167,119.95
+279,Butig,Lanao del Sur,BARMM,7.717,124.3
+280,Butuan City,Agusan del Norte,REGION XIII ,8.95,125.53
+281,Buug,Zamboanga Sibugay,REGION IX ,7.733,123.067
+282,Caba,La Union,REGION I ,16.433,120.35
+283,Cabadbaran,Agusan del Norte,REGION XIII ,9.117,125.533
+284,Cabagan,Isabela,REGION II ,17.433,121.767
+285,Cabanatuan City,Nueva Ecija,REGION III ,15.48,120.97
+286,Cabangan,Zambales,REGION III ,15.133,120.15
+287,Cabanglasan,Bukidnon,REGION X ,8.067,125.317
+288,Cabarroguis,Quirino,REGION II ,16.583,121.5
+289,Cabatuan,Iloilo,REGION VI ,10.883,122.483
+290,Cabatuan,Isabela,REGION II ,16.95889,121.66917
+291,Cabiao,Nueva Ecija,REGION III ,15.25,120.85
+292,Cabucgayan,Biliran,REGION VIII ,11.483,124.567
+293,Cabugao,Ilocos Sur,REGION I ,17.8,120.45
+294,Cabusao,Camarines Sur,REGION V ,13.717,123.1
+295,Cabuyao,Laguna,REGION IV-A ,14.27833,121.12472
+296,Cadiz City,Negros Occidental,REGION VI ,10.95,123.3
+297,Cagayan de Oro,Misamis Oriental,REGION X ,8.48,124.65
+298,Cagayancillo,Palawan,REGION IV-B ,9.48194,121.03611
+299,Cagdianao,Dinagat Islands,REGION XIII ,9.917,125.667
+300,Cagwait,Surigao del Sur,REGION XIII ,8.917,126.3
+301,Caibiran,Biliran,REGION VIII ,11.567,124.583
+302,Cainta,Rizal,REGION IV-A ,14.567,121.117
+303,Cajidiocan,Romblon,REGION IV-B ,12.367,122.683
+304,Calabanga,Camarines Sur,REGION V ,13.717,123.233
+305,Calaca,Batangas,REGION IV-A ,13.967,120.8
+306,Calamba,Misamis Occidental,REGION X ,8.55833,123.64167
+307,Calanasan,Apayao,CAR,18.25,121.033
+308,Calanogas,Lanao del Sur,BARMM,7.75,124.1
+309,Calapan City,Oriental Mindoro,REGION IV-B ,13.4,121.183
+310,Calape,Bohol,REGION VII ,9.88,123.88
+311,Calasiao,Pangasinan,REGION I ,16.017,120.367
+312,Calatagan,Batangas,REGION IV-A ,13.833,120.633
+313,Calatrava,Negros Occidental,REGION VI ,10.6,123.483
+314,Calatrava,Romblon,REGION IV-B ,12.617,122.067
+315,Calauag,Quezon,REGION IV-A ,13.9575,122.2875
+316,Calauan,Laguna,REGION IV-A ,14.15,121.317
+317,Calayan,Cagayan,REGION II ,19.267,121.483
+318,Calbayog City,Samar,REGION VIII ,12.07,124.6
+319,Calbiga,Samar,REGION VIII ,11.633,125.017
+320,Calinog,Iloilo,REGION VI ,11.133,122.5
+321,Calintaan,Occidental Mindoro,REGION IV-B ,12.57556,120.94278
+322,Caloocan,Metro Manila,NCR,14.65,120.97
+323,Calubian,Leyte,REGION VIII ,11.45,124.417
+324,Calumpit,Bulacan,REGION III ,14.917,120.767
+325,Caluya,Antique,REGION VI ,11.9,121.517
+326,Camalaniugan,Cagayan,REGION II ,18.27444,121.67361
+327,Camalig,Albay,REGION V ,13.133,123.667
+328,Camaligan,Camarines Sur,REGION V ,13.625,123.15694
+329,Camiling,Tarlac,REGION III ,15.7,120.417
+330,Canaman,Camarines Sur,REGION V ,13.65,123.167
+331,Can-avid,Eastern Samar,REGION VIII ,12,125.45
+332,Candaba,Pampanga,REGION III ,15.09333,120.82833
+333,Candelaria,Quezon,REGION IV-A ,13.93111,121.42333
+334,Candelaria,Zambales,REGION III ,15.633,119.933
+335,Candijay,Bohol,REGION VII ,9.82,124.5
+336,Candon City,Ilocos Sur,REGION I ,17.2,120.45
+337,Candoni,Negros Occidental,REGION VI ,9.8310444,122.6429806
+338,Canlaon City,Negros Oriental,REGION VII ,10.383,123.2
+339,Cantilan,Surigao del Sur,REGION XIII ,9.333,125.983
+340,Caoayan,Ilocos Sur,REGION I ,17.533,120.4
+341,Capalonga,Camarines Norte,REGION V ,14.333,122.5
+342,Capas,Tarlac,REGION III ,15.3275,120.59083
+343,Capoocan,Leyte,REGION VIII ,11.283,124.65
+344,Capul,Northern Samar,REGION VIII ,12.417,124.183
+345,Caraga,Davao Oriental,REGION XI ,7.333,126.567
+346,Caramoan,Camarines Sur,REGION V ,13.767,123.867
+347,Caramoran,Catanduanes,REGION V ,13.983,124.133
+348,Carasi,Ilocos Norte,REGION I ,18.2,120.867
+349,Carcar City,Cebu,REGION VII ,10.1,123.63
+350,Cardona,Rizal,REGION IV-A ,14.48611,121.22889
+351,Carigara,Leyte,REGION VIII ,11.3,124.683
+352,Carles,Iloilo,REGION VI ,11.567,123.133
+353,Carmen,Agusan del Norte,REGION XIII ,8.983,125.3
+354,Carmen,Bohol,REGION VII ,9.82,124.2
+355,Carmen,Cebu,REGION VII ,10.58,124.02
+356,Carmen,North Cotabato,REGION XII ,7.2,124.783
+357,Carmen,Davao del Norte,REGION XI ,7.36056,125.70639
+358,Carmen,Surigao del Sur,REGION XIII ,9.217,125.967
+359,Carmona,Cavite,REGION IV-A ,14.317,121.05
+360,Carranglan,Nueva Ecija,REGION III ,15.967,121.067
+361,Carrascal,Surigao del Sur,REGION XIII ,9.367,125.933
+362,Casiguran,Aurora,REGION III ,16.28333,122.04444
+363,Casiguran,Sorsogon,REGION V ,12.867,124.017
+364,Castilla,Sorsogon,REGION V ,12.95,123.883
+365,Castillejos,Zambales,REGION III ,14.933,120.2
+366,Cataingan,Masbate,REGION V ,12,123.983
+367,Catanauan,Quezon,REGION IV-A ,13.59167,122.325
+368,Catarman,Camiguin,REGION X ,9.133,124.683
+369,Catarman,Northern Samar,REGION VIII ,12.45,124.65
+370,Catbalogan City,Samar,REGION VIII ,11.783,124.883
+371,Cateel,Davao Oriental,REGION XI ,7.783,126.45
+372,Catigbian,Bohol,REGION VII ,9.83,124.03
+373,Catmon,Cebu,REGION VII ,10.72,124
+374,Catubig,Northern Samar,REGION VIII ,12.4,125.05
+375,Cauayan,Negros Occidental,REGION VI ,9.967,122.617
+376,Cauayan City,Isabela,REGION II,16.767,121.783
+377,Cavinti,Laguna,REGION IV-A ,14.25,121.517
+378,Cavite City,Cavite,REGION IV-A ,14.483,120.9
+379,Cawayan,Masbate,REGION V ,12.033,123.683
+380,Cebu City,Cebu,REGION VII ,10.32,123.75
+381,Cervantes,Ilocos Sur,REGION I ,16.99167,120.73333
+382,City of San Fernando,Pampanga,REGION III ,15.033,120.683
+383,Clarin,Bohol,REGION VII ,9.97,124.02
+384,Clarin,Misamis Occidental,REGION X ,8.2,123.85
+385,Claver,Dinagat Islands,REGION XIII ,9.567,125.733
+386,Claveria,Cagayan,REGION II ,18.6075,121.085
+387,Claveria,Masbate,REGION V ,12.9,123.25
+388,Claveria,Misamis Oriental,REGION X ,8.617,124.883
+389,Columbio,Sultan Kudarat,REGION XII ,6.7,124.933
+390,Compostela,Cebu,REGION VII ,10.45,124
+391,Compostela,Compostela Valley,REGION XI ,7.667,126.083
+392,Concepcion,Iloilo,REGION VI ,11.2,123.1
+393,Concepcion,Misamis Occidental,REGION X ,8.417,123.6
+394,Concepcion,Romblon,REGION IV-B ,12.925,121.7083
+395,Concepcion,Tarlac,REGION III ,15.317,120.65
+396,Conner,Apayao,CAR,17.8,121.333
+397,Consolacion,Cebu,REGION VII ,10.5,123.95
+398,Corcuera,Romblon,REGION IV-B ,12.8,122.05
+399,Cordova,Cebu,REGION VII ,10.25,123.95
+400,Cordon,Isabela,REGION II,16.667,121.45
+401,Corella,Bohol,REGION VII ,9.68,123.92
+402,Coron,Palawan,REGION IV-B ,12,120.2
+403,Cortes,Bohol,REGION VII ,9.72,123.88
+404,Cortes,Surigao del Sur,REGION XIII ,9.233,126.167
+405,Cotabato City,Maguindanao,BARMM,7.2,124.85
+406,Cuartero,Capiz,REGION VI ,11.35,122.667
+407,Cuenca,Batangas,REGION IV-A ,13.91667,121.04472
+408,Culaba,Biliran,REGION VIII ,11.65,124.533
+409,Culasi,Antique,REGION VI ,11.417,122.067
+410,Culion,Palawan,REGION IV-B ,11.83528,119.99333
+411,Currimao,Ilocos Norte,REGION I ,18.017,120.483
+412,Cuyapo,Nueva Ecija,,15.783,120.667
+413,Cuyo,Palawan,REGION IV-B ,10.85,121.017
+414,Daanbantayan,Cebu,REGION VII ,11.25,124
+415,Daet,Camarines Norte,REGION V ,14.117,122.95
+416,Dagami,Leyte,REGION VIII ,11.06111,124.90306
+417,Dagohoy,Bohol,REGION VII ,9.92,124.28
+418,Daguioman,Abra,CAR,17.45,120.917
+419,Dagupan City,Pangasinan,REGION I ,16.03,120.33
+420,Dalaguete,Cebu,REGION VII ,9.77,123.53
+421,Damulog,Bukidnon,REGION X ,7.483,124.933
+422,Danao,Bohol,REGION VII ,10.02,124.27
+423,Danao City,Cebu,REGION VII ,10.52,124.03
+424,Dangcagan,Bukidnon,REGION X ,7.617,125
+425,Danglas,Abra,CAR,17.7,120.65
+426,Dao,Capiz,REGION VI ,11.4,122.683
+427,Dapa,Dinagat Islands,REGION XIII ,9.767,126.05
+428,Dapitan City,Zamboanga del Norte,REGION IX ,8.65,123.417
+429,Daraga,Albay,REGION V ,13.16194,123.69389
+430,Daram,Samar,REGION VIII ,11.633,124.783
+431,Dasmari?ñas City,Cavite,REGION IV-A ,14.32639,120.93611
+432,Dasol,Pangasinan,REGION I ,15.98972,119.88056
+433,Datu Abdullah Sangki,Maguindanao,BARMM,6.751722,124.491861
+434,Datu Anggal Midtimbang,Maguindanao,BARMM,6.93333,124.33333
+435,Datu Blah T. Sinsuat,Maguindanao,BARMM,6.92278,123.96833
+436,Datu Hoffer Ampatuan,Maguindanao,BARMM,6.8666694,124.45
+437,Datu Montawal,Maguindanao,BARMM,7.1,124.76667
+438,Datu Odin Sinsuat,Maguindanao,BARMM,7.18889,124.18389
+439,Datu Paglas,Maguindanao,BARMM,6.76694,124.85
+440,Datu Piang,Maguindanao,BARMM,7.03333,124.5
+441,Datu Salibo,Maguindanao,BARMM,7.0166694,124.5
+442,Datu Saudi-Ampatuan,Maguindanao,BARMM,6.95722,124.44444
+443,Datu Unsay,Maguindanao,BARMM,6.92083,124.45333
+444,Dauin,Negros Oriental,REGION VII ,9.2,123.267
+445,Dauis,Bohol,REGION VII ,9.62,123.85
+446,Davao City,Davao Occidental,REGION XI ,7.196276,125.461807
+447,del Carmen,Dinagat Islands,REGION XIII ,9.867,125.967
+448,del Gallego,Camarines Sur,REGION V ,13.917,122.6
+449,delfin Albano,Isabela,REGION II ,17.317,121.783
+450,Diadi,Nueva Vizcaya,REGION II ,16.633,121.35
+451,Diffun,Quirino,REGION II ,16.6,121.467
+452,Digos City,Davao Occidental,REGION XI ,6.75,125.35
+453,Dilasag,Aurora,REGION III ,16.4,122.217
+454,Dimasalang,Masbate,REGION V ,12.183,123.867
+455,Dimataling,Zamboanga del Sur,REGION IX ,7.533,123.367
+456,Dimiao,Bohol,REGION VII ,9.62,124.17
+457,Dinagat,Dinagat Islands,REGION XIII ,9.95,125.617
+458,Dinalungan,Aurora,REGION III ,16.1,121.77389
+459,Dinalupihan,Bataan,REGION III ,14.883,120.467
+460,Dinapigue,Isabela,REGION II ,16.667,122.35
+461,Dinas,Zamboanga del Sur,REGION IX ,7.633,123.3
+462,Dingalan,Aurora,REGION III ,15.383,121.4
+463,Dingle,Iloilo,REGION VI ,11.05,122.667
+464,Dingras,Ilocos Norte,REGION I ,18.117,120.7
+465,Dipaculao,Aurora,REGION III ,15.983,121.633
+466,Diplahan,Zamboanga Sibugay,REGION IX ,7.717,123.017
+467,Dipolog City,Zamboanga del Norte,REGION IX ,8.567,123.333
+468,Ditsaan-Ramain,Lanao del Sur,BARMM,7.967,124.35
+469,Divilacan,Isabela,REGION II ,17.333,122.3
+470,Do?a Remedios Trinidad,Bulacan,REGION III ,15,121.083
+471,Dolores,Abra,CAR,17.64667,120.71083
+472,Dolores,Eastern Samar,REGION VIII ,12.05,125.483
+473,Dolores,Quezon,REGION IV-A ,14.09417,121.33139
+474,Don Carlos,Bukidnon,REGION X ,7.683,125
+475,Don Marcelino,Davao Occidental,REGION XI ,6.267,125.667
+476,Don Victoriano Chiongbian,Misamis Occidental,REGION X ,8.3,123.583
+477,Donsol,Sorsogon,REGION V ,12.917,123.6
+478,Due?as,Iloilo,REGION VI ,11.067,122.617
+479,Duero,Bohol,REGION VII ,9.72,124.4
+480,Dulag,Leyte,REGION VIII ,10.95,125.033
+481,Dumaguete City,Negros Oriental,REGION VII ,9.317,123.3
+482,Dumalag,Capiz,REGION VI ,11.3,122.617
+483,Dumalinao,Zamboanga del Sur,REGION IX ,7.817,123.367
+484,Dumalneg,Ilocos Norte,REGION I ,18.5,120.817
+485,Dumangas,Iloilo,REGION VI ,10.833,122.717
+486,Dumanjug,Cebu,REGION VII ,10.05,123.43
+487,Dumaran,Palawan,REGION IV-B ,10.533,119.767
+488,Dumarao,Capiz,REGION VI ,11.267,122.683
+489,Dumingag,Zamboanga del Sur,REGION IX ,8.167,123.35
+490,Dupax del Norte,Nueva Vizcaya,REGION II ,16.28639,121.09417
+491,Dupax del Sur,Nueva Vizcaya,REGION II ,16.283,121.1
+492,Echague,Isabela,REGION II ,16.7,121.65
+493,El Nido,Palawan,REGION IV-B ,11.333,119.683
+494,El Salvador,Misamis Oriental,REGION X ,8.567,124.517
+495,Enrile,Cagayan,REGION II ,17.55,121.7
+496,Enrique B. Magalona,Negros Occidental,REGION VI ,10.883,122.967
+497,Enrique Villanueva,Siquijor,REGION VII ,9.25,123.65
+498,Escalante City,Negros Occidental,REGION VI ,10.833,123.5
+499,Esperanza,Agusan del Sur,REGION XIII ,8.683,125.65
+500,Esperanza,Masbate,REGION V ,11.733,124.05
+501,Esperanza,Sultan Kudarat,REGION XII ,6.717,124.517
+502,Estancia,Iloilo,REGION VI ,11.45,123.15
+503,Famy,Laguna,REGION IV-A ,14.433,121.45
+504,Ferrol,Romblon,REGION IV-B ,12.333,121.95
+505,Flora,Apayao,CAR,18.117,121.4
+506,Floridablanca,Pampanga,REGION III ,14.933,120.5
+507,Gabaldon,Nueva Ecija,REGION III ,15.533,121.317
+508,Gainza,Camarines Sur,REGION V ,13.617,123.15
+509,Galimuyod,Ilocos Sur,REGION I ,17.183,120.467
+510,Gamay,Northern Samar,REGION VIII ,12.383,125.3
+511,Gamu,Isabela,REGION II ,17.05,121.833
+512,Ganassi,Lanao del Sur,BARMM,7.833,124.1
+513,Gandara,Samar,REGION VIII ,12.017,124.817
+514,Gapan City,Nueva Ecija,REGION III ,15.283,120.967
+515,Garchitorena,Camarines Sur,REGION V ,13.883,123.7
+516,Garcia Hernandez,Bohol,REGION VII ,9.62,124.3
+517,Gasan,Marinduque,REGION IV-B ,13.317,121.85
+518,Gattaran,Cagayan,REGION II ,18.067,121.65
+519,General Emilio Aguinaldo,Cavite,REGION IV-A ,14.183,120.8
+520,General Luna,Quezon,REGION IV-A ,13.68806,122.17083
+521,General Luna,Dinagat Islands,REGION XIII ,9.8,126.133
+522,General MacArthur,Eastern Samar,REGION VIII ,11.25,125.533
+523,General Mamerto Natividad,Nueva Ecija,REGION III ,15.6,121.05
+524,General Mariano Alvarez,Cavite,REGION IV-A ,14.3,121
+525,General Nakar,Quezon,REGION IV-A ,14.767,121.617
+526,General Salipada K. Pendatun,Maguindanao,BARMM,6.79694,124.7025
+527,General Santos City,South Cotabato,REGION XII ,6.12,125.17
+528,General Tinio,Nueva Ecija,REGION III ,15.35,121.05
+529,General Trias,Cavite,REGION IV-A ,14.383,120.883
+530,Gerona,Tarlac,REGION III ,15.6,120.6
+531,Getafe,Bohol,REGION VII ,10.15,124.15
+532,Gigaquit,Dinagat Islands,REGION XIII ,9.583,125.7
+533,Gigmoto,Catanduanes,REGION V ,13.783,124.383
+534,Ginatilan,Cebu,REGION VII ,9.6,123.35
+535,Gingoog City,Misamis Oriental,REGION X ,8.817,125.1
+536,Giporlos,Eastern Samar,REGION VIII ,11.117,125.45
+537,Gitagum,Misamis Oriental,REGION X ,8.6,124.4
+538,Glan,Sarangani,REGION XII ,5.817,125.2
+539,Gloria,Oriental Mindoro,REGION IV-B ,12.917,121.467
+540,Goa,Camarines Sur,REGION V ,13.7,123.5
+541,Godod,Zamboanga del Norte,REGION IX ,8,122.817
+542,Gonzaga,Cagayan,REGION II ,18.267,122
+543,Governor Generoso,Davao Oriental,REGION XI ,6.65,126.067
+544,Gregorio del Pilar,Ilocos Sur,REGION I ,17.133,120.617
+545,Guagua,Pampanga,REGION III ,14.967,120.633
+546,Gubat,Sorsogon,REGION V ,12.917,124.117
+547,Guiguinto,Bulacan,REGION III ,14.833,120.883
+548,Guihulngan City,Negros Oriental,REGION VII ,10.117,123.267
+549,Guimba,Nueva Ecija,REGION III ,15.65806,120.76889
+550,Guimbal,Iloilo,REGION VI ,10.667,122.317
+551,Guinayangan,Quezon,REGION IV-A ,13.9,122.45
+552,Guindulman,Bohol,REGION VII ,9.77,124.48
+553,Guindulungan,Maguindanao,BARMM,6.96583,124.34806
+554,Guinobatan,Albay,REGION V ,13.183,123.6
+555,Guinsiliban,Camiguin,REGION X ,9.1,124.783
+556,Guipos,Zamboanga del Sur,REGION IX ,7.733,123.317
+557,Guiuan,Eastern Samar,REGION VIII ,11.033,125.733
+558,Gumaca,Quezon,REGION IV-A ,13.917,122.1
+559,Gutalac,Zamboanga del Norte,REGION IX ,7.983,122.4
+560,Hadji Mohammad Ajul,Basilan,BARMM,6.617,122.3
+561,Hadji Muhtamad,Basilan,BARMM,6.633,121.617
+562,Hadji Panglima Tahil,Sulu,BARMM,6.167,120.917
+563,Hagonoy,Bulacan,REGION III ,14.833,120.733
+564,Hagonoy,Davao Occidental,REGION XI ,6.683,125.3
+565,Hamtic,Antique,REGION VI ,10.7,121.983
+566,Hermosa,Bataan,REGION III ,14.833,120.5
+567,Hernani,Eastern Samar,REGION VIII ,11.333,125.583
+568,Hilongos,Leyte,REGION VIII ,10.367,124.75
+569,Himamaylan City,Negros Occidental,REGION VI ,10.1,122.867
+570,Hinabangan,Samar,REGION VIII ,11.7,125.067
+571,Hinatuan,Surigao del Sur,REGION XIII ,8.367,126.333
+572,Hindang,Leyte,REGION VIII ,10.45,124.8
+573,Hingyon,Ifugao,CAR,16.833,121.117
+574,Hinigaran,Negros Occidental,REGION VI ,10.267,122.85
+575,Hinoba-an,Negros Occidental,REGION VI ,9.583,122.467
+576,Hinunangan,Southern Leyte,REGION VIII ,10.4,125.2
+577,Hinundayan,Southern Leyte,REGION VIII ,10.35,125.25
+578,Hungduan,Ifugao,CAR,16.833,121
+579,Iba,Zambales,REGION III ,15.333,119.983
+580,Ibaan,Batangas,REGION IV-A ,13.817,121.133
+581,Ibajay,Aklan,REGION VI ,11.817,122.167
+582,Igbaras,Iloilo,REGION VI ,10.717,122.267
+583,Iguig,Cagayan,REGION II ,17.75,121.733
+584,Ilagan City,Isabela,REGION II ,17.13,121.88
+585,Iligan City,Lanao del Norte,REGION X ,8.23,124.25
+586,Ilog,Negros Occidental,REGION VI ,10.033,122.767
+587,Iloilo City,Iloilo,REGION VI ,11,122.67
+588,Imelda,Zamboanga Sibugay,REGION IX ,7.617,122.95
+589,Impasug-ong,Bukidnon,REGION X ,8.3,125
+590,Imus,Cavite,REGION IV-A ,14.4,120.933
+591,Inabanga,Bohol,REGION VII ,10.03,124.07
+592,Indanan,Sulu,BARMM,6.067,121.783
+593,Indang,Cavite,REGION IV-A ,14.19528,120.87694
+594,Infanta,Pangasinan,REGION I ,15.817,119.9
+595,Infanta,Quezon,REGION IV-A ,14.7425,121.64944
+596,Initao,Misamis Oriental,REGION X ,8.5,124.317
+597,Inopacan,Leyte,REGION VIII ,10.5,124.75
+598,Ipil,Zamboanga Sibugay,REGION IX ,7.783,122.583
+599,Iriga City,Camarines Sur,REGION V ,13.417,123.417
+600,Irosin,Sorsogon,REGION V ,12.7,124.033
+601,Isabel,Leyte,REGION VIII ,10.933,124.433
+602,Isabela,Negros Occidental,REGION VI ,10.2,122.983
+603,Isabela City,Basilan,BARMM,6.7,121.97
+604,Island Garden City of Samal,Davao del Norte,REGION XI ,7.1033,125.7188
+605,Isulan,Sultan Kudarat,REGION XII ,6.633,124.6
+606,Itbayat,Batanes,REGION II ,20.767,121.85
+607,Itogon,Benguet,CAR,16.367,120.683
+608,Ivana,Batanes,REGION II ,20.367,121.917
+609,Ivisan,Capiz,REGION VI ,11.517,122.683
+610,Jabonga,Agusan del Norte,REGION XIII ,9.35,125.517
+611,Jaen,Nueva Ecija,REGION III ,15.333,120.9
+612,Jagna,Bohol,REGION VII ,9.65,124.37
+613,Jalajala,Rizal,REGION IV-A ,14.35306,121.32222
+614,Jamindan,Capiz,REGION VI ,11.4,122.5
+615,Janiuay,Iloilo,REGION VI ,10.95,122.5
+616,Jaro,Leyte,REGION VIII ,11.183,124.783
+617,Jasaan,Misamis Oriental,REGION X ,8.65,124.75
+618,Javier,Leyte,REGION VIII ,10.8,124.933
+619,Jiabong,Samar,REGION VIII ,11.767,124.95
+620,Jimalalud,Negros Oriental,REGION VII ,9.983,123.2
+621,Jimenez,Misamis Occidental,REGION X ,8.333,123.833
+622,Jipapad,Eastern Samar,REGION VIII ,12.283,125.233
+623,Jolo,Sulu,BARMM,6.05,121
+624,Jomalig,Quezon,REGION IV-A ,14.7125,122.36972
+625,Jones,Isabela,REGION II ,16.55806,121.70694
+626,Jordan,Guimaras,REGION VI ,10.6,122.6
+627,Jose Abad Santos,Davao Occidental,REGION XI ,5.917,125.65
+628,Jose Dalman,Zamboanga del Norte,REGION IX ,8.45,123.033
+629,Jose Panganiban,Camarines Norte,REGION V ,14.3,122.7
+630,Josefina,Zamboanga del Sur,REGION IX ,8.2,123.533
+631,Jovellar,Albay,REGION V ,13.067,123.6
+632,Juban,Sorsogon,REGION V ,12.85,123.983
+633,Julita,Leyte,REGION VIII ,10.967,124.967
+634,Kabacan,North Cotabato,REGION XII ,7.117,124.817
+635,Kabankalan City,Negros Occidental,REGION VI ,9.983,122.817
+636,Kabasalan,Zamboanga Sibugay,REGION IX ,7.817,122.817
+637,Kabayan,Benguet,CAR,16.617,120.85
+638,Kabugao,Apayao,CAR,18.017,121.183
+639,Kabuntalan,Maguindanao,BARMM,7.11667,124.38333
+640,Kadingilan,Bukidnon,REGION X ,7.6,124.917
+641,Kalamansig,Sultan Kudarat,REGION XII ,6.567,124.05
+642,Kalawit,Zamboanga del Norte,REGION IX ,7.933,122.533
+643,Kalayaan,Laguna,REGION IV-A ,14.35,121.567
+644,Kalayaan,Palawan,REGION IV-B ,11.05,114.283
+645,Kalibo,Aklan,REGION VI ,11.7,122.367
+646,Kalilangan,Bukidnon,REGION X ,7.75,124.75
+647,Kalingalan Caluang,Sulu,BARMM,5.883,121.267
+648,Kananga,Leyte,REGION VIII ,11.183,124.567
+649,Kapai,Lanao del Sur,BARMM,8.083,124.4
+650,Kapalong,Davao del Norte,REGION XI ,7.75,125.5
+651,Kapangan,Benguet,CAR,16.583,120.6
+652,Kapatagan,Lanao del Norte,REGION X ,7.9,123.767
+653,Kapatagan,Lanao del Sur,BARMM,7.45,124.133
+654,Kasibu,Nueva Vizcaya,REGION II ,16.317,121.283
+655,Katipunan,Zamboanga del Norte,REGION IX ,8.433,123.283
+656,Kauswagan,Lanao del Norte,REGION X ,8.183,124.083
+657,Kawayan,Biliran,REGION VIII ,11.683,124.367
+658,Kawit,Cavite,REGION IV-A ,14.433,120.9
+659,Kayapa,Nueva Vizcaya,REGION II ,16.417,120.917
+660,Kiamba,Sarangani,REGION XII ,5.983,124.617
+661,Kiangan,Ifugao,CAR,16.783,121.083
+662,Kibawe,Bukidnon,REGION X ,7.567,124.983
+663,Kiblawan,Davao Occidental,REGION XI ,6.617,125.217
+664,Kibungan,Benguet,CAR,16.7,120.667
+665,Kidapawan City,North Cotabato,REGION XII ,7.017,125.083
+666,Kinoguitan,Misamis Oriental,REGION X ,8.983,124.817
+667,Kitaotao,Bukidnon,REGION X ,7.633,125.017
+668,Kitcharao,Agusan del Norte,REGION XIII ,9.45,125.567
+669,Kolambugan,Lanao del Norte,REGION X ,8.117,123.9
+670,Koronadal City,South Cotabato,REGION XII ,6.5,124.85
+671,Kumalarang,Zamboanga del Sur,REGION IX ,7.75,123.15
+672,La Carlota City,Negros Occidental,REGION VI ,10.4118,123.0001
+673,La Castellana,Negros Occidental,REGION VI ,10.35,123.067
+674,La Libertad,Negros Oriental,REGION VII ,10.033,123.217
+675,La Libertad,Zamboanga del Norte,REGION IX ,8.45,123.5
+676,La Paz,Abra,CAR,17.70556,120.69306
+677,La Paz,Agusan del Sur,REGION XIII ,8.267,125.8
+678,La Paz,Leyte,REGION VIII ,10.883,124.95
+679,La Paz,Tarlac,REGION III ,15.44306,120.72889
+680,La Trinidad,Benguet,CAR,16.45,120.567
+681,Laak,Compostela Valley,REGION XI ,7.833,125.817
+682,Labangan,Zamboanga del Sur,REGION IX ,7.867,123.517
+683,Labason,Zamboanga del Norte,REGION IX ,8.067,122.517
+684,Labo,Camarines Norte,REGION V ,14.017,122.35
+685,Labrador,Pangasinan,REGION I ,16,120.117
+686,Lacub,Abra,CAR,17.667,120.95
+687,Lagangilang,Abra,CAR,17.617,120.783
+688,Lagawe,Ifugao,CAR,16.817,121.1
+689,Lagayan,Abra,CAR,17.717,120.7
+690,Lagonglong,Misamis Oriental,REGION X ,8.8,124.783
+691,Lagonoy,Camarines Sur,REGION V ,13.73861,123.52056
+692,Laguindingan,Misamis Oriental,REGION X ,8.583,124.45
+693,Lake Sebu,South Cotabato,REGION XII ,6.217,124.7
+694,Lakewood,Zamboanga del Sur,REGION IX ,7.85,123.167
+695,Lala,Lanao del Norte,REGION X ,7.967,123.75
+696,Lal-lo,Cagayan,REGION II ,18.2,121.667
+697,Lambayong,Sultan Kudarat,REGION XII ,6.8,124.633
+698,Lambunao,Iloilo,REGION VI ,11.05,122.483
+699,Lamitan,Basilan,BARMM,6.65,122.133
+700,Lamut,Ifugao,CAR,16.65,121.225
+701,Langiden,Abra,CAR,17.583,120.567
+702,Languyan,Tawi-Tawi,BARMM,5.267,120.083
+703,Lantapan,Bukidnon,REGION X ,8.05,124.983
+704,Lantawan,Basilan,BARMM,6.65,121.867
+705,Lanuza,Surigao del Sur,REGION XIII ,9.233,126.067
+706,Laoac,Pangasinan,REGION I ,16.033,120.55
+707,Laoag City,Ilocos Norte,REGION I ,18.183,120.583
+708,Laoang,Northern Samar,REGION VIII ,12.567,125.017
+709,Lapinig,Northern Samar,REGION VIII ,12.3149,125.2917
+710,Lapu-Lapu City,Cebu,REGION VII ,10.31083,124.015222
+711,Lapuyan,Zamboanga del Sur,REGION IX ,7.633,123.2
+712,Larena,Siquijor,REGION VII ,9.25,123.6
+713,Las Navas,Northern Samar,REGION VIII ,12.3064,125.0168
+714,Las Nieves,Agusan del Norte,REGION XIII ,8.733,125.6
+715,Las Pi?ñas,Metro Manila,NCR,14.45,120.98
+716,Lasam,Cagayan,REGION II ,18.067,121.6
+717,Laua-an,Antique,REGION VI ,11.15,122.05
+718,Laur,Nueva Ecija,REGION III ,15.583,121.183
+719,Laurel,Batangas,REGION IV-A ,14.05,120.9
+720,Lavezares,Northern Samar,REGION VIII ,12.533,124.333
+721,Lawaan,Eastern Samar,REGION VIII ,11.15,125.3
+722,Lazi,Siquijor,REGION VII ,9.13,123.63
+723,Lebak,Sultan Kudarat,REGION XII ,6.633,124.067
+724,Leganes,Iloilo,REGION VI ,10.783,122.583
+725,Legazpi City,Albay,REGION V ,13.13,123.73
+726,Lemery,Batangas,REGION IV-A ,13.92,120.88
+727,Lemery,Iloilo,REGION VI ,11.233,122.933
+728,Leon,Iloilo,REGION VI ,10.783,122.383
+729,Leyte,Leyte,REGION VIII ,11.367,124.483
+730,Lezo,Aklan,REGION VI ,11.667,122.333
+731,Lian,Batangas,REGION IV-A ,14.033,120.65
+732,Lianga,Surigao del Sur,REGION XIII ,8.633,126.1
+733,Libacao,Aklan,REGION VI ,11.483,122.3
+734,Libagon,Southern Leyte,REGION VIII ,10.3,125.05
+735,Libertad,Antique,REGION VI ,11.783,121.917
+736,Libertad,Misamis Oriental,REGION X ,8.55833,124.35
+737,Libjo,Dinagat Islands,REGION XIII ,10.2,125.567
+738,Libmanan,Camarines Sur,REGION V ,13.7,123.067
+739,Libon,Albay,REGION V ,13.3,123.433
+740,Libona,Bukidnon,REGION X ,8.333,124.733
+741,Libungan,North Cotabato,REGION XII ,7.25,124.517
+742,Licab,Nueva Ecija,REGION III ,15.55,120.767
+743,Licuan-Baay,Abra,CAR,17.62694,120.83222
+744,Lidlidda,Ilocos Sur,REGION I ,17.267,120.517
+745,Ligao City,Albay,REGION V ,13.217,123.517
+746,Lila,Bohol,REGION VII ,9.6,124.1
+747,Liliw,Laguna,REGION IV-A ,14.133,121.433
+748,Liloan,Cebu,REGION VIII ,10.4,123.98
+749,Liloan,Leyte,REGION VII ,10.941,125.749
+750,Liloan,Southern Leyte,REGION VIII ,10.15,125.133
+751,Liloy,Zamboanga del Norte,REGION IX ,8.117,122.667
+752,Limasawa,Southern Leyte,REGION VIII ,9.93333,125.07222
+753,Limay,Bataan,REGION III ,14.567,120.6
+754,Linamon,Lanao del Norte,REGION X ,8.183,124.167
+755,Linapacan,Palawan,REGION IV-B ,11.5,119.867
+756,Lingayen,Pangasinan,REGION I ,16.02,120.23083
+757,Lingig,Surigao del Sur,REGION XIII ,8.033,126.417
+758,Lipa City,Batangas,REGION IV-A ,13.9411,121.1622
+759,Llanera,Nueva Ecija,REGION III ,15.667,121.017
+760,Llorente,Eastern Samar,REGION VIII ,11.417,125.533
+761,Loay,Bohol,REGION VII ,9.6,124.02
+762,Lobo,Batangas,REGION IV-A ,13.65,121.25
+763,Loboc,Bohol,REGION VII ,9.63,124.03
+764,Looc,Occidental Mindoro,REGION IV-B ,13.72167,120.25056
+765,Looc,Romblon,REGION IV-B ,12.267,122
+766,Loon,Bohol,REGION VII ,9.8,123.8
+767,Lope de Vega,Northern Samar,REGION VIII ,12.3,124.617
+768,Lopez,Quezon,REGION IV-A ,13.883,122.267
+769,Lopez Jaena,Misamis Occidental,REGION X ,8.55,123.767
+770,Loreto,Agusan del Sur,REGION XIII ,8.183,125.85
+771,Loreto,Dinagat Islands,REGION XIII ,10.35,125.617
+772,Los Ba?os,Laguna,REGION IV-A ,14.167,121.217
+773,Luba,Abra,CAR,17.34917,120.69111
+774,Lubang,Occidental Mindoro,REGION IV-B ,13.85778,120.12333
+775,Lubao,Pampanga,REGION III ,14.933,120.6
+776,Lubuagan,Kalinga,CAR,17.35,121.183
+777,Lucban,Quezon,REGION IV-A ,14.11333,121.55694
+778,Lucena City,Quezon,REGION IV-A ,13.9414,121.6234
+779,Lugait,Misamis Oriental,REGION X ,8.333,124.267
+780,Lugus,Sulu,BARMM,5.7,120.817
+781,Luisiana,Laguna,REGION IV-A ,14.183,121.517
+782,Lumba-Bayabao,Lanao del Sur,BARMM,7.883,124.383
+783,Lumbaca-Unayan,Lanao del Sur,BARMM,7.767,124.25
+784,Lumban,Laguna,REGION IV-A ,14.29806,121.46
+785,Lumbatan,Lanao del Sur,BARMM,7.783,124.25
+786,Lumbayanague,Lanao del Sur,BARMM,7.783,124.283
+787,Luna,Apayao,CAR,18.32583,121.35361
+788,Luna,Isabela,REGION II ,16.967,121.733
+789,Luna,La Union,REGION I ,16.85389,120.38111
+790,Lupao,Nueva Ecija,REGION III ,15.883,120.9
+791,Lupi,Camarines Sur,REGION V ,13.817,122.9
+792,Lupon,Davao Oriental,REGION XI ,6.9,126
+793,Lutayan,Sultan Kudarat,REGION XII ,6.6,124.85
+794,Luuk,Sulu,BARMM,6,121.35
+795,Maasim,Sarangani,REGION XII ,5.867,125
+796,Maasin,Iloilo,REGION VI ,10.883,122.433
+797,Maasin City,Southern Leyte,REGION VIII ,10.133,124.85
+798,Ma-ayon,Capiz,REGION VI ,11.383,122.783
+799,Mabalacat,Pampanga,REGION III ,15.217,120.583
+800,Mabinay,Negros Oriental,REGION VII ,9.733,122.917
+801,Mabini,Batangas,REGION IV-A ,13.717,120.9
+802,Mabini,Bohol,REGION VII ,9.87,124.52
+803,Mabini,Compostela Valley,REGION XI ,7.3,125.85
+804,Mabini,Pangasinan,REGION I ,16.06972,119.94
+805,Mabitac,Laguna,REGION IV-A ,14.4275,121.42667
+806,Mabuhay,Zamboanga Sibugay,REGION IX ,7.417,122.9
+807,Macabebe,Pampanga,REGION III ,14.90806,120.71556
+808,Macalelon,Quezon,REGION IV-A ,13.75,122.133
+809,MacArthur,Leyte,REGION VIII ,10.85,124.95
+810,Maco,Compostela Valley,REGION XI ,7.367,125.85
+811,Maconacon,Isabela,REGION II ,17.433,122.233
+812,Macrohon,Southern Leyte,REGION VIII ,10.083,124.95
+813,Madalag,Aklan,REGION VI ,11.517,122.3
+814,Madalum,Lanao del Sur,BARMM,7.85,124.117
+815,Madamba,Lanao del Sur,BARMM,7.883,124.067
+816,Maddela,Quirino,REGION II ,16.35,121.7
+817,Madrid,Surigao del Sur,REGION XIII ,9.267,125.967
+818,Madridejos,Cebu,REGION VII ,11.27,123.73
+819,Magalang,Pampanga,REGION III ,15.217,120.667
+820,Magallanes,Agusan del Norte,REGION XIII ,9.017,125.517
+821,Magallanes,Cavite,REGION IV-A ,14.18833,120.7575
+822,Magallanes,Sorsogon,REGION V ,12.833,123.85
+823,Magarao,Camarines Sur,REGION V ,13.667,123.183
+824,Magdalena,Laguna,REGION IV-A ,14.2,121.433
+825,Magdiwang,Romblon,REGION IV-B ,12.483,122.517
+826,Magpet,North Cotabato,REGION XII ,7.1,125.117
+827,Magsaysay,Davao Occidental,REGION XI ,6.767,125.183
+828,Magsaysay,Lanao del Norte,REGION X ,8.033,123.917
+829,Magsaysay,Misamis Oriental,REGION X ,9.017,125.183
+830,Magsaysay,Occidental Mindoro,REGION IV-B ,12.333,121.15
+831,Magsaysay,Palawan,REGION IV-B ,10.867,121.05
+832,Magsingal,Ilocos Sur,REGION I ,17.68333,120.425
+833,Maguing,Lanao del Sur,BARMM,7.9,124.4
+834,Mahaplag,Leyte,REGION VIII ,10.583,124.983
+835,Mahatao,Batanes,REGION II ,20.417,121.95
+836,Mahayag,Zamboanga del Sur,REGION IX ,8.133,123.383
+837,Mahinog,Camiguin,REGION X ,9.15,124.783
+838,Maigo,Lanao del Norte,REGION X ,8.15,123.967
+839,Maimbung,Sulu,BARMM,5.933,121.033
+840,Mainit,Dinagat Islands,REGION XIII ,9.533,125.517
+841,Maitum,Sarangani,REGION XII ,6.033,124.483
+842,Majayjay,Laguna,REGION IV-A ,14.15,121.467
+843,Makati,Metro Manila,NCR,14.55,121.03
+844,Makato,Aklan,REGION VI ,11.7,122.283
+845,Makilala,North Cotabato,REGION XII ,6.967,125.083
+846,Malabang,Lanao del Sur,BARMM,7.583,124.067
+847,Malabon,Metro Manila,NCR,14.66,120.96
+848,Malabuyoc,Cebu,REGION VII ,9.65,123.33
+849,Malalag,Davao Occidental,REGION XI ,6.6,125.4
+850,Malangas,Zamboanga Sibugay,REGION IX ,7.617,123
+851,Malapatan,Sarangani,REGION XII ,5.967,125.283
+852,Malasiqui,Pangasinan,REGION I ,15.917,120.417
+853,Malay,Aklan,REGION VI ,11.9,121.9083
+854,Malaybalay City,Bukidnon,REGION X ,8.15,125.133
+855,Malibcong,Abra,CAR,17.567,120.983
+856,Malilipot,Albay,REGION V ,13.317,123.733
+857,Malimono,Dinagat Islands,REGION XIII ,9.617,125.4
+858,Malinao,Aklan,REGION VI ,11.65,122.3
+859,Malinao,Albay,REGION V ,13.4,123.7
+860,Malita,Davao Occidental,REGION XI ,6.4,125.6
+861,Malitbog,Bukidnon,REGION X ,8.533,124.883
+862,Malitbog,Southern Leyte,REGION VIII ,10.15,125
+863,Mallig,Isabela,REGION II ,17.2,121.617
+864,Malolos City,Bulacan,REGION III ,14.84333,120.81139
+865,Malungon,Sarangani,REGION XII ,6.267,125.283
+866,Maluso,Basilan,BARMM,6.55,121.883
+867,Malvar,Batangas,REGION IV-A ,14.04056,121.15444
+868,Mamasapano,Maguindanao,BARMM,6.97194,124.48111
+869,Mambajao,Camiguin,REGION X ,9.25,124.717
+870,Mamburao,Occidental Mindoro,REGION IV-B ,13.217,120.6
+871,Mambusao,Capiz,REGION VI ,11.433,122.6
+872,Manabo,Abra,CAR,17.467,120.7
+873,Manaoag,Pangasinan,REGION I ,16.04389,120.48556
+874,Manapla,Negros Occidental,REGION VI ,10.95,123.12
+875,Manay,Davao Oriental,REGION XI ,7.217,126.533
+876,Mandaluyong,Metro Manila,NCR,14.58,121.03
+877,Mandaon,Masbate,REGION V ,12.233,123.283
+878,Mandaue City,Cebu,REGION VII ,10.33,123.93
+879,Mangaldan,Pangasinan,REGION I ,16.067,120.4
+880,Mangatarem,Pangasinan,REGION I ,15.783,120.3
+881,Mangudadatu,Maguindanao,BARMM,6.6875,124.825
+882,Manila,Metro Manila,NCR,14.58,121
+883,Manito,Albay,REGION V ,13.117,123.867
+884,Manjuyod,Negros Oriental,REGION VII ,9.683,123.15
+885,Mankayan,Benguet,CAR,16.867,120.783
+886,Manolo Fortich,Bukidnon,REGION X ,8.367,124.867
+887,Mansalay,Oriental Mindoro,REGION IV-B ,12.517,121.433
+888,Manticao,Misamis Oriental,REGION X ,8.383,124.283
+889,Manukan,Zamboanga del Norte,REGION IX ,8.533,123.1
+890,Mapanas,Northern Samar,REGION VIII ,12.4695,125.2368
+891,Mapandan,Pangasinan,REGION I ,16.017,120.45
+892,Mapun,Tawi-Tawi,BARMM,7,118.5
+893,Marabut,Samar,REGION VIII ,11.117,125.217
+894,Maragondon,Cavite,REGION IV-A ,14.27333,120.73833
+895,Maragusan,Compostela Valley,REGION XI ,7.5,126
+896,Maramag,Bukidnon,REGION X ,7.767,125
+897,Marantao,Lanao del Sur,BARMM,7.95,124.233
+898,Marawi City,Lanao del Sur,BARMM,8,124.3
+899,Marcos,Ilocos Norte,REGION I ,18.05,120.683
+900,Margosatubig,Zamboanga del Sur,REGION IX ,7.583,123.167
+901,Maria,Siquijor,REGION VII ,9.2,123.65
+902,Maria Aurora,Aurora,REGION III ,15.783,121.467
+903,Maribojoc,Bohol,REGION VII ,9.75,123.83
+904,Marihatag,Surigao del Sur,REGION XIII ,8.8,126.3
+905,Marikina,Metro Manila,NCR,14.65,121.1
+906,Marilao,Bulacan,REGION III ,14.75806,120.94806
+907,Maripipi,Biliran,REGION VIII ,11.783,124.333
+908,Mariveles,Bataan,REGION III ,14.433,120.483
+909,Marogong,Lanao del Sur,BARMM,7.667,124.15
+910,Masantol,Pampanga,REGION III ,14.9,120.717
+911,Masbate City,Masbate,REGION V ,12.17,123.58
+912,Masinloc,Zambales,REGION III ,15.533,119.95
+913,Masiu,Lanao del Sur,BARMM,7.817,124.317
+914,Maslog,Eastern Samar,REGION VIII ,12.1,125.167
+915,Mataas na Kahoy,Batangas,REGION IV-A ,13.967,121.083
+916,Matag-ob,Leyte,REGION VIII ,11.117,124.467
+917,Matalam,North Cotabato,REGION XII ,7.083,124.9
+918,Matalom,Leyte,REGION VIII ,10.283,124.8
+919,Matanao,Davao Occidental,REGION XI ,6.75,125.233
+920,Matanog,Maguindanao,BARMM,7.467,124.25
+921,Mati City,Davao Oriental,REGION XI ,6.95,126.233
+922,Matnog,Sorsogon,REGION V ,12.583,124.083
+923,Matuguinao,Samar,REGION VIII ,12.15,124.883
+924,Matungao,Lanao del Norte,REGION X ,8.133,124.167
+925,Mauban,Quezon,REGION IV-A ,14.183,121.717
+926,Mawab,Compostela Valley,REGION XI ,7.5,125.933
+927,Mayantoc,Tarlac,REGION III ,15.617,120.383
+928,Maydolong,Eastern Samar,REGION VIII ,11.5,125.5
+929,Mayorga,Leyte,REGION VIII ,10.9,125
+930,Mayoyao,Ifugao,CAR,16.967,121.217
+931,Medellin,Cebu,REGION VII ,11.13,123.97
+932,Medina,Misamis Oriental,REGION X ,8.917,125.017
+933,Mendez,Cavite,REGION IV-A ,14.12861,120.90583
+934,Mercedes,Camarines Norte,REGION V ,14.1,123.017
+935,Mercedes,Eastern Samar,REGION VIII ,11.1,125.717
+936,Merida,Leyte,REGION VIII ,10.917,124.533
+937,Mexico,Pampanga,REGION III ,15.067,120.717
+938,Meycauayan City,Bulacan,REGION III ,14.733,120.95
+939,Miagao,Iloilo,REGION VI ,10.65,122.233
+940,Midsalip,Zamboanga del Sur,REGION IX ,8,123.267
+941,Midsayap,North Cotabato,REGION XII ,7.1917,124.533
+942,Milagros,Masbate,REGION V ,12.233,123.5
+943,Milaor,Camarines Sur,REGION V ,13.6,123.183
+944,Mina,Iloilo,REGION VI ,10.933,122.583
+945,Minalabac,Camarines Sur,REGION V ,13.567,123.183
+946,Minalin,Pampanga,REGION III ,14.967,120.683
+947,Minglanilla,Cebu,REGION VII ,10.25,123.78
+948,Mlang,North Cotabato,REGION XII ,6.9382,124.9066
+949,Moalboal,Cebu,REGION VII ,9.95,123.4
+950,Mobo,Masbate,REGION V ,12.333,123.65
+951,Mogpog,Marinduque,REGION IV-B ,13.47444,121.86139
+952,Moises Padilla,Negros Occidental,REGION VI ,10.267,123.083
+953,Molave,Zamboanga del Sur,REGION IX ,8.083,123.483
+954,Moncada,Tarlac,REGION III ,15.733,120.567
+955,Mondragon,Northern Samar,REGION VIII ,12.517,124.75
+956,Monkayo,Compostela Valley,REGION XI ,7.817,126.05
+957,Monreal,Masbate,REGION V ,12.633,123.667
+958,Montevista,Compostela Valley,REGION XI ,7.7,125.983
+959,Morong,Bataan,REGION III ,14.683,120.267
+960,Morong,Rizal,REGION IV-A ,14.51194,121.23889
+961,Motiong,Samar,REGION VIII ,11.783,125
+962,Mulanay,Quezon,REGION IV-A ,13.5,122.417
+963,Mulondo,Lanao del Sur,BARMM,7.933,124.383
+964,Munai,Lanao del Norte,REGION X ,7.983,124.067
+965,Muntinlupa,Metro Manila,NCR,14.38,121.05
+966,Murcia,Negros Occidental,REGION VI ,10.6,123.03
+967,Mutia,Zamboanga del Norte,REGION IX ,8.433,123.467
+968,Naawan,Misamis Oriental,REGION X ,8.433,124.3
+969,Nabas,Aklan,REGION VI ,11.833,122.083
+970,Nabua,Camarines Sur,REGION V ,13.40139,123.37639
+971,Nabunturan,Compostela Valley,REGION XI ,7.6,125.967
+972,Naga,Zamboanga Sibugay,REGION IX ,7.833,122.7
+973,Naga City,Camarines Sur,REGION V ,13.62,123.17
+974,Naga City,Cebu,REGION VII ,10.22,123.75
+975,Nagbukel,Ilocos Sur,REGION I ,17.45,120.55
+976,Nagcarlan,Laguna,REGION IV-A ,14.133,121.417
+977,Nagtipunan,Quirino,REGION II ,16.217,121.6
+978,Naguilian,Isabela,REGION II ,17.02667,121.835
+979,Naguilian,La Union,REGION I ,16.533,120.4
+980,Naic,Cavite,REGION IV-A ,14.317,120.767
+981,Nampicuan,Nueva Ecija,REGION III ,15.733,120.633
+982,Narra,Palawan,REGION IV-B ,9.283,118.417
+983,Narvacan,Ilocos Sur,REGION I ,17.417,120.483
+984,Nasipit,Agusan del Norte,REGION XIII ,8.9715,125.3518
+985,Nasugbu,Batangas,REGION IV-A ,14.067,120.633
+986,Natividad,Pangasinan,REGION I ,16.05,120.817
+987,Natonin,Mountain Province,CAR,17.1,121.283
+988,Naujan,Oriental Mindoro,REGION IV-B ,13.317,121.3
+989,Naval,Biliran,REGION VIII ,11.583,124.45
+990,Navotas,Metro Manila,NCR,14.6667,120.9417
+991,New Bataan,Compostela Valley,REGION XI ,7.533,126.133
+992,New Corella,Davao del Norte,REGION XI ,7.583,125.833
+993,New Lucena,Iloilo,REGION VI ,10.883,122.6
+994,New Washington,Aklan,REGION VI ,11.65,122.433
+995,Norala,South Cotabato,REGION XII ,6.55,124.667
+996,Northern Kabuntalan,Maguindanao,BARMM,7.13333,124.46667
+997,Norzagaray,Bulacan,REGION III ,14.917,121.05
+998,Noveleta,Cavite,REGION IV-A ,14.433,120.883
+999,Nueva Era,Ilocos Norte,REGION I ,17.917,120.667
+1000,Nueva Valencia,Guimaras,REGION VI ,10.517,122.533
+1001,Numancia,Aklan,REGION VI ,11.7,122.333
+1002,Nunungan,Lanao del Norte,REGION X ,7.817,123.967
+1003,Oas,Albay,REGION V ,13.25889,123.49528
+1004,Obando,Bulacan,REGION III ,14.7,120.917
+1005,Ocampo,Camarines Sur,REGION V ,13.567,123.383
+1006,Odiongan,Romblon,REGION IV-B ,12.4,122
+1007,Old Panamao,Sulu,BARMM,5.983,121.25
+1008,Olongapo City,Zambales,REGION III ,14.83,120.28
+1009,Olutanga,Zamboanga Sibugay,REGION IX ,7.333,122.833
+1010,Omar,Sulu,BARMM,5.983,121.4
+1011,Opol,Misamis Oriental,REGION X ,8.517,124.567
+1012,Orani,Bataan,REGION III ,14.8,120.533
+1013,Oras,Eastern Samar,REGION VIII ,12.133,125.433
+1014,Orion,Bataan,REGION III ,14.617,120.583
+1015,Ormoc City,Leyte,REGION VIII ,11.02,124.62
+1016,Oroquieta City,Misamis Occidental,REGION X ,8.483,123.8
+1017,Oslob,Cebu,REGION VII ,9.55,123.4
+1018,Oton,Iloilo,REGION VI ,10.7,122.467
+1019,Ozamiz City,Misamis Occidental,REGION X ,8.15,123.85
+1020,Padada,Davao Occidental,REGION XI ,6.633,125.35
+1021,Padre Burgos,Quezon,REGION IV-A ,13.917,121.8
+1022,Padre Burgos,Southern Leyte,REGION VIII ,10.033,125.017
+1023,Padre Garcia,Batangas,REGION IV-A ,13.883,121.217
+1024,Paete,Laguna,REGION IV-A ,14.367,121.483
+1025,Pagadian City,Zamboanga del Sur,REGION IX ,7.83,123.43
+1026,Pagalungan,Maguindanao,BARMM,7.057,124.701
+1027,Pagayawan,Lanao del Sur,BARMM,7.733,124.117
+1028,Pagbilao,Quezon,REGION IV-A ,13.967,121.7
+1029,Paglat,Maguindanao,BARMM,6.7,124.78333
+1030,Pagsanghan,Samar,REGION VIII ,11.967,124.8
+1031,Pagsanjan,Laguna,REGION IV-A ,14.27306,121.45389
+1032,Pagudpud,Ilocos Norte,REGION I ,18.567,120.8
+1033,Pakil,Laguna,REGION IV-A ,14.383,121.483
+1034,Palanan,Isabela,REGION II ,17.05889,122.43
+1035,Palanas,Masbate,REGION V ,12.15,123.917
+1036,Palapag,Northern Samar,REGION VIII ,12.5283,125.1049
+1037,Palauig,Zambales,REGION III ,15.433,120.05
+1038,Palayan City,Nueva Ecija,REGION III ,15.533,121.083
+1039,Palimbang,Sultan Kudarat,REGION XII ,6.217,124.2
+1040,Palo,Leyte,REGION VIII ,11.1575,124.99083
+1041,Palompon,Leyte,REGION VIII ,11.05,124.383
+1042,Paluan,Occidental Mindoro,REGION IV-B ,13.417,120.467
+1043,Pambujan,Northern Samar,REGION VIII ,12.567,124.933
+1044,Pamplona,Cagayan,REGION II ,18.45,121.34167
+1045,Pamplona,Camarines Sur,REGION V ,13.6,123.083
+1046,Pamplona,Negros Oriental,REGION VII ,9.467,123.117
+1047,Panabo City,Davao del Norte,REGION XI ,7.30833,125.68333
+1048,Panaon,Misamis Occidental,REGION X ,8.367,123.833
+1049,Panay,Capiz,REGION VI ,11.55,122.8
+1050,Pandag,Maguindanao,BARMM,6.78333,124.8
+1051,Pandami,Sulu,BARMM,5.533,120.75
+1052,Pandan,Antique,REGION VI ,11.717,122.1
+1053,Pandan,Catanduanes,REGION V ,14.05,124.167
+1054,Pandi,Bulacan,REGION III ,14.867,120.95
+1055,Panganiban,Catanduanes,REGION V ,13.9,124.3
+1056,Pangantucan,Bukidnon,REGION X ,7.833,124.833
+1057,Pangil,Laguna,REGION IV-A ,14.40306,121.46611
+1058,Panglao,Bohol,REGION VII ,9.58,123.75
+1059,Panglima Estino,Sulu,BARMM,5.967,121.2
+1060,Panglima Sugala,Tawi-Tawi,BARMM,5.183,120.017
+1061,Pangutaran,Sulu,BARMM,6.3,120.583
+1062,Paniqui,Tarlac,REGION III ,15.667,120.583
+1063,Panitan,Capiz,REGION VI ,11.467,122.767
+1064,Pantabangan,Nueva Ecija,REGION III ,15.817,121.15
+1065,Pantao Ragat,Lanao del Norte,REGION X ,8.05,124.15
+1066,Pantar,Lanao del Norte,REGION X ,8.067,124.267
+1067,Pantukan,Compostela Valley,REGION XI ,7.15,125.95
+1068,Panukulan,Quezon,REGION IV-A ,14.933,121.817
+1069,Paoay,Ilocos Norte,REGION I ,18.05,120.517
+1070,Paombong,Bulacan,REGION III ,14.83111,120.78917
+1071,Para?aque,Metro Manila,NCR,14.47,121.02
+1072,Paracale,Camarines Norte,REGION V ,14.283,122.783
+1073,Paracelis,Mountain Province,CAR,17.267,121.467
+1074,Paranas,Samar,REGION VIII ,11.85,125.117
+1075,Parang,Maguindanao,BARMM,7.33333,124.31667
+1076,Parang,Sulu,BARMM,5.917,120.917
+1077,Pasacao,Camarines Sur,REGION V ,13.517,123.05
+1078,Pasay,Metro Manila,NCR,14.55,121
+1079,Pasig,Metro Manila,NCR,14.5736,121.0785
+1080,Pasil,Kalinga,CAR,17.383,121.15
+1081,Passi City,Iloilo,REGION VI ,11.1,122.633
+1082,Pastrana,Leyte,REGION VIII ,11.133,124.883
+1083,Pasuquin,Ilocos Norte,REGION I ,18.333,120.617
+1084,Pata,Sulu,BARMM,5.833,121.083
+1085,Pateros,Metro Manila,NCR,14.5417,121.0667
+1086,Patikul,Sulu,BARMM,6.067,121.1
+1087,Patnanungan,Quezon,REGION IV-A ,14.783,122.183
+1088,Patnongon,Antique,REGION VI ,10.917,121.983
+1089,Pavia,Iloilo,REGION VI ,10.775,122.54194
+1090,Payao,Zamboanga Sibugay,REGION IX ,7.583,122.85
+1091,Pe?ablanca,Cagayan,REGION II ,17.633,121.783
+1092,Pe?aranda,Nueva Ecija,REGION III ,15.35,121
+1093,Pe?arrubia,Abra,CAR,17.567,120.65
+1094,Perez,Quezon,REGION IV-A ,14.183,121.933
+1095,Pi?an,Zamboanga del Norte,REGION IX ,8.4,123.433
+1096,Piagapo,Lanao del Sur,BARMM,8,124.2
+1097,Piat,Cagayan,REGION II ,17.79111,121.47611
+1098,Picong,Lanao del Sur,BARMM,7.683,123.95
+1099,Piddig,Ilocos Norte,REGION I ,18.167,120.733
+1100,Pidigan,Abra,CAR,17.567,120.583
+1101,Pigkawayan,North Cotabato,REGION XII ,7.283,124.433
+1102,Pikit,North Cotabato,REGION XII ,7.05,124.667
+1103,Pila,Laguna,REGION IV-A ,14.233,121.367
+1104,Pilar,Abra,CAR,17.4175,120.59417
+1105,Pilar,Bataan,REGION III ,14.667,120.567
+1106,Pilar,Bohol,REGION VII ,9.83,124.33
+1107,Pilar,Capiz,REGION VI ,11.483,123
+1108,Pilar,Cebu,REGION VII ,10.8,124.55
+1109,Pilar,Sorsogon,REGION V ,12.933,123.683
+1110,Pilar,Dinagat Islands,REGION XIII ,9.867,126.1
+1111,Pili,Camarines Sur,REGION V ,13.583,123.3
+1112,Pililla,Rizal,REGION IV-A ,14.483,121.3
+1113,Pinabacdao,Samar,REGION VIII ,11.617,124.983
+1114,Pinamalayan,Oriental Mindoro,REGION IV-B ,13,121.417
+1115,Pinamungahan,Cebu,REGION VII ,10.27,123.58
+1116,Pinili,Ilocos Norte,REGION I ,17.95389,120.52694
+1117,Pintuyan,Southern Leyte,REGION VIII ,9.95,125.25
+1118,Pinukpuk,Kalinga,CAR,17.6,121.367
+1119,Pio Duran,Albay,REGION V ,13.033,123.45
+1120,Pio V. Corpuz,Masbate,REGION V ,11.9,124.033
+1121,Pitogo,Quezon,REGION IV-A ,13.783,122.083
+1122,Pitogo,Zamboanga del Sur,REGION IX ,7.45,123.317
+1123,Placer,Masbate,REGION V ,11.867,123.917
+1124,Placer,Dinagat Islands,REGION XIII ,9.65,125.6
+1125,Plaridel,Bulacan,REGION III ,14.883,120.85
+1126,Plaridel,Misamis Occidental,REGION X ,8.617,123.7
+1127,Plaridel,Quezon,REGION IV-A ,13.95,122.017
+1128,Pola,Oriental Mindoro,REGION IV-B ,13.14389,121.44
+1129,Polanco,Zamboanga del Norte,REGION IX ,8.533,123.367
+1130,Polangui,Albay,REGION V ,13.29222,123.48556
+1131,Polillo,Quezon,REGION IV-A ,14.717,121.95
+1132,Polomolok,South Cotabato,REGION XII ,6.217,125.067
+1133,Pontevedra,Capiz,REGION VI ,11.483,122.833
+1134,Pontevedra,Negros Occidental,REGION VI ,10.367,122.883
+1135,Poona Bayabao,Lanao del Sur,BARMM,7.85,124.35
+1136,Poona Piagapo,Lanao del Norte,REGION X ,8.083,124.083
+1137,Porac,Pampanga,REGION III ,15.07194,120.54194
+1138,Poro,Cebu,REGION VII ,10.63,124.42
+1139,Pototan,Iloilo,REGION VI ,10.95,122.633
+1140,Pozzorubio,Pangasinan,REGION I ,16.117,120.55
+1141,Presentacion,Camarines Sur,REGION V ,13.717,123.75
+1142,President Carlos P. Garcia,Bohol,REGION VII ,10.12,124.55
+1143,President Manuel A. Roxas,Zamboanga del Norte,REGION IX ,8.483,123.217
+1144,President Quirino,Sultan Kudarat,REGION XII ,6.7,124.733
+1145,President Roxas,Capiz,REGION VI ,11.433,122.933
+1146,President Roxas,North Cotabato,REGION XII ,7.15,125.05
+1147,Prieto Diaz,Sorsogon,REGION V ,13.033,124.183
+1148,Prosperidad,Agusan del Sur,REGION XIII ,8.6,125.917
+1149,Pualas,Lanao del Sur,BARMM,7.817,124.067
+1150,Pudtol,Apayao,CAR,18.15,121.283
+1151,Puerto Galera,Oriental Mindoro,REGION IV-B ,13.5,120.95
+1152,Puerto Princesa City,Palawan,REGION IV-B ,9.75,118.75
+1153,Pugo,La Union,REGION I ,16.283,120.483
+1154,Pulilan,Bulacan,REGION III ,14.9,120.85
+1155,Pulupandan,Negros Occidental,REGION VI ,10.517,122.8
+1156,Pura,Tarlac,REGION III ,15.625,120.65
+1157,Quezon,Bukidnon,REGION X ,7.733,125.1
+1158,Quezon,Isabela,REGION II ,17.317,121.617
+1159,Quezon,Nueva Ecija,REGION III ,15.55,120.817
+1160,Quezon,Nueva Vizcaya,REGION II ,16.5,121.267
+1161,Quezon,Palawan,REGION IV-B ,9.233,118.033
+1162,Quezon,Quezon,REGION IV-A ,14.05,122.133
+1163,Quezon City,Metro Manila,NCR,14.63,121.03
+1164,Quinapondan,Eastern Samar,REGION VIII ,11.15,125.517
+1165,Quirino,Ilocos Sur,REGION I ,17.15,120.667
+1166,Quirino,Isabela,REGION II ,17.133,121.7
+1167,Ragay,Camarines Sur,REGION V ,13.817,122.783
+1168,Rajah Buayan,Maguindanao,BARMM,6.91083,124.55083
+1169,Ramon,Isabela,REGION II ,16.783,121.533
+1170,Ramon Magsaysay,Zamboanga del Sur,REGION IX ,8,123.483
+1171,Ramos,Tarlac,REGION III ,15.66667,120.64167
+1172,Rapu-Rapu,Albay,REGION V ,13.183,124.133
+1173,Real,Quezon,REGION IV-A ,14.667,121.6
+1174,Reina Mercedes,Isabela,REGION II ,16.983,121.783
+1175,Remedios T. Romualdez,Agusan del Norte,REGION XIII ,9.05361,125.58667
+1176,Rizal,Cagayan,REGION II ,17.85,121.35
+1177,Rizal,Kalinga,CAR,17.5,121.6
+1178,Rizal,Laguna,REGION IV-A ,14.10917,121.39444
+1179,Rizal,Nueva Ecija,REGION III ,15.683,121.167
+1180,Rizal,Occidental Mindoro,REGION IV-B ,12.467,120.967
+1181,Rizal,Palawan,REGION IV-B ,8.683,117.35
+1182,Rizal,Zamboanga del Norte,REGION IX ,8.583,123.533
+1183,Rodriguez,Rizal,REGION IV-A ,14.717,121.117
+1184,Romblon,Romblon,REGION IV-B ,12.567,122.267
+1185,Ronda,Cebu,REGION VII ,10,123.4
+1186,Rosales,Pangasinan,REGION I ,15.883,120.633
+1187,Rosario,Agusan del Sur,REGION XIII ,8.383,126
+1188,Rosario,Batangas,REGION IV-A ,13.85,121.2
+1189,Rosario,Cavite,REGION IV-A ,14.417,120.85
+1190,Rosario,La Union,REGION I ,16.23194,120.48806
+1191,Rosario,Northern Samar,REGION VIII ,12.517,124.417
+1192,Roseller Lim,Zamboanga Sibugay,REGION IX ,7.7,122.467
+1193,Roxas,Isabela,REGION II ,17.117,121.617
+1194,Roxas,Oriental Mindoro,REGION IV-B ,12.583,121.5
+1195,Roxas,Palawan,REGION IV-B ,10.333,119.333
+1196,Roxas City,Capiz,REGION VI ,11.583,122.75
+1197,Sabangan,Mountain Province,CAR,16.95,120.917
+1198,Sablan,Benguet,CAR,16.517,120.517
+1199,Sablayan,Occidental Mindoro,REGION IV-B ,12.817,120.767
+1200,Sabtang,Batanes,REGION II ,20.333,121.867
+1201,Sadanga,Mountain Province,CAR,17.167,121.033
+1202,Sag?ay,Camarines Sur,REGION V ,13.60417,123.52
+1203,Sagada,Mountain Province,CAR,17.083,120.9
+1204,Sagay,Camiguin,REGION X ,9.117,124.717
+1205,Sagay City,Negros Occidental,REGION VI ,10.9,123.417
+1206,Sagbayan,Bohol,REGION VII ,9.92,124.1
+1207,Saguday,Quirino,REGION II ,16.517,121.6
+1208,Saguiaran,Lanao del Sur,BARMM,8.033,124.267
+1209,Saint Bernard,Southern Leyte,REGION VIII ,10.283,125.133
+1210,Salay,Misamis Oriental,REGION X ,8.867,124.8
+1211,Salcedo,Eastern Samar,REGION VIII ,11.15,125.667
+1212,Salcedo,Ilocos Sur,REGION I ,17.15,120.533
+1213,Sallapadan,Abra,CAR,17.467,120.767
+1214,Salug,Zamboanga del Norte,REGION IX ,8.033,122.833
+1215,Salvador,Lanao del Norte,REGION X ,7.9,123.85
+1216,Salvador Benedicto,Negros Occidental,REGION VI ,10.55,123.233
+1217,Samal,Bataan,REGION III ,14.767,120.55
+1218,Samboan,Cebu,REGION VII ,9.53,123.3
+1219,Sampaloc,Quezon,REGION IV-A ,14.167,121.583
+1220,San Agustin,Isabela,REGION II ,16.517,121.75
+1221,San Agustin,Romblon,REGION IV-B ,12.5622,122.1178
+1222,San Agustin,Surigao del Sur,REGION XIII ,8.733,126.133
+1223,San Andres,Catanduanes,REGION V ,13.6,124.1
+1224,San Andres,Quezon,REGION IV-A ,13.367,122.65
+1225,San Andres,Romblon,REGION IV-B ,12.517,122.017
+1226,San Antonio,Northern Samar,REGION VIII ,12.417,124.267
+1227,San Antonio,Nueva Ecija,REGION III ,15.383,120.8
+1228,San Antonio,Quezon,REGION IV-A ,13.9,121.3
+1229,San Antonio,Zambales,REGION III ,14.95,120.083
+1230,San Benito,Dinagat Islands,REGION XIII ,9.95,126.017
+1231,San Carlos City,Negros Occidental,REGION VI ,10.42,123.38
+1232,San Carlos City,Pangasinan,REGION I ,15.92806,120.34889
+1233,San Clemente,Tarlac,REGION III ,15.717,120.367
+1234,San Dionisio,Iloilo,REGION VI ,11.267,123.083
+1235,San Emilio,Ilocos Sur,REGION I ,17.233,120.617
+1236,San Enrique,Iloilo,REGION VI ,11.067,122.65
+1237,San Enrique,Negros Occidental,REGION VI ,10.417,122.85
+1238,San Esteban,Ilocos Sur,REGION I ,17.333,120.45
+1239,San Fabian,Pangasinan,REGION I ,16.15,120.45
+1240,San Felipe,Zambales,REGION III ,15.06194,120.07
+1241,San Fernando,Bukidnon,REGION X ,7.917,125.333
+1242,San Fernando,Camarines Sur,REGION V ,13.567,123.15
+1243,San Fernando,Cebu,REGION VII ,10.17,123.7
+1244,San Fernando,Masbate,REGION V ,12.483,123.75
+1245,San Fernando,Romblon,REGION IV-B ,12.317,122.6
+1246,San Fernando,La Union,REGION I ,16.617,120.317
+1247,San Francisco,Agusan del Sur,REGION XIII ,8.5,125.983
+1248,San Francisco,Cebu,REGION VII ,10.65,124.35
+1249,San Francisco,Quezon,REGION IV-A ,13.25,122.583
+1250,San Francisco,Southern Leyte,REGION VIII ,10.067,125.167
+1251,San Francisco,Dinagat Islands,REGION XIII ,9.733,125.417
+1252,San Gabriel,La Union,REGION I ,16.675,120.4
+1253,San Guillermo,Isabela,REGION II ,16.767,121.8
+1254,San Ildefonso,Bulacan,REGION III ,15.07889,120.94194
+1255,San Ildefonso,Ilocos Sur,REGION I ,17.617,120.4
+1256,San Isidro,Abra,CAR,17.467,120.6
+1257,San Isidro,Bohol,REGION VII ,9.8,124.3
+1258,San Isidro,Davao del Norte,REGION XI ,7.75,125.733
+1259,San Isidro,Davao Oriental,REGION XI ,6.833,126.083
+1260,San Isidro,Isabela,REGION II ,16.867,121.767
+1261,San Isidro,Leyte,REGION VIII ,11.417,124.35
+1262,San Isidro,Northern Samar,REGION VIII ,12.3566,124.3976
+1263,San Isidro,Nueva Ecija,REGION III ,15.267,120.9
+1264,San Isidro,Dinagat Islands,REGION XIII ,9.933,126.083
+1265,San Jacinto,Masbate,REGION V ,12.567,123.733
+1266,San Jacinto,Pangasinan,REGION I ,16.0725,120.44111
+1267,San Joaquin,Iloilo,REGION VI ,10.6,122.083
+1268,San Jorge,Samar,REGION VIII ,11.983,124.817
+1269,San Jose,Antique,REGION VI ,10.75,121.95
+1270,San Jose,Batangas,REGION IV-A ,13.87722,121.105
+1271,San Jose,Camarines Sur,REGION V ,13.717,123.517
+1272,San Jose,Negros Oriental,REGION VII ,9.417,123.233
+1273,San Jose,Northern Samar,REGION VIII ,12.5408,124.4864
+1274,San Jose,Occidental Mindoro,REGION IV-B ,12.35,121.067
+1275,San Jose,Romblon,REGION IV-B ,12.067,121.933
+1276,San Jose,Dinagat Islands,REGION XIII ,10.00833,125.58889
+1277,San Jose,Tarlac,REGION III ,15.4,120.333
+1278,San Jose City,Nueva Ecija,REGION III ,15.783,121
+1279,San Jose De Buan,Samar,REGION VIII ,12.05,125.07
+1280,San Jose del Monte City,Bulacan,REGION III ,14.81389,121.04528
+1281,San Juan,Abra,CAR,17.717,120.75
+1282,San Juan,Batangas,REGION IV-A ,13.833,121.4
+1283,San Juan,Ilocos Sur,REGION I ,17.72917,120.46083
+1284,San Juan,La Union,REGION I ,16.66889,120.34111
+1285,San Juan,Siquijor,REGION VII ,9.17,123.5
+1286,San Juan,Southern Leyte,REGION VIII ,10.267,125.183
+1287,San Juan City,Metro Manila,NCR,14.6,121.03
+1288,San Julian,Eastern Samar,REGION VIII ,11.75,125.45
+1289,San Leonardo,Nueva Ecija,REGION III ,15.367,120.967
+1290,San Lorenzo,Guimaras,REGION VI ,10.65,122.717
+1291,San Lorenzo Ruiz,Camarines Norte,REGION V ,14.117,122.867
+1292,San Luis,Agusan del Sur,REGION XIII ,8.47806,125.74389
+1293,San Luis,Aurora,REGION III ,15.717,121.517
+1294,San Luis,Batangas,REGION IV-A ,13.833,120.933
+1295,San Luis,Pampanga,REGION III ,15.04,120.79194
+1296,San Manuel,Isabela,REGION III ,17.017,121.633
+1297,San Manuel,Pangasinan,REGION II ,16.067,120.667
+1298,San Manuel,Tarlac,REGION I ,15.833,120.583
+1299,San Marcelino,Zambales,REGION III ,14.967,120.15
+1300,San Mariano,Isabela,REGION II ,16.983,122.017
+1301,San Mateo,Isabela,REGION IV-A ,16.883,121.583
+1302,San Mateo,Rizal,REGION II ,14.717,121.117
+1303,San Miguel,Bohol,REGION VII ,10,124.32
+1304,San Miguel,Bulacan,REGION III ,15.14583,120.97833
+1305,San Miguel,Catanduanes,REGION V ,13.633,124.3
+1306,San Miguel,Iloilo,REGION VI ,10.783,122.467
+1307,San Miguel,Leyte,REGION VIII ,11.267,124.833
+1308,San Miguel,Surigao del Sur,REGION XIII ,8.883,126
+1309,San Miguel,Zamboanga del Sur,REGION IX ,7.65,123.267
+1310,San Narciso,Quezon,REGION IV-A ,13.57,122.565
+1311,San Narciso,Zambales,REGION III ,15.017,120.083
+1312,San Nicolas,Batangas,REGION IV-A ,13.917,120.95
+1313,San Nicolas,Ilocos Norte,REGION I ,18.1725,120.59583
+1314,San Nicolas,Pangasinan,REGION I ,16.07,120.76528
+1315,San Pablo,Isabela,REGION II ,17.467,121.983
+1316,San Pablo,Zamboanga del Sur,REGION IX ,7.65,123.45
+1317,San Pablo City,Laguna,REGION IV-A ,14.07,121.32
+1318,San Pascual,Batangas,REGION IV-A ,13.8075,121.04194
+1319,San Pascual,Masbate,REGION V ,13.133,122.983
+1320,San Pedro,Laguna,REGION IV-A ,14.3583,121.0583
+1321,San Policarpo,Eastern Samar,REGION VIII ,12.183,125.5
+1322,San Quintin,Abra,CAR,17.54306,120.51917
+1323,San Quintin,Pangasinan,REGION I ,15.98444,120.815
+1324,San Rafael,Bulacan,REGION III ,14.95,120.967
+1325,San Rafael,Iloilo,REGION VI ,11.167,122.833
+1326,San Remigio,Antique,REGION VI ,10.88,122.12
+1327,San Remigio,Cebu,REGION VII ,11.05,123.98
+1328,San Ricardo,Southern Leyte,REGION VIII ,9.917,125.283
+1329,San Roque,Northern Samar,REGION VIII ,12.4433,124.8845
+1330,San Sebastian,Samar,REGION VIII ,11.7,125.017
+1331,San Simon,Pampanga,REGION III ,14.99306,120.77694
+1332,San Teodoro,Oriental Mindoro,REGION IV-B ,13.433,121.017
+1333,San Vicente,Camarines Norte,REGION V ,14.1,122.867
+1334,San Vicente,Ilocos Sur,REGION I ,17.58111,120.34694
+1335,San Vicente,Northern Samar,REGION VIII ,12.35,124.05
+1336,San Vicente,Palawan,REGION IV-B ,10.533,119.283
+1337,Sanchez-Mira,Cagayan,REGION II ,18.567,121.233
+1338,Santa,Ilocos Sur,REGION I ,17.49056,120.43722
+1339,Santa Ana,Cagayan,REGION II ,18.467,122.15
+1340,Santa Ana,Pampanga,REGION III ,15.09389,120.76806
+1341,Santa Barbara,Iloilo,REGION VI ,10.883,122.483
+1342,Santa Barbara,Pangasinan,REGION I ,16.00306,120.40083
+1343,Santa Catalina,Ilocos Sur,REGION I ,17.6,120.367
+1344,Santa Catalina,Negros Oriental,REGION VII ,9.333,122.867
+1345,Santa Cruz,Davao Occidental,REGION XI ,6.833,125.417
+1346,Santa Cruz,Ilocos Sur,REGION I ,17.02,120.47472
+1347,Santa Cruz,Laguna,REGION IV-A ,14.27861,121.41556
+1348,Santa Cruz,Marinduque,REGION IV-B ,13.47667,122.02667
+1349,Santa Cruz,Occidental Mindoro,REGION IV-B ,13.117,120.85
+1350,Santa Cruz,Zambales,REGION III ,15.767,119.917
+1351,Santa Elena,Camarines Norte,REGION V ,14.2,122.383
+1352,Santa Fe,Cebu,REGION VII ,11.15,123.82
+1353,Santa Fe,Leyte,REGION VIII ,11.183,124.917
+1354,Santa Fe,Nueva Vizcaya,REGION II ,16.16194,120.93889
+1355,Santa Fe,Romblon,REGION IV-B ,12.15,122
+1356,Santa Ignacia,Tarlac,REGION III ,15.617,120.433
+1357,Santa Josefa,Agusan del Sur,REGION XIII ,7.983,126.033
+1358,Santa Lucia,Ilocos Sur,REGION I ,17.117,120.45
+1359,Santa Magdalena,Sorsogon,REGION V ,12.65,124.1
+1360,Santa Marcela,Apayao,CAR,18.283,121.433
+1361,Santa Margarita,Samar,REGION VIII ,12.033,124.667
+1362,Santa Maria,Bulacan,REGION III ,14.817,120.95
+1363,Santa Maria,Davao Occidental,REGION XI ,6.55,125.467
+1364,Santa Maria,Ilocos Sur,REGION I ,17.35861,120.49806
+1365,Santa Maria,Isabela,REGION II ,17.467,121.75
+1366,Santa Maria,Laguna,REGION IV-A ,14.47,121.42611
+1367,Santa Maria,Pangasinan,REGION I ,15.98083,120.70028
+1368,Santa Maria,Romblon,REGION IV-B ,12.45,122.1
+1369,Santa Monica,Dinagat Islands,REGION XIII ,10.01944,126.03889
+1370,Santa Praxedes,Cagayan,REGION II ,18.567,121
+1371,Santa Rita,Pampanga,REGION III ,14.99528,120.61528
+1372,Santa Rita,Samar,REGION VIII ,11.467,124.95
+1373,Santa Rosa,Nueva Ecija,REGION III ,15.42389,120.93889
+1374,Santa Rosa City,Laguna,REGION IV-A ,14.32,121.12
+1375,Santa Teresita,Batangas,REGION IV-A ,13.883,120.967
+1376,Santa Teresita,Cagayan,REGION II ,18.25,121.883
+1377,Santander,Cebu,REGION VII ,9.45,123.33
+1378,Santiago,Agusan del Norte,REGION XIII ,9.267,125.567
+1379,Santiago,Ilocos Sur,REGION I ,17.3,120.45
+1380,Santiago City,Isabela,REGION II ,-33.45,-70.667
+1381,Santo Domingo,Albay,REGION V ,13.235,123.77694
+1382,Santo Domingo,Ilocos Sur,REGION I ,17.633,120.417
+1383,Santo Domingo,Nueva Ecija,REGION III ,15.583,120.867
+1384,Santo Ni?o,Cagayan,REGION II ,17.883,121.567
+1385,Santo Ni?o,Samar,REGION VIII ,11.93889,124.41944
+1386,Santo Ni?o,South Cotabato,REGION XII ,6.433,124.683
+1387,Santo Tomas,Batangas,REGION IV-A ,14.10917,121.14194
+1388,Santo Tomas,Davao del Norte,REGION XI ,7.533,125.617
+1389,Santo Tomas,Isabela,REGION II ,17.4,121.767
+1390,Santo Tomas,La Union,REGION I ,16.26361,120.39389
+1391,Santo Tomas,Pampanga,REGION III ,14.967,120.717
+1392,Santo Tomas,Pangasinan,REGION I ,15.71194,120.58472
+1393,Santol,La Union,REGION I ,16.767,120.45
+1394,Sapad,Lanao del Norte,REGION X ,7.85,123.833
+1395,Sapang Dalaga,Misamis Occidental,REGION X ,8.55,123.567
+1396,Sapa-Sapa,Tawi-Tawi,BARMM,5.075,120.175
+1397,Sapi-an,Capiz,REGION VI ,11.5,122.6
+1398,Sara,Iloilo,REGION VI ,11.25,123.017
+1399,Sarangani,Davao Occidental,REGION XI ,5.4,125.467
+1400,Sariaya,Quezon,REGION IV-A ,13.967,121.533
+1401,Sarrat,Ilocos Norte,REGION I ,18.167,120.65
+1402,Sasmuan,Pampanga,REGION III ,14.933,120.617
+1403,Science City Of Mu?oz,Nueva Ecija,REGION III ,15.717,120.9
+1404,Sebaste,Antique,REGION VI ,11.583,122.1
+1405,Senator Ninoy Aquino,Sultan Kudarat,REGION XII ,6.467,124.333
+1406,Sergio Osme?a Sr.,Zamboanga del Norte,REGION IX ,8.267,123.383
+1407,Sevilla,Bohol,REGION VII ,9.7,124.05
+1408,Shariff Aguak,Maguindanao,BARMM,6.86472,124.44167
+1409,Shariff Saydona Mustapha,Maguindanao,BARMM,6.9666694,124.5
+1410,Siasi,Sulu,BARMM,5.55,120.817
+1411,Siaton,Negros Oriental,REGION VII ,9.067,123.033
+1412,Siay,Zamboanga Sibugay,REGION IX ,7.717,122.883
+1413,Siayan,Zamboanga del Norte,REGION IX ,8.133,123.1
+1414,Sibagat,Agusan del Sur,REGION XIII ,8.817,125.7
+1415,Sibalom,Antique,REGION VI ,10.783,122.017
+1416,Sibonga,Cebu,REGION VII ,10.03,123.57
+1417,Sibuco,Zamboanga del Norte,REGION IX ,7.283,122.067
+1418,Sibulan,Negros Oriental,REGION VII ,9.35,123.283
+1419,Sibunag,Guimaras,REGION VI ,10.5,122.667
+1420,Sibutad,Zamboanga del Norte,REGION IX ,8.6,123.467
+1421,Sibutu,Tawi-Tawi,BARMM,4.683,119.467
+1422,Sierra Bullones,Bohol,REGION VII ,9.82,124.28
+1423,Sigay,Ilocos Sur,REGION I ,17.033,120.583
+1424,Sigma,Capiz,REGION VI ,11.417,122.667
+1425,Sikatuna,Bohol,REGION VII ,9.68,123.97
+1426,Silago,Southern Leyte,REGION VIII ,10.533,125.15
+1427,Silang,Cavite,REGION IV-A ,14.233,120.983
+1428,Silay City,Negros Occidental,REGION VI ,10.8,122.967
+1429,Silvino Lobos,Northern Samar,REGION VIII ,12.3,124.833
+1430,Simunul,Tawi-Tawi,BARMM,4.9,119.833
+1431,Sinacaban,Misamis Occidental,REGION X ,8.283,123.733
+1432,Sinait,Ilocos Sur,REGION I ,17.86611,120.45806
+1433,Sindangan,Zamboanga del Norte,REGION IX ,8.233,123
+1434,Siniloan,Laguna,REGION IV-A ,14.417,121.45
+1435,Siocon,Zamboanga del Norte,REGION IX ,7.7,122.133
+1436,Sipalay City,Negros Occidental,REGION VI ,9.75,122.4
+1437,Sipocot,Camarines Sur,REGION V ,13.767,122.983
+1438,Siquijor,Siquijor,REGION VII ,9.22,123.52
+1439,Sirawai,Zamboanga del Norte,REGION IX ,7.583,122.133
+1440,Siruma,Camarines Sur,REGION V ,14,123.25
+1441,Sison,Pangasinan,REGION I ,16.15694,120.52222
+1442,Sison,Dinagat Islands,REGION XIII ,9.667,125.533
+1443,Sitangkai,Tawi-Tawi,BARMM,4.667,119.4
+1444,Socorro,Oriental Mindoro,REGION IV-B ,13.067,121.4
+1445,Socorro,Dinagat Islands,REGION XIII ,9.633,125.95
+1446,Sofronio Espa?ola,Palawan,REGION IV-B ,9.05,118.033
+1447,Sogod,Cebu,REGION VII ,10.75,124
+1448,Sogod,Leyte,REGION VIII ,10.4329,124.9948
+1449,Sogod,Southern Leyte,REGION VIII ,10.383,124.983
+1450,Solana,Cagayan,REGION II ,17.655,121.68889
+1451,Solano,Nueva Vizcaya,REGION II ,16.52389,121.19194
+1452,Solsona,Ilocos Norte,REGION I ,18.1,120.767
+1453,Sominot,Zamboanga del Sur,REGION IX ,8.017,123.367
+1454,Sorsogon City,Sorsogon,REGION V ,12.97,124
+1455,South Ubian,Tawi-Tawi,BARMM,5.183,120.483
+1456,South Upi,Maguindanao,BARMM,6.8548444,124.1443028
+1457,Sual,Pangasinan,REGION I ,16.067,120.1
+1458,Subic,Zambales,REGION III ,14.9,120.233
+1459,Sudipen,La Union,REGION I ,16.9,120.45
+1460,Sugbongcogon,Misamis Oriental,REGION X ,8.95,124.783
+1461,Sugpon,Ilocos Sur,REGION I ,16.85,120.517
+1462,Sulat,Eastern Samar,REGION VIII ,11.817,125.45
+1463,Sulop,Davao Occidental,REGION XI ,6.6,125.35
+1464,Sultan Dumalondong,Lanao del Sur,BARMM,7.67778,124.26778
+1465,Sultan Kudarat,Maguindanao,BARMM,7.233,124.25
+1466,Sultan Mastura,Maguindanao,BARMM,7.283,124.3
+1467,Sultan Naga Dimaporo,Lanao del Norte,REGION X ,7.783,123.75
+1468,Sultan sa Barongis,Maguindanao,BARMM,6.8,124.63333
+1469,Sumilao,Bukidnon,REGION X ,8.283,124.95
+1470,Sumisip,Basilan,BARMM,6.417,121.983
+1471,Surallah,South Cotabato,REGION XII ,6.367,124.733
+1472,Surigao City,Dinagat Islands,REGION XIII ,9.78,125.48
+1473,Suyo,Ilocos Sur,REGION I ,16.98,120.52694
+1474,Taal,Batangas,REGION IV-A ,13.89417,120.92917
+1475,Tabaco City,Albay,REGION V ,13.35944,123.73028
+1476,Tabango,Leyte,REGION VIII ,11.317,124.367
+1477,Tabina,Zamboanga del Sur,REGION IX ,7.467,123.417
+1478,Tabogon,Cebu,REGION VII ,10.93,124.03
+1479,Tabontabon,Leyte,REGION VIII ,11.03,124.97
+1480,Tabuan-Lasa,Basilan,BARMM,6.35,121.967
+1481,Tabuelan,Cebu,REGION VII ,10.82,123.87
+1482,Tabuk,Kalinga,CAR,17.45,121.45833
+1483,Tacloban City,Leyte,REGION VIII ,11.24,125
+1484,Tacurong City,Sultan Kudarat,REGION XII ,6.683,124.667
+1485,Tadian,Mountain Province,CAR,17,120.817
+1486,Taft,Eastern Samar,REGION VIII ,11.9,125.417
+1487,Tagana-an,Dinagat Islands,REGION XIII ,9.7,125.583
+1488,Tagapul-an,Samar,REGION VIII ,12.05,124.15
+1489,Tagaytay City,Cavite,REGION IV-A ,14.1,120.933
+1490,Tagbilaran City,Bohol,REGION VII ,9.65,123.85
+1491,Tagbina,Surigao del Sur,REGION XIII ,8.45,126.167
+1492,Tagkawayan,Quezon,REGION IV-A ,13.967,122.533
+1493,Tago,Surigao del Sur,REGION XIII ,8.967,126.15
+1494,Tagoloan,Lanao del Norte,REGION X ,8.133,124.267
+1495,Tagoloan,Misamis Oriental,REGION X ,8.533,124.75
+1496,Tagoloan II,Lanao del Sur,BARMM,8.10917,124.43917
+1497,Tagudin,Ilocos Sur,REGION I ,16.933,120.45
+1498,Taguig,Metro Manila,NCR,14.52,121.05
+1499,Tagum City,Davao del Norte,REGION XI ,7.45,125.8
+1500,Talacogon,Agusan del Sur,REGION XIII ,8.45,125.783
+1501,Talaingod,Davao del Norte,REGION XI ,7.617,125.617
+1502,Talakag,Bukidnon,REGION X ,8.233,124.6
+1503,Talalora,Samar,REGION VIII ,11.517,124.85
+1504,Talavera,Nueva Ecija,REGION III ,15.583,120.917
+1505,Talayan,Maguindanao,BARMM,6.96667,124.41667
+1506,Talibon,Bohol,REGION VII ,10.12,124.28
+1507,Talipao,Sulu,BARMM,5.933,121.1
+1508,Talisay,Batangas,REGION IV-A ,14.1,121.017
+1509,Talisay,Camarines Norte,REGION V ,14.133,122.917
+1510,Talisay City,Cebu,REGION VII ,10.25,123.83
+1511,Talisay City,Negros Occidental,REGION VI ,10.733,122.967
+1512,Talisayan,Misamis Oriental,REGION X ,8.99167,124.88333
+1513,Talitay,Maguindanao,BARMM,6.99667,124.70528
+1514,Talugtug,Nueva Ecija,REGION III ,15.77889,120.81111
+1515,Talusan,Zamboanga Sibugay,REGION IX ,7.333,122.883
+1516,Tambulig,Zamboanga del Sur,REGION IX ,8.067,123.533
+1517,Tampakan,South Cotabato,REGION XII ,6.45,124.933
+1518,Tamparan,Lanao del Sur,BARMM,7.883,124.333
+1519,Tampilisan,Zamboanga del Norte,REGION IX ,8.017,122.683
+1520,Tanauan,Leyte,REGION VIII ,11.12,125.02
+1521,Tanauan City,Batangas,REGION IV-A ,14.083,121.15
+1522,Tanay,Rizal,REGION IV-A ,14.5,121.283
+1523,Tandag City,Surigao del Sur,REGION XIII ,9.067,126.183
+1524,Tandubas,Tawi-Tawi,BARMM,5.25,120.283
+1525,Tangalan,Aklan,REGION VI ,11.767,122.25
+1526,Tangcal,Lanao del Norte,REGION X ,8,124
+1527,Tangub City,Misamis Occidental,REGION X ,8.067,123.75
+1528,Tanjay City,Negros Oriental,REGION VII ,9.517,123.1583
+1529,Tantangan,South Cotabato,REGION XII ,6.617,124.75
+1530,Tanudan,Kalinga,CAR,17.3,121.233
+1531,Tanza,Cavite,REGION IV-A ,14.4,120.833
+1532,Tapaz,Capiz,REGION VI ,11.267,122.533
+1533,Tapul,Sulu,BARMM,5.717,120.9
+1534,Taraka,Lanao del Sur,BARMM,7.9,124.35
+1535,Tarangnan,Samar,REGION VIII ,11.9,124.75
+1536,Tarlac City,Tarlac,REGION III ,15.467,120.583
+1537,Tarragona,Davao Oriental,REGION XI ,7.05,126.45
+1538,Tayabas City,Quezon,REGION IV-A ,14.017,121.583
+1539,Tayasan,Negros Oriental,REGION VII ,9.917,123.15
+1540,Taysan,Batangas,REGION IV-A ,13.74194,121.22306
+1541,Taytay,Palawan,REGION IV-B ,10.817,119.517
+1542,Taytay,Rizal,REGION IV-A ,14.567,121.133
+1543,Tayug,Pangasinan,REGION I ,16.02361,120.74778
+1544,Tayum,Abra,CAR,17.617,120.65
+1545,Tboli,South Cotabato,REGION XII ,6.1468,124.9066
+1546,Teresa,Rizal,REGION IV-A ,14.567,121.2
+1547,Ternate,Cavite,REGION IV-A ,14.283,120.717
+1548,Tiaong,Quezon,REGION IV-A ,13.95,121.317
+1549,Tibiao,Antique,REGION VI ,11.283,122.05
+1550,Tigaon,Camarines Sur,REGION V ,13.633,123.5
+1551,Tigbao,Zamboanga del Sur,REGION IX ,7.817,123.283
+1552,Tigbauan,Iloilo,REGION VI ,10.717,122.383
+1553,Tinambac,Camarines Sur,REGION V ,13.817,123.333
+1554,Tineg,Abra,CAR,17.767,120.933
+1555,Tinglayan,Kalinga,CAR,17.283,121.167
+1556,Tingloy,Batangas,REGION IV-A ,13.65,120.867
+1557,Tinoc,Ifugao,CAR,16.7,120.9
+1558,Tipo-Tipo,Basilan,BARMM,6.533,122.167
+1559,Titay,Zamboanga Sibugay,REGION IX ,7.85,122.55
+1560,Tiwi,Albay,REGION V ,13.45,123.683
+1561,Tobias Fornier,Antique,REGION VI ,10.517,121.95
+1562,Toboso,Negros Occidental,REGION VI ,10.717,123.517
+1563,Toledo City,Cebu,REGION VII ,10.38,123.65
+1564,Tolosa,Leyte,REGION VIII ,11.033,125.017
+1565,Tomas Oppus,Southern Leyte,REGION VIII ,10.25,124.983
+1566,Torrijos,Marinduque,REGION IV-B ,13.317,122.083
+1567,Trece Martires City,Cavite,REGION IV-A ,14.283,120.85
+1568,Trento,Agusan del Sur,REGION XIII ,8.05,126.067
+1569,Trinidad,Bohol,REGION VII ,10.05,124.35
+1570,Tuao,Cagayan,REGION II ,17.733,121.45
+1571,Tuba,Benguet,CAR,16.317,120.55
+1572,Tubajon,Dinagat Islands,REGION XIII ,10.3,125.567
+1573,Tubao,La Union,REGION I ,16.35,120.417
+1574,Tubaran,Lanao del Sur,BARMM,7.717,124.167
+1575,Tubay,Agusan del Norte,REGION XIII ,9.167,125.533
+1576,Tubigon,Bohol,REGION VII ,9.95,123.97
+1577,Tublay,Benguet,CAR,16.517,120.617
+1578,Tubo,Abra,CAR,17.167,120.717
+1579,Tubod,Lanao del Norte,REGION X ,8.05,123.8
+1580,Tubod,Dinagat Islands,REGION XIII ,9.567,125.567
+1581,Tubungan,Iloilo,REGION VI ,10.783,122.3
+1582,Tuburan,Basilan,BARMM,6.6,122.2
+1583,Tuburan,Cebu,REGION VII ,10.73,123.83
+1584,Tudela,Cebu,REGION VII ,10.63,124.47
+1585,Tudela,Misamis Occidental,REGION X ,8.25,123.833
+1586,Tugaya,Lanao del Sur,BARMM,7.883,124.167
+1587,Tuguegarao City,Cagayan,REGION II ,17.617,121.717
+1588,Tukuran,Zamboanga del Sur,REGION IX ,7.85,123.583
+1589,Tulunan,North Cotabato,REGION XII ,6.833,124.883
+1590,Tumauini,Isabela,REGION II ,17.267,121.8
+1591,Tunga,Leyte,REGION VIII ,11.25,124.75
+1592,Tungawan,Zamboanga Sibugay,REGION IX ,7.5,122.367
+1593,Tupi,South Cotabato,REGION XII ,6.333,124.95
+1594,Turtle Islands,Tawi-Tawi,BARMM,6.083,118.317
+1595,Tuy,Batangas,REGION IV-A ,14.017,120.733
+1596,Ubay,Bohol,REGION VII ,10.05,124.47
+1597,Umingan,Pangasinan,REGION I ,15.9,120.8
+1598,Ungkaya Pukan,Basilan,BARMM,6.5,122.117
+1599,Unisan,Quezon,REGION IV-A ,13.833,121.983
+1600,Upi,Maguindanao,BARMM,7.02889,124.165
+1601,Urbiztondo,Pangasinan,REGION I ,15.817,120.35
+1602,Urdaneta City,Pangasinan,REGION I ,15.97611,120.57111
+1603,Uson,Masbate,REGION V ,12.217,123.783
+1604,Uyugan,Batanes,REGION II ,20.35,121.933
+1605,Valderrama,Antique,REGION VI ,11,122.133
+1606,Valencia,Bohol,REGION VII ,9.62,124.2
+1607,Valencia,Negros Oriental,REGION VII ,9.283,123.25
+1608,Valencia City,Bukidnon,REGION X ,7.9,125.083
+1609,Valenzuela City,Metro Manila,NCR,14.7011,120.983
+1610,Valladolid,Negros Occidental,REGION VI ,10.467,122.833
+1611,Vallehermoso,Negros Oriental,REGION VII ,10.333,123.317
+1612,Veruela,Agusan del Sur,REGION XIII ,8.033,125.9
+1613,Victoria,Laguna,REGION IV-A ,14.22694,121.32806
+1614,Victoria,Northern Samar,REGION VIII ,12.45,124.317
+1615,Victoria,Oriental Mindoro,REGION IV-B ,13.367,121.2
+1616,Victoria,Tarlac,REGION III ,15.57806,120.68194
+1617,Victorias City,Negros Occidental,REGION VI ,10.9,123.083
+1618,Viga,Catanduanes,REGION V ,13.867,124.3
+1619,Vigan City,Ilocos Sur,REGION I ,17.57,120.38
+1620,Villaba,Leyte,REGION VIII ,11.217,124.4
+1621,Villanueva,Misamis Oriental,REGION X ,8.583,124.783
+1622,Villareal,Samar,REGION VIII ,11.567,124.933
+1623,Villasis,Pangasinan,REGION I ,15.9,120.583
+1624,Villaverde,Nueva Vizcaya,REGION II ,16.583,121.2
+1625,Villaviciosa,Abra,CAR,17.433,120.633
+1626,Vincenzo A. Sagun,Zamboanga del Sur,REGION IX ,7.517,123.167
+1627,Vintar,Ilocos Norte,REGION I ,18.23,120.64194
+1628,Vinzons,Camarines Norte,REGION V ,14.183,122.9
+1629,Virac,Catanduanes,REGION V ,13.583,124.233
+1630,Wao,Lanao del Sur,BARMM,7.683,124.683
+1631,Zamboanga City,Zamboanga del Sur,REGION IX ,6.9214,122.079
+1632,Zamboanguita,Negros Oriental,REGION VII ,9.117,123.2
+1633,Zaragoza,Nueva Ecija,REGION III ,15.45306,120.79111
+1634,Zarraga,Iloilo,REGION VI ,10.817,122.6
+1635,Zumarraga,Samar,REGION VIII ,11.633,124.85

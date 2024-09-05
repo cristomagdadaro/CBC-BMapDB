@@ -18,10 +18,8 @@ class ProvinceSeeder extends Seeder
 
         foreach ($provinces as $province) {
             Province::factory()->create([
-                'psgcCode' => $province['psgcCode'],
-                'provDesc' => $province['provDesc'],
-                'regCode' => $province['regCode'],
-                'provCode' => $province['provCode'],
+                'provDesc' => trim($province['provDesc']),
+                'regDesc' => trim($province['regDesc']),
             ]);
         }
 

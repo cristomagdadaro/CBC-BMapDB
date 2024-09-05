@@ -14,16 +14,14 @@ class City extends BaseModel
     protected $fillable = [
         'latitude',
         'longitude',
-        'psgcCode',
-        'citymunDesc',
-        'regDesc',
+        'cityDesc',
         'provDesc',
-        'countryDesc',
+        'regDesc',
     ];
 
     public function province()
     {
-        return $this->belongsTo(Province::class, 'provCode', 'provCode');
+        return $this->belongsTo(Province::class, 'provDesc', 'provDesc');
     }
 
     public function region()

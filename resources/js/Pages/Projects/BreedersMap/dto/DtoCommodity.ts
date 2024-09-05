@@ -2,6 +2,10 @@ import ICommodity from "../interface/ICommodity";
 import IBreeder from "../interface/IBreeder";
 import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
 import Breeder from "../domain/Breeder";
+import ICity from "../../../../Modules/core/interface/location/ICity";
+import IProvince from "../../../../Modules/core/interface/location/IProvince";
+import IRegion from "../../../../Modules/core/interface/location/IRegion";
+import ICountry from "../../../../Modules/core/interface/location/ICountry";
 
 export default class DtoCommodity extends BaseClass implements ICommodity {
     id: number;
@@ -15,12 +19,10 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     maturity_period: string;
     yield: string;
     description: string;
-    latitude: string;
-    longitude: string;
-    city: string;
-    province: string;
-    region: string;
-    country: string;
+    city: ICity;
+    province: IProvince;
+    region: IRegion;
+    country: ICountry;
     status: string;
     created_at: string;
     updated_at: string;
@@ -41,8 +43,6 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.maturity_period = commodity.maturity_period;
         this.yield = commodity.yield;
         this.description = commodity.description;
-        this.latitude = commodity.latitude;
-        this.longitude = commodity.longitude;
         this.city = commodity.city;
         this.province = commodity.province;
         this.region = commodity.region;

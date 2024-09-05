@@ -7,6 +7,11 @@ import Tab from "@/Components/Tab/Tab.vue";
 import Summary from "@/Pages/Projects/BreedersMap/presentation/components/summary/Summary.vue";
 
 export default {
+    computed: {
+        Commodity() {
+            return Commodity
+        }
+    },
     components: {
         Head,
         Map,

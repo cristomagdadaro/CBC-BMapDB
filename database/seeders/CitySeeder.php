@@ -17,13 +17,11 @@ class CitySeeder extends Seeder
         foreach ($ph_cities as $city) {
             City::factory()->create(
                 [
-                    /*'latitude' => $city['latitude'],
-                    'longitude' => $city['longitude'],*/
-                    'psgcCode' => $city['psgcCode'],
-                    'citymunDesc' => $city['citymunDesc'],
+                    'latitude' => trim($city['latitude']),
+                    'longitude' => trim($city['longitude']),
+                    'cityDesc' => $city['cityDesc'],
                     'regDesc' => $city['regDesc'],
-                    'provCode' => $city['provCode'],
-                    'citymunCode' => $city['citymunCode'],
+                    'provDesc' => $city['provDesc'],
                 ]
             );
         }
