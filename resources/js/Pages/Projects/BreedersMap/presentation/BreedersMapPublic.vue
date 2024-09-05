@@ -45,7 +45,7 @@ export default {
 <template>
     <Head title="Breeders' Map" />
     <page-layout>
-        <div class="shadow-lg bg-gray-100 rounded-md sm:p-4 p-1 flex flex-col gap-2">
+        <div id="bm-welcome-box" class="shadow-lg bg-gray-100 rounded-md sm:p-4 p-1 flex flex-col gap-2">
             <div>
                 <h1 class="text-2xl font-medium font-monospace">
                     Welcome to the Breeders' Map
@@ -54,7 +54,7 @@ export default {
                     This interactive platform provides a comprehensive overview of the Philippines' biotechnology-driven plant breeding community. Locate breeders specializing in various priority commodities and explore their expertise in applying cutting-edge biotechnological techniques to develop improved crop varieties. This map serves as a valuable tool for collaboration, knowledge sharing, and advancing agricultural innovation through biotechnology.
                 </p>
                 <div>
-                    <button class="bg-gray-300 rounded py-0.5 px-2 text-sm">Quick Guide?</button>
+                    <button id="bm-qg-start" class="bg-gray-300 rounded py-0.5 px-2 text-sm">Quick Guide?</button>
                 </div>
             </div>
         </div>

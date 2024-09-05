@@ -17,11 +17,13 @@ import TD from "@/Components/CRCMDatatable/Components/TD.vue";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import FilterIcon from "@/Components/Icons/FilterIcon.vue";
 import CollapsableMenu from "@/Components/Collapsable/CollapsableMenu/CollapsableMenu.vue";
+import BreedersMapOnboarding from "@/Pages/Projects/BreedersMap/presentation/OnboardingBM/BreedersMapOnboarding.vue";
 
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, PointElement, LineElement)
 export default {
     name: "Summary",
     components: {
+        BreedersMapOnboarding,
         CollapsableMenu,
         FilterIcon,
         TD,
@@ -315,13 +317,15 @@ export default {
 
 <template>
     <div class="shadow-lg bg-gray-100 rounded-md sm:p-4 p-1 flex flex-col gap-2">
+        <breeders-map-onboarding />
         <div>
-            <div class="flex flex-col gap-1">
+            <div id="bm-coloropacity-slider" class="flex flex-col gap-1">
                 <label>Color Opacity: {{colorOpacity}}</label>
                 <input type="range" min="0.01" max="1.1" step="0.01" v-model="colorOpacity">
             </div>
-            <collapsable-menu label="Filters" open-default>
+            <collapsable-menu id="bm-filter-dropdown" label="Filters" open-default>
                 <custom-dropdown
+                    id="bm-listfilter-dropdown"
                     label="Select a list"
                     :value="filter.table_name"
                     :withAllOption="false"
@@ -336,6 +340,7 @@ export default {
                     </template>
                 </custom-dropdown>
                 <custom-dropdown
+                    id="bm-commodityfilter-dropdown"
                     v-if="data && data.commodity_labels && filter.table_name === 'commodities'"
                     label="Select a specific commodity"
                     searchable
@@ -351,6 +356,7 @@ export default {
                     </template>
                 </custom-dropdown>
                 <custom-dropdown
+                    id="bm-locationfilter-dropdown"
                     label="Group by"
                     :value="filter.group_by"
                     :withAllOption="false"
@@ -366,6 +372,7 @@ export default {
                     </template>
                 </custom-dropdown>
                 <custom-dropdown
+                    id="bm-cprfilter-dropdown"
                     v-if="data && data.group_search_labels"
                     searchable
                     :label="`Select a specific ${filter.group_by}`"
@@ -384,7 +391,7 @@ export default {
             <div class="text-center py-2 my-3 rounded text-gray-700 text-2xl">
                 {{ filter.commodity? `${filter.commodity} studies` : `List of ${filter.table_name }` }} {{ filter.search ? `in ${filter.search}` : ` grouped by ${filter.group_by}` }}
             </div>
-            <div class="flex justify-evenly items-center my-5 gap-0.5">
+            <div id="bm-data-charts" class="flex justify-evenly items-center my-5 gap-0.5">
                 <div v-if="data.chart_data && !filter.search" class="flex justify-center" style="width: 100%; height: auto">
                     <Bar
                         id="my-chart-id"
@@ -432,6 +439,7 @@ export default {
             </div>
             <div class="w-full flex flex-row gap-1 my-2">
                 <search-box
+                    id="bm-search-box"
                     :value="filter.search"
                     :options="{}"
                     :label="filter.search ?? 'Select a place'"
@@ -440,7 +448,8 @@ export default {
                     @focusin="showListOfPlaces = true"
                     class="w-full"
                 />
-                <search-by :value="filter.filter"
+                <search-by id="bm-columnsfilter-dropdown"
+                           :value="filter.filter"
                            :is-exact="filter.is_exact"
                            :options="Commodity.getColumns().map(column => {
                                  return {
@@ -452,7 +461,7 @@ export default {
                            @searchBy="filter.filter = $event"
                 />
             </div>
-            <div v-if="data.commodities" class="text-xs">
+            <div id="bm-data-table" v-if="data.commodities" class="text-xs">
                 <crcm-table>
                     <crcm-thead>
                         <thead-row>
