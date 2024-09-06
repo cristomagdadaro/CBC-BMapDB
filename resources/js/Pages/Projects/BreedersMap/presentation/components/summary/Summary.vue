@@ -17,7 +17,7 @@ import TD from "@/Components/CRCMDatatable/Components/TD.vue";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import FilterIcon from "@/Components/Icons/FilterIcon.vue";
 import CollapsableMenu from "@/Components/Collapsable/CollapsableMenu/CollapsableMenu.vue";
-import BreedersMapOnboarding from "@/Pages/Projects/BreedersMap/presentation/OnboardingBM/BreedersMapOnboarding.vue";
+import BreedersMapOnboarding from "@/Pages/Projects/BreedersMap/presentation/components/OnboardingBM/BreedersMapOnboarding.vue";
 
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, PointElement, LineElement)
 export default {
@@ -475,7 +475,7 @@ export default {
                             <t-h column="Yield" />
                         </thead-row>
                     </crcm-thead>
-                    <crcm-tbody>
+                    <crcm-tbody class="max-h-[100vh] overflow-y-auto">
                         <tbody-row v-if="data.commodities.length" v-for="commodity in data.commodities">
                             <t-d>{{ commodity.name }}</t-d>
                             <t-d>{{ commodity.scientific_name }}</t-d>

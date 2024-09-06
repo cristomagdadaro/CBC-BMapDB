@@ -9,6 +9,6 @@
 @layer components{
     /* class for responsive screen size*/
     .resp-container{
-        @apply sm:mx-20 md:mx-40 lg:mx-60 mx-2;
+        @apply mx-2 sm:mx-10 xl:mx-60 min-w-[360px];
     }
 }

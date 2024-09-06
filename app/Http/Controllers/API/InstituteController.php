@@ -18,7 +18,26 @@ class InstituteController extends BaseController
     public function index(GetInstituteRequest $request)
     {
         $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        //make the name column as the id
+        $data = $data->map(function ($item) {
+            return [
+                'id' => $item['name'],
+                'name' => $item['name'],
+                'inst_type' => $item['inst_type'],
+                'city' => $item['city'],
+                'province' => $item['province'],
+                'region' => $item['region'],
+                'website' => $item['website'],
+                'email' => $item['email'],
+                'phone' => $item['phone'],
+            ];
+        });
+        return [
+            'data' => $data,
+            'meta' => [
+                'total' => $data->count(),
+            ],
+        ];
     }
 
     public function show($id)

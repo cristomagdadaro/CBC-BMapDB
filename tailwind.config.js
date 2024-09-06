@@ -23,6 +23,7 @@ export default {
                 'cbc-light-green': '#d3d75e',
                 'cbc-olive-green': '#acc638',
                 'cbc-yellow': '#F7C806',
+                'cbc-footer': '#212120',
                 'add': '#005B41',
                 'view': '#F7C806',
                 'edit': '#95BB76',

@@ -45,18 +45,14 @@ export default {
 <template>
     <Head title="Breeders' Map" />
     <page-layout>
-        <div id="bm-welcome-box" class="shadow-lg bg-gray-100 rounded-md sm:p-4 p-1 flex flex-col gap-2">
-            <div>
-                <h1 class="text-2xl font-medium font-monospace">
-                    Welcome to the Breeders' Map
-                </h1>
-                <p>
-                    This interactive platform provides a comprehensive overview of the Philippines' biotechnology-driven plant breeding community. Locate breeders specializing in various priority commodities and explore their expertise in applying cutting-edge biotechnological techniques to develop improved crop varieties. This map serves as a valuable tool for collaboration, knowledge sharing, and advancing agricultural innovation through biotechnology.
-                </p>
-                <div>
-                    <button id="bm-qg-start" class="bg-gray-300 rounded py-0.5 px-2 text-sm">Quick Guide?</button>
-                </div>
-            </div>
+        <div id="bm-welcome-box"  class="text-gray-900 bg-cbc-olive-green flex flex-col sm:gap-1 gap-3 sm:p-5 p-8 sm:text-left text-center drop-shadow-lg rounded-md">
+            <p class="flex items-center gap-2 font-medium sm:text-3xl text-xl sm:leading-relaxed leading-tight">
+                <span>Welcome to the Breeders' Map</span> <button id="bm-qg-start" class="bg-gray-300 rounded py-0.5 px-2 text-sm">Quick Guide?</button>
+            </p>
+            <p class="leading-relaxed sm:text-left text-justify sm:text-lg text-sm">
+                This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
+            </p>
+
         </div>
         <Tab :tabs="tabs" class="z-[999]">
             <template #tab1>

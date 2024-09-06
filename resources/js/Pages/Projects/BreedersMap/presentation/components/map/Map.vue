@@ -196,8 +196,9 @@ export default {
             this.placesSearched = this.placesFiltered;
         },
         selectPoint(point) {
+            console.log(point);
             if (!this.$refs.map) return;
-                this.mapApi.selectPoint(point);
+            this.mapApi.selectPoint(point);
         },
         updateCenter(center) {
             this.mapApi.updateCenter(center);
@@ -349,9 +350,9 @@ export default {
                     :radius="5"
                     color="#3DA5B4"
                     :weight="1"
-                    @click="selectPoint(place)"
+                    @click="selectPoint([place.city.latitude, place.city.longitude])"
                 >
-                    <l-tooltip :content="place.city" />
+                    <l-tooltip :content="place.city.cityDesc" />
                 </l-circle-marker>
                 <l-control>
                     <FullscreenToggle :element="$refs.mapContainer" />

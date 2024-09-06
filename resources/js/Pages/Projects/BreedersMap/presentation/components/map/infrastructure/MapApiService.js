@@ -145,7 +145,7 @@ export default class MapApiService{
     }
 
     selectPoint(point) {
-        this._markerLatLng = [point.latitude, point.longitude];
+        this._markerLatLng = point;
         this._selectedPlace = point;
         this.updateCenter(this._markerLatLng);
         this.updateZoom(8);

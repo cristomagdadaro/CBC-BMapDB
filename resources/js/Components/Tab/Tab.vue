@@ -42,6 +42,12 @@ export default {
         else
             this.activeTab = null;
     },
+    mounted() {
+        if (this.tabs) {
+            this.activeTab = this.tabs[0];
+            this.setActiveTab(this.activeTab);
+        }
+    }
 };
 </script>
 <template>

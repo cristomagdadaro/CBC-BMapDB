@@ -1,7 +1,7 @@
 import IRole from "../interface/auth/IRole";
-import Permission from "../domain/auth/Permission";
 import IPermission from "../interface/auth/IPermission";
 import BaseClass from "../domain/base/BaseClass";
+import DtoPermission from "./DtoPermission";
 
 export default class DtoRole extends BaseClass implements IRole {
     id: number = null;
@@ -16,7 +16,6 @@ export default class DtoRole extends BaseClass implements IRole {
         this.name = dto.name;
         this.guard_name = dto.guard_name;
         if (dto.permissions)
-            //@ts-ignore
-            this.permissions = dto.permissions.map(permission => new Permission(permission));
+            this.permissions = dto.permissions.map(permission => new DtoPermission(permission));
     }
 }

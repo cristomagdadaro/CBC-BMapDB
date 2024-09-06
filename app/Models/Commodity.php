@@ -78,6 +78,6 @@ class Commodity extends BaseModel
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'city', 'citymunDesc');
+        return $this->belongsTo(City::class, 'city', 'cityDesc');
     }
 }

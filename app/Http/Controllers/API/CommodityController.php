@@ -47,94 +47,37 @@ class CommodityController extends BaseController
         $is_exact = $request->validated('is_exact');
         $commodity = $request->all()['commodity'] ?? null;
 
-        if ($search)
+        $commodities = $this->applyFilters($model, $commodity, $search, $is_exact, $group_by)->get();
+        $chart_data = $this->applyFilters($model->selectRaw("$group_by as label, count(*) as total"), $commodity, $search, $is_exact, $group_by)
+            ->groupBy($group_by)
+            ->orderBy('total', 'desc')
+            ->get();
+        $commodities_chart = $this->applyFilters($model->selectRaw('name as label, count(*) as total'), $commodity, $search, $is_exact, $group_by)
+            ->groupBy('name')
+            ->orderBy('total', 'desc')
+            ->get();
+
         return response()->json([
-            'group_search_labels' => $this->getGroupByLabels($group_by),
-            'commodity_labels' => $this->getCommodityLabels(),
-            'chart_data' => $model->selectRaw($group_by.' as label, count(*) as total')
-                ->when($search, function ($query) use ($commodity, $search, $is_exact, $group_by) {
-                    if ($commodity)
-                        return $query->where('name', $commodity);
-                    else if ($is_exact == 'true') {
-                        return $query->where($group_by, $search);
-                    } else {
-                        return $query->where($group_by, 'like', '%'.$search.'%');
-                    }
-                })
-                ->groupBy($group_by)
-                ->orderBy('total', 'desc')
-                ->get(),
-            'commodities' => $model->when($search, function ($query) use ($commodity, $search, $is_exact, $group_by) {
-                if ($commodity)
-                    return $query->where('name', $commodity);
-                else if ($is_exact == 'true') {
+            'commodity_labels' => $this->getCommodityLabels($model, $search, $is_exact, $group_by),
+            'group_search_labels' => $this->getGroupByLabels($model, $commodity, $group_by),
+            'chart_data' => $chart_data,
+            'commodities_chart' => $commodities_chart,
+            'commodities_linechart' => $this->linechartData($model, $search, $is_exact, $group_by, $commodity),
+            'commodities' => $commodities,
+        ]);
+    }
+
+    private function applyFilters($model, $commodity, $search, $is_exact, $group_by) {
+        return $model->when($commodity, function ($query) use ($commodity) {
+            return $query->where('name', $commodity);
+        })
+            ->when($search, function ($query) use ($search, $is_exact, $group_by) {
+                if ($is_exact === 'true') {
                     return $query->where($group_by, $search);
                 } else {
                     return $query->where($group_by, 'like', '%'.$search.'%');
                 }
-            })
-                ->where($group_by, 'like', '%'.$search.'%')
-                ->get(),
-            'commodities_chart' => $model->selectRaw('name as label, count(*) as total')
-                ->when($search, function ($query) use ($commodity, $search, $is_exact, $group_by) {
-                    if ($commodity)
-                        return $query->where('name', $commodity);
-                    else if ($is_exact == 'true') {
-                        return $query->where($group_by, $search);
-                    } else {
-                        return $query->where($group_by, 'like', '%'.$search.'%');
-                    }
-                })
-                ->groupBy('name')
-                ->orderBy('total', 'desc')
-                ->get(),
-            'commodities_linechart' => $this->linechartData($model, $search, $is_exact, $group_by, $commodity)
-        ]);
-
-        return response()->json([
-            'group_search_labels' => $this->getGroupByLabels($group_by),
-            'commodity_labels' => $this->getCommodityLabels(),
-            'chart_data' => $model->selectRaw("$group_by as label, count(*) as total")
-                ->when($commodity, function ($query) use ($commodity) {
-                    return $query->where('name', $commodity);
-                })
-                ->when($search, function ($query) use ($search, $is_exact, $group_by) {
-                    if ($is_exact === 'true') {
-                        return $query->where($group_by, $search);
-                    } else {
-                        return $query->where($group_by, 'like', '%'.$search.'%');
-                    }
-                })
-                ->groupBy($group_by)
-                ->orderBy('total', 'desc')
-                ->get(),
-            'commodities' => $model->when($commodity, function ($query) use ($commodity) {
-                return $query->where('name', $commodity);
-            })
-                ->when($search, function ($query) use ($search, $is_exact, $group_by) {
-                    if ($is_exact === 'true') {
-                        return $query->where($group_by, $search);
-                    } else {
-                        return $query->where($group_by, 'like', '%'.$search.'%');
-                    }
-                })
-                ->get(),
-            'commodities_chart' => $model->selectRaw('name as label, count(*) as total')
-                ->when($commodity, function ($query) use ($commodity) {
-                    return $query->where('name', $commodity);
-                })
-                ->when($search, function ($query) use ($search, $is_exact, $group_by) {
-                    if ($is_exact === 'true') {
-                        return $query->where($group_by, $search);
-                    } else {
-                        return $query->where($group_by, 'like', '%'.$search.'%');
-                    }
-                })
-                ->groupBy('name')
-                ->orderBy('total', 'desc')
-                ->get(),
-            'commodities_linechart' => $this->linechartData($model, $search, $is_exact, $group_by, $commodity)
-        ]);
+            });
     }
 
     private function linechartData($model, $search = null, $is_exact = false, $group_by = 'name', $commodity = null) {
@@ -165,21 +108,42 @@ class CommodityController extends BaseController
             $datasets[] = $dataset;
         }
 
-        // Return the formatted data
         return [
             'labels' => $results->pluck('full_name')->unique()->values()->toArray(),
             'datasets' => $datasets
         ];
     }
 
-    private function getGroupByLabels($group_by)
+    private function getGroupByLabels($model, $commodity, $group_by)
     {
-       return Commodity::select($group_by)->whereNotNull('population')->orderBy($group_by)->distinct()->get()->pluck($group_by);
+        return $model->select($group_by)
+            ->where('population', '>', 0)
+            ->when($commodity, function ($query) use ($commodity) {
+                return $query->where('name', $commodity);
+            })
+            ->groupBy($group_by)
+            ->get()
+            ->pluck($group_by)
+            ->unique()
+            ->sort()
+            ->values();
     }
 
-    private function getCommodityLabels()
+    private function getCommodityLabels($model, $search, $is_exact, $group_by)
     {
-        return Commodity::select('name')->orderBy('name')->distinct()->get()->pluck('name');
+        return $model->where('population', '>', 0)
+            ->when($search, function ($query) use ($search, $is_exact, $group_by) {
+                if ($is_exact === 'true') {
+                    return $query->where($group_by, $search);
+                } else {
+                    return $query->where($group_by, 'like', '%'.$search.'%');
+                }
+            })
+            ->get()
+            ->pluck('name')
+            ->unique()
+            ->sort()
+            ->values();
     }
 
 

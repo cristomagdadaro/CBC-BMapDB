@@ -2,8 +2,6 @@
 import BodyLayout from '@/Layouts/BodyLayout.vue';
 import BreadCrumb from "@/Components/BreadCrumb.vue";
 import Header from "@/Pages/Header.vue";
-import Footer from "@/Pages/Footer.vue";
-import GreenWaves from "@/Components/GreenWaves.vue";
 const props = defineProps({
     isWideDisplay: {
         type: Boolean,
@@ -23,5 +21,4 @@ const props = defineProps({
             <slot />
         </main>
     </BodyLayout>
-    <Footer class="hidden" />
 </template>

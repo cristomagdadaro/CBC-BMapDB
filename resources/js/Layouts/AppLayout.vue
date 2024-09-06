@@ -327,5 +327,4 @@ export default {
             </template>
         </sidebar-layout>
     </div>
-    <Footer />
 </template>

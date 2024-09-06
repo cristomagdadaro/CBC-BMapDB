@@ -1,5 +1,5 @@
 <template>
-    <nav class="breadcrumb flex flex-row text-gray-500">
+    <nav class="breadcrumb flex flex-row text-gray-100 py-2 my-2">
         <ul class="flex flex-row">
             <li v-for="(crumb, index) in crumbs" :key="index">
                 <Link :href="crumb.to" class="hover:text-cbc-olive-green">{{ crumb.label }}</Link>

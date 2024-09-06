@@ -3,9 +3,11 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 import { CBCProjectsPublic } from "@/Pages/constants.ts";
 import { Link, Head } from '@inertiajs/vue3';
 import PhilippineMapOutline from "@/Components/Icons/PhilippineMapOutline.vue";
+import BmCollaborators from "@/Pages/Projects/BreedersMap/presentation/components/colaborators/BmCollaborators.vue";
 
 export default {
     components: {
+        BmCollaborators,
         PageLayout,
         Link,
         Head,
@@ -57,6 +59,7 @@ export default {
                     </div>
                     <philippine-map-outline class="max-w-[30vw] min-w-[7rem] drop-shadow-lg" @hovered="hoveredData = $event"/>
                 </div>
+                <bm-collaborators />
             </div>
         </div>
     </page-layout>

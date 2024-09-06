@@ -1,11 +1,11 @@
 import IUser from "../interface/auth/IUser";
-import Role from "../domain/auth/Role";
-import Account from "../domain/auth/Account";
-import Permission from "../domain/auth/Permission";
 import IRole from "../interface/auth/IRole";
 import IAccount from "../interface/auth/IAccount";
 import BaseClass from "../domain/base/BaseClass";
 import IPermission from "../interface/auth/IPermission";
+import DtoRole from "./DtoRole";
+import DtoAccount from "./DtoAccount";
+import DtoPermission from "./DtoPermission";
 
 export default class DtoUser extends BaseClass implements IUser {
     id?: number = null;
@@ -36,14 +36,11 @@ export default class DtoUser extends BaseClass implements IUser {
         this.email_verified_at = dto.email_verified_at;
 
         if (dto.roles)
-            //@ts-ignore
-            this.roles = dto.roles.map(role => new Role(role));
+            this.roles = dto.roles.map(role => new DtoRole(role));
         if (dto.accounts)
-            //@ts-ignore
-            this.accounts = dto.accounts.map(account => new Account(account));
+            this.accounts = dto.accounts.map(account => new DtoAccount(account));
         if (dto.permissions)
-            //@ts-ignore
-            this.permissions = dto.permissions.map(permission => new Permission(permission));
+            this.permissions = dto.permissions.map(permission => new DtoPermission(permission));
     }
 
 

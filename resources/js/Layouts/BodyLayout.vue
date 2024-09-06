@@ -1,6 +1,7 @@
 <script setup>
 import {defineProps} from "vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
+import Footer from "@/Pages/Footer.vue";
 const props = defineProps({
     isWideDisplay: {
         type: Boolean,
@@ -9,7 +10,7 @@ const props = defineProps({
 });
 </script>
 <template>
-    <div class="min-h-screen h-full max-h-[100vh] overflow-y-auto">
+    <div class="min-h-screen h-full max-h-[100vh]">
         <green-waves />
         <div
             class="relative flex flex-col"
@@ -22,8 +23,9 @@ const props = defineProps({
                 <slot name="breadcrumbs"></slot>
             </div>
             <div class="h-full w-full min-h-full justify-center">
-                <slot></slot>
+                <slot />
             </div>
         </div>
+        <Footer />
     </div>
 </template>
