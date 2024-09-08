@@ -1,12 +1,8 @@
 <script setup>
-import headerlayout from '@/Layouts/HeaderLayout.vue';
-import tablink from '@/Components/Header/TabLink.vue';
+import HeaderLayout from '@/Layouts/HeaderLayout.vue';
+import TabLink from '@/Components/Header/TabLink.vue';
 import Logo from '@/Components/Icons/Logo.vue';
-import HoverDropdownLink from '@/Components/Header/HoverDropdownLink.vue';
-import HoverDropdownVue from '@/Components/Header/HoverDropdown.vue';
 import {CBCProjectsPublic} from "@/Pages/constants.ts";
-import DropdownLink from "@/Components/DropdownLink.vue";
-import Dropdown from "@/Components/Dropdown.vue";
 
 defineProps({
     canLogin: Boolean,
@@ -14,69 +10,63 @@ defineProps({
 });
 
 const TabLinks = [
-    /*{
-        name: 'Home',
-        link: 'home',
-    },
-    {
-       name: 'Projects',
-       link: '#',
-   },*//*
-   {     name: 'Articles',
-       link: '#',
-   },
-   {
-       name: 'Careers',
-       link: '#',
-   },
-   {
-       name: 'Services',
-       link: '#',
-   },
-   {
-       name: 'Resources',
-       link: '#',
-   },
-   {
-       name: 'About Us',
-       link: '#',
-   },*/
+
 ];
+
+const supportLinks = [
+    {name: 'About Us', link: 'support.about-us'},
+    {name: 'Term of Use', link: 'support.terms-of-use'},
+    {name: 'Policy Notice', link: 'support.policy-notice'},
+    {name: 'Primacy Policy', link: 'support.privacy-policy'},
+    {name: 'Sitemap', link: 'support.sitemap'},
+    {name: 'Developers', link: 'support.developers'},
+];
+
 </script>
 <template>
-    <headerlayout :active="route().current('dashboard')">
+    <header-layout :active="route().current('dashboard')">
         <template #icon>
             <Logo />
         </template>
         <template #subtitle>
-            Department of Agriculture
+            Crop Biotech Centralized Database
         </template>
         <template #title>
-            Crop Biotechnology Center
+            CBCD
         </template>
         <template #links>
             <ul class="lg:flex sm:gap-2">
-                <tablink v-if="$page.props.auth.user" :link="route('dashboard')" :active="route().current('dashboard')">Dashboard</tablink>
+                <tab-link v-if="$page.props.auth.user" :link="route('dashboard')" :active="route().current('dashboard')">Dashboard</tab-link>
                 <template v-for="link in TabLinks">
-                    <tablink :link="route(link.link)" :active="route().current(link.link)">
+                    <tab-link :link="route(link.link)" :active="route().current(link.link)">
                         {{ link.name }}
-                    </tablink>
+                    </tab-link>
                 </template>
-                <tablink :sublinks="true" :link="route('projects')" :active="route().current('projects') || route().current('home')">
+                <tab-link sublinks :link="route('projects')" :active="route().current('projects') || route().current('home')">
                     <template #trigger>
                         Databases
                     </template>
                     <template #content>
-                        <tablink v-for="project in CBCProjectsPublic" :key="project.id" :link="route(project.value)" class="text-gray-700">
+                        <tab-link v-for="project in CBCProjectsPublic" :key="project.id" :link="route(project.value)" class="text-gray-700">
                             {{ project.label }}
-                        </tablink>
+                        </tab-link>
                     </template>
-                </tablink>
-                <template v-if="$page.props.auth.user === null ">
-                    <tablink v-if="canLogin" :link="route('login')" :active="route().current('login')">Log in</tablink>
-                    <tablink v-if="canRegister" :link="route('register')" :active="route().current('register')">Register</tablink>
+                </tab-link>
+                <template v-if="!$page.props.auth.user ">
+                    <tab-link v-if="canLogin" :link="route('login')" :active="route().current('login')">Log in</tab-link>
+                    <tab-link v-if="canRegister" :link="route('register')" :active="route().current('register')">Register</tab-link>
                 </template>
+                <tab-link v-if="!$page.props.auth.user" sublinks :link="route('support.about-us')" :active="route().current('support.about-us')">
+                    <template #trigger>
+                        Support
+                    </template>
+                    <template #content>
+                        <tab-link v-for="link in supportLinks" :key="link.link" :link="route(link.link)" class="text-gray-700">
+                            {{ link.name }}
+                        </tab-link>
+                    </template>
+                </tab-link>
             </ul>
         </template>
-    </headerlayout>
+    </header-layout>
 </template>

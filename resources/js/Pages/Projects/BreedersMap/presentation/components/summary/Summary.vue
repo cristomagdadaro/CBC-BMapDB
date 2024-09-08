@@ -18,11 +18,15 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import FilterIcon from "@/Components/Icons/FilterIcon.vue";
 import CollapsableMenu from "@/Components/Collapsable/CollapsableMenu/CollapsableMenu.vue";
 import BreedersMapOnboarding from "@/Pages/Projects/BreedersMap/presentation/components/OnboardingBM/BreedersMapOnboarding.vue";
+import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
+import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 
 ChartJS.register(ChartDataLabels, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale, ArcElement, PointElement, LineElement)
 export default {
     name: "Summary",
     components: {
+        LoaderIcon,
+        TransitionContainer,
         BreedersMapOnboarding,
         CollapsableMenu,
         FilterIcon,
@@ -316,9 +320,16 @@ export default {
 </script>
 
 <template>
-    <div class="shadow-lg bg-gray-100 rounded-md sm:p-4 p-1 flex flex-col gap-2">
+    <div class="flex flex-col gap-2">
         <breeders-map-onboarding />
-        <div>
+        <div class="relative sm:p-4 p-1 ">
+            <transition-container v-if="api">
+                <div v-show="api.processing" class="bg-cbc-olive-green text-gray-900 select-none text-xl absolute top-0 left-0 w-full opacity-90 min-h-full text-center p-10">
+                    <div class="flex items-center gap-2 justify-center">
+                        <loader-icon /> Processing...
+                    </div>
+                </div>
+            </transition-container>
             <div id="bm-coloropacity-slider" class="flex flex-col gap-1">
                 <label>Color Opacity: {{colorOpacity}}</label>
                 <input type="range" min="0.01" max="1.1" step="0.01" v-model="colorOpacity">

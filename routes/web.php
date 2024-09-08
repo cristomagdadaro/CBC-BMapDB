@@ -3,6 +3,7 @@
 use App\Enums\Permission;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\InstituteController;
+use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
@@ -65,6 +66,15 @@ Route::prefix('/api/public')->group(function () {
     Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
     Route::get('/commodities/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
     Route::get('/breeders/summary', [BreederController::class, 'summary'])->name('api.breedersmap.breeders.summary.public');
+});
+
+Route::prefix('/support-info')->group(function () {
+    Route::get('/about-us', [SupportInfoController::class, 'aboutUs'])->name('support.about-us');
+    Route::get('/terms-of-use', [SupportInfoController::class, 'termsOfUse'])->name('support.terms-of-use');
+    Route::get('/policy-notice', [SupportInfoController::class, 'policyNotice'])->name('support.policy-notice');
+    Route::get('/privacy-policy', [SupportInfoController::class, 'privacyPolicy'])->name('support.privacy-policy');
+    Route::get('/sitemap', [SupportInfoController::class, 'sitemap'])->name('support.sitemap');
+    Route::get('/developers', [SupportInfoController::class, 'developers'])->name('support.developers');
 });
 
 

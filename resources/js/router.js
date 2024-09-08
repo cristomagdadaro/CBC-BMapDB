@@ -34,7 +34,7 @@ const routes = [
     {
         path: '/verification',
         component: async () => await import('@/Pages/Auth/Register.vue'),
-        name: 'Forgot Password',
+        name: 'Email Verification',
     },
     {
         path: '/administrator',

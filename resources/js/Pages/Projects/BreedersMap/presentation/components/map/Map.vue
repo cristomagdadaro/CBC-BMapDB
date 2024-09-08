@@ -27,9 +27,11 @@ import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 import FullscreenToggle from "@/Components/FullscreenToggle.vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";
+import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 
 export default {
     components: {
+        TransitionContainer,
         FullscreenToggle,
         ViewIcon,
         SearchBy,
@@ -303,9 +305,13 @@ export default {
             </div>
         </div>
         <div ref="mapContainer" class="w-full flex gap-2 relative mt-1">
-            <div v-if="processing" class="flex gap-1 absolute top-0 left-0 min-w-full min-h-full">
-                <span class="whitespace-nowrap">Fetching data</span>
-            </div>
+            <transition-container>
+                <div v-show="processing" class="bg-cbc-olive-green z-10 text-gray-900 select-none text-xl absolute top-0 left-0 w-full opacity-90 min-h-full text-center p-10">
+                    <div class="flex items-center gap-2 justify-center">
+                        <loader-icon /> Processing...
+                    </div>
+                </div>
+            </transition-container>
             <l-map
                 ref="map"
                 :use-global-leaflet="true"

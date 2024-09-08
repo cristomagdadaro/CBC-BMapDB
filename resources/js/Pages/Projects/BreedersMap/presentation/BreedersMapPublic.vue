@@ -1,5 +1,5 @@
 <script>
-import {Head} from "@inertiajs/vue3";
+import {Head, Link} from "@inertiajs/vue3";
 import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
@@ -18,7 +18,8 @@ export default {
         PageLayout,
         Commodity,
         Tab,
-        Summary
+        Summary,
+        Link
     },
     data() {
         return {
@@ -52,7 +53,9 @@ export default {
             <p class="leading-relaxed sm:text-left text-justify sm:text-lg text-sm">
                 This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
             </p>
-
+            <p class="leading-relaxed sm:text-left text-justify sm:text-lg text-sm">
+                For a more comprehensive information, <Link :href="route('register')" class="underline font-medium uppercase hover:text-cbc-dark-green">register now</Link> to access the full features of the Breeders' Map.
+            </p>
         </div>
         <Tab :tabs="tabs" class="z-[999]">
             <template #tab1>
