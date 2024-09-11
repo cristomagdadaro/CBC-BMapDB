@@ -12,7 +12,7 @@ export default {
 
 <template>
     <info-page-layout title="About Us">
-        <div class="space-y-6 text-gray-800 leading-relaxed">
+        <div class="space-y-6 text-dark-color leading-relaxed">
             <p class="text-lg">
                 The Crop Biotechnology Center (CBC) is a research and development facility of the Department of Agriculture (DA) that is dedicated to the advancement of crop biotechnology in the Philippines. Established in 2000, the CBC is committed to the development and promotion of biotechnology applications in agriculture to enhance food security, increase crop productivity, and improve the livelihoods of Filipino farmers.
             </p>

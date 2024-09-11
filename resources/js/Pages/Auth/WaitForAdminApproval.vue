@@ -5,12 +5,15 @@ import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
+import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 </script>
 
 <template>
     <Head title="Wait for Admin Approval" />
     <page-layout>
-        <AuthenticationCard>
+        <green-waves />
+        <public-page-section>
+            <AuthenticationCard class="min-h-[80vh]">
             <new-account-progress-view />
             <h2 class="font-semibold text-2xl text-center text-gray-800">Please Wait for Admin Approval</h2>
             <div class="text-center pt-5">
@@ -35,6 +38,7 @@ import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
                 </div>
             </div>
         </AuthenticationCard>
+        </public-page-section>
     </page-layout>
 </template>
 

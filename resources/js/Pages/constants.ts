@@ -32,14 +32,14 @@ export const CBCProjects = [
 export const CBCProjectsPublic = [
     {
         id: 1,
-        label: 'TWG Database',
-        value: 'projects.twgdb.public',
+        label: "Breeders' Map",
+        value: 'projects.breedersmap.public',
     },
     {
         id: 2,
-        label: "Breeders' Map",
-        value: 'projects.breedersmap.public',
-    }
+        label: 'TWG Database',
+        value: 'projects.twgdb.public',
+    },
 ]
 
 /*used in registration dropdown*/

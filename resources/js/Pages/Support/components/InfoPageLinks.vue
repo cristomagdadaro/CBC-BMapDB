@@ -4,16 +4,23 @@ import {Link} from "@inertiajs/vue3";
 export default {
     name: "InfoPageLinks",
     components: {Link},
+    data() {
+        return {
+            links: [
+                {name: 'About Us', route: 'support.about-us'},
+                {name: 'Terms of Use', route: 'support.terms-of-use'},
+                {name: 'Policy Notice', route: 'support.policy-notice'},
+                {name: 'Privacy Policy', route: 'support.privacy-policy'},
+                {name: 'Sitemap', route: 'support.sitemap'},
+                {name: 'Developers', route: 'support.developers'},
+            ]
+        }
+    }
 }
 </script>
 
 <template>
-    <Link :href="route('support.about-us')" :class="{ active: route().current('support.about-us') }" class="info-page-link">About Us</Link>
-    <Link :href="route('support.terms-of-use')" :class="{ active: route().current('support.terms-of-use') }" class="info-page-link">Terms of Use</Link>
-    <Link :href="route('support.policy-notice')" :class="{ active: route().current('support.policy-notice') }" class="info-page-link">Policy Notice</Link>
-    <Link :href="route('support.privacy-policy')" :class="{ active: route().current('support.privacy-policy') }" class="info-page-link">Privacy Policy</Link>
-    <Link :href="route('support.sitemap')" :class="{ active: route().current('support.sitemap') }" class="info-page-link">Sitemap</Link>
-    <Link :href="route('support.developers')" :class="{ active: route().current('support.developers') }" class="info-page-link">Developers</Link>
+    <Link v-for="link in links" :key="link.name" :href="route(link.route)" :class="{ active: route().current(link.route) }" class="info-page-link text-normal">{{ link.name }}</Link>
 </template>
 
 <style scoped>

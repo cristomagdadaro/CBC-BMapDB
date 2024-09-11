@@ -5,8 +5,8 @@ import Logo from '@/Components/Icons/Logo.vue';
 import InfoPageLinks from "@/Pages/Support/components/InfoPageLinks.vue";
 </script>
 <template>
-    <div class="text-center select-none lg:text-[3rem] md:text-[2.2rem] sm:text-[1.7rem] text-[1rem] font-bold text-gray-900 drop-shadow">
-        Reach Us at&nbsp;<a href="emailTo:cropbiotechcenter@gmail.com"> cropbiotechcenter@gmail.com</a>
+    <div class="resp-container text-center select-none py-5 my-5 sm:my-10 lg:text-[1.4rem] md:text-[1.2rem] sm:text-[1rem] text-[0.8rem] font-normal text-gray-900 drop-shadow">
+        Reach us at&nbsp;<a href="emailTo:cropbiotechcenter@gmail.com" class="underline"> cropbiotechcenter@gmail.com</a>
     </div>
     <FooterLayout>
         <template #phRepublic>

@@ -198,7 +198,6 @@ export default {
             this.placesSearched = this.placesFiltered;
         },
         selectPoint(point) {
-            console.log(point);
             if (!this.$refs.map) return;
             this.mapApi.selectPoint(point);
         },
@@ -260,9 +259,9 @@ export default {
         <div class="relative gap-2">
             <div class="w-full flex gap-1">
                 <search-box
-                    :value="mapApi.selectedPlace ? mapApi.selectedPlace.city : ''"
+                    :value="mapApi.selectedPlace ? mapApi.selectedPlace.city.cityDesc : ''"
                     :options="placesFiltered"
-                    :label="mapApi.selectedPlace ? mapApi.selectedPlace.city : 'Select a place'"
+                    :label="mapApi.selectedPlace ? mapApi.selectedPlace.city.cityDesc : 'Select a place'"
                     @searchString="updateFilters('search', $event)"
                     @input="updateFilters('search', $event.target.value)"
                     @focusin="showListOfPlaces = true"
@@ -306,7 +305,7 @@ export default {
         </div>
         <div ref="mapContainer" class="w-full flex gap-2 relative mt-1">
             <transition-container>
-                <div v-show="processing" class="bg-cbc-olive-green z-10 text-gray-900 select-none text-xl absolute top-0 left-0 w-full opacity-90 min-h-full text-center p-10">
+                <div v-show="processing" class="bg-gray-100 z-10 text-gray-900 select-none text-xl absolute top-0 left-0 w-full opacity-90 min-h-full text-center p-10">
                     <div class="flex items-center gap-2 justify-center">
                         <loader-icon /> Processing...
                     </div>
@@ -353,10 +352,10 @@ export default {
                     :key="place.id"
                     :lat-lng="[place.city.latitude, place.city.longitude]"
                     :opacity="1"
-                    :radius="5"
+                    :radius="7"
                     color="#3DA5B4"
                     :weight="1"
-                    @click="selectPoint([place.city.latitude, place.city.longitude])"
+                    @click="selectPoint(place)"
                 >
                     <l-tooltip :content="place.city.cityDesc" />
                 </l-circle-marker>

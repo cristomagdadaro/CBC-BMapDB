@@ -5,6 +5,9 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Tab from "@/Components/Tab/Tab.vue";
 import Summary from "@/Pages/Projects/BreedersMap/presentation/components/summary/Summary.vue";
+import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
+import GreenWaves from "@/Components/GreenWaves.vue";
+import InfoIcon from "@/Components/Icons/InfoIcon.vue";
 
 export default {
     computed: {
@@ -13,6 +16,9 @@ export default {
         }
     },
     components: {
+        InfoIcon,
+        GreenWaves,
+        PublicPageSection,
         Head,
         Map,
         PageLayout,
@@ -40,35 +46,59 @@ export default {
             ],
         }
     },
+    methods: {
+        fadeOut() {
+            setTimeout(() => {
+                const element = this.$refs.fadeOutElement;
+                element.classList.add('fade-out');
+                element.addEventListener('transitionend', () => {
+                    element.classList.add('fade-out-hidden');
+                }, { once: true });
+            }, 10000);
+        },
+        fadeIn() {
+            const element = this.$refs.fadeOutElement;
+            element.classList.remove('fade-out-hidden');
+            element.classList.remove('fade-out');
+            this.fadeOut();
+        }
+    },
+    mounted() {
+        this.fadeOut();
+    }
 }
 </script>
 
 <template>
     <Head title="Breeders' Map" />
     <page-layout>
-        <div id="bm-welcome-box"  class="text-gray-900 bg-cbc-olive-green flex flex-col sm:gap-1 gap-3 sm:p-5 p-8 sm:text-left text-center drop-shadow-lg rounded-md">
-            <p class="flex items-center gap-2 font-medium sm:text-3xl text-xl sm:leading-relaxed leading-tight">
-                <span>Welcome to the Breeders' Map</span> <button id="bm-qg-start" class="bg-gray-300 rounded py-0.5 px-2 text-sm">Quick Guide?</button>
-            </p>
-            <p class="leading-relaxed sm:text-left text-justify sm:text-lg text-sm">
-                This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
-            </p>
-            <p class="leading-relaxed sm:text-left text-justify sm:text-lg text-sm">
-                For a more comprehensive information, <Link :href="route('register')" class="underline font-medium uppercase hover:text-cbc-dark-green">register now</Link> to access the full features of the Breeders' Map.
-            </p>
-        </div>
-        <Tab :tabs="tabs" class="z-[999]">
-            <template #tab1>
-                <Summary />
-            </template>
-            <template #tab2>
-                <Map :base-url="route('api.commodities.noPage.public')" :model="Commodity" />
-            </template>
-        </Tab>
-
+        <green-waves />
+        <public-page-section :animation="false">
+            <div id="bm-welcome-box"  class="text-dark-color bg-gray-100 flex flex-col sm:gap-1 gap-3 p-4 sm:p-6 sm:text-left text-justify drop-shadow-lg rounded-md">
+                <div class="flex items-center gap-2 justify-between text-subtitle">
+                    <div class="flex items-center gap-2">
+                        <span>Welcome to the Breeders' Map</span>
+                        <info-icon @click="fadeIn" class="w-4 md:w-5 xl:w-6 h-auto cursor-pointer active:scale-90 duration-200" />
+                    </div>
+                    <button id="bm-qg-start" @click="fadeIn" class="bg-cbc-dark-green text-light-color rounded py-1 px-2 text-sm">Quick Guide?</button>
+                </div>
+                <div ref="fadeOutElement" >
+                    <p class="text-normal">
+                        This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
+                    </p>
+                    <p class="text-normal">
+                        For a more comprehensive information, <Link :href="route('register')" class="underline font-medium uppercase hover:text-cbc-dark-green">register now</Link> to access the full features of the Breeders' Map.
+                    </p>
+                </div>
+            </div>
+            <Tab :tabs="tabs">
+                <template #tab1>
+                    <Summary />
+                </template>
+                <template #tab2>
+                    <Map :base-url="route('api.commodities.noPage.public')" :model="Commodity" />
+                </template>
+            </Tab>
+        </public-page-section>
     </page-layout>
 </template>
-
-<style scoped>
-
-</style>

@@ -1,5 +1,4 @@
 <script setup>
-import Footer from '@/Pages/Footer.vue';
 import Body from '@/Pages/Body.vue';
 import BackToTop from "@/Components/BackToTop.vue";
 import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";

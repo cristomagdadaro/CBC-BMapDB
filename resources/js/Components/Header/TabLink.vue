@@ -46,7 +46,7 @@ export default {
 </script>
 <template>
     <div v-if="!sublinks" class="flex text-gray-100 items-center hover:bg-cbc-yellow-green duration-400 ease-in-out">
-        <Link :href="link" class="px-3 py-1 whitespace-nowrap sm:text-sm text-xs " :class="active?activeClass:inactiveClass"><slot /></Link>
+        <Link :href="link" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></Link>
     </div>
     <div v-else class="flex items-center hover:bg-cbc-yellow-green duration-400 ease-in-out" @mouseleave="closeDropdown()">
         <div>
@@ -54,7 +54,7 @@ export default {
             <div v-show="showDropdown" class="fixed z-[1]" @click="closeDropdown()" />
 
             <div @click="toggleDropdown()" ref="hoverDropdown" class="z-[100]">
-                <Link :href="link" class="px-3 py-1 text-gray-100 whitespace-nowrap sm:text-sm text-xs" :class="active?activeClass:inactiveClass"><slot name="trigger" /></Link>
+                <Link :href="link" class="px-3 py-1 text-gray-100 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot name="trigger" /></Link>
             </div>
 
             <transition
@@ -64,7 +64,7 @@ export default {
                 leave-active-class="transition ease-in duration-75"
                 leave-from-class="transform opacity-100 scale-100"
                 leave-to-class="transform opacity-0 scale-95">
-                <div class="absolute flex flex-col bg-gray-100 z-[46] mt-2 rounded-md shadow-md p-2" v-show="showDropdown">
+                <div class="absolute flex flex-col bg-gray-100 z-[46] mt-2 shadow-md p-3 text-subtitle" v-show="showDropdown">
                     <slot name="content" />
                 </div>
             </transition>

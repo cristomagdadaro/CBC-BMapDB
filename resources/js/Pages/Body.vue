@@ -17,8 +17,6 @@ const props = defineProps({
         <template #breadcrumbs>
             <BreadCrumb />
         </template>
-        <main class="bg-transparent resp-container">
-            <slot />
-        </main>
+        <slot />
     </BodyLayout>
 </template>

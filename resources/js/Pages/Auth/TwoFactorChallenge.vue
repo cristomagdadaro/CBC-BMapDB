@@ -7,6 +7,8 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import GreenWaves from "@/Components/GreenWaves.vue";
+import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 
 const recovery = ref(false);
 
@@ -39,8 +41,9 @@ const submit = () => {
 
 <template>
     <Head title="Two-factor Confirmation" />
-
-    <AuthenticationCard>
+    <green-waves />
+    <public-page-section>
+        <AuthenticationCard class="min-h-[80vh]">
         <template #logo>
             <AuthenticationCardLogo />
         </template>
@@ -101,4 +104,5 @@ const submit = () => {
             </div>
         </form>
     </AuthenticationCard>
+    </public-page-section>
 </template>
