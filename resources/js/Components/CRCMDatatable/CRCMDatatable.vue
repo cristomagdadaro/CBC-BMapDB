@@ -305,21 +305,14 @@
 </template>
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
-import PaginateBtn from "@/Components/CRCMDatatable/Components/PaginateBtn.vue";
+import { CancelButton, ContextMenu, CrcmTable, CrcmTbody, CrcmThead, DangerButton, NotFoundRow, PaginateBtn, PerPage, ProcessingRow, SearchBy, TbodyRow, TD, TH, TheadRow, TopActionBtn } from '@/Components/CRCMDatatable/Components';
+
 import ActionContainer from "@/Components/CRCMDatatable/Layouts/ActionContainer.vue";
 import TopContainer from "@/Components/CRCMDatatable/Layouts/TopContainer.vue";
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
-import PerPage from "@/Components/CRCMDatatable/Components/PerPage.vue";
 import SearchFilter from "@/Components/CRCMDatatable/Components/SearchBox.vue";
-import TH from "@/Components/CRCMDatatable/Components/TH.vue";
-import TD from "@/Components/CRCMDatatable/Components/TD.vue";
-import ProcessingRow from "@/Components/CRCMDatatable/Components/ProcessingRow.vue";
-import TbodyRow from "@/Components/CRCMDatatable/Components/TbodyRow.vue";
-import NotFoundRow from "@/Components/CRCMDatatable/Components/NotFoundRow.vue";
 import ArrowLeft from "@/Components/Icons/ArrowLeft.vue";
 import ArrowRight from "@/Components/Icons/ArrowRight.vue";
-import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import SelectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
 import DeleteIcon from "@/Components/Icons/DeleteIcon.vue";
 import AddIcon from "@/Components/Icons/AddIcon.vue";
@@ -331,17 +324,10 @@ import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 import DeselectIcon from "@/Components/Icons/DeselectIcon.vue";
 import selectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
 import DialogModal from "@/Components/DialogModal.vue";
-import DangerButton from "@/Components/CRCMDatatable/Components/DangerButton.vue";
-import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
 import ToggleOffIcon from "@/Components/Icons/ToggleOffIcon.vue";
 import ToggleOnIcon from "@/Components/Icons/ToggleOnIcon.vue";
 import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
-import CrcmTable from "@/Components/CRCMDatatable/Components/CrcmTable.vue";
-import CrcmThead from "@/Components/CRCMDatatable/Components/CrcmThead.vue";
-import TheadRow from "@/Components/CRCMDatatable/Components/TheadRow.vue";
-import CrcmTbody from "@/Components/CRCMDatatable/Components/CrcmTbody.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
-import ContextMenu from "@/Components/CRCMDatatable/Components/ContextMenu.vue";
 </script>
 
 <script>

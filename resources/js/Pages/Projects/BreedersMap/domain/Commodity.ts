@@ -2,6 +2,7 @@ import DtoCommodity from "../dto/DtoCommodity";
 
 export default class Commodity extends DtoCommodity {
     constructor(params: DtoCommodity) {
+        // @ts-ignore
         super(params);
     }
 
@@ -136,7 +137,7 @@ export default class Commodity extends DtoCommodity {
             },
             {
                 title: 'City',
-                key: 'city',
+                key: 'city.cityDesc',
                 sortable: true,
                 align: 'center',
                 visible: false,

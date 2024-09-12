@@ -77,7 +77,7 @@ class CommodityController extends BaseController
                 } else {
                     return $query->where($group_by, 'like', '%'.$search.'%');
                 }
-            });
+            })->with(['breeder', 'cityDesc']);
     }
 
     private function linechartData($model, $search = null, $is_exact = false, $group_by = 'name', $commodity = null) {
@@ -150,7 +150,7 @@ class CommodityController extends BaseController
     /** API used at Map search box*/
     public function noPage(GetCommoditiesRequest $request)
     {
-        $this->service->appendWith(['breeder','city']);
+        $this->service->appendWith(['breeder','cityDesc']);
         $data = $this->service->search(new Collection($request->validated()), false);
         return new BaseCollection($data);
     }

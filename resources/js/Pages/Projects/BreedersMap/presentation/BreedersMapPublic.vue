@@ -96,7 +96,7 @@ export default {
                     <Summary />
                 </template>
                 <template #tab2>
-                    <Map :base-url="route('api.commodities.noPage.public')" :model="Commodity" />
+                    <Map :model="Commodity" />
                 </template>
             </Tab>
         </public-page-section>

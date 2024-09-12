@@ -16,7 +16,7 @@ export default interface ICommodity {
     maturity_period: string;
     yield: string;
     description: string;
-    city: ICity;
+    city_desc: ICity;
     province: IProvince;
     region: IRegion;
     country: ICountry;

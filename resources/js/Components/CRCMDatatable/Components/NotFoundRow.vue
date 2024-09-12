@@ -9,7 +9,6 @@
     </tr>
 </template>
 <script setup>
-import {defineProps} from "vue";
 import ExclamationCircleIcon from "@/Components/Icons/ExclamationCircleIcon.vue";
 const props = defineProps({
     colspan: Number,

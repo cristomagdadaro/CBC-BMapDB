@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Location\City;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Commodity extends BaseModel
@@ -71,12 +72,12 @@ class Commodity extends BaseModel
         'unknown' => 'Unknown error, action failed.',
     ];
 
-    public function breeder()
+    public function breeder(): BelongsTo
     {
         return $this->belongsTo(Breeder::class, 'breeder_id', 'id');
     }
 
-    public function city()
+    public function cityDesc(): BelongsTo
     {
         return $this->belongsTo(City::class, 'city', 'cityDesc');
     }

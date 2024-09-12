@@ -1,5 +1,5 @@
 <script setup>
-import {defineProps} from "vue";
+
 import Footer from "@/Pages/Footer.vue";
 const props = defineProps({
     isWideDisplay: {

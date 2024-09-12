@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Location\City;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -91,5 +92,10 @@ class Breeder extends Model
     public function getSearchable(): array
     {
         return $this->searchable;
+    }
+
+    public function cityDesc(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'city', 'cityDesc');
     }
 }

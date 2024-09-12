@@ -107,6 +107,7 @@ export default class ApiService implements IApiService
     }
 
     castToModel(response, model) {
+        if ( !response ) return [];
         return response.map(item => {
             return new model(item);
         });

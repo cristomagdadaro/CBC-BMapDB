@@ -28,9 +28,12 @@ import FullscreenToggle from "@/Components/FullscreenToggle.vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";
 import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
+import DataFiltrationFields
+    from "@/Pages/Projects/BreedersMap/presentation/components/map/components/DataFiltrationFields.vue";
 
 export default {
     components: {
+        DataFiltrationFields,
         TransitionContainer,
         FullscreenToggle,
         ViewIcon,
@@ -64,13 +67,11 @@ export default {
         params: {
             type: Object,
             required: false,
-            default: () => {
-                return {
-                    filter: null,
-                    search: null,
-                    is_exact: null
-                }
-            }
+            default: () => ({
+                filter: null,
+                search: null,
+                is_exact: null
+            })
         },
         model: {
             type: [BaseClass, Function],
@@ -79,6 +80,9 @@ export default {
     },
     data() {
         return {
+            dataFiltration: null,
+            processingRequest: false,
+
             mapApi: null,
             icon: icon({
                 iconUrl: "/public/img/logo_no_bg.png",
@@ -91,7 +95,8 @@ export default {
             tiles: null,
             map: null,
             placesSearched: [],
-            placesFiltered: [],
+            //placesFiltered: [],
+            dataFiltrationUrl: null,
             tileProviders: [
                 {
                     name: 'CartoDB Voyager',
@@ -127,49 +132,46 @@ export default {
         };
     },
     computed: {
+        newData() {
+            if (this.dataFiltration) {
+                return this.dataFiltration.commodities;
+            }
+
+            return [];
+        },
+
         Commodity() {
-            return Commodity
+            return Commodity;
         },
         Permission() {
             return Permission;
         },
         sidebarVisible() {
-            if (this.mapApi)
-                return this.mapApi.sidebarVisible;
+            return this.mapApi ? this.mapApi.sidebarVisible : false;
         },
         province() {
             return regions;
         },
         mapOptions() {
-            if (this.mapApi)
-                return this.mapApi.mapOptions;
+            return this.mapApi ? this.mapApi.mapOptions : {};
         },
         processing() {
-            if (this.mapApi)
-                return this.mapApi.processing;
+            return this.mapApi ? this.mapApi.processing : false;
         },
         dataPoints() {
-            if (this.mapApi)
-                return this.mapApi.getDataPoint();
+            return this.mapApi ? this.mapApi.getDataPoint() : [];
         },
         canView() {
-            //return this.$page.props.permissions[Permission.VIEW];
-            return true;
+            return true; // return this.$page.props.permissions[Permission.VIEW];
         },
     },
-    created() {
-        this.initializeMap();
-    },
-    beforeMount() {
-        this.updateZoom(6);
-    },
     mounted() {
-        this.updateZoom(6);
+        this.initializeMap();
     },
     methods: {
         async initializeMap() {
-            this.mapApi = new MapApiService(this.baseUrl, this.model);
-            await this.mapApi.init();
+            this.mapApi = new MapApiService(this.dataFiltrationUrl, this.model);
+            // await this.mapApi.init();
             this.loadData();
         },
         async refreshData() {
@@ -177,30 +179,24 @@ export default {
             this.loadData();
         },
         async updateFilters(param, value) {
-            // prevent multiple request when typing
-            if (this.mapApi && this.mapApi.processing) {
-                return;
-            }
+            if (this.mapApi && this.mapApi.processing) return;
             this.params[param] = value;
             await this.mapApi.updateParam(this.params);
             this.loadData();
         },
         loadData() {
-            if (this.dataPoints) {
-                this.commodities = this.dataPoints;
-            }else {
-                this.commodities = this.customPoint;
-                if (this.commodities.length === 1) {
-                    this.selectPoint(this.commodities[0]);
-                }
+            this.commodities = this.dataPoints && this.dataPoints.length ? this.dataPoints : this.customPoint;
+            if (this.commodities && this.commodities.length === 1) {
+                this.selectPoint(this.commodities[0]);
             }
-            this.placesFiltered = this.commodities;
-            this.placesSearched = this.placesFiltered;
+            // this.placesFiltered = this.commodities;
+            // this.placesSearched = this.placesFiltered;
+            //this.placesFiltered = this.newData;
+            //this.placesSearched = this.placesFiltered;
+
+            //console.log('placesFiltered', this.placesFiltered);
         },
-        selectPoint(point) {
-            if (!this.$refs.map) return;
-            this.mapApi.selectPoint(point);
-        },
+
         updateCenter(center) {
             this.mapApi.updateCenter(center);
         },
@@ -219,16 +215,24 @@ export default {
         selectedPoint() {
             return this.mapApi.selectedPlace;
         },
+
+        isValidPoint(point) {
+            return point && point.latitude && point.longitude;
+        },
+        selectPoint(point) {
+            if (!this.$refs.map && !this.isValidPoint(point.city_desc)) return;
+            this.mapApi.selectPoint(point);
+        },
     },
     watch: {
         customPoint: {
-            handler: function (newVal, oldVal) {
+            handler(newVal) {
                 if (newVal) {
                     this.selectPoint(newVal);
                 }
             },
             deep: true
-        }
+        },
     }
 };
 </script>
@@ -255,12 +259,13 @@ export default {
             <span>Share</span>
         </top-action-btn>
     </div>
-    <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2">
+    <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2 relative">
         <div class="relative gap-2">
+            <data-filtration-fields @tableChange="dataFiltrationUrl = $event" @dataRefreshed="dataFiltration = $event" @processingRequest="processingRequest"/>
             <div class="w-full flex gap-1">
                 <search-box
                     :value="mapApi.selectedPlace ? mapApi.selectedPlace.city.cityDesc : ''"
-                    :options="placesFiltered"
+                    :options="newData"
                     :label="mapApi.selectedPlace ? mapApi.selectedPlace.city.cityDesc : 'Select a place'"
                     @searchString="updateFilters('search', $event)"
                     @input="updateFilters('search', $event.target.value)"
@@ -304,13 +309,6 @@ export default {
             </div>
         </div>
         <div ref="mapContainer" class="w-full flex gap-2 relative mt-1">
-            <transition-container>
-                <div v-show="processing" class="bg-gray-100 z-10 text-gray-900 select-none text-xl absolute top-0 left-0 w-full opacity-90 min-h-full text-center p-10">
-                    <div class="flex items-center gap-2 justify-center">
-                        <loader-icon /> Processing...
-                    </div>
-                </div>
-            </transition-container>
             <l-map
                 ref="map"
                 :use-global-leaflet="true"
@@ -347,18 +345,19 @@ export default {
                     layer-type="base"
                 />
                 <l-marker v-if="mapApi.markerLatLng" :lat-lng="mapApi.markerLatLng" ref="marker" />
-                <l-circle-marker
-                    v-for="place in placesFiltered"
-                    :key="place.id"
-                    :lat-lng="[place.city.latitude, place.city.longitude]"
-                    :opacity="1"
-                    :radius="7"
-                    color="#3DA5B4"
-                    :weight="1"
-                    @click="selectPoint(place)"
-                >
-                    <l-tooltip :content="place.city.cityDesc" />
-                </l-circle-marker>
+                <template v-for="place in newData" :key="place.id" >
+                    <l-circle-marker
+                        v-if="isValidPoint(place.city_desc)"
+                        :lat-lng="[place.city_desc.latitude, place.city_desc.longitude]"
+                        :opacity="1"
+                        :radius="5"
+                        color="#3DA5B4"
+                        :weight="1"
+                        @click="selectPoint(place)"
+                    >
+                        <l-tooltip :content="place.city" />
+                    </l-circle-marker>
+                </template>
                 <l-control>
                     <FullscreenToggle :element="$refs.mapContainer" />
                     <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">

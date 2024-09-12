@@ -31,7 +31,7 @@ export default {
 </script>
 
 <template>
-    <div class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1 relative">
         <div @click="open = !open" class="flex items-center gap-2 border bg-gray-300 p-2 px-5 rounded w-fit">
             <p>{{ label }}</p>
             <filter-icon class="h-5 w-5 duration-300" :class="open? 'rotate-180':'rotate-0'"/>
