@@ -1,15 +1,13 @@
 import BaseClass from "../../domain/base/BaseClass";
 import ICity from "../../interface/location/ICity";
-import IProvince from "../../interface/location/IProvince";
-import IRegion from "../../interface/location/IRegion";
 import DtoProvince from "./DtoProvince";
 import DtoRegion from "./DtoRegion";
 
 export default class DtoCity extends BaseClass implements ICity {
     id: number = null;
     cityDesc: string = null;
-    provDesc: IProvince = null;
-    regDesc: IRegion = null;
+    provDesc: DtoProvince = null;
+    regDesc: DtoRegion = null;
     latitude: string = null;
     longitude: string = null;
 
@@ -26,5 +24,24 @@ export default class DtoCity extends BaseClass implements ICity {
 
         if (dto.regDesc)
             this.regDesc = new DtoRegion(dto.regDesc);
+    }
+
+    get city() {
+        return this.cityDesc;
+    }
+
+    get province() {
+        return this.provDesc.province;
+    }
+
+    get region() {
+        return this.regDesc.region;
+    }
+
+    get LatLng() {
+        return {
+            lat: parseFloat(this.latitude),
+            lng: parseFloat(this.longitude)
+        }
     }
 }

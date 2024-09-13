@@ -153,14 +153,23 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasRole(\App\Enums\Role::RESEARCHER->value);
     }
 
-    public function approve($id = null): void
+    public function approve(int | array $id = null): void
     {
         if ($id) {
-            $this->accounts()->create([
-                'user_id' => $this->id,
-                'app_id' => $id,
-                'approved_at' => now(),
-            ]);
+            if (is_int($id))
+                $this->accounts()->create([
+                    'user_id' => $this->id,
+                    'app_id' => $id,
+                    'approved_at' => now(),
+                ]);
+            else
+                foreach ($id as $key => $value) {
+                    $this->accounts()->create([
+                        'user_id' => $this->id,
+                        'app_id' => $value,
+                        'approved_at' => now(),
+                    ]);
+                }
         }
     }
 }

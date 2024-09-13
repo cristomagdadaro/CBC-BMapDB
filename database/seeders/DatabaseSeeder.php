@@ -69,30 +69,29 @@ class DatabaseSeeder extends Seeder
 
 
         $admin->assignRole(Role::ADMIN->value);
-        $twgAdmin->assignRole(Role::TWG_ADMIN->value);
+        $twgAdmin->assignRole(Role::FOCAL_PERSON->value);
         $breeder->assignRole(Role::BREEDER->value);
         $researcher->assignRole(Role::RESEARCHER->value);
 
         $users = User::all();
         foreach ($users as $user) {
             //check if user is already assigned a role
-            if ($user->hasRole(Role::ADMIN->value) || $user->hasRole(Role::TWG_ADMIN->value) || $user->hasRole(Role::BREEDER->value) || $user->hasRole(Role::RESEARCHER->value)) {
+            if ($user->hasRole(Role::ADMIN->value) || $user->hasRole(Role::FOCAL_PERSON->value) || $user->hasRole(Role::BREEDER->value) || $user->hasRole(Role::RESEARCHER->value)) {
                 continue;
             }
             $user->assignRole(rand(2, 5));
             switch ($user->role) {
-                case Role::TWG_ADMIN->value:
-                    $user->approve(1);
+                case Role::EXPERT->value:
+                    $user->approve([1]);
                     break;
-                case Role::BREEDER_ADMIN->value:
-                    $user->approve(2);
+                case Role::FOCAL_PERSON->value:
+                    $user->approve([1, 2]);
                     break;
                 case Role::BREEDER->value:
-                    $user->approve(2);
+                    $user->approve([2]);
                     break;
                 case Role::RESEARCHER->value:
-                    $user->approve(1);
-                    $user->approve(2);
+                    $user->approve([1, 2]);
                     break;
             }
         }

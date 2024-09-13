@@ -3,6 +3,7 @@ import DtoBreeder from "../dto/DtoBreeder";
 export default class Breeder extends DtoBreeder{
     constructor(params : DtoBreeder) {
         super(params);
+        console.log(this);
     }
 
     static getColumns() {
@@ -12,14 +13,14 @@ export default class Breeder extends DtoBreeder{
                 key: 'id',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'User ID',
                 key: 'user_id',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Name',
@@ -29,8 +30,8 @@ export default class Breeder extends DtoBreeder{
                 visible: true,
             },
             {
-                title: 'Agency',
-                key: 'agency',
+                title: 'Affiliation',
+                key: 'affiliated.name',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -40,32 +41,32 @@ export default class Breeder extends DtoBreeder{
                 key: 'phone',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Email',
                 key: 'email',
                 align: 'center',
                 sortable: false,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'City',
-                key: 'city',
+                key: 'affiliated.city',
                 align: 'center',
                 sortable: true,
                 visible: true,
             },
             {
                 title: 'Province',
-                key: 'province',
+                key: 'affiliated.province',
                 align: 'center',
                 sortable: true,
                 visible: true,
             },
             {
                 title: 'Region',
-                key: 'region',
+                key: 'affiliated.region',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -75,21 +76,21 @@ export default class Breeder extends DtoBreeder{
                 key: 'updated_at',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Created At',
                 key: 'created_at',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Deleted At',
                 key: 'deleted_at',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
         ];
     }

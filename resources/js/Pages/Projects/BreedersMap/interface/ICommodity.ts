@@ -3,8 +3,9 @@ import ICity from "../../../../Modules/core/interface/location/ICity";
 import IProvince from "../../../../Modules/core/interface/location/IProvince";
 import IRegion from "../../../../Modules/core/interface/location/IRegion";
 import ICountry from "../../../../Modules/core/interface/location/ICountry";
+import IBaseClass from "../../../../Modules/core/interface/base/IBaseClass";
 
-export default interface ICommodity {
+export default interface ICommodity  extends IBaseClass {
     id: number;
     name: string;
     breeder_id: number;
@@ -21,9 +22,6 @@ export default interface ICommodity {
     region: IRegion;
     country: ICountry;
     status: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
 
     breeder: IBreeder;
 }

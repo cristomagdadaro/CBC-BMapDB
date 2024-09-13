@@ -1,15 +1,11 @@
-export default interface IBreeder {
+import IBaseClass from "../../../../Modules/core/interface/base/IBaseClass";
+import IInstitute from "../../../../Modules/core/interface/auth/IInstitute";
+
+export default interface IBreeder extends IBaseClass {
     id: number;
     user_id: number;
     name: string;
-    agency: string;
+    affiliated: IInstitute;
     phone: string;
     email: string;
-    city: string;
-    province: string;
-    region: string;
-    country: string;
-    updated_at: string;
-    created_at: string;
-    deleted_at: string;
 }

@@ -8,7 +8,7 @@
                 <text-field required :error="getError('name')" label="Name" v-model="form.name" />
                 <text-field :error="getError('phone')" label="Phone Number" v-model="form.phone" />
                 <text-field required :error="getError('email')" label="Email" v-model="form.email" />
-                <text-field required :error="getError('agency')" label="Agency/Institution" v-model="form.agency" />
+                <select-search-field required :api-link="route('api.institutes.index.public')"  :error="getError('affiliation')" label="Agency/Institution/Office" v-model="form.affiliation" />
             </div>
             <div class="mt-1">
                 <text-field :error="getError('address')" label="Affiliate Address" v-model="form.address" />
@@ -29,7 +29,7 @@ export default {
                 name: null,
                 phone: null,
                 email: null,
-                agency: null,
+                affiliation: null,
                 address: null,
             },
         };

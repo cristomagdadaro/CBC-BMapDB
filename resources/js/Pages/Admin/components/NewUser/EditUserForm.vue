@@ -1,7 +1,9 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin.js";
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 
 export default {
+    components: {SelectSearchField},
     mixins: [FormMixin],
     name: "EditUserForm",
     data() {
@@ -31,8 +33,8 @@ export default {
                 <text-field :error="getError('suffix')" label="Suffix" v-model="form.suffix" />
                 <text-field :error="getError('mobile_no')" label="Mobile No." v-model="form.mobile_no" />
                 <text-field required :error="getError('email')" label="Email" v-model="form.email" />
-                <text-field required :error="getError('affiliation')" label="Agency/Institution/Office" v-model="form.affiliation" />
-                <select-search-field :api-link="route('api.applications.index')" :error="getError('account_for')" label="Account For" v-model="form.account_for" required />
+                <select-search-field required :api-link="route('api.institutes.index.public')"  :error="getError('affiliation')" label="Agency/Institution/Office" v-model="form.affiliation" />
+                <select-search-field required :api-link="route('api.applications.index')" :error="getError('account_for')" label="Account For" v-model="form.account_for" />
                 <text-field required :error="getError('password')" label="Password" v-model="form.password" />
             </div>
         </template>

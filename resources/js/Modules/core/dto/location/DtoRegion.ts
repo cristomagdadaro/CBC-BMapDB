@@ -18,4 +18,8 @@ export default class DtoRegion extends BaseClass implements IRegion {
         if (dto.country_id)
             this.country_id = new DtoCountry(dto.country_id);
     }
+
+    get region() {
+        return this.regDesc;
+    }
 }

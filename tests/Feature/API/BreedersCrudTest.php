@@ -43,7 +43,7 @@ class BreedersCrudTest extends TestCase
         $response = $this->postJson('/api/breeders', [
             'user_id' => '1',
             'name' => 'Test Breeder',
-            'agency' => 'Test Agency',
+            'affiliation' => 'Test Agency',
             'address' => 'Test Address',
             'phone' => 'Test Phone',
             'email' => 'test@gmail.com',
@@ -53,7 +53,7 @@ class BreedersCrudTest extends TestCase
         $this->assertDatabaseHas('breeders', [
             'user_id' => '1',
             'name' => 'Test Breeder',
-            'agency' => 'Test Agency',
+            'affiliation' => 'Test Agency',
             'address' => 'Test Address',
             'phone' => 'Test Phone',
             'email' => 'test@gmail.com',
@@ -66,7 +66,7 @@ class BreedersCrudTest extends TestCase
         $this->userSetup();
         $response = $this->postJson('/api/breeders', [
             'name' => 'Test Breeder',
-            'agency' => 'Test Agency',
+            'affiliation' => 'Test Agency',
             'address' => 'Test Address',
             'phone' => 'Test Phone',
             'email' => 'test',
@@ -117,7 +117,7 @@ class BreedersCrudTest extends TestCase
         $response = $this->putJson('/api/breeders/2', [
             'user_id' => '1',
             'name' => 'Test Breeder',
-            'agency' => 'Test Agency',
+            'affiliation' => 'Test Agency',
             'address' => 'Test Address',
             'phone' => 'Test Phone',
             'email' => 'update_email@gmail.com',
@@ -127,7 +127,7 @@ class BreedersCrudTest extends TestCase
         $this->assertDatabaseHas('breeders', [
             'id' => 2,
             'name' => 'Test Breeder',
-            'agency' => 'Test Agency',
+            'affiliation' => 'Test Agency',
             'address' => 'Test Address',
             'phone' => 'Test Phone',
             'email' => 'update_email@gmail.com',
@@ -140,7 +140,7 @@ class BreedersCrudTest extends TestCase
         $this->userSetup();
         $response = $this->putJson('/api/breeders/1', [
             'name' => 'Test Breeder',
-            'agency' => 'Test Agency',
+            'affiliation' => 'Test Agency',
             'address' => 'Test Address',
             'phone' => 'Test Phone',
             'email' => 'update_email',
@@ -155,7 +155,7 @@ class BreedersCrudTest extends TestCase
         $this->userSetup();
         $response = $this->putJson('/api/breeders/999', [
             'name' => 'Test Breeder',
-            'agency' => 'Test Agency',
+            'affiliation' => 'Test Agency',
             'address' => 'Test Address',
             'phone' => 'Test Phone',
             'email' => 'update_email@gmail.com',
@@ -171,7 +171,7 @@ class BreedersCrudTest extends TestCase
         $breeder = Breeder::factory()->create(
             [
                 'name' => 'Test Breeder',
-                'agency' => 'Test Agency',
+                'affiliation' => 'Test Agency',
                 'address' => 'Test Address',
                 'phone' => 'Test Phone',
                 'email' => 'update_email@gmail.com',
@@ -180,7 +180,7 @@ class BreedersCrudTest extends TestCase
 
         $response = $this->putJson('/api/breeders/'. $breeder->id,[
             'name' => 'Test Breeder',
-            'agency' => 'Test Agency',
+            'affiliation' => 'Test Agency',
             'address' => 'Test Address',
             'phone' => 'Test Phone',
             'email' => 'update_email@gmail.com',

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Actions\Fortify\PasswordValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,7 +27,7 @@ class UpdateBreederRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string|unique:breeders,name,'.$this->id,
-            'agency' => 'required|string',
+            'affiliation' => 'required|string|exists:affiliations,id',
             'address' => 'nullable|string',
             'phone' => 'nullable|string|unique:breeders,phone,'.$this->id,
             'email' => [
@@ -34,6 +35,7 @@ class UpdateBreederRequest extends FormRequest
                 'email',
                 'unique:breeders,email,'.$this->id,
             ],
+            'password' => [PasswordValidationRules::class]
         ];
     }
 }

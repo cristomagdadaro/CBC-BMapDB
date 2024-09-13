@@ -28,7 +28,7 @@ class BaseModel extends Model
 
     protected function serializeDate(DateTimeInterface $date): string
     {
-        return $date->format('g:i a M j, Y');
+        return $date->format('M j, Y g:i a');
     }
 
     public function getTableName(): string

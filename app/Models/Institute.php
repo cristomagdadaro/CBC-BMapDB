@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Location\City;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Institute extends BaseModel
@@ -13,9 +13,7 @@ class Institute extends BaseModel
     protected $fillable = [
         'name',
         'inst_type',
-        'city',
-        'province',
-        'region',
+        'geolocation',
         'website',
         'email',
         'phone',
@@ -37,11 +35,15 @@ class Institute extends BaseModel
         'id',
         'name',
         'inst_type',
-        'city',
-        'province',
-        'region',
+        'geolocation',
         'website',
         'email',
         'phone',
     ];
+
+
+    public function city()
+    {
+        return $this->belongsTo(City::class, 'geolocation');
+    }
 }

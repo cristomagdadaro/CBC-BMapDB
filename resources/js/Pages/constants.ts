@@ -51,7 +51,7 @@ export const Projects = [
     },{
         id: 2,
         value: 'projects.breedersmap.index',
-        label: 'Breeders\' Map',
+        label: "Breeders' Map",
     }
 ]
 

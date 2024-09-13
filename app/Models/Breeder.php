@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Model;
 
-class Breeder extends Model
+class Breeder extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
@@ -19,11 +19,7 @@ class Breeder extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'agency',
-        'city',
-        'province',
-        'region',
-        'country',
+        'affiliation',
         'phone',
         'email',
         'password',
@@ -33,7 +29,7 @@ class Breeder extends Model
     protected $guarded = ['id'];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'user_id',
     ];
 
     protected $casts = [
@@ -45,16 +41,9 @@ class Breeder extends Model
         'id',
         'user_id',
         'name',
-        'agency',
-        'city',
-        'province',
-        'region',
-        'country',
+        'affiliation',
         'phone',
         'email',
-        'updated_at',
-        'created_at',
-        'deleted_at',
     ];
 
     protected array $notifMessage = [
@@ -68,20 +57,9 @@ class Breeder extends Model
         'unknown' => 'Unknown error, action failed.',
     ];
 
-    /*protected $hidden = [
-        'user_id',
-        'created_at',
-        'updated_at',
-    ];*/
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    public function geodata(): HasMany
-    {
-        return $this->hasMany(Geodata::class, 'breeder_id', 'id');
     }
 
     public function commodities(): HasMany
@@ -94,8 +72,8 @@ class Breeder extends Model
         return $this->searchable;
     }
 
-    public function cityDesc(): BelongsTo
+    public function affiliated(): BelongsTo
     {
-        return $this->belongsTo(City::class, 'city', 'cityDesc');
+        return $this->belongsTo(Institute::class, 'affiliation', 'id')->with('city');
     }
 }

@@ -20,6 +20,7 @@ import DataFiltrationFields from "@/Pages/Projects/BreedersMap/presentation/comp
 import BarGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/BarGraph.vue";
 import DoughnutGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/DoughnutGraph.vue";
 import LineGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/LineGraph.vue";
+import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 
 export default {
     name: "Summary",
@@ -84,11 +85,11 @@ export default {
         },
     },
     computed: {
-        doughnutGraph() {
-            return doughnutGraph
-        },
-        Commodity() {
-            return Commodity
+        tableModel() {
+            if(this.filter.table_name === 'commodities')
+                return Commodity
+            else
+                return Breeder
         },
         barGraphData() {
             return {
@@ -173,7 +174,7 @@ export default {
                 <search-by id="bm-columnsfilter-dropdown"
                            :value="filter.filter"
                            :is-exact="filter.is_exact"
-                           :options="Commodity.getColumns().map(column => {
+                           :options="tableModel.getColumns().map(column => {
                                  return {
                                       name: column.key,
                                       label: column.title
@@ -227,7 +228,7 @@ export default {
                     <crcm-tbody>
                         <tbody-row  v-if="apiResponseMixin && apiResponseMixin.breeders.length" v-for="breeder in apiResponseMixin.breeders">
                             <t-d>{{ breeder.name }}</t-d>
-                            <t-d>{{ breeder.agency }}</t-d>
+                            <t-d>{{ breeder.affiliation }}</t-d>
                             <t-d>{{ breeder.phone }}</t-d>
                             <t-d>{{ breeder.email }}</t-d>
                         </tbody-row>

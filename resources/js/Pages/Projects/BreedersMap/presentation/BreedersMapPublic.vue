@@ -80,7 +80,7 @@ export default {
                         <span>Welcome to the Breeders' Map</span>
                         <info-icon @click="fadeIn" class="w-4 md:w-5 xl:w-6 h-auto cursor-pointer active:scale-90 duration-200" />
                     </div>
-                    <button id="bm-qg-start" @click="fadeIn" class="bg-cbc-dark-green text-light-color rounded py-1 px-2 text-sm">Quick Guide?</button>
+                    <button id="bm-qg-start" @click="fadeIn" class="bg-cbc-dark-green text-light-color rounded py-1 px-2 text-sm z-[999]">Quick Guide?</button>
                 </div>
                 <div ref="fadeOutElement" >
                     <p class="text-normal">

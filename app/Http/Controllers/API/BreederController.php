@@ -20,8 +20,9 @@ class BreederController extends BaseController
         $this->service = $breederRepository;
     }
 
-    public function index(GetBreederRequest $request): BaseCollection
+    public function index(GetBreederRequest $request)
     {
+        $this->service->appendWith(['affiliated']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
@@ -88,7 +89,7 @@ class BreederController extends BaseController
             $model = $model->where($group_by, $search);
         }
 
-        $results = $model->selectRaw('name, CONCAT(name, "-", agency) as full_name, agency, phone as total')
+        $results = $model->selectRaw('name, CONCAT(name, "-", affiliation) as full_name, affiliation, phone as total')
             ->orderBy('total', 'desc')
             ->get();
 
@@ -106,7 +107,7 @@ class BreederController extends BaseController
         }
 
         return [
-            'labels' => $results->pluck('agency')->unique()->values()->toArray(),
+            'labels' => $results->pluck('affiliation')->unique()->values()->toArray(),
             'datasets' => $datasets
         ];
     }

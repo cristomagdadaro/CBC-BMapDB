@@ -90,7 +90,7 @@ export default {
                     </div>
                     <div class="flex gap-1">
                         <h2 class="h2 font-semibold select-none">Affiliation: </h2>
-                        <p>{{ breeder.agency }}</p>
+                        <p>{{ breeder.affiliation }}</p>
                     </div>
                     <div class="flex gap-1">
                         <h2 class="h2 font-semibold select-none whitespace-nowrap">Office Address: </h2>

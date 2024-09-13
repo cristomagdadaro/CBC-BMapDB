@@ -95,7 +95,7 @@ export default {
                                 },
                                 {
                                     name: 2,
-                                    label:'Breeder\'s Map',
+                                    label:'Breeders\' Map',
                                 }
                             ]"
                         />

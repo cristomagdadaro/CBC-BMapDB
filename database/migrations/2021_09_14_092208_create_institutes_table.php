@@ -14,10 +14,8 @@ return new class extends Migration
         Schema::create('institutes', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('inst_type');
-            $table->string('city');
-            $table->string('province');
-            $table->string('region');
+            $table->string('inst_type'); // SUC, DA Unit, LGU, etc.
+            $table->foreignId('geolocation')->constrained('loc_cities');
             $table->string('website');
             $table->string('email');
             $table->string('phone');

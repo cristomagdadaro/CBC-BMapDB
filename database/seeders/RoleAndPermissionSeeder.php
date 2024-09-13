@@ -61,8 +61,8 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => PermissionEnum::READ_TWG_PROJECT->value]);
 
         $adminRole = Role::create(['name' => RoleEnum::ADMIN->value]);
-        $twgAdminRole = Role::create(['name' => RoleEnum::TWG_ADMIN->value]);
-        $breederAdmin = Role::create(['name' => RoleEnum::BREEDER_ADMIN->value]);
+        $twgAdminRole = Role::create(['name' => RoleEnum::EXPERT->value]);
+        $breederAdmin = Role::create(['name' => RoleEnum::FOCAL_PERSON->value]);
         $breeder = Role::create(['name' => RoleEnum::BREEDER->value]);
         $researcherRole = Role::create(['name' => RoleEnum::RESEARCHER->value]);
 
