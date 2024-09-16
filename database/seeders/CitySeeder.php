@@ -13,8 +13,12 @@ class CitySeeder extends Seeder
      */
     public function run(): void
     {
+        $temp = 0;
         $ph_cities =  config('cities');
         foreach ($ph_cities as $city) {
+            if ($temp >= 300)
+                break;
+
             City::factory()->create(
                 [
                     'latitude' => trim($city['latitude']),
@@ -24,6 +28,7 @@ class CitySeeder extends Seeder
                     'provDesc' => $city['provDesc'],
                 ]
             );
+            $temp++;
         }
     }
 }

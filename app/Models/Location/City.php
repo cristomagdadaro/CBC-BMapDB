@@ -19,6 +19,15 @@ class City extends BaseModel
         'regDesc',
     ];
 
+    protected array $searchable = [
+        'id',
+        'latitude',
+        'longitude',
+        'cityDesc',
+        'provDesc',
+        'regDesc',
+    ];
+
     public function province()
     {
         return $this->belongsTo(Province::class, 'provDesc', 'provDesc');

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('affiliation')->constrained('institutes');
+            $table->foreignId('geolocation')->constrained('loc_cities');
 
             $table->rememberToken();
             $table->timestamps();

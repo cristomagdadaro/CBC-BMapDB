@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('commodities', function (Blueprint $table) {
+        /*Schema::table('commodities', function (Blueprint $table) {
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
-        });
+        });*/
     }
 
     /**

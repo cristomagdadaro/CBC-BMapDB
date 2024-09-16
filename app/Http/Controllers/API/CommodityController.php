@@ -42,45 +42,67 @@ class CommodityController extends BaseController
     public function summary(GetCommoditiesRequest $request)
     {
         $model = $this->service->model;
-        $group_by = $request->validated('group_by') ?? 'region';
-        $search = $request->validated('search') ?? '';
+        $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';
+        $geo_location_value = $request->validated('geo_location_value');
         $is_exact = $request->validated('is_exact');
         $commodity = $request->all()['commodity'] ?? null;
+        $group_by = $this->determineLocFilterLevel($geo_location_filter);
 
-        $commodities = $this->applyFilters($model, $commodity, $search, $is_exact, $group_by)->get();
-        $chart_data = $this->applyFilters($model->selectRaw("$group_by as label, count(*) as total"), $commodity, $search, $is_exact, $group_by)
+        $commodities = $this->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)
+            ->select($model->getSearchable())
+            ->with(['breeder','location'])
+            ->get();
+        $chart_data = $this->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)
+            ->selectRaw("$group_by as label, count(*) as total")
             ->groupBy($group_by)
             ->orderBy('total', 'desc')
             ->get();
-        $commodities_chart = $this->applyFilters($model->selectRaw('name as label, count(*) as total'), $commodity, $search, $is_exact, $group_by)
+        $commodities_chart = $this->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)
+            ->selectRaw('name as label, count(*) as total')
             ->groupBy('name')
             ->orderBy('total', 'desc')
             ->get();
 
         return response()->json([
-            'commodity_labels' => $this->getCommodityLabels($model, $search, $is_exact, $group_by),
-            'group_search_labels' => $this->getGroupByLabels($model, $commodity, $group_by),
+            'params' => [
+                'commodity' => $commodity,
+                'group_by' => $group_by,
+                'geo_location_filter' => $geo_location_filter,
+                'geo_location_value' => $geo_location_value,
+                'is_exact' => $is_exact,
+            ],
+            'chart_labels' => $commodities_chart,
             'chart_data' => $chart_data,
-            'commodities_chart' => $commodities_chart,
-            'commodities_linechart' => $this->linechartData($model, $search, $is_exact, $group_by, $commodity),
-            'commodities' => $commodities,
+            'raw_data' => $commodities,
+            'raw_data_labels' => $this->getCommodityLabels($model, $geo_location_value, $is_exact, $geo_location_filter),
+            'group_search_labels' => $this->getGroupByGeoLoc($model, $commodity, $geo_location_filter),
+            'linechart_data' => $this->linechartData($model, $geo_location_value, $is_exact, $geo_location_filter, $commodity),
         ]);
     }
 
-    private function applyFilters($model, $commodity, $search, $is_exact, $group_by) {
-        return $model->when($commodity, function ($query) use ($commodity) {
-            return $query->where('name', $commodity);
-        })
-            ->when($search, function ($query) use ($search, $is_exact, $group_by) {
-                if ($is_exact === 'true') {
-                    return $query->where($group_by, $search);
-                } else {
-                    return $query->where($group_by, 'like', '%'.$search.'%');
-                }
-            })->with(['breeder', 'cityDesc']);
+    private function applyFilters($model, $commodity, $geo_location_value, $geo_location_filter) {
+        $group_by = $this->determineLocFilterLevel($geo_location_filter);
+
+        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation');
+
+        $model = $model
+            ->when($commodity, function ($query) use ($commodity) {
+                return $query->where('name', $commodity);
+            });
+
+        if ($geo_location_value) {
+            $model = $model->where('loc_cities.' . $group_by, $geo_location_value);
+        }
+
+        return $model;
     }
 
     private function linechartData($model, $search = null, $is_exact = false, $group_by = 'name', $commodity = null) {
+        $group_by = $this->determineLocFilterLevel($group_by);
+
+
+        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation');
+
         // Apply filters based on search criteria and commodity
         if ($search) {
             $model = $model->where($group_by, $search);
@@ -114,29 +136,33 @@ class CommodityController extends BaseController
         ];
     }
 
-    private function getGroupByLabels($model, $commodity, $group_by)
+    private function getGroupByGeoLoc($model, $commodity, $geo_location_filter)
     {
-        return $model->select($group_by)
-            ->where('population', '>', 0)
+        $pluck_name = $this->determineLocFilterLevel($geo_location_filter);
+
+        return $model
             ->when($commodity, function ($query) use ($commodity) {
                 return $query->where('name', $commodity);
             })
-            ->groupBy($group_by)
-            ->get()
-            ->pluck($group_by)
-            ->unique()
+            ->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')
+            ->groupBy('loc_cities.' . $pluck_name)
+            ->get($pluck_name)
+            ->pluck($pluck_name)
             ->sort()
             ->values();
     }
 
-    private function getCommodityLabels($model, $search, $is_exact, $group_by)
+    private function getCommodityLabels($model, $geo_location_value, $is_exact, $geo_location_filter)
     {
-        return $model->where('population', '>', 0)
-            ->when($search, function ($query) use ($search, $is_exact, $group_by) {
+        $group_by = $this->determineLocFilterLevel($geo_location_filter);
+
+        return $model
+            ->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')
+            ->when($geo_location_value, function ($query) use ($geo_location_value, $is_exact, $group_by) {
                 if ($is_exact === 'true') {
-                    return $query->where($group_by, $search);
+                    return $query->where($group_by, $geo_location_value);
                 } else {
-                    return $query->where($group_by, 'like', '%'.$search.'%');
+                    return $query->where($group_by, 'like', '%'.$geo_location_value.'%');
                 }
             })
             ->get()
@@ -144,6 +170,15 @@ class CommodityController extends BaseController
             ->unique()
             ->sort()
             ->values();
+    }
+
+    private function determineLocFilterLevel($geo_location_filter): string
+    {
+        return match ($geo_location_filter) {
+            'province' => 'provDesc',
+            'region' => 'regDesc',
+            default => 'cityDesc',
+        };
     }
 
 

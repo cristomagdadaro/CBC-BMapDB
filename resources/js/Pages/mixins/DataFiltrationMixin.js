@@ -7,12 +7,12 @@ export default {
             apiResponse: {},
             apiUrl: null,
             filter: {
-                group_by: null,
-                search: null,
                 is_exact: true,
                 filter: null,
                 table_name: null,
                 commodity: null,
+                geo_location_filter: null,
+                geo_location_value: null,
             },
             tables: [
                 { label: 'Commodity', name: 'commodities', route: 'api.breedersmap.commodities.summary.public' },
@@ -36,7 +36,7 @@ export default {
             return this.tables.map(item => ({ label: item.label, name: item.name }));
         },
         commodityLabels() {
-            return this.data.commodity_labels.map(item => ({ label: item, name: item }));
+            return this.data.raw_data_labels.map(item => ({ label: item, name: item }));
         },
         locationLabels() {
             return [
@@ -47,16 +47,19 @@ export default {
         },
         specificLocationLabels() {
             return this.data.group_search_labels.map(item => ({ label: item, name: item }));
+        },
+        specificInstituteLabels() {
+            return this.data.group_search_institute.map(item => ({ label: item, name: item }));
         }
     },
     methods: {
         async refreshData() {
             const params = {
-                group_by: this.filter.group_by,
-                search: this.filter.search,
+                geo_location_value: this.filter.geo_location_value,
                 is_exact: this.filter.is_exact,
                 filter: this.filter.filter,
                 commodity: this.filter.commodity,
+                geo_location_filter: this.filter.geo_location_filter,
             };
             const response = await this.api.get(params);
             this.apiResponse = response.data;
@@ -64,7 +67,7 @@ export default {
         async changeListOf(value) {
             if (value && this.tables.length) {
                 this.filter.table_name = value;
-                this.filter.search = null;
+                this.filter.geo_location_value = null;
                 this.apiUrl = this.tables.find(item => item.name === value);
                 this.api = new ApiService(route(this.apiUrl.route));
             } else {
@@ -78,12 +81,12 @@ export default {
             await this.refreshData();
         },
         async changeLocation(value) {
-            this.filter.group_by = value;
-            this.filter.search = null;
+            this.filter.geo_location_filter = value;
+            this.filter.geo_location_value = null;
             await this.refreshData();
         },
         async changeSpecificLocation(value) {
-            this.filter.search = value;
+            this.filter.geo_location_value = value;
             await this.refreshData();
         }
     },

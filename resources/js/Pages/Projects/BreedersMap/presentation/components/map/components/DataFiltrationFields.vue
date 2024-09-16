@@ -13,12 +13,13 @@ export default {
     },
     mounted() {
         this.filter =  {
-            group_by: 'region',
-            search: null,
             is_exact: true,
             filter: null,
             table_name: 'commodities',
             commodity: null,
+            geo_location_filter: 'region',
+            geo_location_value: null,
+
         }
     },
 }
@@ -46,7 +47,7 @@ export default {
         </custom-dropdown>
         <custom-dropdown
             id="bm-commodityfilter-dropdown"
-            v-if="data && data.commodity_labels && filter.table_name === 'commodities'"
+            v-if="data && data.raw_data_labels && filter.table_name === 'commodities'"
             label="Select a specific commodity"
             searchable
             :value="filter.commodity"
@@ -61,7 +62,7 @@ export default {
         <custom-dropdown
             id="bm-locationfilter-dropdown"
             label="Group by"
-            :value="filter.group_by"
+            :value="filter.geo_location_filter"
             :withAllOption="false"
             :options="locationLabels"
             placeholder="None"
@@ -74,10 +75,24 @@ export default {
             id="bm-cprfilter-dropdown"
             v-if="data && data.group_search_labels"
             searchable
-            :label="`Select a specific ${filter.group_by}`"
-            :value="filter.search"
+            :label="`Select a specific ${filter.geo_location_filter}`"
+            :value="filter.geo_location_value"
             :withAllOption="false"
             :options="specificLocationLabels"
+            placeholder="None"
+            @selectedChange="changeSpecificLocation($event)">
+            <template #icon>
+                <caret-down  class="h-4 w-4 text-gray-700" />
+            </template>
+        </custom-dropdown>
+        <custom-dropdown
+            id="bm-cprfilter-dropdown"
+            v-if="data && data.group_search_institute"
+            searchable
+            :label="`Select a specific ${filter.group_search_institute}`"
+            :value="filter.group_search_institute"
+            :withAllOption="false"
+            :options="specificInstituteLabels"
             placeholder="None"
             @selectedChange="changeSpecificLocation($event)">
             <template #icon>

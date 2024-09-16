@@ -44,6 +44,7 @@ class Institute extends BaseModel
 
     public function city()
     {
-        return $this->belongsTo(City::class, 'geolocation');
+        return $this->belongsTo(City::class, 'geolocation')
+            ->select((new City())->getSearchable());
     }
 }

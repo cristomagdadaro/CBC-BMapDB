@@ -20,6 +20,7 @@ class Breeder extends BaseModel
         'user_id',
         'name',
         'affiliation',
+        'geolocation',
         'phone',
         'email',
         'password',
@@ -38,10 +39,11 @@ class Breeder extends BaseModel
     ];
 
     protected array $searchable = [
-        'id',
+        'breeders.id',
         'user_id',
         'name',
         'affiliation',
+        'geolocation',
         'phone',
         'email',
     ];
@@ -72,8 +74,14 @@ class Breeder extends BaseModel
         return $this->searchable;
     }
 
+    public function location()
+    {
+        return $this->belongsTo(City::class, 'geolocation')
+            ->select((new City())->getSearchable());
+    }
+
     public function affiliated(): BelongsTo
     {
-        return $this->belongsTo(Institute::class, 'affiliation', 'id')->with('city');
+        return $this->belongsTo(Institute::class, 'affiliation', 'id');
     }
 }

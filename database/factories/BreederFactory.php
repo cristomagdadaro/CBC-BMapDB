@@ -20,10 +20,12 @@ class BreederFactory extends Factory
      */
     public function definition(): array
     {
+        $institute = Institute::all()->random();
         return [
             'user_id' => User::all()->random()->id,
             'name' => $this->faker->name(),
-            'affiliation' => Institute::all()->random()->id,
+            'affiliation' => $institute->id,
+            'geolocation' => $institute->geolocation,
             'phone' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

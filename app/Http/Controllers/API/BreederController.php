@@ -30,51 +30,70 @@ class BreederController extends BaseController
     public function summary(GetBreederRequest $request)
     {
         $model = $this->service->model;
-        $group_by = $request->validated('group_by') ?? 'region';
-        $search = $request->validated('search') ?? '';
+        $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';
+        $geo_location_value = $request->validated('geo_location_value') ?? '';
         $is_exact = $request->validated('is_exact');
+        $commodity = $request->all()['commodity'] ?? null;
+        $group_by = $this->determineLocFilterLevel($geo_location_filter);
 
-        $breeders = $this->applyFilters($model, $search, $is_exact, $group_by)->get();
-        $chart_data = $this->applyFilters($model->selectRaw("$group_by as label, count(*) as total"), $search, $is_exact, $group_by)
+        $breeders = $this->applyFilters($model, $geo_location_value, $geo_location_filter)
+            ->select($model->getSearchable())
+            ->with(['commodities','affiliated', 'location'])
+            ->get();
+       $chart_data = $this->applyFilters($model, $geo_location_value, $geo_location_filter)
+            ->selectRaw("$group_by as label, count(*) as total")
             ->groupBy($group_by)
             ->orderBy('total', 'desc')
             ->get();
-        $breeders_chart = $this->applyFilters($model->selectRaw('name as label, count(*) as total'), $search, $is_exact, $group_by)
+        $breeders_chart = $this->applyFilters($model, $geo_location_value, $geo_location_filter)
+            ->selectRaw('name as label, count(*) as total')
             ->groupBy('name')
             ->orderBy('total', 'desc')
             ->get();
 
         return response()->json([
-            'commodity_labels' => $this->getBreederLabels($model, $search, $is_exact, $group_by),
-            'group_search_labels' => $this->getGroupByLabels($model, $group_by),
+            'params' => [
+                'commodity' => $commodity,
+                'group_by' => $group_by,
+                'geo_location_filter' => $geo_location_filter,
+                'geo_location_value' => $geo_location_value,
+                'is_exact' => $is_exact,
+            ],
+            'group_search_labels' => $this->getGroupByGeoLoc($model, $commodity, $geo_location_filter),
+            'group_search_institute' => $this->getGroupByInstitute($model, $commodity, $geo_location_filter),
+            'raw_data' => $breeders,
+            'raw_data_labels' => $this->getBreederLabels($model, $geo_location_value, $is_exact, $geo_location_filter),
             'chart_data' => $chart_data,
-            'commodities_chart' => $breeders_chart,
-            'commodities_linechart' => $this->linechartData($model, $search, $is_exact, $group_by),
-            'commodities' => $breeders,
+            'chart_labels' => $breeders_chart,
+            'linechart_data' => $this->linechartData($model, $geo_location_value, $is_exact, $geo_location_filter),
         ]);
     }
 
-    private function applyFilters($model, $search, $is_exact, $group_by) {
-        $breeder = null;
-        return $model->when(null, function ($query) use ($breeder) {
-            return $query->where('name', $breeder);
-        })
-            ->when($search, function ($query) use ($search, $is_exact, $group_by) {
-                if ($is_exact === 'true') {
-                    return $query->where($group_by, $search);
-                } else {
-                    return $query->where($group_by, 'like', '%'.$search.'%');
-                }
-            })->with(['cityDesc']);
+    private function applyFilters($model, $geo_location_value, $geo_location_filter) {
+        $group_by = $this->determineLocFilterLevel($geo_location_filter);
+
+        $group_by = $this->determineLocFilterLevel($geo_location_filter);
+
+        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation');
+
+        if ($geo_location_value) {
+            $model = $model->where('loc_cities.' . $group_by, $geo_location_value);
+        }
+
+        return $model;
     }
 
-    public function getBreederLabels($model, $search, $is_exact, $group_by)
+    public function getBreederLabels($model, $geo_location_value, $is_exact, $geo_location_filter)
     {
-        return $model->when($search, function ($query) use ($search, $is_exact, $group_by) {
+        $group_by = $this->determineLocFilterLevel($geo_location_filter);
+
+        return $model
+            ->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
+            ->when($geo_location_value, function ($query) use ($geo_location_value, $is_exact, $group_by) {
             if ($is_exact === 'true') {
-                return $query->where($group_by, $search);
+                return $query->where($group_by, $geo_location_value);
             } else {
-                return $query->where($group_by, 'like', '%'.$search.'%');
+                return $query->where($group_by, 'like', '%'.$geo_location_value.'%');
             }
         })
         ->get()
@@ -85,6 +104,11 @@ class BreederController extends BaseController
     }
 
     public function linechartData($model, $search = null, $is_exact = false, $group_by = 'name') {
+        $group_by = $this->determineLocFilterLevel($group_by);
+
+
+        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation');
+
         if ($search) {
             $model = $model->where($group_by, $search);
         }
@@ -112,8 +136,44 @@ class BreederController extends BaseController
         ];
     }
 
-    public function getGroupByLabels($model, $group_by) {
-        return $model->get()->pluck($group_by)->unique()->sort()->values();
+    public function getGroupByGeoLoc($model, $commodity, $geo_location_filter) {
+        $pluck_name = $this->determineLocFilterLevel($geo_location_filter);
+
+        return $model
+            ->when($commodity, function ($query) use ($commodity) {
+                return $query->where('name', $commodity);
+            })
+            ->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
+            ->groupBy('loc_cities.' . $pluck_name)
+            ->get($pluck_name)
+            ->pluck($pluck_name)
+            ->sort()
+            ->values();
+    }
+
+    public function getGroupByInstitute($model, $commodity, $geo_location_filter) {
+        $pluck_name = $this->determineLocFilterLevel($geo_location_filter);
+
+        return $model
+            ->when($commodity, function ($query) use ($commodity) {
+                return $query->where('name', $commodity);
+            })
+            ->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
+            ->join('institutes', 'institutes.id', '=', 'breeders.affiliation')
+            ->groupBy('institutes.name')
+            ->get('institutes.name')
+            ->pluck('name')
+            ->sort()
+            ->values();
+    }
+
+    private function determineLocFilterLevel($geo_location_filter): string
+    {
+        return match ($geo_location_filter) {
+            'province' => 'provDesc',
+            'region' => 'regDesc',
+            default => 'cityDesc',
+        };
     }
 
     public function store(CreateBreederRequest $request): JsonResponse

@@ -34,8 +34,6 @@ class CommodityFactory extends Factory
 
         $commodity = $this->faker->randomElement($commodities);
         $city = City::all()->random();
-        $province = $city->province;
-        $region = $province->region;
         return [
             'name' => $commodity['name'],
             'breeder_id' => Breeder::all()->random()->id,
@@ -48,12 +46,7 @@ class CommodityFactory extends Factory
             'yield' => $this->faker->randomFloat(),
             'description' => $this->faker->text,
             'image' => $this->faker->imageUrl(),
-            'city' => $city->cityDesc,
-            'province' => $province->provDesc,
-            'region' => $region->regDesc,
-            'country' => 'Philippines',
-            'latitude' => $city->latitude,
-            'longitude' => $city->longitude,
+            'geolocation' => $city->id,
             'status' => $this->faker->randomElement(['active', 'inactive']),
         ];
     }

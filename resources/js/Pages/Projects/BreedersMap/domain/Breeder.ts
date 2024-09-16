@@ -76,21 +76,21 @@ export default class Breeder extends DtoBreeder{
                 key: 'updated_at',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Created At',
                 key: 'created_at',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Deleted At',
                 key: 'deleted_at',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
         ];
     }

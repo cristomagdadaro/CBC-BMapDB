@@ -25,16 +25,12 @@ class Commodity extends BaseModel
         'yield',
         'description',
         'image',
-        'latitude',
-        'longitude',
-        'city',
-        'province',
-        'region',
-        'country',
+        'geolocation',
+        'status',
     ];
 
     protected array $searchable = [
-        'id',
+        'commodities.id',
         'name',
         'breeder_id',
         'scientific_name',
@@ -46,10 +42,8 @@ class Commodity extends BaseModel
         'yield',
         'description',
         'image',
-        'city',
-        'province',
-        'region',
-        'country',
+        'geolocation',
+        'status',
     ];
 
     protected $casts = [
@@ -73,11 +67,13 @@ class Commodity extends BaseModel
 
     public function breeder(): BelongsTo
     {
-        return $this->belongsTo(Breeder::class, 'breeder_id', 'id');
+        return $this->belongsTo(Breeder::class, 'breeder_id', 'id')
+            ->select((new Breeder())->getSearchable());
     }
 
-    public function cityDesc(): BelongsTo
+    public function location()
     {
-        return $this->belongsTo(City::class, 'city', 'cityDesc');
+        return $this->belongsTo(City::class, 'geolocation')
+            ->select((new City())->getSearchable());
     }
 }

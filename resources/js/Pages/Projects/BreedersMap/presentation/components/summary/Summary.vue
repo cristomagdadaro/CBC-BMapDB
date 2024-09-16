@@ -45,6 +45,7 @@ export default {
                 filter: null,
                 table_name: 'commodities',
                 commodity: null,
+                geo_location_filter: null, // for municipal, city, province, region level
             },
 
             showListOfPlaces: false,
@@ -107,10 +108,10 @@ export default {
         },
         doughnutGraphData() {
             return {
-                labels: this.apiResponseMixin.commodities_chart.map(item => item.label),
+                labels: this.apiResponseMixin.chart_labels.map(item => item.label),
                 datasets: [
                     {
-                        data: this.apiResponseMixin.commodities_chart.map(item => item.total),
+                        data: this.apiResponseMixin.chart_labels.map(item => item.total),
                         backgroundColor: this.listOfColors,
                         borderColor: this.listOfColors.map(color => color.replace('0.2', '1')),
                         borderWidth: 1
@@ -120,8 +121,8 @@ export default {
         },
         lineGraphData() {
             return {
-                labels: this.apiResponseMixin.commodities_linechart.labels,
-                datasets: this.apiResponseMixin.commodities_linechart.datasets
+                labels: this.apiResponseMixin.linechart_data.labels,
+                datasets: this.apiResponseMixin.linechart_data.datasets
             }
         },
     },
@@ -147,13 +148,13 @@ export default {
                 >
                     <bar-graph :data="barGraphData" />
                 </div>
-                <div v-if="apiResponseMixin && apiResponseMixin.commodities_chart && !filter.commodity"
+                <div v-if="apiResponseMixin && apiResponseMixin.chart_labels && !filter.commodity"
                      class="flex justify-center"
                      style="width: 30%; height: auto"
                 >
                     <doughnut-graph :data="doughnutGraphData" />
                 </div>
-                <div v-if="apiResponseMixin && apiResponseMixin.commodities_linechart && filter.commodity"
+                <div v-if="apiResponseMixin && apiResponseMixin.linechart_data && filter.commodity"
                      class="flex justify-center"
                      style="width: 50%; height: auto"
                 >
@@ -184,7 +185,7 @@ export default {
                            @searchBy="filter.filter = $event"
                 />
             </div>
-            <div id="bm-data-table" v-if="apiResponseMixin && apiResponseMixin.commodities" class="text-xs overflow-x-auto">
+            <div id="bm-data-table" v-if="apiResponseMixin && apiResponseMixin.raw_data" class="text-xs overflow-x-auto">
                 <crcm-table>
                     <crcm-thead>
                         <thead-row>
@@ -199,41 +200,17 @@ export default {
                         </thead-row>
                     </crcm-thead>
                     <crcm-tbody class="max-h-[100vh] overflow-y-auto">
-                        <tbody-row v-if="apiResponseMixin && apiResponseMixin.commodities.length" v-for="commodity in apiResponseMixin.commodities">
-                            <t-d>{{ commodity.name }}</t-d>
-                            <t-d>{{ commodity.scientific_name }}</t-d>
-                            <t-d>{{ commodity.variety }}</t-d>
-                            <t-d>{{ commodity.accession }}</t-d>
-                            <t-d>{{ commodity.germplasm }}</t-d>
-                            <t-d>{{ commodity.population }}</t-d>
-                            <t-d>{{ commodity.maturity_period }}</t-d>
-                            <t-d>{{ commodity.yield }}</t-d>
+                        <tbody-row v-if="apiResponseMixin && apiResponseMixin.raw_data.length" v-for="row_data in apiResponseMixin.raw_data">
+                            <t-d
+                                v-for="(value, key) in row_data"
+                            >{{
+                                    tableModel.getColumns().find(
+                                        column => column.key === key && column.visible
+                                    ) ? value : null
+                                }}</t-d>
                         </tbody-row>
                         <tbody-row v-else>
                             <t-d class="text-center text-gray-500" colspan="8">No Data Found</t-d>
-                        </tbody-row>
-                    </crcm-tbody>
-                </crcm-table>
-            </div>
-            <div v-if="apiResponseMixin && apiResponseMixin.breeders" class="text-xs">
-                <crcm-table>
-                    <crcm-thead>
-                        <thead-row>
-                            <t-h column="Breeder" />
-                            <t-h column="Agency" />
-                            <t-h column="Phone" />
-                            <t-h column="Email" />
-                        </thead-row>
-                    </crcm-thead>
-                    <crcm-tbody>
-                        <tbody-row  v-if="apiResponseMixin && apiResponseMixin.breeders.length" v-for="breeder in apiResponseMixin.breeders">
-                            <t-d>{{ breeder.name }}</t-d>
-                            <t-d>{{ breeder.affiliation }}</t-d>
-                            <t-d>{{ breeder.phone }}</t-d>
-                            <t-d>{{ breeder.email }}</t-d>
-                        </tbody-row>
-                        <tbody-row v-else>
-                            <t-d class="text-center text-gray-500" colspan="4">No Data Found</t-d>
                         </tbody-row>
                     </crcm-tbody>
                 </crcm-table>
