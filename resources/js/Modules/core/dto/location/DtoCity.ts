@@ -20,10 +20,16 @@ export default class DtoCity extends BaseClass implements ICity {
         this.longitude = dto.longitude
 
         if (dto.provDesc)
-            this.provDesc = new DtoProvince(dto.provDesc);
+            // @ts-ignore
+            this.provDesc = new DtoProvince(dto);
 
         if (dto.regDesc)
-            this.regDesc = new DtoRegion(dto.regDesc);
+            // @ts-ignore
+            this.regDesc = new DtoRegion(dto);
+    }
+
+    get getFullAddress() {
+        return `${this.cityDesc}, ${this.provDesc.province}, ${this.regDesc.region}`;
     }
 
     get city() {

@@ -17,7 +17,7 @@ const supportLinks = [
     {name: 'About Us', link: 'support.about-us'},
     {name: 'Term of Use', link: 'support.terms-of-use'},
     {name: 'Policy Notice', link: 'support.policy-notice'},
-    {name: 'Primacy Policy', link: 'support.privacy-policy'},
+    {name: 'Privacy Policy', link: 'support.privacy-policy'},
     {name: 'Sitemap', link: 'support.sitemap'},
     {name: 'Developers', link: 'support.developers'},
 ];

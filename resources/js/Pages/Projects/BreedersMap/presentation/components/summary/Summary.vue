@@ -86,6 +86,12 @@ export default {
         },
     },
     computed: {
+        Commodity() {
+            return Commodity
+        },
+        visibleColumns() {
+            return this.tableModel.getColumns().filter(column => column.visible);
+        },
         tableModel() {
             if(this.filter.table_name === 'commodities')
                 return Commodity
@@ -126,6 +132,11 @@ export default {
             }
         },
     },
+    methods: {
+        getNestedValue(obj, path) {
+            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        },
+    }
 }
 </script>
 
@@ -133,10 +144,6 @@ export default {
     <div class="flex flex-col gap-2">
         <breeders-map-onboarding />
         <div class="relative sm:p-4 p-1 ">
-<!--            <div id="bm-coloropacity-slider" class="flex flex-col gap-1">
-                <label>Color Opacity: {{colorOpacity}}</label>
-                <input type="range" min="0.01" max="1.1" step="0.01" v-model="colorOpacity">
-            </div>-->
             <data-filtration-fields :tables="listOfTables"
                                     @dataRefreshed="apiResponseMixin = $event"
                                     @updatedFilter="filter = $event"
@@ -189,24 +196,23 @@ export default {
                 <crcm-table>
                     <crcm-thead>
                         <thead-row>
-                            <t-h column="Commodity" />
-                            <t-h column="Scientific Name" />
-                            <t-h column="Variety" />
-                            <t-h column="Accession" />
-                            <t-h column="Germplasm" />
-                            <t-h column="Population" />
-                            <t-h column="Maturity Period" />
-                            <t-h column="Yield" />
+                            <t-h
+                                v-for="column in tableModel.getColumns()"
+                                :visible="column.visible"
+                                :sortable="column.sortable"
+                                :key="column.key + column.title"
+                                :column="column.title"
+                            />
                         </thead-row>
                     </crcm-thead>
                     <crcm-tbody class="max-h-[100vh] overflow-y-auto">
                         <tbody-row v-if="apiResponseMixin && apiResponseMixin.raw_data.length" v-for="row_data in apiResponseMixin.raw_data">
                             <t-d
-                                v-for="(value, key) in row_data"
+                                v-for="column in visibleColumns"
+                                :key="column.key + row_data[column.key]"
+                                :visible="column.visible"
                             >{{
-                                    tableModel.getColumns().find(
-                                        column => column.key === key && column.visible
-                                    ) ? value : null
+                                    getNestedValue(row_data, column.key)
                                 }}</t-d>
                         </tbody-row>
                         <tbody-row v-else>

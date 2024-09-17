@@ -3,7 +3,6 @@ import DtoBreeder from "../dto/DtoBreeder";
 export default class Breeder extends DtoBreeder{
     constructor(params : DtoBreeder) {
         super(params);
-        console.log(this);
     }
 
     static getColumns() {
@@ -20,7 +19,7 @@ export default class Breeder extends DtoBreeder{
                 key: 'user_id',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Name',
@@ -31,7 +30,7 @@ export default class Breeder extends DtoBreeder{
             },
             {
                 title: 'Affiliation',
-                key: 'affiliated.name',
+                key: 'affiliated',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -51,22 +50,15 @@ export default class Breeder extends DtoBreeder{
                 visible: true,
             },
             {
-                title: 'City',
-                key: 'affiliated.city',
+                title: 'Commodities',
+                key: 'commodities',
                 align: 'center',
                 sortable: true,
                 visible: true,
             },
             {
-                title: 'Province',
-                key: 'affiliated.province',
-                align: 'center',
-                sortable: true,
-                visible: true,
-            },
-            {
-                title: 'Region',
-                key: 'affiliated.region',
+                title: 'Address',
+                key: 'location',
                 align: 'center',
                 sortable: true,
                 visible: true,

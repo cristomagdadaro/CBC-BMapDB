@@ -1,8 +1,11 @@
 import ApiService from "@/Modules/core/infrastructure/ApiService";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
+import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 
 export default {
     data() {
         return {
+            model: null,
             api: null,
             apiResponse: {},
             apiUrl: null,
@@ -15,8 +18,8 @@ export default {
                 geo_location_value: null,
             },
             tables: [
-                { label: 'Commodity', name: 'commodities', route: 'api.breedersmap.commodities.summary.public' },
-                { label: 'Breeders', name: 'breeders', route: 'api.breedersmap.breeders.summary.public' },
+                { label: 'Commodity', name: 'commodities', route: 'api.breedersmap.commodities.summary.public', model: Commodity },
+                { label: 'Breeders', name: 'breeders', route: 'api.breedersmap.breeders.summary.public', model: Breeder },
             ]
         };
     },
@@ -61,10 +64,18 @@ export default {
                 commodity: this.filter.commodity,
                 geo_location_filter: this.filter.geo_location_filter,
             };
-            const response = await this.api.get(params);
-            this.apiResponse = response.data;
+            const response = await this.api.get(params, this.model ?? null);
+            if (response)
+                this.apiResponse = response.data;
+            else
+                this.apiResponse = {};
         },
         async changeListOf(value) {
+            if (value)
+                this.model = this.tables.find(item => item.name === value).model;
+            else
+                this.model = Commodity;
+
             if (value && this.tables.length) {
                 this.filter.table_name = value;
                 this.filter.geo_location_value = null;

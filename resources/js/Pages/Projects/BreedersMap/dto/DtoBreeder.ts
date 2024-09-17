@@ -1,9 +1,11 @@
 import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
 import IBreeder from "../interface/IBreeder";
 import DtoInstitute from "../../../../Modules/core/dto/DtoInstitute";
+import DtoCity from "../../../../Modules/core/dto/location/DtoCity";
+import DtoCommodity from "./DtoCommodity";
 
 export default class DtoBreeder extends BaseClass implements IBreeder {
-    id: number;
+    id?: number;
     user_id: number;
     name: string;
     affiliated: DtoInstitute;
@@ -12,6 +14,8 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
     updated_at: string;
     created_at: string;
     deleted_at: string;
+    location: DtoCity;
+    commodities: DtoCommodity[];
 
     constructor(breeder: IBreeder) {
         super();
@@ -27,7 +31,11 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
         if (breeder.affiliated)
             this.affiliated = new DtoInstitute(breeder.affiliated);
 
-        console.log(this);
+        if (breeder.location)
+            this.location = new DtoCity(breeder.location);
+
+        if (breeder.commodities)
+            this.commodities = breeder.commodities.map(commodity => new DtoCommodity(commodity));
     }
 
     get city() {

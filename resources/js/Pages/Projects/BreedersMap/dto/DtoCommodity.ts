@@ -1,11 +1,8 @@
 import ICommodity from "../interface/ICommodity";
 import IBreeder from "../interface/IBreeder";
 import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
-import Breeder from "../domain/Breeder";
-import ICity from "../../../../Modules/core/interface/location/ICity";
-import IProvince from "../../../../Modules/core/interface/location/IProvince";
-import IRegion from "../../../../Modules/core/interface/location/IRegion";
-import ICountry from "../../../../Modules/core/interface/location/ICountry";
+import DtoCity from "../../../../Modules/core/dto/location/DtoCity";
+import DtoBreeder from "./DtoBreeder";
 // @ts-ignore
 export default class DtoCommodity extends BaseClass implements ICommodity {
     id: number;
@@ -19,11 +16,8 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     maturity_period: string;
     yield: string;
     description: string;
-    city: ICity;
-    province: IProvince;
-    region: IRegion;
-    country: ICountry;
     status: string;
+    location: DtoCity;
     created_at: string;
     updated_at: string;
     deleted_at: string;
@@ -43,17 +37,15 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.maturity_period = commodity.maturity_period;
         this.yield = commodity.yield;
         this.description = commodity.description;
-        this.city = commodity.city_desc;
-        this.province = commodity.province;
-        this.region = commodity.region;
-        this.country = commodity.country;
         this.status = commodity.status;
         this.created_at = commodity.created_at;
         this.updated_at = commodity.updated_at;
         this.deleted_at = commodity.deleted_at;
 
         if (commodity.breeder)
-            //@ts-ignore
-            this.breeder = new Breeder(commodity.breeder);
+            this.breeder = new DtoBreeder(commodity.breeder);
+
+        if (commodity.location)
+            this.location = new DtoCity(commodity.location);
     }
 }
