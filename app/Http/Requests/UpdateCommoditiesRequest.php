@@ -22,7 +22,7 @@ class UpdateCommoditiesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:commodities,name,' . $this->id,
+            'name' => 'required|string|max:255',
             'breeder_id' => 'required|integer|exists:breeders,id',
             'scientific_name' => 'required|string|max:255',
             'variety' => 'required|string|max:255',
@@ -31,19 +31,10 @@ class UpdateCommoditiesRequest extends FormRequest
             'population' => 'required|numeric',
             'maturity_period' => 'required|string',
             'yield' => 'required|numeric',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'image' => 'nullable',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'address' => 'nullable|string',
-            'city' => 'nullable|string',
-            'province' => 'nullable|string',
-            'region' => 'nullable|string',
-            'country' => 'nullable|string',
-            'postal_code' => 'nullable|string',
-            'formatted_address' => 'nullable|string',
-            'place_id' => 'nullable|string',
-            'status' => 'nullable|string',
+            'status' => 'required|string',
+            'geolocation' => 'required|exists:loc_cities,id'
         ];
     }
 }

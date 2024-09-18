@@ -12,7 +12,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,14 +28,14 @@ class UpdateUserRequest extends FormRequest
             'lname' => ['required', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
             'mobile_no' =>  ['nullable', 'string', 'max:255'],
-            'affiliation' => ['nullable', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'affiliation' => ['required', 'exists:institutes,id'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$this->id],
             'password' => $this->passwordRules(),
         ];
     }
 
     protected function passwordRules(): array
     {
-        return ['required', 'string', new Password, 'confirmed'];
+        return ['sometimes', 'string', new Password, 'confirmed'];
     }
 }

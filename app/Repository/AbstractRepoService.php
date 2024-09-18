@@ -29,6 +29,12 @@ abstract class AbstractRepoService implements RepositoryInterface
     private array $appendWith = [];
 
     /**
+     * Count the rows of the appended tables
+     * @var string
+    */
+    private array $appendCount = [];
+
+    /**
      * List of searchable and viewable columns
      * @var array
     **/
@@ -234,6 +240,11 @@ abstract class AbstractRepoService implements RepositoryInterface
         $this->appendWith = $tableToAppend;
     }
 
+    public function appendCount(array $countTable)
+    {
+        $this->appendCount = $countTable;
+    }
+
     private function searchData(Collection $parameters, bool $withPagination, bool $isTrashed)
     {
         $perPage = $parameters->get('per_page', 10);
@@ -249,6 +260,12 @@ abstract class AbstractRepoService implements RepositoryInterface
         if ($this->appendWith) {
             foreach ($this->appendWith as $table) {
                 $builder->with($table);
+            }
+        }
+
+        if ($this->appendCount) {
+            foreach ($this->appendCount as $table) {
+                $builder->withCount($table);
             }
         }
 

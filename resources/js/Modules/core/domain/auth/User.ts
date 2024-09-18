@@ -9,10 +9,6 @@ export default class User extends DtoUser {
         return this.roles.some(role => role.name === "Administrator");
     }
 
-    get getRole() {
-        return this.roles.map(role => role.name).join(", ");
-    }
-
     get accountsCount(): number {
         if (this.accounts)
             return this.accounts.length;

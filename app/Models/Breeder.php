@@ -30,7 +30,7 @@ class Breeder extends BaseModel
     protected $guarded = ['id'];
 
     protected $hidden = [
-        'password', 'remember_token', 'user_id',
+        'password', 'remember_token',
     ];
 
     protected $casts = [
@@ -46,6 +46,8 @@ class Breeder extends BaseModel
         'geolocation',
         'phone',
         'email',
+        'breeders.created_at',
+        'breeders.updated_at',
     ];
 
     protected array $notifMessage = [

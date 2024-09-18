@@ -44,17 +44,14 @@ export default class ApiService implements IApiService
             const response = await axios.get(this.baseUrl, {
                 params: params
             });
-
             if (model) {
                 if (response && response.data){
                     if (response.data.data){
                         response.data.data = this.castToModel(response.data.data, model);
-                        console.log('data data' + response);
                         return new BaseResponse(response.data);
                     }
                     else if (response.data.raw_data){
                         response.data.raw_data = this.castToModel(response.data.raw_data, model);
-                        console.log('raw data' + response);
                         return new BaseResponse(response);
                     }
                 }

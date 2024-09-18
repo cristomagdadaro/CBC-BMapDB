@@ -137,7 +137,7 @@
                                 :visible="column.visible"
                                 :sortable="column.sortable"
                                 :key="column.key + column.title"
-                                :filteredValues="dt.request.getFilter === column.key"
+                                :filteredValues="dt.request.getFilter === column.db_key"
                                 :sortedValue="!!clickSortCtr && column.key === dt.request.getSort"
                                 :column="column.title"
                                 :order="clickSortCtr ? dt.request.getParam('order') : null"

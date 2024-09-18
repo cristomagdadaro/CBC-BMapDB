@@ -6,7 +6,7 @@ export default class DtoInstitute extends BaseClass implements IInstitute {
     id: number;
     name: string;
     inst_type: string;
-    geolocation: DtoCity;
+    location: DtoCity;
     website: string;
     email: string;
     phone: string;
@@ -21,19 +21,19 @@ export default class DtoInstitute extends BaseClass implements IInstitute {
         this.email = dto.email;
         this.phone = dto.phone;
 
-        if (dto.geolocation)
-            this.geolocation = new DtoCity(dto['city']);
+        if (dto.location)
+            this.location = new DtoCity(dto['city']);
     }
 
     get city() {
-        return this.geolocation.city;
+        return this.location.city;
     }
 
     get province() {
-        return this.geolocation.province;
+        return this.location.province;
     }
 
     get region() {
-        return this.geolocation.region;
+        return this.location.region;
     }
 }

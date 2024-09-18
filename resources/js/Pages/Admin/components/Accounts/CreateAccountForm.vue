@@ -1,16 +1,13 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin.js";
+import AuthAccount from "@/Pages/Admin/domain/Account";
 
 export default {
     mixins: [FormMixin],
     name: "CreateAccountForm",
     data() {
         return {
-            form: {
-                user_id: null,
-                app_id: null,
-                approved_at: null,
-            },
+            model: AuthAccount
         };
     },
 }

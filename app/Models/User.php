@@ -5,6 +5,7 @@ namespace App\Models;
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -113,6 +114,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(TWGExpert::class, 'user_id', 'id');
     }
 
+    public function accountFor(): HasMany
+    {
+        return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application');
+    }
+
     public function accounts(): HasMany
     {
         return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application');
@@ -172,4 +178,10 @@ class User extends Authenticatable implements MustVerifyEmail
                 }
         }
     }
+
+    public function affiliated(): BelongsTo
+    {
+        return $this->belongsTo(Institute::class, 'affiliation', 'id');
+    }
+
 }

@@ -1,4 +1,5 @@
 import IBaseClass from "../../interface/base/IBaseClass";
+import BaseClass from "../../domain/base/BaseClass";
 
 export default class DtoBaseClass extends Object implements IBaseClass {
     table?: string = null;
@@ -61,5 +62,32 @@ export default class DtoBaseClass extends Object implements IBaseClass {
      */
     static getColumns(): any[] {
         return [];
+    }
+
+    /**
+     * Get visible columns for table
+     */
+    static visibleColumns(): any[] {
+        return this.getColumns().filter((column) => column.visible);
+    }
+
+    /**
+     * Get nested value
+     * @param obj
+     * @param path
+     * @returns {any}
+     */
+    static getNestedValue(obj: Object, path: string): string {
+        return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+    }
+
+    static createForm()
+    {
+        return {};
+    }
+
+    static updateForm(oldValue: Partial<BaseClass>)
+    {
+        return {};
     }
 }

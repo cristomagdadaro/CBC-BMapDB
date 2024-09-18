@@ -1,18 +1,13 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin.js";
+import AuthApplication from "@/Pages/Admin/domain/Application";
 
 export default {
     mixins: [FormMixin],
     name: "CreateApplicationForm",
     data() {
         return {
-            form: {
-                name: null,
-                description: null,
-                url: null,
-                icon: null,
-                status: null,
-            },
+            model: AuthApplication
         };
     },
 }

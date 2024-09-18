@@ -21,7 +21,7 @@ class InstituteController extends BaseController
         //make the name column as the id
         $data = $data->map(function ($item) {
             return [
-                'id' => $item['name'],
+                'id' => $item['id'],
                 'name' => $item['name'],
                 'inst_type' => $item['inst_type'],
                 'city' => $item['city'],

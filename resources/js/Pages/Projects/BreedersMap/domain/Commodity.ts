@@ -6,18 +6,57 @@ export default class Commodity extends DtoCommodity {
         super(params);
     }
 
+    static createForm()
+    {
+        return {
+            breeder_id: null,
+            name: '',
+            scientific_name: '',
+            variety: '',
+            accession: '',
+            germplasm: '',
+            population: '',
+            maturity_period: '',
+            yield: '',
+            description: '',
+            status: '',
+            geolocation: '',
+        };
+    }
+
+    static updateForm(oldValue: Partial<Commodity>)
+    {
+        return {
+            id: oldValue.id ?? null,
+            breeder_id: oldValue.breeder_id ?? null,
+            name: oldValue.name ?? '',
+            scientific_name: oldValue.scientific_name ?? '',
+            variety: oldValue.variety ?? '',
+            accession: oldValue.accession ?? '',
+            germplasm: oldValue.germplasm ?? '',
+            population: oldValue.population ?? '',
+            maturity_period: oldValue.maturity_period ?? '',
+            yield: oldValue.yield ?? '',
+            description: oldValue.description ?? '',
+            status: oldValue.status ?? '',
+            geolocation: oldValue.location ? oldValue.location.id : '',
+        };
+    }
+
     static getColumns(){
         return [
             {
                 title: 'ID',
                 key: 'id',
+                db_key: 'id',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Breeder',
                 key: 'breeder.getFullName',
+                db_key: 'breeder',
                 sortable: true,
                 align: 'center',
                 visible: true,
@@ -25,6 +64,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Breeder ID',
                 key: 'breeder_id',
+                db_key: 'breeder_id',
                 sortable: true,
                 align: 'center',
                 visible: false,
@@ -32,6 +72,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Commodity',
                 key: 'name',
+                db_key: 'name',
                 keyLabel: 'Commodity',
                 sortable: true,
                 align: 'center',
@@ -40,6 +81,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Scientific Name',
                 key: 'scientific_name',
+                db_key: 'scientific_name',
                 sortable: true,
                 align: 'center italic',
                 visible: true,
@@ -47,6 +89,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Variety',
                 key: 'variety',
+                db_key: 'variety',
                 sortable: true,
                 align: 'center',
                 visible: true,
@@ -54,6 +97,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Accession',
                 key: 'accession',
+                db_key: 'accession',
                 sortable: true,
                 align: 'center',
                 visible: true,
@@ -61,6 +105,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Germplasm',
                 key: 'germplasm',
+                db_key: 'germplasm',
                 sortable: true,
                 align: 'center',
                 visible: true,
@@ -68,6 +113,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Population',
                 key: 'population',
+                db_key: 'population',
                 sortable: true,
                 align: 'center',
                 visible: true,
@@ -75,6 +121,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Maturity Period',
                 key: 'maturity_period',
+                db_key: 'maturity_period',
                 sortable: false,
                 align: 'center',
                 visible: true,
@@ -82,6 +129,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Yield',
                 key: 'yield',
+                db_key: 'yield',
                 sortable: true,
                 align: 'center',
                 visible: true,
@@ -89,6 +137,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Description',
                 key: 'description',
+                db_key: 'description',
                 sortable: true,
                 align: 'center',
                 visible: true,
@@ -96,13 +145,15 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Status',
                 key: 'status',
+                db_key: 'status',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Location',
                 key: 'location.getFullAddress',
+                db_key: 'location',
                 sortable: true,
                 align: 'center',
                 visible: true,
@@ -110,6 +161,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Updated At',
                 key: 'updated_at',
+                db_key: 'updated_at',
                 sortable: true,
                 align: 'center',
                 visible: false,
@@ -117,6 +169,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Created At',
                 key: 'created_at',
+                db_key: 'created_at',
                 sortable: true,
                 align: 'center',
                 visible: false,
@@ -124,6 +177,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Deleted At',
                 key: 'deleted_at',
+                db_key: 'deleted_at',
                 sortable: true,
                 align: 'center',
                 visible: false,

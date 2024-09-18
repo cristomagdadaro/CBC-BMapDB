@@ -3,6 +3,7 @@
 use App\Enums\Permission;
 use App\Http\Controllers\API\AdminController;
 use App\Http\Controllers\API\InstituteController;
+use App\Http\Controllers\CityProvRegController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
 use App\Http\Controllers\API\AccountController;
@@ -62,6 +63,7 @@ Route::prefix('email')->group(function () {
 Route::prefix('/api/public')->group(function () {
     Route::get('/institutes', [InstituteController::class, 'index'])->name('api.institutes.index.public');
     Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
+    Route::get('/cities', [CityProvRegController::class, 'cityIndex'])->name('api.cities.index.public');
     Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
     Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
     Route::get('/commodities/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
@@ -148,9 +150,9 @@ Route::middleware([
             Route::get('/breeder/{id}', function ($id) {
 
                 //if (Auth::user()->isAdmin())
-                    $breeder = Breeder::find($id)->load('commodities');
+                    $breeder = Breeder::find($id)->load(['affiliated', 'location']);
                 //else
-                    //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load('commodities');
+                    //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load(['affiliated', 'location']);
 
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
                     'breeder' => $breeder,

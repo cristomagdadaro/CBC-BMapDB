@@ -134,7 +134,8 @@ export default {
     computed: {
         newData() {
             if (this.dataFiltration) {
-                return this.dataFiltration.commodities;
+                this.placesSearched = this.dataFiltration.raw_data;
+                return this.placesSearched;
             }
 
             return [];
@@ -171,7 +172,6 @@ export default {
     methods: {
         async initializeMap() {
             this.mapApi = new MapApiService(this.dataFiltrationUrl, this.model);
-            // await this.mapApi.init();
             this.loadData();
         },
         async refreshData() {
@@ -179,24 +179,21 @@ export default {
             this.loadData();
         },
         async updateFilters(param, value) {
+
             if (this.mapApi && this.mapApi.processing) return;
+
             this.params[param] = value;
             await this.mapApi.updateParam(this.params);
             this.loadData();
+
+            this.offlineSearch(value);
         },
         loadData() {
             this.commodities = this.dataPoints && this.dataPoints.length ? this.dataPoints : this.customPoint;
             if (this.commodities && this.commodities.length === 1) {
                 this.selectPoint(this.commodities[0]);
             }
-            // this.placesFiltered = this.commodities;
-            // this.placesSearched = this.placesFiltered;
-            //this.placesFiltered = this.newData;
-            //this.placesSearched = this.placesFiltered;
-
-            //console.log('placesFiltered', this.placesFiltered);
         },
-
         updateCenter(center) {
             this.mapApi.updateCenter(center);
         },
@@ -212,17 +209,45 @@ export default {
         recenter() {
             this.mapApi.recenter();
         },
-        selectedPoint() {
-            return this.mapApi.selectedPlace;
-        },
-
         isValidPoint(point) {
             return point && point.latitude && point.longitude;
         },
         selectPoint(point) {
-            if (!this.$refs.map && !this.isValidPoint(point.city_desc)) return;
+            if (!this.$refs.map && !this.isValidPoint(point.location)) return;
             this.mapApi.selectPoint(point);
         },
+        determinePointColor(value) {
+
+            switch (value) {
+                case 'Rice':
+                    return '#005B41';
+                case 'Corn':
+                    return '#3B5998';
+                case 'Coconut':
+                    return '#FFA500';
+                case 'Banana':
+                    return '#FFD700';
+                case 'Coffee':
+                    return '#A52A2A';
+                case 'Cassava':
+                    return '#8B4513';
+                case 'Abaca':
+                    return '#FF0000';
+                case 'Rubber':
+                    return '#FF69B4';
+                default:
+                    return '#005B41';
+            }
+        },
+        offlineSearch(search)
+        {
+            //filter every column
+            this.placesSearched = this.newData.filter((point) => {
+                return Object.keys(point).some((key) => {
+                    return String(point[key]).toLowerCase().includes(search.toLowerCase());
+                });
+            });
+        }
     },
     watch: {
         customPoint: {
@@ -264,11 +289,11 @@ export default {
             <data-filtration-fields @tableChange="dataFiltrationUrl = $event" @dataRefreshed="dataFiltration = $event" @processingRequest="processingRequest"/>
             <div class="w-full flex gap-1">
                 <search-box
-                    :value="mapApi.selectedPlace ? mapApi.selectedPlace.city.cityDesc : ''"
+                    :value="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : ''"
                     :options="newData"
-                    :label="mapApi.selectedPlace ? mapApi.selectedPlace.city.cityDesc : 'Select a place'"
+                    :label="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : 'Select a place'"
                     @searchString="updateFilters('search', $event)"
-                    @input="updateFilters('search', $event.target.value)"
+                    @input="offlineSearch($event.target.value)"
                     @focusin="showListOfPlaces = true"
                     class="w-full"
                 />
@@ -293,10 +318,14 @@ export default {
                     :class="{'bg-gray-400': isPointSelected(point),'bg-white': !isPointSelected(point)}"
                     class="flex flex-row items-center gap-1 border p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none"
                 >
-                    <h1 class="font-medium leading-5 px-1 w-full flex items-center justify-between">
-                        {{ point.name }} ({{ point.breeder.name}})
+                    <p v-if="point instanceof Commodity" class="font-medium leading-5 px-1 w-full flex items-center">
+                        <b>{{ point.breeder.name}}</b>&nbsp;(<i class="font-light">{{ point.name }}</i>)
                         <close-icon v-if="isPointSelected(point)" @click="deselectPoint(); showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" @click.stop="markerLatLng = null" />
-                    </h1>
+                    </p>
+                    <p v-else class="font-medium leading-5 px-1 w-full flex items-center">
+                        <b>{{ point.name}} </b>&nbsp;(<i class="font-light">{{ point.affiliated.name }}</i>)
+                        <close-icon v-if="isPointSelected(point)" @click="deselectPoint(); showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" @click.stop="markerLatLng = null" />
+                    </p>
                 </div>
                 <div
                     v-else
@@ -347,15 +376,15 @@ export default {
                 <l-marker v-if="mapApi.markerLatLng" :lat-lng="mapApi.markerLatLng" ref="marker" />
                 <template v-for="place in newData" :key="place.id" >
                     <l-circle-marker
-                        v-if="isValidPoint(place.city_desc)"
-                        :lat-lng="[place.city_desc.latitude, place.city_desc.longitude]"
+                        v-if="isValidPoint(place.location)"
+                        :lat-lng="[place.location.latitude, place.location.longitude]"
                         :opacity="1"
                         :radius="5"
-                        color="#3DA5B4"
+                        :color="determinePointColor(place.name)"
                         :weight="1"
                         @click="selectPoint(place)"
                     >
-                        <l-tooltip :content="place.city" />
+                        <l-tooltip :content="place.name" />
                     </l-circle-marker>
                 </template>
                 <l-control>

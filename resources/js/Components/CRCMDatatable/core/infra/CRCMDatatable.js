@@ -183,11 +183,9 @@ export default class CRCMDatatable
             let data = response.data;
 
             // Filter and map visible columns
-            let columnsTitles = this.model.getColumns()
-                .filter(column => column.visible !== false)
+            let columnsTitles = this.model.visibleColumns()
                 .map(column => column.title);
-            let columnKeys = this.model.getColumns()
-                .filter(column => column.visible !== false)
+            let columnKeys = this.model.visibleColumns()
                 .map(column => column.key);
             // Prepare CSV content
             let csvContent = "data:text/csv;charset=utf-8,";
@@ -197,7 +195,7 @@ export default class CRCMDatatable
             // Add data rows
             data.forEach(function(rowArray) {
                 let row = columnKeys.map(column => {
-                    let value = rowArray[column];
+                    let value = BaseClass.getNestedValue(rowArray, column);
                     // Check if the value contains a comma
                     if (typeof value === 'string' && value.includes(',')) {
                         // Encapsulate the value in double quotes

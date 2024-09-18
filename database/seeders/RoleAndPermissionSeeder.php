@@ -104,6 +104,7 @@ class RoleAndPermissionSeeder extends Seeder
             PermissionEnum::CREATE_COMMODITY->value,
             PermissionEnum::UPDATE_COMMODITY->value,
             PermissionEnum::READ_COMMODITY->value,
+            PermissionEnum::READ_BREEDER->value,
 
             PermissionEnum::CREATE_APP_ACCOUNT->value
         ]);

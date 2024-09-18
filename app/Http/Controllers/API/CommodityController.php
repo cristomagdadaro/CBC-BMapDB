@@ -14,6 +14,7 @@ use App\Models\Location\City;
 use App\Models\Location\Province;
 use App\Models\Location\Region;
 use App\Repository\API\CommodityRepo;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
 class CommodityController extends BaseController
@@ -25,7 +26,7 @@ class CommodityController extends BaseController
 
     public function index(GetCommoditiesRequest $request, $id = null)
     {
-        $this->service->appendWith(['breeder']);
+        $this->service->appendWith(['breeder', 'location']);
         if ($id) {
             // Set withPagination to false to return the builder instead of the paginator, for the Map search box. By Breeder.
             // $per_page = $request->validated()['per_page'] ?? 10;
@@ -190,27 +191,27 @@ class CommodityController extends BaseController
         return new BaseCollection($data);
     }
 
-    public function store(CreateCommoditiesRequest $request)
+    public function store(CreateCommoditiesRequest $request): JsonResponse
     {
         return $this->service->create($request->validated());
     }
 
-    public function show($id)
+    public function show($id): JsonResponse
     {
         return $this->service->find($id);
     }
 
-    public function update(UpdateCommoditiesRequest $request, $id)
+    public function update(UpdateCommoditiesRequest $request, int $id): JsonResponse
     {
         return $this->service->update($id, $request->validated());
     }
 
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         return $this->service->delete($id);
     }
 
-    public function multiDestroy(DeleteCommoditiesRequest $request)
+    public function multiDestroy(DeleteCommoditiesRequest $request): JsonResponse
     {
         return $this->service->multiDestroy($request->validated());
     }

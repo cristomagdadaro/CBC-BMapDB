@@ -23,7 +23,6 @@ export default class DtoAccount extends BaseClass implements IAccount {
 
         if (dto.application)
             this.application = new DtoApplication(dto.application);
-
         if (dto.user)
             this.user = new DtoUser(dto.user);
     }

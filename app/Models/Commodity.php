@@ -44,6 +44,8 @@ class Commodity extends BaseModel
         'image',
         'geolocation',
         'status',
+        'commodities.created_at',
+        'commodities.updated_at',
     ];
 
     protected $casts = [

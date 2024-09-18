@@ -22,7 +22,8 @@ class BreederController extends BaseController
 
     public function index(GetBreederRequest $request)
     {
-        $this->service->appendWith(['affiliated']);
+        $this->service->appendWith(['affiliated', 'location']);
+        $this->service->appendCount(['commodities']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
@@ -38,7 +39,7 @@ class BreederController extends BaseController
 
         $breeders = $this->applyFilters($model, $geo_location_value, $geo_location_filter)
             ->select($model->getSearchable())
-            ->with(['commodities','affiliated', 'location'])
+            ->with(['location', 'commodities','affiliated'])
             ->get();
        $chart_data = $this->applyFilters($model, $geo_location_value, $geo_location_filter)
             ->selectRaw("$group_by as label, count(*) as total")
@@ -178,7 +179,8 @@ class BreederController extends BaseController
 
     public function store(CreateBreederRequest $request): JsonResponse
     {
-        return $this->service->create($request->validated());
+        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        return $this->service->create($data);
     }
 
     public function show(int $id): JsonResponse
@@ -198,7 +200,9 @@ class BreederController extends BaseController
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
-        return $this->service->update($id, $request->validated());
+        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        $data = array_filter($data, fn($value) => !is_null($value) && $value !== '');
+        return $this->service->update($id, $data);
     }
 
     public function destroy($id): JsonResponse

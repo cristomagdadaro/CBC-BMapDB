@@ -3,13 +3,12 @@
 import FormMixin from "@/Pages/mixins/FormMixin";
 import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
-import Permission from "@/Modules/core/domain/auth/Permission";
 import BaseRequest from "@/Modules/core/domain/base/BaseRequest";
 import Role from "@/Modules/core/domain/auth/Role";
 import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
-import User from "@/Modules/core/domain/auth/User";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
+import AuthAccount from "@/Pages/Admin/domain/Account";
 
 export default {
     components: {BaseEditForm, SelectSearchField, CustomDropdown, BaseButton},
@@ -17,13 +16,7 @@ export default {
     name: "EditAccountForm",
     data() {
         return {
-            form: {
-                user_id: null,
-                app_id: null,
-                approved_at: null,
-                permissions: [],
-                role: null
-            },
+            model: AuthAccount,
             permissions: [],
             roles: []
         };
@@ -104,7 +97,7 @@ export default {
                     <div class="m-1 p-2 rounded bg-gray-200">
                         <custom-dropdown :options="roles.map(
                             role => ({name: role.id, label: role.name})
-                        )" v-model="form.permissions" placeholder="Assign a Role" :with-all-option="false" :value="form.role" @selectedChange="form.role = $event" />
+                        )" v-model="form.role" placeholder="Assign a Role" :with-all-option="false" :value="form.role" @selectedChange="form.role = $event" />
                         <ul v-if="form.role" class="grid grid-cols-2 m-1 p-2 rounded bg-gray-200">
                             <li v-for="permission in selectedRole" :key="permission.id" class="flex items-center gap-1 select-none" >
                                 {{ permission.name }}

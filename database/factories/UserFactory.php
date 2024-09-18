@@ -23,7 +23,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
-        $instituteName = Institute::all()->random()->name;
+        $institute = Institute::all()->random();
 
         return [
             'fname' => $this->faker->name(),
@@ -32,7 +32,7 @@ class UserFactory extends Factory
             'suffix' => $this->faker->randomElement(['','','','Jr.','','Sr.','','','','I','','','II','','','III','','','','','IV']),
             'email' => $this->faker->unique()->safeEmail(),
             'mobile_no' => $this->faker->phoneNumber(),
-            'affiliation' => $instituteName,
+            'affiliation' => $institute->id,
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'two_factor_secret' => null,

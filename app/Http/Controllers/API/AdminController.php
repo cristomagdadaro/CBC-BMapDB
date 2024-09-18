@@ -30,8 +30,8 @@ class AdminController extends BaseController
 
     public function index(GetUnverifiedUserRequest $request)
     {
-        $this->service->appendWith(['accounts','roles']);
-
+        $this->service->appendWith(['roles','affiliated','accountFor']);
+        $this->service->appendCount(['accounts']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
@@ -45,7 +45,7 @@ class AdminController extends BaseController
             'suffix' => ['nullable', 'string', 'max:255'],
             'mobile_no' =>  ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'affiliation' => ['required', 'string', 'max:255'],
+            'affiliation' => ['required', 'exists:institutes,id'],
             'account_for' => ['required', 'numeric', 'exists:applications,id'],
             'password' => ['required', 'string','confirmed'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',

@@ -6,6 +6,7 @@ import IPermission from "../interface/auth/IPermission";
 import DtoRole from "./DtoRole";
 import DtoAccount from "./DtoAccount";
 import DtoPermission from "./DtoPermission";
+import DtoInstitute from "./DtoInstitute";
 
 export default class DtoUser extends BaseClass implements IUser {
     id?: number = null;
@@ -14,13 +15,13 @@ export default class DtoUser extends BaseClass implements IUser {
     lname: string = null;
     suffix: string = null;
     email: string = null;
-    affiliation: string = null;
     mobile_no: string = null;
     email_verified_at: string = null;
 
     roles?: IRole[] = [];
     accounts?: IAccount[] = [];
     permissions?: IPermission[] = [];
+    affiliated: DtoInstitute = null;
 
     constructor(dto: IUser) {
         super();
@@ -31,7 +32,7 @@ export default class DtoUser extends BaseClass implements IUser {
         this.lname = dto.lname;
         this.suffix = dto.suffix;
         this.email = dto.email;
-        this.affiliation = dto.affiliation;
+        this.affiliated = dto.affiliated;
         this.mobile_no = dto.mobile_no;
         this.email_verified_at = dto.email_verified_at;
 
@@ -41,7 +42,11 @@ export default class DtoUser extends BaseClass implements IUser {
             this.accounts = dto.accounts.map(account => new DtoAccount(account));
         if (dto.permissions)
             this.permissions = dto.permissions.map(permission => new DtoPermission(permission));
+        if (dto.affiliated)
+            this.affiliated = new DtoInstitute(dto.affiliated);
     }
 
-
+    get getRole() {
+        return this.roles.map(role => role.name).join(", ");
+    }
 }
