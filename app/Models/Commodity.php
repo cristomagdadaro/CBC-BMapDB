@@ -78,4 +78,10 @@ class Commodity extends BaseModel
         return $this->belongsTo(City::class, 'geolocation')
             ->select((new City())->getSearchable());
     }
+
+    // Scope a query to only include commodities that belong to a specific breeder
+    public function scopeOfModel($query, $breeder_id)
+    {
+        return $query->where('breeder_id', $breeder_id);
+    }
 }

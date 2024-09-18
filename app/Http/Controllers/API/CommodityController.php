@@ -27,6 +27,7 @@ class CommodityController extends BaseController
     public function index(GetCommoditiesRequest $request, $id = null)
     {
         $this->service->appendWith(['breeder', 'location']);
+        $this->service->appendCondition(auth()->id());
         if ($id) {
             // Set withPagination to false to return the builder instead of the paginator, for the Map search box. By Breeder.
             // $per_page = $request->validated()['per_page'] ?? 10;
