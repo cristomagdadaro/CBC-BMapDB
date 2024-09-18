@@ -25,13 +25,12 @@ class BreederController extends BaseController
     {
         $this->service->appendWith(['affiliated', 'location']);
         $this->service->appendCount(['commodities']);
-        if (auth()->user()->getRole() !== Role::ADMIN->value) {
+        /*if (auth()->user()->getRole() !== Role::ADMIN->value) {
             $this->service->appendCondition(auth()->id());
-        }
+        }*/
 
         $data = $this->service->search(new Collection($request->validated()));
-        //return new BaseCollection($data);
-        return $data;
+        return new BaseCollection($data);
     }
 
     public function summary(GetBreederRequest $request)

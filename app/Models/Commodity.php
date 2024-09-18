@@ -79,9 +79,17 @@ class Commodity extends BaseModel
             ->select((new City())->getSearchable());
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->breeder()->with('user');
+    }
+
     // Scope a query to only include commodities that belong to a specific breeder
     public function scopeOfModel($query, $breeder_id)
     {
-        return $query->where('breeder_id', $breeder_id);
+        return $query->where('breeder_id', $breeder_id)->with('user')
+            ->whereHas('user', function ($query) {
+                $query->where('user_id', auth()->id());
+            });
     }
 }
