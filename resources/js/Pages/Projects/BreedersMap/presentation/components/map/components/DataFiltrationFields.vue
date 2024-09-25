@@ -10,8 +10,6 @@ export default {
     mixins: [DataFiltrationMixin],
     created() {
         this.apiUrl = this.tables[0].route;
-    },
-    mounted() {
         this.filter =  {
             is_exact: true,
             filter: null,
@@ -21,6 +19,9 @@ export default {
             geo_location_value: null,
 
         }
+    },
+    async mounted() {
+       await this.refreshData()
     },
 }
 </script>

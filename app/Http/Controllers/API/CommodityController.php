@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\Role;
 use App\Http\Controllers\BaseController;
 use App\Http\Interfaces\BaseControllerInterface;
 use App\Http\Requests\CreateCommoditiesRequest;
@@ -27,6 +28,10 @@ class CommodityController extends BaseController
     public function index(GetCommoditiesRequest $request, $id = null)
     {
         $this->service->appendWith(['breeder', 'location']);
+        /*if (auth()->user()->getRole() !== Role::ADMIN->value) {
+            //cant filter commodity by breeder_id under the current user
+            //$this->service->appendCondition(auth()->id());
+        }*/
         if ($id) {
             // Set withPagination to false to return the builder instead of the paginator, for the Map search box. By Breeder.
             // $per_page = $request->validated()['per_page'] ?? 10;

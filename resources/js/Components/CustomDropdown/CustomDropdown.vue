@@ -98,6 +98,7 @@ export default {
         // select the option with value is given
         selectByValue(value){
             this.selected = this.options.find(option => option.name === value);
+            this.$emit('selectedChange',this.selected? this.selected.name : null);
         },
         filterOptions(){
             if (this.search)
