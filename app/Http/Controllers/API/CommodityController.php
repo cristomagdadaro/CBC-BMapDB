@@ -25,24 +25,16 @@ class CommodityController extends BaseController
         $this->service = $commodityRepository;
     }
 
-    public function index(GetCommoditiesRequest $request, $id = null)
+    public function index(GetCommoditiesRequest $request, int|null $parent_id = null)
     {
         $this->service->appendWith(['breeder', 'location']);
+        $this->service->filterByParent(['column' => 'breeder_id', 'value' => $parent_id]);
         /*if (auth()->user()->getRole() !== Role::ADMIN->value) {
             //cant filter commodity by breeder_id under the current user
             //$this->service->appendCondition(auth()->id());
         }*/
-        if ($id) {
-            // Set withPagination to false to return the builder instead of the paginator, for the Map search box. By Breeder.
-            // $per_page = $request->validated()['per_page'] ?? 10;
-            // $page = $request->validated()['page'] ?? 1;
-            $data = $this->service->search(new Collection($request->validated()), false);
-            // return new BaseCollection($data->where('breeder_id', $id)->orderBy('id', 'asc')->paginate($per_page, ['*'], 'page', $page)->withQueryString());
-            return new BaseCollection($data);
-        } else {
-            $data = $this->service->search(new Collection($request->validated()));
-            return new BaseCollection($data);
-        }
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
     public function summary(GetCommoditiesRequest $request)
@@ -201,9 +193,12 @@ class CommodityController extends BaseController
         return $this->service->create($request->validated());
     }
 
-    public function show($id): JsonResponse
+    public function show(GetCommoditiesRequest $request, int $id)
     {
-        return $this->service->find($id);
+        $this->service->appendWith(['breeder', 'location']);
+
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
     public function update(UpdateCommoditiesRequest $request, int $id): JsonResponse

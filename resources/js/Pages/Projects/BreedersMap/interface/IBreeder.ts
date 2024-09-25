@@ -14,4 +14,8 @@ export default interface IBreeder extends IBaseClass {
     commodities: ICommodity[];
     commodities_count: number;
     location: ICity;
+
+    created_at: string;
+    updated_at: string;
+    deleted_at: string;
 }

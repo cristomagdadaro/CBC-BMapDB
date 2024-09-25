@@ -48,6 +48,7 @@ class Breeder extends BaseModel
         'email',
         'breeders.created_at',
         'breeders.updated_at',
+        'breeders.deleted_at',
     ];
 
     protected array $notifMessage = [

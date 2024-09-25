@@ -36,6 +36,11 @@ abstract class AbstractRepoService implements RepositoryInterface
     private array $appendCount = [];
 
     /**
+     * Filter the data according to the parent id
+    */
+    private array|null $filterByParent = null;
+
+    /**
      * Use to filter the data according to the role
     */
     private int $appendFilter = 0;
@@ -251,6 +256,11 @@ abstract class AbstractRepoService implements RepositoryInterface
         $this->appendCount = $countTable;
     }
 
+    public function filterByParent(array|null $parent): void
+    {
+        $this->filterByParent = $parent;
+    }
+
     public function appendCondition(int $tableConditions): void
     {
         $this->appendFilter = $tableConditions;
@@ -283,6 +293,10 @@ abstract class AbstractRepoService implements RepositoryInterface
             foreach ($this->appendCount as $table) {
                 $builder->withCount($table);
             }
+        }
+
+        if ($this->filterByParent && $this->filterByParent['column'] && $this->filterByParent['value']) {
+            $builder = $builder->where($this->filterByParent['column'], $this->filterByParent['value']);
         }
 
         if ($isTrashed) {

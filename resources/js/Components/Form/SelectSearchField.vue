@@ -44,9 +44,9 @@ export default {
         },
         toggleDropdown() {
             this.showDropdown = !this.showDropdown;
-            this.getOptionsFromApi(1, null);
         },
         closeDropdown() {
+            this.input = null;
             this.showDropdown = false;
         },
         filterOptions() {
@@ -86,6 +86,8 @@ export default {
             }
 
             this.filteredOptions = response.data.data.map((option) => ({value: option.id, label: option.name || option.title || option.label || option.value || this.fullnameOption(option) }));
+
+            this.selectOption(this.filteredOptions[0]);
         },
         /**
          * Handle scroll event to fetch more options from the api
@@ -101,6 +103,10 @@ export default {
                 }
                 await this.getOptionsFromApi(nextPage, this.input);
             }
+        },
+        clearInput() {
+            this.input = null;
+            this.getOptionsFromApi(1, null);
         },
     },
     /**
@@ -138,22 +144,23 @@ export default {
                 v-model="input"
                 @focus="filterOptions()"
                 @click="toggleDropdown()"
-                @keyup="getOptionsFromApi(1, input)"
+                @keydown="getOptionsFromApi(1, input)"
             />
 
-            <div v-show="showDropdown" class="fixed inset-0 z-40" @click="closeDropdown()" />
+            <div v-show="showDropdown" class="fixed inset-0 z-40" @click="clearInput()" />
             <div v-show="showDropdown" class="relative z-50">
-                <div
+                <div v-if="api"
                     ref="dropdownContainer"
                     @scroll="handleScroll"
                     class="fixed mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-md bg-white p-2 max-h-52 max-w-[20rem] overflow-x-auto z-50"
                 >
                     <div v-show="filteredOptions.length !== 1" class="text-xs text-gray-200 pb-1 mb-1 select-none border-b border-gray-100">
-                        Choose an option
+                        <p v-if="api.processing">fetching more options</p>
+                        <p v-else>Choose an option</p>
                     </div>
                     <div v-if="filteredOptions.length" v-for="option in filteredOptions" :key="option.value" @click="selectOption(option)" class="whitespace-nowrap hover:bg-gray-200 px-2 py-0.5 select-none rounded-sm overflow-ellipsis overflow-x-hidden">{{ option.label }}</div>
                     <div v-else>Not found</div>
-                    <div v-if="api && api.processing" class="text-center text-gray-300 whitespace-nowrap select-none">
+                    <div v-if="api.processing" class="text-center text-gray-300 whitespace-nowrap select-none">
                         fetching options...
                     </div>
                 </div>

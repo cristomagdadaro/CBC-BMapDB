@@ -60,20 +60,21 @@ export default {
     <Head title="Breeders' Map View" />
     <app-layout>
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
-            <div v-if="breederInstance" class="flex flex-col">
-                <h1 class="text-lg font-semibold uppercase select-none px-3 pb-2 mx-2">Breeder Information</h1>
+            <div v-if="breederInstance" class="flex flex-col gap-2">
+                <h1 class="text-lg font-semibold uppercase select-none px-3">Breeder Information</h1>
                 <div class="border p-3 rounded-lg bg-white mx-2 grid sm:grid-cols-2 grid-cols-1">
                     <div class="flex gap-1" v-for="column in Breeder.visibleColumns()">
-                        <h2 class="h2 font-semibold select-none">{{column.title}}: </h2>
-                        <p>{{ Breeder.getNestedValue(breederInstance, column.key) }}</p>
+                        <h2 class="h2 font-semibold select-none text-normal">{{column.title}}: </h2>
+                        <p class="text-normal">{{ Breeder.getNestedValue(breederInstance, column.key) }}</p>
                     </div>
                 </div>
+                <h1 class="text-lg font-semibold uppercase select-none px-3 mt-5">Commodities</h1>
                 <Tab :tabs="tabs">
                     <template #tab1>
-                        <commodity-table :params="{ filter:'breeder_id', is_exact:true, search: breeder.id }" />
+                        <commodity-table :base-url="route('api.commodities.index', breederInstance.id)" />
                     </template>
                     <template #tab2>
-                        <div class="p-2 relative" v-if="axiosInstance && axiosInstance.baseUrl">
+                        <div class="p-2 relative">
                             <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>
                             <Map :base-url="route('api.commodities.index', breeder.id)" :model="Commodity"/>
                         </div>

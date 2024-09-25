@@ -167,6 +167,8 @@ export default {
         },
     },
     mounted() {
+        if (this.baseUrl)
+            this.dataFiltrationUrl = this.baseUrl;
         this.initializeMap();
     },
     methods: {
@@ -264,6 +266,7 @@ export default {
 
 
 <template>
+    {{ dataFiltrationUrl }}
     <div v-if="mapApi && canView" class="flex gap-1 justify-end">
         <top-action-btn @click="refreshData" class="bg-add text-xs" title="Export data">
             <template v-if="processing" #icon>
@@ -286,7 +289,9 @@ export default {
     </div>
     <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2 relative">
         <div class="relative gap-2">
-            <data-filtration-fields @tableChange="dataFiltrationUrl = $event" @dataRefreshed="dataFiltration = $event" @processingRequest="processingRequest"/>
+            <data-filtration-fields
+                @tableChange="dataFiltrationUrl = $event"
+                @dataRefreshed="dataFiltration = $event" @processingRequest="processingRequest"/>
             <div class="w-full flex gap-1">
                 <search-box
                     :value="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : ''"

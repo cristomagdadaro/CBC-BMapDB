@@ -21,7 +21,7 @@ class BreederController extends BaseController
         $this->service = $breederRepository;
     }
 
-    public function index(GetBreederRequest $request)
+    public function index(GetBreederRequest $request, int|null $parent_id = null)
     {
         $this->service->appendWith(['affiliated', 'location']);
         $this->service->appendCount(['commodities']);
@@ -188,9 +188,13 @@ class BreederController extends BaseController
         return $this->service->create($data);
     }
 
-    public function show(int $id): JsonResponse
+    public function show(GetBreederRequest $request, int $id)
     {
-        return $this->service->find($id);
+        $this->service->appendWith(['affiliated', 'location']);
+        $this->service->appendCount(['commodities']);
+
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
     public function noPageSearch(int $id, GetBreederRequest $request)

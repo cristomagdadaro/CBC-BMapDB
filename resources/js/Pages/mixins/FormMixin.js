@@ -38,6 +38,10 @@ export default {
             type: Object,
             default: null
         },
+        id: {
+            type: Number,
+            default: null
+        }
     },
     methods: {
         resetForm() {

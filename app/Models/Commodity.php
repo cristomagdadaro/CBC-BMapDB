@@ -46,6 +46,7 @@ class Commodity extends BaseModel
         'status',
         'commodities.created_at',
         'commodities.updated_at',
+        'commodities.deleted_at',
     ];
 
     protected $casts = [
@@ -70,7 +71,7 @@ class Commodity extends BaseModel
     public function breeder(): BelongsTo
     {
         return $this->belongsTo(Breeder::class, 'breeder_id', 'id')
-            ->select((new Breeder())->getSearchable());
+            ->select((new Breeder())->getSearchable())->withTrashed();
     }
 
     public function location()

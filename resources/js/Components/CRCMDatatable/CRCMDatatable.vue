@@ -161,7 +161,7 @@
                                        @contextmenu="showContextMenu($event, row)"
                             >
                                 <!-- Cell No. -->
-                                <t-d class="text-xs text-gray-600 items-center">
+                                <t-d class="text-normal text-gray-600 items-center">
                                     <div class="flex gap-1">
                                         {{ meta_from + data.indexOf(row) }}
                                         <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
@@ -169,7 +169,7 @@
                                 </t-d>
                                 <!-- Cell Data -->
                                 <t-d v-for="column in visibleColumns" :key="column.key + column.title"
-                                    class="break-words border border-gray-300"
+                                    class="break-words border border-gray-300 text-normal p-2"
                                     :class="column.align"
                                     @dblclick="dt.addSelected(row.id)"
                                     @click.ctrl="dt.addSelected(row.id)">

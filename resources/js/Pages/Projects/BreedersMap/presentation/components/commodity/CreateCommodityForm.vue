@@ -34,5 +34,8 @@ export default {
             model: Commodity
         };
     },
+    mounted() {
+        this.form.breeder_id = this.$page.props.breeder.id;
+    }
 };
 </script>
