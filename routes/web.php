@@ -241,7 +241,7 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
        Route::middleware('can:'. Permission::CREATE_COMMODITY->value)->post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
        Route::middleware('can:'. Permission::UPDATE_COMMODITY->value)->put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');
        Route::middleware('can:'. Permission::DELETE_COMMODITY->value)->delete('/delete', [CommodityController::class, 'multiDestroy'])->name('api.commodities.destroy.multi');
-       Route::middleware('can:'. Permission::DELETE_COMMODITY->value)->delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
+       Route::middleware('can:'. Permission::DELETE_COMMODITY->value)->delete('/{parent_id?}/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
     });
 
     Route::middleware(['check.status.breedersmap'])->prefix('geodata')->group(function () {

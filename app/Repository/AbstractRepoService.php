@@ -367,8 +367,23 @@ abstract class AbstractRepoService implements RepositoryInterface
         return $error->getErrorMessage();
     }
 
-    public function summary()
+    public function summary(): int
     {
         return $this->model->count();
+    }
+
+    /**
+     * Determines the location filter level based on the given geolocation filter.
+     *
+     * @param string $geo_location_filter The geolocation filter to determine the level.
+     * @return string The corresponding location filter level.
+     */
+    public function determineLocFilterLevel(string $geo_location_filter): string
+    {
+        return match ($geo_location_filter) {
+            'province' => 'provDesc',
+            'region' => 'regDesc',
+            default => 'cityDesc',
+        };
     }
 }

@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Location\City;
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Model;
 
 class Breeder extends BaseModel
 {
@@ -70,17 +67,6 @@ class Breeder extends BaseModel
     public function commodities(): HasMany
     {
         return $this->hasMany(Commodity::class, 'breeder_id', 'id');
-    }
-
-    public function getSearchable(): array
-    {
-        return $this->searchable;
-    }
-
-    public function location()
-    {
-        return $this->belongsTo(City::class, 'geolocation')
-            ->select((new City())->getSearchable());
     }
 
     public function affiliated(): BelongsTo

@@ -39,21 +39,4 @@ abstract class BaseController extends Controller
 
         return response()->json($response, $error_code);
     }
-
-    /* To Delete if not used
-     *
-     * public function sendError(\Exception $error, $status = 500): JsonResponse
-    {
-        $error = new ErrorRepository($error);
-        $response = [
-            'success' => false,
-            'message' => $error->getErrorMessage(),
-        ];
-
-        if (!empty($errorMessages)) {
-            $response['data'] = $error->getErrorMessage();
-        }
-
-        return response()->json($response, $status);
-    }*/
 }

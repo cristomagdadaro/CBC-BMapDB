@@ -56,7 +56,7 @@ export default {
                 v-for="tab in tabs"
                 :key="tab.name"
                 @click.native="setActiveTab(tab)"
-                class="py-2 px-3 rounded-md text-sm font-medium duration-300 active:scale-90"
+                class="py-2 px-3 rounded-md text-normal font-medium duration-300 active:scale-90"
                 :class="isActiveTab(tab) ? 'bg-cbc-dark-green text-white scale-y-90 shadow-md' : 'bg-gray-300'"
                 :to="tab.route"
             >

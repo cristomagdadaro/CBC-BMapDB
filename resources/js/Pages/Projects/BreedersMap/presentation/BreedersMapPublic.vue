@@ -32,16 +32,16 @@ export default {
             tabs: [
                 {
                     name: "tab1",
+                    label: "Geo Map",
+                    active: true,
+                    route: { name: 'projects.breedersmap.geomap.public' },
+                },
+                {
+                    name: "tab2",
                     label: "Charts",
                     active: true,
                     route: { name: 'projects.breedersmap.chart.public' },
 
-                },
-                {
-                    name: "tab2",
-                    label: "Geo Map",
-                    active: true,
-                    route: { name: 'projects.breedersmap.geomap.public' },
                 },
             ],
         }
@@ -92,10 +92,10 @@ export default {
                 </div>
             </div>
             <Tab :tabs="tabs">
-                <template #tab1>
+                <template #tab2>
                     <Summary />
                 </template>
-                <template #tab2>
+                <template #tab1>
                     <Map :model="Commodity" />
                 </template>
             </Tab>

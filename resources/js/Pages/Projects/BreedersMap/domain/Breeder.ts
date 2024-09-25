@@ -86,7 +86,7 @@ export default class Breeder extends DtoBreeder{
             },
             {
                 title: 'Commodities',
-                key: 'commodities_count',
+                key: 'commoditiesCount',
                 db_key: 'commodities_count',
                 align: 'text-center',
                 sortable: true,

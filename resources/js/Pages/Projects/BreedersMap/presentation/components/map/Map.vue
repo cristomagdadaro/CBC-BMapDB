@@ -266,21 +266,20 @@ export default {
 
 
 <template>
-    {{ dataFiltrationUrl }}
     <div v-if="mapApi && canView" class="flex gap-1 justify-end">
-        <top-action-btn @click="refreshData" class="bg-add text-xs" title="Export data">
+        <top-action-btn @click="refreshData" class="bg-add text-normal py-2" title="Export data">
             <template v-if="processing" #icon>
                 <loader-icon class="h-auto sm:w-6 w-4" />
             </template>
             <span>Refresh</span>
         </top-action-btn>
-        <top-action-btn class="bg-add text-xs" title="Export data">
+        <top-action-btn class="bg-add text-normal" title="Export data">
             <template #icon>
                 <export-icon class="h-auto sm:w-6 w-4" />
             </template>
             <span>Export</span>
         </top-action-btn>
-        <top-action-btn class="bg-yellow-400 text-gray-900 text-xs" title="Share to your network">
+        <top-action-btn class="bg-yellow-400 text-gray-900 text-normal" title="Share to your network">
             <template #icon>
                 <share-icon class="h-auto sm:w-4 w-4" />
             </template>
@@ -291,7 +290,9 @@ export default {
         <div class="relative gap-2">
             <data-filtration-fields
                 @tableChange="dataFiltrationUrl = $event"
-                @dataRefreshed="dataFiltration = $event" @processingRequest="processingRequest"/>
+                @dataRefreshed="dataFiltration = $event"
+                @processingRequest="processingRequest"
+            />
             <div class="w-full flex gap-1">
                 <search-box
                     :value="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : ''"
