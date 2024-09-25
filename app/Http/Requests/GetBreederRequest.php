@@ -23,6 +23,7 @@ class GetBreederRequest extends FormRequest
     {
         return array_merge([
             // add your rules here
-        ],config('system_variables.paginate_parameters'));
+        ],config('system_variables.paginate_parameters'),
+            config('system_variables.filtering_parameters'));
     }
 }

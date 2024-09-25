@@ -8,6 +8,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 
 const props = defineProps({
     user: Object,
@@ -84,15 +85,12 @@ const clearPhotoFileInput = () => {
             <div class="col-span-6 sm:col-span-4">
                 <div>
                     <InputLabel for="affiliation" value="Affiliation" />
-                    <TextInput
-                        id="affiliation"
-                        v-model="form.affiliation"
-                        type="text"
-                        :class="!form.affiliation?'opacity-30':''"
-                        placeholder="Agency/Institute/Office"
-                        class="mt-1 block w-full"
-                        autocomplete="affiliation"
-                    />
+                    <select-search-field id="affiliation"
+                                         :api-link="route('api.institutes.index.public')"
+                                         v-model="form.affiliation"
+                                         :class="!form.affiliation?'opacity-30':''"
+                                         class="mt-1 block w-full"
+                                         autocomplete="affiliation"/>
                     <InputError :message="form.errors.affiliation" class="mt-2" />
                 </div>
             </div>

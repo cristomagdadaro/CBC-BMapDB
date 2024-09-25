@@ -61,7 +61,8 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::create(['name' => PermissionEnum::READ_TWG_PROJECT->value]);
 
         $adminRole = Role::create(['name' => RoleEnum::ADMIN->value]);
-        $twgAdminRole = Role::create(['name' => RoleEnum::TWG_ADMIN->value]);
+        $twgAdminRole = Role::create(['name' => RoleEnum::EXPERT->value]);
+        $breederAdmin = Role::create(['name' => RoleEnum::FOCAL_PERSON->value]);
         $breeder = Role::create(['name' => RoleEnum::BREEDER->value]);
         $researcherRole = Role::create(['name' => RoleEnum::RESEARCHER->value]);
 
@@ -87,7 +88,7 @@ class RoleAndPermissionSeeder extends Seeder
             PermissionEnum::CREATE_APP_ACCOUNT->value
         ]);
 
-        $breeder->givePermissionTo([
+        $breederAdmin->givePermissionTo([
             PermissionEnum::CREATE_BREEDER->value,
             PermissionEnum::UPDATE_BREEDER->value,
             PermissionEnum::READ_BREEDER->value,
@@ -99,7 +100,14 @@ class RoleAndPermissionSeeder extends Seeder
             PermissionEnum::CREATE_APP_ACCOUNT->value
         ]);
 
+        $breeder->givePermissionTo([
+            PermissionEnum::CREATE_COMMODITY->value,
+            PermissionEnum::UPDATE_COMMODITY->value,
+            PermissionEnum::READ_COMMODITY->value,
+            PermissionEnum::READ_BREEDER->value,
 
+            PermissionEnum::CREATE_APP_ACCOUNT->value
+        ]);
 
         $researcherRole->givePermissionTo([
             PermissionEnum::READ_BREEDER->value,

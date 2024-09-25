@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Applications;
 use App\Models\Application;
 use Closure;
 use Illuminate\Http\Request;
@@ -17,11 +18,11 @@ class CheckBreedersMapStatus
      */
     public function handle(Request $request, Closure $next): Response | \Inertia\Response
     {
-        $temp = Application::where('name', 'Breeder\'s Map')->where('status', true)->first();
+        $temp = Application::where('name', Applications::BREEDERS_MAP->value)->where('status', true)->first();
 
         if (!$temp) {
             return inertia('Auth/ApplicationDown', [
-                'message' => 'Breeder\'s Map is currently down. Please try again later.'
+                'message' => Applications::BREEDERS_MAP->value . ' is currently down. Please try again later.'
             ]);
         }
 

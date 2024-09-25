@@ -14,11 +14,14 @@ return new class extends Migration
         Schema::create('breeders', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('agency');
-            $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('email');
+            $table->string('password');
             $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('affiliation')->constrained('institutes');
+            $table->foreignId('geolocation')->constrained('loc_cities');
+
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

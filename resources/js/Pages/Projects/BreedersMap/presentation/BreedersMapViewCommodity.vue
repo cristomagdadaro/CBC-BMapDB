@@ -45,7 +45,7 @@ export default {
 </script>
 
 <template>
-    <Head title="Breeder's Map" />
+    <Head title="Breeders' Map" />
     <app-layout>
     <div class="p-5">
         <h1 class="h1 text-center font-semibold uppercase select-none">Commodity Geo Location</h1>

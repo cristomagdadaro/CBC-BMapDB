@@ -284,11 +284,11 @@ export default {
                         <router-link  v-for="subLink in  [
                             {
                                 name: 'administrator.users',
-                                label: 'Unverified Users',
+                                label: 'Users',
                             },
                             {
                                 name: 'administrator.approved-accounts',
-                                label: 'Approved Accounts',
+                                label: 'Accounts Approval',
                             },
                             {
                                 name: 'administrator.applications',
@@ -327,5 +327,4 @@ export default {
             </template>
         </sidebar-layout>
     </div>
-    <Footer />
 </template>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Actions\Fortify\PasswordValidationRules;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Laravel\Fortify\Rules\Password;
 
 class UpdateBreederRequest extends FormRequest
 {
@@ -24,16 +26,22 @@ class UpdateBreederRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
+            //'user_id' => 'required|exists:users,id',
             'name' => 'required|string|unique:breeders,name,'.$this->id,
-            'agency' => 'required|string',
-            'address' => 'nullable|string',
+            'affiliation' => 'required|exists:institutes,id',
+            'geolocation' => 'nullable|exists:loc_cities,id',
             'phone' => 'nullable|string|unique:breeders,phone,'.$this->id,
             'email' => [
                 'required',
                 'email',
                 'unique:breeders,email,'.$this->id,
             ],
+            'password' => $this->passwordRules(),
         ];
+    }
+
+    protected function passwordRules(): array
+    {
+        return ['nullable', 'string', new Password, 'confirmed'];
     }
 }

@@ -8,6 +8,7 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
+import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 
 const props = defineProps({
     status: String,
@@ -25,7 +26,9 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 <template>
     <Head title="Email Verification" />
     <page-layout>
-        <AuthenticationCard>
+        <green-waves />
+        <public-page-section>
+            <AuthenticationCard class="min-h-[80vh]">
             <template #logo>
                 <AuthenticationCardLogo />
             </template>
@@ -69,5 +72,6 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                 </div>
             </form>
         </AuthenticationCard>
+        </public-page-section>
     </page-layout>
 </template>

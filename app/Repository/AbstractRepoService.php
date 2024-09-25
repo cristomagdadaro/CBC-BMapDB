@@ -1,6 +1,7 @@
 <?php
 namespace App\Repository;
 
+use App\Enums\Role;
 use App\Http\Interfaces\RepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +28,17 @@ abstract class AbstractRepoService implements RepositoryInterface
      * @var string
     */
     private array $appendWith = [];
+
+    /**
+     * Count the rows of the appended tables
+     * @var string
+    */
+    private array $appendCount = [];
+
+    /**
+     * Use to filter the data according to the role
+    */
+    private int $appendFilter = 0;
 
     /**
      * List of searchable and viewable columns
@@ -225,13 +237,23 @@ abstract class AbstractRepoService implements RepositoryInterface
         try {
             return $this->searchData($parameters, $withPagination, $isTrashed);
         } catch (Exception $error) {
-            return response()->json($this->sendError($error),  $error->getCode());
+            return response()->json($this->sendError($error),  500);
         }
     }
 
-    public function appendWith(array $tableToAppend)
+    public function appendWith(array $tableToAppend): void
     {
         $this->appendWith = $tableToAppend;
+    }
+
+    public function appendCount(array $countTable): void
+    {
+        $this->appendCount = $countTable;
+    }
+
+    public function appendCondition(int $tableConditions): void
+    {
+        $this->appendFilter = $tableConditions;
     }
 
     private function searchData(Collection $parameters, bool $withPagination, bool $isTrashed)
@@ -244,7 +266,12 @@ abstract class AbstractRepoService implements RepositoryInterface
         $filter = $parameters->get('filter', null);
         $is_exact = $parameters->get('is_exact', false);
 
-        $builder = $this->model->select($this->model->getSearchable());
+        if ($this->appendFilter) {
+            $builder = $this->model->ofModel($this->appendFilter);
+        } else
+            $builder = $this->model;
+
+        $builder = $builder->select($this->model->getSearchable());
 
         if ($this->appendWith) {
             foreach ($this->appendWith as $table) {
@@ -252,9 +279,22 @@ abstract class AbstractRepoService implements RepositoryInterface
             }
         }
 
+        if ($this->appendCount) {
+            foreach ($this->appendCount as $table) {
+                $builder->withCount($table);
+            }
+        }
+
         if ($isTrashed) {
             $builder = $builder->onlyTrashed();
         }
+
+        // Check user role
+        /*$user = auth()->user();
+        if ($user->getRole() !== Role::ADMIN->value) {
+            $builder->where('user_id', $user->id);
+        }*/
+
 
         if ($search) {
             $builder->where(function ($query) use ($search, $filter, $is_exact) {

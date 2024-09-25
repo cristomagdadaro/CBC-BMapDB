@@ -6,6 +6,7 @@ import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
 import RadioField from "@/Components/Form/RadioField.vue";
 import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
+import BaseClass from "@/Modules/core/domain/base/BaseClass";
 
 export default {
     components: {
@@ -17,6 +18,12 @@ export default {
         SelectSearchField,
         CancelButton,
         CloseIcon,
+    },
+    data() {
+        return {
+            form: {},
+            model: BaseClass,
+        };
     },
     props: {
         errors: {
@@ -30,7 +37,7 @@ export default {
         data: {
             type: Object,
             default: null
-        }
+        },
     },
     methods: {
         resetForm() {
@@ -56,7 +63,12 @@ export default {
             this.emitClose();
         },
         data() {
-            this.form = Object.assign({}, this.data);
+            //this.form = Object.assign({}, this.data);
+            if (this.data)
+                this.form = this.model.updateForm(this.data);
+            else
+                this.form = this.model.createForm(this.data);
+
         }
     },
 }

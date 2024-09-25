@@ -1,12 +1,17 @@
-export default interface IBreeder {
-    id: number;
+import IBaseClass from "../../../../Modules/core/interface/base/IBaseClass";
+import IInstitute from "../../../../Modules/core/interface/auth/IInstitute";
+import ICommodity from "./ICommodity";
+import ICity from "../../../../Modules/core/interface/location/ICity";
+
+export default interface IBreeder extends IBaseClass {
+    id?: number;
     user_id: number;
     name: string;
-    agency: string;
+    affiliated: IInstitute;
     phone: string;
     email: string;
-    address: string;
-    updated_at: string;
-    created_at: string;
-    deleted_at: string;
+
+    commodities: ICommodity[];
+    commodities_count: number;
+    location: ICity;
 }

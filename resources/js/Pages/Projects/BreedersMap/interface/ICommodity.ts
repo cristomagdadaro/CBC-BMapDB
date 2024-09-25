@@ -1,6 +1,8 @@
 import IBreeder from "./IBreeder";
+import ICity from "../../../../Modules/core/interface/location/ICity";
+import IBaseClass from "../../../../Modules/core/interface/base/IBaseClass";
 
-export default interface ICommodity {
+export default interface ICommodity  extends IBaseClass {
     id: number;
     name: string;
     breeder_id: number;
@@ -12,20 +14,8 @@ export default interface ICommodity {
     maturity_period: string;
     yield: string;
     description: string;
-    latitude: string;
-    longitude: string;
-    address: string;
-    city: string;
-    province: string;
-    region: string;
-    country: string;
-    postal_code: string;
-    formatted_address: string;
-    place_id: string;
     status: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
+    location: ICity;
 
     breeder: IBreeder;
 }

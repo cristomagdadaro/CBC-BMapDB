@@ -16,14 +16,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            CityProvinceRegionSeeder::class,
             ApplicationSeeder::class,
+            InstituteSeeder::class,
         ]);
 
         $admin = User::factory()->create([
             'fname' => 'Cristo Rey',
             'lname' => 'Magdadaro',
             'email' => 'admin@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
             'email_verified_at' => now()
         ]);
 
@@ -34,7 +35,6 @@ class DatabaseSeeder extends Seeder
             'fname' => 'TWG',
             'lname' => 'Admin',
             'email' => 'twgadmin@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
             'email_verified_at' => now()
         ]);
 
@@ -44,7 +44,6 @@ class DatabaseSeeder extends Seeder
             'fname' => 'Reynaldo',
             'lname' => 'Diocton',
             'email' => 'breeder@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
             'email_verified_at' => now()
         ]);
 
@@ -54,7 +53,6 @@ class DatabaseSeeder extends Seeder
             'fname' => 'Precious Mae',
             'lname' => 'Gabato',
             'email' => 'researcher@cbc.gov.ph',
-            'affiliation' => 'Crop Biotechnology Center',
             'email_verified_at' => now()
         ]);
 
@@ -71,8 +69,31 @@ class DatabaseSeeder extends Seeder
 
 
         $admin->assignRole(Role::ADMIN->value);
-        $twgAdmin->assignRole(Role::TWG_ADMIN->value);
+        $twgAdmin->assignRole(Role::FOCAL_PERSON->value);
         $breeder->assignRole(Role::BREEDER->value);
         $researcher->assignRole(Role::RESEARCHER->value);
+
+        $users = User::all();
+        foreach ($users as $user) {
+            //check if user is already assigned a role
+            if ($user->hasRole(Role::ADMIN->value) || $user->hasRole(Role::FOCAL_PERSON->value) || $user->hasRole(Role::BREEDER->value) || $user->hasRole(Role::RESEARCHER->value)) {
+                continue;
+            }
+            $user->assignRole(rand(2, 5));
+            switch ($user->role) {
+                case Role::EXPERT->value:
+                    $user->approve([1]);
+                    break;
+                case Role::FOCAL_PERSON->value:
+                    $user->approve([1, 2]);
+                    break;
+                case Role::BREEDER->value:
+                    $user->approve([2]);
+                    break;
+                case Role::RESEARCHER->value:
+                    $user->approve([1, 2]);
+                    break;
+            }
+        }
     }
 }

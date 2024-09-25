@@ -1,7 +1,7 @@
 import {defineAsyncComponent} from "vue";
-import User from "@/Pages/Admin/domain/User.ts";
-import Account from "@/Pages/Admin/domain/Account.ts";
-import Application from "@/Pages/Admin/domain/Application.ts";
+import User from "@/Pages/Admin/domain/User";
+import Account from "@/Pages/Admin/domain/Account";
+import Application from "@/Pages/Admin/domain/Application";
 /**
  * Contains the forms, pages, api routes, and models for the BreedersMap project
  **/

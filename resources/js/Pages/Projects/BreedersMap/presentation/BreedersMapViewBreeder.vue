@@ -13,7 +13,7 @@ export default {
         breeder: {
             type: Object,
             required: false,
-            default: null
+            default: null,
         }
     },
     data() {
@@ -39,6 +39,11 @@ export default {
         Breeder() {
             return Breeder
         },
+        breederInstance() {
+            if (this.breeder)
+                return new Breeder(this.breeder);
+            return null;
+        },
         Commodity() {
             return Commodity
         },
@@ -48,61 +53,19 @@ export default {
             return [];
         }
     },
-    methods: {
-        getDataFromAPI() {
-            this.axiosInstance.get().then(response => {
-                this.data = response.data
-            }).catch(error => {
-                console.log(error);
-            });
-        }
-    },
-    watch: {
-        breeder() {
-            if (this.breeder)
-            this.breeder = new Breeder(this.breeder);
-        }
-    },
-    mounted() {
-        if (this.breeder){
-            //this.axiosInstance = new ApiService(route('api.breeders.show', this.breeder.id));
-            //this.getDataFromAPI();w
-            //
-        }
-    }
 }
 </script>
 
 <template>
-    <Head title="Breeder's Map View" />
+    <Head title="Breeders' Map View" />
     <app-layout>
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
-            <div v-if="breeder" class="flex flex-col">
+            <div v-if="breederInstance" class="flex flex-col">
                 <h1 class="text-lg font-semibold uppercase select-none px-3 pb-2 mx-2">Breeder Information</h1>
                 <div class="border p-3 rounded-lg bg-white mx-2 grid sm:grid-cols-2 grid-cols-1">
-                    <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Breeder ID: </h2>
-                        <p>{{ breeder.id }}</p>
-                    </div>
-                    <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Breeder: </h2>
-                        <p>{{ breeder.name }}</p>
-                    </div>
-                    <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Affiliation: </h2>
-                        <p>{{ breeder.agency }}</p>
-                    </div>
-                    <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none whitespace-nowrap">Office Address: </h2>
-                        <p>{{ breeder.address }}</p>
-                    </div>
-                    <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Phone: </h2>
-                        <p>{{ breeder.phone }}</p>
-                    </div>
-                    <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Email: </h2>
-                        <p>{{ breeder.email }}</p>
+                    <div class="flex gap-1" v-for="column in Breeder.visibleColumns()">
+                        <h2 class="h2 font-semibold select-none">{{column.title}}: </h2>
+                        <p>{{ Breeder.getNestedValue(breederInstance, column.key) }}</p>
                     </div>
                 </div>
                 <Tab :tabs="tabs">

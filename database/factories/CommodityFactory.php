@@ -4,6 +4,9 @@ namespace Database\Factories;
 
 use App\Enums\PriorityCommodities;
 use App\Models\Breeder;
+use App\Models\Location\City;
+use App\Models\Location\Province;
+use App\Models\Location\Region;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,12 +21,6 @@ class CommodityFactory extends Factory
      */
     public function definition(): array
     {
-        // $locations = $this->readFromCsv();
-        $locations = config('ph_geo_cities');
-
-        $randomLocation = $this->faker->randomElement($locations);
-        $address = $this->faker->address;
-
         $commodities = [
             PriorityCommodities::COCONUT,
             PriorityCommodities::RICE,
@@ -36,7 +33,7 @@ class CommodityFactory extends Factory
         ];
 
         $commodity = $this->faker->randomElement($commodities);
-
+        $city = City::all()->random();
         return [
             'name' => $commodity['name'],
             'breeder_id' => Breeder::all()->random()->id,
@@ -44,21 +41,12 @@ class CommodityFactory extends Factory
             'variety' => $this->faker->randomElement($commodity['varieties']),
             'accession' => $this->faker->randomElement($commodity['accession']),
             'germplasm' => $this->faker->randomElement($commodity['germplasm']),
-            'population' => $this->faker->randomFloat(),
+            'population' => $this->faker->randomNumber(6),
             'maturity_period' => $this->faker->name,
             'yield' => $this->faker->randomFloat(),
             'description' => $this->faker->text,
             'image' => $this->faker->imageUrl(),
-            'latitude' => $randomLocation['latitude'],
-            'longitude' => $randomLocation['longitude'],
-            'address' => $address,
-            'city' => $randomLocation['name'],
-            'province' => $randomLocation['province'],
-            'region' => $randomLocation['region'],
-            'country' => 'Philippines',
-            'postal_code' => $this->faker->postcode,
-            'formatted_address' => $address . ', ' . $randomLocation['name'] . ', ' . $randomLocation['province'] . ', Philippines',
-            'place_id' => 'PH',
+            'geolocation' => $city->id,
             'status' => $this->faker->randomElement(['active', 'inactive']),
         ];
     }

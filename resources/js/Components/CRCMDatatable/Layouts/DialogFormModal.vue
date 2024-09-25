@@ -1,6 +1,5 @@
 <script setup>
 import Modal from '@/Components/Modal.vue';
-import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 const emit = defineEmits(['close']);
 
 defineProps({

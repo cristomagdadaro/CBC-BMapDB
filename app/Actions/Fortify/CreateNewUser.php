@@ -29,7 +29,7 @@ class CreateNewUser implements CreatesNewUsers
             'suffix' => ['nullable', 'string', 'max:255'],
             'mobile_no' =>  ['nullable', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'affiliation' => ['required', 'string', 'max:255'],
+            'affiliation' => ['required', 'exists:institutes,id'],
             'account_for' => ['required', 'numeric', 'exists:applications,id'],
             'role' => ['required', 'exists:roles,id'],
             'password' => $this->passwordRules(),

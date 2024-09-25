@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Geodata extends BaseModel
 {
@@ -15,14 +14,10 @@ class Geodata extends BaseModel
         'breeder_id',
         'latitude',
         'longitude',
-        'address',
         'city',
         'province',
         'region',
         'country',
-        'postal_code',
-        'formatted_address',
-        'place_id',
         'status',
     ];
 

@@ -22,7 +22,7 @@ export const CBCProjects = [
     },
     {
         id: 4,
-        label: "Breeder's Map",
+        label: "Breeders' Map",
         icon: BreedersMapLogo,
         value: 'projects.breedersmap.index',
         show: true,
@@ -32,14 +32,14 @@ export const CBCProjects = [
 export const CBCProjectsPublic = [
     {
         id: 1,
-        label: 'TWG Database',
-        value: 'projects.twgdb.public',
+        label: "Breeders' Map",
+        value: 'projects.breedersmap.public',
     },
     {
         id: 2,
-        label: "Breeder's Map",
-        value: 'projects.breedersmap.public',
-    }
+        label: 'TWG Database',
+        value: 'projects.twgdb.public',
+    },
 ]
 
 /*used in registration dropdown*/
@@ -51,7 +51,7 @@ export const Projects = [
     },{
         id: 2,
         value: 'projects.breedersmap.index',
-        label: 'Breeders Map',
+        label: "Breeders' Map",
     }
 ]
 

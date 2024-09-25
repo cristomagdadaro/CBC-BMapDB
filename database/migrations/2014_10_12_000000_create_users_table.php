@@ -19,12 +19,14 @@ return new class extends Migration
             $table->string('suffix')->nullable();
             $table->string('email')->unique();
             $table->string('mobile_no')->nullable();
-            $table->string('affiliation')->nullable();
+            $table->foreignId('affiliation')->constrained('institutes');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+
+
             $table->timestamps();
             $table->softDeletes();
         });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\PriorityCommodities;
 use App\Enums\SystemVariable;
 
 return [
@@ -42,5 +43,11 @@ return [
         'search' => 'sometimes|string',
         'filter' => 'sometimes|string',
         'is_exact' => 'sometimes|string|in:true,false',
+    ],
+    'filtering_parameters' => [
+        'geo_location_filter' => 'sometimes|string|in:region,province,city',
+        'geo_location_value' => 'sometimes|string',
+        'is_exact' => 'sometimes|string|in:true,false',
+        'commodity' => 'sometimes|string',
     ]
 ];

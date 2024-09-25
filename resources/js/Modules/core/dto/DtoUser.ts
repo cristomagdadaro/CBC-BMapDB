@@ -1,11 +1,12 @@
 import IUser from "../interface/auth/IUser";
-import Role from "../domain/auth/Role";
-import Account from "../domain/auth/Account";
-import Permission from "../domain/auth/Permission";
 import IRole from "../interface/auth/IRole";
 import IAccount from "../interface/auth/IAccount";
 import BaseClass from "../domain/base/BaseClass";
 import IPermission from "../interface/auth/IPermission";
+import DtoRole from "./DtoRole";
+import DtoAccount from "./DtoAccount";
+import DtoPermission from "./DtoPermission";
+import DtoInstitute from "./DtoInstitute";
 
 export default class DtoUser extends BaseClass implements IUser {
     id?: number = null;
@@ -14,13 +15,13 @@ export default class DtoUser extends BaseClass implements IUser {
     lname: string = null;
     suffix: string = null;
     email: string = null;
-    affiliation: string = null;
     mobile_no: string = null;
     email_verified_at: string = null;
 
     roles?: IRole[] = [];
     accounts?: IAccount[] = [];
     permissions?: IPermission[] = [];
+    affiliated: DtoInstitute = null;
 
     constructor(dto: IUser) {
         super();
@@ -31,20 +32,21 @@ export default class DtoUser extends BaseClass implements IUser {
         this.lname = dto.lname;
         this.suffix = dto.suffix;
         this.email = dto.email;
-        this.affiliation = dto.affiliation;
+        this.affiliated = dto.affiliated;
         this.mobile_no = dto.mobile_no;
         this.email_verified_at = dto.email_verified_at;
 
         if (dto.roles)
-            //@ts-ignore
-            this.roles = dto.roles.map(role => new Role(role));
+            this.roles = dto.roles.map(role => new DtoRole(role));
         if (dto.accounts)
-            //@ts-ignore
-            this.accounts = dto.accounts.map(account => new Account(account));
+            this.accounts = dto.accounts.map(account => new DtoAccount(account));
         if (dto.permissions)
-            //@ts-ignore
-            this.permissions = dto.permissions.map(permission => new Permission(permission));
+            this.permissions = dto.permissions.map(permission => new DtoPermission(permission));
+        if (dto.affiliated)
+            this.affiliated = new DtoInstitute(dto.affiliated);
     }
 
-
+    get getRole() {
+        return this.roles.map(role => role.name).join(", ");
+    }
 }

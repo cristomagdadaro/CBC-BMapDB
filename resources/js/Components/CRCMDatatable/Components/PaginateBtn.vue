@@ -5,7 +5,7 @@
 </template>
 <script setup>
 import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
-import { defineProps } from "vue";
+
 defineProps({
   disabled: Boolean,
 })

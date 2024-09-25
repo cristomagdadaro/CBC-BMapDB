@@ -1,9 +1,9 @@
 import IAccount from "../interface/auth/IAccount";
 import IApplication from "../interface/auth/IApplication";
-import Application from "../domain/auth/Application";
 import BaseClass from "../domain/base/BaseClass";
-import User from "../domain/auth/User";
 import IUser from "../interface/auth/IUser";
+import DtoApplication from "./DtoApplication";
+import DtoUser from "./DtoUser";
 
 export default class DtoAccount extends BaseClass implements IAccount {
     id: number = null;
@@ -22,11 +22,8 @@ export default class DtoAccount extends BaseClass implements IAccount {
         this.approved_at = dto.approved_at;
 
         if (dto.application)
-            //@ts-ignore
-            this.application = new Application(dto.application);
-
+            this.application = new DtoApplication(dto.application);
         if (dto.user)
-            //@ts-ignore
-            this.user = new User(dto.user);
+            this.user = new DtoUser(dto.user);
     }
 }

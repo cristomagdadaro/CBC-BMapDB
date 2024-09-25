@@ -5,11 +5,41 @@ export default class Breeder extends DtoBreeder{
         super(params);
     }
 
+    static createForm()
+    {
+        return {
+            user_id: null,
+            name: null,
+            phone: null,
+            email: null,
+            password: null,
+            affiliation: null,
+            geolocation: null,
+            remember_token: null,
+        }
+    }
+
+    static updateForm(oldValue: Partial<Breeder>)
+    {
+        return {
+            id: oldValue.id ?? null,
+            user_id: oldValue.user_id ?? null,
+            name: oldValue.name ?? null,
+            phone: oldValue.phone ?? null,
+            email: oldValue.email ?? null,
+            //@ts-ignore
+            password: oldValue.password ?? null,
+            affiliation: oldValue.affiliated ? oldValue.affiliated.id : null,
+            geolocation: oldValue.location ? oldValue.location.id : null,
+        }
+    }
+
     static getColumns() {
         return [
             {
                 title: 'ID',
                 key: 'id',
+                db_key: 'id',
                 align: 'center',
                 sortable: true,
                 visible: false,
@@ -17,6 +47,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'User ID',
                 key: 'user_id',
+                db_key: 'user_id',
                 align: 'center',
                 sortable: true,
                 visible: false,
@@ -24,13 +55,15 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Name',
                 key: 'name',
+                db_key: 'name',
                 align: 'center',
                 sortable: true,
                 visible: true,
             },
             {
-                title: 'Agency',
-                key: 'agency',
+                title: 'Affiliation',
+                key: 'affiliated.name',
+                db_key: 'affiliated',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -38,6 +71,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Phone',
                 key: 'phone',
+                db_key: 'phone',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -45,13 +79,23 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Email',
                 key: 'email',
+                db_key: 'email',
                 align: 'center',
-                sortable: false,
+                sortable: true,
+                visible: true,
+            },
+            {
+                title: 'Commodities',
+                key: 'commodities_count',
+                db_key: 'commodities_count',
+                align: 'text-center',
+                sortable: true,
                 visible: true,
             },
             {
                 title: 'Address',
-                key: 'address',
+                key: 'location.getFullAddress',
+                db_key: 'location',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -59,6 +103,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Updated At',
                 key: 'updated_at',
+                db_key: 'updated_at',
                 align: 'center',
                 sortable: true,
                 visible: false,
@@ -66,6 +111,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Created At',
                 key: 'created_at',
+                db_key: 'created_at',
                 align: 'center',
                 sortable: true,
                 visible: false,
@@ -73,6 +119,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Deleted At',
                 key: 'deleted_at',
+                db_key: 'deleted_at',
                 align: 'center',
                 sortable: true,
                 visible: false,

@@ -15,20 +15,9 @@
                     <text-field required type-input="number" :error="getError('population')" label="Breeding Population" v-model="form.population" />
                     <text-field required :error="getError('maturity_period')" label="Maturity Period" v-model="form.maturity_period" />
                     <text-field required type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
-                    <select-field :error="getError('status')" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
+                    <select-field required :error="getError('status')" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
                 </div>
-                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                    <text-field :error="getError('latitude')" label="Latitude" v-model="form.latitude" />
-                    <text-field :error="getError('longitude')" label="Longitude" v-model="form.longitude" />
-                    <text-field :error="getError('address')" label="Address" v-model="form.address" />
-                    <text-field :error="getError('city')" label="City" v-model="form.city" />
-                    <text-field :error="getError('province')" label="Province" v-model="form.province" />
-                    <text-field :error="getError('country')" label="Country" v-model="form.country" />
-                    <text-field :error="getError('postal_code')" label="Postal Code" v-model="form.postal_code" />
-                    <text-field :error="getError('formatted_address')" label="Formatted Address" v-model="form.formatted_address" />
-                    <text-field :error="getError('place_id')" label="Place ID" v-model="form.place_id" />
-                    <text-field :error="getError('image')" label="Image" v-model="form.image" />
-                </div>
+                <select-search-field required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                 <text-field type-input="longtext" :error="getError('description')" label="Other Description" v-model="form.description" />
             </div>
         </template>
@@ -36,34 +25,13 @@
 </template>
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin.js";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 
 export default {
     mixins: [FormMixin],
     data() {
         return {
-            form: {
-                name: null,
-                breeder_id: null,
-                scientific_name: null,
-                variety: null,
-                accession: null,
-                germplasm: null,
-                population: null,
-                maturity_period: null,
-                yield: null,
-                description: null,
-                image: null,
-                latitude: null,
-                longitude: null,
-                address: null,
-                city: null,
-                province: null,
-                country: null,
-                postal_code: null,
-                formatted_address: null,
-                place_id: null,
-                status: null,
-            },
+            model: Commodity
         };
     },
 };

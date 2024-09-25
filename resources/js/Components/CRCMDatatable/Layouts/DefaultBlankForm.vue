@@ -41,7 +41,7 @@ export default {
                 name: null,
                 phone: null,
                 email: null,
-                agency: null,
+                affiliation: null,
                 address: null,
             },
         };

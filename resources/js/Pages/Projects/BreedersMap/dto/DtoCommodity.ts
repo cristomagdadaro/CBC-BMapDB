@@ -1,8 +1,9 @@
 import ICommodity from "../interface/ICommodity";
 import IBreeder from "../interface/IBreeder";
 import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
-import Breeder from "../domain/Breeder";
-
+import DtoCity from "../../../../Modules/core/dto/location/DtoCity";
+import DtoBreeder from "./DtoBreeder";
+// @ts-ignore
 export default class DtoCommodity extends BaseClass implements ICommodity {
     id: number;
     breeder_id: number;
@@ -15,17 +16,8 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     maturity_period: string;
     yield: string;
     description: string;
-    latitude: string;
-    longitude: string;
-    address: string;
-    city: string;
-    province: string;
-    region: string;
-    country: string;
-    postal_code: string;
-    formatted_address: string;
-    place_id: string;
     status: string;
+    location: DtoCity;
     created_at: string;
     updated_at: string;
     deleted_at: string;
@@ -45,23 +37,15 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.maturity_period = commodity.maturity_period;
         this.yield = commodity.yield;
         this.description = commodity.description;
-        this.latitude = commodity.latitude;
-        this.longitude = commodity.longitude;
-        this.address = commodity.address;
-        this.city = commodity.city;
-        this.province = commodity.province;
-        this.region = commodity.region;
-        this.country = commodity.country;
-        this.postal_code = commodity.postal_code;
-        this.formatted_address = commodity.formatted_address;
-        this.place_id = commodity.place_id;
         this.status = commodity.status;
         this.created_at = commodity.created_at;
         this.updated_at = commodity.updated_at;
         this.deleted_at = commodity.deleted_at;
 
         if (commodity.breeder)
-            //@ts-ignore
-            this.breeder = new Breeder(commodity.breeder);
+            this.breeder = new DtoBreeder(commodity.breeder);
+
+        if (commodity.location)
+            this.location = new DtoCity(commodity.location);
     }
 }

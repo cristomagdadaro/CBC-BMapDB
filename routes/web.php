@@ -2,6 +2,9 @@
 
 use App\Enums\Permission;
 use App\Http\Controllers\API\AdminController;
+use App\Http\Controllers\API\InstituteController;
+use App\Http\Controllers\CityProvRegController;
+use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
 use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
@@ -58,8 +61,22 @@ Route::prefix('email')->group(function () {
 
 /* Public Api */
 Route::prefix('/api/public')->group(function () {
+    Route::get('/institutes', [InstituteController::class, 'index'])->name('api.institutes.index.public');
     Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
+    Route::get('/cities', [CityProvRegController::class, 'cityIndex'])->name('api.cities.index.public');
     Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
+    Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
+    Route::get('/commodities/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
+    Route::get('/breeders/summary', [BreederController::class, 'summary'])->name('api.breedersmap.breeders.summary.public');
+});
+
+Route::prefix('/support-info')->group(function () {
+    Route::get('/about-us', [SupportInfoController::class, 'aboutUs'])->name('support.about-us');
+    Route::get('/terms-of-use', [SupportInfoController::class, 'termsOfUse'])->name('support.terms-of-use');
+    Route::get('/policy-notice', [SupportInfoController::class, 'policyNotice'])->name('support.policy-notice');
+    Route::get('/privacy-policy', [SupportInfoController::class, 'privacyPolicy'])->name('support.privacy-policy');
+    Route::get('/sitemap', [SupportInfoController::class, 'sitemap'])->name('support.sitemap');
+    Route::get('/developers', [SupportInfoController::class, 'developers'])->name('support.developers');
 });
 
 
@@ -78,14 +95,12 @@ Route::prefix('/projects')->group(function () {
         Route::get('/twg-db', [TWGController::class, 'index'])->name('api.twg.summary.public');
     });
 
-    Route::get('/breedersmap-db', function (){
+    Route::get('/breedersmap-db/{any?}', function (){
         return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic', [
             'commodities' => Commodity::all(),
             'breadcrumbs' => [['label' => 'Home', 'to' => '/']],
         ]);
     })->name('projects.breedersmap.public');
-
-    Route::get('/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
 });
 
 
@@ -135,9 +150,9 @@ Route::middleware([
             Route::get('/breeder/{id}', function ($id) {
 
                 //if (Auth::user()->isAdmin())
-                    $breeder = Breeder::find($id)->load('commodities');
+                    $breeder = Breeder::find($id)->load(['affiliated', 'location']);
                 //else
-                    //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load('commodities');
+                    //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load(['affiliated', 'location']);
 
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
                     'breeder' => $breeder,
@@ -208,7 +223,7 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
         });
     });
 
-    /*Breeders Map Related APIs*/
+    /*Breeders' Map Related APIs*/
     Route::middleware(['check.status.breedersmap'])->prefix('breeders')->group(function () {
         Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/', [BreederController::class, 'index'])->name('api.breeders.index');
         Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
@@ -262,6 +277,11 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
     Route::prefix('users')->group(function () {
         Route::middleware(['can:'. Permission::READ_USER->value])->get('/', [UserController::class, 'index'])->name('api.users.index');
         Route::middleware(['can:'. Permission::READ_USER->value])->get('/{id}', [UserController::class, 'show'])->name('api.users.show');
+    });
+
+    Route::prefix('institutes')->group(function () {
+        Route::get('/', [InstituteController::class, 'index'])->name('api.institutes.index');
+        Route::get('/{id}', [InstituteController::class, 'show'])->name('api.institutes.show');
     });
 
     Route::prefix('accounts')->group(function () {

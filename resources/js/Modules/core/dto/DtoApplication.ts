@@ -22,7 +22,7 @@ export default class DtoApplication extends BaseClass implements IApplication {
 
     get appTabs() {
         switch (this.name) {
-            case "Breeder's Map":
+            case "Breeders' Map":
                 return [
                     {
                         name: 'projects.breedersmap.breeder',

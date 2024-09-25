@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="submitForm">
-        <div class="px-4 py-2 bg-gray-100 shadow-md">
+        <div class="flex flex-col gap-5 px-6 py-10 bg-gray-100 shadow-md">
             <div class="flex flex-col">
                 <div class="text-lg font-medium text-gray-900 flex justify-between">
                     <slot name="formTitle" />
@@ -12,16 +12,16 @@
                     <slot name="formDescription" />
                 </div>
             </div>
-            <div class="mt-4 text-sm text-gray-600">
+            <div class="text-sm text-gray-600">
                 <slot name="formFields" />
             </div>
-        </div>
-        <div class="flex flex-row justify-between gap-1 px-6 py-4 bg-gray-100 text-right">
-            <div class="flex items-center gap-1">
-                <cancel-button @click="$emit('close')">Cancel</cancel-button>
-                <button class="bg-red-200 text-white px-4 py-2 rounded-md hover:bg-red-500 active:bg-red-600 duration-200" type="button" @click="resetForm">Reset</button>
+            <div class="flex flex-row justify-between gap-1 bg-gray-100 text-right">
+                <div class="flex items-center gap-1">
+                    <cancel-button @click="$emit('close')">Cancel</cancel-button>
+                    <button class="bg-red-200 text-white px-4 py-2 rounded-md hover:bg-red-500 active:bg-red-600 duration-200" type="button" @click="resetForm">Reset</button>
+                </div>
+                <button class="bg-edit text-white px-4 py-2 rounded-md hover:bg-edit active:bg-edit duration-200" type="submit">Update</button>
             </div>
-            <button class="bg-edit text-white px-4 py-2 rounded-md hover:bg-edit active:bg-edit duration-200" type="submit">Update</button>
         </div>
     </form>
 </template>

@@ -6,6 +6,29 @@ export default class AuthAccount extends Account
         super(account);
     }
 
+    static createForm()
+    {
+        return {
+            user_id: null,
+            app_id: null,
+        }
+    }
+
+    static updateForm(oldValue: Partial<AuthAccount>)
+    {
+        return {
+            id: oldValue.id ?? null,
+            user_id: oldValue.user_id ?? null,
+            app_id: oldValue.app_id ?? null,
+            approved_at: oldValue.approved_at ?? null,
+            // @ts-ignore
+            permissions: oldValue.permissions ?? [],
+            // @ts-ignore
+            role: oldValue.role ?? null,
+
+        }
+    }
+
     static getColumns() {
         return [
             {
@@ -14,7 +37,7 @@ export default class AuthAccount extends Account
                 db_key: 'id',
                 align: 'text-center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'U. ID',
@@ -22,7 +45,7 @@ export default class AuthAccount extends Account
                 db_key: 'user_id',
                 align: 'text-center',
                 sortable: true,
-                visible: true
+                visible: false
                 ,
             },
             {
@@ -37,23 +60,6 @@ export default class AuthAccount extends Account
                 title: 'Role',
                 key: 'user.getRole',
                 db_key: 'name',
-                align: 'text-left',
-                sortable: false,
-                visible: true,
-            },
-            {
-                title: 'Email',
-                key: 'user.email',
-                db_key: 'email',
-                align: 'text-left',
-                sortable: false,
-                visible: true,
-            },
-
-            {
-                title: 'Affiliation',
-                key: 'user.affiliation',
-                db_key: 'affiliation',
                 align: 'text-left',
                 sortable: false,
                 visible: true,

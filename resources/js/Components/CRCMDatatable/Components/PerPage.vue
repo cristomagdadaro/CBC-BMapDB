@@ -3,7 +3,7 @@
         <div class="text-xs text-gray-500 flex items-center justify-between">
             <span class="flex gap-0.5 whitespace-nowrap">Per Page</span>
         </div>
-        <custom-dropdown :value="value" :withAllOption="false" :options="perPage" @selectedChange="$emit('changePerPage', $event)">
+        <custom-dropdown :show-clear="false"  :value="value" :withAllOption="false" :options="perPage" @selectedChange="$emit('changePerPage', $event)">
             <template #icon>
                 <caret-down  class="h-4 w-4 text-gray-700" />
             </template>

@@ -24,6 +24,8 @@ return new class extends Migration
             $table->double('yield')->nullable();
             $table->string('description')->nullable()->nullable();
             $table->binary('image')->nullable();
+            $table->foreignId('geolocation')->constrained('loc_cities');
+            $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

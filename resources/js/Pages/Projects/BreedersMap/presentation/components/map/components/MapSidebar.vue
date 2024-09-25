@@ -28,7 +28,7 @@ export default {
             this.$emit('close');
         },
         formatName(name) {
-            return name.replace(/_/g, ' ').toUpperCase();
+            return name;
         }
     }
 }

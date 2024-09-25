@@ -8,6 +8,7 @@ import {ForbiddenErrorResponse} from "@/Modules/core/domain/response/ForbiddenEr
 import {Ref, ref} from "vue";
 import IApiService from "../interface/IApiService";
 import DtoError from "../dto/base/DtoError";
+import BaseClass from "../domain/base/BaseClass";
 
 export default class ApiService implements IApiService
 {
@@ -43,10 +44,17 @@ export default class ApiService implements IApiService
             const response = await axios.get(this.baseUrl, {
                 params: params
             });
-
             if (model) {
-                response.data.data = this.castToModel(response.data.data, model);
-                return new BaseResponse(response.data);
+                if (response && response.data){
+                    if (response.data.data){
+                        response.data.data = this.castToModel(response.data.data, model);
+                        return new BaseResponse(response.data);
+                    }
+                    else if (response.data.raw_data){
+                        response.data.raw_data = this.castToModel(response.data.raw_data, model);
+                        return new BaseResponse(response);
+                    }
+                }
             }
 
             return new BaseResponse(response);
@@ -106,8 +114,10 @@ export default class ApiService implements IApiService
         }
     }
 
-    castToModel(response, model) {
-        return response.map(item => {
+    castToModel(response, model: typeof BaseClass) {
+        if ( !response || !model ) return [];
+        return response.map((item: Object)=> {
+            if (!item) return null;
             return new model(item);
         });
     }

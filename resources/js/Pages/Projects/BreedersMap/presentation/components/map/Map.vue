@@ -25,9 +25,16 @@ import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import {Permission} from "@/Pages/constants.ts";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 import FullscreenToggle from "@/Components/FullscreenToggle.vue";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
+import BaseClass from "@/Modules/core/domain/base/BaseClass";
+import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
+import DataFiltrationFields
+    from "@/Pages/Projects/BreedersMap/presentation/components/map/components/DataFiltrationFields.vue";
 
 export default {
     components: {
+        DataFiltrationFields,
+        TransitionContainer,
         FullscreenToggle,
         ViewIcon,
         SearchBy,
@@ -60,21 +67,22 @@ export default {
         params: {
             type: Object,
             required: false,
-            default: () => {
-                return {
-                    filter: null,
-                    search: null,
-                    is_exact: null
-                }
-            }
+            default: () => ({
+                filter: null,
+                search: null,
+                is_exact: null
+            })
         },
         model: {
-            type: [Object, Function],
+            type: [BaseClass, Function],
             required: false,
         }
     },
     data() {
         return {
+            dataFiltration: null,
+            processingRequest: false,
+
             mapApi: null,
             icon: icon({
                 iconUrl: "/public/img/logo_no_bg.png",
@@ -87,7 +95,8 @@ export default {
             tiles: null,
             map: null,
             placesSearched: [],
-            placesFiltered: [],
+            //placesFiltered: [],
+            dataFiltrationUrl: null,
             tileProviders: [
                 {
                     name: 'CartoDB Voyager',
@@ -123,47 +132,46 @@ export default {
         };
     },
     computed: {
+        newData() {
+            if (this.dataFiltration) {
+                this.placesSearched = this.dataFiltration.raw_data;
+                return this.placesSearched;
+            }
+
+            return [];
+        },
+
+        Commodity() {
+            return Commodity;
+        },
         Permission() {
             return Permission;
         },
         sidebarVisible() {
-            if (this.mapApi)
-                return this.mapApi.sidebarVisible;
+            return this.mapApi ? this.mapApi.sidebarVisible : false;
         },
         province() {
             return regions;
         },
         mapOptions() {
-            if (this.mapApi)
-                return this.mapApi.mapOptions;
+            return this.mapApi ? this.mapApi.mapOptions : {};
         },
         processing() {
-            if (this.mapApi)
-                return this.mapApi.processing;
+            return this.mapApi ? this.mapApi.processing : false;
         },
         dataPoints() {
-            if (this.mapApi)
-                return this.mapApi.getDataPoint();
+            return this.mapApi ? this.mapApi.getDataPoint() : [];
         },
         canView() {
-            //return this.$page.props.permissions[Permission.VIEW];
-            return true;
+            return true; // return this.$page.props.permissions[Permission.VIEW];
         },
     },
-    created() {
-        this.initializeMap();
-    },
-    beforeMount() {
-        this.updateZoom(6);
-    },
     mounted() {
-        this.updateZoom(6);
+        this.initializeMap();
     },
     methods: {
         async initializeMap() {
-            this.mapApi = new MapApiService(this.baseUrl, this.baseModel);
-            console.log(this.baseUrl);
-            await this.mapApi.init();
+            this.mapApi = new MapApiService(this.dataFiltrationUrl, this.model);
             this.loadData();
         },
         async refreshData() {
@@ -171,29 +179,20 @@ export default {
             this.loadData();
         },
         async updateFilters(param, value) {
-            // prevent multiple request when typing
-            if (this.mapApi && this.mapApi.processing) {
-                return;
-            }
+
+            if (this.mapApi && this.mapApi.processing) return;
+
             this.params[param] = value;
             await this.mapApi.updateParam(this.params);
             this.loadData();
+
+            this.offlineSearch(value);
         },
         loadData() {
-            if (this.dataPoints) {
-                this.commodities = this.dataPoints;
-            }else {
-                this.commodities = this.customPoint;
-                if (this.commodities.length === 1) {
-                    this.selectPoint(this.commodities[0]);
-                }
+            this.commodities = this.dataPoints && this.dataPoints.length ? this.dataPoints : this.customPoint;
+            if (this.commodities && this.commodities.length === 1) {
+                this.selectPoint(this.commodities[0]);
             }
-            this.placesFiltered = this.commodities;
-            this.placesSearched = this.placesFiltered;
-        },
-        selectPoint(point) {
-            if (!this.$refs.map) return;
-                this.mapApi.selectPoint(point);
         },
         updateCenter(center) {
             this.mapApi.updateCenter(center);
@@ -210,19 +209,55 @@ export default {
         recenter() {
             this.mapApi.recenter();
         },
-        selectedPoint() {
-            return this.mapApi.selectedPlace;
+        isValidPoint(point) {
+            return point && point.latitude && point.longitude;
         },
+        selectPoint(point) {
+            if (!this.$refs.map && !this.isValidPoint(point.location)) return;
+            this.mapApi.selectPoint(point);
+        },
+        determinePointColor(value) {
+
+            switch (value) {
+                case 'Rice':
+                    return '#005B41';
+                case 'Corn':
+                    return '#3B5998';
+                case 'Coconut':
+                    return '#FFA500';
+                case 'Banana':
+                    return '#FFD700';
+                case 'Coffee':
+                    return '#A52A2A';
+                case 'Cassava':
+                    return '#8B4513';
+                case 'Abaca':
+                    return '#FF0000';
+                case 'Rubber':
+                    return '#FF69B4';
+                default:
+                    return '#005B41';
+            }
+        },
+        offlineSearch(search)
+        {
+            //filter every column
+            this.placesSearched = this.newData.filter((point) => {
+                return Object.keys(point).some((key) => {
+                    return String(point[key]).toLowerCase().includes(search.toLowerCase());
+                });
+            });
+        }
     },
     watch: {
         customPoint: {
-            handler: function (newVal, oldVal) {
+            handler(newVal) {
                 if (newVal) {
                     this.selectPoint(newVal);
                 }
             },
             deep: true
-        }
+        },
     }
 };
 </script>
@@ -249,26 +284,31 @@ export default {
             <span>Share</span>
         </top-action-btn>
     </div>
-    <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2">
+    <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2 relative">
         <div class="relative gap-2">
+            <data-filtration-fields @tableChange="dataFiltrationUrl = $event" @dataRefreshed="dataFiltration = $event" @processingRequest="processingRequest"/>
             <div class="w-full flex gap-1">
                 <search-box
-                    :value="mapApi.selectedPlace ? mapApi.selectedPlace.city : ''"
-                    :options="placesFiltered"
-                    :label="mapApi.selectedPlace ? mapApi.selectedPlace.city : 'Select a place'"
+                    :value="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : ''"
+                    :options="newData"
+                    :label="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : 'Select a place'"
                     @searchString="updateFilters('search', $event)"
-                    @input="updateFilters('search', $event.target.value)"
+                    @input="offlineSearch($event.target.value)"
                     @focusin="showListOfPlaces = true"
                     class="w-full"
                 />
                 <search-by :value="mapApi.request.getFilter"
                            :is-exact="mapApi.request.getIsExact"
-                           :options="mapApi.columns"
+                           :options="Commodity.getColumns().map(column => {
+                                 return {
+                                      name: column.key,
+                                      label: column.title
+                                 }
+                           })"
                            @isExact="mapApi.isExactFilter({ is_exact: $event })"
                            @searchBy="mapApi.filterByColumn({ column: $event })"
                 />
             </div>
-
             <div v-if="showListOfPlaces" class="absolute mt-1 rounded border-2 z-[999] bg-gray-100 shadow flex-col flex gap-1 overflow-y-auto max-h-96 p-2">
                 <div
                     v-if="placesSearched && placesSearched.length"
@@ -278,10 +318,14 @@ export default {
                     :class="{'bg-gray-400': isPointSelected(point),'bg-white': !isPointSelected(point)}"
                     class="flex flex-row items-center gap-1 border p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none"
                 >
-                    <h1 class="font-medium leading-5 px-1 w-full flex items-center justify-between">
-                        {{ point.city }}
+                    <p v-if="point instanceof Commodity" class="font-medium leading-5 px-1 w-full flex items-center">
+                        <b>{{ point.breeder.name}}</b>&nbsp;(<i class="font-light">{{ point.name }}</i>)
                         <close-icon v-if="isPointSelected(point)" @click="deselectPoint(); showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" @click.stop="markerLatLng = null" />
-                    </h1>
+                    </p>
+                    <p v-else class="font-medium leading-5 px-1 w-full flex items-center">
+                        <b>{{ point.name}} </b>&nbsp;(<i class="font-light">{{ point.affiliated.name }}</i>)
+                        <close-icon v-if="isPointSelected(point)" @click="deselectPoint(); showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" @click.stop="markerLatLng = null" />
+                    </p>
                 </div>
                 <div
                     v-else
@@ -294,9 +338,6 @@ export default {
             </div>
         </div>
         <div ref="mapContainer" class="w-full flex gap-2 relative mt-1">
-            <div v-if="processing" class="flex gap-1 absolute top-0 left-0 min-w-full min-h-full">
-                <span class="whitespace-nowrap">Fetching data</span>
-            </div>
             <l-map
                 ref="map"
                 :use-global-leaflet="true"
@@ -333,17 +374,19 @@ export default {
                     layer-type="base"
                 />
                 <l-marker v-if="mapApi.markerLatLng" :lat-lng="mapApi.markerLatLng" ref="marker" />
-                <l-circle-marker
-                    v-for="place in placesFiltered"
-                    :key="place.id"
-                    :lat-lng="[place.latitude, place.longitude]"
-                    :opacity="0.8"
-                    color="#3DA5B4"
-                    :weight="1"
-                    @click="selectPoint(place)"
-                >
-                    <l-tooltip :content="place.city" />
-                </l-circle-marker>
+                <template v-for="place in newData" :key="place.id" >
+                    <l-circle-marker
+                        v-if="isValidPoint(place.location)"
+                        :lat-lng="[place.location.latitude, place.location.longitude]"
+                        :opacity="1"
+                        :radius="5"
+                        :color="determinePointColor(place.name)"
+                        :weight="1"
+                        @click="selectPoint(place)"
+                    >
+                        <l-tooltip :content="place.name" />
+                    </l-circle-marker>
+                </template>
                 <l-control>
                     <FullscreenToggle :element="$refs.mapContainer" />
                     <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
