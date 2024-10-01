@@ -150,7 +150,7 @@ Route::middleware([
             Route::get('/breeder/{id}', function ($id) {
 
                 //if (Auth::user()->isAdmin())
-                    $breeder = Breeder::find($id)->load(['affiliated', 'location']);
+                    $breeder = Breeder::find($id)->load(['affiliated', 'location', 'commodities']);
                 //else
                     //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load(['affiliated', 'location']);
 
@@ -237,6 +237,7 @@ Route::middleware(['auth:sanctum','verified'])->prefix('/api')->group(function()
     Route::middleware(['check.status.breedersmap'])->prefix('commodities')->group(function () {
        Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/{parent_id?}/', [CommodityController::class, 'index'])->name('api.commodities.index');
        Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/view-in-map', [CommodityController::class, 'noPage'])->name('api.commodities.noPage');
+       Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/summary/{parent_id?}/', [CommodityController::class, 'summary'])->name('api.commodities.summary');
        //Route::middleware('can:'. Permission::READ_COMMODITY->value)->get('/{id}', [CommodityController::class, 'show'])->name('api.commodities.show');
        Route::middleware('can:'. Permission::CREATE_COMMODITY->value)->post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
        Route::middleware('can:'. Permission::UPDATE_COMMODITY->value)->put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');

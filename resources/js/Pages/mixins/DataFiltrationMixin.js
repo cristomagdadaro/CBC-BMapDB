@@ -17,15 +17,11 @@ export default {
                 geo_location_filter: null,
                 geo_location_value: null,
             },
-            tables: [
-                { label: 'Commodity', name: 'commodities', route: 'api.breedersmap.commodities.summary.public', model: Commodity },
-                { label: 'Breeders', name: 'breeders', route: 'api.breedersmap.breeders.summary.public', model: Breeder },
-            ]
         };
     },
     async mounted() {
         if (this.apiUrl) {
-            this.api = new ApiService(route(this.apiUrl));
+            this.api = new ApiService(this.apiUrl);
             await this.changeListOf();
         }
         else
@@ -80,9 +76,9 @@ export default {
                 this.filter.table_name = value;
                 this.filter.geo_location_value = null;
                 this.apiUrl = this.tables.find(item => item.name === value);
-                this.api = new ApiService(route(this.apiUrl.route));
+                this.api = new ApiService(this.apiUrl.route);
             } else {
-                this.api = new ApiService(route(this.apiUrl.route));
+                this.api = new ApiService(this.apiUrl.route);
             }
             await this.refreshData();
         },

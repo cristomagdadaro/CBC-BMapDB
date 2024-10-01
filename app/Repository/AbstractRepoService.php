@@ -38,7 +38,7 @@ abstract class AbstractRepoService implements RepositoryInterface
     /**
      * Filter the data according to the parent id
     */
-    private array|null $filterByParent = null;
+    protected array|null $filterByParent = null;
 
     /**
      * Use to filter the data according to the role

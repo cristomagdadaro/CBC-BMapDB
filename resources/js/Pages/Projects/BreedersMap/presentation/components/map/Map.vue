@@ -60,9 +60,9 @@ export default {
             type: Object,
             required: false
         },
-        baseUrl: {
-            type: String,
-            required: false,
+        tableList: {
+            type: Array,
+            required: true
         },
         params: {
             type: Object,
@@ -167,8 +167,6 @@ export default {
         },
     },
     mounted() {
-        if (this.baseUrl)
-            this.dataFiltrationUrl = this.baseUrl;
         this.initializeMap();
     },
     methods: {
@@ -289,6 +287,7 @@ export default {
     <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2 relative">
         <div class="relative gap-2">
             <data-filtration-fields
+                :tables="tableList"
                 @tableChange="dataFiltrationUrl = $event"
                 @dataRefreshed="dataFiltration = $event"
                 @processingRequest="processingRequest"

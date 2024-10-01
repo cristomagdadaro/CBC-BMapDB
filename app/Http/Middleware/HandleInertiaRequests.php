@@ -42,9 +42,18 @@ class HandleInertiaRequests extends Middleware
                 $apps[] = $account->application;
             }
 
-        return array_merge(parent::share($request), [
+        return array_merge(
+            [
+                "app" => [
+                    "name" => config('app.name'),
+                    "name_short" => config('app.name_short'),
+                    "url" => config('app.url'),
+                ]
+            ],
+            parent::share($request), [
             "permissions" => $request->user() ? $request->user()->getPermissions() : [],
             "accounts" => $apps,
+            "affiliated" => $request->user() ? $request->user()->affiliated : [],
         ]);
     }
 }

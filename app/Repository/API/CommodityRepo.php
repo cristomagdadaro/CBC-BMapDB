@@ -15,6 +15,10 @@ class CommodityRepo extends AbstractRepoService
     public function applyFilters($model, $commodity, $geo_location_value, $geo_location_filter) {
         $group_by = $this->determineLocFilterLevel($geo_location_filter);
 
+        if ($this->filterByParent && $this->filterByParent['column'] && $this->filterByParent['value']) {
+            $model = $model->where($this->filterByParent['column'], $this->filterByParent['value']);
+        }
+
         $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation');
 
         $model = $model

@@ -37,6 +37,12 @@ export default {
         TD,
         TbodyRow,
         CrcmTbody, TH, TheadRow, CrcmThead, CrcmTable, SearchBox, SearchBy, CustomDropdown, CaretDown},
+    props: {
+        tableList: {
+            type: Array,
+            required: true,
+        },
+    },
     data() {
         return {
             filter: {
@@ -64,18 +70,6 @@ export default {
                 'rgba(153, 102, 255, 0.5)',
                 'rgba(255, 159, 64, 0.5)',
                 'rgba(255, 99, 132, 0.5)',
-            ],
-            listOfTables: [
-                {
-                    label: 'Breeders',
-                    name: 'breeders',
-                    route: 'api.breedersmap.breeders.summary.public'
-                },
-                {
-                    label: 'Commodity',
-                    name: 'commodities',
-                    route: 'api.breedersmap.commodities.summary.public'
-                },
             ],
             apiResponseMixin: [],
         }
@@ -144,7 +138,7 @@ export default {
     <div class="flex flex-col gap-2">
         <breeders-map-onboarding />
         <div class="relative sm:p-4 p-1 ">
-            <data-filtration-fields :tables="listOfTables"
+            <data-filtration-fields :tables="tableList"
                                     @dataRefreshed="apiResponseMixin = $event"
                                     @updatedFilter="filter = $event"
             />

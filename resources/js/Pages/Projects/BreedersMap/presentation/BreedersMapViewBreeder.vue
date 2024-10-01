@@ -33,6 +33,9 @@ export default {
                     route: { name: 'projects.breedersmap.geomap' },
                 },
             ],
+            tables: [
+                { label: 'Commodity', name: 'commodities', route: route('api.commodities.summary', this.breeder.id), model: Commodity },
+            ]
         }
     },
     computed: {
@@ -71,12 +74,12 @@ export default {
                 <h1 class="text-lg font-semibold uppercase select-none px-3 mt-5">Commodities</h1>
                 <Tab :tabs="tabs">
                     <template #tab1>
-                        <commodity-table :base-url="route('api.commodities.index', breederInstance.id)" />
+                        <commodity-table :base-url="route(Commodity.indexUri, breederInstance.id)" />
                     </template>
                     <template #tab2>
                         <div class="p-2 relative">
                             <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>
-                            <Map :base-url="route('api.commodities.index', breeder.id)" :model="Commodity"/>
+                            <Map :table-list="tables" :model="Commodity"/>
                         </div>
                     </template>
                 </Tab>

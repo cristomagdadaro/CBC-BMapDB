@@ -8,6 +8,12 @@ export default {
     name: "DataFiltrationFields",
     components: {LoaderIcon, CaretDown, CustomDropdown, CollapsableMenu},
     mixins: [DataFiltrationMixin],
+    props: {
+        tables: {
+            type: Array,
+            required: true,
+        },
+    },
     created() {
         this.apiUrl = this.tables[0].route;
         this.filter =  {

@@ -4,25 +4,15 @@ namespace App\Repository\API;
 
 use App\Models\Breeder;
 use App\Repository\AbstractRepoService;
+use App\Traits\VisualizeData;
 
 class BreederRepo extends AbstractRepoService
 {
+    use VisualizeData;
+
     public function __construct(Breeder $model)
     {
         parent::__construct($model);
-    }
-
-    public function applyFilters($model, $geo_location_value, $geo_location_filter)
-    {
-        $group_by = $this->determineLocFilterLevel($geo_location_filter);
-
-        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation');
-
-        if ($geo_location_value) {
-            $model = $model->where('loc_cities.' . $group_by, $geo_location_value);
-        }
-
-        return $model;
     }
 
     public function getBreederLabels($model, $geo_location_value, $is_exact, $geo_location_filter)

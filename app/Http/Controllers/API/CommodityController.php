@@ -124,13 +124,14 @@ class CommodityController extends BaseController
      *                      The response includes parameters, chart labels, chart data, raw data,
      *                      raw data labels, group search labels, and linechart data.
      */
-    public function summary(GetCommoditiesRequest $request): JsonResponse
+    public function summary(GetCommoditiesRequest $request, int|null $parent_id = null): JsonResponse
     {
         $model = $this->service->model;
         $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';
         $geo_location_value = $request->validated('geo_location_value');
         $is_exact = $request->validated('is_exact');
         $commodity = $request->all()['commodity'] ?? null;
+        $this->service->filterByParent(['column' => 'breeder_id', 'value' => $parent_id]);
         $group_by = $this->service->determineLocFilterLevel($geo_location_filter);
 
         $commodities = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)

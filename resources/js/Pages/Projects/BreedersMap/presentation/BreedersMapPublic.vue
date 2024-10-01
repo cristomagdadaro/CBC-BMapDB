@@ -8,6 +8,7 @@ import Summary from "@/Pages/Projects/BreedersMap/presentation/components/summar
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import InfoIcon from "@/Components/Icons/InfoIcon.vue";
+import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 
 export default {
     computed: {
@@ -44,6 +45,10 @@ export default {
 
                 },
             ],
+            tables: [
+                { label: 'Commodities', name: 'commodities', route: route('api.breedersmap.commodities.summary.public'), model: Commodity },
+                { label: 'Breeders', name: 'breeders', route: route('api.breedersmap.breeders.summary.public'), model: Breeder },
+            ]
         }
     },
     methods: {
@@ -93,10 +98,10 @@ export default {
             </div>
             <Tab :tabs="tabs">
                 <template #tab2>
-                    <Summary />
+                    <Summary :table-list="tables"  />
                 </template>
                 <template #tab1>
-                    <Map :model="Commodity" />
+                    <Map :table-list="tables" :model="Commodity" />
                 </template>
             </Tab>
         </public-page-section>

@@ -142,16 +142,16 @@ class BreederController extends BaseController
         $commodity = $request->all()['commodity'] ?? null;
         $group_by = $this->service->determineLocFilterLevel($geo_location_filter);
 
-        $breeders = $this->service->applyFilters($model, $geo_location_value, $geo_location_filter)
+        $breeders = $this->service->applyFilters($model, [$geo_location_filter => $geo_location_value])
             ->select($model->getSearchable())
             ->with(['location', 'commodities','affiliated'])
             ->get();
-        $chart_data = $this->service->applyFilters($model, $geo_location_value, $geo_location_filter)
+        $chart_data = $this->service->applyFilters($model, [$geo_location_filter => $geo_location_value])
             ->selectRaw("$group_by as label, count(*) as total")
             ->groupBy($group_by)
             ->orderBy('total', 'desc')
             ->get();
-        $breeders_chart = $this->service->applyFilters($model, $geo_location_value, $geo_location_filter)
+        $breeders_chart = $this->service->applyFilters($model, [$geo_location_filter => $geo_location_value])
             ->selectRaw('name as label, count(*) as total')
             ->groupBy('name')
             ->orderBy('total', 'desc')
