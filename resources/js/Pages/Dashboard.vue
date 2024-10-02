@@ -18,6 +18,9 @@ const user = new User(page.props.auth.user);
             <p v-if="user.isAdmin" class="text-center p-2">
                 You have admin privileges.
             </p>
+            <pre>
+                {{ $page.props.jetstream }}
+            </pre>
             <div class="grid grid-cols-2">
                 <div class="p-3">
                     <p class="font-bold">

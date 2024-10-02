@@ -1,31 +1,20 @@
 <?php
 
-use App\Enums\Permission;
-use App\Http\Controllers\API\AdminController;
-use App\Http\Controllers\API\InstituteController;
-use App\Http\Controllers\CityProvRegController;
-use App\Http\Controllers\SupportInfoController;
-use App\Http\Middleware\AdminApprovedUser;
-use App\Http\Controllers\API\AccountController;
 use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\BreederController;
 use App\Http\Controllers\API\CommodityController;
-use App\Http\Controllers\API\GeodataController;
-use App\Http\Controllers\API\PermissionController;
+use App\Http\Controllers\API\InstituteController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TWGController;
-use App\Http\Controllers\API\TWGExpertController;
-use App\Http\Controllers\API\TWGProductController;
-use App\Http\Controllers\API\TWGProjectController;
-use App\Http\Controllers\API\TWGServiceController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\CityProvRegController;
+use App\Http\Controllers\SupportInfoController;
+use App\Http\Middleware\AdminApprovedUser;
 use App\Mail\UserInvitationEmail;
 use App\Models\Breeder;
 use App\Models\Commodity;
+use App\Models\TWGExpert;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 /*
@@ -40,13 +29,23 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Projects', [
+    return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-})->name('home');
+});
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->name('dashboard');
+});
 
 Route::prefix('email')->group(function () {
     Route::get('/invite/{name}/{email}', function($name, $email) {
@@ -59,6 +58,16 @@ Route::prefix('email')->group(function () {
     })->name('email.verify');
 });
 
+/* Public Api */
+Route::prefix('/api/public')->group(function () {
+    Route::get('/institutes', [InstituteController::class, 'index'])->name('api.institutes.index.public');
+    Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
+    Route::get('/cities', [CityProvRegController::class, 'cityIndex'])->name('api.cities.index.public');
+    Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
+    Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
+    Route::get('/commodities/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
+    Route::get('/breeders/summary', [BreederController::class, 'summary'])->name('api.breedersmap.breeders.summary.public');
+});
 
 Route::prefix('/support-info')->group(function () {
     Route::get('/about-us', [SupportInfoController::class, 'aboutUs'])->name('support.about-us');
@@ -126,7 +135,7 @@ Route::middleware([
 
             Route::get('/expert/{id}', function ($id) {
                 return Inertia::render('Projects/TWG/presentation/components/expert/ViewExpert', [
-                    'expert' => \App\Models\TWGExpert::find($id),
+                    'expert' => TWGExpert::find($id),
                     'breadcrumbs' => [['label' => 'Experts', 'to' => '/projects/twgdb/expert']],
                 ]);
             })->name('twg.expert.view');
@@ -140,9 +149,9 @@ Route::middleware([
             Route::get('/breeder/{id}', function ($id) {
 
                 //if (Auth::user()->isAdmin())
-                    $breeder = Breeder::find($id)->load(['affiliated', 'location', 'commodities']);
+                $breeder = Breeder::find($id)->load(['affiliated', 'location']);
                 //else
-                    //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load(['affiliated', 'location']);
+                //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load(['affiliated', 'location']);
 
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
                     'breeder' => $breeder,
