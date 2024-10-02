@@ -44,7 +44,6 @@ class BreederController extends BaseController
     {
         $this->service->appendWith(['affiliated', 'location']);
         $this->service->appendCount(['commodities']);
-
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }

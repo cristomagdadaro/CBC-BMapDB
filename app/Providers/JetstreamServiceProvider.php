@@ -50,12 +50,28 @@ class JetstreamServiceProvider extends ServiceProvider
             'read',
             'update',
             'delete',
-        ])->description('Administrator users can perform any action.');
+        ])->description('Administrator users can perform any action across all databases.');
 
-        Jetstream::role('editor', 'Editor', [
+        Jetstream::role('expert', 'Expert', [
             'read',
             'create',
             'update',
-        ])->description('Editor users have the ability to read, create, and update.');
+        ])->description('Expert have the ability to read, create, and update data in TWG Database.');
+
+        Jetstream::role('focal_person', 'Focal Person', [
+            'read',
+            'create',
+            'update',
+        ])->description('Focal Person is in-charge of monitoring an institutes account and have the ability to read, create, and update data under its responsibility.');
+
+        Jetstream::role('breeder', 'Breeder', [
+            'read',
+            'create',
+            'update',
+        ])->description('Breeder have the ability to read, create, and update commodity data.');
+
+        Jetstream::role('researcher', 'Researcher', [
+            'read',
+        ])->description('Researcher can only read data in the system.');
     }
 }

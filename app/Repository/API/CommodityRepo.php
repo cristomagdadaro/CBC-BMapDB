@@ -12,11 +12,11 @@ class CommodityRepo extends AbstractRepoService
         parent::__construct($model);
     }
 
-    public function applyFilters($model, $commodity, $geo_location_value, $geo_location_filter) {
+    public function applyFilters($model, $commodity, $geo_location_value = null, $geo_location_filter = null, $filter_by_parent_column = null, $filter_by_parent_id = null) {
         $group_by = $this->determineLocFilterLevel($geo_location_filter);
 
-        if ($this->filterByParent && $this->filterByParent['column'] && $this->filterByParent['value']) {
-            $model = $model->where($this->filterByParent['column'], $this->filterByParent['value']);
+        if ($filter_by_parent_column && $filter_by_parent_id) {
+            $model = $model->where($filter_by_parent_column, $filter_by_parent_id);
         }
 
         $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation');

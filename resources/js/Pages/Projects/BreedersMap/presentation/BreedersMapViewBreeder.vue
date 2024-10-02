@@ -34,7 +34,7 @@ export default {
                 },
             ],
             tables: [
-                { label: 'Commodity', name: 'commodities', route: route('api.commodities.summary', this.breeder.id), model: Commodity },
+                { label: 'Commodity', name: 'commodities', route: route('api.commodities.summary', () => { return this.breeder.id ? this.breeder.id : null; }), model: Commodity },
             ]
         }
     },

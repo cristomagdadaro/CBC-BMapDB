@@ -19,7 +19,6 @@ export default {
             Register a new Breeder
         </template>
         <template v-slot:formFields>
-            {{ form }}
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                 <text-field required :error="getError('name')" label="Name" v-model="form.name" />
                 <text-field :error="getError('phone')" label="Phone Number" v-model="form.phone" />

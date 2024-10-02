@@ -275,11 +275,14 @@ abstract class AbstractRepoService implements RepositoryInterface
         $search = $parameters->get('search', '');
         $filter = $parameters->get('filter', null);
         $is_exact = $parameters->get('is_exact', false);
+        /*Used when viewing single row while filtering the subtable*/
+        $filter_by_parent_id = $parameters->get('filter_by_parent_id', null);
+        $filter_by_parent_column = $parameters->get('filter_by_parent_column', null);
 
-        if ($this->appendFilter) {
-            $builder = $this->model->ofModel($this->appendFilter);
-        } else
+        //if (auth()->user()->isAdmin()) {
             $builder = $this->model;
+        //} else
+           // $builder = $this->model->where('user_id', auth()->id());
 
         $builder = $builder->select($this->model->getSearchable());
 
@@ -295,8 +298,8 @@ abstract class AbstractRepoService implements RepositoryInterface
             }
         }
 
-        if ($this->filterByParent && $this->filterByParent['column'] && $this->filterByParent['value']) {
-            $builder = $builder->where($this->filterByParent['column'], $this->filterByParent['value']);
+        if ($filter_by_parent_column && $filter_by_parent_id) {
+            $builder = $builder->where($filter_by_parent_column, $filter_by_parent_id);
         }
 
         if ($isTrashed) {

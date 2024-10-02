@@ -10,6 +10,9 @@ export default class DtoBaseRequest implements IBaseRequest {
     filter?: string;
     is_exact?: boolean;
 
+    filter_by_parent_id?: number;
+    filter_by_parent_column?: string;
+
     static props = usePage();
 
     constructor(params : IBaseRequest = {
@@ -30,6 +33,9 @@ export default class DtoBaseRequest implements IBaseRequest {
         this.search = params.search;
         this.filter = params.filter;
         this.is_exact = params.is_exact;
+
+        this.filter_by_parent_id = params.filter_by_parent_id;
+        this.filter_by_parent_column = params.filter_by_parent_column;
     }
 
     get getPerPage() {

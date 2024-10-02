@@ -148,10 +148,7 @@ Route::middleware([
 
             Route::get('/breeder/{id}', function ($id) {
 
-                //if (Auth::user()->isAdmin())
-                $breeder = Breeder::find($id)->load(['affiliated', 'location']);
-                //else
-                //$breeder = Breeder::where('user_id', Auth::id())->find($id)->load(['affiliated', 'location']);
+                $breeder = Breeder::find($id)->load(['affiliated', 'location','commodities']);
 
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
                     'breeder' => $breeder,
@@ -161,7 +158,7 @@ Route::middleware([
 
             Route::get('/commodity/{id}', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewCommodity', [
-                    'commodity' => Commodity::find(request()->id)->load('breeder')
+                    'commodity' => Commodity::find(request()->id)->load('location','breeder'),
                 ]);
             })->name('breedersmap.commodity.view');
         });

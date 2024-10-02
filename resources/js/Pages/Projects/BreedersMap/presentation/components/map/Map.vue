@@ -62,7 +62,8 @@ export default {
         },
         tableList: {
             type: Array,
-            required: true
+            required: false,
+            default: () => []
         },
         params: {
             type: Object,
@@ -213,6 +214,7 @@ export default {
             return point && point.latitude && point.longitude;
         },
         selectPoint(point) {
+            console.log(point);
             if (!this.$refs.map && !this.isValidPoint(point.location)) return;
             this.mapApi.selectPoint(point);
         },
@@ -262,7 +264,6 @@ export default {
 };
 </script>
 
-
 <template>
     <div v-if="mapApi && canView" class="flex gap-1 justify-end">
         <top-action-btn @click="refreshData" class="bg-add text-normal py-2" title="Export data">
@@ -286,12 +287,14 @@ export default {
     </div>
     <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2 relative">
         <div class="relative gap-2">
-            <data-filtration-fields
-                :tables="tableList"
-                @tableChange="dataFiltrationUrl = $event"
-                @dataRefreshed="dataFiltration = $event"
-                @processingRequest="processingRequest"
-            />
+           <template v-if="tableList">
+               <data-filtration-fields
+                   :tables="tableList"
+                   @tableChange="dataFiltrationUrl = $event"
+                   @dataRefreshed="dataFiltration = $event"
+                   @processingRequest="processingRequest"
+               />
+           </template>
             <div class="w-full flex gap-1">
                 <search-box
                     :value="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : ''"

@@ -16,6 +16,8 @@ export default {
                 commodity: null,
                 geo_location_filter: null,
                 geo_location_value: null,
+                filter_by_parent_column: null,
+                filter_by_parent_id: null,
             },
         };
     },
@@ -24,8 +26,6 @@ export default {
             this.api = new ApiService(this.apiUrl);
             await this.changeListOf();
         }
-        else
-            console.error('API URL is not defined');
     },
     computed: {
         data() {
@@ -59,6 +59,8 @@ export default {
                 filter: this.filter.filter,
                 commodity: this.filter.commodity,
                 geo_location_filter: this.filter.geo_location_filter,
+                filter_by_parent_column: this.filter.filter_by_parent_column,
+                filter_by_parent_id: this.filter.filter_by_parent_id,
             };
             const response = await this.api.get(params, this.model ?? null);
             if (response)

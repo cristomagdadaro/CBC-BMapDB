@@ -100,11 +100,11 @@ const displayableRole = (role) => {
             <!-- Add Team Member -->
             <FormSection @submitted="addTeamMember">
                 <template #title>
-                    Add Team Member
+                    Add Member
                 </template>
 
                 <template #description>
-                    Add a new team member to your team, allowing them to collaborate with you.
+                    Add a new member to your institute, allowing them to collaborate with you. Email invite will be sent to the user, and they will be able to accept the invitation to join the team.
                 </template>
 
                 <template #form>

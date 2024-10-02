@@ -15,7 +15,7 @@ export default {
         },
     },
     created() {
-        this.apiUrl = this.tables[0].route;
+        this.apiUrl = this.tables.length ? this.tables[0].route : null;
         this.filter =  {
             is_exact: true,
             filter: null,
@@ -23,7 +23,8 @@ export default {
             commodity: null,
             geo_location_filter: 'region',
             geo_location_value: null,
-
+            filter_by_parent_column: 'breeder_id',
+            filter_by_parent_id: this.$page.props.commodity ? this.$page.props.commodity.id : null,
         }
     },
     async mounted() {

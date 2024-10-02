@@ -26,10 +26,9 @@ class CommodityController extends BaseController
      * @param int|null $parent_id The ID of the parent commodity (optional, defaults to null).
      * @return BaseCollection A JSON response containing the paginated commodities.
      */
-    public function index(GetCommoditiesRequest $request, int|null $parent_id = null): BaseCollection
+    public function index(GetCommoditiesRequest $request): BaseCollection
     {
         $this->service->appendWith(['breeder', 'location']);
-        $this->service->filterByParent(['column' => 'breeder_id', 'value' => $parent_id]);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
@@ -44,7 +43,6 @@ class CommodityController extends BaseController
     public function show(GetCommoditiesRequest $request, int $id): BaseCollection
     {
         $this->service->appendWith(['breeder', 'location']);
-
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
@@ -124,26 +122,27 @@ class CommodityController extends BaseController
      *                      The response includes parameters, chart labels, chart data, raw data,
      *                      raw data labels, group search labels, and linechart data.
      */
-    public function summary(GetCommoditiesRequest $request, int|null $parent_id = null): JsonResponse
+    public function summary(GetCommoditiesRequest $request): JsonResponse
     {
         $model = $this->service->model;
         $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';
         $geo_location_value = $request->validated('geo_location_value');
         $is_exact = $request->validated('is_exact');
         $commodity = $request->all()['commodity'] ?? null;
-        $this->service->filterByParent(['column' => 'breeder_id', 'value' => $parent_id]);
+        $filter_by_parent_column = $request->validated('filter_by_parent_column');
+        $filter_by_parent_id = $request->validated('filter_by_parent_id');
         $group_by = $this->service->determineLocFilterLevel($geo_location_filter);
 
-        $commodities = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)
+        $commodities = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter, $filter_by_parent_column, $filter_by_parent_id)
             ->select($model->getSearchable())
             ->with(['breeder','location'])
             ->get();
-        $chart_data = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)
+        $chart_data = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter, $filter_by_parent_column, $filter_by_parent_id)
             ->selectRaw("$group_by as label, count(*) as total")
             ->groupBy($group_by)
             ->orderBy('total', 'desc')
             ->get();
-        $commodities_chart = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)
+        $commodities_chart = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter, $filter_by_parent_column, $filter_by_parent_id)
             ->selectRaw('name as label, count(*) as total')
             ->groupBy('name')
             ->orderBy('total', 'desc')

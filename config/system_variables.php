@@ -49,5 +49,7 @@ return [
         'geo_location_value' => 'sometimes|string',
         'is_exact' => 'sometimes|string|in:true,false',
         'commodity' => 'sometimes|string',
+        'filter_by_parent_id' => 'sometimes|integer',
+        'filter_by_parent_column' => 'sometimes|string',
     ]
 ];
