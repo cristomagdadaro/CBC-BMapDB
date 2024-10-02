@@ -19,7 +19,7 @@ const user = new User(page.props.auth.user);
                 You have admin privileges.
             </p>
             <pre>
-                {{ $page.props.jetstream }}
+                {{ $page.props.auth }}
             </pre>
             <div class="grid grid-cols-2">
                 <div class="p-3">

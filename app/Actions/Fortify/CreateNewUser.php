@@ -57,9 +57,9 @@ class CreateNewUser implements CreatesNewUsers
             'app_id' => $input['account_for'],
         ]);
 
-        return tap($user, function (User $user) {
-            $this->createTeam($user);
-        });
+        $this->createTeam($user);
+
+        return $user;
     }
 
     /**
@@ -69,7 +69,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         $user->ownedTeams()->save(Team::forceCreate([
             'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
+            'name' => explode(' ', $user->lname, 2)[0]."'s Team",
             'personal_team' => true,
         ]));
     }
