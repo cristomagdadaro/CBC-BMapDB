@@ -235,14 +235,14 @@ abstract class AbstractRepoService implements RepositoryInterface
      * Data filtering
      * @param Collection $parameters search parameters
      * @param bool $withPagination
-     * @return JsonResponse
+     * @return Collection
      **/
     public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
     {
         try {
             return $this->searchData($parameters, $withPagination, $isTrashed);
         } catch (Exception $error) {
-            return response()->json($this->sendError($error),  500);
+            return $this->sendError($error);
         }
     }
 
@@ -361,10 +361,10 @@ abstract class AbstractRepoService implements RepositoryInterface
 
 
 
-    private function sendError(Exception $error): array
+    private function sendError(Exception $error): Collection
     {
         $error = new ErrorRepository($error);
-        return $error->getErrorMessage();
+        return new Collection($error->getErrorMessage());
     }
 
     public function summary(): int

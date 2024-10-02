@@ -43,13 +43,6 @@ class HandleInertiaRequests extends Middleware
             }
 
         return array_merge(
-            [
-                "app" => [
-                    "name" => config('app.name'),
-                    "name_short" => config('app.name_short'),
-                    "url" => config('app.url'),
-                ]
-            ],
             parent::share($request), [
             "permissions" => $request->user() ? $request->user()->getPermissions() : [],
             "accounts" => $apps,

@@ -4,9 +4,9 @@ import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 
 export default {
-    components: {CloseIcon, TextField},
+    components: { CloseIcon, TextField },
     emits: ['update:modelValue'],
-    props:{
+    props: {
         modelValue: {
             type: [String, Number],
             default: null,
@@ -28,15 +28,18 @@ export default {
         return {
             showDropdown: false,
             input: null,
+            displayedInput: null,
             filteredOptions: [],
-            api: null, // link to the api service where the options will be fetched
-            allOptionsFromApiReceived: false, // flag to check if all options from the api have been received
+            api: null,
+            allOptionsFromApiReceived: false,
+            last_page: 0,
+            current_page: 0,
         };
     },
     methods: {
         setValueBasedOnModelValue() {
             if (this.modelValue) {
-                const option = this.filteredOptions.find((option) => option.value === this.modelValue);
+                const option = this.filteredOptions.find(option => option.value === this.modelValue);
                 if (option) {
                     this.input = option.label;
                 }
@@ -50,57 +53,41 @@ export default {
             this.showDropdown = false;
         },
         filterOptions() {
-            this.filteredOptions = this.options.filter((option) => option.label.toLowerCase().includes(this.input.toLowerCase()));
+            this.filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(this.input.toLowerCase()));
             if (this.filteredOptions.length === 0) {
-                this.filteredOptions.push({label: 'No items found', value: null});
+                this.filteredOptions.push({ label: 'No items found', value: null });
             }
         },
         selectOption(option) {
             this.$emit('update:modelValue', option.value);
-            this.input = option.label;
+            this.displayedInput = option.label;
             this.closeDropdown();
         },
         fullnameOption(option) {
-            return [option.fname, option.mname, option.lname, option.suffix]
-                .filter(part => part)
-                .join(" ");
+            return [option.fname, option.mname, option.lname, option.suffix].filter(part => part).join(" ");
         },
-        /**
-         * Fetch options from the api
-         * */
         async getOptionsFromApi(page = 1, search = null) {
+            if (!search && this.allOptionsFromApiReceived) return;
 
-            // if all options have been received, do not make any more requests
-            if (!search && this.allOptionsFromApiReceived) {
-                return;
-            }
-            const response = await this.api.get({ search: search, per_page: 20, page: page });
-            if (!response && !response.data && !response.data.data) {
-                return;
-            }
-            // if no options are returned, it means all options have been received
+            const response = await this.api.get({ search, per_page: 20, page });
+            if (!response || !response.data || !response.data.data) return;
+
+            this.last_page = response.data.meta.last_page;
+            this.current_page = response.data.meta.current_page;
             this.allOptionsFromApiReceived = response.data.data.length === 0;
-            // if the search input is empty, it means we are fetching the first page of options and when the next page has no data, go back to the previous page
-            if (!search && this.filteredOptions.length > 0 && response.data.data.length === 0) {
-                return;
-            }
 
-            this.filteredOptions = response.data.data.map((option) => ({value: option.id, label: option.name || option.title || option.label || option.value || this.fullnameOption(option) }));
+            if (!search && this.filteredOptions.length > 0 && response.data.data.length === 0) return;
 
-            this.selectOption(this.filteredOptions[0]);
+            this.filteredOptions = response.data.data.map(option => ({
+                value: option.id,
+                label: option.name || option.title || option.label || option.value || this.fullnameOption(option)
+            }));
         },
-        /**
-         * Handle scroll event to fetch more options from the api
-         * */
         async handleScroll(event) {
             const container = this.$refs.dropdownContainer;
             if (container.scrollHeight - container.scrollTop === container.clientHeight) {
-                // get the next page
                 const nextPage = Math.ceil(this.filteredOptions.length / 20) + 1;
-                // prevent multiple requests
-                if (this.api && this.api.processing) {
-                    return;
-                }
+                if (this.api && this.api.processing && this.current_page >= this.last_page) return;
                 await this.getOptionsFromApi(nextPage, this.input);
             }
         },
@@ -109,9 +96,6 @@ export default {
             this.getOptionsFromApi(1, null);
         },
     },
-    /**
-     * Expose the focus method to the parent component to allow the parent to focus on the input field
-     * */
     expose: ['focus'],
     mounted() {
         if (this.apiLink) {
@@ -127,8 +111,7 @@ export default {
             this.setValueBasedOnModelValue();
         }
     },
-}
-
+};
 </script>
 
 <template>
@@ -141,18 +124,17 @@ export default {
                 :error="$attrs.error"
                 :required="required"
                 :show-clear="true"
-                v-model="input"
-                @focus="filterOptions()"
+                v-model="displayedInput"
                 @click="toggleDropdown()"
-                @keydown="getOptionsFromApi(1, input)"
+                @keydown="filterOptions()"
+                @keydown.enter="getOptionsFromApi(1, input)"
             />
-
             <div v-show="showDropdown" class="fixed inset-0 z-40" @click="clearInput()" />
             <div v-show="showDropdown" class="relative z-50">
                 <div v-if="api"
-                    ref="dropdownContainer"
-                    @scroll="handleScroll"
-                    class="fixed mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-md bg-white p-2 max-h-52 max-w-[20rem] overflow-x-auto z-50"
+                     ref="dropdownContainer"
+                     @scroll="handleScroll"
+                     class="fixed mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-md bg-white p-2 max-h-52 max-w-[20rem] overflow-x-auto z-50"
                 >
                     <div v-show="filteredOptions.length !== 1" class="text-xs text-gray-200 pb-1 mb-1 select-none border-b border-gray-100">
                         <p v-if="api.processing">fetching more options</p>

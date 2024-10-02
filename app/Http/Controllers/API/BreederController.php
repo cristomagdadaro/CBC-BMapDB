@@ -40,7 +40,7 @@ class BreederController extends BaseController
      * @param int $id The unique identifier of the breeder record to retrieve.
      * @return BaseCollection A collection containing the requested breeder data.
      */
-    public function show(GetBreederRequest $request, int $id)
+    public function show(GetBreederRequest $request, int $id): BaseCollection
     {
         $this->service->appendWith(['affiliated', 'location']);
         $this->service->appendCount(['commodities']);

@@ -25,6 +25,7 @@ export default {
             </div>
         </template>
         <template v-slot:formFields>
+            {{ form }}
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                 <text-field required :show-clear="true" :error="getError('name')" label="Name" v-model="form.name" />
                 <text-field :show-clear="true" :error="getError('phone')" label="Phone Number" v-model="form.phone" />

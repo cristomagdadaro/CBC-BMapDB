@@ -86,7 +86,7 @@ export default class DtoBaseClass extends Object implements IBaseClass {
         return {};
     }
 
-    static updateForm(oldValue: Partial<BaseClass>)
+    static updateForm(oldValue: Object)
     {
         return {};
     }

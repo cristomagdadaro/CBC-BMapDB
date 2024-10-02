@@ -9,6 +9,7 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
     _updateUri?: string;
     _destroyUri?: string;
     _multiDestroyUri?: string;
+    _summaryUri?: string;
 
     constructor(resp = {}) {
         super(resp);
@@ -38,6 +39,10 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
         this._multiDestroyUri = value;
     }
 
+    set summaryUri(value: string) {
+        this._summaryUri = value;
+    }
+
     static get indexUri(): string {
         return new this({})._indexUri;
     }
@@ -59,5 +64,9 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
 
     static get multiDestroyUri() {
         return new this({})._multiDestroyUri;
+    }
+
+    static get summaryUri() {
+        return new this({})._summaryUri;
     }
 }

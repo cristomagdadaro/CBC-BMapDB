@@ -75,8 +75,8 @@ export default {
               },
           ],
           tables: [
-              { label: 'Commodity', name: 'commodities', route: route('api.breedersmap.commodities.summary.public'), model: Commodity },
-              { label: 'Breeders', name: 'breeders', route: route('api.breedersmap.breeders.summary.public'), model: Breeder },
+              { label: 'Commodity', name: 'commodities', route: route(Commodity.summaryUri), model: Commodity },
+              { label: 'Breeders', name: 'breeders', route: route(Breeder.summaryUri), model: Breeder },
           ]
       }
     },

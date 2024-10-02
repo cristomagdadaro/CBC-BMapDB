@@ -10,6 +10,7 @@ export default class Breeder extends DtoBreeder{
         this.updateUri = 'api.breeders.update';
         this.destroyUri = 'api.breeders.destroy';
         this.multiDestroyUri = 'api.breeders.destroy.multi';
+        this.summaryUri = 'api.breeders.summary';
     }
 
     static createForm()
