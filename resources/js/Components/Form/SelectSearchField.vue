@@ -14,11 +14,6 @@ export default {
         id: String,
         label: String,
         apiLink: String,
-        options: {
-            type: Array,
-            required: false,
-            default: () => [],
-        },
         required: {
             type: Boolean,
             default: false,
@@ -34,6 +29,7 @@ export default {
             allOptionsFromApiReceived: false,
             last_page: 0,
             current_page: 0,
+            next_page: 0,
         };
     },
     methods: {
@@ -52,8 +48,17 @@ export default {
             this.input = null;
             this.showDropdown = false;
         },
-        filterOptions() {
-            this.filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(this.input.toLowerCase()));
+        filterOptions(search) {
+            if (!this.options || !this.options.length) {
+                this.getOptionsFromApi();
+            }
+
+            if (!search) {
+                this.filteredOptions = this.options;
+                return;
+            }
+
+            this.filteredOptions = this.options.filter(option => option.label.toLowerCase().includes(search.toString().toLowerCase()));
             if (this.filteredOptions.length === 0) {
                 this.filteredOptions.push({ label: 'No items found', value: null });
             }
@@ -69,11 +74,19 @@ export default {
         async getOptionsFromApi(page = 1, search = null) {
             if (!search && this.allOptionsFromApiReceived) return;
 
-            const response = await this.api.get({ search, per_page: 20, page });
+            let response = null;
+            if (search) {
+                this.input = search;
+                response = await this.api.get({search: search, per_page: 20, page});
+            }
+            else
+                response = await this.api.get({ per_page: 20, page });
+
             if (!response || !response.data || !response.data.data) return;
 
             this.last_page = response.data.meta.last_page;
             this.current_page = response.data.meta.current_page;
+            this.next_page = response.data.meta.next_page;
             this.allOptionsFromApiReceived = response.data.data.length === 0;
 
             if (!search && this.filteredOptions.length > 0 && response.data.data.length === 0) return;
@@ -82,13 +95,14 @@ export default {
                 value: option.id,
                 label: option.name || option.title || option.label || option.value || this.fullnameOption(option)
             }));
+
+            this.options = this.filteredOptions;
         },
         async handleScroll(event) {
             const container = this.$refs.dropdownContainer;
             if (container.scrollHeight - container.scrollTop === container.clientHeight) {
-                const nextPage = Math.ceil(this.filteredOptions.length / 20) + 1;
                 if (this.api && this.api.processing && this.current_page >= this.last_page) return;
-                await this.getOptionsFromApi(nextPage, this.input);
+                await this.getOptionsFromApi(this.next_page, this.input);
             }
         },
         clearInput() {
@@ -104,8 +118,13 @@ export default {
         }
     },
     watch: {
-        modelValue() {
-            this.getOptionsFromApi(1, this.modelValue);
+        modelValue(oldVal, newVal) {
+            if (oldVal === newVal) return;
+            this.filterOptions();
+            if (this.filteredOptions && this.filteredOptions.length)
+                this.selectOption(this.filteredOptions[0]);
+            else
+                this.displayedInput = null;
         },
         filteredOptions() {
             this.setValueBasedOnModelValue();
@@ -120,14 +139,14 @@ export default {
             <text-field
                 :id="id"
                 ref="input"
-                :label="label"
+                :label="label + modelValue"
                 :error="$attrs.error"
                 :required="required"
                 :show-clear="true"
                 v-model="displayedInput"
-                @click="toggleDropdown()"
-                @keydown="filterOptions()"
-                @keydown.enter="getOptionsFromApi(1, input)"
+                @click="toggleDropdown(); getOptionsFromApi(1, $event.target.value)"
+                @keydown="getOptionsFromApi(1, $event.target.value)"
+                @keydow.enter="getOptionsFromApi(1, $event.target.value)"
             />
             <div v-show="showDropdown" class="fixed inset-0 z-40" @click="clearInput()" />
             <div v-show="showDropdown" class="relative z-50">
