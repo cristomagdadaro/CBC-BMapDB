@@ -27,7 +27,7 @@
 }
 
 .text-normal {
-    @apply text-base sm:text-lg leading-tight;
+    @apply text-base leading-tight;
 }
 
 .paragraph-text-normal {

@@ -13,6 +13,7 @@ class UserSeeder extends Seeder
     {
         User::factory()
             ->count(20)
+            ->withPersonalTeam()
             ->create();
     }
 }

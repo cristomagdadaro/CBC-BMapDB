@@ -60,9 +60,10 @@ export default {
             type: Object,
             required: false
         },
-        baseUrl: {
-            type: String,
+        tableList: {
+            type: Array,
             required: false,
+            default: () => []
         },
         params: {
             type: Object,
@@ -213,6 +214,7 @@ export default {
             return point && point.latitude && point.longitude;
         },
         selectPoint(point) {
+            console.log(point);
             if (!this.$refs.map && !this.isValidPoint(point.location)) return;
             this.mapApi.selectPoint(point);
         },
@@ -262,22 +264,21 @@ export default {
 };
 </script>
 
-
 <template>
     <div v-if="mapApi && canView" class="flex gap-1 justify-end">
-        <top-action-btn @click="refreshData" class="bg-add text-xs" title="Export data">
+        <top-action-btn @click="refreshData" class="bg-add text-normal py-2" title="Export data">
             <template v-if="processing" #icon>
                 <loader-icon class="h-auto sm:w-6 w-4" />
             </template>
             <span>Refresh</span>
         </top-action-btn>
-        <top-action-btn class="bg-add text-xs" title="Export data">
+        <top-action-btn class="bg-add text-normal" title="Export data">
             <template #icon>
                 <export-icon class="h-auto sm:w-6 w-4" />
             </template>
             <span>Export</span>
         </top-action-btn>
-        <top-action-btn class="bg-yellow-400 text-gray-900 text-xs" title="Share to your network">
+        <top-action-btn class="bg-yellow-400 text-gray-900 text-normal" title="Share to your network">
             <template #icon>
                 <share-icon class="h-auto sm:w-4 w-4" />
             </template>
@@ -286,7 +287,14 @@ export default {
     </div>
     <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2 relative">
         <div class="relative gap-2">
-            <data-filtration-fields @tableChange="dataFiltrationUrl = $event" @dataRefreshed="dataFiltration = $event" @processingRequest="processingRequest"/>
+           <template v-if="tableList">
+               <data-filtration-fields
+                   :tables="tableList"
+                   @tableChange="dataFiltrationUrl = $event"
+                   @dataRefreshed="dataFiltration = $event"
+                   @processingRequest="processingRequest"
+               />
+           </template>
             <div class="w-full flex gap-1">
                 <search-box
                     :value="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : ''"

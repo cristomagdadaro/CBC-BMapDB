@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Location\City;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BaseModel extends Model
 {
@@ -34,5 +36,11 @@ class BaseModel extends Model
     public function getTableName(): string
     {
         return $this->table;
+    }
+
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(City::class, 'geolocation')
+            ->select((new City())->getSearchable());
     }
 }

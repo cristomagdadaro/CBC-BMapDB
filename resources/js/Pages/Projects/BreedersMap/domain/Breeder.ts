@@ -3,6 +3,14 @@ import DtoBreeder from "../dto/DtoBreeder";
 export default class Breeder extends DtoBreeder{
     constructor(params : DtoBreeder) {
         super(params);
+
+        this.indexUri = 'api.breeders.index';
+        this.showUri = 'api.breeders.show';
+        this.storeUri = 'api.breeders.store';
+        this.updateUri = 'api.breeders.update';
+        this.destroyUri = 'api.breeders.destroy';
+        this.multiDestroyUri = 'api.breeders.destroy.multi';
+        this.summaryUri = 'api.breeders.summary';
     }
 
     static createForm()
@@ -86,7 +94,7 @@ export default class Breeder extends DtoBreeder{
             },
             {
                 title: 'Commodities',
-                key: 'commodities_count',
+                key: 'commoditiesCount',
                 db_key: 'commodities_count',
                 align: 'text-center',
                 sortable: true,

@@ -16,20 +16,16 @@ export default {
                 commodity: null,
                 geo_location_filter: null,
                 geo_location_value: null,
+                filter_by_parent_column: null,
+                filter_by_parent_id: null,
             },
-            tables: [
-                { label: 'Commodity', name: 'commodities', route: 'api.breedersmap.commodities.summary.public', model: Commodity },
-                { label: 'Breeders', name: 'breeders', route: 'api.breedersmap.breeders.summary.public', model: Breeder },
-            ]
         };
     },
     async mounted() {
         if (this.apiUrl) {
-            this.api = new ApiService(route(this.apiUrl));
+            this.api = new ApiService(this.apiUrl);
             await this.changeListOf();
         }
-        else
-            console.error('API URL is not defined');
     },
     computed: {
         data() {
@@ -63,6 +59,8 @@ export default {
                 filter: this.filter.filter,
                 commodity: this.filter.commodity,
                 geo_location_filter: this.filter.geo_location_filter,
+                filter_by_parent_column: this.filter.filter_by_parent_column,
+                filter_by_parent_id: this.filter.filter_by_parent_id,
             };
             const response = await this.api.get(params, this.model ?? null);
             if (response)
@@ -80,9 +78,9 @@ export default {
                 this.filter.table_name = value;
                 this.filter.geo_location_value = null;
                 this.apiUrl = this.tables.find(item => item.name === value);
-                this.api = new ApiService(route(this.apiUrl.route));
+                this.api = new ApiService(this.apiUrl.route);
             } else {
-                this.api = new ApiService(route(this.apiUrl.route));
+                this.api = new ApiService(this.apiUrl.route);
             }
             await this.refreshData();
         },

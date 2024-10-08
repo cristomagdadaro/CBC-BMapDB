@@ -8,7 +8,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import store from './store.js';
 import router from './router.js';
 
-const appName = import.meta.env.VITE_APP_NAME || 'DA-Crop Biotechnology Center';
+const appName = import.meta.env.VITE_APP_NAME;
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -21,7 +21,7 @@ createInertiaApp({
             .use(router)
             .mount(el);
     },
- /*   progress: {
+    progress: {
         color: '#ffffff',
-    },*/
+    },
 });

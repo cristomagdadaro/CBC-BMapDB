@@ -1,6 +1,6 @@
 <template>
     <template v-if="visible">
-        <th class="dtHeaderColumn whitespace-nowrap text-white sm:text-md md:text-sm text-xs select-none" >
+        <th class="dtHeaderColumn whitespace-nowrap text-light-color text-normal select-none" >
             <div class="dtHeaderCell flex gap-1 p-1 sm:py-2 justify-center items-center sm:rounded rounded-sm" :class="[{'hover:bg-opacity-70 ':sortable}, sortedColumnClass, {'border-2 border-yellow-400': filteredValues}]">
                 <span class="dtHeaderCellText">
                     {{ props.column }}

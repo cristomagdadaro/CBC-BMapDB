@@ -4,6 +4,14 @@ export default class Commodity extends DtoCommodity {
     constructor(params: DtoCommodity) {
         // @ts-ignore
         super(params);
+
+        this.indexUri = 'api.commodities.index';
+        this.showUri = 'api.commodities.show';
+        this.storeUri = 'api.commodities.store';
+        this.updateUri = 'api.commodities.update';
+        this.destroyUri = 'api.commodities.destroy';
+        this.multiDestroyUri = 'api.commodities.destroy.multi';
+        this.summaryUri = 'api.commodities.summary';
     }
 
     static createForm()

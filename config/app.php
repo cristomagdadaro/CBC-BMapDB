@@ -17,6 +17,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    'name_short' => env('APP_NAME_SHORT', 'Laravel'),
 
     /*
     |--------------------------------------------------------------------------
@@ -163,6 +164,7 @@ return [
         /*
          * Application service Providers...
          */
+        Laravel\Passport\PassportServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,

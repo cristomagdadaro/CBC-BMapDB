@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             InstituteSeeder::class,
         ]);
 
-        $admin = User::factory()->create([
+        $admin = User::factory()->withPersonalTeam()->create([
             'fname' => 'Cristo Rey',
             'lname' => 'Magdadaro',
             'email' => 'admin@cbc.gov.ph',
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         $admin->approve(1);
         $admin->approve(2);
 
-        $twgAdmin = User::factory()->create([
+        $twgAdmin = User::factory()->withPersonalTeam()->create([
             'fname' => 'TWG',
             'lname' => 'Admin',
             'email' => 'twgadmin@cbc.gov.ph',
@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
 
         $twgAdmin->approve(1);
 
-        $breeder = User::factory()->create([
+        $breeder = User::factory()->withPersonalTeam()->create([
             'fname' => 'Reynaldo',
             'lname' => 'Diocton',
             'email' => 'breeder@cbc.gov.ph',
@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
 
         $breeder->approve(2);
 
-        $researcher = User::factory()->create([
+        $researcher = User::factory()->withPersonalTeam()->create([
             'fname' => 'Precious Mae',
             'lname' => 'Gabato',
             'email' => 'researcher@cbc.gov.ph',

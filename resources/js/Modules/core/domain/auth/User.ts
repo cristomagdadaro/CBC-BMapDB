@@ -5,6 +5,12 @@ export default class User extends DtoUser {
         super(user);
     }
 
+    get affiliation() {
+        if (this.affiliated)
+            return this.affiliated.name;
+        return 'Unknown';
+    }
+
     get isAdmin() {
         return this.roles.some(role => role.name === "Administrator");
     }

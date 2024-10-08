@@ -30,3 +30,11 @@ Route::prefix('/auth')->group(function () {
         });
     });
 });
+
+require_once 'components/PublicRoutes.php';
+
+Route::middleware(['api','auth:sanctum','verified'])->group(function() {
+    require_once 'components/TWGDbRoutes.php';
+    require_once 'components/BreedersMapRoutes.php';
+    require_once 'components/SystemRoutes.php';
+});

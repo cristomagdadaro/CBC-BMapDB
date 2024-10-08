@@ -5,6 +5,13 @@ import {Permission} from "@/Pages/constants.ts";
 
 export default {
     name: "CommodityTable",
+    props: {
+        baseUrl: {
+            type: String,
+            required: false,
+            default: null,
+        },
+    },
     computed: {
         BreedersMapPages() {
             return BreedersMapPages
@@ -35,7 +42,7 @@ export default {
 
 <template>
     <CRCMDatatable
-        :base-url="BreedersMapPages.api.commodity.path"
+        :base-url="baseUrl ?? BreedersMapPages.api.commodity.path"
         :base-model="BreedersMapPages.api.commodity.model"
         :add-form="BreedersMapPages.api.commodity.create.component"
         :edit-form="BreedersMapPages.api.commodity.edit.component"

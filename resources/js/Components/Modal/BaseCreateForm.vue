@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="submitForm" @keydown="handleKeydown">
         <div class="flex flex-col gap-5 px-6 py-10 bg-gray-100 shadow-md">
             <div class="flex flex-col">
                 <div class="text-lg font-medium text-gray-900 flex justify-between">
@@ -45,6 +45,12 @@ export default {
     methods: {
         close() {
             this.$emit('close');
+        },
+        handleKeydown(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                this.submitForm();
+            }
         },
         submitForm() {
             if (this.form)

@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Enums\Role;
 use App\Http\Controllers\BaseController;
-use App\Http\Interfaces\BaseControllerInterface;
 use App\Http\Requests\CreateCommoditiesRequest;
 use App\Http\Requests\DeleteCommoditiesRequest;
 use App\Http\Requests\GetCommoditiesRequest;
 use App\Http\Requests\UpdateCommoditiesRequest;
 use App\Http\Resources\BaseCollection;
-use App\Models\Commodity;
-use App\Models\Location\City;
-use App\Models\Location\Province;
-use App\Models\Location\Region;
 use App\Repository\API\CommodityRepo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
@@ -25,45 +19,140 @@ class CommodityController extends BaseController
         $this->service = $commodityRepository;
     }
 
-    public function index(GetCommoditiesRequest $request, $id = null)
+    /**
+     * Retrieves a paginated list of commodities based on the provided request parameters.
+     *
+     * @param GetCommoditiesRequest $request The request object containing the search parameters.
+     * @param int|null $parent_id The ID of the parent commodity (optional, defaults to null).
+     * @return BaseCollection A JSON response containing the paginated commodities.
+     */
+    public function index(GetCommoditiesRequest $request): BaseCollection
     {
         $this->service->appendWith(['breeder', 'location']);
-        /*if (auth()->user()->getRole() !== Role::ADMIN->value) {
-            //cant filter commodity by breeder_id under the current user
-            //$this->service->appendCondition(auth()->id());
-        }*/
-        if ($id) {
-            // Set withPagination to false to return the builder instead of the paginator, for the Map search box. By Breeder.
-            // $per_page = $request->validated()['per_page'] ?? 10;
-            // $page = $request->validated()['page'] ?? 1;
-            $data = $this->service->search(new Collection($request->validated()), false);
-            // return new BaseCollection($data->where('breeder_id', $id)->orderBy('id', 'asc')->paginate($per_page, ['*'], 'page', $page)->withQueryString());
-            return new BaseCollection($data);
-        } else {
-            $data = $this->service->search(new Collection($request->validated()));
-            return new BaseCollection($data);
-        }
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
-    public function summary(GetCommoditiesRequest $request)
+    /**
+     * Retrieves a single commodity based on the provided ID.
+     *
+     * @param GetCommoditiesRequest $request The request object containing the search parameters.
+     * @param int $id The ID of the commodity to retrieve.
+     */
+    public function show(GetCommoditiesRequest $request, int $id)
+    {
+        $with = $request->query('with');
+        $count = $request->query('count');
+
+        if ($with) {
+            $with = array_merge(explode(',', $with), ['breeder', 'location']);
+            $this->service->appendWith($with);
+        }
+
+        if ($count) {
+            $count = array_merge(explode(',', $count), []);
+            $this->service->appendCount($count);
+        }
+
+        return $this->service->find($id);
+    }
+
+    /**
+     * Stores a new commodity record in the database.
+     *
+     * @param CreateCommoditiesRequest $request The request object containing the validated data for creating a new commodity.
+     * @return JsonResponse A JSON response indicating the success or failure of the operation.
+     *                      On success, the response will contain the created commodity data.
+     *                      On failure, the response will contain an error message.
+     */
+    public function store(CreateCommoditiesRequest $request): JsonResponse
+    {
+        return $this->service->create($request->validated());
+    }
+
+    /**
+     * Retrieves a paginated list of commodities based on the provided request parameters,
+     * but without pagination.
+     *
+     * @param GetCommoditiesRequest $request The request object containing the search parameters.
+     * @return BaseCollection A JSON response containing the commodities without pagination.
+     */
+    public function noPage(GetCommoditiesRequest $request): BaseCollection
+    {
+        $this->service->appendWith(['breeder','cityDesc']);
+        $data = $this->service->search(new Collection($request->validated()), false);
+        return new BaseCollection($data);
+    }
+
+    /**
+     * Updates an existing commodity record in the database.
+     *
+     * @param UpdateCommoditiesRequest $request The request object containing the validated data for updating an existing commodity.
+     * @param int $id The ID of the commodity to update.
+     * @return JsonResponse A JSON response indicating the success or failure of the operation.
+     *                      On success, the response will contain the updated commodity data.
+     *                      On failure, the response will contain an error message.
+     */
+    public function update(UpdateCommoditiesRequest $request, int $id): JsonResponse
+    {
+        return $this->service->update($id, $request->validated());
+    }
+
+    /**
+     * Deletes a commodity record from the database based on the provided ID.
+     *
+     * @param int $id The ID of the commodity to delete.
+     * @return JsonResponse A JSON response indicating the success or failure of the operation.
+     *                      On success, the response will contain a success message.
+     *                      On failure, the response will contain an error message.
+     */
+    public function destroy(int $parent_id = null, int $id): JsonResponse
+    {
+        return $this->service->delete($id);
+    }
+
+    /**
+     * Deletes multiple commodity records from the database based on the provided IDs.
+     *
+     * @param DeleteCommoditiesRequest $request The request object containing the validated data for deleting multiple commodities.
+     * @return JsonResponse A JSON response indicating the success or failure of the operation.
+     *                      On success, the response will contain a success message.
+     *                      On failure, the response will contain an error message.
+     */
+    public function multiDestroy(DeleteCommoditiesRequest $request): JsonResponse
+    {
+        return $this->service->multiDestroy($request->validated());
+    }
+
+    /**
+     * Retrieves summary data for commodities based on the provided request parameters.
+     *
+     * @param GetCommoditiesRequest $request The request object containing the search parameters.
+     * @return JsonResponse A JSON response containing the summary data.
+     *                      The response includes parameters, chart labels, chart data, raw data,
+     *                      raw data labels, group search labels, and linechart data.
+     */
+    public function summary(GetCommoditiesRequest $request): JsonResponse
     {
         $model = $this->service->model;
         $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';
         $geo_location_value = $request->validated('geo_location_value');
         $is_exact = $request->validated('is_exact');
         $commodity = $request->all()['commodity'] ?? null;
-        $group_by = $this->determineLocFilterLevel($geo_location_filter);
+        $filter_by_parent_column = $request->validated('filter_by_parent_column');
+        $filter_by_parent_id = $request->validated('filter_by_parent_id');
+        $group_by = $this->service->determineLocFilterLevel($geo_location_filter);
 
-        $commodities = $this->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)
+        $commodities = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter, $filter_by_parent_column, $filter_by_parent_id)
             ->select($model->getSearchable())
             ->with(['breeder','location'])
             ->get();
-        $chart_data = $this->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)
+        $chart_data = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter, $filter_by_parent_column, $filter_by_parent_id)
             ->selectRaw("$group_by as label, count(*) as total")
             ->groupBy($group_by)
             ->orderBy('total', 'desc')
             ->get();
-        $commodities_chart = $this->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter)
+        $commodities_chart = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter, $filter_by_parent_column, $filter_by_parent_id)
             ->selectRaw('name as label, count(*) as total')
             ->groupBy('name')
             ->orderBy('total', 'desc')
@@ -80,144 +169,9 @@ class CommodityController extends BaseController
             'chart_labels' => $commodities_chart,
             'chart_data' => $chart_data,
             'raw_data' => $commodities,
-            'raw_data_labels' => $this->getCommodityLabels($model, $geo_location_value, $is_exact, $geo_location_filter),
-            'group_search_labels' => $this->getGroupByGeoLoc($model, $commodity, $geo_location_filter),
-            'linechart_data' => $this->linechartData($model, $geo_location_value, $is_exact, $geo_location_filter, $commodity),
+            'raw_data_labels' => $this->service->getCommodityLabels($model, $geo_location_value, $is_exact, $geo_location_filter),
+            'group_search_labels' => $this->service->getGroupByGeoLoc($model, $commodity, $geo_location_filter),
+            'linechart_data' => $this->service->linechartData($model, $geo_location_value, $is_exact, $geo_location_filter, $commodity),
         ]);
-    }
-
-    private function applyFilters($model, $commodity, $geo_location_value, $geo_location_filter) {
-        $group_by = $this->determineLocFilterLevel($geo_location_filter);
-
-        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation');
-
-        $model = $model
-            ->when($commodity, function ($query) use ($commodity) {
-                return $query->where('name', $commodity);
-            });
-
-        if ($geo_location_value) {
-            $model = $model->where('loc_cities.' . $group_by, $geo_location_value);
-        }
-
-        return $model;
-    }
-
-    private function linechartData($model, $search = null, $is_exact = false, $group_by = 'name', $commodity = null) {
-        $group_by = $this->determineLocFilterLevel($group_by);
-
-
-        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation');
-
-        // Apply filters based on search criteria and commodity
-        if ($search) {
-            $model = $model->where($group_by, $search);
-        }
-
-        if ($commodity) {
-            $model = $model->where('name', $commodity);
-        }
-
-        // Fetch results
-        $results = $model->selectRaw('name, CONCAT(name, "-", variety) as full_name, variety, population as total')
-            ->whereNotNull('population')
-            ->orderBy('name', 'asc')
-            ->orderBy('variety', 'asc')
-            ->get();
-
-        $datasets = [];
-        foreach ($results->groupBy('name') as $name => $dataGroup) {
-            $dataset = [
-                'label' => $name,
-                'data' => $dataGroup->pluck('total')->toArray(),
-                'borderColor' => 'rgba('.rand(0, 255).', '.rand(0, 255).', '.rand(0, 255).', 1)',
-                'fill' => false
-            ];
-            $datasets[] = $dataset;
-        }
-
-        return [
-            'labels' => $results->pluck('full_name')->unique()->values()->toArray(),
-            'datasets' => $datasets
-        ];
-    }
-
-    private function getGroupByGeoLoc($model, $commodity, $geo_location_filter)
-    {
-        $pluck_name = $this->determineLocFilterLevel($geo_location_filter);
-
-        return $model
-            ->when($commodity, function ($query) use ($commodity) {
-                return $query->where('name', $commodity);
-            })
-            ->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')
-            ->groupBy('loc_cities.' . $pluck_name)
-            ->get($pluck_name)
-            ->pluck($pluck_name)
-            ->sort()
-            ->values();
-    }
-
-    private function getCommodityLabels($model, $geo_location_value, $is_exact, $geo_location_filter)
-    {
-        $group_by = $this->determineLocFilterLevel($geo_location_filter);
-
-        return $model
-            ->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')
-            ->when($geo_location_value, function ($query) use ($geo_location_value, $is_exact, $group_by) {
-                if ($is_exact === 'true') {
-                    return $query->where($group_by, $geo_location_value);
-                } else {
-                    return $query->where($group_by, 'like', '%'.$geo_location_value.'%');
-                }
-            })
-            ->get()
-            ->pluck('name')
-            ->unique()
-            ->sort()
-            ->values();
-    }
-
-    private function determineLocFilterLevel($geo_location_filter): string
-    {
-        return match ($geo_location_filter) {
-            'province' => 'provDesc',
-            'region' => 'regDesc',
-            default => 'cityDesc',
-        };
-    }
-
-
-    /** API used at Map search box*/
-    public function noPage(GetCommoditiesRequest $request)
-    {
-        $this->service->appendWith(['breeder','cityDesc']);
-        $data = $this->service->search(new Collection($request->validated()), false);
-        return new BaseCollection($data);
-    }
-
-    public function store(CreateCommoditiesRequest $request): JsonResponse
-    {
-        return $this->service->create($request->validated());
-    }
-
-    public function show($id): JsonResponse
-    {
-        return $this->service->find($id);
-    }
-
-    public function update(UpdateCommoditiesRequest $request, int $id): JsonResponse
-    {
-        return $this->service->update($id, $request->validated());
-    }
-
-    public function destroy($id): JsonResponse
-    {
-        return $this->service->delete($id);
-    }
-
-    public function multiDestroy(DeleteCommoditiesRequest $request): JsonResponse
-    {
-        return $this->service->multiDestroy($request->validated());
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Http\Interfaces;
 
+use App\Http\Requests\BaseRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 interface BaseControllerInterface
 {
-    public function index(FormRequest $request);
+    public function index(BaseRequest $request);
 
     public function store(FormRequest $request);
 

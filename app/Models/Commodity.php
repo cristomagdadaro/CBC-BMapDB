@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Location\City;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -46,6 +45,7 @@ class Commodity extends BaseModel
         'status',
         'commodities.created_at',
         'commodities.updated_at',
+        'commodities.deleted_at',
     ];
 
     protected $casts = [
@@ -67,21 +67,15 @@ class Commodity extends BaseModel
         'unknown' => 'Unknown error, action failed.',
     ];
 
-    public function breeder(): BelongsTo
-    {
-        return $this->belongsTo(Breeder::class, 'breeder_id', 'id')
-            ->select((new Breeder())->getSearchable());
-    }
-
-    public function location()
-    {
-        return $this->belongsTo(City::class, 'geolocation')
-            ->select((new City())->getSearchable());
-    }
-
     public function user(): BelongsTo
     {
         return $this->breeder()->with('user');
+    }
+
+    public function breeder(): BelongsTo
+    {
+        return $this->belongsTo(Breeder::class, 'breeder_id', 'id')
+            ->select((new Breeder())->getSearchable())->withTrashed();
     }
 
     // Scope a query to only include commodities that belong to a specific breeder

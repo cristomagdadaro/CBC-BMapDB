@@ -10,37 +10,10 @@ export default {
     props: {
         commodity: {
             type: Object,
-            required: true
+            required: false,
+            default: null,
         }
     },
-    data() {
-        return {
-            id: this.commodity.id,
-            data: null,
-            axiosInstance: new ApiService(route('api.commodities.show', this.commodity.id))
-        }
-    },
-    computed: {
-        commodities() {
-            return this.data['commodities'].map(commodity => new Commodity(commodity));
-        }
-    },
-    methods: {
-        getDataFromAPI() {
-            this.axiosInstance.get({
-                filter: 'id',
-                search: this.commodity.id,
-                is_exact: true
-            }).then(response => {
-                this.data = response.data
-            }).catch(error => {
-                console.log(error);
-            });
-        }
-    },
-    mounted() {
-        this.getDataFromAPI();
-    }
 }
 </script>
 
@@ -48,8 +21,9 @@ export default {
     <Head title="Breeders' Map" />
     <app-layout>
     <div class="p-5">
+        {{ commodity }}
         <h1 class="h1 text-center font-semibold uppercase select-none">Commodity Geo Location</h1>
-        <Map :custom-point="[commodity]" />
+        <Map v-if="commodity" :customPoint="commodity" />
     </div>
     </app-layout>
 

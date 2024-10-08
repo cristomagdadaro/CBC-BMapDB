@@ -11,7 +11,7 @@ const user = new User(page.props.auth.user);
 
 <template>
     <AppLayout title="Dashboard">
-        <div class="bg-white">
+        <div class="bg-white min-h-screen">
             <welcome-user-banner>
                 Welcome, {{ user.getFullName }}!
             </welcome-user-banner>

@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Location\City;
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Model;
 
 class Breeder extends BaseModel
 {
@@ -48,6 +45,7 @@ class Breeder extends BaseModel
         'email',
         'breeders.created_at',
         'breeders.updated_at',
+        'breeders.deleted_at',
     ];
 
     protected array $notifMessage = [
@@ -71,25 +69,14 @@ class Breeder extends BaseModel
         return $this->hasMany(Commodity::class, 'breeder_id', 'id');
     }
 
-    public function getSearchable(): array
-    {
-        return $this->searchable;
-    }
-
-    public function location()
-    {
-        return $this->belongsTo(City::class, 'geolocation')
-            ->select((new City())->getSearchable());
-    }
-
     public function affiliated(): BelongsTo
     {
         return $this->belongsTo(Institute::class, 'affiliation', 'id');
     }
 
     // Scope a query to only include commodities that belong to the same institute
-    public function scopeOfModel($query, $id)
+    public function scopeOfModel($query)
     {
-        return $query->where('user_id', $id);
+        return $query->where('user_id', auth()->id());
     }
 }

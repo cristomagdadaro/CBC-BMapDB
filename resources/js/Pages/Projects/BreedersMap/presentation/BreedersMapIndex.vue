@@ -10,7 +10,7 @@
             </template>
             <template #tab3>
                 <div class="p-2 relative">
-                    <Map :base-url="route('api.commodities.noPage')" :model="Commodity"/>
+                    <Map :table-list="tables" :model="Commodity"/>
                 </div>
             </template>
         </Tab>
@@ -26,6 +26,7 @@
 import { Head } from "@inertiajs/vue3";
 import { defineAsyncComponent } from "vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
+import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 
 export default {
     computed: {
@@ -73,6 +74,10 @@ export default {
                   route: { name: 'projects.breedersmap.geomap' },
               },
           ],
+          tables: [
+              { label: 'Commodity', name: 'commodities', route: route(Commodity.summaryUri), model: Commodity },
+              { label: 'Breeders', name: 'breeders', route: route(Breeder.summaryUri), model: Breeder },
+          ]
       }
     },
 }

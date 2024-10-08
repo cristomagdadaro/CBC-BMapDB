@@ -16,6 +16,9 @@ export default interface ICommodity  extends IBaseClass {
     description: string;
     status: string;
     location: ICity;
+    updated_at: string;
+    created_at: string;
+    deleted_at: string;
 
     breeder: IBreeder;
 }

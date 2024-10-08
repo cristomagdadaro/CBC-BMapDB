@@ -38,6 +38,10 @@ export default {
             type: Object,
             default: null
         },
+        id: {
+            type: Number,
+            default: null
+        }
     },
     methods: {
         resetForm() {
@@ -63,12 +67,10 @@ export default {
             this.emitClose();
         },
         data() {
-            //this.form = Object.assign({}, this.data);
             if (this.data)
                 this.form = this.model.updateForm(this.data);
             else
                 this.form = this.model.createForm(this.data);
-
         }
     },
 }

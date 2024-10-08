@@ -2,8 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Accounts;
-use App\Models\Application;
 use App\Models\Institute;
 use App\Models\Team;
 use App\Models\User;
@@ -12,7 +10,7 @@ use Illuminate\Support\Str;
 use Laravel\Jetstream\Features;
 
 /**
- * @extends Factory<User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
 class UserFactory extends Factory
 {
@@ -67,7 +65,7 @@ class UserFactory extends Factory
         return $this->has(
             Team::factory()
                 ->state(fn (array $attributes, User $user) => [
-                    'name' => $user->name.'\'s Team',
+                    'name' => $user->lname.'\'s Team',
                     'user_id' => $user->id,
                     'personal_team' => true,
                 ])
@@ -75,22 +73,4 @@ class UserFactory extends Factory
             'ownedTeams'
         );
     }
-
-    /**
-     * Indicate that the user should be approved by the admin.
-     */
-    public function approved($id = null): static
-    {
-        if (!$id)
-            $id = Application::all()->random()->id;
-        return $this->has(
-            Accounts::factory()
-                ->state(fn (array $attributes, User $user) => [
-                    'user_id' => $user->id,
-                    'app_id' => $id,
-                    'approved_at' => now(),
-                ])
-        );
-    }
-
 }
