@@ -21,7 +21,7 @@ createInertiaApp({
             .use(router)
             .mount(el);
     },
- /*   progress: {
+    progress: {
         color: '#ffffff',
-    },*/
+    },
 });

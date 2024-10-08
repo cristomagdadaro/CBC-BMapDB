@@ -38,13 +38,23 @@ class CommodityController extends BaseController
      *
      * @param GetCommoditiesRequest $request The request object containing the search parameters.
      * @param int $id The ID of the commodity to retrieve.
-     * @return BaseCollection A JSON response containing the requested commodity.
      */
-    public function show(GetCommoditiesRequest $request, int $id): BaseCollection
+    public function show(GetCommoditiesRequest $request, int $id)
     {
-        $this->service->appendWith(['breeder', 'location']);
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        $with = $request->query('with');
+        $count = $request->query('count');
+
+        if ($with) {
+            $with = array_merge(explode(',', $with), ['breeder', 'location']);
+            $this->service->appendWith($with);
+        }
+
+        if ($count) {
+            $count = array_merge(explode(',', $count), []);
+            $this->service->appendCount($count);
+        }
+
+        return $this->service->find($id);
     }
 
     /**

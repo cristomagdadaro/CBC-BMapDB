@@ -199,36 +199,24 @@ abstract class AbstractRepoService implements RepositoryInterface
     /**
      * Retrieve a model
      * @param int $id model primary key
-     * @return JsonResponse
      **/
-    public function find(int $id): JsonResponse
+    public function find(int $id)
     {
         $query = $this->model;
+        $query = $query->with($this->removeNullRelationship($this->model, $this->appendWith));
+        $query = $query->withCount($this->removeNullRelationship($this->model, $this->appendCount));
+        return $query->find($id);
+    }
 
-        if (!empty($this->appendWith)) {
-            $query = $query->with($this->appendWith);
+    private function removeNullRelationship($model, $attributes = [])
+    {
+        $newArray = [];
+        foreach ($attributes as $attribute) {
+            if (method_exists($model, $attribute)) {
+                $newArray[] = $attribute;
+            }
         }
-
-        $data = $query->find($id);
-
-        if(!$data)
-            return response()->json([
-                'message' => $this->model->getNotifMessage('notFound'),
-                'data' => null,
-                'show' => true,
-                'title' => "Not Found",
-                'type' => "warning",
-                'timeout' => 10000
-            ], Response::HTTP_NOT_FOUND);
-
-        return response()->json([
-            'message' => $this->model->getNotifMessage('found'),
-            'data' => $data,
-            'show' => true,
-            'title' => "Found",
-            'type' => "success",
-            'timeout' => 10000
-        ], Response::HTTP_OK);
+        return $newArray;
     }
 
     /**
@@ -286,16 +274,12 @@ abstract class AbstractRepoService implements RepositoryInterface
 
         $builder = $builder->select($this->model->getSearchable());
 
-        if ($this->appendWith) {
-            foreach ($this->appendWith as $table) {
-                $builder->with($table);
-            }
+        foreach ($this->removeNullRelationship($this->model, $this->appendWith) as $table) {
+            $builder->with($table);
         }
 
-        if ($this->appendCount) {
-            foreach ($this->appendCount as $table) {
-                $builder->withCount($table);
-            }
+        foreach ($this->removeNullRelationship($this->model, $this->appendCount) as $table) {
+            $builder->withCount($table);
         }
 
         if ($filter_by_parent_column && $filter_by_parent_id) {
