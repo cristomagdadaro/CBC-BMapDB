@@ -63,7 +63,7 @@ export default {
                 this.getOptionsFromApi(null, search);
             }
 
-            if (this.filteredOptions.length === 0) {
+            if (this.filteredOptions.length === 0 && search) {
                 this.filteredOptions.push({ label: 'No items found', value: null });
             }
         },
@@ -105,11 +105,25 @@ export default {
             }
 
             if (!search && this.filteredOptions && this.filteredOptions.length > 0 && response.data.data.length === 0) return;
-
-            this.filteredOptions = [...this.filteredOptions,...response.data.data.map(option => ({
+            // Every after get request, data is replaced
+            this.filteredOptions = response.data.data.map(option => ({
+                value: option.id,
+                label: option.name || option.title || option.label || option.value || this.fullnameOption(option)
+            }));
+            // Every after get request, data is appended
+           /* this.filteredOptions = [...this.filteredOptions,...response.data.data.map(option => ({
                 value: option.id,
                 label: option.name || option.title || option.label || option.value || this.fullnameOption(option)
             }))];
+
+            this.filteredOptions = [...this.filteredOptions,...response.data.data.map(option => {
+                // check if option is already in the list
+                if (this.options.find(o => o.value === option.id)) return null;
+                return {
+                    value: option.id,
+                    label: option.name || option.title || option.label || option.value || this.fullnameOption(option)
+                };
+            })];*/
         },
         async handleScroll(event) {
             event.preventDefault();
