@@ -54,4 +54,9 @@ class Application extends BaseModel
 
         return $this->belongsTo(Accounts::class, 'app_id', 'id');
     }
+
+    public function isActivated()
+    {
+        return $this->status === 'active';
+    }
 }

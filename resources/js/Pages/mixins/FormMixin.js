@@ -46,6 +46,7 @@ export default {
     methods: {
         resetForm() {
             this.form = Object.assign({}, this.data);
+            this.$emit('resetForm', {});
         },
         getError(name) {
             return this.errors ? this.errors[name] : null;
@@ -66,11 +67,11 @@ export default {
             this.resetForm();
             this.emitClose();
         },
-        data() {
-            if (this.data)
-                this.form = this.model.updateForm(this.data);
+        data(newVal) {
+            if (newVal)
+                this.form = this.model.updateForm(newVal);
             else
-                this.form = this.model.createForm(this.data);
+                this.form = this.model.createForm(newVal);
         }
     },
 }

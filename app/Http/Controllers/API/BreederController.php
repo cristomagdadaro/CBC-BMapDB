@@ -45,16 +45,15 @@ class BreederController extends BaseController
         $count = $request->query('count');
 
         if ($with) {
-            $with = array_merge(explode(',', $with), ['affiliated', 'location']);
+            $with = explode(',', $with);
             $this->service->appendWith($with);
         }
 
         if ($count) {
-            $count = array_merge(explode(',', $count), ['commodities']);
+            $count = explode(',', $count);
             $this->service->appendCount($count);
         }
-
-        return $this->service->find($id);
+        return response()->json(['data' => $this->service->find($id)]);
     }
 
     /**

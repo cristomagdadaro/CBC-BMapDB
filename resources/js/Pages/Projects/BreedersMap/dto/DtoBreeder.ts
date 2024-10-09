@@ -18,7 +18,7 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
     commodities: DtoCommodity[];
 
     constructor(breeder: IBreeder) {
-        super();
+        super(breeder);
         this.id = breeder.id;
         this.user_id = breeder.user_id;
         this.name = breeder.name;

@@ -17,7 +17,7 @@
             </div>
             <div class="flex flex-row justify-between gap-1 bg-gray-100 text-right">
                 <div class="flex items-center gap-1">
-                    <cancel-button @click="$emit('close')">Cancel</cancel-button>
+                    <cancel-button @click="close">Cancel</cancel-button>
                     <button class="bg-red-200 text-white px-4 py-2 rounded-md hover:bg-red-500 active:bg-red-600 duration-200" type="button" @click="resetForm">Reset</button>
                 </div>
                 <button class="bg-edit text-white px-4 py-2 rounded-md hover:bg-edit active:bg-edit duration-200" type="submit">Update</button>
@@ -52,7 +52,11 @@ export default {
     },
     methods: {
         resetForm() {
-            this.$emit('resetForm');
+            Object.keys(this.form).forEach((key) => {
+                this.form[key] = null;
+                delete this.form[key];
+            });
+            this.$emit('resetForm', {});
         },
         close() {
             this.resetForm();

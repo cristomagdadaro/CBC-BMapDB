@@ -108,7 +108,8 @@
                             :value="current_page"
                             class="border-x-0 text-right border-t-0 border-b p-0"
                             :style="{ width: inputWidth + 'px' }"
-                            @keydown.enter="updateWidth"
+                            @input="updateWidth"
+                            @keydown.enter="dt.gotoPage($event.target.value)"
                         /> / {{ total_pages }}
                         </span>
                     </div>
@@ -531,11 +532,12 @@ export default {
         async showEditDialogFunc(id) {
             this.showModal = true;
             this.showEditDialog = true;
-            this.toEditData = (await new ApiService(this.baseUrl).get({
-                filter: 'id',
-                search: id,
-                is_exact: true,
-            }, this.baseModel)).data[0];
+            this.toEditData = (await new ApiService(route(this.baseModel.showUri, id)).get({
+                with: 'user,affiliated,location',
+                count: 'commodities'
+            }, this.baseModel)).data ?? null;
+
+            //console.log(this.toEditData);
         },
         showDeleteSelectedDialogFunc() {
             this.showModal = true;
@@ -567,10 +569,6 @@ export default {
                     this.inputWidth = input.scrollWidth;
                 }
             });
-            if (this.$refs.input && this.$refs.input.value > 0 && this.$refs.input.value <= this.total_pages)
-                this.dt.gotoPage(this.$refs.input.value);
-            else
-                this.dt.gotoPage(this.total_pages);
         },
         onColumnSort(column) {
             if (!column.sortable) {

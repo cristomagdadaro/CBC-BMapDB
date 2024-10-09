@@ -27,13 +27,13 @@ abstract class AbstractRepoService implements RepositoryInterface
      * Table to append with
      * @var string
     */
-    private array $appendWith = [];
+    public array $appendWith = [];
 
     /**
      * Count the rows of the appended tables
      * @var string
     */
-    private array $appendCount = [];
+    public array $appendCount = [];
 
     /**
      * Filter the data according to the parent id
@@ -51,29 +51,16 @@ abstract class AbstractRepoService implements RepositoryInterface
     **/
     protected array $searchable = [];
 
-    /**
-     * Constructor
-     * @param Model $model
-    **/
     public function __construct(Model $model)
     {
         $this->model = $model;
     }
 
-    /**
-     * Get all data
-     * @return Collection
-    **/
     public function all(): Collection
     {
         return $this->model->all();
     }
 
-    /**
-     * Create new data
-     * @param array $data
-     * @return JsonResponse
-     **/
     public function create(array $data): JsonResponse
     {
         try {
@@ -93,12 +80,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         }
     }
 
-    /**
-     * Update data
-     * @param int $id model primary key
-     * @param array $data updated set of data
-     * @return JsonResponse
-     **/
     public function update(int $id, array $data): JsonResponse
     {
         try {
@@ -118,11 +99,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         }
     }
 
-    /**
-     * Delete data
-     * @param int $id model primary key
-     * @return JsonResponse
-     **/
     public function delete(int $id): JsonResponse
     {
         try {
@@ -142,11 +118,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         }
     }
 
-    /**
-     * Perform multiple model deletion
-     * @param array $ids model primary key
-     * @return JsonResponse
-     **/
     public function multiDestroy(array $ids): JsonResponse
     {
         try {
@@ -196,10 +167,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         }
     }
 
-    /**
-     * Retrieve a model
-     * @param int $id model primary key
-     **/
     public function find(int $id)
     {
         $query = $this->model;
@@ -208,23 +175,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         return $query->find($id);
     }
 
-    private function removeNullRelationship($model, $attributes = [])
-    {
-        $newArray = [];
-        foreach ($attributes as $attribute) {
-            if (method_exists($model, $attribute)) {
-                $newArray[] = $attribute;
-            }
-        }
-        return $newArray;
-    }
-
-    /**
-     * Data filtering
-     * @param Collection $parameters search parameters
-     * @param bool $withPagination
-     * @return Collection
-     **/
     public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
     {
         try {
@@ -254,6 +204,42 @@ abstract class AbstractRepoService implements RepositoryInterface
         $this->appendFilter = $tableConditions;
     }
 
+    public function summary(): int
+    {
+        return $this->model->count();
+    }
+
+    public function determineLocFilterLevel(string $geo_location_filter): string
+    {
+        return match ($geo_location_filter) {
+            'province' => 'provDesc',
+            'region' => 'regDesc',
+            default => 'cityDesc',
+        };
+    }
+
+    private function sendError(Exception $error): Collection
+    {
+        $error = new ErrorRepository($error);
+        return new Collection($error->getErrorMessage());
+    }
+
+    /**
+     * Check if the relationship exists
+     * @param Model $model the model to check
+     * @param array $attributes/ relationship
+     * */
+    public function removeNullRelationship($model, $attributes = [])
+    {
+        $newArray = [];
+        foreach ($attributes as $attribute) {
+            if (method_exists($model, $attribute)) {
+                $newArray[] = $attribute;
+            }
+        }
+        return $newArray;
+    }
+
     private function searchData(Collection $parameters, bool $withPagination, bool $isTrashed)
     {
         $perPage = $parameters->get('per_page', 10);
@@ -268,9 +254,9 @@ abstract class AbstractRepoService implements RepositoryInterface
         $filter_by_parent_column = $parameters->get('filter_by_parent_column', null);
 
         //if (auth()->user()->isAdmin()) {
-            $builder = $this->model;
+        $builder = $this->model;
         //} else
-           // $builder = $this->model->where('user_id', auth()->id());
+        // $builder = $this->model->where('user_id', auth()->id());
 
         $builder = $builder->select($this->model->getSearchable());
 
@@ -344,33 +330,5 @@ abstract class AbstractRepoService implements RepositoryInterface
         }
 
         return $builder->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page)->withQueryString();
-    }
-
-
-
-    private function sendError(Exception $error): Collection
-    {
-        $error = new ErrorRepository($error);
-        return new Collection($error->getErrorMessage());
-    }
-
-    public function summary(): int
-    {
-        return $this->model->count();
-    }
-
-    /**
-     * Determines the location filter level based on the given geolocation filter.
-     *
-     * @param string $geo_location_filter The geolocation filter to determine the level.
-     * @return string The corresponding location filter level.
-     */
-    public function determineLocFilterLevel(string $geo_location_filter): string
-    {
-        return match ($geo_location_filter) {
-            'province' => 'provDesc',
-            'region' => 'regDesc',
-            default => 'cityDesc',
-        };
     }
 }

@@ -25,7 +25,7 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     breeder: IBreeder = null;
 
     constructor(commodity: ICommodity) {
-        super();
+        super(commodity);
         this.id = commodity.id;
         this.name = commodity.name;
         this.breeder_id = commodity.breeder_id;
