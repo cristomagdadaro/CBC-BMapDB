@@ -71,7 +71,8 @@ import InfoPageLinks from "@/Pages/Support/components/InfoPageLinks.vue";
         </template>
         <template #copyright>
             <div class="flex justify-between border-t-[1px] resp-container px-2 py-2 text-center sm:text-sm text-[0.6rem] font-light text-gray-100">
-                <span>&copy; Copyright {{ new Date().getFullYear() }}, DA-Crop Biotechnology Center. All rights reserved.</span>
+<!--                <span>&copy; Copyright {{ new Date().getFullYear() }}, DA-Crop Biotechnology Center. All rights reserved.</span>-->
+                <span>This is a public domin</span>
                 <span>Powered by Philippine Rice Research Institute</span>
             </div>
         </template>
