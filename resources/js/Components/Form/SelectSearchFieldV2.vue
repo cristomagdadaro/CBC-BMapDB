@@ -4,7 +4,6 @@ import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
 import SelectField from "@/Components/Form/SelectField.vue";
-import {ValidationErrorResponse} from "@/Modules/core/domain/response/index";
 
 export default {
     components: {SelectField, CloseIcon, TextField },
@@ -26,10 +25,6 @@ export default {
             type: Boolean,
             default: false,
         },
-        placeholder: {
-            type: String,
-            default: null,
-        }
     },
     data() {
         return {
@@ -46,29 +41,20 @@ export default {
             this.showDropdown = !this.showDropdown;
         },
         async getOptionsFromApi(search = null, page = 1,) {
-            this.fetchedResponse = await this.api.get({
-                ...(search ? { search } : {}),
-                per_page: 20,
-                page,
-                //...(this.modelValue ? { filter: 'id' } : {})
-            });
+            if (this.fetchedResponse.isAllFetched()) return;
 
-            if (this.fetchedResponse instanceof BaseResponse){
-                this.formattedOptions = this.fetchedResponse.data.map(option => ({
-                    value: option.id,
-                    label: option.name || option.title || option.label || option.value || this.fullnameOption(option)
-                }));
+            this.fetchedResponse = await this.api.get({ search, per_page: 20, page });
 
+            this.formattedOptions = this.fetchedResponse.data.map(option => ({
+                value: option.id,
+                label: option.name || option.title || option.label || option.value || this.fullnameOption(option)
+            }));
+        },
+        async filtering(search) {
+            if (!search || search === '')
                 this.filteredOptions = this.formattedOptions;
-
-                if (search) {
-                    this.filteredOptions.forEach(option => {
-                        if (option.value === search) {
-                            this.selectOption(option);
-                        }
-                    });
-                }
-            }
+            else
+                this.filteredOptions = this.formattedOptions.filter(option => option.label.toLowerCase().includes(search.toLowerCase()));
         },
         selectOption(option) {
             this.$emit('update:modelValue', option.value);
@@ -78,32 +64,19 @@ export default {
         closeDropdown() {
             this.showDropdown = false;
         },
-        debounceApiCall(search) {
-            clearTimeout(this.debounceTimeout);
-            this.debounceTimeout = setTimeout(() => {
-                this.getOptionsFromApi(search);
-            }, 300);
-        },
     },
     expose: ['focus'],
     mounted() {
         if (this.apiLink) {
             this.api = new ApiService(this.apiLink);
-            this.getOptionsFromApi(this.modelValue);
+            this.getOptionsFromApi();
         }
     },
     watch: {
-        modelValue(newVal, oldVal) {
-            this.getOptionsFromApi(newVal);
+        modelValue() {
+            this.getOptionsFromApi(this.modelValue);
         },
-        displayedInput(newVal, oldVal){
-            if (!newVal)
-            {
-                this.$emit('update:modelValue', null);
-                this.displayedInput = null;
-            }
-        },
-    }
+    },
 };
 </script>
 
@@ -112,16 +85,17 @@ export default {
         <div class="flex flex-col">
             <text-field
                 :id="id"
-                :label="label"
+                :label="label + modelValue"
                 :error="$attrs.error"
                 :required="required"
                 :show-clear="true"
                 v-model="displayedInput"
-                :placeholder="placeholder"
+                class="z-50"
                 @click="toggleDropdown()"
-                @keydown="debounceApiCall($event.target.value)"
+                @keydown="filtering($event.target.value)"
+                @keydown.enter="getOptionsFromApi($event.target.value)"
             />
-            <div v-show="showDropdown" class="fixed inset-0 z-40" @click="closeDropdown()" />
+            <div v-show="showDropdown" class="fixed inset-0 z-40" @click="getOptionsFromApi()" />
             <div v-show="showDropdown" class="relative z-50">
                 <div v-if="api"
                      class="fixed mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-md bg-white p-2 max-h-52 max-w-[20rem] overflow-x-auto z-50"

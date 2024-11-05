@@ -2,6 +2,7 @@ import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
+import SelectSearchFieldV2 from "@/Components/Form/SelectSearchFieldV2.vue";
 import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
 import RadioField from "@/Components/Form/RadioField.vue";
 import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
@@ -16,6 +17,7 @@ export default {
         SelectField,
         RadioField,
         SelectSearchField,
+        SelectSearchFieldV2,
         CancelButton,
         CloseIcon,
     },

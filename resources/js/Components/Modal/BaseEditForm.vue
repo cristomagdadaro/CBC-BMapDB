@@ -12,7 +12,6 @@
                     <slot name="formDescription" />
                 </div>
             </div>
-            {{form}}
             <div class="text-sm text-gray-600">
                 <slot name="formFields" />
             </div>

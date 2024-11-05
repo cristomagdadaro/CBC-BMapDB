@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { Link, router, useForm } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
 import FormSection from '@/Components/FormSection.vue';
 import InputError from '@/Components/InputError.vue';
@@ -130,8 +130,7 @@ const clearPhotoFileInput = () => {
                     <select-search-field id="affiliation"
                                          :api-link="route('api.institutes.index.public')"
                                          v-model="form.affiliation"
-                                         :class="!form.affiliation?'opacity-30':''"
-                                         class="mt-1 block w-full"
+                                         placeholder="School/Office/Agency"
                                          autocomplete="affiliation"/>
                     <InputError :message="form.errors.affiliation" class="mt-2" />
                 </div>

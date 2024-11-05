@@ -57,7 +57,7 @@ export default class ApiService implements IApiService
                 }
             }
 
-            return new BaseResponse(response);
+            return new BaseResponse(response.data);
         } catch (error) {
             return this.determineError(error);
         } finally {
