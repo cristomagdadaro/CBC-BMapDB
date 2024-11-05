@@ -1,3 +1,24 @@
+<script>
+import { TWGPages } from "@/Pages/Projects/TWG/components/components.js";
+import FormMixin from "@/Pages/mixins/FormMixin.js";
+import Expert from "@/Pages/Projects/TWG/domain/Expert";
+
+export default {
+    mixins: [FormMixin],
+    name: "EditExpertForm",
+    computed: {
+        TWGPages() {
+            return TWGPages
+        }
+    },
+    data() {
+        return {
+            model: Expert
+        };
+    },
+};
+</script>
+
 <template>
     <base-edit-form :data="form" :force-close="forceClose" @resetForm="resetForm">
         <template #formTitle>
@@ -16,32 +37,3 @@
         </template>
     </base-edit-form>
 </template>
-
-<script>
-import { TWGPages } from "@/Pages/Projects/TWG/components/components.js";
-import FormMixin from "@/Pages/mixins/FormMixin.js";
-
-export default {
-    mixins: [FormMixin],
-    name: "EditExpertForm",
-    computed: {
-        TWGPages() {
-            return TWGPages
-        }
-    },
-    data() {
-        return {
-            form: {
-                user_id: null,
-                name: null,
-                position: null,
-                educ_level: null,
-                expertise: null,
-                research_interest: null,
-                mobile: null,
-                email: null,
-            },
-        };
-    },
-};
-</script>

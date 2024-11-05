@@ -27,6 +27,7 @@ export default class DtoProduct extends BaseClass implements IProduct {
         this.updated_at = product.updated_at;
         this.deleted_at = product.deleted_at;
 
+        if (product.expert)
         //@ts-ignore
         this.expert = new Expert(product.expert);
     }

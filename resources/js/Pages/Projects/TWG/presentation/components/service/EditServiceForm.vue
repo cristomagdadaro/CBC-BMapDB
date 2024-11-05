@@ -1,21 +1,13 @@
 <script>
-
 import FormMixin from "@/Pages/mixins/FormMixin.js";
+import Service from "@/Pages/Projects/TWG/domain/Service";
 
 export default {
     mixins: [FormMixin],
     name: "CreateServiceForm",
     data() {
         return {
-            form: {
-                twg_expert_id: null,
-                type: null,
-                purpose: null,
-                direct_beneficiaries: null,
-                indirect_beneficiaries: null,
-                officer_in_charge: null,
-                cost: null,
-            },
+            model: Service
         };
     },
 }
@@ -27,6 +19,7 @@ export default {
             Register a new Service/Protocol
         </template>
         <template #formFields>
+            {{ form }}
             <div class="flex flex-col gap-1">
                 <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                     <text-field required :error="getError('name')" label="Type of service" v-model="form.type" />

@@ -1,20 +1,13 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin.js";
+import Service from "@/Pages/Projects/TWG/domain/Service";
 
 export default {
     mixins: [FormMixin],
     name: "CreateServiceForm",
     data() {
         return {
-            form: {
-                twg_expert_id: null,
-                type: null,
-                purpose: null,
-                direct_beneficiaries: null,
-                indirect_beneficiaries: null,
-                officer_in_charge: null,
-                cost: null,
-            },
+            model: Service
         };
     },
 }

@@ -1,18 +1,13 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin.js";
+import Product from "@/Pages/Projects/TWG/domain/Product";
 
 export default {
     mixins: [FormMixin],
     name: "CreateProductForm",
     data() {
         return {
-            form: {
-                twg_expert_id: null,
-                name: null,
-                brand: null,
-                purpose: null,
-                cost: null,
-            },
+            model: Product
         };
     },
 }

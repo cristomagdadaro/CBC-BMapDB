@@ -33,7 +33,8 @@ export default class DtoProject extends BaseClass implements IProject {
         this.updated_at = project.updated_at;
         this.deleted_at = project.deleted_at;
 
-        //@ts-ignore
-        this.expert = new Expert(project.expert);
+        if (project.expert)
+            //@ts-ignore
+            this.expert = new Expert(project.expert);
     }
 }

@@ -1,3 +1,23 @@
+<script>
+import { ProjectStatus } from "@/Pages/constants.ts";
+import FormMixin from "@/Pages/mixins/FormMixin.js";
+import Product from "@/Pages/Projects/TWG/domain/Product";
+
+export default {
+    mixins: [FormMixin],
+    name: "CreateProjectForm",
+    computed: {
+        ProjectStatus() {
+            return ProjectStatus
+        }
+    },
+    data() {
+        return {
+            model: Product
+        };
+    },
+};
+</script>
 <template>
    <base-create-form :form="form" :force-close="forceClose">
        <template #formTitle>
@@ -17,33 +37,3 @@
        </template>
     </base-create-form>
 </template>
-<script>
-import { ProjectStatus } from "@/Pages/constants.ts";
-import FormMixin from "@/Pages/mixins/FormMixin.js";
-import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
-
-export default {
-    components: {CustomDropdown},
-    mixins: [FormMixin],
-    name: "CreateProjectForm",
-    computed: {
-        ProjectStatus() {
-            return ProjectStatus
-        }
-    },
-    data() {
-        return {
-            form: {
-                title: null,
-                twg_expert_id: null,
-                objective: null,
-                expected_output: null,
-                project_leader: null,
-                funding_agency: null,
-                duration: null,
-                status: null,
-            },
-        };
-    },
-};
-</script>

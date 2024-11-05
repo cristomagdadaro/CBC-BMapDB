@@ -1,6 +1,7 @@
 <script>
 import { ProjectStatus } from "@/Pages/constants.ts";
 import FormMixin from "@/Pages/mixins/FormMixin.js";
+import Project from "@/Pages/Projects/TWG/domain/Project";
 
 export default {
     mixins: [FormMixin],
@@ -12,16 +13,7 @@ export default {
     },
     data() {
         return {
-            form: {
-                title: null,
-                twg_expert_id: null,
-                objective: null,
-                expected_output: null,
-                project_leader: null,
-                funding_agency: null,
-                duration: null,
-                status: null,
-            },
+            model: Project
         };
     },
 };
