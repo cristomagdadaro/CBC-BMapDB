@@ -1,7 +1,7 @@
 <template>
     <base-create-form :force-close="forceClose" @close="close" @submitForm="uploadForm" :form="form">
         <template #formTitle>
-            Import Commodities from a CSV file
+            Import Experts from a CSV file
         </template>
         <template v-slot:formDescription>
             <div class="text-md text-gray-600">
@@ -71,7 +71,7 @@ import RadioField from "@/Components/Form/RadioField.vue";
 import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
 import FileField from "@/Components/Form/FileField.vue";
 import Papa from "papaparse";
-import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
+import Expert from "@/Pages/Projects/TWG/domain/Expert";
 
 export default {
     name: "ImportCommodities",
@@ -110,7 +110,7 @@ export default {
             this.$emit('close');
         },
         downloadCsvTemplate() {
-            const headers =  Object.keys(Commodity.createForm());
+            const headers =  Object.keys(Expert.createForm());
 
             // Join headers with comma for CSV header row
             const csvHeader = headers.join(',');
@@ -127,7 +127,7 @@ export default {
 
             // Set link attributes for downloading
             link.setAttribute('href', url);
-            link.setAttribute('download', 'import_commodity_template.csv');
+            link.setAttribute('download', 'import_expert_template.csv');
 
             // Append link to the body and click it programmatically
             document.body.appendChild(link);

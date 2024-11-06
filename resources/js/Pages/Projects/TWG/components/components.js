@@ -7,7 +7,7 @@ import { defineAsyncComponent } from "vue";
 export const TWGPages = {
     api: {
         expert: {
-            path: route('api.twg.experts.index'),
+            path: route(Expert.indexUri),
             name: 'Experts Model',
             model: Expert,
             create:{
@@ -30,10 +30,17 @@ export const TWGPages = {
                 component: defineAsyncComponent(
                     () => null
                 ),
+            },
+            import: {
+                path: 'twg.expert.import',
+                name: 'ImportCommodities',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/TWG/presentation/components/expert/ImportExperts.vue')
+                ),
             }
         },
         project: {
-            path: route('api.twg.projects.index'),
+            path: route(Project.indexUri),
             name: 'Projects Model',
             model: Project,
             create:{
@@ -53,7 +60,7 @@ export const TWGPages = {
             }
         },
         product: {
-            path: route('api.twg.products.index'),
+            path: route(Product.indexUri),
             name: 'Products Model',
             model: Product,
             create:{
@@ -72,7 +79,7 @@ export const TWGPages = {
             }
         },
         service: {
-            path: route('api.twg.services.index'),
+            path: route(Service.indexUri),
             name: 'Services Model',
             model: Service,
             create:{
@@ -92,7 +99,7 @@ export const TWGPages = {
         },
     },
     index: {
-        path: route('projects.twg.index'),
+        path: route(Project.indexUri),
         name: 'TWGIndex',
         component: defineAsyncComponent(
             () => import('@/Pages/Projects/TWG/presentation/TWGIndex.vue')
