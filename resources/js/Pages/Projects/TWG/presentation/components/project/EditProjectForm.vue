@@ -24,10 +24,16 @@ export default {
         <template #formTitle>
             Update Project Details
         </template>
+        <template v-slot:formDescription>
+            <div v-if="data" class="grid grid-cols-2 text-sm text-gray-600">
+                <span>Date created: {{ data.created_at }}</span>
+                <span>Last updated: {{ data.updated_at }}</span>
+            </div>
+        </template>
         <template #formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                 <text-field required :error="getError('title')" label="Title" v-model="form.title" />
-                <select-search-field :api-link="route('api.twg.experts.index')"  :error="getError('twg_expert_id')" label="TWG Expert" v-model="form.twg_expert_id" />
+                <select-search-field required :api-link="route('api.twg.experts.index')"  :error="getError('twg_expert_id')" label="TWG Expert" v-model="form.twg_expert_id" />
                 <text-field required :error="getError('objective')" label="Objective" v-model="form.objective" />
                 <text-field required :error="getError('expected_output')" label="Expected Output" v-model="form.expected_output" />
                 <text-field required :error="getError('project_leader')" label="Project Leader" v-model="form.project_leader" />

@@ -24,7 +24,7 @@ export default {
                     <text-field required :error="getError('name')" label="Name" v-model="form.name" />
                     <text-field :error="getError('brand')" label="Brand" v-model="form.brand" />
                     <text-field required :error="getError('purpose')" label="Purpose" v-model="form.purpose" />
-                    <text-field required :error="getError('cost')" label="Cost" v-model="form.cost" />
+                    <text-field :error="getError('cost')" label="Cost" v-model="form.cost" />
                 </div>
                 <select-search-field required :api-link="route('api.twg.experts.index')"  :error="getError('twg_expert_id')" label="Expert" v-model="form.twg_expert_id" />
             </div>

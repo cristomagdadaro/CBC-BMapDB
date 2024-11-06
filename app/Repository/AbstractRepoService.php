@@ -103,7 +103,8 @@ abstract class AbstractRepoService implements RepositoryInterface
     {
         try {
             $model = $this->model->find($id);
-            $model->update($data);
+            $model->fill($data);
+            $model->save();
 
             return response()->json([
                 'message' => $model->getNotifMessage('updated'),

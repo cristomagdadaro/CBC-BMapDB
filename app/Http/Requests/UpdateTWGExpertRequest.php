@@ -23,7 +23,7 @@ class UpdateTWGExpertRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
+            //'user_id' => ['required', 'integer', 'exists:users,id'],
             'name' => ['required', 'string', 'max:255', 'unique:twg_expert,name,'. $this->get('id')],
             'position' => ['required', 'string', 'max:255'],
             'educ_level' => ['required', 'string', "in:Doctoral,Master's,Bachelor's"],

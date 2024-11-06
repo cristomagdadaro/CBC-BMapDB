@@ -31,7 +31,10 @@ class TWGProject extends BaseModel
         'project_leader',
         'funding_agency',
         'duration',
-        'status'
+        'status',
+        'twg_project.created_at',
+        'twg_project.updated_at',
+        'twg_project.deleted_at',
     ];
 
     protected array $notifMessage = [

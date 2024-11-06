@@ -26,10 +26,10 @@ class UpdateTWGServiceRequest extends FormRequest
             'twg_expert_id' => ['required', 'integer', 'exists:'.((new TWGExpert())->getTableName()).',id'],
             'type' => ['required', 'string'],
             'purpose' => ['required', 'string'],
-            'direct_beneficiaries' => ['required', 'string'],
-            'indirect_beneficiaries' => ['required', 'string'],
+            'direct_beneficiaries' => ['nullable', 'string'],
+            'indirect_beneficiaries' => ['nullable', 'string'],
             'officer_in_charge' => ['required', 'string'],
-            'cost' => ['required', 'numeric'],
+            'cost' => ['required'],
         ];
     }
 }

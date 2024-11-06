@@ -29,7 +29,10 @@ class TWGService extends BaseModel
         'direct_beneficiaries',
         'indirect_beneficiaries',
         'officer_in_charge',
-        'cost'
+        'cost',
+        'twg_service.created_at',
+        'twg_service.updated_at',
+        'twg_service.deleted_at',
     ];
 
     protected array $notifMessage = [

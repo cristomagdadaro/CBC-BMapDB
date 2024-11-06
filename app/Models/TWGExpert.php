@@ -37,9 +37,9 @@ class TWGExpert extends BaseModel
         'research_interest',
         'mobile',
         'email',
-        'updated_at',
-        'created_at',
-        'deleted_at',
+        'twg_expert.created_at',
+        'twg_expert.updated_at',
+        'twg_expert.deleted_at',
     ];
 
     protected array $notifMessage = [

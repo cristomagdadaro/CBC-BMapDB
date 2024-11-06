@@ -25,10 +25,10 @@ class CreateTWGProductRequest extends FormRequest
     {
         return [
             'twg_expert_id' => ['required', 'integer', 'exists:'.(new TWGExpert())->getTableName().',id'],
-            'name' => ['required', 'string', 'max:255', 'unique:'.(new TWGProduct())->getTableName().',name'],
+            'name' => ['required', 'string', 'max:255'],
             'brand' => ['nullable', 'string', 'max:255'],
             'purpose' => ['required', 'string'],
-            'cost' => ['required', 'numeric', 'min:0'],
+            'cost' => ['nullable', 'string', 'min:0'],
         ];
     }
 }

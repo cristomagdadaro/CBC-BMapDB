@@ -25,7 +25,10 @@ class TWGProduct extends BaseModel
         'name',
         'brand',
         'purpose',
-        'cost'
+        'cost',
+        'twg_product.created_at',
+        'twg_product.updated_at',
+        'twg_product.deleted_at',
     ];
 
     protected array $notifMessage = [

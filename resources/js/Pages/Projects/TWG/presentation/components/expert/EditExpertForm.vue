@@ -24,6 +24,12 @@ export default {
         <template #formTitle>
             Update Expert Details
         </template>
+        <template v-slot:formDescription>
+            <div v-if="data" class="grid grid-cols-2 text-sm text-gray-600">
+                <span>Date created: {{ data.created_at }}</span>
+                <span>Last updated: {{ data.updated_at }}</span>
+            </div>
+        </template>
         <template #formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                 <text-field required :error="getError('name')" label="Name" v-model="form.name" />
