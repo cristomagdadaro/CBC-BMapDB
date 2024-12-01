@@ -36,7 +36,7 @@ export default {
 <template>
     <AppLayout title="Admin Panel">
         <div>
-            <h1 class="h1 p-2 rounded-md drop-shadow mt-2 mx-2 bg-white text-center font-semibold uppercase select-none">Administrative Panel</h1>
+            <h1 class="h1 p-2 bg-white text-center font-semibold uppercase select-none">Administrative Panel</h1>
             <Tab :tabs="tabs" v-if="$page.props.auth.user">
                 <template #tab1>
                     <new-user-table />

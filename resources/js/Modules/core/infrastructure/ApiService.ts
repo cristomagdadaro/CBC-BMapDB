@@ -44,6 +44,7 @@ export default class ApiService implements IApiService
             const response = await axios.get(this.baseUrl, {
                 params: params
             });
+            console.log(response);
             if (model) {
                 if (response && response.data){
                     if (response.data.data){
@@ -57,8 +58,9 @@ export default class ApiService implements IApiService
                 }
             }
 
-            return new BaseResponse(response.data);
+            return new BaseResponse(response);
         } catch (error) {
+            console.log(error)
             return this.determineError(error);
         } finally {
             this._processing = false;

@@ -34,7 +34,7 @@ export default {
     data() {
         return {
             api: null,
-            fetchedResponse: new BaseResponse(),
+            fetchedResponse: null,
             formattedOptions: [],
             filteredOptions: [],
             showDropdown: false,
@@ -52,8 +52,8 @@ export default {
                 page,
                 //...(this.modelValue ? { filter: 'id' } : {})
             });
-
             if (this.fetchedResponse instanceof BaseResponse){
+                if (this.fetchedResponse.data.length)
                 this.formattedOptions = this.fetchedResponse.data.map(option => ({
                     value: option.id,
                     label: option.name || option.title || option.label || option.value || this.fullnameOption(option)

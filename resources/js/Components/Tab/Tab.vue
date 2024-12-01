@@ -51,7 +51,7 @@ export default {
 </script>
 <template>
     <div v-if="tabs" class="flex flex-col bg-transparent">
-        <div class="z-10 flex gap-1 select-none p-2 mx-2 mt-2 shadow rounded-md bg-white max-w-screen overflow-x-auto">
+        <div class="z-10 flex gap-1 select-none p-2 bg-white max-w-screen overflow-x-auto">
             <router-link
                 v-for="tab in tabs"
                 :key="tab.name"
@@ -63,7 +63,7 @@ export default {
                 {{ tab.label }}
             </router-link>
         </div>
-        <div class="z-10 bg-transparent border p-2 m-2 shadow rounded-md bg-white" v-if="activeTab">
+        <div class="z-10 bg-white min-h-screen" v-if="activeTab">
             <slot :name="activeTab.name" />
         </div>
     </div>

@@ -46,10 +46,10 @@ const classes = computed(() => {
                         class="flex items-center max-w-fit hover:bg-gray-900 hover:bg-opacity-10 active:scale-95 duration-200 p-2 gap-1 rounded">
                         <slot name="icon"></slot>
                         <div class="flex flex-col max-w-fit">
-                            <span class="sm:text-sm text-xs whitespace-nowrap tracking-[0.2rem] leading-tight">
+                            <span class="text-normal whitespace-nowrap tracking-[0.2rem] leading-tight">
                                 <slot name="subtitle"></slot>
                             </span>
-                            <span class="sm:text-2xl md:text-xl text-xs whitespace-nowrap leading-[1]">
+                            <span class="text-subtitle whitespace-nowrap leading-[1]">
                                 <slot name="title"></slot>
                             </span>
                         </div>

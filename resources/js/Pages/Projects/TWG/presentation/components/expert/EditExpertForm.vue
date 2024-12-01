@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-    <base-edit-form :data="form" :force-close="forceClose" @resetForm="resetForm">
+    <base-edit-form :form="form" :force-close="forceClose" @resetForm="resetForm">
         <template #formTitle>
             Update Expert Details
         </template>

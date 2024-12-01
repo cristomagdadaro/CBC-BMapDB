@@ -68,11 +68,11 @@ export default {
             this.resetForm();
             this.emitClose();
         },
-        data() {
+        data(newVal) {
             if (this.data)
-                this.form = this.model.updateForm(this.data);
+                this.form = this.model.updateForm(newVal);
             else
-                this.form = this.model.createForm(this.data);
+                this.form = this.model.createForm(newVal);
         }
     },
 }

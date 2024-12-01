@@ -14,7 +14,7 @@ const TabLinks = [
 ];
 
 const supportLinks = [
-    {name: 'About Us', link: 'support.about-us'},
+    {name: 'What is PIN?', link: 'support.about-us'},
     {name: 'Term of Use', link: 'support.terms-of-use'},
     {name: 'Policy Notice', link: 'support.policy-notice'},
     {name: 'Privacy Policy', link: 'support.privacy-policy'},
@@ -26,13 +26,13 @@ const supportLinks = [
 <template>
     <header-layout :active="route().current('dashboard')">
         <template #icon>
-            <Logo />
+            <Logo classes="sm:h-18 h-16 w-auto"/>
         </template>
         <template #subtitle>
-            Crop Biotech Centralized Database
+            {{ $page.props.companyName }}
         </template>
         <template #title>
-            CBCD
+            {{ $page.props.appName }}
         </template>
         <template #links>
             <ul class="lg:flex sm:gap-2">
@@ -61,6 +61,12 @@ const supportLinks = [
                         Support
                     </template>
                     <template #content>
+                        <tab-link link="dacbc.philrice.gov.ph" class="text-gray-700">
+                            About Us
+                        </tab-link>
+                        <tab-link link="cbc360tour.philrice.gov.ph" class="text-gray-700">
+                            Visit Us
+                        </tab-link>
                         <tab-link v-for="link in supportLinks" :key="link.link" :link="route(link.link)" class="text-gray-700">
                             {{ link.name }}
                         </tab-link>

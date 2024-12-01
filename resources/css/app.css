@@ -31,7 +31,7 @@
 }
 
 .paragraph-text-normal {
-    @apply text-normal sm:text-left text-justify ;
+    @apply text-normal sm:text-lg sm:text-left text-justify ;
 }
 
 @layer components{

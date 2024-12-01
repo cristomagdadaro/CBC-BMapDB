@@ -43,19 +43,15 @@ function onSignIn(googleUser) {
         <public-page-section>
             <AuthenticationCard class="min-h-[80vh]">
                 <div class="relative grid sm:grid-cols-2 grid-rows-1 items-center">
-                    <div class="absolute hidden z-0 drop-shadow-2xl bottom-0 left-0 flex justify-center h-auto sm:w-1/2 w-auto">
-                        <img src="../../../../public/img/cbc_statue_cartoon.png" class="select-none sm:h-[27rem] h-28 w-auto sm:absolute bottom-0 drop-shadow" alt="DA-CBC Statue" />
-                    </div>
                     <div class="drop-shadow-lg select-none text-gray-50 flex flex-col w-full z-50 sm:text-left text-center">
-                    <span class="text-lg leading-tight">
-                        Welcome to
-                    </span>
-                        <span class="font-bold sm:text-5xl text-2xl leading-relaxed">
-                        <span class="text-cbc-dark-green">C</span>rop<span class="text-cbc-dark-green">B</span>iotech
-                    </span>
-                        <span class="font-bold sm:text-3xl text-2xl leading-relaxed">
-                        <span class="text-cbc-dark-green">C</span>entralized <span class="text-cbc-dark-green">D</span>atabase
-                    </span>
+                        <span class="text-lg leading-relaxed">
+                            Login to
+                        </span>
+                        <span class="font-bold sm:text-3xl text-2xl leading-tight">
+                            <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
+                            <span class="text-cbc-dark-green">I</span>nnovation
+                             <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
+                        </span>
                     </div>
                     <div class="bg-cbc-dark-green sm:p-3 sm:px-5 p-4 shadow-lg rounded-md sm:min-w-[15rem] min-w-full">
                         <div v-if="status" class="mb-4 font-medium text-sm">

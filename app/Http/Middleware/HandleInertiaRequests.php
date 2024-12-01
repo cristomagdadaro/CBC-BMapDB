@@ -47,6 +47,10 @@ class HandleInertiaRequests extends Middleware
             "permissions" => $request->user() ? $request->user()->getPermissions() : [],
             "accounts" => $apps,
             "affiliated" => $request->user() ? $request->user()->affiliated : [],
+            'appName' => env('APP_NAME'),
+            'appNameShort' => env('APP_NAME_SHORT'),
+            'companyName' => env('COMPANY_NAME'),
+            'companyNameShort' => env('COMPANY_NAME_SHORT'),
         ]);
     }
 }
