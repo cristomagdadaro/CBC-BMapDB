@@ -49,24 +49,40 @@ class TWGController extends BaseController
     public function summary()
     {
         try {
-            return response()->json([
-                'totalExperts' => TWGExpert::all()->count(),
-                'totalProjects' => TWGProject::all()->count(),
-                'totalProducts' => TWGProduct::all()->count(),
-                'totalServices' => TWGService::all()->count(),
-                'typeServices' => TWGService::select('type', DB::raw('count(*) as total'))->groupBy('type')->get()->pluck('total', 'type'),
-                'topExperts' => TWGExpert::select('twg_expert.id', 'twg_expert.name', DB::raw('COUNT(twg_project.id) as project_count'))
-                    ->join('twg_project', 'twg_expert.id', '=', 'twg_project.twg_expert_id')
-                    ->groupBy('twg_expert.id', 'twg_expert.name')
-                    ->orderByDesc('project_count')
-                    ->limit(5)
-                    ->get()
-                    ->pluck('project_count', 'name'),
-                'totalOnGoingProjects' => TWGProject::select('status', DB::raw('count(*) as total'))->groupBy('status')->get()->pluck('total', 'status'),
-            ]);
+            if (auth()->user()->isAdmin())
+                return response()->json([
+                    'totalExperts' => TWGExpert::all()->count(),
+                    'totalProjects' => TWGProject::all()->count(),
+                    'totalProducts' => TWGProduct::all()->count(),
+                    'totalServices' => TWGService::all()->count(),
+                    'typeServices' => TWGService::select('type', DB::raw('count(*) as total'))->groupBy('type')->get()->pluck('total', 'type'),
+                    'topExperts' => TWGExpert::select('twg_expert.id', 'twg_expert.name', DB::raw('COUNT(twg_project.id) as project_count'))
+                        ->join('twg_project', 'twg_expert.id', '=', 'twg_project.twg_expert_id')
+                        ->groupBy('twg_expert.id', 'twg_expert.name')
+                        ->orderByDesc('project_count')
+                        ->limit(5)
+                        ->get()
+                        ->pluck('project_count', 'name'),
+                    'totalOnGoingProjects' => TWGProject::select('status', DB::raw('count(*) as total'))->groupBy('status')->get()->pluck('total', 'status'),
+                ]);
+            else
+                return response()->json([
+                    'totalExperts' => TWGExpert::all()->where('user_id', auth()->id())->count(),
+                    'totalProjects' => TWGProject::all()->where('user_id', auth()->id())->count(),
+                    'totalProducts' => TWGProduct::all()->where('user_id', auth()->id())->count(),
+                    'totalServices' => TWGService::all()->where('user_id', auth()->id())->count(),
+                    'typeServices' => TWGService::select('type', DB::raw('count(*) as total'))->groupBy('type')->get()->pluck('total', 'type'),
+                    'topExperts' => TWGExpert::select('twg_expert.id', 'twg_expert.name', DB::raw('COUNT(twg_project.id) as project_count'))
+                        ->join('twg_project', 'twg_expert.id', '=', 'twg_project.twg_expert_id')
+                        ->groupBy('twg_expert.id', 'twg_expert.name')
+                        ->orderByDesc('project_count')
+                        ->limit(5)
+                        ->get()
+                        ->pluck('project_count', 'name'),
+                    'totalOnGoingProjects' => TWGProject::select('status', DB::raw('count(*) as total'))->groupBy('status')->get()->pluck('total', 'status'),
+                ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
 }

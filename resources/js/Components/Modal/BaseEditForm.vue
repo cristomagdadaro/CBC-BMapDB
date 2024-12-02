@@ -59,7 +59,6 @@ export default {
             this.$emit('close');
         },
         submitForm() {
-            console.log(this.form)
             this.$emit('submitForm', this.form);
         },
         handleKeydown(event) {

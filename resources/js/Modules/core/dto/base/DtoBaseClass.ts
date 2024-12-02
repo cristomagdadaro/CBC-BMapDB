@@ -20,7 +20,7 @@ export default class DtoBaseClass extends Object implements IBaseClass {
         }
 
         //@ts-ignore
-        return this.lable || this.title || this.name;
+        return this.name || this.table || this.title;
     }
 
     /**

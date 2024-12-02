@@ -86,8 +86,8 @@ export default class Project extends BaseClass implements IProject{
             },
             {
                 title: 'Expert',
-                key: 'expert.getFullName',
-                db_key: 'expert',
+                key: 'expert.name',
+                db_key: 'name',
                 align: 'center',
                 sortable: true,
                 visible: true,

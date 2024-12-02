@@ -77,8 +77,8 @@ export default class Product extends BaseClass implements IProduct{
             },
             {
                 title: 'Expert',
-                key: 'expert.getFullName',
-                db_key: 'twg_expert_id',
+                key: 'expert.name',
+                db_key: 'name',
                 align: 'center',
                 sortable: true,
                 visible: true,

@@ -82,8 +82,8 @@ export default class Service extends BaseClass implements IService{
             },
             {
                 title: 'Expert',
-                key: 'expert.getFullName',
-                db_key: 'expert.getFullName',
+                key: 'expert.name',
+                db_key: 'name',
                 align: 'center',
                 sortable: true,
                 visible: true,
