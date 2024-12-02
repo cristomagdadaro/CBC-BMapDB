@@ -178,20 +178,20 @@ export default {
             </div>
             <div>
                 <div class="text-center">
-                    <p class="text-subtitle">{{ totalServices }}</p>
-                    <h1 class="h1 text-center font-semibold uppercase border-red-500 border-1">Services</h1>
-                </div>
-                <div class="flex justify-center">
-                    <canvas id="chartServices" role="img"></canvas>
-                </div>
-            </div>
-            <div>
-                <div class="text-center">
                     <p class="text-subtitle">{{ totalProducts }}</p>
                     <h1 class="h1 text-center font-semibold uppercase border-red-500 border-1">Products</h1>
                 </div>
                 <div class="flex justify-center">
                     <canvas id="chartProducts" role="img"></canvas>
+                </div>
+            </div>
+            <div>
+                <div class="text-center">
+                    <p class="text-subtitle">{{ totalServices }}</p>
+                    <h1 class="h1 text-center font-semibold uppercase border-red-500 border-1">Services</h1>
+                </div>
+                <div class="flex justify-center">
+                    <canvas id="chartServices" role="img"></canvas>
                 </div>
             </div>
         </div>

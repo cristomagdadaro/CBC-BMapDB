@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\TWGExpert;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,9 @@ class TWGProductFactory extends Factory
     public function definition(): array
     {
         $expert = TWGExpert::all()->random();
+        $users = User::all();
         return [
+            'user_id' => $users->random()->id,
             'twg_expert_id' => $expert->id,
             'name' => $this->faker->name,
             'brand' => $this->faker->name,

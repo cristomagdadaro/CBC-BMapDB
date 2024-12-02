@@ -6,6 +6,7 @@ use App\Models\Location\City;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Builder;
 
 class BaseModel extends Model
 {
@@ -42,5 +43,15 @@ class BaseModel extends Model
     {
         return $this->belongsTo(City::class, 'geolocation')
             ->select((new City())->getSearchable());
+    }
+
+    public function scopeOwnedBy(Builder $query, $user)
+    {
+        // If admin, show all records; otherwise, filter by user
+        if (!$user->isAdmin()) {
+            $query->where('user_id', $user->id);
+        }
+
+        return $query;
     }
 }

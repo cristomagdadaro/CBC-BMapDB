@@ -12,6 +12,7 @@ class TWGService extends BaseModel
     protected $table = 'twg_service';
 
     protected $fillable = [
+        'user_id',
         'twg_expert_id',
         'type',
         'purpose',
@@ -23,6 +24,7 @@ class TWGService extends BaseModel
 
     protected array $searchable = [
         'id',
+        'user_id',
         'twg_expert_id',
         'type',
         'purpose',

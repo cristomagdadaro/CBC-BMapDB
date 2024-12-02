@@ -25,6 +25,7 @@
         "bootstrap-icons": "^1.11.1",
         "chart.js": "^4.4.4",
         "chartjs-plugin-datalabels": "^2.2.0",
+        "dotenv": "^16.4.5",
         "leaflet-sidebar-v2": "^3.2.3",
         "papaparse": "^5.4.1",
         "v-onboarding": "^2.8.2",

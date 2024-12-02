@@ -2,6 +2,7 @@ import IExpert from "./IExpert";
 
 export default interface IProduct {
     id: number;
+    user_id: number;
     twg_expert_id: number;
     name: string;
     brand: string;

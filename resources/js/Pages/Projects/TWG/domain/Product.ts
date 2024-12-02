@@ -5,6 +5,7 @@ import IExpert from "../interface/IExpert";
 
 export default class Product extends BaseClass implements IProduct{
     id: number;
+    user_id: number;
     twg_expert_id: number;
     name: string;
     brand: string;

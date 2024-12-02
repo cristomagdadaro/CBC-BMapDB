@@ -5,6 +5,7 @@ import IExpert from "../interface/IExpert";
 
 export default class Service extends BaseClass implements IService{
     id: number;
+    user_id: number;
     twg_expert_id: number;
     type: string;
     purpose: string;

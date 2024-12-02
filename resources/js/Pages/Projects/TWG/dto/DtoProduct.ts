@@ -5,6 +5,7 @@ import Expert from "../domain/Expert";
 
 export default class DtoProduct extends BaseClass implements IProduct {
     id: number;
+    user_id: number;
     twg_expert_id: number;
     name: string;
     brand: string;

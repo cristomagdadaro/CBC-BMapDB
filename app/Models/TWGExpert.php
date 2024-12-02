@@ -53,8 +53,18 @@ class TWGExpert extends BaseModel
         'unknown' => 'Unknown error, action failed.',
     ];
 
-    public function twg_projects()
+    public function projects()
     {
-        return $this->hasMany(TWGProject::class, 'twg_expert_id','user_id');
+        return $this->hasMany(TWGProject::class, 'twg_expert_id','id');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(TWGProduct::class, 'twg_expert_id','id');
+    }
+
+    public function services()
+    {
+        return $this->hasMany(TWGService::class,'twg_expert_id','id');
     }
 }

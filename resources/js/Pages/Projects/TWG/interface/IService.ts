@@ -2,6 +2,7 @@ import IExpert from "./IExpert";
 
 export default interface IService {
     id: number;
+    user_id: number;
     twg_expert_id: number;
     type: string;
     purpose: string;

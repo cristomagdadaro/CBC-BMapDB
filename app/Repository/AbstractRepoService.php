@@ -280,10 +280,7 @@ abstract class AbstractRepoService implements RepositoryInterface
         $filter_by_parent_id = $parameters->get('filter_by_parent_id', null);
         $filter_by_parent_column = $parameters->get('filter_by_parent_column', null);
 
-        //if (auth()->user()->isAdmin()) {
-            $builder = $this->model;
-        //} else
-           // $builder = $this->model->where('user_id', auth()->id());
+        $builder = $this->model->ownedBy(auth()->user());
 
         $builder = $builder->select($this->model->getSearchable());
 
@@ -306,12 +303,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         if ($isTrashed) {
             $builder = $builder->onlyTrashed();
         }
-
-        // Check user role
-        /*$user = auth()->user();
-        if ($user->getRole() !== Role::ADMIN->value) {
-            $builder->where('user_id', $user->id);
-        }*/
 
 
         if ($search) {

@@ -12,6 +12,7 @@ class TWGProduct extends BaseModel
     protected $table = 'twg_product';
 
     protected $fillable = [
+        'user_id',
         'twg_expert_id',
         'name',
         'brand',
@@ -21,6 +22,7 @@ class TWGProduct extends BaseModel
 
     protected array $searchable = [
         'id',
+        'user_id',
         'twg_expert_id',
         'name',
         'brand',

@@ -5,6 +5,7 @@ import DtoProject from "../dto/DtoProject";
 
 export default class Project extends BaseClass implements IProject{
     id: number;
+    user_id: number;
     twg_expert_id: number;
     title: string;
     objective: string;

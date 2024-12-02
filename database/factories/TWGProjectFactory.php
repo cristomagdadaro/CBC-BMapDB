@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\TWGExpert;
 use App\Models\TWGProject;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +21,9 @@ class TWGProjectFactory extends Factory
     {
         //get random twg expert id from twg_expert table
         $expert_ids =TWGExpert::all();
+        $users = User::all();
         return [
+            'user_id' => $users->random()->id,
             'twg_expert_id' => $expert_ids->random()->id,
             'title' => $this->faker->sentence(),
             'objective' => $this->faker->paragraph(),

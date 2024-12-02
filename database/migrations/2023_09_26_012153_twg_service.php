@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('twg_service', function(Blueprint $table){
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('twg_expert_id')->constrained('twg_expert');
             $table->string('type', 255)->nullable();
             $table->string('purpose', 255)->nullable();
