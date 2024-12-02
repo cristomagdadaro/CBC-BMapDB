@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Role as RoleEnum;
 use App\Models\Location\City;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -47,11 +48,17 @@ class BaseModel extends Model
 
     public function scopeOwnedBy(Builder $query, $user)
     {
-        // If admin, show all records; otherwise, filter by user
-        if (!$user->isAdmin()) {
+        // If no user is provided, return no records (or handle as required)
+        if (!$user) {
+            return $query->whereRaw('1 = 0'); // No records
+        }
+
+        // If the user is not an admin or does not have the RESEARCHER role
+        if (!$user->isAdmin() && !$user->hasRole(RoleEnum::RESEARCHER->value)) {
             $query->where('user_id', $user->id);
         }
 
         return $query;
     }
+
 }

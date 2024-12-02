@@ -65,7 +65,7 @@ import InfoPageLinks from "@/Pages/Support/components/InfoPageLinks.vue";
             </div>
         </template>
         <template #privacyNotice>
-            <div class="flex justify-center gap-2 sm:gap-5 resp-container px-2 py-2 text-center sm:text-sm text-[0.6rem] font-light text-gray-100">
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-5 resp-container px-2 py-2 text-center sm:text-sm text-[0.6rem] font-light text-gray-100">
                 <info-page-links />
             </div>
         </template>

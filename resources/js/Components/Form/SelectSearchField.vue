@@ -52,9 +52,10 @@ export default {
                 page,
                 //...(this.modelValue ? { filter: 'id' } : {})
             });
+
             if (this.fetchedResponse instanceof BaseResponse){
-                if (this.fetchedResponse.data.length)
-                this.formattedOptions = this.fetchedResponse.data.map(option => ({
+                if (this.fetchedResponse.data && this.fetchedResponse.data.data.length)
+                this.formattedOptions = this.fetchedResponse.data.data.map(option => ({
                     value: option.id,
                     label: option.name || option.title || option.label || option.value || this.fullnameOption(option)
                 }));

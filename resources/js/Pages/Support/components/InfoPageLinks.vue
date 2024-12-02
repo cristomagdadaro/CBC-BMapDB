@@ -20,7 +20,7 @@ export default {
 </script>
 
 <template>
-    <Link v-for="link in links" :key="link.name" :href="route(link.route)" :class="{ active: route().current(link.route) }" class="info-page-link text-normal">{{ link.name }}</Link>
+    <Link v-for="link in links" :key="link.name" :href="route(link.route)" :class="{ active: route().current(link.route) }" class="info-page-link sm:text-sm text-[0.8rem]">{{ link.name }}</Link>
 </template>
 
 <style scoped>

@@ -79,20 +79,20 @@ export default {
     <page-layout>
         <green-waves />
         <public-page-section :animation="false">
-            <div id="bm-welcome-box"  class="text-dark-color bg-gray-100 flex flex-col sm:gap-1 gap-3 p-4 sm:p-6 sm:text-left text-justify drop-shadow-lg rounded-md">
+            <div id="bm-welcome-box"  class="text-light-color flex flex-col sm:gap-1 gap-3 py-4 sm:py-6 sm:text-left text-justify drop-shadow-lg">
                 <div class="flex items-center gap-2 justify-between text-subtitle">
                     <div class="flex items-center gap-2">
-                        <span>Welcome to the Breeders' Map</span>
+                        <span>Plant Breeders' Map</span>
                         <info-icon @click="fadeIn" class="w-4 md:w-5 xl:w-6 h-auto cursor-pointer active:scale-90 duration-200" />
                     </div>
-                    <button id="bm-qg-start" @click="fadeIn" class="bg-cbc-dark-green text-light-color rounded py-1 px-2 text-sm z-[999]">Quick Guide?</button>
+                    <button id="bm-qg-start" @click="fadeIn" class="bg-cbc-yellow text-dark-color py-1 px-2 text-normal z-[999]">Quick Guide?</button>
                 </div>
                 <div ref="fadeOutElement" >
                     <p class="text-normal">
                         This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
                     </p>
                     <p class="text-normal">
-                        For a more comprehensive information, <Link :href="route('register')" class="underline font-medium uppercase hover:text-cbc-dark-green">register now</Link> to access the full features of the Breeders' Map.
+                        For a more comprehensive information, <Link :href="route('register')" class="underline font-medium uppercase hover:text-cbc-yellow">register now</Link> to access the full features of the Breeders' Map.
                     </p>
                 </div>
             </div>

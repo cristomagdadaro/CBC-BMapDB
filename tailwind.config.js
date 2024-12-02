@@ -15,7 +15,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Roboto', ...defaultTheme.fontFamily.sans],
+                sans: ['Helvetica', ...defaultTheme.fontFamily.sans],
             },
             fontSize: {
                 'xs': '.75rem',

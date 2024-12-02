@@ -44,6 +44,7 @@ export default class ApiService implements IApiService
             const response = await axios.get(this.baseUrl, {
                 params: params
             });
+            console.log(response);
             if (model) {
                 if (response && response.data){
                     if (response.data.data){

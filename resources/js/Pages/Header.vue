@@ -61,10 +61,10 @@ const supportLinks = [
                         Support
                     </template>
                     <template #content>
-                        <tab-link link="dacbc.philrice.gov.ph" class="text-gray-700">
+                        <tab-link link="https://dacbc.philrice.gov.ph" external-link class="text-gray-700">
                             About Us
                         </tab-link>
-                        <tab-link link="cbc360tour.philrice.gov.ph" class="text-gray-700">
+                        <tab-link link="https://cbc360tour.philrice.gov.ph" external-link class="text-gray-700">
                             Visit Us
                         </tab-link>
                         <tab-link v-for="link in supportLinks" :key="link.link" :link="route(link.link)" class="text-gray-700">

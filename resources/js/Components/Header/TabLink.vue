@@ -11,6 +11,11 @@ export default {
             required: false,
             default: '#',
         },
+        externalLink: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
         sublinks: {
             type: Boolean,
             required: false,
@@ -46,7 +51,8 @@ export default {
 </script>
 <template>
     <div v-if="!sublinks" class="flex text-gray-100 items-center hover:bg-cbc-yellow-green duration-400 ease-in-out">
-        <Link :href="link" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></Link>
+        <Link v-if="!externalLink" :href="link" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></Link>
+        <a v-else :href="link" target="_blank" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></a>
     </div>
     <div v-else class="flex items-center hover:bg-cbc-yellow-green duration-400 ease-in-out" @mouseleave="closeDropdown()">
         <div>

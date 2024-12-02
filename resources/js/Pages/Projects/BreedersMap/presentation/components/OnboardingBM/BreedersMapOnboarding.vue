@@ -107,6 +107,13 @@ export default defineComponent({
                 }
             },
             {
+                attachTo: { element: '#bm-data-map' },
+                content: {
+                    title: "Visualize Data with Maps",
+                    description: "Use interactive charts to easily interpret breeder and crop data at a glance."
+                }
+            },
+            {
                 attachTo: { element: '#bm-coloropacity-slider' },
                 content: {
                     title: "Adjust Chart Opacity",

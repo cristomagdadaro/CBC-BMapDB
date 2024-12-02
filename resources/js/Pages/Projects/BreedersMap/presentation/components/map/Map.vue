@@ -30,9 +30,12 @@ import BaseClass from "@/Modules/core/domain/base/BaseClass";
 import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 import DataFiltrationFields
     from "@/Pages/Projects/BreedersMap/presentation/components/map/components/DataFiltrationFields.vue";
+import BreedersMapOnboarding
+    from "@/Pages/Projects/BreedersMap/presentation/components/OnboardingBM/BreedersMapOnboarding.vue";
 
 export default {
     components: {
+        BreedersMapOnboarding,
         DataFiltrationFields,
         TransitionContainer,
         FullscreenToggle,
@@ -266,6 +269,7 @@ export default {
 
 <template>
     <div v-if="mapApi && canView" class="flex gap-1 justify-end">
+        <breeders-map-onboarding />
         <top-action-btn @click="refreshData" class="bg-add text-normal py-2" title="Export data">
             <template v-if="processing" #icon>
                 <loader-icon class="h-auto sm:w-6 w-4" />
@@ -297,6 +301,7 @@ export default {
            </template>
             <div class="w-full flex gap-1">
                 <search-box
+                    id="bm-search-box"
                     :value="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : ''"
                     :options="newData"
                     :label="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : 'Select a place'"
@@ -305,7 +310,8 @@ export default {
                     @focusin="showListOfPlaces = true"
                     class="w-full"
                 />
-                <search-by :value="mapApi.request.getFilter"
+                <search-by id="bm-columnsfilter-dropdown"
+                           :value="mapApi.request.getFilter"
                            :is-exact="mapApi.request.getIsExact"
                            :options="Commodity.getColumns().map(column => {
                                  return {
@@ -345,7 +351,7 @@ export default {
                 </div>
             </div>
         </div>
-        <div ref="mapContainer" class="w-full flex gap-2 relative mt-1">
+        <div ref="mapContainer" id="bm-data-map" class="w-full flex gap-2 relative mt-1">
             <l-map
                 ref="map"
                 :use-global-leaflet="true"

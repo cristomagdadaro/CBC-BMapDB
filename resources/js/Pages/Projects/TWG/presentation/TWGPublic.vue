@@ -69,9 +69,10 @@ export default {
                                    :is-exact="apiService.request.getIsExact"
                                    :options="[]"
                                    @isExact="apiService.isExactFilter({ is_exact: $event })"
-                                   @searchBy="apiService.filterByColumn({ column: $event })"/>
+                                   @searchBy=""/>
                         <search-box />
                     </div>
+                    {{ data }}
                     <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2  grid-cols-1 justify-evenly gap-2">
                         <TWGCard v-for="item in data" :data="item" />
                     </div>

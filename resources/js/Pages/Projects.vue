@@ -47,7 +47,7 @@ export default {
                     <p class="text-title">
                         Welcome to
                         <br class="block sm:hidden" />
-                        <span class="text-cbc-dark-green">P</span>lant Breeders <span class="text-cbc-dark-green">I</span>nnovation
+                        <span class="text-cbc-dark-green">P</span>lant Breeders and <span class="text-cbc-dark-green">I</span>nnovators
                         <span class="text-cbc-dark-green">N</span>etwork System
                     </p>
                     <p class="paragraph-text-normal">
@@ -58,13 +58,13 @@ export default {
             <public-page-section>
                 <bm-overview-map />
             </public-page-section>
-            <public-page-section class="bg-gray-200">
+            <public-page-section class="bg-gray-200 py-10">
                 <bm-priority-com />
             </public-page-section>
             <public-page-section>
                 <bm-database-list />
             </public-page-section>
-            <public-page-section class="bg-gray-200">
+            <public-page-section class="bg-gray-200 py-10">
                 <bm-collaborators />
             </public-page-section>
         </div>
