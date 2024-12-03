@@ -26,7 +26,7 @@ const supportLinks = [
 <template>
     <header-layout :active="route().current('dashboard')">
         <template #icon>
-            <Logo classes="sm:h-18 h-16 w-auto"/>
+            <Logo />
         </template>
         <template #subtitle>
             {{ $page.props.companyName }}

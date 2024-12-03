@@ -14,7 +14,7 @@ export default {
 
 <template>
     <h3 class="text-subtitle text-center text-dark-color">
-        Breeders' Map Overview
+        Plant Breeders Map Overview
     </h3>
     <div class="flex flex-col-reverse select-none sm:flex-row justify-between items-center gap-5 text-center sm:text-left">
         <div v-if="hoveredData" class="text-gray-900">

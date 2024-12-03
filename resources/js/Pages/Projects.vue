@@ -45,11 +45,11 @@ export default {
         <green-waves />
 <!--        <div class="flex flex-col gap-10 sm:gap-16 md:gap-22 lg:gap-26 xl:gap-32 w-full bg-transparent">-->
         <div class="grid grid-cols-1 grid-rows-6 w-full bg-transparent">
-            <public-page-section class="flex items-center justify-center">
+            <public-page-section class="flex items-center">
                 <div class="flex relative items-end">
                     <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 sm:text-left text-center drop-shadow-lg rounded-md">
                         <div class="text-title leading-tight">
-                            <div class="text-2xl font-light">Welcome to</div>
+                            <div class="sm:text-2xl text-lg  font-light">Welcome to</div>
                             <div class="leading-tight">
                                 <div>
                                     <span class="text-cbc-olive-green drop-shadow">P</span>lant&nbsp;Breeders and
@@ -64,19 +64,23 @@ export default {
                             This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
                         </p>
                     </div>
-                    <top-leaf class="w-3/4 h-[33rem] drop-shadow-lg" />
                 </div>
             </public-page-section>
-            <public-page-section>
+            <public-page-section class="flex items-center">
+                <div>
+                    <img src="/img/logos/pbmap-lg.png" alt="Plant Breeders Map Database Logo"/>
+                </div>
+            </public-page-section>
+            <public-page-section class="flex items-center">
                 <bm-overview-map />
             </public-page-section>
-            <public-page-section class="bg-gray-200 py-10">
+            <public-page-section class="flex items-center bg-gray-200 py-10">
                 <bm-priority-com />
             </public-page-section>
-            <public-page-section>
+            <public-page-section class="flex items-center">
                 <bm-database-list />
             </public-page-section>
-            <public-page-section class="bg-gray-200 py-10">
+            <public-page-section class="flex items-center bg-gray-200 py-10">
                 <bm-collaborators />
             </public-page-section>
         </div>

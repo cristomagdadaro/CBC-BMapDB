@@ -70,10 +70,10 @@ const classes = computed(() => {
                     >
                         <slot name="icon"></slot>
                         <div class="flex flex-col max-w-fit">
-                            <span class="text-xs lg:text-sm uppercase whitespace-nowrap tracking-[0.2rem] leading-tight">
+                            <span class="text-[0.4rem] lg:text-sm uppercase whitespace-nowrap tracking-[0.2rem] overflow-x-hidden leading-tight">
                                 <slot name="subtitle"></slot>
                             </span>
-                            <span class="text-normal font-bold whitespace-nowrap uppercase leading-[1]">
+                            <span class="text-[0.7rem] font-bold whitespace-nowrap uppercase leading-[1] overflow-x-hidden">
                                 <slot name="title"></slot>
                             </span>
                         </div>

@@ -31,7 +31,7 @@ export default {
 
 <template>
     <div class="z-10">
-        <div v-if="animation" class="public-page-section my-1 resp-container">
+        <div v-if="animation" class="public-page-section my-1 resp-container w-full py-5">
             <slot />
         </div>
         <div v-else class="my-1 resp-container">

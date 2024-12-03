@@ -1,5 +1,5 @@
 // @ts-ignore
-import TWGLogo from "../../../public/img/twg-db-logo.png";
+import TWGLogo from "../../../public/img/logos/biotwg.png";
 // @ts-ignore
 import BreedersMapLogo from "../../../public/img/breeders-map-logo.png";
 import { JavascriptErrorResponse, ForbiddenErrorResponse, ValidationErrorResponse, NotFoundErrorResponse, ServerErrorResponse } from "@/Modules/core/domain/response/index";
@@ -32,12 +32,12 @@ export const CBCProjects = [
 export const CBCProjectsPublic = [
     {
         id: 1,
-        label: "Breeders' Map",
+        label: "Plant Breeders Map",
         value: 'projects.breedersmap.public',
     },
     {
         id: 2,
-        label: 'TWG Database',
+        label: 'Biotech TWG Database',
         value: 'projects.twgdb.public',
     },
 ]
