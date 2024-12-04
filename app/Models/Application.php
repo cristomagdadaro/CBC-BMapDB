@@ -12,6 +12,9 @@ class Application extends BaseModel
 
     protected $table = 'applications';
 
+    protected $ignoreUserBasedFiltratration = true;
+
+
     protected $fillable = [
         'name',
         'description',

@@ -13,6 +13,8 @@ class BaseModel extends Model
 {
     protected $table = null;
 
+    protected $ignoreUserBasedFiltratration = false;
+
     protected array $searchable = [];
 
     protected array $notifMessage = [];
@@ -48,6 +50,9 @@ class BaseModel extends Model
 
     public function scopeOwnedBy(Builder $query, $user)
     {
+        if ($this->ignoreUserBasedFiltratration)
+            return $query;
+
         // If no user is provided, return no records (or handle as required)
         if (!$user) {
             return $query->whereRaw('1 = 0'); // No records

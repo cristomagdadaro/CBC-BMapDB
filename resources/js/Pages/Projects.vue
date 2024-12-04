@@ -66,20 +66,51 @@ export default {
                 </div>
             </public-page-section>
             <public-page-section class="flex items-center">
-                <div>
-                    <img src="/img/logos/pbmap-lg.png" alt="Plant Breeders Map Database Logo"/>
+                <p class="text-subtitle text-center text-dark-color">
+                    {{ $page.props.companyName }}
+                </p>
+                <p class="text-normal text-center text-dark-color">
+                    Stay tuned for more biotechnology related database coming soon
+                </p>
+                <img src="/img/bg2.png"  alt="DA-CBC Building"/>
+            </public-page-section>
+            <public-page-section class="flex items-center bg-gray-200">
+                <div class="flex justify-between">
+                    <Link :href="route(Object.values(CBCProjectsPublic)[0].value)">
+                        <img class="w-[75%] h-auto min-w-[10rem]" src="/img/logos/pbmap-lg.png" alt="Plant Breeders Map Database Logo"/>
+                    </Link>
+                    <div class="flex flex-col justify-center">
+                        <Link :href="route(Object.values(CBCProjectsPublic)[0].value)" class="text-subtitle text-dark-color">
+                            {{ Object.values(CBCProjectsPublic)[0].label }}
+                        </Link>
+                        <p class="text-normal text-dark-color">
+                            {{ Object.values(CBCProjectsPublic)[0].description }}
+                        </p>
+                    </div>
                 </div>
             </public-page-section>
-            <public-page-section class="flex items-center">
+            <public-page-section class="flex items-center py-10">
                 <bm-overview-map />
             </public-page-section>
             <public-page-section class="flex items-center bg-gray-200 py-10">
                 <bm-priority-com />
             </public-page-section>
-            <public-page-section class="flex items-center">
+            <public-page-section class="flex items-center text-center">
+                <div class="flex flex-col gap-5 justify-between items-center">
+                    <Link class="h-auto w-[40%] min-w-[20rem]" :href="route(Object.values(CBCProjectsPublic)[1].value)">
+                        <img src="/img/logos/biotwg-lg.png" alt="Plant Breeders Map Database Logo"/>
+                    </Link>
+                    <p class="text-normal text-dark-color">
+                        {{ Object.values(CBCProjectsPublic)[1].description }}
+                    </p>
+                </div>
+            </public-page-section>
+        </div>
+        <div class="grid grid-cols-1 grid-rows-2 w-full bg-transparent">
+            <public-page-section class="flex items-center bg-gray-200">
                 <bm-database-list />
             </public-page-section>
-            <public-page-section class="flex items-center bg-gray-200 py-10">
+            <public-page-section class="flex items-center py-10">
                 <bm-collaborators />
             </public-page-section>
         </div>

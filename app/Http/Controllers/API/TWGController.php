@@ -38,8 +38,12 @@ class TWGController extends BaseController
                 $join->on('twg_expert.id', '=', 'twg_project.twg_expert_id')
                     ->whereNull('twg_project.deleted_at');
             })
+            ->leftJoin('institutes', function($join) {
+                $join->on('institutes.id', '=', 'users.affiliation')
+                    ->whereNull('institutes.deleted_at');
+            })
             ->groupBy('users.affiliation')
-            ->selectRaw('users.affiliation, COUNT(DISTINCT twg_expert.id) as experts, COUNT(DISTINCT twg_product.id) as products, COUNT(DISTINCT twg_project.id) as projects, COUNT(DISTINCT twg_service.id) as services')
+            ->selectRaw('institutes.name as affiliation, COUNT(DISTINCT twg_expert.id) as experts, COUNT(DISTINCT twg_product.id) as products, COUNT(DISTINCT twg_project.id) as projects, COUNT(DISTINCT twg_service.id) as services')
             ->get();
 
         return new BaseCollection($data);

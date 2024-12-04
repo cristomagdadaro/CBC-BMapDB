@@ -10,6 +10,8 @@ class Role extends BaseModel
 
     protected $table = 'roles';
 
+    protected $ignoreUserBasedFiltratration = true;
+
     protected $fillable = [
         'name',
         'guard_name',

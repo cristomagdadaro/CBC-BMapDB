@@ -1,7 +1,7 @@
 // @ts-ignore
 import TWGLogo from "../../../public/img/logos/biotwg.png";
 // @ts-ignore
-import BreedersMapLogo from "../../../public/img/breeders-map-logo.png";
+import BreedersMapLogo from "../../../public/img/logos/pbmap-sm.png";
 import { JavascriptErrorResponse, ForbiddenErrorResponse, ValidationErrorResponse, NotFoundErrorResponse, ServerErrorResponse } from "@/Modules/core/domain/response/index";
 
 export const ErrorResponse  = [
@@ -15,14 +15,14 @@ export const ErrorResponse  = [
 export const CBCProjects = [
     {
         id: 3,
-        label: 'TWG Database',
+        label: 'Biotech TWG Database',
         icon: TWGLogo,
         value: 'projects.twg.index',
         show: true,
     },
     {
         id: 4,
-        label: "Breeders' Map",
+        label: "Plant Breeders Map",
         icon: BreedersMapLogo,
         value: 'projects.breedersmap.index',
         show: true,
@@ -34,11 +34,13 @@ export const CBCProjectsPublic = [
         id: 1,
         label: "Plant Breeders Map",
         value: 'projects.breedersmap.public',
+        description: "Centralized repository for crop biotechnology commodities"
     },
     {
         id: 2,
         label: 'Biotech TWG Database',
         value: 'projects.twgdb.public',
+        description: "A robust database system for biotechnology related projects"
     },
 ]
 
