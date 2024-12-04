@@ -10,5 +10,5 @@
     }
 </script>
 <template>
-    <img src="/img/logos/pin.v2.png" alt="Crop Biotechnology Center Logo" :class="classes">
+    <img src="/img/logos/pin.webp" alt="Crop Biotechnology Center Logo" :class="classes">
 </template>

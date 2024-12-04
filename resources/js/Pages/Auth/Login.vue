@@ -45,14 +45,12 @@ function onSignIn(googleUser) {
                 <AuthenticationCard class="min-h-[90vh]">
                     <div class="relative grid sm:grid-cols-2 grid-rows-1 items-center">
                         <div class="drop-shadow-lg select-none text-gray-50 flex flex-col w-full z-50 sm:text-left text-center">
-                        <span class="text-lg leading-relaxed">
-                            Login to
-                        </span>
+                            <span class="text-lg leading-relaxed">Login to</span>
                             <span class="font-bold sm:text-3xl text-2xl leading-tight">
-                            <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
-                            <span class="text-cbc-dark-green">I</span>nnovation
-                             <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
-                        </span>
+                                <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
+                                <span class="text-cbc-dark-green">I</span>nnovation
+                                <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
+                            </span>
                         </div>
                         <div class="bg-cbc-dark-green sm:p-3 sm:px-5 p-4 shadow-lg rounded-md sm:min-w-[15rem] min-w-full">
                             <div v-if="status" class="mb-4 font-medium text-sm">

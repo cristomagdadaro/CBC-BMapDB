@@ -18,6 +18,16 @@ class BreedersCrudTest extends TestCase
     }
 
     /** @test **/
+    public function get_all_public_breeders(): void
+    {
+        $this->userSetup();
+        $response = $this->getJson('/api/public/breeders/summary?is_exact=true&filter=name&geo_location_filter=region&filter_by_parent_column=breeder_id');
+        $response->assertStatus(200);
+        print_r($response);
+        $this->assertEquals(15, $response['meta']['total']);
+    }
+
+    /** @test **/
     public function get_a_specific_breeder(): void
     {
         $this->userSetup();

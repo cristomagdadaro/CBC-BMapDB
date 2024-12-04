@@ -2,7 +2,7 @@
 import HeaderLayout from '@/Layouts/HeaderLayout.vue';
 import TabLink from '@/Components/Header/TabLink.vue';
 import Logo from '@/Components/Icons/Logo.vue';
-import {CBCProjectsPublic} from "@/Pages/constants.ts";
+import {appName, CBCProjectsPublic, companyName} from "@/Pages/constants.ts";
 
 defineProps({
     canLogin: Boolean,
@@ -29,10 +29,10 @@ const supportLinks = [
             <Logo />
         </template>
         <template #subtitle>
-            {{ $page.props.companyName }}
+            {{ companyName }}
         </template>
         <template #title>
-            {{ $page.props.appName }}
+            {{ appName }}
         </template>
         <template #links>
             <ul class="lg:flex sm:gap-2">

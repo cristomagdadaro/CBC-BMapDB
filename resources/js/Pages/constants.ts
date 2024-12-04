@@ -1,8 +1,12 @@
 // @ts-ignore
-import TWGLogo from "../../../public/img/logos/biotwg.png";
+import TWGLogo from "../../../public/img/logos/biotwg.webp";
 // @ts-ignore
-import BreedersMapLogo from "../../../public/img/logos/pbmap-sm.png";
+import BreedersMapLogo from "../../../public/img/logos/pbmap.webp";
 import { JavascriptErrorResponse, ForbiddenErrorResponse, ValidationErrorResponse, NotFoundErrorResponse, ServerErrorResponse } from "@/Modules/core/domain/response/index";
+
+export const appName = "Plant Breeders and Innovators Network"
+export const companyName = "DA-Crop Biotechnology Center"
+
 
 export const ErrorResponse  = [
     ValidationErrorResponse,
@@ -34,13 +38,13 @@ export const CBCProjectsPublic = [
         id: 1,
         label: "Plant Breeders Map",
         value: 'projects.breedersmap.public',
-        description: "Centralized repository for crop biotechnology commodities"
+        description: "Centralized repository for crop biotechnology commodities, providing essential data and resources in one accessible platform. It includes comprehensive information on germplasm, genetic traits, NSIC registrations, plant variety protections, and GM regulatory approvals. This tool empowers breeders and researchers to drive innovation, improve crop productivity, and promote sustainable agriculture."
     },
     {
         id: 2,
         label: 'Biotech TWG Database',
         value: 'projects.twgdb.public',
-        description: "A robust database system for biotechnology related projects"
+        description: "A robust system designed to manage and organize biotechnology-related projects efficiently. It serves as a centralized hub for storing, tracking, and accessing essential data from various technical working groups. This database enhances collaboration, streamlines project monitoring, and supports informed decision-making in the field of biotechnology."
     },
 ]
 
@@ -49,11 +53,11 @@ export const Projects = [
     {
         id: 1,
         value: 'projects.twg.index', // router name of the project
-        label: 'TWG Database',
+        label: 'Biotech TWG Database',
     },{
         id: 2,
         value: 'projects.breedersmap.index',
-        label: "Breeders' Map",
+        label: "Plant Breeders Map",
     }
 ]
 

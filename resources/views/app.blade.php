@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta
             name="keywords"
-            content="Crop Biotechnology Center,rice area, yield estimate, planting dates, SOS, flood and drought assessment, damage assessment, information technology, rice mapping, rice monitoring, remote sensing, crop modeling, field monitoring, ground truthing"
+            content="DA-Crop Biotechnology Center,rice area, yield estimate, planting dates, SOS, flood and drought assessment, damage assessment, information technology, rice mapping, rice monitoring, remote sensing, crop modeling, field monitoring, ground truthing"
         />
         <meta name="author" content="Department of Agriculture - Crop Biotechnology Center (DA-CBC)" />
         <meta
             name="description"
-            content="Crop Biotechnology Center is the first rice monitoring system in Southeast Asia that uses satellite imagery and Information and Communication Technology (ICT). It generates information on planted rice area, yield, and rice areas at risk and affected by flood and drought. Through its data products, PRiSM supports the Department of Agriculture in its strategic planning, decision-making, development project implementation, and disaster preparedness."
+            content="DA-Crop Biotechnology Center is the first rice monitoring system in Southeast Asia that uses satellite imagery and Information and Communication Technology (ICT). It generates information on planted rice area, yield, and rice areas at risk and affected by flood and drought. Through its data products, PRiSM supports the Department of Agriculture in its strategic planning, decision-making, development project implementation, and disaster preparedness."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-signin-client_id" content="605043117472-0nk2ffvrtcrgu7122k1jghtn9a7f4duo.apps.googleusercontent.com">

@@ -9,6 +9,7 @@ import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import InfoIcon from "@/Components/Icons/InfoIcon.vue";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
+import {CBCProjectsPublic} from "../../../constants";
 
 export default {
     computed: {
@@ -52,6 +53,9 @@ export default {
         }
     },
     methods: {
+        CBCProjectsPublic() {
+            return CBCProjectsPublic
+        },
         fadeOut() {
             setTimeout(() => {
                 const element = this.$refs.fadeOutElement;
@@ -79,10 +83,10 @@ export default {
     <page-layout>
         <green-waves />
         <public-page-section :animation="false">
-            <div id="bm-welcome-box"  class="text-light-color flex flex-col sm:gap-1 gap-3 py-4 sm:py-6 sm:text-left text-justify drop-shadow-lg">
+            <div id="bm-welcome-box"  class="flex flex-col sm:gap-1 gap-3 p-4 bg-white sm:text-left text-justify drop-shadow">
                 <div class="flex items-center gap-2 justify-between text-subtitle">
                     <div class="flex items-center gap-2">
-                        <span>Plant Breeders' Map</span>
+                        <span>{{ Object.values(CBCProjectsPublic())[0].label }}</span>
                         <info-icon @click="fadeIn" class="w-4 md:w-5 xl:w-6 h-auto cursor-pointer active:scale-90 duration-200" />
                     </div>
                     <button id="bm-qg-start" @click="fadeIn" class="bg-cbc-yellow text-dark-color py-1 px-2 text-normal z-[999]">Quick Guide?</button>

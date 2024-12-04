@@ -268,7 +268,7 @@ export default {
 </script>
 
 <template>
-    <div v-if="mapApi && canView" class="flex gap-1 justify-end">
+    <div v-if="mapApi && canView" class="flex gap-1 justify-end hidden">
         <breeders-map-onboarding />
         <top-action-btn @click="refreshData" class="bg-add text-normal py-2" title="Export data">
             <template v-if="processing" #icon>

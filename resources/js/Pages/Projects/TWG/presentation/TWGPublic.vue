@@ -60,10 +60,10 @@ export default {
             <div class="drop-shadow-md flex flex-col gap-5 shadow-lg bg-cbc-yellow mb-10 rounded-md sm:gap-1 sm:p-8 p-5 sm:text-left text-center">
                 <div class="text-cbc-brown">
                     <h1 class="text-subtitle leading-relaxed font-medium font-monospace">
-                        Welcome to the {{ Object.values(CBCProjectsPublic())[1].label }}
+                       {{ Object.values(CBCProjectsPublic())[1].label }}
                     </h1>
                     <p class="text-normal text-justify">
-                        This centralized repository houses comprehensive information on biotechnology-related funded projects undertaken by different institutes, state universities, and regional field offices. Explore this database to access valuable insights, project details, and collaborative opportunities within the biotechnology research community.
+                        Note: These data may change
                     </p>
                 </div>
                 <div v-if="apiService" class="flex flex-col gap-3">

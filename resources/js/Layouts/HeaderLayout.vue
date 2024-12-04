@@ -40,25 +40,26 @@ const classes = computed(() => {
         <div class="relative flex flex-col resp-container w-full">
             <!-- Large screen navigation bar -->
             <div class="w-full relative lg:flex hidden">
-                <div class="flex justify-between w-full overflow-hidden">
+                <div class="flex flex-wrap justify-between items-center w-full overflow-hidden">
                     <!-- Branding Section -->
                     <Link :href="'/'"
-                        class="flex items-center max-w-fit hover:bg-gray-900 hover:bg-opacity-10 active:scale-95 duration-200 p-2 gap-1 rounded">
+                          class="flex items-center max-w-fit hover:bg-gray-900 hover:bg-opacity-10 active:scale-95 duration-200 p-2 gap-1 rounded">
                         <slot name="icon"></slot>
                         <div class="flex flex-col max-w-fit">
-                            <span class="text-sm uppercase whitespace-nowrap tracking-[0.2rem] leading-tight">
-                                <slot name="subtitle"></slot>
-                            </span>
-                            <span class=" text-[0.8rem] sm:text-[1rem] lg:text-[1.9rem] uppercase font-bold whitespace-nowrap leading-[1]">
-                                <slot name="title"></slot>
-                            </span>
+            <span class="text-sm uppercase whitespace-nowrap tracking-[0.2rem] leading-tight">
+                <slot name="subtitle"></slot>
+            </span>
+                            <span class="text-[0.8rem] sm:text-[1rem] lg:text-[1.5rem] uppercase font-bold whitespace-nowrap leading-[1]">
+                <slot name="title"></slot>
+            </span>
                         </div>
                     </Link>
                     <!-- Link Tabs Section -->
-                    <div class="flex">
+                    <div class="flex flex-wrap justify-end mt-2 sm:mt-0">
                         <slot name="links"></slot>
                     </div>
                 </div>
+
             </div>
             <!-- Small screen navigation bar -->
             <div class="w-full lg:hidden">
