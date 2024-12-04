@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\Role as RoleEnum;
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -185,6 +187,24 @@ class User extends Authenticatable
     public function affiliated(): BelongsTo
     {
         return $this->belongsTo(Institute::class, 'affiliation', 'id');
+    }
+
+    public function scopeOwnedBy(Builder $query, $user)
+    {
+        if ($this->ignoreUserBasedFiltratration)
+            return $query;
+
+        // If no user is provided, return no records (or handle as required)
+        if (!$user) {
+            return $query->whereRaw('1 = 0'); // No records
+        }
+
+        // If the user is not an admin or does not have the RESEARCHER role
+        if (!$user->isAdmin() && !$user->hasRole(RoleEnum::RESEARCHER->value)) {
+            $query->where('user_id', $user->id);
+        }
+
+        return $query;
     }
 
 }

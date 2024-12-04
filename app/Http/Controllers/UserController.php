@@ -14,9 +14,6 @@ use Illuminate\Support\Collection;
 
 class UserController extends BaseController
 {
-
-    protected UserRepo $userRepository;
-
     public function __construct(UserRepo $userRepository)
     {
         $this->service = $userRepository;
