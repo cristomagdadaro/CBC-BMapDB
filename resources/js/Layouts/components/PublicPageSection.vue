@@ -31,10 +31,10 @@ export default {
 
 <template>
     <div class="z-10">
-        <div v-if="animation" class="public-page-section my-1 resp-container w-full py-5">
+        <div v-if="animation" class="public-page-section resp-container py-8 w-full">
             <slot />
         </div>
-        <div v-else class="my-1 resp-container">
+        <div v-else class="resp-container">
             <slot />
         </div>
     </div>

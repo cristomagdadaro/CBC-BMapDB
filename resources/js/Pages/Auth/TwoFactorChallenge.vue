@@ -44,8 +44,9 @@ const submit = () => {
     <Head title="Two-factor Confirmation" />
     <page-layout>
         <green-waves />
-        <public-page-section>
-            <AuthenticationCard class="min-h-[80vh]">
+        <div class="grid grid-cols-1 w-full bg-transparent">
+            <public-page-section class="flex items-center justify-center">
+                <AuthenticationCard class="min-h-[90vh]">
                 <div class="mb-4 text-normal text-gray-600">
                     <template v-if="! recovery">
                         Please confirm access to your account by entering the authentication code provided by your authenticator application.
@@ -101,7 +102,8 @@ const submit = () => {
                         </PrimaryButton>
                     </div>
                 </form>
-            </AuthenticationCard>
-        </public-page-section>
+                </AuthenticationCard>
+            </public-page-section>
+        </div>
     </page-layout>
 </template>

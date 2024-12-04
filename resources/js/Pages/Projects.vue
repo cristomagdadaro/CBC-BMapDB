@@ -43,7 +43,6 @@ export default {
     <Head :title="$page.props.appNameShort" />
     <page-layout>
         <green-waves />
-<!--        <div class="flex flex-col gap-10 sm:gap-16 md:gap-22 lg:gap-26 xl:gap-32 w-full bg-transparent">-->
         <div class="grid grid-cols-1 grid-rows-6 w-full bg-transparent">
             <public-page-section class="flex items-center">
                 <div class="flex relative items-end">

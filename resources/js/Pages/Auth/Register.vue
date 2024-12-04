@@ -82,8 +82,9 @@ onBeforeMount(async () => {
     <Head title="Register" />
     <page-layout>
         <green-waves />
-        <public-page-section>
-            <AuthenticationCard class="min-h-[80vh]">
+        <div class="grid grid-cols-1 w-full bg-transparent">
+            <public-page-section class="flex items-center justify-center">
+                <AuthenticationCard class="min-h-[90vh]">
                 <new-account-progress-view />
                 <div class="border-b pb-1 mb-2">
                     <h1 class="font-medium text-lg">Registration Form</h1>
@@ -132,7 +133,8 @@ onBeforeMount(async () => {
                         </PrimaryButton>
                     </div>
                 </form>
-            </AuthenticationCard>
-        </public-page-section>
+                </AuthenticationCard>
+            </public-page-section>
+        </div>
     </page-layout>
 </template>
