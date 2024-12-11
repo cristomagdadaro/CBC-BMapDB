@@ -52,7 +52,7 @@ export default {
         <div class="grid grid-cols-1 body-grid-rows w-full bg-transparent">
             <public-page-section class="flex items-center">
                 <div class="flex relative items-end">
-                    <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 sm:text-left text-center drop-shadow-lg rounded-md">
+                    <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
                         <div class="text-title leading-tight">
                             <div class="sm:text-2xl text-lg  font-light">Welcome to</div>
                             <div class="leading-tight">
@@ -74,12 +74,12 @@ export default {
             <public-page-section class="flex items-center text-center">
                 <div class="flex flex-col gap-5 justify-between items-center">
                     <Link class="flex items-center drop-shadow-lg" :href="'/'">
-                        <img src="/img/logos/pin.svg" class="h-auto w-[40%] min-w-[20rem]" alt="Plant Breeders Map Database Logo"/>
+                        <img src="/img/logos/pin.svg" class="h-auto w-[10rem] sm:w-[15rem] lg:w-[20rem] min-w-[40%]" alt="Plant Breeders Map Database Logo"/>
                     </Link>
                     <p class="text-normal text-dark-color">
                         This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
                     </p>
-                    <Link class="flex items-center h-auto w-[25%] min-w-[20rem] drop-shadow-lg" :href="'/'">
+                    <Link class="flex items-center h-auto w-[10rem] sm:w-[15rem] lg:w-[20rem] min-w-[40%] drop-shadow-lg" :href="'/'">
                         <img src="/img/logo-black.png" alt="Plant Breeders Map Database Logo"/>
                     </Link>
                 </div>
@@ -94,12 +94,12 @@ export default {
                 <img src="/img/bg2.png"  alt="DA-CBC Building"/>
             </public-page-section>
             <public-page-section class="flex items-center">
-                <div class="grid grid-cols-2 gap-10">
-                    <Link class="flex justify-end drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[0].value)">
-                        <img class="w-100 h-auto min-w-[10rem]" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo"/>
+                <div class="grid grid-rows-2 md:grid-cols-2 gap-2 md:gap-10">
+                    <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[0].value)">
+                        <img class="h-auto w-[5rem] sm:w-[15rem] lg:w-[20rem] min-w-[40%]" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo"/>
                     </Link>
-                    <div class="flex flex-col justify-center text-left">
-                        <Link :href="route(Object.values(CBCProjectsPublic)[0].value)" class="text-subtitle text-dark-color w-fit">
+                    <div class="flex flex-col justify-center text-center md:text-left">
+                        <Link :href="route(Object.values(CBCProjectsPublic)[0].value)" class="text-subtitle text-dark-color">
                             {{ Object.values(CBCProjectsPublic)[0].label }}
                         </Link>
                         <p class="text-normal text-dark-color text-justify">

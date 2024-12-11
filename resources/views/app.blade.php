@@ -11,6 +11,7 @@
             name="description"
             content="DA-Crop Biotechnology Center is the first rice monitoring system in Southeast Asia that uses satellite imagery and Information and Communication Technology (ICT). It generates information on planted rice area, yield, and rice areas at risk and affected by flood and drought. Through its data products, PRiSM supports the Department of Agriculture in its strategic planning, decision-making, development project implementation, and disaster preparedness."
         />
+        <meta name="google-site-verification" content="ZrD_iUGZg325WPHfCGqb7gySTuljzzaFlh1Zq3UdkJk" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-signin-client_id" content="605043117472-0nk2ffvrtcrgu7122k1jghtn9a7f4duo.apps.googleusercontent.com">
         <title inertia>{{ config('app.name', 'Laravel') }}</title>

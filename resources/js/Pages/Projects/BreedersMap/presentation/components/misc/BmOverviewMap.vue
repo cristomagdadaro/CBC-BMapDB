@@ -27,7 +27,7 @@ export default {
             </span>
             <Link :href="route('projects.breedersmap.public')" class="text-cbc-dark-green underline">click here to view the full map</Link>
         </div>
-        <philippine-map-outline class="max-w-[10rem] sm:max-w-[20vw] min-w-[7rem] drop-shadow-lg" @hovered="hoveredData = $event" @mouseleave="hoveredData = null"/>
+        <philippine-map-outline class="max-w-[30rem] drop-shadow-lg" @hovered="hoveredData = $event" @mouseleave="hoveredData = null"/>
     </div>
 </template>
 
