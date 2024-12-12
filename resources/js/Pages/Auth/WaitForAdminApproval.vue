@@ -4,7 +4,6 @@ import {Head, Link} from "@inertiajs/vue3";
 import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
-import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 </script>
 

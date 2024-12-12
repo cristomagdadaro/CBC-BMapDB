@@ -79,7 +79,7 @@ export default {
                     <p class="text-normal text-dark-color">
                         This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
                     </p>
-                    <Link class="flex items-center h-auto w-[10rem] sm:w-[15rem] lg:w-[20rem] min-w-[40%] drop-shadow-lg" :href="'/'">
+                    <Link class="flex items-center h-auto w-[10rem] sm:w-[15rem] lg:w-[20rem] min-w-[15%] drop-shadow-lg" :href="'/'">
                         <img src="/img/logo-black.png" alt="Plant Breeders Map Database Logo"/>
                     </Link>
                 </div>
@@ -94,7 +94,7 @@ export default {
                 <img src="/img/bg2.png"  alt="DA-CBC Building"/>
             </public-page-section>
             <public-page-section class="flex items-center">
-                <div class="grid grid-rows-2 md:grid-cols-2 gap-2 md:gap-10">
+                <div class="grid grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 gap-2 md:gap-5">
                     <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[0].value)">
                         <img class="h-auto w-[5rem] sm:w-[15rem] lg:w-[20rem] min-w-[40%]" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo"/>
                     </Link>
