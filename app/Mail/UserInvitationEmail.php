@@ -44,7 +44,7 @@ class UserInvitationEmail extends Mailable
             markdown: 'emails.user-invitation',
             with: [
                 'name' => $this->name,
-                'acceptUrl' => "http://localhost:8000/newuser/verification/accept",
+                'acceptUrl' => "http://pin.philrice.gov.ph/newuser/verification/accept",
             ]
         );
     }

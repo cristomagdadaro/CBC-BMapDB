@@ -11,7 +11,7 @@ class BreedersCrudTest extends TestCase
     public function get_all_breeders(): void
     {
         $this->userSetup();
-        $response = $this->getJson('/api/accounts?page=1&per_page=10&sort=id&order=asc&search=Cristo');
+        $response = $this->getJson('/api/breeders/summary?is_exact=true&filter=name&geo_location_filter=region');
         $response->assertStatus(200);
 
         $this->assertEquals(15, $response['meta']['total']);

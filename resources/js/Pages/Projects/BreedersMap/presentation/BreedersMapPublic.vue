@@ -79,7 +79,7 @@ export default {
 </script>
 
 <template>
-    <Head title="Breeders' Map" />
+    <Head title="Plant Breeders Map" />
     <page-layout>
         <green-waves />
         <public-page-section :animation="false">
@@ -96,7 +96,7 @@ export default {
                         This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
                     </p>
                     <p class="text-normal">
-                        For a more comprehensive information, <Link :href="route('register')" class="underline font-medium uppercase hover:text-cbc-yellow">register now</Link> to access the full features of the Breeders' Map.
+                        For a more comprehensive information, <Link :href="route('register')" class="underline font-medium uppercase hover:text-cbc-yellow">register now</Link> to access the full features of PIN.
                     </p>
                 </div>
             </div>

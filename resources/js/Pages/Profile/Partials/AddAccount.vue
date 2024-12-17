@@ -91,11 +91,11 @@ export default {
                             :options="[
                                 {
                                     name: 1,
-                                    label: 'TWG Database'
+                                    label: 'Biotech TWG Database'
                                 },
                                 {
                                     name: 2,
-                                    label:'Breeders\' Map',
+                                    label:'Plant Breeders Map',
                                 }
                             ]"
                         />

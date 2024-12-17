@@ -53,7 +53,7 @@ export default {
 </script>
 
 <template>
-    <Head title="Breeders' Map" />
+    <Head title="Plant Breeders Map" />
     <page-layout>
         <green-waves />
         <public-page-section :animation="false">

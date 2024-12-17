@@ -12,7 +12,7 @@ class TWG extends TestCase
     /** @test **/
     public function get_summary(): void
     {
-        $response = $this->get('http://localhost/projects/summary/twg-db');
+        $response = $this->get('http://pin.philrice.gov.ph/projects/summary/twg-db');
         print_r($response->getContent());
         $response->assertStatus(200);
     }

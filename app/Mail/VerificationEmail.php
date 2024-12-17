@@ -40,7 +40,7 @@ class VerificationEmail extends Mailable
             markdown: 'emails.email-verification',
             with: [
                 'name' => 'DA-Crop Biotechnology Center',
-                'verificationUrl' => 'http://localhost:8000/email/verify',
+                'verificationUrl' => 'http://pin.philrice.gov.ph/email/verify',
             ],
         );
     }

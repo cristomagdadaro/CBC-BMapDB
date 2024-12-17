@@ -65,7 +65,6 @@ Route::prefix('/api/public')->group(function () {
     Route::get('/cities', [CityProvRegController::class, 'cityIndex'])->name('api.cities.index.public');
     Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
     Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
-    Route::get('/commodities/search', [CommodityController::class, 'noPage'])->name('api.commodities.noPage.public');
     Route::get('/breeders/summary', [BreederController::class, 'summary'])->name('api.breedersmap.breeders.summary.public');
 });
 

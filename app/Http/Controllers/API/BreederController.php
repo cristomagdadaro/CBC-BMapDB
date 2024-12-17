@@ -37,7 +37,7 @@ class BreederController extends BaseController
      * Retrieves a single breeder record based on the provided ID.
      *
      * @param GetBreederRequest $request The request object containing the filters.
-     * @param int $id The unique identifier of the breeder record to retrieve.
+     * @param int|string $id The unique identifier of the breeder record to retrieve.
      * @return BaseCollection A collection containing the requested breeder data.
      */
     public function show(GetBreederRequest $request, int $id): BaseCollection
@@ -138,19 +138,19 @@ class BreederController extends BaseController
         $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';
         $geo_location_value = $request->validated('geo_location_value') ?? '';
         $is_exact = $request->validated('is_exact');
-        $commodity = $request->all()['commodity'] ?? null;
+        $breeder = $request->all()['breeder'] ?? null;
         $group_by = $this->service->determineLocFilterLevel($geo_location_filter);
 
-        $breeders = $this->service->applyFilters($model, [$geo_location_filter => $geo_location_value])
+        $breeders = $this->service->applyFilters($model, $breeder, $geo_location_value, $geo_location_filter)
             ->select($model->getSearchable())
             ->with(['location', 'commodities','affiliated'])
             ->get();
-        $chart_data = $this->service->applyFilters($model, [$geo_location_filter => $geo_location_value])
+        $chart_data = $this->service->applyFilters($model, $breeder, $geo_location_value, $geo_location_filter)
             ->selectRaw("$group_by as label, count(*) as total")
             ->groupBy($group_by)
             ->orderBy('total', 'desc')
             ->get();
-        $breeders_chart = $this->service->applyFilters($model, [$geo_location_filter => $geo_location_value])
+        $breeders_chart = $this->service->applyFilters($model, $breeder, $geo_location_value, $geo_location_filter)
             ->selectRaw('name as label, count(*) as total')
             ->groupBy('name')
             ->orderBy('total', 'desc')
@@ -158,14 +158,14 @@ class BreederController extends BaseController
 
         return response()->json([
             'params' => [
-                'commodity' => $commodity,
+                'breeders' => $breeder,
                 'group_by' => $group_by,
                 'geo_location_filter' => $geo_location_filter,
                 'geo_location_value' => $geo_location_value,
                 'is_exact' => $is_exact,
             ],
-            'group_search_labels' => $this->service->getGroupByGeoLoc($model, $commodity, $geo_location_filter),
-            'group_search_institute' => $this->service->getGroupByInstitute($model, $commodity, $geo_location_filter),
+            'group_search_labels' => $this->service->getGroupByGeoLoc($model, $breeder, $geo_location_filter),
+            'group_search_institute' => $this->service->getGroupByInstitute($model, $breeder, $geo_location_filter),
             'raw_data' => $breeders,
             'raw_data_labels' => $this->service->getBreederLabels($model, $geo_location_value, $is_exact, $geo_location_filter),
             'chart_data' => $chart_data,

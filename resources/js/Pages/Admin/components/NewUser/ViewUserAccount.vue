@@ -5,7 +5,7 @@ import AppLayout from "@/Layouts/AppLayout.vue";
 </script>
 
 <template>
-    <Head title="Breeders' Map View" />
+    <Head title="Breeders Map View" />
     <app-layout>
         <pre>
             {{ $page.props.view}}

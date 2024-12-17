@@ -1,5 +1,5 @@
 <template>
-    <Head title="Breeders' Map" />
+    <Head title="Plant Breeders Map" />
     <app-layout>
         <Tab :tabs="tabs" v-if="$page.props.auth.user">
             <template #tab1>

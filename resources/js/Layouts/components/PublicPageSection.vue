@@ -44,7 +44,7 @@ export default {
 .public-page-section {
     opacity: 0;
     transform: translateY(20px);
-    transition: opacity 1s ease-out, transform 1.5s ease-out;
+    transition: opacity 1.5s ease-out, transform 2s ease-out;
 }
 
 .public-page-section.slide-up {

@@ -23,8 +23,15 @@ export default {
             commodity: null,
             geo_location_filter: 'region',
             geo_location_value: null,
-            filter_by_parent_column: 'breeder_id',
+            filter_by_parent_column:  this.filter_by_parent_column,
             filter_by_parent_id: this.$page.props.commodity ? this.$page.props.commodity.id : null,
+        }
+    },
+    computed: {
+        filter_by_parent_column() {
+            if (this.filter.table_name === 'commodities')
+                return 'breeder_id';
+            return null;
         }
     },
     async mounted() {
