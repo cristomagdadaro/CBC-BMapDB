@@ -24,9 +24,10 @@ class TWGExpertController extends BaseController
         return new BaseCollection($data);
     }
 
-    public function show($id)
+    public function show(GetTWGExpertRequest $request, int $id)
     {
-        return $this->service->find($id);
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
     public function store(CreateTWGExpertRequest $request)

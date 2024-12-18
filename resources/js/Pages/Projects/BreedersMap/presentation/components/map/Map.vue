@@ -214,7 +214,6 @@ export default {
             return point && point.latitude && point.longitude;
         },
         selectPoint(point) {
-            console.log(point);
             if (!this.$refs.map && !this.isValidPoint(point.location)) return;
             this.mapApi.selectPoint(point);
         },
@@ -398,23 +397,25 @@ export default {
                     </l-circle-marker>
                 </template>
                 <l-control>
-                    <FullscreenToggle :element="$refs.mapContainer" />
-                    <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
-                        <span>Recenter</span>
-                    </top-action-btn>
-                    <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
-                        <template #icon>
-                            <close-icon class="h-auto sm:w-6 w-4" />
-                        </template>
-                        <span>Deselect</span>
-                    </top-action-btn>
-                    <top-action-btn v-if="mapApi.selectedPlace" @click="mapApi.sidebarVisible = true" class="bg-add text-xs" title="Deselect Point">
-                        <template #icon>
-                            <view-icon class="h-auto sm:w-4 w-3" />
-                        </template>
-                        <span>View Details</span>
-                    </top-action-btn>
-                    <info-sidebar :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
+                    <div class="flex gap-2">
+                        <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
+                            <span>Recenter</span>
+                        </top-action-btn>
+                        <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
+                            <template #icon>
+                                <close-icon class="h-auto sm:w-6 w-4" />
+                            </template>
+                            <span>Deselect</span>
+                        </top-action-btn>
+                        <top-action-btn v-if="mapApi.selectedPlace" @click="mapApi.sidebarVisible = true" class="bg-add text-xs" title="Deselect Point">
+                            <template #icon>
+                                <view-icon class="h-auto sm:w-4 w-3" />
+                            </template>
+                            <span>View Details</span>
+                        </top-action-btn>
+                        <FullscreenToggle :element="$refs.mapContainer" />
+                    </div>
+                    <info-sidebar :model="model" :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
                 </l-control>
             </l-map>
         </div>

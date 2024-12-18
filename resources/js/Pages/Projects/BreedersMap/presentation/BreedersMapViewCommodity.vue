@@ -18,7 +18,7 @@ export default {
 </script>
 
 <template>
-    <Head title="Breeders' Map" />
+    <Head title="Plant Breeders Map" />
     <app-layout>
     <div class="p-5">
         {{ commodity }}

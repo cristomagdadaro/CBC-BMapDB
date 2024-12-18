@@ -2,16 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Interfaces\BaseControllerInterface;
-use App\Http\Resources\BaseCollection;
 use App\Repository\AbstractRepoService;
-use Faker\Provider\Base;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use App\Repository\ErrorRepository;
-use Illuminate\Support\Collection;
 
 abstract class BaseController extends Controller
 {

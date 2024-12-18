@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Enums\Applications;
 use App\Models\Application;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ApplicationSeeder extends Seeder
@@ -17,14 +16,14 @@ class ApplicationSeeder extends Seeder
         Application::factory()->create([
             'name' => Applications::TWG_DATABASE->value,
             'description' => 'Technical Working Group Database for the Biotechnology Related Projects and Researches',
-            'url' => 'projects.twg.index',
+            'url' => Applications::BREEDERS_MAP_ROUTE->value,
             'icon' => null,
         ]);
 
         Application::factory()->create([
             'name' => Applications::BREEDERS_MAP->value,
             'description' => 'This interactive platform provides a comprehensive overview of the Philippines\' biotechnology-driven plant breeding community.',
-            'url' => 'projects.breedersmap.index',
+            'url' => Applications::TWG_DATABASE_ROUTE->value,
             'icon' => null,
         ]);
     }

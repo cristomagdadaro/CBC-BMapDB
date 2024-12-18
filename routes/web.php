@@ -9,12 +9,15 @@ use App\Http\Controllers\API\TWGController;
 use App\Http\Controllers\CityProvRegController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
+use App\Http\Requests\GetBreederRequest;
 use App\Mail\UserInvitationEmail;
 use App\Models\Breeder;
 use App\Models\Commodity;
 use App\Models\TWGExpert;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 /*
@@ -29,11 +32,29 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+    // Query to get breeders data joined with city location
+    $data = Breeder::join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
+        ->selectRaw('loc_cities.id, loc_cities.provDesc as label, COUNT(*) as total')
+        ->groupBy('loc_cities.provDesc')
+        ->groupBy('loc_cities.id')
+        ->orderByDesc('total')
+        ->get();
+
+    $formattedData = $data->map(function ($item) {
+        return [
+            'id' => $item->id,
+            'key' => Str::slug($item->label), //replace whitespace with dash (-)
+            'province' => $item->label,
+            'data' => $item->total,
+        ];
+    });
+
     return Inertia::render('Projects', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
+        'breedersmap_overview' => $formattedData,
     ]);
 });
 

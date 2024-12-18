@@ -25,9 +25,11 @@ class TWGProductController extends BaseController
         return new BaseCollection($data);
     }
 
-    public function show($id)
+    public function show(GetTWGProductRequest $request, int $id)
     {
-        return $data = $this->service->find($id);
+        $this->service->appendWith(['expert']);
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
     public function store(CreateTWGProductRequest $request)

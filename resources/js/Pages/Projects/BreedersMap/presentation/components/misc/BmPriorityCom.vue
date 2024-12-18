@@ -123,7 +123,7 @@ export default {
                 </div>
             </template>
         </div>
-        <div v-if="currentCommodityData" class="flex flex-col justify-center text-gray-900 text-normal">
+        <div v-if="currentCommodityData" class="flex hidden flex-col justify-center text-gray-900 text-normal">
             <div class="flex gap-2 justify-center ">
                 <span class="font-bold">Breeders</span>
                 <span>{{ currentCommodityData.data.breeders }}</span>

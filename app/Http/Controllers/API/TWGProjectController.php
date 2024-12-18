@@ -8,13 +8,11 @@ use App\Http\Requests\DeleteTWGProjectRequest;
 use App\Http\Requests\GetTWGProjectRequest;
 use App\Http\Requests\UpdateTWGProjectRequest;
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\TWGProjectCollection;
 use App\Repository\API\TWGProjectRepo;
 use Illuminate\Support\Collection;
 
 class TWGProjectController extends BaseController
 {
-    // constructor
     public function __construct(TWGProjectRepo $project)
     {
         $this->service = $project;
@@ -27,9 +25,11 @@ class TWGProjectController extends BaseController
         return new BaseCollection($data);
     }
 
-    public function show($id)
+    public function show(GetTWGProjectRequest $request, int $id)
     {
-        return $this->service->find($id);
+        $this->service->appendWith(['expert']);
+        $data = $this->service->search(new Collection($request->validated()));
+        return new BaseCollection($data);
     }
 
     public function store(CreateTWGProjectRequest $request)

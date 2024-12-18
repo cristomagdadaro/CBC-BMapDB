@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\Applications;
 use App\Models\Application;
 use Closure;
 use Illuminate\Http\Request;
@@ -16,13 +17,12 @@ class CheckTwgDbStatus
      */
     public function handle(Request $request, Closure $next): Response | \Inertia\Response
     {
-        // Check if the TWG database is up, check if the status is true
-        $temp = Application::where('name', 'TWG Database')->where('status', true)->first();
+        $temp = Application::where('name', Applications::TWG_DATABASE->value)->where('status', true)->first();
 
         if (!$temp) {
             return inertia('Auth/ApplicationDown', [
-                'message' => 'TWG Database is currently down. Please try again later.'
-            ], 503);
+                'message' => Applications::TWG_DATABASE->value . ' is currently down. Please try again later.'
+            ]);
         }
 
         return $next($request);

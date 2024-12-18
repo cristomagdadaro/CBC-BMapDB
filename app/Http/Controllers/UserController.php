@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\GetUserRequest;
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\UserCollection;
 use App\Models\User;
 use App\Repository\API\UserRepo;
 use Illuminate\Http\JsonResponse;

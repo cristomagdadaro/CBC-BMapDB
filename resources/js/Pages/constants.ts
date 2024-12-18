@@ -48,18 +48,6 @@ export const CBCProjectsPublic = [
     },
 ]
 
-/*used in registration dropdown*/
-export const Projects = [
-    {
-        id: 1,
-        value: 'projects.twg.index', // router name of the project
-        label: 'Biotech TWG Database',
-    },{
-        id: 2,
-        value: 'projects.breedersmap.index',
-        label: "Plant Breeders Map",
-    }
-]
 
 export const ProjectStatus = [
     {
