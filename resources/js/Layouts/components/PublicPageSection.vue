@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-    <div class="z-10 relative">
+    <div class="relative min-h-screen">
         <slot name="custom-bg" />
         <div v-if="animation" class="public-page-section resp-container py-8 w-full">
             <slot />

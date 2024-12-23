@@ -57,7 +57,7 @@ export default {
         <div class="grid grid-cols-1 body-grid-rows w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
                 <template v-slot:custom-bg>
-                    <div id="particles-js" class="absolute top-0 left-0 w-full h-full"></div>
+                    <div id="particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
                 </template>
                 <div class="flex justify-center">
                     <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
