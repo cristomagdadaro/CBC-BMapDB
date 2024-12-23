@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-    <div class="drop-shadow-lg relative z-0 max-w-screen">
+    <div class="drop-shadow-lg relative z-1 max-w-screen">
         <svg class="rotate-180 absolute top-0" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 1439 560">
             <g mask="url(&quot;#SvgjsMask2042&quot;)" fill="none">
                 <rect width="1439" height="560" x="0" y="0" fill="url(&quot;#SvgjsLinearGradient2043&quot;)"></rect>

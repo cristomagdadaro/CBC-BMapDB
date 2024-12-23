@@ -37,6 +37,11 @@ export default {
         PhilippineMapOutline,
         companyName
     },
+    mounted() {
+        particlesJS.load('particles-js', '/particlesjs-config.json', function() {
+            console.log('particles for Projects Page loaded');
+        });
+    },
     setup() {
         return {
             CBCProjectsPublic,
@@ -50,8 +55,11 @@ export default {
     <page-layout>
         <green-waves />
         <div class="grid grid-cols-1 body-grid-rows w-full bg-transparent">
-            <public-page-section class="flex items-center">
-                <div class="flex relative items-end">
+            <public-page-section class="flex items-center justify-center">
+                <template v-slot:custom-bg>
+                    <div id="particles-js" class="absolute top-0 left-0 w-full h-full"></div>
+                </template>
+                <div class="flex justify-center">
                     <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
                         <div class="text-title leading-tight">
                             <div class="sm:text-2xl text-lg  font-light">Welcome to</div>
