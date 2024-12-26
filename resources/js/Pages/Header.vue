@@ -14,12 +14,11 @@ const TabLinks = [
 ];
 
 const supportLinks = [
-    {name: 'What is PIN?', link: 'support.about-us'},
     {name: 'Term of Use', link: 'support.terms-of-use'},
     {name: 'Policy Notice', link: 'support.policy-notice'},
     {name: 'Privacy Policy', link: 'support.privacy-policy'},
-    {name: 'Sitemap', link: 'support.sitemap'},
     {name: 'Developers', link: 'support.developers'},
+    {name: 'Sitemap', link: 'support.sitemap'},
 ];
 
 </script>
@@ -56,13 +55,13 @@ const supportLinks = [
                     <tab-link v-if="canLogin" :link="route('login')" :active="route().current('login')">Log in</tab-link>
                     <tab-link v-if="canRegister" :link="route('register')" :active="route().current('register')">Register</tab-link>
                 </template>
-                <tab-link v-if="!$page.props.auth.user" sublinks :link="route('support.about-us')" :active="route().current('support.about-us')">
+                <tab-link v-if="!$page.props.auth.user" sublinks :link="route('support.what-is-pin')" :active="route().current('support.about-us')">
                     <template #trigger>
                         Support
                     </template>
                     <template #content>
                         <tab-link link="https://dacbc.philrice.gov.ph" external-link class="text-gray-700">
-                            About Us
+                            What is PIN?
                         </tab-link>
                         <tab-link link="https://cbc360tour.philrice.gov.ph" external-link class="text-gray-700">
                             Visit Us

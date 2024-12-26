@@ -397,7 +397,7 @@ export default {
                     </l-circle-marker>
                 </template>
                 <l-control>
-                    <div class="flex gap-2">
+                    <div class="flex flex-wrap gap-2">
                         <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
                             <span>Recenter</span>
                         </top-action-btn>
@@ -411,7 +411,7 @@ export default {
                             <template #icon>
                                 <view-icon class="h-auto sm:w-4 w-3" />
                             </template>
-                            <span>View Details</span>
+                            <span>View&nbsp;Details</span>
                         </top-action-btn>
                         <FullscreenToggle :element="$refs.mapContainer" />
                     </div>

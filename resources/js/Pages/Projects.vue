@@ -15,11 +15,6 @@ import BmOverviewMap from "@/Pages/Projects/BreedersMap/presentation/components/
 import TopLeaf from "@/Components/Top-Leaf.vue";
 
 export default {
-    methods: {
-        companyName() {
-            return companyName
-        }
-    },
     components: {
         TopLeaf,
         BmOverviewMap,
@@ -37,10 +32,20 @@ export default {
         PhilippineMapOutline,
         companyName
     },
+    methods: {
+        companyName() {
+            return companyName
+        },
+        setupParticlesFor(id)  {
+            particlesJS.load(id, '/particlesjs-config.json', function() {
+                console.log('particles for Projects Page loaded');
+            });
+        },
+    },
     mounted() {
-        particlesJS.load('particles-js', '/particlesjs-config.json', function() {
-            console.log('particles for Projects Page loaded');
-        });
+        this.setupParticlesFor('header-particles-js');
+        //this.setupParticlesFor('center-particles-js');
+        this.setupParticlesFor('foot-particles-js');
     },
     setup() {
         return {
@@ -55,9 +60,9 @@ export default {
     <page-layout>
         <green-waves />
         <div class="grid grid-cols-1 body-grid-rows w-full bg-transparent">
-            <public-page-section class="flex items-center justify-center">
+            <public-page-section onload="" class="flex items-center justify-center">
                 <template v-slot:custom-bg>
-                    <div id="particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
+                    <div id="header-particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
                 </template>
                 <div class="flex justify-center">
                     <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
@@ -82,29 +87,34 @@ export default {
             <public-page-section class="flex items-center text-center">
                 <div class="flex flex-col gap-5 justify-between items-center">
                     <Link class="flex items-center drop-shadow-lg" :href="'/'">
-                        <img src="/img/logos/pin.svg" class="h-auto w-[10rem] sm:w-[15rem] lg:w-[20rem] min-w-[40%]" alt="Plant Breeders Map Database Logo"/>
+                        <img src="/img/logos/pin.svg" class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] min-w-[40%]" alt="Plant Breeders Map Database Logo"/>
                     </Link>
                     <p class="text-normal text-dark-color">
                         This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
                     </p>
-                    <Link class="flex items-center h-auto w-[10rem] sm:w-[15rem] lg:w-[20rem] min-w-[15%] drop-shadow-lg" :href="'/'">
-                        <img src="/img/logo-black.png" alt="Plant Breeders Map Database Logo"/>
+                    <Link class="flex items-center h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15%] drop-shadow-lg" :href="'/'">
+                        <img src="/img/logo-black.png" alt="DA-CBC Logo"/>
                     </Link>
                 </div>
             </public-page-section>
             <public-page-section class="flex items-center">
-                <p class="text-subtitle text-center text-dark-color">
+                <template v-slot:custom-bg>
+                    <div id="center-particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
+                    <img src="/img/bg2.png"
+                         alt="DA-CBC Building"
+                         class="absolute top-0 left-0 w-full h-full z-[-1] brightness-50 object-cover object-top" />
+                </template>
+                <p class="text-subtitle text-center text-light-color">
                     {{ companyName() }}
                 </p>
-                <p class="text-normal text-center text-dark-color">
+                <p class="text-normal text-center text-light-color">
                     The center is a premier hub for innovation and research in agricultural biotechnology. Dedicated to advancing crop productivity and sustainability, the center provides cutting-edge solutions, resources, and technologies to support farmers, researchers, and stakeholders in addressing the challenges of food security and agricultural development.
                 </p>
-                <img src="/img/bg2.png"  alt="DA-CBC Building"/>
             </public-page-section>
             <public-page-section class="flex items-center">
                 <div class="grid grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 gap-2 md:gap-5">
                     <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[0].value)">
-                        <img class="h-auto w-[5rem] sm:w-[15rem] lg:w-[20rem] min-w-[40%]" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo"/>
+                        <img class="h-auto" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo"/>
                     </Link>
                     <div class="flex flex-col justify-center text-center md:text-left">
                         <Link :href="route(Object.values(CBCProjectsPublic)[0].value)" class="text-subtitle text-dark-color">
@@ -136,6 +146,9 @@ export default {
                 <bm-database-list />
             </public-page-section>
             <public-page-section class="flex items-center py-10">
+                <template v-slot:custom-bg>
+                    <div id="foot-particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
+                </template>
                 <bm-collaborators />
             </public-page-section>
         </div>

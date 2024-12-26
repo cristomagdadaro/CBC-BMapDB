@@ -7,12 +7,12 @@ export default {
     data() {
         return {
             links: [
-                {name: 'About Us', route: 'support.about-us'},
+                {name: 'What is PIN?', route: 'support.what-is-pin'},
                 {name: 'Terms of Use', route: 'support.terms-of-use'},
                 {name: 'Policy Notice', route: 'support.policy-notice'},
                 {name: 'Privacy Policy', route: 'support.privacy-policy'},
-                {name: 'Sitemap', route: 'support.sitemap'},
                 {name: 'Developers', route: 'support.developers'},
+                {name: 'Sitemap', route: 'support.sitemap'},
             ]
         }
     }

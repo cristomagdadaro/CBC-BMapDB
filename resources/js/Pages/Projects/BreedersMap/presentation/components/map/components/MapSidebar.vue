@@ -4,11 +4,20 @@
             <close-icon class="w-8 h-8 drop-shadow " />
         </button>
         <div v-if="point" class="drop-shadow overflow-y-auto overflow-x-hidden border">
-            {{ point['breeder']}}
             <table>
+                <tr colspan="2" class="bg-cbc-yellow-green text-white text-center uppercase">
+                    <th colspan="2" class="p-2">Breeder Details</th>
+                </tr>
+                <tr v-for="(value, key) in Breeder.getColumns()" :key="key">
+                    <th v-if="point['breeder'][value.key]" class="text-right text-white whitespace-nowrap bg-cbc-dark-green p-2">{{ value.title }}</th>
+                    <td v-if="point['breeder'][value.key]" class="p-2">{{ point['breeder'][value.key] }}</td>
+                </tr>
+                <tr colspan="2" class="bg-cbc-yellow-green text-white text-center uppercase">
+                    <th colspan="2" class="p-2">Commodity Details</th>
+                </tr>
                 <tr v-for="(value, key) in model.getColumns()" :key="key">
-                    <th class="text-right text-white whitespace-nowrap bg-[#006837] p-2 py-4">{{ value.title }}</th>
-                    <td class="p-2 py-4">{{ point[value.key] }}</td>
+                    <th v-if="point[value.key]" class="text-right text-white whitespace-nowrap bg-cbc-dark-green p-2">{{ value.title }}</th>
+                    <td v-if="point[value.key]" class="p-2">{{ point[value.key] }}</td>
                 </tr>
             </table>
         </div>
@@ -17,8 +26,14 @@
 
 <script>
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
+import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 
 export default {
+    computed: {
+        Breeder() {
+            return Breeder
+        }
+    },
     components: {CloseIcon},
     props: {
         point: Object,

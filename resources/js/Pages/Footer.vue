@@ -4,10 +4,19 @@ import FooterLink from '@/Components/Footer/FooterLink.vue'
 import Logo from '@/Components/Icons/Logo.vue';
 import InfoPageLinks from "@/Pages/Support/components/InfoPageLinks.vue";
 import {companyName} from "./constants";
+import {Link} from "@inertiajs/vue3";
 </script>
 <template>
-    <div class="resp-container text-center select-none py-5 my-5 sm:my-10 lg:text-[1.4rem] md:text-[1.2rem] sm:text-[1rem] text-[0.8rem] font-normal text-gray-900 drop-shadow">
-        Reach us at&nbsp;<a href="emailTo:cropbiotechcenter@gmail.com" class="underline"> cropbiotechcenter@gmail.com</a>
+    <div class="resp-container text-center flex flex-col justify-center items-center select-none py-5 my-5 sm:my-10 lg:text-[1.4rem] md:text-[1.2rem] sm:text-[1rem] text-[0.8rem] font-normal text-gray-900 drop-shadow space-y-4">
+        <div>
+            Visit our website at&nbsp;<a href="https://dacbc.philrice.gov.ph" class="underline">www.dacbc.philrice.gov.ph</a>
+        </div>
+        <div>
+            Reach us at&nbsp;<a href="mailto:cropbiotechcenter@gmail.com" class="underline">cropbiotechcenter@gmail.com</a>
+        </div>
+        <div>
+            Like and Follow us on&nbsp;<a href="https://www.facebook.com/dacropbiotechcenter" class="underline">Facebook</a>
+        </div>
     </div>
     <FooterLayout>
         <template #phRepublic>
@@ -67,12 +76,13 @@ import {companyName} from "./constants";
         </template>
         <template #privacyNotice>
             <div class="flex flex-wrap justify-center gap-2 sm:gap-5 resp-container px-2 py-2 text-center sm:text-sm text-[0.6rem] font-light text-gray-100">
+                <Link :href="route('login')" :class="{ active: route().current('login') }" class="info-page-link sm:text-sm text-[0.8rem]">Login</Link>
+                <Link :href="route('register')" :class="{ active: route().current('register') }" class="info-page-link sm:text-sm text-[0.8rem]">Register</Link>
                 <info-page-links />
             </div>
         </template>
         <template #copyright>
             <div class="flex justify-between border-t-[1px] resp-container px-2 py-2 text-center sm:text-sm text-[0.6rem] font-light text-gray-100">
-<!--                <span>&copy; Copyright {{ new Date().getFullYear() }}, DA-Crop Biotechnology Center. All rights reserved.</span>-->
                 <span class="whitespace-nowrap">{{ companyName }}</span>
                 <span>Powered by Philippine Rice Research Institute</span>
             </div>

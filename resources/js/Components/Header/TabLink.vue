@@ -54,13 +54,13 @@ export default {
         <Link v-if="!externalLink" :href="link" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></Link>
         <a v-else :href="link" target="_blank" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></a>
     </div>
-    <div v-else class="flex items-center hover:bg-cbc-yellow-green duration-400 ease-in-out" @mouseleave="closeDropdown()">
-        <div>
+    <div v-else class="flex items-center hover:bg-cbc-yellow-green duration-400 ease-in-out">
+        <div @mouseleave="closeDropdown()">
             <!-- Full Screen Dropdown Overlay -->
-            <div v-show="showDropdown" class="fixed z-[1]" @click="closeDropdown()" />
+            <div v-show="showDropdown" class="fixed w-full h-full top-0 left-0 z-[1]" @click="closeDropdown()"></div>
 
             <div @click="toggleDropdown()" ref="hoverDropdown" class="z-[100]">
-                <Link :href="link" class="px-3 py-1 text-gray-100 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot name="trigger" /></Link>
+                <Link @clic.prevent="null" :href="link" class="px-3 py-1 text-gray-100 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot name="trigger" /></Link>
             </div>
 
             <transition
@@ -70,7 +70,7 @@ export default {
                 leave-active-class="transition ease-in duration-75"
                 leave-from-class="transform opacity-100 scale-100"
                 leave-to-class="transform opacity-0 scale-95">
-                <div class="absolute flex flex-col bg-gray-100 z-[46] mt-2 shadow-md p-3 text-subtitle" v-show="showDropdown">
+                <div class="absolute flex flex-col bg-gray-100 z-[46] mt-2 shadow-md p-3 text-subtitle" v-show="showDropdown" @mouseleave="closeDropdown()">
                     <slot name="content" />
                 </div>
             </transition>
