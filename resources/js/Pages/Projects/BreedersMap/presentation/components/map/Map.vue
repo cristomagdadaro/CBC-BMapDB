@@ -9,6 +9,7 @@ import {
     LGeoJson,
     LTooltip,
     LControl,
+    LIcon,
 } from "@vue-leaflet/vue-leaflet";
 import 'leaflet/dist/leaflet.css';
 import { icon } from 'leaflet';
@@ -54,6 +55,7 @@ export default {
         LGeoJson,
         LTooltip,
         LControl,
+        LIcon
     },
     props: {
         customPoint: {
@@ -83,12 +85,11 @@ export default {
         return {
             dataFiltration: null,
             processingRequest: false,
-
             mapApi: null,
             icon: icon({
-                iconUrl: "/public/img/logo_no_bg.png",
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
+                iconUrl: "/img/logos/mappin.png",
+                iconSize: [30, 40],
+                iconAnchor: [15, 38],
             }),
             showListOfPlaces: false,
             commodities: [],
@@ -286,14 +287,14 @@ export default {
     </div>
     <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2 relative">
         <div class="relative gap-2">
-           <template v-if="tableList">
-               <data-filtration-fields
-                   :tables="tableList"
-                   @tableChange="dataFiltrationUrl = $event"
-                   @dataRefreshed="dataFiltration = $event"
-                   @processingRequest="processingRequest"
-               />
-           </template>
+            <template v-if="tableList">
+                <data-filtration-fields
+                    :tables="tableList"
+                    @tableChange="dataFiltrationUrl = $event"
+                    @dataRefreshed="dataFiltration = $event"
+                    @processingRequest="processingRequest"
+                />
+            </template>
             <div class="w-full flex gap-1">
                 <search-box
                     id="bm-search-box"
@@ -363,6 +364,7 @@ export default {
                 @update:center="updateCenter"
                 @click="showListOfPlaces = false"
             >
+                <l-control-layers position="topright" :collapsed="true" />
                 <l-geo-json
                     v-for="region in province"
                     :key="region.features[0].properties.ADM1_EN"
@@ -372,7 +374,6 @@ export default {
                     :visible="false"
                     pane="overlayPane"
                 />
-                <l-control-layers position="topright" :collapsed="true" />
                 <l-tile-layer
                     v-for="tileProvider in tileProviders"
                     :key="tileProvider.name"
@@ -382,7 +383,7 @@ export default {
                     :attribution="tileProvider.attribution"
                     layer-type="base"
                 />
-                <l-marker v-if="mapApi.markerLatLng" :lat-lng="mapApi.markerLatLng" ref="marker" />
+                <l-marker v-if="mapApi.markerLatLng" :lat-lng="mapApi.markerLatLng" ref="marker" :icon="icon" @click="mapApi.sidebarVisible = !mapApi.sidebarVisible" />
                 <template v-for="place in newData" :key="place.id" >
                     <l-circle-marker
                         v-if="isValidPoint(place.location)"
@@ -397,25 +398,27 @@ export default {
                     </l-circle-marker>
                 </template>
                 <l-control>
-                    <div class="flex flex-wrap gap-2">
-                        <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
-                            <span>Recenter</span>
-                        </top-action-btn>
-                        <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
-                            <template #icon>
-                                <close-icon class="h-auto sm:w-6 w-4" />
-                            </template>
-                            <span>Deselect</span>
-                        </top-action-btn>
-                        <top-action-btn v-if="mapApi.selectedPlace" @click="mapApi.sidebarVisible = true" class="bg-add text-xs" title="Deselect Point">
-                            <template #icon>
-                                <view-icon class="h-auto sm:w-4 w-3" />
-                            </template>
-                            <span>View&nbsp;Details</span>
-                        </top-action-btn>
-                        <FullscreenToggle :element="$refs.mapContainer" />
+                    <div class="flex flex-col items-end">
+                        <div class="flex flex-row gap-1 justify-between w-fit items-center p-2">
+                            <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
+                                <span>Recenter</span>
+                            </top-action-btn>
+                            <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
+                                <template #icon>
+                                    <close-icon class="h-auto sm:w-6 w-4" />
+                                </template>
+                                <span>Deselect</span>
+                            </top-action-btn>
+                            <top-action-btn v-if="mapApi.selectedPlace" @click="mapApi.sidebarVisible = true" class="bg-add text-xs" title="Deselect Point">
+                                <template #icon>
+                                    <view-icon class="h-auto sm:w-4 w-3" />
+                                </template>
+                                <span>View&nbsp;Details</span>
+                            </top-action-btn>
+                            <FullscreenToggle :element="$refs.mapContainer" />
+                        </div>
+                        <info-sidebar :model="model" :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
                     </div>
-                    <info-sidebar :model="model" :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
                 </l-control>
             </l-map>
         </div>

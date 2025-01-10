@@ -48,12 +48,12 @@ export default class AuthUser extends User
     static getColumns() {
         return [
             {
-                title: 'ID',
+                title: 'User ID',
                 key: 'id',
                 db_key: 'id',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Name',

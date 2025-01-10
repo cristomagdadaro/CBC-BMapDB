@@ -60,7 +60,7 @@ export default class AuthApplication extends Application
                 db_key: 'url',
                 align: 'left',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Icon',

@@ -48,4 +48,8 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         if (commodity.location)
             this.location = new DtoCity(commodity.location);
     }
+
+    get coordinates() {
+        return this.location;
+    }
 }

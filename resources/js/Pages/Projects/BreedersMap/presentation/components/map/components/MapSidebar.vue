@@ -1,9 +1,9 @@
 <template>
-    <div class="relative max-h-[800px] flex flex-col w-2/5 bg-gray-100 rounded" :class="{ 'hidden': !visible }">
+    <div class="relative max-h-[800px] flex flex-col w-1/2 max-w-1/2 bg-gray-100 rounded" :class="{ 'hidden': !visible }">
         <button @click="closeSidebar" class="absolute z-[999] top-0 w-fit right-3 p-1">
             <close-icon class="w-8 h-8 drop-shadow " />
         </button>
-        <div v-if="point" class="drop-shadow overflow-y-auto overflow-x-hidden border">
+        <div v-if="point" class="drop-shadow overflow-y-auto overflow-x-hidden border text-sm">
             <table>
                 <tr colspan="2" class="bg-cbc-yellow-green text-white text-center uppercase">
                     <th colspan="2" class="p-2">Breeder Details</th>

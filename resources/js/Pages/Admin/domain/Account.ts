@@ -40,12 +40,12 @@ export default class AuthAccount extends Account
                 visible: false,
             },
             {
-                title: 'U. ID',
+                title: 'User ID',
                 key: 'user_id',
                 db_key: 'user_id',
                 align: 'text-center',
                 sortable: true,
-                visible: false
+                visible: true
                 ,
             },
             {

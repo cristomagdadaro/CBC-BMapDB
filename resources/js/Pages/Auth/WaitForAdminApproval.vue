@@ -5,6 +5,7 @@ import AuthenticationCard from "@/Components/AuthenticationCard.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
+import AddAccount from "@/Pages/Profile/Partials/AddAccount.vue";
 </script>
 
 <template>
@@ -16,9 +17,12 @@ import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
                 <AuthenticationCard class="min-h-[90vh]">
                     <new-account-progress-view />
                     <h2 class="font-semibold text-2xl text-center text-gray-800">Please Wait for Admin Approval</h2>
-                    <div class="text-center pt-5">
+                    <div class="mb-3 text-center pt-5">
                         <p class="text-md text-gray-600">{{ $page.props.message }}</p>
                     </div>
+
+                    <add-account class="border rounded-lg border-gray-200 p-5" />
+
                     <div class="mt-4 flex items-center justify-end">
                         <div>
                             <Link

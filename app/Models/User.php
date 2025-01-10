@@ -19,7 +19,7 @@ use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;
@@ -122,6 +122,11 @@ class User extends Authenticatable
     public function accountFor(): HasMany
     {
         return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application');
+    }
+
+    public function accountsRequested(): HasMany
+    {
+        return $this->hasMany(Accounts::class, 'user_id', 'id')->with('application');
     }
 
     public function accounts(): HasMany

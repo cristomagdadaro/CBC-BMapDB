@@ -130,8 +130,8 @@ export default class MapApiService{
 
     recenter() {
         // set the currently selected point as the center of the map or the PH center
-        if (this._selectedPlace)
-            this.updateCenter([this._selectedPlace.latitude, this._selectedPlace.longitude]);
+        if (this._selectedPlace && this._selectedPlace.coordinates)
+            this.updateCenter([this._selectedPlace.coordinates.latitude, this._selectedPlace.coordinates.longitude]);
         else
             this.updateCenter(this.PHCenter);
         this.updateZoom(2);

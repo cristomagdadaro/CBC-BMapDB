@@ -11,6 +11,9 @@ import DtoError from "@/Modules/core/dto/base/DtoError";
 export default {
     name: "AddAccount",
     components: {CustomDropdown, DropdownOption, Dropdown, Modal, PrimaryButton, ActionSection},
+    props: {
+        appsOwned: Object,
+    },
     computed: {
         DtoError() {
             return DtoError;
@@ -64,14 +67,19 @@ export default {
                 You have access the to following applications:
             </h3>
             <ul class="max-w-xl text-sm text-gray-600">
-                <li v-for="account in $page.props.auth.user.accounts" class="px-4 py-2 bg-white font-semibold text-xs text-gray-700 uppercase tracking-widest transition">
+                <li v-if="$page.props.auth.user.accounts.length" class="py-2 bg-white font-bold text-xs text-gray-700 uppercase tracking-widest transition">Approved</li>
+                <li v-for="account in $page.props.auth.user.accounts" class="px-4 bg-white font-semibold text-xs text-gray-700 tracking-widest transition">
+                    {{ account.application.name }}
+                </li>
+                <li v-if="$page.props.appsOwned.length" class="py-2 bg-white font-bold text-xs text-gray-700 uppercase tracking-widest transition">Pending</li>
+                <li v-for="account in $page.props.appsOwned" class="px-4 bg-white font-semibold text-xs text-gray-700 tracking-widest transition">
                     {{ account.application.name }}
                 </li>
             </ul>
 
             <div class="mt-5">
                 <PrimaryButton type="button" @click="showAddAccountModal = true">
-                    Request Access for a specific Database
+                    Request Access
                 </PrimaryButton>
             </div>
             <modal :show="showAddAccountModal" @close="showAddAccountModal = false"
@@ -101,7 +109,7 @@ export default {
                         />
                     </div>
                     <PrimaryButton type="submit">
-                        Request Access
+                        Submit Request
                     </PrimaryButton>
                 </form>
             </modal>
