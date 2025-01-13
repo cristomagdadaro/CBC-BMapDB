@@ -56,7 +56,7 @@ export default {
 </script>
 
 <template>
-    <Head title="Home" />
+    <Head title="Welcome" />
     <page-layout>
         <green-waves />
         <div class="grid grid-cols-1 body-grid-rows w-full bg-transparent">
@@ -65,7 +65,7 @@ export default {
                     <div id="header-particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
                 </template>
                 <div class="flex justify-center">
-                    <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
+                    <h1 class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
                         <div class="text-title leading-tight">
                             <div class="sm:text-2xl text-lg  font-light">Welcome to</div>
                             <div class="leading-tight">
@@ -81,7 +81,7 @@ export default {
                         <p class="text-normal drop-shadow text-justify">
                             Empowering crop biotechnology research with innovation, one discovery at a time.
                         </p>
-                    </div>
+                    </h1>
                 </div>
             </public-page-section>
             <public-page-section class="flex items-center text-center">

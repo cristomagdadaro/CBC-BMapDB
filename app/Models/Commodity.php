@@ -13,6 +13,7 @@ class Commodity extends BaseModel
     protected $table = 'commodities';
 
     protected $fillable = [
+        'user_id',
         'name',
         'breeder_id',
         'scientific_name',

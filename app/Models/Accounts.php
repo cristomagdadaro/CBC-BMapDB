@@ -56,4 +56,8 @@ class Accounts extends BaseModel
         return $this->hasOne(Application::class, 'id', 'app_id');
     }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_has_permissions');
+    }
 }

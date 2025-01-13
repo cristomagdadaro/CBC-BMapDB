@@ -280,7 +280,10 @@ abstract class AbstractRepoService implements RepositoryInterface
         $filter_by_parent_id = $parameters->get('filter_by_parent_id', null);
         $filter_by_parent_column = $parameters->get('filter_by_parent_column', null);
 
-        $builder = $this->model->ownedBy(auth()->user());
+        if (Schema::hasColumn($this->model->getTable(), 'user_id'))
+            $builder = $this->model->ownedBy(auth()->user());
+        else
+            $builder = $this->model;
 
         $builder = $builder->select($this->model->getSearchable());
 

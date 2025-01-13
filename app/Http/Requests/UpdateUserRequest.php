@@ -30,6 +30,7 @@ class UpdateUserRequest extends FormRequest
             'mobile_no' =>  ['nullable', 'string', 'max:255'],
             'affiliation' => ['required', 'exists:institutes,id'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$this->id],
+            'email_verified_at' =>  ['nullable', 'date'],
             'password' => $this->passwordRules(),
         ];
     }

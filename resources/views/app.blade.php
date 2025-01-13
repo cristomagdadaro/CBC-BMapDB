@@ -4,18 +4,19 @@
         <meta charset="utf-8">
         <meta
             name="keywords"
-            content="DA-Crop Biotechnology Center,rice area, yield estimate, planting dates, SOS, flood and drought assessment, damage assessment, information technology, rice mapping, rice monitoring, remote sensing, crop modeling, field monitoring, ground truthing"
+            content="DA-Crop Biotechnology Center, DA-CBC, PIN, CBC PIN, Plant Breeders and Innovators Network, Philippine Rice Research Institute, PhilRice, DA-BPO, Biotechnology Program Office, Biotech Program Office, Crop Biotechnology, Plant Breeders, Breeder, Plant Breeders Map, Biotech TWG, Biotech"
         />
-        <meta name="author" content="Department of Agriculture - Crop Biotechnology Center (DA-CBC)" />
+        <meta name="author" content="Department of Agriculture - Crop Biotechnology Center" />
         <meta
             name="description"
-            content="DA-Crop Biotechnology Center is the first rice monitoring system in Southeast Asia that uses satellite imagery and Information and Communication Technology (ICT). It generates information on planted rice area, yield, and rice areas at risk and affected by flood and drought. Through its data products, PRiSM supports the Department of Agriculture in its strategic planning, decision-making, development project implementation, and disaster preparedness."
+            content="A centralized and user-friendly database system that provides comprehensive access to crop biotechnology information in the Philippines. This platform enables researchers, policymakers, and the public to explore data on crop varieties, genetic modifications, research projects, and related approvals, fostering innovation and informed decision-making in agricultural biotechnology."
         />
+
         <meta name="google-site-verification" content="ZrD_iUGZg325WPHfCGqb7gySTuljzzaFlh1Zq3UdkJk" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-signin-client_id" content="605043117472-0nk2ffvrtcrgu7122k1jghtn9a7f4duo.apps.googleusercontent.com">
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
-
+        <title inertia>{{ config('app.name', 'Laravel') }} - Department of Agriculture Crop Biotechnology Center</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

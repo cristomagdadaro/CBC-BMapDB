@@ -1,9 +1,11 @@
 import IBreeder from "./IBreeder";
 import ICity from "../../../../Modules/core/interface/location/ICity";
 import IBaseClass from "../../../../Modules/core/interface/base/IBaseClass";
+import IUser from "@/Modules/core/interface/auth/IUser";
 
 export default interface ICommodity  extends IBaseClass {
     id: number;
+    user_id: number;
     name: string;
     breeder_id: number;
     scientific_name: string;
@@ -21,4 +23,5 @@ export default interface ICommodity  extends IBaseClass {
     deleted_at: string;
 
     breeder: IBreeder;
+    user: IUser;
 }

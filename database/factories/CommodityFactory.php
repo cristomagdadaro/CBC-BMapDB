@@ -37,6 +37,7 @@ class CommodityFactory extends Factory
         return [
             'name' => $commodity['name'],
             'breeder_id' => Breeder::all()->random()->id,
+            'user_id' => Breeder::all()->random()->user_id,
             'scientific_name' => $commodity['scientific_name'],
             'variety' => $this->faker->randomElement($commodity['varieties']),
             'accession' => $this->faker->randomElement($commodity['accession']),

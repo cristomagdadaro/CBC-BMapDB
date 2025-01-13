@@ -57,9 +57,10 @@ export default class ApiService implements IApiService
                     }
                 }
             }
-
+            console.log(response);
             return new BaseResponse(response);
         } catch (error) {
+            console.log(error);
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -83,6 +84,7 @@ export default class ApiService implements IApiService
     {
         try {
             this._processing = true;
+            console.log(data);
             const response = await axios.put(this.baseUrl + '/' + data.id, data);
             return new BaseResponse(response.data);
         } catch (error) {

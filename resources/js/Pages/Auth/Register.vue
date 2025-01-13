@@ -9,7 +9,7 @@ import PageLayout from '@/Layouts/PageLayout.vue';
 import TextField from "@/Components/Form/TextField.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, ref, watch} from "vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
@@ -42,19 +42,41 @@ const submit = () => {
     });
 };
 
+const filteredRoles = ref([]); // To hold the roles specific to the selected application
+const selectedApplication = ref(''); // To track the currently selected application.
+const applicationRolesMap = {
+    "1": ['Researcher', 'Breeder', 'Expert'], // Plant Breeders Map
+    "2": ['Focal Person', 'Researcher'], // TWG Db
+};
+
 async function getListOfApplications() {
-    api = new ApiService(route('api.applications.index.public'));
+    const api = new ApiService(route('api.applications.index.public'));
     await api.get().then(response => {
         applications.value = response.data.data;
     });
 }
 
 async function getListOfRoles() {
-    api = new ApiService(route('api.roles.index.public'));
+    const api = new ApiService(route('api.roles.index.public'));
     await api.get().then(response => {
         roles.value = response.data.data;
+        filterRolesByApplication(); // Filter roles after fetching them
     });
 }
+
+// Function to filter roles based on the selected application
+function filterRolesByApplication() {
+    const allowedRoles = applicationRolesMap[selectedApplication.value] || [];
+    filteredRoles.value = roles.value.filter(role =>
+        allowedRoles.includes(role.label) // Assuming roles have a 'name' property
+    );
+}
+
+// Watch for changes in the selected application to update the filtered roles
+watch(selectedApplication, () => {
+    form.account_for = selectedApplication.value;
+    filterRolesByApplication();
+});
 
 onBeforeMount(async () => {
     await getListOfApplications();
@@ -73,6 +95,7 @@ onBeforeMount(async () => {
             id: role.id,
             value: role.id,
             label: role.name,
+            permissions: role.permissions,
         };
     });
 });
@@ -92,8 +115,8 @@ onBeforeMount(async () => {
                 </div>
                 <form @submit.prevent="submit" class="flex flex-col gap-2">
                     <div class="grid sm:grid-cols-2 grid-cols-1 gap-2">
-                        <SelectField v-if="applications" id="account_for" label="Account For" v-model="form.account_for" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="applications" />
-                        <SelectField v-if="roles" id="role" label="Access Level" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form.errors.role" :options="roles" />
+                        <SelectField v-if="applications" id="account_for" label="Account For" v-model="selectedApplication" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="applications" />
+                        <SelectField v-if="roles" id="role" label="Access Level" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form.errors.role" :options="filteredRoles" />
                     </div>
                     <div class="grid sm:grid-cols-4 grid-cols-1 gap-2">
                         <TextField id="fname" label="First Name" v-model="form.fname" type="text" required autofocus autocomplete="name" :error="form.errors.fname" />

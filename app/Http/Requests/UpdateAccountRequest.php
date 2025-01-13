@@ -43,7 +43,8 @@ class UpdateAccountRequest extends FormRequest
             ],
             'approved_at' => 'nullable|date',
             'permissions' => 'array|nullable',
-            'role' => 'nullable|exists:roles,id',
+            'role' => 'nullable|array',
+            'role.*' => 'required|integer|exists:roles,id',
         ];
     }
 }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('commodities', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('breeder_id')->constrained('breeders');
             $table->string('scientific_name')->nullable();
             $table->string('variety')->nullable();

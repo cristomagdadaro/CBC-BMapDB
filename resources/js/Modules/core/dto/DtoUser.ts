@@ -49,4 +49,35 @@ export default class DtoUser extends BaseClass implements IUser {
     get getRole() {
         return this.roles.map(role => role.name).join(", ");
     }
+
+    get roleList() {
+        return this.roles.map(role => {
+            // name and id
+            return {
+                name: role.name,
+                id: role.id
+            };
+        });
+    }
+
+    get rolePermissionsList() {
+        return this.roles.map(role => {
+            return role.permissions.map(permission => {
+                return {
+                    name: permission.name,
+                    id: permission.id
+                };
+            });
+            // @ts-ignore
+        }).flat();
+    }
+
+    get userPermissionsList() {
+        return this.permissions.map(permission => {
+            return {
+                name: permission.name,
+                id: permission.id
+            };
+        });
+    }
 }

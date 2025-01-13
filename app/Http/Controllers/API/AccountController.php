@@ -4,17 +4,12 @@ namespace App\Http\Controllers\API;
 
 use App\Enums\Permission as PermissionEnum;
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\GetAccountForRequest;
 use App\Http\Requests\UpdateAccountRequest;
-use App\Http\Resources\AccountsCollection;
 use App\Http\Resources\BaseCollection;
-use App\Models\Accounts;
-use App\Models\Permission;
 use App\Models\User;
 use App\Repository\API\AccountsRepo;
-use Faker\Core\Uuid;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
@@ -60,39 +55,70 @@ class AccountController extends BaseController
         $appId = $validatedData['app_id'];
         $approvedAt = $validatedData['approved_at']; // Get the approved_at value
         $permissionIds = $validatedData['permissions'] ?? [];
-        $role = $validatedData['role'] ?? [];
-
-        // Validate that all permission IDs exist in the permissions table
-        $validPermissionIds = DB::table('permissions')
-            ->whereIn('id', $permissionIds)
-            ->pluck('id')
-            ->toArray();
-
-        if (count($validPermissionIds) !== count($permissionIds)) {
-            // Throw a validation exception if there are invalid permission IDs
-            throw ValidationException::withMessages([
-                'permissions' => ['Some of the permission IDs do not exist in the permissions table.']
-            ]);
-        }
-
-        // Get the permissions based on the app ID
-        $validPermissionIds = $this->getPermissionsFromRequest($request->get('permissions', []));
+        $roles = $validatedData['role'] ?? [];
 
         if ($user) {
-            // If approved_at has a value, assign the permissions
-            if ($approvedAt) {
-                $user->givePermissionTo($validPermissionIds);
-
-                // Assign a role to the user with the role ID
-                if ($role) {
-                    // remove all roles from the user
-                    $user->roles()->detach();
-                    // assign the new role to the user
-                    $user->assignRole($role);
-                }
+            // If approved_at is null, revoke all permissions and roles
+            if (!$approvedAt) {
+                $user->revokePermissionTo($user->permissions); // revoke all user's permissions
+                $user->roles()->detach(); // remove all roles
             } else {
-                // If approved_at is null, remove the permissions
-                $user->revokePermissionTo(Permission::all());
+                // Handle permissions
+                // Extract negative values from $permissionIds
+                $negativePermissionIds = array_filter($permissionIds, fn($id) => $id < 0);
+
+                // Extract positive values from $permissionIds
+                $positivePermissionIds = array_filter($permissionIds, fn($id) => $id > 0);
+
+                $validPermissionIds = DB::table('permissions')
+                    ->whereIn('id', array_map('abs', $permissionIds))
+                    ->pluck('id')
+                    ->toArray();
+
+                if (count($validPermissionIds) !== count(array_map('abs', $permissionIds))) {
+                    // Throw a validation exception if there are invalid permission IDs
+                    throw ValidationException::withMessages([
+                        'permissions' => ['Some of the permission IDs do not exist in the permissions table.']
+                    ]);
+                }
+
+                // Revoke permissions specified as negative in request
+                if (!empty($negativePermissionIds)) {
+                    $permissionsToRevoke = DB::table('permissions')
+                        ->whereIn('id', array_map('abs', $negativePermissionIds))
+                        ->pluck('name')
+                        ->toArray();
+
+                    $user->revokePermissionTo($permissionsToRevoke);
+                }
+
+                // Assign new permissions
+                if (!empty($positivePermissionIds)) {
+                    $permissionsToAssign = $this->getPermissionsFromRequest($positivePermissionIds);
+                    $user->givePermissionTo($permissionsToAssign);
+                }
+
+                // Handle roles
+                $negativeRoles = array_filter($roles, fn($id) => $id < 0);
+                $positiveRoles = array_filter($roles, fn($id) => $id > 0);
+
+                if (!empty($negativeRoles)) {
+                    $rolesToDetach = array_map('abs', $negativeRoles);
+
+                    // Filter invalid role IDs before detaching them
+                    $validRoleIds = DB::table('roles')
+                        ->whereIn('id', $rolesToDetach)
+                        ->pluck('id')
+                        ->toArray();
+
+                    $user->roles()->detach($validRoleIds);
+                }
+
+                if (!empty($positiveRoles)) {
+                    foreach ($positiveRoles as $roleId) {
+                        $user->assignRole($roleId);
+                    }
+                }
             }
         }
 

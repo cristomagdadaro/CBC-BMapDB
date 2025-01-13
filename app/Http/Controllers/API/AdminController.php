@@ -4,7 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\CreateUserRequest;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Arr;
 use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\GetUnverifiedUserRequest;
 use App\Http\Requests\UpdateUserRequest;

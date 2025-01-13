@@ -8,6 +8,13 @@ export default class AuthUser extends User
         super(user);
         //@ts-ignore
         this.accounts_count = user.accounts_count;
+
+        this.indexUri = 'api.administrator.index';
+        this.showUri = 'api.administrator.show';
+        this.storeUri = 'api.administrator.store';
+        this.updateUri = 'api.administrator.update';
+        this.destroyUri = 'api.administrator.destroy';
+        this.multiDestroyUri = 'api.administrator.destroy.multi';
     }
 
     static createForm()
@@ -29,7 +36,7 @@ export default class AuthUser extends User
 
     static updateForm(oldValue: Partial<AuthUser>)
     {
-        return {
+        const form = {
             id: oldValue.id ?? null,
             fname: oldValue.fname ?? null,
             mname: oldValue.mname ?? null,
@@ -37,12 +44,21 @@ export default class AuthUser extends User
             suffix: oldValue.suffix ?? null,
             mobile_no: oldValue.mobile_no ?? null,
             email: oldValue.email ?? null,
+            email_verified_at: oldValue.email_verified_at ?? null,
             affiliation: oldValue.affiliated ? oldValue.affiliated.id : null,
             // @ts-ignore
             account_for: oldValue.account_for ? oldValue.account_for.id : null,
-            password: null,
-            password_confirmation: null,
+        };
+
+        // Only include password fields if values are provided
+        if (oldValue.password) {
+            form.password = oldValue.password;
         }
+        if (oldValue.password_confirmation) {
+            form.password_confirmation = oldValue.password_confirmation;
+        }
+
+        return form;
     }
 
     static getColumns() {

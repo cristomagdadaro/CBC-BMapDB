@@ -17,6 +17,7 @@ export default class Commodity extends DtoCommodity {
     static createForm()
     {
         return {
+            user_id: null,
             breeder_id: null,
             name: '',
             scientific_name: '',

@@ -34,7 +34,7 @@ class SupportInfoController extends Controller
         $urls = [
             // Home Page
             [
-                'name' => 'Home',
+                'name' => 'Welcome',
                 'loc' => url('/'), // Home page
                 'lastmod' => now()->toAtomString(),
                 'changefreq' => 'daily',

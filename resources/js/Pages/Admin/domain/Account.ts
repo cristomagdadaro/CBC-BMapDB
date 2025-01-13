@@ -21,11 +21,7 @@ export default class AuthAccount extends Account
             user_id: oldValue.user_id ?? null,
             app_id: oldValue.app_id ?? null,
             approved_at: oldValue.approved_at ?? null,
-            // @ts-ignore
-            permissions: oldValue.permissions ?? [],
-            // @ts-ignore
-            role: oldValue.role ?? null,
-
+            user: oldValue.user ?? null,
         }
     }
 

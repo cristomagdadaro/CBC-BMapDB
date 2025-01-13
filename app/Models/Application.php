@@ -57,4 +57,9 @@ class Application extends BaseModel
 
         return $this->belongsTo(Accounts::class, 'app_id', 'id');
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_has_permissions');
+    }
 }

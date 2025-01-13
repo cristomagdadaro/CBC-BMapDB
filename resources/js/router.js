@@ -4,7 +4,7 @@ const routes = [
     {
         path: '/',
         component: async () => await import('@/Pages/Projects.vue'),
-        name: 'Home',
+        name: 'Welcome',
     },
     {
         path: '/dashboard',
@@ -32,7 +32,7 @@ const routes = [
         name: 'Forgot Password',
     },
     {
-        path: '/verification',
+        path: '/email/verify',
         component: async () => await import('@/Pages/Auth/Register.vue'),
         name: 'Email Verification',
     },

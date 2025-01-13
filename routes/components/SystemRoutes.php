@@ -18,8 +18,9 @@ Route::middleware('admin')->prefix('administrator')->group(function () {
     Route::middleware(['can:'. Permission::READ_USER->value])->get('/{id}', [AdminController::class, 'show'])->name('api.administrator.show');
     Route::middleware(['can:'. Permission::CREATE_USER->value])->post('/', [AdminController::class, 'store'])->name('api.administrator.store');
     Route::middleware(['can:'. Permission::UPDATE_USER->value])->put('/{id}', [AdminController::class, 'update'])->name('api.administrator.update');
+    Route::middleware(['can:'. Permission::DELETE_USER->value])->delete('/delete', [AdminController:: class, 'multiDestroy'])->name('api.administrator.destroy.multi');
     Route::middleware(['can:'. Permission::DELETE_USER->value])->delete('/{id}', [AdminController::class, 'destroy'])->name('api.administrator.destroy');
-    Route::middleware(['can:'. Permission::DELETE_USER->value])->delete('/delete', [AdminController::class, 'multiDestroy'])->name('api.administrator.destroy.multi');
+
 });
 
 Route::prefix('roles')->group(function () {

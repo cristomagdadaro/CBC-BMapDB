@@ -12,6 +12,6 @@ class BreederSeeder extends Seeder
      */
     public function run(): void
     {
-        Breeder::factory()->count(500)->create();
+        Breeder::factory()->count(100)->create();
     }
 }
