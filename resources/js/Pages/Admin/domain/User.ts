@@ -1,4 +1,5 @@
 import User from "@/Modules/core/domain/auth/User";
+
 export default class AuthUser extends User
 {
     accounts_count: number;
@@ -52,9 +53,11 @@ export default class AuthUser extends User
 
         // Only include password fields if values are provided
         if (oldValue.password) {
+            // @ts-ignore
             form.password = oldValue.password;
         }
         if (oldValue.password_confirmation) {
+            // @ts-ignore
             form.password_confirmation = oldValue.password_confirmation;
         }
 

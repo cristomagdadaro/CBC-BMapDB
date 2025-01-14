@@ -6,6 +6,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import User from "../../../Modules/core/domain/auth/User";
 
 const props = defineProps({
     team: Object,
@@ -36,6 +37,7 @@ const updateTeamName = () => {
 
         <template #form>
             <!-- Team Owner Information -->
+            {{ $page.props.team_permissions }}
             <div class="col-span-6">
                 <InputLabel value="Owner" />
 
@@ -43,9 +45,11 @@ const updateTeamName = () => {
                     <img class="w-12 h-12 rounded-full object-cover" :src="team.owner.profile_photo_url" :alt="team.owner.name">
 
                     <div class="ml-4 leading-tight">
-                        <div class="text-gray-900">{{ team.owner.name }}</div>
                         <div class="text-gray-700 text-sm">
-                            {{ team.owner.email }}
+                            {{ new User(team.owner).getFullName }}
+                        </div>
+                        <div class="text-gray-700 leading-tight text-xs">
+                            {{ (new User(team.owner)).email }}
                         </div>
                     </div>
                 </div>

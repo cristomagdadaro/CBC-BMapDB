@@ -23,6 +23,9 @@ export default class DtoUser extends BaseClass implements IUser {
     permissions?: IPermission[] = [];
     affiliated: DtoInstitute = null;
 
+    password?: string;
+    password_confirmation?: string;
+
     constructor(dto: IUser) {
         super();
         this.table = 'users';
@@ -35,6 +38,12 @@ export default class DtoUser extends BaseClass implements IUser {
         this.affiliated = dto.affiliated;
         this.mobile_no = dto.mobile_no;
         this.email_verified_at = dto.email_verified_at;
+
+        if (dto.password)
+        {
+            this.password = dto.password;
+            this.password_confirmation = dto.password_confirmation;
+        }
 
         if (dto.roles)
             this.roles = dto.roles.map(role => new DtoRole(role));

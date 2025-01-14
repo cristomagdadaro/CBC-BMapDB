@@ -17,4 +17,7 @@ export default interface IUser {
     accounts?: IAccount[];
     permissions?: IPermission[];
     affiliated: DtoInstitute;
+
+    password?: string;
+    password_confirmation?: string;
 }

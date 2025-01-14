@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             CityProvinceRegionSeeder::class,
             ApplicationSeeder::class,
             InstituteSeeder::class,
+            RoleAndPermissionSeeder::class,
         ]);
 
         $admin = User::factory()->withPersonalTeam()->create([
@@ -40,6 +41,15 @@ class DatabaseSeeder extends Seeder
 
         $twgAdmin->approve(1);
 
+        $focalPerson = User::factory()->withPersonalTeam()->create([
+            'fname' => 'Cristo Rey',
+            'lname' => 'Magdadaro',
+            'email' => 'focalperson@cbc.gov.ph',
+            'email_verified_at' => now()
+        ]);
+
+        $focalPerson->approve(1);
+
         $breeder = User::factory()->withPersonalTeam()->create([
             'fname' => 'Reynaldo',
             'lname' => 'Diocton',
@@ -60,7 +70,6 @@ class DatabaseSeeder extends Seeder
         $researcher->approve(2);
 
         $this->call([
-            RoleAndPermissionSeeder::class,
             UserSeeder::class,
             BreederSeeder::class,
             CommoditySeeder::class,
@@ -71,6 +80,7 @@ class DatabaseSeeder extends Seeder
         $admin->assignRole(Role::ADMIN->value);
         $twgAdmin->assignRole(Role::EXPERT->value);
         $breeder->assignRole(Role::BREEDER->value);
+        $focalPerson->assignRole(Role::FOCAL_PERSON->value);
         $researcher->assignRole(Role::RESEARCHER->value);
 
         $users = User::all();

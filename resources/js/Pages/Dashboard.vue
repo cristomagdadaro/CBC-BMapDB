@@ -30,30 +30,33 @@ const user = new User(page.props.auth.user);
                     </ul>
                 </div>
                 <div class="p-3">
-                    <div class="flex gap-5">
+                    <div class="flex flex-col gap-5">
+                        <div v-if="user.userPermissionsList.length">
+                            <p class="font-bold">
+                                Special Permissions:
+                            </p>
+                            <ul>
+                                <li v-for="permission in user.userPermissionsList" :key="permission">
+                                    {{ permission.name }}
+                                </li>
+                            </ul>
+                        </div>
+
                         <div v-if="user.rolePermissionsList.length">
                             <p class="font-bold">
                                 Permissions according to your role:
                             </p>
                             <ul>
                                 <li v-for="permission in user.rolePermissionsList" :key="permission">
-                                    {{ permission }}
-                                </li>
-                            </ul>
-                        </div>
-                        <div v-if="user.userPermissionsList.length">
-                            <p class="font-bold">
-                                Permissions granted to your account:
-                            </p>
-                            <ul>
-                                <li v-for="permission in user.userPermissionsList" :key="permission">
-                                    {{ permission }}
+                                    {{ permission.name }}
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {{ $page.props.teamPermissions }}
         </div>
     </AppLayout>
 </template>

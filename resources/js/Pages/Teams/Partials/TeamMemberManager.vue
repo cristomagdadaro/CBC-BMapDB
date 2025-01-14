@@ -13,6 +13,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
 import TextInput from '@/Components/TextInput.vue';
+import User from "../../../Modules/core/domain/auth/User";
 
 const props = defineProps({
     team: Object,
@@ -230,9 +231,16 @@ const displayableRole = (role) => {
                         <div v-for="user in team.users" :key="user.id" class="flex items-center justify-between">
                             <div class="flex items-center">
                                 <img class="w-8 h-8 rounded-full object-cover" :src="user.profile_photo_url" :alt="user.name">
-                                <div class="ml-4">
-                                    {{ user.name }}
+                                <div class="flex flex-col">
+                                    <div class="ml-4 leading-tight">
+                                        {{ (new User(user)).getFullName }}
+                                    </div>
+                                    <div class="ml-4 leading-tight text-xs">
+                                        {{ (new User(user)).email }}
+                                    </div>
                                 </div>
+                                Permissions: {{ team.users[0] }}
+
                             </div>
 
                             <div class="flex items-center">

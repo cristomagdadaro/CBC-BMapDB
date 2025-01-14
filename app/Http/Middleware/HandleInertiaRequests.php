@@ -51,6 +51,8 @@ class HandleInertiaRequests extends Middleware
             'appNameShort' => env('APP_NAME_SHORT'),
             'companyName' => env('COMPANY_NAME'),
             'companyNameShort' => env('COMPANY_NAME_SHORT'),
+                // team permissions
+                'teamPermissions' =>  $request->user() ? $request->user()->teamPermissions($request->user()->currentTeam) : null
         ]);
     }
 }
