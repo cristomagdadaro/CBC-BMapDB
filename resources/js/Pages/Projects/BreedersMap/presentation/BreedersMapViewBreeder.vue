@@ -74,7 +74,7 @@ export default {
                 <h1 class="text-lg font-semibold uppercase select-none px-3 mt-5">Commodities</h1>
                 <Tab :tabs="tabs">
                     <template #tab1>
-                        <commodity-table :base-url="route(Commodity.indexUri, breederInstance.id)" />
+                        <commodity-table :base-url="route(Commodity.indexUri)" :params="{ filter_by_parent_id: breederInstance.id,  filter_by_parent_column: 'breeder_id' }" />
                     </template>
                     <template #tab2>
                         <div class="p-2 relative">

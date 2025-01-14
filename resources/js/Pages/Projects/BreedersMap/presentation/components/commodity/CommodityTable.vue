@@ -11,6 +11,10 @@ export default {
             required: false,
             default: null,
         },
+        params: {
+            type: Object,
+            required: false,
+        }
     },
     computed: {
         BreedersMapPages() {
@@ -42,16 +46,16 @@ export default {
 
 <template>
     <CRCMDatatable
-        :base-url="baseUrl ?? BreedersMapPages.api.commodity.path"
-        :base-model="BreedersMapPages.api.commodity.model"
-        :add-form="BreedersMapPages.api.commodity.create.component"
-        :edit-form="BreedersMapPages.api.commodity.edit.component"
-        :import-modal="BreedersMapPages.api.commodity.import.component"
-        :view-form="BreedersMapPages.api.commodity.view.path"
-        :can-create="canCreate"
-        :can-update="canUpdate"
-        :can-delete="canDelete"
-        :can-view="canView"
+        :base-url="baseUrl ? baseUrl + `?filter_by_parent_column=${params?.filter_by_parent_column || ''}&filter_by_parent_id=${params?.filter_by_parent_id || ''}` : BreedersMapPages.api.commodity.path"
+        :base-model="BreedersMapPages?.api?.commodity?.model || ''"
+        :add-form="BreedersMapPages?.api?.commodity?.create?.component || ''"
+        :edit-form="BreedersMapPages?.api?.commodity?.edit?.component || ''"
+        :import-modal="BreedersMapPages?.api?.commodity?.import?.component || ''"
+        :view-form="BreedersMapPages?.api?.commodity?.view?.path || ''"
+        :can-create="canCreate ?? false"
+        :can-update="canUpdate ?? false"
+        :can-delete="canDelete ?? false"
+        :can-view="canView ?? false"
     />
 </template>
 

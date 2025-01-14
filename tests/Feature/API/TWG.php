@@ -12,7 +12,7 @@ class TWG extends TestCase
     /** @test **/
     public function get_summary(): void
     {
-        $response = $this->get('http://pin.philrice.gov.ph/projects/summary/twg-db');
+        $response = $this->get('/api/twg/summary');
         print_r($response->getContent());
         $response->assertStatus(200);
     }
@@ -21,7 +21,7 @@ class TWG extends TestCase
     public function create_an_expert(): void
     {
         $user = User::factory()->create();
-        $response = $this->post('/api/twg/experts', [
+        $response = $this->get('/api/twg/experts', [
             'user_id' => $user->id,
             'name' => 'Test Expert',
             'position' => 'Test Position',
@@ -31,7 +31,7 @@ class TWG extends TestCase
             'mobile' => '1234567890',
             'email' => 'sample@email,com',
         ]);
-
+        print_r($response->collect()->toArray());
         $response->assertStatus(200);
     }
 }

@@ -260,4 +260,13 @@ class BreedersCrudTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    /** @test **/
+    public function get_breeder_with_commodities_table(): void
+    {
+        $this->userSetup();
+        $response = $this->getJson('/api/commodities?filter_by_parent_column=breeder_id&filter_by_parent_id=60&page=1&per_page=10&sort=id&order=asc&with=breeder,location');
+        print_r($response->collect()->toArray());
+        $response->assertStatus(200);
+    }
 }
