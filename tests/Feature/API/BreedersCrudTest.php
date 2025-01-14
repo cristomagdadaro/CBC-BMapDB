@@ -38,11 +38,25 @@ class BreedersCrudTest extends TestCase
     }
 
     /** @test **/
+    public function get_a_specific_breeder_with_appended_table(): void
+    {
+        $this->userSetup();
+        $response = $this->getJson('/api/breeders/2?with=affiliated,location&count=commodities');
+        print_r($response->collect()->toArray());
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('breeders', [
+            'id' => 2,
+            'name' => $response['data']['name'],
+            'affiliation' => $response['data']['affiliation'],
+        ]);
+    }
+
+    /** @test **/
     public function get_a_specific_breeder_that_does_not_exist(): void
     {
         $this->userSetup();
         $response = $this->getJson('/api/breeders/999');
-
+        print_r($response->collect()->toArray());
         $response->assertStatus(404);
     }
 

@@ -1,9 +1,9 @@
 <?php
 namespace App\Repository;
 
-use App\Enums\Role;
 use App\Http\Interfaces\RepositoryInterface;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
@@ -198,39 +198,65 @@ abstract class AbstractRepoService implements RepositoryInterface
     }
 
     /**
-     * Retrieve a model
-     * @param int $id model primary key
-     * @return JsonResponse
-     **/
-    public function find(int $id): JsonResponse
+     * Retrieve a model by its primary key.
+     *
+     * @param int $id Model primary key.
+     * @return JsonResponse | Model
+     *
+     * @throw Exception
+     */
+    public function find(int $id): JsonResponse|Model
     {
-        $query = $this->model;
+        try {
+            $query = $this->applyAppends($this->model);
+            return $query->findOr($id, fn() => $this->jsonResponse($this->model->getNotifMessage('notFound'), null, 'Not found', 'error', 404));
+        } catch (Exception $error) {
+            return $this->sendError($error);
+        }
+    }
+
+    private function applyAppends(Model $model): Builder | Model
+    {
+        $query = $model;
 
         if (!empty($this->appendWith)) {
             $query = $query->with($this->appendWith);
         }
 
-        $data = $query->find($id);
+        if (!empty($this->appendCount)) {
+            $query = $query->withCount($this->appendCount);
+        }
 
-        if(!$data)
-            return response()->json([
-                'message' => $this->model->getNotifMessage('notFound'),
-                'data' => null,
-                'show' => true,
-                'title' => "Not Found",
-                'type' => "warning",
-                'timeout' => 10000
-            ], Response::HTTP_NOT_FOUND);
+        return $query;
+    }
 
+    /**
+     * Create a standardized JSON response.
+     *
+     * @param string $message Response message.
+     * @param mixed $data Response data.
+     * @param string $title Response title.
+     * @param string $type Notification type (success, warning, error).
+     * @param int $statusCode HTTP status code.
+     * @return JsonResponse
+     */
+    private function jsonResponse(
+        string $message,
+               $data = null,
+        string $title = '',
+        string $type = 'info',
+        int $statusCode = Response::HTTP_OK
+    ): JsonResponse {
         return response()->json([
-            'message' => $this->model->getNotifMessage('found'),
+            'message' => $message,
             'data' => $data,
             'show' => true,
-            'title' => "Found",
-            'type' => "success",
-            'timeout' => 10000
-        ], Response::HTTP_OK);
+            'title' => $title,
+            'type' => $type,
+            'timeout' => 10000,
+        ], $statusCode);
     }
+
 
     /**
      * Data filtering
@@ -359,10 +385,10 @@ abstract class AbstractRepoService implements RepositoryInterface
 
 
 
-    private function sendError(Exception $error): Collection
+    private function sendError(Exception $error): JsonResponse
     {
         $error = new ErrorRepository($error);
-        return new Collection($error->getErrorMessage());
+        return response()->json($error->getErrorMessage());
     }
 
     public function summary(): int

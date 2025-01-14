@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\GetBreederRequest;
 use App\Http\Requests\CreateBreederRequest;
-use App\Http\Requests\UpdateBreederRequest;
 use App\Http\Requests\DeleteBreederRequest;
-use App\Repository\API\BreederRepo;
-use Illuminate\Support\Collection;
-use Illuminate\Http\JsonResponse;
+use App\Http\Requests\GetBreederRequest;
+use App\Http\Requests\UpdateBreederRequest;
 use App\Http\Resources\BaseCollection;
+use App\Repository\API\BreederRepo;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 
 class BreederController extends BaseController
 {
@@ -28,7 +28,7 @@ class BreederController extends BaseController
      */
     public function index(GetBreederRequest $request, int|null $parent_id = null): BaseCollection
     {
-        $this->service->appendWith(['affiliated', 'location', 'commodities']);
+        //$this->service->appendWith(['affiliated', 'location', 'commodities']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
@@ -36,16 +36,20 @@ class BreederController extends BaseController
     /**
      * Retrieves a single breeder record based on the provided ID.
      *
-     * @param GetBreederRequest $request The request object containing the filters.
-     * @param int|string $id The unique identifier of the breeder record to retrieve.
-     * @return BaseCollection A collection containing the requested breeder data.
+     * @param int $id The unique identifier of the breeder record to retrieve.
+     * @return JsonResponse A collection containing the requested breeder data.
      */
-    public function show(GetBreederRequest $request, int $id): BaseCollection
+    public function show(GetBreederRequest $request, int $id)
     {
-        $this->service->appendWith(['affiliated', 'location']);
-        $this->service->appendCount(['commodities']);
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        $with = $request->toArray()['with'] ?? null;
+        $count = $request->toArray()['count'] ?? null;
+
+        if ($with)
+            $this->service->appendWith(explode(',',$with));
+        if ($count)
+            $this->service->appendCount(explode(',',$count));
+
+        return $this->sendResponse($this->service->find($id));
     }
 
     /**

@@ -9,12 +9,10 @@ abstract class BaseController extends Controller
 {
     protected AbstractRepoService $service;
 
-    public function sendResponse($message, $data = null): JsonResponse
+    public function sendResponse($data = null): JsonResponse
     {
         $response = [
-            'success' => true,
             'data' => $data,
-            'message' => $message,
         ];
 
         return response()->json($response);
@@ -24,9 +22,7 @@ abstract class BaseController extends Controller
     public function sendFail($message, $error_code, $data = null): JsonResponse
     {
         $response = [
-            'success' => false,
             'data' => $data,
-            'message' => $message,
         ];
 
         return response()->json($response, $error_code);
