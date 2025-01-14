@@ -18,6 +18,16 @@ class BreedersCrudTest extends TestCase
     }
 
     /** @test **/
+    public function get_all_breeders_with_appends(): void
+    {
+        $this->userSetup();
+        $response = $this->getJson('/api/breeders?per_page=10&sort=id&order=asc&with=affiliated,location&count=commodities&page=1');
+        $response->assertStatus(200);
+
+        $this->assertEquals(15, $response['meta']['total']);
+    }
+
+    /** @test **/
     public function get_all_public_breeders(): void
     {
         $this->userSetup();
@@ -34,7 +44,11 @@ class BreedersCrudTest extends TestCase
         $response = $this->getJson('/api/breeders/2');
         print_r($response->collect()->toArray());
         $response->assertStatus(200);
-        $this->assertDatabaseHas('breeders', $response->collect()->toArray());
+        $this->assertDatabaseHas('breeders', [
+            'id' => 2,
+            'name' => $response['data']['name'],
+            'affiliation' => $response['data']['affiliation'],
+        ]);
     }
 
     /** @test **/
@@ -67,18 +81,23 @@ class BreedersCrudTest extends TestCase
         $response = $this->postJson('/api/breeders', [
             'user_id' => '1',
             'name' => 'Test Breeder',
-            'affiliation' => 'Test Agency',
-            'address' => 'Test Address',
+            'affiliation' => '1',
+            'geolocation' => '2',
             'phone' => 'Test Phone',
             'email' => 'test@gmail.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
         ]);
+
+        print_r($response->collect()->toArray());
 
         $response->assertStatus(201);
         $this->assertDatabaseHas('breeders', [
+            'id' => $response['data']['id'],
             'user_id' => '1',
             'name' => 'Test Breeder',
-            'affiliation' => 'Test Agency',
-            'address' => 'Test Address',
+            'affiliation' => '1',
+            'geolocation' => '2',
             'phone' => 'Test Phone',
             'email' => 'test@gmail.com',
         ]);
@@ -100,12 +119,41 @@ class BreedersCrudTest extends TestCase
     }
 
     /** @test **/
+    public function create_a_duplicate_breeder(): void
+    {
+        $this->userSetup();
+        $this->postJson('/api/breeders', [
+            'user_id' => '1',
+            'name' => 'Test Breeder',
+            'affiliation' => '1',
+            'geolocation' => '2',
+            'phone' => 'Test Phone',
+            'email' => 'test@gmail.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        $response = $this->postJson('/api/breeders', [
+            'user_id' => '1',
+            'name' => 'Test Breeder',
+            'affiliation' => '1',
+            'geolocation' => '2',
+            'phone' => 'Test Phone',
+            'email' => 'test@gmail.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+
+        $response->assertStatus(422);
+    }
+
+    /** @test **/
     public function delete_a_breeder(): void
     {
         $this->userSetup();
         $response = $this->deleteJson('/api/breeders/1');
         $response->assertStatus(200);
-
+        print_r($response->collect()->toArray());
         $this->assertDatabaseMissing('breeders', [
             'id' => 1,
         ]);

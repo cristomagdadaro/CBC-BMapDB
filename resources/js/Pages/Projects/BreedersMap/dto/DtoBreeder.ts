@@ -16,9 +16,12 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
     deleted_at: string;
     location: DtoCity;
     commodities: DtoCommodity[];
+    commodities_count?: number;
 
     constructor(breeder: IBreeder) {
         super();
+        this.table = 'breeders';
+
         this.id = breeder.id;
         this.user_id = breeder.user_id;
         this.name = breeder.name;
@@ -27,6 +30,8 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
         this.updated_at = breeder.updated_at;
         this.created_at = breeder.created_at;
         this.deleted_at = breeder.deleted_at;
+
+        this.commodities_count = breeder.commodities_count;
 
         if (breeder.affiliated)
             this.affiliated = new DtoInstitute(breeder.affiliated);
@@ -51,8 +56,6 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
     }
 
     get commoditiesCount() {
-        if (this.commodities)
-            return this.commodities.length;
-        return 0;
+        return this.commodities_count;
     }
 }

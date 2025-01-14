@@ -42,14 +42,18 @@ export default class ApiService implements IApiService
         try {
             this._processing = true;
             const response = await axios.get(this.baseUrl, {
-                params: params
+                params: {
+                    ...params,
+                    ...(model?.appendWith ? {with: [...(model.appendWith || [])].toString()} : {}),
+                    ...(model?.appendCount ? {count: [...(model.appendCount || [])].toString()} : {})
+                }
             });
 
             if (model) {
                 if (response && response.data){
                     if (response.data.data){
                         response.data.data = this.castToModel(response.data.data, model);
-                        return new BaseResponse(response.data);
+                        return new BaseResponse(response);
                     }
                     else if (response.data.raw_data){
                         response.data.raw_data = this.castToModel(response.data.raw_data, model);
@@ -57,10 +61,9 @@ export default class ApiService implements IApiService
                     }
                 }
             }
-            console.log(response);
+
             return new BaseResponse(response);
         } catch (error) {
-            console.log(error);
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -72,7 +75,7 @@ export default class ApiService implements IApiService
         try {
             this._processing = true;
             const response = await axios.post(this.baseUrl, data);
-            return new BaseResponse(response.data);
+            return new BaseResponse(response);
         } catch (error) {
             return this.determineError(error);
         } finally {
@@ -84,9 +87,8 @@ export default class ApiService implements IApiService
     {
         try {
             this._processing = true;
-            console.log(data);
             const response = await axios.put(this.baseUrl + '/' + data.id, data);
-            return new BaseResponse(response.data);
+            return new BaseResponse(response);
         } catch (error) {
             return this.determineError(error);
         } finally {
@@ -105,10 +107,10 @@ export default class ApiService implements IApiService
                             ids: id
                         }
                     });
-                return new BaseResponse(response.data);
+                return new BaseResponse(response);
             }else{
                 const response = await axios.delete(this.baseUrl + '/' + id);
-                return new BaseResponse(response.data);
+                return new BaseResponse(response);
             }
         } catch (error) {
             return this.determineError(error);

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Repository\AbstractRepoService;
+use App\Repository\ErrorRepository;
 use Illuminate\Http\JsonResponse;
+use Exception;
 
 abstract class BaseController extends Controller
 {
@@ -16,15 +18,5 @@ abstract class BaseController extends Controller
         ];
 
         return response()->json($response);
-    }
-
-
-    public function sendFail($message, $error_code, $data = null): JsonResponse
-    {
-        $response = [
-            'data' => $data,
-        ];
-
-        return response()->json($response, $error_code);
     }
 }

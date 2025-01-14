@@ -32,9 +32,7 @@ export default class Notification extends BaseClass implements INotification{
             Notification.notifications.value.push(this);
         }
 
-        setTimeout(() => {
-            this.close();
-        }, this.timeout);
+        this.close(this.timeout);
     }
 
     static pushNotification( param = {
@@ -55,7 +53,9 @@ export default class Notification extends BaseClass implements INotification{
         }, param.timeout);
     }
 
-    close(){
-        Notification.notifications.value.splice(Notification.notifications.value.indexOf(this), 1);
+    close(constant: number){
+        setTimeout(() => {
+            Notification.notifications.value.splice(Notification.notifications.value.indexOf(this), 1);
+        }, constant ?? 5000);
     }
 }

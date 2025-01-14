@@ -11,13 +11,15 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
     _multiDestroyUri?: string;
     _summaryUri?: string;
 
+    _appendedWith?: string[];
+    _appendedCount?: string[];
+
     constructor(resp = {}) {
         super(resp);
     }
     set indexUri(value: string) {
         this._indexUri = value;
     }
-
 
     set showUri(value: string) {
         this._showUri = value;
@@ -41,6 +43,22 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
 
     set summaryUri(value: string) {
         this._summaryUri = value;
+    }
+
+    set appendWith(value: string[]) {
+        this._appendedWith = value;
+    }
+
+    set appendCount(value: string[]) {
+        this._appendedCount = value;
+    }
+
+    static get appendWith(): string[] {
+        return new this({})._appendedWith;
+    }
+
+    static get appendCount(): string[] {
+        return new this({})._appendedCount;
     }
 
     static get indexUri(): string {

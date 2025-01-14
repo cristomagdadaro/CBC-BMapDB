@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
+use App\Http\Interfaces\BreederControllerInterface;
 use App\Http\Requests\CreateBreederRequest;
 use App\Http\Requests\DeleteBreederRequest;
 use App\Http\Requests\GetBreederRequest;
@@ -12,34 +13,20 @@ use App\Repository\API\BreederRepo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
-class BreederController extends BaseController
+class BreederController extends BaseController implements BreederControllerInterface
 {
     public function __construct(BreederRepo $breederRepository)
     {
         $this->service = $breederRepository;
     }
 
-    /**
-     * Retrieves a paginated list of breeders based on the provided filters.
-     *
-     * @param GetBreederRequest $request The request object containing the filters.
-     * @param int|null $parent_id The optional parent ID for filtering.
-     * @return BaseCollection A collection of paginated breeder data.
-     */
-    public function index(GetBreederRequest $request, int|null $parent_id = null): BaseCollection
+    public function index(GetBreederRequest $request): BaseCollection
     {
-        //$this->service->appendWith(['affiliated', 'location', 'commodities']);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
-    /**
-     * Retrieves a single breeder record based on the provided ID.
-     *
-     * @param int $id The unique identifier of the breeder record to retrieve.
-     * @return JsonResponse A collection containing the requested breeder data.
-     */
-    public function show(GetBreederRequest $request, int $id)
+    public function show(GetBreederRequest $request, int $id): JsonResponse
     {
         $with = $request->toArray()['with'] ?? null;
         $count = $request->toArray()['count'] ?? null;
@@ -52,49 +39,12 @@ class BreederController extends BaseController
         return $this->sendResponse($this->service->find($id));
     }
 
-    /**
-     * Stores a new breeder record in the database.
-     *
-     * @param CreateBreederRequest $request The request object containing the breeder data.
-     * @return JsonResponse A JSON response indicating the success or failure of the operation.
-     */
     public function store(CreateBreederRequest $request): JsonResponse
     {
-        // Merge validated request data with user_id and create a new breeder record
         $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
-
-        // Call the create method of the service to store the breeder data
         return $this->service->create($data);
     }
 
-
-    /**
-     * Retrieves commodities associated with a specific breeder record without pagination.
-     *
-     * @param int $id The unique identifier of the breeder record.
-     * @param GetBreederRequest $request The request object containing the filters.
-     * @return JsonResponse A JSON response containing the commodities associated with the breeder.
-     *     If no data is found, a 404 status code with a 'Data not found' message is returned.
-     */
-    public function noPage(int $id, GetBreederRequest $request): JsonResponse
-    {
-        $this->service->appendWith(['commodities']);
-        $data = $this->service->search(new Collection($request->validated()), false);
-        if (count($data) === 0) {
-            return response()->json(['message' => 'Data not found'], 404);
-        }
-        return response()->json(['data' => $data[0]->commodities]);
-    }
-
-    /**
-     * Updates an existing breeder record in the database.
-     *
-     * @param UpdateBreederRequest $request The request object containing the updated breeder data.
-     * @param int $id The unique identifier of the breeder record to update.
-     * @return JsonResponse A JSON response indicating the success or failure of the operation.
-     *     If the operation is successful, the response will contain the updated breeder data.
-     *     If the operation fails, the response will contain an error message.
-     */
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
         $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
@@ -102,40 +52,16 @@ class BreederController extends BaseController
         return $this->service->update($id, $data);
     }
 
-    /**
-     * Deletes a specific breeder record from the database.
-     *
-     * @param int $id The unique identifier of the breeder record to delete.
-     * @return JsonResponse A JSON response indicating the success or failure of the operation.
-     *     If the operation is successful, the response will contain a success message.
-     *     If the operation fails, the response will contain an error message.
-     */
     public function destroy(int $id): JsonResponse
     {
         return $this->service->delete($id);
     }
 
-    /**
-     * Deletes multiple breeder records from the database based on the provided IDs.
-     *
-     * @param DeleteBreederRequest $request The request object containing the IDs of the breeder records to delete.
-     * @return JsonResponse A JSON response indicating the success or failure of the operation.
-     *     If the operation is successful, the response will contain a success message.
-     *     If the operation fails, the response will contain an error message.
-     */
     public function multiDestroy(DeleteBreederRequest $request): JsonResponse
     {
         return $this->service->multiDestroy($request->validated());
     }
 
-    /**
-     * Retrieves summary data for breeders based on the provided filters.
-     *
-     * @param GetBreederRequest $request The request object containing the filters.
-     * @return JsonResponse A JSON response containing the summary data.
-     *     The response includes parameters, group search labels, group search institute, raw data,
-     *     raw data labels, chart data, chart labels, and linechart data.
-     */
     public function summary(GetBreederRequest $request): JsonResponse
     {
         $model = $this->service->model;
@@ -176,5 +102,15 @@ class BreederController extends BaseController
             'chart_labels' => $breeders_chart,
             'linechart_data' => $this->service->linechartData($model, $geo_location_value, $is_exact, $geo_location_filter),
         ]);
+    }
+
+    public function noPage(int $id, GetBreederRequest $request): JsonResponse
+    {
+        $this->service->appendWith(['commodities']);
+        $data = $this->service->search(new Collection($request->validated()), false);
+        if (count($data) === 0) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+        return response()->json(['data' => $data[0]->commodities]);
     }
 }

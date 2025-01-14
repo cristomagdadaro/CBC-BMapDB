@@ -1,15 +1,18 @@
 import IBaseResponse from "../../interface/base/IBaseResponse";
-
+import Notification from "@/Components/Modal/Notification/Notification";
 export default class DtoBaseResponse implements IBaseResponse {
     data: any;
     links: any;
     meta: any;
 
+    notification?: Notification;
+
     constructor(params: IBaseResponse) {
         if (!params) return;
-        this.data = params.data;
-        this.links = params.links;
-        this.meta = params.meta;
+        this.data = params.data.data ?? null;
+        this.links = params.data.links ?? null;
+        this.meta = params.data.meta ?? null;
+        this.notification = params.data ? new Notification(params.data) : null;
     }
 
     getMeta() {
@@ -22,6 +25,10 @@ export default class DtoBaseResponse implements IBaseResponse {
 
     getLinks() {
         return this.links
+    }
+
+    getNotification() {
+        return this.notification
     }
 
     getCurrentPage() {

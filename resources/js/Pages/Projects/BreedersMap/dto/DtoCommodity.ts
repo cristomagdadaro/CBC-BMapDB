@@ -30,6 +30,8 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
 
     constructor(commodity: ICommodity) {
         super();
+        this.table = 'commodities';
+
         this.id = commodity.id;
         this.user_id = commodity.user_id;
         this.name = commodity.name;

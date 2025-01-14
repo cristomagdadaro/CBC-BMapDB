@@ -1,37 +1,32 @@
 <?php
 namespace App\Repository;
 
-use App\Http\Interfaces\RepositoryInterface;
+use App\Http\Interfaces\AbstractRepoServiceInterface;
+use App\Models\BaseModel;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Base class for all repositories.
- * This class will be used to handle all the basic CRUD operations.
- * @param Model $model
- **/
-abstract class AbstractRepoService implements RepositoryInterface
+abstract class AbstractRepoService implements AbstractRepoServiceInterface
 {
     /**
      * Model to be used
-     * @var Model
+     * @var BaseModel
     **/
-    public Model $model;
+    public BaseModel $model;
 
     /**
      * Table to append with
-     * @var string
+     * @var string[]
     */
     private array $appendWith = [];
 
     /**
      * Count the rows of the appended tables
-     * @var string
+     * @var string[]
     */
     private array $appendCount = [];
 
@@ -47,58 +42,32 @@ abstract class AbstractRepoService implements RepositoryInterface
 
     /**
      * List of searchable and viewable columns
-     * @var array
+     * @var string[]
     **/
     protected array $searchable = [];
 
-    /**
-     * Constructor
-     * @param Model $model
-    **/
-    public function __construct(Model $model)
+    public function __construct(BaseModel $model)
     {
         $this->model = $model;
     }
 
-    /**
-     * Get all data
-     * @return Collection
-    **/
     public function all(): Collection
     {
         return $this->model->all();
     }
 
-    /**
-     * Create new data
-     * @param array $data
-     * @return JsonResponse
-     **/
     public function create(array $data): JsonResponse
     {
         try {
             $model = $this->model->fill($data);
             $model->save();
 
-            return response()->json([
-                'message' => $model->getNotifMessage('created'),
-                'data' => $model,
-                'show' => true,
-                'title' => "Created",
-                'type' => "success",
-                'timeout' => 10000,
-            ], Response::HTTP_OK);
+            return $this->jsonResponse($this->model->getNotifMessage('created'), $model->toArray(), 'New Data Inserted', 'success', 201);
         } catch (Exception $error) {
-            return response()->json($this->sendError($error),  500);
+            return $this->sendError($error);
         }
     }
 
-    /**
-     * Update data
-     * @param int $id model primary key
-     * @param array $data updated set of data
-     * @return JsonResponse
-     **/
     public function update(int $id, array $data): JsonResponse
     {
         try {
@@ -106,48 +75,27 @@ abstract class AbstractRepoService implements RepositoryInterface
             $model->fill($data);
             $model->save();
 
-            return response()->json([
-                'message' => $model->getNotifMessage('updated'),
-                'data' => $model,
-                'show' => true,
-                'title' => "Updated",
-                'type' => "success",
-                'timeout' => 10000,
-            ], Response::HTTP_OK);
+            return $this->jsonResponse( $model->getNotifMessage('updated'), $model->toArray(), 'Updated Data', 'success');
         } catch (Exception $error) {
-            return response()->json($this->sendError($error), $error->getCode());
+            return $this->sendError($error);
         }
     }
 
-    /**
-     * Delete data
-     * @param int $id model primary key
-     * @return JsonResponse
-     **/
     public function delete(int $id): JsonResponse
     {
         try {
             $model = $this->model->find($id);
-            $model->delete();
+            if ($model)
+                $model->delete();
+            else
+                return $this->jsonResponse($this->model->getNotifMessage('notFound'), null, 'Not found', 'error', 404);
 
-            return response()->json([
-                'message' => $model->getNotifMessage('deleted'),
-                'data' => $model,
-                'show' => true,
-                'title' => "Deleted",
-                'type' => "warning",
-                'timeout' => 10000
-            ], Response::HTTP_OK);
+            return $this->jsonResponse($this->model->getNotifMessage('deleted'), $model->toArray(), 'Removed Data', 'warning');
         } catch (Exception $error) {
-            return response()->json($this->sendError($error),  $error->getCode());
+            return $this->sendError($error);
         }
     }
 
-    /**
-     * Perform multiple model deletion
-     * @param array $ids model primary key
-     * @return JsonResponse
-     **/
     public function multiDestroy(array $ids): JsonResponse
     {
         try {
@@ -193,41 +141,30 @@ abstract class AbstractRepoService implements RepositoryInterface
                 'timeout' => 10000
             ], Response::HTTP_OK);
         }catch (Exception $error) {
-            return response()->json($this->sendError($error),  $error->getCode());
+            return $this->sendError($error);
         }
     }
 
-    /**
-     * Retrieve a model by its primary key.
-     *
-     * @param int $id Model primary key.
-     * @return JsonResponse | Model
-     *
-     * @throw Exception
-     */
-    public function find(int $id): JsonResponse|Model
+    public function find(int $id): JsonResponse|BaseModel
     {
         try {
-            $query = $this->applyAppends($this->model);
+            $query = $this->model->query();
+            $this->applyAppends($query);
             return $query->findOr($id, fn() => $this->jsonResponse($this->model->getNotifMessage('notFound'), null, 'Not found', 'error', 404));
         } catch (Exception $error) {
             return $this->sendError($error);
         }
     }
 
-    private function applyAppends(Model $model): Builder | Model
+    private function applyAppends(Builder &$model)
     {
-        $query = $model;
-
         if (!empty($this->appendWith)) {
-            $query = $query->with($this->appendWith);
+            $model = $model->with($this->appendWith);
         }
 
         if (!empty($this->appendCount)) {
-            $query = $query->withCount($this->appendCount);
+            $model = $model->withCount($this->appendCount);
         }
-
-        return $query;
     }
 
     /**
@@ -257,13 +194,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         ], $statusCode);
     }
 
-
-    /**
-     * Data filtering
-     * @param Collection $parameters search parameters
-     * @param bool $withPagination
-     * @return Collection
-     **/
     public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
     {
         try {
@@ -271,26 +201,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         } catch (Exception $error) {
             return $this->sendError($error);
         }
-    }
-
-    public function appendWith(array $tableToAppend): void
-    {
-        $this->appendWith = $tableToAppend;
-    }
-
-    public function appendCount(array $countTable): void
-    {
-        $this->appendCount = $countTable;
-    }
-
-    public function filterByParent(array|null $parent): void
-    {
-        $this->filterByParent = $parent;
-    }
-
-    public function appendCondition(int $tableConditions): void
-    {
-        $this->appendFilter = $tableConditions;
     }
 
     private function searchData(Collection $parameters, bool $withPagination, bool $isTrashed)
@@ -311,19 +221,17 @@ abstract class AbstractRepoService implements RepositoryInterface
         else
             $builder = $this->model;
 
+        $with = $parameters->get('with', null);
+        $count = $parameters->get('count', null);
+
+        if ($with)
+            $this->appendWith = explode(',', $with);
+        if ($count)
+            $this->appendCount = explode(',', $count);
+
         $builder = $builder->select($this->model->getSearchable());
 
-        if ($this->appendWith) {
-            foreach ($this->appendWith as $table) {
-                $builder->with($table);
-            }
-        }
-
-        if ($this->appendCount) {
-            foreach ($this->appendCount as $table) {
-                $builder->withCount($table);
-            }
-        }
+        $this->applyAppends($builder);
 
         if ($filter_by_parent_column && $filter_by_parent_id) {
             $builder = $builder->where($filter_by_parent_column, $filter_by_parent_id);
@@ -383,12 +291,24 @@ abstract class AbstractRepoService implements RepositoryInterface
         return $builder->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
 
-
-
-    private function sendError(Exception $error): JsonResponse
+    public function appendWith(array $tableToAppend): void
     {
-        $error = new ErrorRepository($error);
-        return response()->json($error->getErrorMessage());
+        $this->appendWith = $tableToAppend;
+    }
+
+    public function appendCount(array $countTable): void
+    {
+        $this->appendCount = $countTable;
+    }
+
+    public function filterByParent(array|null $parent): void
+    {
+        $this->filterByParent = $parent;
+    }
+
+    public function appendCondition(int $tableConditions): void
+    {
+        $this->appendFilter = $tableConditions;
     }
 
     public function summary(): int
@@ -396,12 +316,6 @@ abstract class AbstractRepoService implements RepositoryInterface
         return $this->model->count();
     }
 
-    /**
-     * Determines the location filter level based on the given geolocation filter.
-     *
-     * @param string $geo_location_filter The geolocation filter to determine the level.
-     * @return string The corresponding location filter level.
-     */
     public function determineLocFilterLevel(string $geo_location_filter): string
     {
         return match ($geo_location_filter) {
@@ -409,5 +323,11 @@ abstract class AbstractRepoService implements RepositoryInterface
             'region' => 'regDesc',
             default => 'cityDesc',
         };
+    }
+
+    public function sendError(Exception $error): JsonResponse
+    {
+        $error = new ErrorRepository($error);
+        return response()->json($error->getErrorMessage(), $error->getErrorCode());
     }
 }

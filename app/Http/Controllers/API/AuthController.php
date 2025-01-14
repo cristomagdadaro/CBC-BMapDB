@@ -24,7 +24,7 @@ class AuthController extends BaseController
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
-        return $this->sendResponse('User registered successfully.', new UserLoginResource($user));
+        return $this->sendResponse(new UserLoginResource($user));
     }
 
     /**
@@ -49,10 +49,8 @@ class AuthController extends BaseController
                 ->where('tokenable_id', $user->id)
                 ->delete();
 
-            return $this->sendResponse('User logged in successfully.', new UserLoginResource($user));
+            return $this->sendResponse(new UserLoginResource($user));
         }
-
-        return $this->sendFail('Unauthorized', Response::HTTP_FORBIDDEN, ['error' => 'Unauthorized']);
     }
 
     /**
@@ -80,9 +78,6 @@ class AuthController extends BaseController
     {
         $user = $request->user()->only(['name', 'email']);
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $user
-        ]);
+        return $this->sendResponse($user);
     }
 }

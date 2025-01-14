@@ -12,6 +12,8 @@ export default class Commodity extends DtoCommodity {
         this.destroyUri = 'api.commodities.destroy';
         this.multiDestroyUri = 'api.commodities.destroy.multi';
         this.summaryUri = 'api.commodities.summary';
+
+        this.appendWith = ['breeder', 'location'];
     }
 
     static createForm()

@@ -23,7 +23,7 @@ export default class CRCMDatatable
         // array of ids to delete, can be multiple ids
         this.toDelete = ref([]);
         // when create or update, the modal will be forced to close after successful request
-        this.closeAllModal = ref(false);
+        this.closeAllModal = false;
 
         // retrieve params from local storage, if not found, create a new instance of BaseRequest
         // so that when the page is refreshed, the datatable will remember the last state
@@ -33,50 +33,39 @@ export default class CRCMDatatable
 
     async init() {
         this.response = await this.api.get(this.request.toObject(), this.model);
-        if (!this.checkForErrors(this.response)){
-            this.getColumnsFromResponse(this.response)
-            this.closeAllModal = true;
-        }
+
+        this.getColumnsFromResponse(this.response)
+        this.closeAllModal = true;
     }
 
     async create(data) {
         const response = await this.api.post(this.model.toObject(data));
-
-        if (!this.checkForErrors(response)){
-            await this.refresh();
-        }
+        await this.checkForErrors(response);
     }
 
     async delete(id) {
         const response = await this.api.delete(id);
-
-        if (!this.checkForErrors(response)) {
-            await this.refresh();
-            this.selected = this.selected.filter(item => item !== id);
-        }
+        await this.checkForErrors(response);
+        this.selected = this.selected.filter(item => item !== id);
     }
 
     async update(data) {
         const response = await this.api.put(this.model.toObject(data));
-
-        if (!this.checkForErrors(response)){
-            await this.refresh();
-        }
+        await this.checkForErrors(response);
     }
 
     async deleteSelected() {
         const response = await this.api.delete(this.selected);
-
-        if (!this.checkForErrors(response)){
-            await this.refresh();
-            this.selected = [];
-        }
+        await this.checkForErrors(response);
+        this.selected = [];
     }
 
-    /** Return false when o error is found */
-    checkForErrors(response){
+    async checkForErrors(response){
+        if (!(response instanceof DtoError)) {
+            await this.refresh();
+            this.closeAllModal = true;
+        }
         new Notification(response);
-        return response instanceof DtoError;
     }
 
     get errorBag(){
@@ -145,7 +134,6 @@ export default class CRCMDatatable
         if (this.response['meta'] && this.response['meta']['last_page'] === this.response['meta']['current_page'])
             // if the current page is the last page, set the page to the last page
             this.request.updateParam('page', this.response['meta']['last_page']);
-        await this.refresh();
     }
 
     addSelected(id) {
@@ -250,7 +238,7 @@ export default class CRCMDatatable
         let success = 0;
         let failed = 0;
         let total = 0;
-        console.log(data);
+
         for (const row of data) {
             const response = await this.api.post(this.model.toObject(row));
             if (response instanceof BaseResponse){

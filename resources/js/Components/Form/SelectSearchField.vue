@@ -54,12 +54,12 @@ export default {
             });
 
             if (this.fetchedResponse instanceof BaseResponse){
-                if (this.fetchedResponse.data && this.fetchedResponse.data.data.length)
-                this.formattedOptions = this.fetchedResponse.data.data.map(option => ({
+                if (this.fetchedResponse.data && this.fetchedResponse.data.length)
+                this.formattedOptions = this.fetchedResponse.data.map(option => ({
                     value: option.id,
                     label: option.name || option.title || option.label || option.value || option.fname
                 }));
-                console.log(this.fetchedResponse.data);
+
                 this.filteredOptions = this.formattedOptions;
 
                 if (search) {

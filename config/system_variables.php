@@ -51,5 +51,7 @@ return [
         'commodity' => 'sometimes|string',
         'filter_by_parent_id' => 'sometimes|integer',
         'filter_by_parent_column' => 'sometimes|string',
+        'with' => 'sometimes|string',
+        'count' => 'sometimes|string',
     ]
 ];

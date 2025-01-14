@@ -13,6 +13,9 @@ export default class DtoBaseRequest implements IBaseRequest {
     filter_by_parent_id?: number;
     filter_by_parent_column?: string;
 
+    appendWith?: string[];
+    appendCount?: string[];
+
     static props = usePage();
 
     constructor(params : IBaseRequest = {
@@ -22,7 +25,9 @@ export default class DtoBaseRequest implements IBaseRequest {
         order: 'asc',
         search: null,
         filter: null,
-        is_exact: null
+        is_exact: null,
+        filter_by_parent_id: null,
+        filter_by_parent_column: null,
     }) {
         this.page = params.page;
         this.per_page = params.per_page;
