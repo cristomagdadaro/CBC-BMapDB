@@ -1,12 +1,12 @@
 <script>
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
-import { Link } from '@inertiajs/vue3';
+import {Link} from '@inertiajs/vue3';
 
 export default {
-    components: { LoaderIcon, Link },
+    components: {LoaderIcon, Link},
     props: {
         tabs: {
-            type: Array,
+            type: Object,
             required: true,
             default: null,
         },
@@ -22,15 +22,16 @@ export default {
     },
     methods: {
         setActiveTab(tab) {
-            this.$router.push(tab.route);
+            this.$router.push({name: tab.route.name, params: {id: tab.route.params?.id}});
+            this.activeTab = tab;
+            this.activeTab.active = true;
         },
         isActiveTab(tab) {
             return this.activeTab === tab;
-            //return this.$route.name === tab.route.name;
         },
         updateActiveTab() {
             if (this.tabs) {
-                this.activeTab = this.tabs.find(tab => tab.route.name === this.$route.name) || this.tabs[0];
+                this.activeTab = this.tabs.find(tab => tab.route.name === this.$route.name && tab.route.params?.id === this.$route.params.id) || this.tabs[0];
                 this.activeTab.active = true;
             } else {
                 this.activeTab = null;
@@ -57,7 +58,7 @@ export default {
                 @click.native="setActiveTab(tab)"
                 class="py-2 px-3 rounded-md text-normal duration-300 active:scale-90"
                 :class="isActiveTab(tab) ? 'bg-cbc-dark-green text-white scale-y-90 shadow-md' : 'bg-gray-300'"
-                :to="tab.route"
+                :to="{ name: tab.route.name, params: { id: tab.route.params?.id || $route.params.id } }"
             >
                 {{ tab.label }}
             </router-link>

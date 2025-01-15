@@ -14,7 +14,7 @@ class GetCommoditiesRequest extends BaseRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->hasPermissionTo(Permission::READ_COMMODITY->value) || auth()->user()->isAdmin();
     }
 
     /**

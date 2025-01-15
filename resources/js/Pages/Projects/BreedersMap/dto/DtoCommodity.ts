@@ -48,7 +48,6 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.created_at = commodity.created_at;
         this.updated_at = commodity.updated_at;
         this.deleted_at = commodity.deleted_at;
-
         if (commodity.breeder)
             this.breeder = new DtoBreeder(commodity.breeder);
 

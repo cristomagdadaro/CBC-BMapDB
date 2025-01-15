@@ -9,7 +9,7 @@ import DtoError from "@/Modules/core/dto/base/DtoError";
 
 export default class CRCMDatatable
 {
-    constructor(baseUrl, model = BaseClass) {
+    constructor(baseUrl, params = {}, model = BaseClass) {
         // api service class instance
         this.api = new ApiService(baseUrl);
         // array of columns to display
@@ -28,7 +28,7 @@ export default class CRCMDatatable
         // retrieve params from local storage, if not found, create a new instance of BaseRequest
         // so that when the page is refreshed, the datatable will remember the last state
         const localParams = BaseRequest.getParamsLocal();
-        this.request = localParams? new BaseRequest(localParams) : new BaseRequest();
+        this.request = localParams? new BaseRequest({...localParams, ...params}) : new BaseRequest(params);
     }
 
     async init() {
@@ -134,6 +134,8 @@ export default class CRCMDatatable
         if (this.response['meta'] && this.response['meta']['last_page'] === this.response['meta']['current_page'])
             // if the current page is the last page, set the page to the last page
             this.request.updateParam('page', this.response['meta']['last_page']);
+
+        await this.refresh();
     }
 
     addSelected(id) {

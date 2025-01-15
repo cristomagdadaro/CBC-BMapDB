@@ -71,7 +71,7 @@ class BreederController extends BaseController implements BreederControllerInter
         $breeder = $request->all()['breeder'] ?? null;
         $group_by = $this->service->determineLocFilterLevel($geo_location_filter);
 
-        $breeders = $this->service->applyFilters($model, $breeder, $geo_location_value, $geo_location_filter)
+        $breeders = $this->service->applyFilters($this->service->checkRole($model), $breeder, $geo_location_value, $geo_location_filter)
             ->select($model->getSearchable())
             ->with(['location', 'commodities','affiliated'])
             ->get();

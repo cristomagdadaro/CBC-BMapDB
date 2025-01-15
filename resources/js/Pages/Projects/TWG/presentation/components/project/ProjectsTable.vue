@@ -13,20 +13,16 @@ export default {
             return Permission;
         },
         canCreate() {
-            //return this.$page.props.permissions[Permission.CREATE];
-            return true;
+            return this.$page.props.permissions.twgdb.project[Permission.CREATE];
         },
         canUpdate() {
-            //return this.$page.props.permissions[Permission.UPDATE];
-            return true;
+            return this.$page.props.permissions.twgdb.project[Permission.UPDATE];;
         },
         canDelete() {
-            //return this.$page.props.permissions[Permission.DELETE];
-            return true;
+            return this.$page.props.permissions.twgdb.project[Permission.DELETE];
         },
         canView() {
-            //return this.$page.props.permissions[Permission.VIEW];
-            return true;
+            return this.$page.props.permissions.twgdb.project[Permission.VIEW];
         },
     },
     components: {CRCMDatatable}
@@ -34,7 +30,6 @@ export default {
 </script>
 
 <template>
-    <h1 class="h1 text-center font-semibold uppercase">Projects</h1>
     <CRCMDatatable
         :base-url="TWGPages.api.project.path"
         :base-model="TWGPages.api.project.model"

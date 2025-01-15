@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Permission;
 use App\Models\TWGExpert;
 use App\Models\TWGProduct;
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,7 +14,7 @@ class CreateTWGProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->hasPermissionTo(Permission::CREATE_TWG_PRODUCT->value) || auth()->user()->isAdmin();
     }
 
     /**

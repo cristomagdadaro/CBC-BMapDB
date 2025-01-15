@@ -215,13 +215,13 @@
                                             <span v-show="showIconText">Delete</span>
                                         </top-action-btn>
                                     </div>
-                                    <context-menu ref="contextMenu">
+                                    <context-menu ref="contextMenu" v-if="rowContextMenu">
                                         <div class="flex flex-col justify-center sm:gap-1 gap-0.5">
                                             <Link
                                                 v-if="canView && viewForm && route().has(viewForm)"
                                                 title="View"
                                                 class="flex gap-1 p-1 items-center hover:bg-gray-200 cursor-pointer"
-                                                :href="route(viewForm, row.id)"
+                                                :href="route(viewForm, rowContextMenu.id)"
                                             >
                                                 <view-icon class="h-auto sm:w-5 w-4 p-0.5 text-view" />
                                                 <span>View</span>
@@ -229,7 +229,7 @@
 
                                             <button
                                                 v-if="canUpdate"
-                                                @click="showEditDialogFunc(row.id)"
+                                                @click="showEditDialogFunc(rowContextMenu.id)"
                                                 title="Modify this row"
                                                 class="flex gap-1 p-1 items-center hover:bg-gray-200"
                                             >
@@ -238,7 +238,7 @@
                                             </button>
                                             <div
                                                 v-if="canDelete"
-                                                @click="showDeleteDialogFunc(row.id)"
+                                                @click="showDeleteDialogFunc(rowContextMenu.id)"
                                                 title="Delete this row"
                                                 class="flex gap-1 p-1 items-center hover:bg-gray-200 cursor-pointer"
                                             >
@@ -304,8 +304,25 @@
     </div>
 </template>
 <script setup>
-import { Link } from '@inertiajs/vue3';
-import { CancelButton, ContextMenu, CrcmTable, CrcmTbody, CrcmThead, DangerButton, NotFoundRow, PaginateBtn, PerPage, ProcessingRow, SearchBy, TbodyRow, TD, TH, TheadRow, TopActionBtn } from '@/Components/CRCMDatatable/Components';
+import {Link} from '@inertiajs/vue3';
+import {
+    CancelButton,
+    ContextMenu,
+    CrcmTable,
+    CrcmTbody,
+    CrcmThead,
+    DangerButton,
+    NotFoundRow,
+    PaginateBtn,
+    PerPage,
+    ProcessingRow,
+    SearchBy,
+    TbodyRow,
+    TD,
+    TH,
+    TheadRow,
+    TopActionBtn
+} from '@/Components/CRCMDatatable/Components';
 
 import ActionContainer from "@/Components/CRCMDatatable/Layouts/ActionContainer.vue";
 import TopContainer from "@/Components/CRCMDatatable/Layouts/TopContainer.vue";
@@ -314,6 +331,7 @@ import SearchFilter from "@/Components/CRCMDatatable/Components/SearchBox.vue";
 import ArrowLeft from "@/Components/Icons/ArrowLeft.vue";
 import ArrowRight from "@/Components/Icons/ArrowRight.vue";
 import SelectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
+import selectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
 import DeleteIcon from "@/Components/Icons/DeleteIcon.vue";
 import AddIcon from "@/Components/Icons/AddIcon.vue";
 import RefreshIcon from "@/Components/Icons/RefreshIcon.vue";
@@ -322,7 +340,6 @@ import ExportIcon from "@/Components/Icons/ExportIcon.vue";
 import ImportIcon from "@/Components/Icons/ImportIcon.vue";
 import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 import DeselectIcon from "@/Components/Icons/DeselectIcon.vue";
-import selectedCount from "@/Components/CRCMDatatable/Components/SelectedCount.vue";
 import DialogModal from "@/Components/DialogModal.vue";
 import ToggleOffIcon from "@/Components/Icons/ToggleOffIcon.vue";
 import ToggleOnIcon from "@/Components/Icons/ToggleOnIcon.vue";
@@ -339,12 +356,18 @@ export default {
     name: "CRCMDatatable",
     props: {
         baseUrl: {
-            type: [String, null],
-            required: true,
+            type: String,
+            required: false,
+            default: null,
         },
         baseModel: {
             type: [Object, Function],
             required: false,
+        },
+        params: {
+          type: Object,
+          required: false,
+          default: () => ({})
         },
         importModal: {
             type: [Object, Function],
@@ -493,15 +516,18 @@ export default {
         },
         showContextMenu(event, row) {
             event.preventDefault();
-            if (this.$refs.contextMenu) {
-                try {
-                    this.$refs.contextMenu.showMenu(event);
-                } catch (e) {
-                    console.log('Error at the showContextMenu');
+            this.rowContextMenu = row;
+            this.$nextTick(() => {
+                if (this.$refs.contextMenu && typeof this.$refs.contextMenu.showMenu === 'function') {
+                    try {
+                        this.$refs.contextMenu.showMenu(event);
+                    } catch (e) {
+                        console.log('Error at the showContextMenu');
+                    }
+                } else {
+                    console.error('ContextMenu ref is not defined or showMenu is not a function');
                 }
-            } else {
-                console.error('ContextMenu ref is not defined');
-            }
+            });
         },
         getNestedValue(obj, path) {
             return path.split('.').reduce((acc, part) => acc && acc[part], obj);
@@ -555,10 +581,15 @@ export default {
             this.toEditId = null;
         },
         async initializeDatatable() {
-            this.dt = new CRCMDatatable(this.baseUrl, this.baseModel);
+            this.dt = new CRCMDatatable(this.baseUrl, this.params, this.baseModel);
             //await this.dt.init();
             //the same as above, to initialize the table and the width of goto page field
-            this.updateWidth();
+            this.$nextTick(() => {
+                const input = this.$refs.input;
+                if (input) {
+                    this.inputWidth = input.scrollWidth;
+                }
+            });
         },
         updateWidth() {
             this.$nextTick(() => {

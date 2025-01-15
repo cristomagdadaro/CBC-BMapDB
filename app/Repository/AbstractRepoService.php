@@ -5,6 +5,7 @@ use App\Http\Interfaces\AbstractRepoServiceInterface;
 use App\Models\BaseModel;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
@@ -14,9 +15,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 {
     /**
      * Model to be used
-     * @var BaseModel
+     * @var Model
     **/
-    public BaseModel $model;
+    public Model $model;
 
     /**
      * Table to append with
@@ -46,7 +47,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     **/
     protected array $searchable = [];
 
-    public function __construct(BaseModel $model)
+    public function __construct(Model $model)
     {
         $this->model = $model;
     }
@@ -216,10 +217,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $filter_by_parent_id = $parameters->get('filter_by_parent_id', null);
         $filter_by_parent_column = $parameters->get('filter_by_parent_column', null);
 
-        if (Schema::hasColumn($this->model->getTable(), 'user_id'))
-            $builder = $this->model->ownedBy(auth()->user());
-        else
-            $builder = $this->model;
+        $builder = $this->checkRole($this->model);
 
         $with = $parameters->get('with', null);
         $count = $parameters->get('count', null);
@@ -329,5 +327,18 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     {
         $error = new ErrorRepository($error);
         return response()->json($error->getErrorMessage(), $error->getErrorCode());
+    }
+
+    public function checkRole(BaseModel|Model $model)
+    {
+        if (auth()->check() && auth()->user()->isAdmin()) {
+            return $model; // Return the model directly if the user is an admin
+        }
+
+        if (Schema::hasColumn($this->model->getTable(), 'user_id')) {
+            $model = $model->ownedBy(auth()->user()); // Filter data to retrieve only those owned by the user
+        }
+
+        return $model;
     }
 }

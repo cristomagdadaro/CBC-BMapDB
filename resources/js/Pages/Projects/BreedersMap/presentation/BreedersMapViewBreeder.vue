@@ -1,11 +1,12 @@
 <script>
-import { Head } from "@inertiajs/vue3";
+import {Head} from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder.ts";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.ts";
 import CommodityTable from "@/Pages/Projects/BreedersMap/presentation/components/commodity/CommodityTable.vue";
 import Tab from "@/Components/Tab/Tab.vue";
 import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue";
+
 export default {
     name: "BreedersMapViewBreeder",
     components: {Tab, Head, CommodityTable, AppLayout, Map},
@@ -25,12 +26,12 @@ export default {
                     name: "tab1",
                     label: "Commodities",
                     active: true,
-                    route: { name: 'breedersmap.breeder.view' },
-                },{
+                    route: {name: 'breedersmap.breeder.view', params: {id: this.breeder?.id}},
+                }, {
                     name: "tab2",
                     label: "Geo Map",
                     active: false,
-                    route: { name: 'projects.breedersmap.geomap' },
+                    route: {name: 'breedersmap.breeder.geomap', params: {id: this.breeder?.id}},
                 },
             ],
             tables: [
@@ -79,7 +80,7 @@ export default {
                     <template #tab2>
                         <div class="p-2 relative">
                             <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>
-                            <Map :table-list="tables" :model="Commodity"/>
+                            <Map :table-list="tables" :model="Commodity" offline :custom-point="breederInstance.commodities" />
                         </div>
                     </template>
                 </Tab>

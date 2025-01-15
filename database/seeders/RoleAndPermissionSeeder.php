@@ -72,18 +72,22 @@ class RoleAndPermissionSeeder extends Seeder
             PermissionEnum::CREATE_TWG_EXPERT->value,
             PermissionEnum::UPDATE_TWG_EXPERT->value,
             PermissionEnum::READ_TWG_EXPERT->value,
+            PermissionEnum::DELETE_TWG_EXPERT->value,
 
             PermissionEnum::CREATE_TWG_SERVICE->value,
             PermissionEnum::UPDATE_TWG_SERVICE->value,
             PermissionEnum::READ_TWG_SERVICE->value,
+            PermissionEnum::DELETE_TWG_SERVICE->value,
 
             PermissionEnum::CREATE_TWG_PRODUCT->value,
             PermissionEnum::UPDATE_TWG_PRODUCT->value,
             PermissionEnum::READ_TWG_PRODUCT->value,
+            PermissionEnum::DELETE_TWG_PRODUCT->value,
 
             PermissionEnum::CREATE_TWG_PROJECT->value,
             PermissionEnum::UPDATE_TWG_PROJECT->value,
             PermissionEnum::READ_TWG_PROJECT->value,
+            PermissionEnum::DELETE_TWG_PROJECT->value,
 
             PermissionEnum::CREATE_APP_ACCOUNT->value
         ]);
@@ -92,10 +96,12 @@ class RoleAndPermissionSeeder extends Seeder
             PermissionEnum::CREATE_BREEDER->value,
             PermissionEnum::UPDATE_BREEDER->value,
             PermissionEnum::READ_BREEDER->value,
+            PermissionEnum::DELETE_BREEDER->value,
 
             PermissionEnum::CREATE_COMMODITY->value,
             PermissionEnum::UPDATE_COMMODITY->value,
             PermissionEnum::READ_COMMODITY->value,
+            PermissionEnum::DELETE_COMMODITY->value,
 
             PermissionEnum::CREATE_APP_ACCOUNT->value
         ]);

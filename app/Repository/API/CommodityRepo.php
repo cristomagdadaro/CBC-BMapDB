@@ -4,6 +4,7 @@ namespace App\Repository\API;
 
 use App\Models\Commodity;
 use App\Repository\AbstractRepoService;
+use Illuminate\Support\Facades\Schema;
 
 class CommodityRepo extends AbstractRepoService
 {

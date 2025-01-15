@@ -48,7 +48,7 @@ export default class ApiService implements IApiService
                     ...(model?.appendCount ? {count: [...(model.appendCount || [])].toString()} : {})
                 }
             });
-            console.log(response);
+
             if (model) {
                 if (response && response.data){
                     if (response.data.data){
@@ -64,6 +64,7 @@ export default class ApiService implements IApiService
 
             return new BaseResponse(response);
         } catch (error) {
+            console.error(error);
             return this.determineError(error);
         } finally {
             this._processing = false;

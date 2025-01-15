@@ -1,8 +1,6 @@
 <script>
 import { Head } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
-import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.ts";
 import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue";
 import CommodityTable from "@/Pages/Projects/BreedersMap/presentation/components/commodity/CommodityTable.vue";
 export default {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteTWGServiceRequest extends FormRequest
@@ -11,7 +12,7 @@ class DeleteTWGServiceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->hasPermissionTo(Permission::DELETE_TWG_SERVICE->value) || auth()->user()->isAdmin();
     }
 
     /**

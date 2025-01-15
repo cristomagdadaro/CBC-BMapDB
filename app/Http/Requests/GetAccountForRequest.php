@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Permission;
+
 class GetAccountForRequest extends BaseRequest
 {
     /**
@@ -9,7 +11,7 @@ class GetAccountForRequest extends BaseRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->hasPermissionTo(Permission::READ_APP_ACCOUNT->value) || auth()->user()->isAdmin();
     }
 
     /**

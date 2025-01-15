@@ -62,6 +62,11 @@ export default {
             type: Object,
             required: false
         },
+        offline: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
         tableList: {
             type: Array,
             required: false,
@@ -79,7 +84,7 @@ export default {
         model: {
             type: [BaseClass, Function],
             required: false,
-        }
+        },
     },
     data() {
         return {
@@ -135,9 +140,15 @@ export default {
     },
     computed: {
         newData() {
+            console.log(this.dataFiltration);
             if (this.dataFiltration) {
                 this.placesSearched = this.dataFiltration.raw_data;
                 return this.placesSearched;
+            }
+
+            if (this.customPoint){
+                this.placesSearched = this.customPoint;
+                return this.customPoint;
             }
 
             return [];
@@ -249,6 +260,9 @@ export default {
                     return String(point[key]).toLowerCase().includes(search.toLowerCase());
                 });
             });
+        },
+        baseURL() {
+            return this.dataFiltrationUrl + `?filter_by_parent_column=${this.params.filter_by_parent_column}&filter_by_parent_id=${this.params.filter_by_parent_id}`;
         }
     },
     watch: {
@@ -287,7 +301,7 @@ export default {
     </div>
     <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2 relative">
         <div class="relative gap-2">
-            <template v-if="tableList">
+            <template v-if="tableList && !offline">
                 <data-filtration-fields
                     :tables="tableList"
                     @tableChange="dataFiltrationUrl = $event"
@@ -306,7 +320,8 @@ export default {
                     @focusin="showListOfPlaces = true"
                     class="w-full"
                 />
-                <search-by id="bm-columnsfilter-dropdown"
+                <search-by v-if="!offline"
+                            id="bm-columnsfilter-dropdown"
                            :value="mapApi.request.getFilter"
                            :is-exact="mapApi.request.getIsExact"
                            :options="Commodity.getColumns().map(column => {

@@ -166,7 +166,6 @@ Route::middleware([
             })->name('projects.breedersmap.index');
 
             Route::get('/breeder/{id}', function ($id) {
-
                 $breeder = Breeder::find($id)->load(['affiliated', 'location','commodities']);
 
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
@@ -174,6 +173,15 @@ Route::middleware([
                     'breadcrumbs' => [['label' => 'Breeders', 'to' => route('projects.breedersmap.index')]],
                 ]);
             })->name('breedersmap.breeder.view');
+
+            Route::get('/breeder/{id}/geomap', function ($id) {
+                $breeder = Breeder::find($id)->load(['affiliated', 'location','commodities']);
+
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewBreeder', [
+                    'breeder' => $breeder,
+                    'breadcrumbs' => [['label' => 'Breeders', 'to' => route('projects.breedersmap.index')]],
+                ]);
+            })->name('breedersmap.breeder.geomap');
 
             Route::get('/commodity/{id}', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewCommodity', [

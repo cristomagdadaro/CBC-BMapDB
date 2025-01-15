@@ -84,7 +84,12 @@ const routes = [
                                 path: '/projects/breedersmap/breeder/:id?',
                                 component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapViewBreeder.vue'),
                                 name: 'breedersmap.breeder.view',
-                            }
+                            },
+                            {
+                                path: '/projects/breedersmap/breeder/:id?/geomap',
+                                component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapViewBreeder.vue'),
+                                name: 'breedersmap.breeder.geomap',
+                            },
                         ]
                     },
                     {

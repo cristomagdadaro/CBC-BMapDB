@@ -5,6 +5,7 @@ namespace App\Repository\API;
 use App\Models\Breeder;
 use App\Repository\AbstractRepoService;
 use App\Traits\VisualizeData;
+use Illuminate\Support\Facades\Schema;
 
 class BreederRepo extends AbstractRepoService
 {

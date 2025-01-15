@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateTWGProjectRequest extends FormRequest
@@ -11,7 +12,7 @@ class CreateTWGProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->user()->hasPermissionTo(Permission::CREATE_TWG_PROJECT->value) || auth()->user()->isAdmin();
     }
 
     /**

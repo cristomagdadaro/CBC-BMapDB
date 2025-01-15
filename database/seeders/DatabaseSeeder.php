@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Enums\Role;
-use App\Models\Accounts;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -48,7 +47,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now()
         ]);
 
-        $focalPerson->approve(1);
+        $focalPerson->approve(2);
 
         $breeder = User::factory()->withPersonalTeam()->create([
             'fname' => 'Reynaldo',
@@ -71,8 +70,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             UserSeeder::class,
-            BreederSeeder::class,
-            CommoditySeeder::class,
+            BreedersMapSeeder::class,
             TWGDatabaseSeeder::class
         ]);
 

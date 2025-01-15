@@ -13,28 +13,23 @@ export default {
             return Permission;
         },
         canCreate() {
-            //return this.$page.props.permissions[Permission.CREATE];
-            return true;
+            return this.$page.props.permissions.twgdb.services[Permission.CREATE];
         },
         canUpdate() {
-            //return this.$page.props.permissions[Permission.UPDATE];
-            return true;
+            return this.$page.props.permissions.twgdb.services[Permission.UPDATE];;
         },
         canDelete() {
-            //return this.$page.props.permissions[Permission.DELETE];
-            return true;
+            return this.$page.props.permissions.twgdb.services[Permission.DELETE];
         },
         canView() {
-            //return this.$page.props.permissions[Permission.VIEW];
-            return true;
+            return this.$page.props.permissions.twgdb.services[Permission.VIEW];
         },
     },
     components: {CRCMDatatable}
 }
 </script>
-  
+
 <template>
-    <h1 class="h1 text-center font-semibold uppercase">Services/Protocols</h1>
     <CRCMDatatable
         :base-url="TWGPages.api.service.path"
         :base-model="TWGPages.api.service.model"

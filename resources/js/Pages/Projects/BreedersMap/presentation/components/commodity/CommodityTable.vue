@@ -24,20 +24,16 @@ export default {
             return Permission;
         },
         canCreate() {
-            //return this.$page.props.permissions[Permission.CREATE];
-            return true;
+            return this.$page.props.permissions.breedersmap.commodity[Permission.CREATE];
         },
         canUpdate() {
-            //return this.$page.props.permissions[Permission.UPDATE];
-            return true;
+            return this.$page.props.permissions.breedersmap.commodity[Permission.UPDATE];
         },
         canDelete() {
-            //return this.$page.props.permissions[Permission.DELETE];
-            return true;
+            return this.$page.props.permissions.breedersmap.commodity[Permission.DELETE];
         },
         canView() {
-            //return this.$page.props.permissions[Permission.VIEW];
-            return true;
+            return this.$page.props.permissions.breedersmap.commodity[Permission.VIEW];
         },
     },
     components: {CRCMDatatable}
@@ -46,16 +42,17 @@ export default {
 
 <template>
     <CRCMDatatable
-        :base-url="baseUrl ? baseUrl + `?filter_by_parent_column=${params?.filter_by_parent_column || ''}&filter_by_parent_id=${params?.filter_by_parent_id || ''}` : BreedersMapPages.api.commodity.path"
+        :base-url="baseUrl ?? BreedersMapPages.api.commodity.path"
         :base-model="BreedersMapPages?.api?.commodity?.model || ''"
         :add-form="BreedersMapPages?.api?.commodity?.create?.component || ''"
         :edit-form="BreedersMapPages?.api?.commodity?.edit?.component || ''"
         :import-modal="BreedersMapPages?.api?.commodity?.import?.component || ''"
         :view-form="BreedersMapPages?.api?.commodity?.view?.path || ''"
-        :can-create="canCreate ?? false"
-        :can-update="canUpdate ?? false"
-        :can-delete="canDelete ?? false"
-        :can-view="canView ?? false"
+        :can-create="canCreate"
+        :can-update="canUpdate"
+        :can-delete="canDelete"
+        :can-view="canView"
+        :params="params"
     />
 </template>
 

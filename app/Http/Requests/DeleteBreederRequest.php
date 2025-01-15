@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Permission;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeleteBreederRequest extends FormRequest
@@ -11,7 +12,7 @@ class DeleteBreederRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->can('delete-breeder');
+        return auth()->user()->hasPermissionTo(Permission::DELETE_BREEDER->value) || auth()->user()->isAdmin();
     }
 
     /**

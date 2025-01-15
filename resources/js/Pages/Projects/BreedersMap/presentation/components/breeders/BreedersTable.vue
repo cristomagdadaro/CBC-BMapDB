@@ -13,20 +13,16 @@ export default {
             return Permission;
         },
         canCreate() {
-            //return this.$page.props.permissions[Permission.CREATE];
-            return true;
+            return this.$page.props.permissions.breedersmap.breeder[Permission.CREATE];
         },
         canUpdate() {
-            //return this.$page.props.permissions[Permission.UPDATE];
-            return true;
+            return this.$page.props.permissions.breedersmap.breeder[Permission.UPDATE];
         },
         canDelete() {
-            //return this.$page.props.permissions[Permission.DELETE];
-            return true;
+            return this.$page.props.permissions.breedersmap.breeder[Permission.DELETE];
         },
         canView() {
-            //return this.$page.props.permissions[Permission.VIEW];
-            return true;
+            return this.$page.props.permissions.breedersmap.breeder[Permission.VIEW];
         },
     },
     components: {

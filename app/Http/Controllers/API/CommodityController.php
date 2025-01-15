@@ -73,7 +73,7 @@ class CommodityController extends BaseController implements CommodityControllerI
         $filter_by_parent_id = $request->validated('filter_by_parent_id');
         $group_by = $this->service->determineLocFilterLevel($geo_location_filter);
 
-        $commodities = $this->service->applyFilters($model, $commodity, $geo_location_value, $geo_location_filter, $filter_by_parent_column, $filter_by_parent_id)
+        $commodities = $this->service->applyFilters($this->service->checkRole($model), $commodity, $geo_location_value, $geo_location_filter, $filter_by_parent_column, $filter_by_parent_id)
             ->select($model->getSearchable())
             ->with(['breeder','location'])
             ->get();
