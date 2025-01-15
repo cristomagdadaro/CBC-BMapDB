@@ -11,7 +11,7 @@ class GetApplicationRequest extends BaseRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::READ_APP->value) || auth()->user()->isAdmin();
+        return true;
     }
 
     /**
