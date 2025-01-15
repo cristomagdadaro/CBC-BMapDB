@@ -34,7 +34,7 @@ export default {
                 <slot name="options" />
             </div>
         </div>
-        <div class="w-full min-h-screen sm:p-3 p-0">
+        <div class="w-full min-h-screen p-0">
             <BreadCrumb />
             <slot name="content" />
         </div>

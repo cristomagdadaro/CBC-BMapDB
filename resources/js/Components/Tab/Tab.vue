@@ -1,8 +1,9 @@
 <script>
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 import { Link } from '@inertiajs/vue3';
+
 export default {
-  components: {LoaderIcon, Link},
+    components: { LoaderIcon, Link },
     props: {
         tabs: {
             type: Array,
@@ -10,8 +11,8 @@ export default {
             default: null,
         },
         isLoading: {
-          type: Boolean,
-          default: false,
+            type: Boolean,
+            default: false,
         },
     },
     data() {
@@ -24,31 +25,29 @@ export default {
             this.$router.push(tab.route);
         },
         isActiveTab(tab) {
-            return this.$route.name === tab.route.name;
-        }
+            return this.activeTab === tab;
+            //return this.$route.name === tab.route.name;
+        },
+        updateActiveTab() {
+            if (this.tabs) {
+                this.activeTab = this.tabs.find(tab => tab.route.name === this.$route.name) || this.tabs[0];
+                this.activeTab.active = true;
+            } else {
+                this.activeTab = null;
+            }
+        },
     },
     watch: {
         $route() {
-            if (this.tabs)
-                this.activeTab = this.tabs.find(tab => tab.route.name === this.$route.name);
-            else
-                this.activeTab = null;
-        }
+            this.updateActiveTab();
+        },
     },
     created() {
-        if (this.tabs)
-            this.activeTab = this.tabs.find(tab => tab.route.name === this.$route.name);
-        else
-            this.activeTab = null;
+        this.updateActiveTab();
     },
-    mounted() {
-        if (this.tabs) {
-            this.activeTab = this.tabs[0];
-            this.setActiveTab(this.activeTab);
-        }
-    }
 };
 </script>
+
 <template>
     <div v-if="tabs" class="flex flex-col bg-transparent">
         <div class="z-10 flex gap-1 select-none p-4 bg-white max-w-screen overflow-x-auto">
@@ -64,7 +63,7 @@ export default {
             </router-link>
         </div>
         <div class="z-10 bg-white min-h-screen sm:px-4 px-2" v-if="activeTab">
-            <slot :name="activeTab.name" />
+            <slot :name="activeTab.name"/>
         </div>
     </div>
 </template>
