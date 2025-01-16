@@ -80,10 +80,11 @@ class BreedersCrudTest extends TestCase
         $this->userSetup();
         $response = $this->postJson('/api/breeders', [
             'user_id' => '1',
-            'name' => 'Test Breeder',
+            'fname' => 'Test',
+            'lname' => 'Breeder',
             'affiliation' => '1',
             'geolocation' => '2',
-            'phone' => 'Test Phone',
+            'mobile_no' => 'Test Phone',
             'email' => 'test@gmail.com',
             'password' => 'password',
             'password_confirmation' => 'password',
@@ -95,10 +96,11 @@ class BreedersCrudTest extends TestCase
         $this->assertDatabaseHas('breeders', [
             'id' => $response['data']['id'],
             'user_id' => '1',
-            'name' => 'Test Breeder',
+            'fname' => 'Test',
+            'lname' => 'Breeder',
             'affiliation' => '1',
             'geolocation' => '2',
-            'phone' => 'Test Phone',
+            'mobile_no' => 'Test Phone',
             'email' => 'test@gmail.com',
         ]);
     }

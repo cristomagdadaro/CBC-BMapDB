@@ -65,12 +65,12 @@ export default class Commodity extends DtoCommodity {
                 visible: false,
             },
             {
-                title: 'Breeder',
-                key: 'breeder.getFullName',
-                db_key: 'breeder',
-                sortable: true,
+                title: 'User ID',
+                key: 'user_id',
+                db_key: 'user_id',
                 align: 'center',
-                visible: true,
+                sortable: true,
+                visible: false,
             },
             {
                 title: 'Breeder ID',
@@ -79,6 +79,14 @@ export default class Commodity extends DtoCommodity {
                 sortable: true,
                 align: 'center',
                 visible: false,
+            },
+            {
+                title: 'Breeder',
+                key: 'breeder.getFullName',
+                db_key: 'breeder',
+                sortable: true,
+                align: 'center',
+                visible: true,
             },
             {
                 title: 'Commodity',

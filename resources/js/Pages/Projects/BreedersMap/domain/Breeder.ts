@@ -83,7 +83,7 @@ export default class Breeder extends DtoBreeder{
                 db_key: 'affiliated',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Phone',

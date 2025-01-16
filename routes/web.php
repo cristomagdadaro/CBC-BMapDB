@@ -7,6 +7,7 @@ use App\Http\Controllers\API\InstituteController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TWGController;
 use App\Http\Controllers\CityProvRegController;
+use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
 use App\Http\Requests\GetBreederRequest;
@@ -77,6 +78,10 @@ Route::prefix('email')->group(function () {
         return Inertia::render('Auth/Register');
     })->name('email.verify');
 });
+
+Route::get('/accept-breeder-role/{user}', [InvitationController::class, 'acceptBreederRole'])
+    ->name('accept.breeder.role')
+    ->middleware('signed'); // Ensure the URL is signed
 
 /* Public Api */
 Route::prefix('/api/public')->group(function () {

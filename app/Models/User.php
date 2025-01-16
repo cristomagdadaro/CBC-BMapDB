@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Role as RoleEnum;
+use App\Notifications\FocalPersonInvitationToBreederEmail;
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -207,10 +208,18 @@ class User extends Authenticatable implements MustVerifyEmail
 
         // If the user is not an admin or does not have the RESEARCHER role
         if (!$user->isAdmin() && !$user->hasRole(RoleEnum::RESEARCHER->value)) {
-            $query->where('user_id', $user->id);
+            $query->where('user_id', $user->id)
+                ->orWhere('affiliation', $user->affiliation);
         }
 
         return $query;
     }
 
+
+    public function sendEmailVerificationViaFocalPersonNotification(): void
+    {
+        //$this->notify(new VerifyEmail);
+
+        $this->notify(new FocalPersonInvitationToBreederEmail);
+    }
 }

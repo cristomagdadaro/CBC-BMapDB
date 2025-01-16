@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Repository\API\BreederRepo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class BreederController extends BaseController implements BreederControllerInterface
 {
@@ -41,30 +42,54 @@ class BreederController extends BaseController implements BreederControllerInter
         return $this->sendResponse($this->service->find($id));
     }
 
+    /**
+     * @throws \Exception
+     */
     public function store(CreateBreederRequest $request): JsonResponse
     {
-        $data = $this->insertUserId($request->validated());
+        try
+        {
+            DB::beginTransaction();
 
-        $breederUser = User::create([
-            'fname' => $data['fname'] ?? null,
-            'mname' => $data['mname'] ?? null,
-            'lname' => $data['lname'] ?? null,
-            'suffix' => $data['suffix'] ?? null,
-            'mobile_no' => $data['mobile_no'] ?? null,
-            'email' => $data['email'] ?? null,
-            'affiliation' => $data['affiliation'] ?? null,
-            'password' => $data['password'] ? bcrypt($data['password']) : null,
-        ]);
+            $data = $this->insertUserId($request->validated());
 
-        $breederUser->assignRole(Role::BREEDER->value);
+            $breederUser = User::create([
+                'fname' => $data['fname'] ?? null,
+                'mname' => $data['mname'] ?? null,
+                'lname' => $data['lname'] ?? null,
+                'suffix' => $data['suffix'] ?? null,
+                'mobile_no' => $data['mobile_no'] ?? null,
+                'email' => $data['email'] ?? null,
+                'affiliation' => $data['affiliation'] ?? null,
+                'password' => $data['password'] ? bcrypt($data['password']) : null,
+            ]);
 
-        $breederUser->accounts()->create([
-            'user_id' => $breederUser->id,
-            'app_id' => 2
-        ]);
+            $breederUser->assignRole(Role::BREEDER->value);
 
-        return $this->service->create($data);
+            $breederUser->accounts()->create([
+                'user_id' => $breederUser->id,
+                'app_id' => 2,
+                'approved_at' => now(),
+            ]);
+
+            // set breeder as the user owner
+            $data = array_merge($data, ['user_id' => $breederUser->id]);
+            $result = $this->service->create($data);
+
+            DB::commit();
+
+            if (!$breederUser->hasVerifiedEmail()) {
+                $breederUser->sendEmailVerificationViaFocalPersonNotification();
+            }
+
+            return $result;
+        } catch (\Exception $e)
+        {
+            DB::rollBack();
+        }
     }
+
+
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {

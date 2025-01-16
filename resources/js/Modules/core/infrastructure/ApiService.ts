@@ -129,6 +129,7 @@ export default class ApiService implements IApiService
 
     determineError(error: any): DtoError
     {
+        console.log(error);
         let errorResponse = new JavascriptErrorResponse(error);
         if(error.response)
             switch (error.response.status) {

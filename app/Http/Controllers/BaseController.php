@@ -25,6 +25,7 @@ abstract class BaseController extends Controller
         if (!auth()->user()->isAdmin()) {
             return array_merge($request, ['user_id' => auth()->id()]);
         }
+
         return $request;
     }
 }

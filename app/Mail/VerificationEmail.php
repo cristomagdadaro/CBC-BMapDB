@@ -27,7 +27,7 @@ class VerificationEmail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'DA-Crop Biotechnology Center Verification Email',
+            subject: env('APP_NAME').' Verification Email from ' . env('COMPANY_NAME'),
         );
     }
 
@@ -39,7 +39,7 @@ class VerificationEmail extends Mailable
         return new Content(
             markdown: 'emails.email-verification',
             with: [
-                'name' => 'DA-Crop Biotechnology Center',
+                'name' =>  env('COMPANY_NAME'),
                 'verificationUrl' => 'http://pin.philrice.gov.ph/email/verify',
             ],
         );
