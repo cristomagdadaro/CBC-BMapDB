@@ -52,14 +52,14 @@ const applicationRolesMap = {
 async function getListOfApplications() {
     const api = new ApiService(route('api.applications.index.public'));
     await api.get().then(response => {
-        applications.value = response.data.data;
+        applications.value = response.data;
     });
 }
 
 async function getListOfRoles() {
     const api = new ApiService(route('api.roles.index.public'));
     await api.get().then(response => {
-        roles.value = response.data.data;
+        roles.value = response.data;
         filterRolesByApplication(); // Filter roles after fetching them
     });
 }
@@ -70,6 +70,8 @@ function filterRolesByApplication() {
     filteredRoles.value = roles.value.filter(role =>
         allowedRoles.includes(role.label) // Assuming roles have a 'name' property
     );
+
+    console.log(filteredRoles.value);
 }
 
 // Watch for changes in the selected application to update the filtered roles
@@ -116,7 +118,7 @@ onBeforeMount(async () => {
                 <form @submit.prevent="submit" class="flex flex-col gap-2">
                     <div class="grid sm:grid-cols-2 grid-cols-1 gap-2">
                         <SelectField v-if="applications" id="account_for" label="Account For" v-model="selectedApplication" type="text" required autofocus autocomplete="name" :error="form.errors.account_for" :options="applications" />
-                        <SelectField v-if="roles" id="role" label="Access Level" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form.errors.role" :options="filteredRoles" />
+                        <SelectField v-if="roles" id="role" label="Access Level" :disabled="!selectedApplication" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form.errors.role" :options="filteredRoles" />
                     </div>
                     <div class="grid sm:grid-cols-4 grid-cols-1 gap-2">
                         <TextField id="fname" label="First Name" v-model="form.fname" type="text" required autofocus autocomplete="name" :error="form.errors.fname" />
