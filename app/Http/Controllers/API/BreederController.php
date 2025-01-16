@@ -41,13 +41,13 @@ class BreederController extends BaseController implements BreederControllerInter
 
     public function store(CreateBreederRequest $request): JsonResponse
     {
-        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        $data = $this->insertUserId($request->validated());
         return $this->service->create($data);
     }
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
-        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        $data = $this->insertUserId($request->validated());
         $data = array_filter($data, fn($value) => !is_null($value) && $value !== '');
         return $this->service->update($id, $data);
     }

@@ -19,4 +19,12 @@ abstract class BaseController extends Controller
 
         return response()->json($response);
     }
+
+    protected function insertUserId($request)
+    {
+        if (!auth()->user()->isAdmin()) {
+            return array_merge($request, ['user_id' => auth()->id()]);
+        }
+        return $request;
+    }
 }

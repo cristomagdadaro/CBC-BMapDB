@@ -32,13 +32,13 @@ class TWGExpertController extends BaseController
 
     public function store(CreateTWGExpertRequest $request)
     {
-        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        $data = $this->insertUserId($request->validated());
         return $this->service->create($data);
     }
 
     public function update(UpdateTWGExpertRequest $request, int $id)
     {
-        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        $data = $this->insertUserId($request->validated());
         $data = array_filter($data, fn($value) => !is_null($value) && $value !== '');
         return $this->service->update($id, $data);
     }

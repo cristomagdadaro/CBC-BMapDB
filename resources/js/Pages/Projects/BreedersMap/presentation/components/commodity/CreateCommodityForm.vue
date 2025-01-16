@@ -35,7 +35,8 @@ export default {
         };
     },
     mounted() {
-        this.form.breeder_id = this.$page.props.breeder.id;
+        if (this.$page.props.breeder)
+            this.form.breeder_id = this.$page.props.breeder.id;
     }
 };
 </script>

@@ -35,7 +35,7 @@ class PermissionController extends BaseController
     {
         $permissions = Permission::all();
 
-        return $permissions->groupBy(function ($permission) {
+        $permissions = $permissions->groupBy(function ($permission) {
             if (str_contains($permission->name, 'create')) {
                 return 'create';
             } elseif (str_contains($permission->name, 'read')) {
@@ -47,6 +47,8 @@ class PermissionController extends BaseController
             }
             return 'other'; // Group for permissions that don't match any of the above
         });
+
+        return new BaseCollection($permissions);
     }
 
 

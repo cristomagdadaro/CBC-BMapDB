@@ -41,13 +41,13 @@ class CommodityController extends BaseController implements CommodityControllerI
 
     public function store(CreateCommoditiesRequest $request): JsonResponse
     {
-        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        $data = $this->insertUserId($request->validated());
         return $this->service->create($data);
     }
 
     public function update(UpdateCommoditiesRequest $request, int $id): JsonResponse
     {
-        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        $data = $this->insertUserId($request->validated());
         $data = array_filter($data, fn($value) => !is_null($value) && $value !== '');
         return $this->service->update($id, $data);
     }

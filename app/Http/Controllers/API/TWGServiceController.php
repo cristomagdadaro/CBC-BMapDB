@@ -34,13 +34,13 @@ class TWGServiceController extends BaseController
 
     public function store(CreateTWGServiceRequest $request)
     {
-        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        $data = $this->insertUserId($request->validated());
         return $this->service->create($data);
     }
 
     public function update(UpdateTWGServiceRequest $request,$id)
     {
-        $data = array_merge($request->validated(), ['user_id' => auth()->id()]);
+        $data = $this->insertUserId($request->validated());
         $data = array_filter($data, fn($value) => !is_null($value) && $value !== '');
         return $this->service->update($id, $data);
     }
