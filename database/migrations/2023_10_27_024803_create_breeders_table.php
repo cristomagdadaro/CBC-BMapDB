@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('breeders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone')->nullable();
+            $table->string('fname');
+            $table->string('mname')->nullable();
+            $table->string('lname');
+            $table->string('suffix')->nullable();
+            $table->string('mobile_no')->nullable();
             $table->string('email');
             $table->string('password');
             $table->foreignId('user_id')->constrained('users');

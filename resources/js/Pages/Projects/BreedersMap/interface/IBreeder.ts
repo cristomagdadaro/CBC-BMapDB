@@ -6,9 +6,12 @@ import ICity from "../../../../Modules/core/interface/location/ICity";
 export default interface IBreeder extends IBaseClass {
     id?: number;
     user_id: number;
-    name: string;
+    fname: string;
+    lname: string;
+    mname: string;
+    suffix: string;
     affiliated: IInstitute;
-    phone: string;
+    mobile_no: string;
     email: string;
 
     commodities: ICommodity[];

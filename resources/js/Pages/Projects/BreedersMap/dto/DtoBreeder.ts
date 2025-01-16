@@ -7,9 +7,12 @@ import DtoCommodity from "./DtoCommodity";
 export default class DtoBreeder extends BaseClass implements IBreeder {
     id?: number;
     user_id: number;
-    name: string;
+    fname: string;
+    lname: string;
+    mname: string;
+    suffix: string;
     affiliated: DtoInstitute;
-    phone: string;
+    mobile_no: string;
     email: string;
     updated_at: string;
     created_at: string;
@@ -24,8 +27,11 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
 
         this.id = breeder.id;
         this.user_id = breeder.user_id;
-        this.name = breeder.name;
-        this.phone = breeder.phone;
+        this.fname = breeder.fname;
+        this.mname = breeder.mname;
+        this.lname = breeder.lname;
+        this.suffix = breeder.suffix;
+        this.mobile_no = breeder.mobile_no;
         this.email = breeder.email;
         this.updated_at = breeder.updated_at;
         this.created_at = breeder.created_at;

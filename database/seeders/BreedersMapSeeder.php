@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\Role;
 use App\Models\Breeder;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class BreedersMapSeeder extends Seeder
@@ -13,7 +15,7 @@ class BreedersMapSeeder extends Seeder
     public function run(): void
     {
         Breeder::factory()->count(50)->create()->each(function ($breeder) {
-            $userId = \App\Models\User::inRandomOrder()->first()->id;
+            $userId = User::inRandomOrder()->first()->id;
             $breeder->update(['user_id' => $userId]);
 
             $breeder->commodities()->createMany(
@@ -21,6 +23,22 @@ class BreedersMapSeeder extends Seeder
                     'user_id' => $userId
                 ])->toArray()
             );
+
+
+            $user = User::factory()->create([
+                'fname' => $breeder->fname,
+                'mname' => $breeder->mname,
+                'lname' => $breeder->lname,
+                'suffix' => $breeder->suffix,
+                'affiliation' => $breeder->affiliation,
+                'mobile_no' => $breeder->mobile_no,
+                'email' => $breeder->email,
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]);
+
+            $user->approve(2); //Breeders Map
+            $user->assignRole(Role::BREEDER->value);
         });
     }
 }

@@ -28,15 +28,20 @@ class UpdateBreederRequest extends FormRequest
     {
         return [
             //'user_id' => 'required|exists:users,id',
-            'name' => 'required|string|unique:breeders,name,'.$this->id,
-            'affiliation' => 'required|exists:institutes,id',
-            'geolocation' => 'nullable|exists:loc_cities,id',
-            'phone' => 'nullable|string|unique:breeders,phone,'.$this->id,
+
+            'fname' => ['required', 'string', 'max:255'],
+            'mname' => ['nullable', 'string', 'max:255'],
+            'lname' => ['required', 'string', 'max:255'],
+            'suffix' => ['nullable', 'string', 'max:255'],
+            'mobile_no' =>  ['required', 'string', 'max:255'],
+            'affiliation' => ['required', 'exists:institutes,id'],
             'email' => [
                 'required',
                 'email',
                 'unique:breeders,email,'.$this->id,
             ],
+            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
+            'geolocation' => 'nullable|exists:loc_cities,id',
             'password' => $this->passwordRules(),
         ];
     }

@@ -64,7 +64,6 @@ export default class ApiService implements IApiService
 
             return new BaseResponse(response);
         } catch (error) {
-            console.error(error);
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -130,7 +129,6 @@ export default class ApiService implements IApiService
 
     determineError(error: any): DtoError
     {
-        console.error(error);
         let errorResponse = new JavascriptErrorResponse(error);
         if(error.response)
             switch (error.response.status) {

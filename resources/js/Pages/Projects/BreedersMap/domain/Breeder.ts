@@ -20,8 +20,11 @@ export default class Breeder extends DtoBreeder{
     {
         return {
             user_id: null,
-            name: null,
-            phone: null,
+            fname: null,
+            mname: null,
+            lname: null,
+            suffix: null,
+            mobile_no: null,
             email: null,
             password: null,
             affiliation: null,
@@ -35,8 +38,11 @@ export default class Breeder extends DtoBreeder{
         return {
             id: oldValue.id ?? null,
             user_id: oldValue.user_id ?? null,
-            name: oldValue.name ?? null,
-            phone: oldValue.phone ?? null,
+            fname: oldValue.fname ?? null,
+            mname: oldValue.mname ?? null,
+            lname: oldValue.lname ?? null,
+            suffix: oldValue.suffix ?? null,
+            mobile_no: oldValue.mobile_no ?? null,
             email: oldValue.email ?? null,
             //@ts-ignore
             password: oldValue.password ?? null,
@@ -65,7 +71,7 @@ export default class Breeder extends DtoBreeder{
             },
             {
                 title: 'Name',
-                key: 'name',
+                key: 'getFullName',
                 db_key: 'name',
                 align: 'center',
                 sortable: true,
@@ -81,8 +87,8 @@ export default class Breeder extends DtoBreeder{
             },
             {
                 title: 'Phone',
-                key: 'phone',
-                db_key: 'phone',
+                key: 'mobile_no',
+                db_key: 'mobile_no',
                 align: 'center',
                 sortable: true,
                 visible: true,

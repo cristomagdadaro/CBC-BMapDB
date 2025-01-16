@@ -140,7 +140,6 @@ export default {
     },
     computed: {
         newData() {
-            console.log(this.dataFiltration);
             if (this.dataFiltration) {
                 this.placesSearched = this.dataFiltration.raw_data;
                 return this.placesSearched;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\Role;
 use App\Http\Controllers\BaseController;
 use App\Http\Interfaces\BreederControllerInterface;
 use App\Http\Requests\CreateBreederRequest;
@@ -9,6 +10,7 @@ use App\Http\Requests\DeleteBreederRequest;
 use App\Http\Requests\GetBreederRequest;
 use App\Http\Requests\UpdateBreederRequest;
 use App\Http\Resources\BaseCollection;
+use App\Models\User;
 use App\Repository\API\BreederRepo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
@@ -42,6 +44,25 @@ class BreederController extends BaseController implements BreederControllerInter
     public function store(CreateBreederRequest $request): JsonResponse
     {
         $data = $this->insertUserId($request->validated());
+
+        $breederUser = User::create([
+            'fname' => $data['fname'] ?? null,
+            'mname' => $data['mname'] ?? null,
+            'lname' => $data['lname'] ?? null,
+            'suffix' => $data['suffix'] ?? null,
+            'mobile_no' => $data['mobile_no'] ?? null,
+            'email' => $data['email'] ?? null,
+            'affiliation' => $data['affiliation'] ?? null,
+            'password' => $data['password'] ? bcrypt($data['password']) : null,
+        ]);
+
+        $breederUser->assignRole(Role::BREEDER->value);
+
+        $breederUser->accounts()->create([
+            'user_id' => $breederUser->id,
+            'app_id' => 2
+        ]);
+
         return $this->service->create($data);
     }
 

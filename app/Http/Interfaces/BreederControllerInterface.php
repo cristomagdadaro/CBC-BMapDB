@@ -28,7 +28,7 @@ interface BreederControllerInterface {
     public function show(GetBreederRequest $request, int $id): JsonResponse;
 
     /**
-     * Stores a new breeder record in the database.
+     * Stores a new breeder record in the database. User account is also created with a default role of breeder in the system.
      *
      * @param CreateBreederRequest $request The request object containing the breeder data.
      * @return JsonResponse A JSON response indicating the success or failure of the operation.

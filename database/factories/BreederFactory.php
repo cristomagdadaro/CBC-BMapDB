@@ -24,10 +24,13 @@ class BreederFactory extends Factory
         $city = City::all()->random();
         return [
             'user_id' => User::all()->random()->id,
-            'name' => $this->faker->name(),
+            'fname' => $this->faker->name(),
+            'mname' => $this->faker->lastName(),
+            'lname' => $this->faker->lastName(),
+            'suffix' => $this->faker->randomElement(['','','','Jr.','','Sr.','','','','I','','','II','','','III','','','','','IV']),
             'affiliation' => $institute->id,
             'geolocation' => $city->id,
-            'phone' => $this->faker->phoneNumber(),
+            'mobile_no' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'remember_token' => Str::random(10),

@@ -26,12 +26,19 @@ class CreateBreederRequest extends FormRequest
     {
         return [
             //'user_id' => 'required|exists:users,id',
-            'name' => 'required|string|unique:breeders,name',
-            'affiliation' => 'required|exists:institutes,id',
-            'geolocation' => 'nullable|exists:loc_cities,id',
-            'phone' => 'nullable|string|unique:breeders,phone',
-            'email' => 'required|email|unique:breeders,email',
+            'fname' => ['required', 'string', 'max:255'],
+            'mname' => ['nullable', 'string', 'max:255'],
+            'lname' => ['required', 'string', 'max:255'],
+            'suffix' => ['nullable', 'string', 'max:255'],
+            'mobile_no' =>  ['nullable', 'string', 'unique:users', 'max:255'],
+            'email' => [
+                'required',
+                'email',
+                'unique:breeders,email,'.$this->id,
+            ],
+            'affiliation' => ['required', 'exists:institutes,id'],
             'password' => $this->passwordRules(),
+            'geolocation' => 'nullable|exists:loc_cities,id',
         ];
     }
 

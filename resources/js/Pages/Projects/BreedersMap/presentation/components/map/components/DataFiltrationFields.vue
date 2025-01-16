@@ -62,7 +62,7 @@ export default {
         </custom-dropdown>
         <custom-dropdown
             id="bm-commodityfilter-dropdown"
-            v-if="data && data.raw_data_labels && filter.table_name === 'commodities'"
+            v-if="data && !!data.raw_data_labels && filter.table_name === 'commodities'"
             label="Select a specific commodity"
             searchable
             :value="filter.commodity"

@@ -15,33 +15,43 @@ class Breeder extends BaseModel
 
     protected $fillable = [
         'user_id',
-        'name',
-        'affiliation',
-        'geolocation',
-        'phone',
+
+        'fname',
+        'mname',
+        'lname',
+        'suffix',
         'email',
+        'mobile_no',
         'password',
-        'remember_token'
+        'affiliation',
+        'email_verified_at',
+
+        'geolocation',
     ];
 
     protected $guarded = ['id'];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'email_verified_at' => 'datetime',
     ];
 
     protected array $searchable = [
         'breeders.id',
         'user_id',
-        'name',
+        'fname',
+        'mname',
+        'lname',
+        'suffix',
         'affiliation',
         'geolocation',
-        'phone',
+        'mobile_no',
         'email',
         'breeders.created_at',
         'breeders.updated_at',
