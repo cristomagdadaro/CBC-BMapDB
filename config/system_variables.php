@@ -1,9 +1,23 @@
 <?php
 
-use App\Enums\PriorityCommodities;
+use App\Enums\Applications;
 use App\Enums\SystemVariable;
 
 return [
+    'applications' => [
+        Applications::BREEDERS_MAP->name => [
+            'name' => Applications::BREEDERS_MAP->value,
+            'route' => Applications::BREEDERS_MAP_ROUTE->value,
+            'route_public' => Applications::BREEDERS_MAP_ROUTE_PUBLIC->value,
+            'description' => Applications::BREEDERS_MAP_DESC->value,
+        ],
+        Applications::TWG_DATABASE->name => [
+            'name' => Applications::TWG_DATABASE->value,
+            'route' => Applications::TWG_DATABASE_ROUTE->value,
+            'route_public' => Applications::TWG_DATABASE_ROUTE_PUBLIC->value,
+            'description' => Applications::TWG_DATABASE_DESC->value,
+        ],
+    ],
     'access_levels' => [
         SystemVariable::ADMIN->value,
         SystemVariable::USER->value,

@@ -54,7 +54,7 @@ class TWGController extends BaseController
     {
         try {
             if (auth()->user()->isAdmin())
-                return response()->json([
+                return response()->json( ['data' => [
                     'totalExperts' => TWGExpert::all()->count(),
                     'totalProjects' => TWGProject::all()->count(),
                     'totalProducts' => TWGProduct::all()->count(),
@@ -68,7 +68,7 @@ class TWGController extends BaseController
                         ->get()
                         ->pluck('project_count', 'name'),
                     'totalOnGoingProjects' => TWGProject::select('status', DB::raw('count(*) as total'))->groupBy('status')->get()->pluck('total', 'status'),
-                ]);
+                ]]);
             else {
                 // Filter experts by the authenticated user's ID
                 $totalExperts = TWGExpert::ownedBy(auth()->user())->get();
@@ -90,7 +90,7 @@ class TWGController extends BaseController
                     ->pluck('total', 'status');
 
                 // Return the response as JSON
-                return response()->json([
+                return response()->json([ 'data' => [
                     'totalExperts' => $totalExperts->count(),
                     'totalProjects' => $totalProjects->count(),
                     'totalProducts' => $totalProducts->count(),
@@ -102,7 +102,7 @@ class TWGController extends BaseController
                         ->pluck('total', 'type'),
                     'topExperts' => $topExperts,
                     'totalOnGoingProjects' => $totalOnGoingProjects,
-                ]);
+                ]]);
 
             }
         } catch (\Exception $e) {

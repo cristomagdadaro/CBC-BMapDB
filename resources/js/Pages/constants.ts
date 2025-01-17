@@ -19,14 +19,16 @@ export const ErrorResponse  = [
 export const CBCProjects = [
     {
         id: 3,
-        label: 'Biotech TWG Database',
+        //@ts-ignore
+        label: window.AppConfig.applications['TWG_DATABASE'],
         icon: TWGLogo,
         value: 'projects.twg.index',
         show: true,
     },
     {
         id: 4,
-        label: "Plant Breeders Map",
+        //@ts-ignore
+        label: window.AppConfig.applications['BREEDERS_MAP'],
         icon: BreedersMapLogo,
         value: 'projects.breedersmap.index',
         show: true,
@@ -36,15 +38,25 @@ export const CBCProjects = [
 export const CBCProjectsPublic = [
     {
         id: 1,
-        label: "Plant Breeders Map",
-        value: 'projects.breedersmap.public',
-        description: "Centralized repository for crop biotechnology commodities, providing essential data and resources in one accessible platform. It includes comprehensive information on germplasm, genetic traits, NSIC registrations, plant variety protections, and GM regulatory approvals. This tool empowers breeders and researchers to drive innovation, improve crop productivity, and promote sustainable agriculture."
+        //@ts-ignore
+        label: window.AppConfig.applications['BREEDERS_MAP'].name,
+        //@ts-ignore
+        route: window.AppConfig.applications['BREEDERS_MAP'].route,
+        //@ts-ignore
+        route_public: window.AppConfig.applications['BREEDERS_MAP'].route_public,
+        //@ts-ignore
+        description: window.AppConfig.applications['BREEDERS_MAP'].description,
     },
     {
         id: 2,
-        label: 'Biotech TWG Database',
-        value: 'projects.twgdb.public',
-        description: "A robust system designed to manage and organize biotechnology-related projects efficiently. It serves as a centralized hub for storing, tracking, and accessing essential data from various technical working groups. This database enhances collaboration, streamlines project monitoring, and supports informed decision-making in the field of biotechnology."
+        //@ts-ignore
+        label: window.AppConfig.applications['TWG_DATABASE'].name,
+        //@ts-ignore
+        route: window.AppConfig.applications['TWG_DATABASE'].route,
+        //@ts-ignore
+        route_public: window.AppConfig.applications['BREEDERS_MAP'].route_public,
+        //@ts-ignore
+        description: window.AppConfig.applications['TWG_DATABASE'].description,
     },
 ]
 

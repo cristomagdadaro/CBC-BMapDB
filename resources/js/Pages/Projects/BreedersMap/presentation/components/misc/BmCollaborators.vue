@@ -5,28 +5,48 @@ export default {
         return {
             collaborators: [
                 {
-                    name: "Association of Southeast Asian Nations (ASEAN)",
-                    link: "https://www.asean.org/",
+                    name: "DA - Biotechnology Program Office (DA-BPO)",
+                    link: "/",
                 },
                 {
-                    name: "Southeast Asian Regional Center for Graduate Study and Research in Agriculture (SEARCA)",
-                    link: "https://www.searca.org/",
+                    name: "Philippine Rice Research Institute (PhilRice)",
+                    link: "/",
                 },
                 {
-                    name: "International Rice Research Institute (IRRI)",
-                    link: "https://www.irri.org/",
+                    name: "DA - Regional Field Office 3 (DA-RFO 3)",
+                    link: "/",
                 },
                 {
-                    name: "International Crops Research Institute for the Semi-Arid Tropics (ICRISAT)",
-                    link: "https://www.icrisat.org/",
+                    name: "DA - Regional Crop Protection Center (DA-RCPC) Region 3",
+                    link: "/",
                 },
                 {
-                    name: "World Bank",
-                    link: "https://www.worldbank.org/",
+                    name: "BPI - National Seed Quality Control Services (BPI-NSQCS) Region 3 ",
+                    link: "/",
                 },
                 {
-                    name: "Consultative Group on International Agricultural Research (CGIAR)",
-                    link: "https://www.cgiar.org/",
+                    name: "Central Luzon State University (CLSU)",
+                    link: "/",
+                },
+                {
+                    name: "Aurora State College of Technology (ASCOT)",
+                    link: "/",
+                },
+                {
+                    name: "Tarlac Agricultural University (TAU)",
+                    link: "/",
+                },
+                {
+                    name: "Nueva Ecija University of Science and Technology (NEUST) Gabaldon",
+                    link: "/",
+                },
+                {
+                    name: "Bulacan State University (BulSU)",
+                    link: "/",
+                },
+                {
+                    name: "Pangasinan State University (PSU)",
+                    link: "/",
                 },
             ]
         }
@@ -37,9 +57,9 @@ export default {
 <template>
     <div class="flex flex-col gap-3 py-5">
         <h3 class="text-center text-subtitle">
-            Project Collaborators
+            Data Sources
         </h3>
-        <ul class="text-normal">
+        <ul class="text-normal flex flex-col items-center gap-1 sm:gap-2">
             <li v-for="collaborator in collaborators">
                 <a :href="collaborator.link" target="_blank" >
                     {{ collaborator.name }}

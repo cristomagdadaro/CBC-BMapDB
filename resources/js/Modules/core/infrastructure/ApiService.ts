@@ -41,11 +41,12 @@ export default class ApiService implements IApiService
     {
         try {
             this._processing = true;
+
             const response = await axios.get(this.baseUrl, {
                 params: {
                     ...params,
-                    ...(model?.appendWith ? {with: [...(model.appendWith || [])].toString()} : {}),
-                    ...(model?.appendCount ? {count: [...(model.appendCount || [])].toString()} : {})
+                    ...(model?.appendWith && Array.isArray(model.appendWith) ? {with: model.appendWith.toString()} : {}),
+                    ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
                 }
             });
 
@@ -64,6 +65,7 @@ export default class ApiService implements IApiService
 
             return new BaseResponse(response);
         } catch (error) {
+            console.error(error);
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -129,7 +131,6 @@ export default class ApiService implements IApiService
 
     determineError(error: any): DtoError
     {
-        console.log(error);
         let errorResponse = new JavascriptErrorResponse(error);
         if(error.response)
             switch (error.response.status) {

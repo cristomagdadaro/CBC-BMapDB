@@ -46,7 +46,7 @@ const supportLinks = [
                         Databases
                     </template>
                     <template #content>
-                        <tab-link v-for="project in CBCProjectsPublic" :key="project.id" :link="route(project.value)" class="text-gray-700">
+                        <tab-link v-for="project in CBCProjectsPublic" :key="project.id" :link="route(project.route_public)" class="text-gray-700">
                             {{ project.label }}
                         </tab-link>
                     </template>

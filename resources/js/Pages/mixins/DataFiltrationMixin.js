@@ -19,6 +19,20 @@ export default {
                 filter_by_parent_column: null,
                 filter_by_parent_id: null,
             },
+            dataChanged: false, // Tracks whether data needs refreshing
+            debounceRefresh: this.debounce(async function () {
+                const params = {
+                    geo_location_value: this.filter.geo_location_value,
+                    is_exact: this.filter.is_exact,
+                    filter: this.filter.filter,
+                    commodity: this.filter.commodity,
+                    geo_location_filter: this.filter.geo_location_filter,
+                    filter_by_parent_column: this.filter.filter_by_parent_column,
+                    filter_by_parent_id: this.filter.filter_by_parent_id,
+                };
+                const response = await this.api.get(params, this.model ?? null);
+                this.apiResponse = response ? response.data : {};
+            }, 300), // Debounced refreshData with a 300ms delay
         };
     },
     async mounted() {
@@ -52,52 +66,45 @@ export default {
         }
     },
     methods: {
-        async refreshData() {
-            const params = {
-                geo_location_value: this.filter.geo_location_value,
-                is_exact: this.filter.is_exact,
-                filter: this.filter.filter,
-                commodity: this.filter.commodity,
-                geo_location_filter: this.filter.geo_location_filter,
-                filter_by_parent_column: this.filter.filter_by_parent_column,
-                filter_by_parent_id: this.filter.filter_by_parent_id,
+        debounce(fn, delay = 300) {
+            let timeout;
+            return function (...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => fn.apply(this, args), delay);
             };
-            const response = await this.api.get(params, this.model ?? null);
-            if (response)
-                this.apiResponse = response.data;
-            else
-                this.apiResponse = {};
         },
         async changeListOf(value) {
-            if (value)
+            if (value) {
                 this.model = this.tables.find(item => item.name === value).model;
-            else
-                this.model = Commodity;
-
-            if (value && this.tables.length) {
                 this.filter.table_name = value;
-                this.filter.geo_location_value = null;
-                this.apiUrl = this.tables.find(item => item.name === value);
-                this.api = new ApiService(this.apiUrl.route);
             } else {
-                this.api = new ApiService(this.apiUrl.route);
+                this.model = Commodity;
             }
-            await this.refreshData();
+            this.filter.geo_location_value = null;
+            this.apiUrl = this.tables.find(item => item.name === value);
+
+            if ((this.apiUrl))
+                this.api = new ApiService(this.apiUrl.route);
+
+            this.dataChanged = true;
         },
         async changeCommodity(value) {
             this.filter.filter = 'name';
             this.filter.commodity = value;
-            await this.refreshData();
+            this.dataChanged = true;
         },
         async changeLocation(value) {
             this.filter.geo_location_filter = value;
             this.filter.geo_location_value = null;
-            await this.refreshData();
+            this.dataChanged = true;
         },
         async changeSpecificLocation(value) {
             this.filter.geo_location_value = value;
-            await this.refreshData();
-        }
+            this.dataChanged = true;
+        },
+        async refreshData() {
+            this.debounceRefresh();
+        },
     },
     watch: {
         apiResponse: {
@@ -124,7 +131,17 @@ export default {
                 this.$emit('processingRequest', value);
             },
             immediate: true,
-        }
+        },
+        // Watch `dataChanged` and trigger refresh only once after multiple changes
+        dataChanged: {
+            immediate: false,
+            handler(newValue) {
+                if (newValue) {
+                    this.refreshData();
+                    this.dataChanged = false; // Reset the flag
+                }
+            },
+        },
     },
     emits: ['dataRefreshed', 'tableChange', 'processingRequest','updatedFilter'],
 };

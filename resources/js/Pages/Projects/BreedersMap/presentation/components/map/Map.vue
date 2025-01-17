@@ -184,7 +184,7 @@ export default {
     methods: {
         async initializeMap() {
             this.mapApi = new MapApiService(this.dataFiltrationUrl, this.model);
-            this.loadData();
+            //this.loadData();
         },
         async refreshData() {
             await this.mapApi.refresh();

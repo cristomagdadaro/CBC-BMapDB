@@ -113,11 +113,11 @@ export default {
             </public-page-section>
             <public-page-section class="flex items-center">
                 <div class="grid grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 gap-2 md:gap-5">
-                    <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[0].value)">
+                    <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[0].route_public)">
                         <img class="h-auto" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo"/>
                     </Link>
                     <div class="flex flex-col justify-center text-center md:text-left">
-                        <Link :href="route(Object.values(CBCProjectsPublic)[0].value)" class="text-subtitle text-dark-color">
+                        <Link :href="route(Object.values(CBCProjectsPublic)[0].route_public)" class="text-subtitle text-dark-color">
                             {{ Object.values(CBCProjectsPublic)[0].label }}
                         </Link>
                         <p class="text-normal text-dark-color text-justify">
@@ -134,7 +134,7 @@ export default {
             </public-page-section>
             <public-page-section class="flex items-center text-center">
                 <div class="flex flex-col gap-5 justify-between items-center">
-                    <Link class="h-auto w-[40%] min-w-[20rem] drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[1].value)">
+                    <Link class="h-auto w-[40%] min-w-[20rem] drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[1].route_public)">
                         <img src="/img/logos/biotwg.png" alt="Biotech TWG Database Logo"/>
                     </Link>
                     <p class="text-normal text-dark-color">

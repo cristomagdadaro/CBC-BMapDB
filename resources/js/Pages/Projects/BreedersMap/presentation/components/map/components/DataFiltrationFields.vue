@@ -34,9 +34,6 @@ export default {
             return null;
         }
     },
-    async mounted() {
-       await this.refreshData()
-    },
 }
 </script>
 
@@ -55,7 +52,7 @@ export default {
             :withAllOption="false"
             :options="dataTables"
             placeholder="Select a list"
-            @selectedChange="changeListOf($event);">
+            @selectedChange="!api.processing ? changeListOf($event) : null">
             <template #icon>
                 <caret-down  class="h-4 w-4 text-gray-700" />
             </template>
@@ -69,7 +66,7 @@ export default {
             :withAllOption="false"
             :options="commodityLabels"
             placeholder="None"
-            @selectedChange="changeCommodity($event)">
+            @selectedChange="!api.processing ? changeCommodity($event) : null">
             <template #icon>
                 <caret-down  class="h-4 w-4 text-gray-700" />
             </template>
@@ -81,7 +78,7 @@ export default {
             :withAllOption="false"
             :options="locationLabels"
             placeholder="None"
-            @selectedChange="changeLocation($event)">
+            @selectedChange="!api.processing ? changeLocation($event) : null">
             <template #icon>
                 <caret-down  class="h-4 w-4 text-gray-700" />
             </template>
@@ -95,7 +92,7 @@ export default {
             :withAllOption="false"
             :options="specificLocationLabels"
             placeholder="None"
-            @selectedChange="changeSpecificLocation($event)">
+            @selectedChange="!api.processing ? changeSpecificLocation($event) : null">
             <template #icon>
                 <caret-down  class="h-4 w-4 text-gray-700" />
             </template>

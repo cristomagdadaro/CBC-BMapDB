@@ -163,7 +163,7 @@ export default {
                     <p class="text-subtitle">{{ totalExperts }}</p>
                     <h1 class="h1 text-center font-semibold uppercase border-red-500 border-1">Experts</h1>
                 </div>
-                <div class="flex justify-center">
+                <div class="flex justify-center hidden">
                     <canvas id="chartExperts" role="img"></canvas>
                 </div>
             </div>
@@ -172,7 +172,7 @@ export default {
                     <p class="text-subtitle">{{ totalProjects }}</p>
                     <h1 class="h1 text-center font-semibold uppercase border-red-500 border-1">Projects</h1>
                 </div>
-                <div class="flex justify-center">
+                <div class="flex justify-center hidden">
                     <canvas id="chartProjects" role="img"></canvas>
                 </div>
             </div>
@@ -181,7 +181,7 @@ export default {
                     <p class="text-subtitle">{{ totalProducts }}</p>
                     <h1 class="h1 text-center font-semibold uppercase border-red-500 border-1">Products</h1>
                 </div>
-                <div class="flex justify-center">
+                <div class="flex justify-center hidden">
                     <canvas id="chartProducts" role="img"></canvas>
                 </div>
             </div>
@@ -190,7 +190,7 @@ export default {
                     <p class="text-subtitle">{{ totalServices }}</p>
                     <h1 class="h1 text-center font-semibold uppercase border-red-500 border-1">Services</h1>
                 </div>
-                <div class="flex justify-center">
+                <div class="flex justify-center hidden">
                     <canvas id="chartServices" role="img"></canvas>
                 </div>
             </div>

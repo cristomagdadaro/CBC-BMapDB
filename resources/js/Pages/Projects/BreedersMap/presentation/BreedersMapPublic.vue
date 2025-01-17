@@ -101,11 +101,11 @@ export default {
                 </div>
             </div>
             <Tab :tabs="tabs">
-                <template #tab2>
-                    <Summary :table-list="tables"  />
-                </template>
                 <template #tab1>
                     <Map :table-list="tables" :model="Commodity" />
+                </template>
+                <template #tab2>
+                    <Summary :table-list="tables"  />
                 </template>
             </Tab>
         </public-page-section>
