@@ -213,7 +213,6 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $search = $parameters->get('search', '');
         $filter = $parameters->get('filter', null);
         $is_exact = $parameters->get('is_exact', false);
-        /*Used when viewing single row while filtering the subtable*/
         $filter_by_parent_id = $parameters->get('filter_by_parent_id', null);
         $filter_by_parent_column = $parameters->get('filter_by_parent_column', null);
 
@@ -222,13 +221,15 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $with = $parameters->get('with', null);
         $count = $parameters->get('count', null);
 
-        if ($with)
+        if ($with) {
             $this->appendWith = explode(',', $with);
-        if ($count)
+        }
+
+        if ($count) {
             $this->appendCount = explode(',', $count);
+        }
 
         $builder = $builder->select($this->model->getSearchable());
-
         $this->applyAppends($builder);
 
         if ($filter_by_parent_column && $filter_by_parent_id) {
@@ -239,10 +240,48 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $builder = $builder->onlyTrashed();
         }
 
-
         if ($search) {
-            $builder->where(function ($query) use ($search, $filter, $is_exact) {
-                foreach ($this->model->getSearchable() as $column) {
+            $this->applySearch($builder, $search, $filter, $is_exact);
+
+            if ($this->appendWith) {
+                foreach ($this->appendWith as $table) {
+                    $relatedModel = $this->model->{$table}()->getModel();
+                    $this->applyRelationSearch($builder, $search, $filter, $is_exact, $table, $relatedModel);
+                }
+            }
+        }
+
+        $this->applySorting($builder, $sort, $order);
+
+        if (!$withPagination) {
+            return $builder->get();
+        }
+
+        return $builder->paginate($perPage, ['*'], 'page', $page)->withQueryString();
+    }
+
+    private function applySearch(Builder $query, string $search, ?string $filter, bool $is_exact)
+    {
+        $query->where(function ($query) use ($search, $filter, $is_exact) {
+            foreach ($this->model->getSearchable() as $column) {
+                if ($filter && $column != $filter) {
+                    $column = $filter;
+                }
+
+                if ($is_exact) {
+                    $query->orWhere($column, $search);
+                } else {
+                    $query->orWhere($column, 'like', "%{$search}%");
+                }
+            }
+        });
+    }
+
+    private function applyRelationSearch(Builder $query, string $search, ?string $filter, bool $is_exact, string $relation, $relatedModel)
+    {
+        $query->orWhereHas($relation, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
+            $query->where(function ($query) use ($search, $filter, $is_exact, $relatedModel) {
+                foreach ($relatedModel->getSearchable() as $column) {
                     if ($filter && $column != $filter) {
                         $column = $filter;
                     }
@@ -254,40 +293,18 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
                     }
                 }
             });
+        });
+    }
 
-            if ($this->appendWith) {
-                foreach ($this->appendWith as $table) {
-                    $relatedModel = $this->model->{$table}()->getModel();
-                    $builder->orWhereHas($table, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
-                        $query->where(function ($query) use ($search, $filter, $is_exact, $relatedModel) {
-                            foreach ($relatedModel->getSearchable() as $column) {
-                                if ($filter && $column != $filter) {
-                                    $column = $filter;
-                                }
-
-                                if ($is_exact) {
-                                    $query->orWhere($column, $search);
-                                } else {
-                                    $query->orWhere($column, 'like', "%{$search}%");
-                                }
-                            }
-                        });
-                    });
-                }
-            }
-        }
-
-        // Check if the sort column exists in the current table
+    private function applySorting(Builder $query, string $sort, string $order)
+    {
         if (!Schema::hasColumn($this->model->getTable(), $sort)) {
             $sort = 'id'; // Default sort column
         }
 
-        if (!$withPagination) {
-            return $builder->orderBy($sort, $order)->get();
-        }
-
-        return $builder->orderBy($sort, $order)->paginate($perPage, ['*'], 'page', $page)->withQueryString();
+        $query->orderBy($sort, $order);
     }
+
 
     public function appendWith(array $tableToAppend): void
     {
