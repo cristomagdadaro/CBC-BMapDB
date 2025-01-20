@@ -39,6 +39,8 @@ export default class ApiService implements IApiService
 
     async get(params, model = undefined)
     {
+        if (this._processing) return;
+
         try {
             this._processing = true;
 
@@ -62,7 +64,6 @@ export default class ApiService implements IApiService
                     }
                 }
             }
-
             return new BaseResponse(response);
         } catch (error) {
             console.error(error);
@@ -74,12 +75,14 @@ export default class ApiService implements IApiService
 
     async post(data)
     {
+        if (this._processing) return;
+
         try {
             this._processing = true;
             const response = await axios.post(this.baseUrl, data);
             return new BaseResponse(response);
         } catch (error) {
-            return this.determineError(error);
+            throw this.determineError(error);
         } finally {
             this._processing = false;
         }
@@ -87,6 +90,8 @@ export default class ApiService implements IApiService
 
     async put(data)
     {
+        if (this._processing) return;
+
         try {
             this._processing = true;
             const response = await axios.put(this.baseUrl + '/' + data.id, data);
@@ -100,6 +105,8 @@ export default class ApiService implements IApiService
 
     async delete(id)
     {
+        if (this._processing) return;
+
         try {
             this._processing = true;
             if (id.length > 1){
@@ -123,10 +130,12 @@ export default class ApiService implements IApiService
 
     castToModel(response, model: typeof BaseClass) {
         if ( !response || !model ) return [];
-        return response.map((item: Object)=> {
-            if (!item) return null;
-            return new model(item);
-        });
+        if (Array.isArray(response))
+            return response.map((item: Object)=> {
+                if (!item) return null;
+                return new model(item);
+            });
+        return new model(response);
     }
 
     determineError(error: any): DtoError

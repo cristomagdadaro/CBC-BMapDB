@@ -3,7 +3,7 @@ import DtoBreeder from "../dto/DtoBreeder";
 export default class Breeder extends DtoBreeder{
     constructor(params : DtoBreeder) {
         super(params);
-
+        this.table = 'breeders';
         this.indexUri = 'api.breeders.index';
         this.showUri = 'api.breeders.show';
         this.storeUri = 'api.breeders.store';

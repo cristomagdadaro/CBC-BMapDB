@@ -21,80 +21,89 @@
                         v-if="showActionBtns && canCreate"
                         @click="showAddDialogFunc()"
                         class="bg-add"
+                        :show-text="showIconText"
                         title="Add new data">
                         <template #icon>
                             <add-icon class="h-auto sm:w-6 w-4" />
                         </template>
-                        <span v-show="showIconText">Add</span>
+                        <span>Add</span>
                     </top-action-btn>
                     <top-action-btn
                         :class="dt.processing? 'bg-gray-300 text-gray-800': 'bg-refresh'"
                         @click="dt.refresh()"
+                        :show-text="showIconText"
                         title="Refresh table">
                         <template #icon>
                             <refresh-icon class="h-auto sm:w-6 w-4" :class="dt.processing?'animate-spin':'animate-none'" />
                         </template>
-                        <span v-show="showIconText">Refresh</span>
+                        <span>Refresh</span>
                     </top-action-btn>
                     <top-action-btn
                         v-if="canDelete && data.length && dt.selected.length && showActionBtns"
                         class="bg-delete"
                         @click="showDeleteSelectedDialogFunc()"
+                        :show-text="showIconText"
                         title="Delete all the selected rows">
                         <template #icon>
                             <delete-icon class="h-auto sm:w-6 w-4" />
                         </template>
-                        <span v-show="showIconText">Delete</span>
+                        <span>Delete</span>
                     </top-action-btn>
                     <top-action-btn
                         v-if="data.length && showActionBtns"
                         class="bg-select"
                         @click="dt.selectAll()"
                         :topText="dt.selected.length"
+                        :show-text="showIconText"
                         title="Select all loaded rows">
                         <template #icon>
                             <checkall-icon class="h-auto sm:w-6 w-4" />
                         </template>
-                        <span v-show="showIconText">Select All</span>
+                        <span>Select All</span>
                     </top-action-btn>
                     <top-action-btn
                         v-if="selected.length && data.length && showActionBtns"
                         class="bg-deselect"
                         @click="dt.deselectAll()"
+                        :show-text="showIconText"
                         title="Deselect selected rows">
                         <template #icon>
                             <deselect-icon class="h-auto sm:w-6 w-4" />
                         </template>
-                        <span v-show="showIconText">Deselect All</span>
+                        <span>Deselect All</span>
                     </top-action-btn>
                     <top-action-btn
                         v-if="data.length"
                         class="bg-export"
                         @click="dt.exportCSV()"
+                        :show-text="showIconText"
                         title="Export data into a CSV file">
                         <template #icon>
                             <export-icon class="h-auto sm:w-6 w-4" />
                         </template>
-                        <span v-show="showIconText">Export</span>
+                        <span>Export</span>
                     </top-action-btn>
                     <top-action-btn
                         v-if="showActionBtns"
                         class="bg-import"
                         @click="showImportModal = true"
+                        :show-text="showIconText"
                         title="Import data from a CSV file">
                         <template #icon>
                             <import-icon class="h-auto sm:w-6 w-4" />
                         </template>
-                        <span v-show="showIconText">Import</span>
+                        <span>Import</span>
                     </top-action-btn>
                     <top-action-btn
                         class="bg-add"
                         @click="toggleShowIconText"
+                        :show-text="showIconText"
                         title="Toggle icon with text">
                         <template #icon>
                             <toggle-off-icon class="h-auto sm:w-6 w-4" v-show="!showIconText" />
                             <toggle-on-icon class="h-auto sm:w-6 w-4" v-show="showIconText" />
                         </template>
+                        <span>Toggle Text</span>
                     </top-action-btn>
                 </action-container>
                 <div id="dtPaginatorContainer" class="flex gap-1 items-center w-full justify-center">
@@ -108,7 +117,8 @@
                             :value="current_page"
                             class="border-x-0 text-right border-t-0 border-b p-0"
                             :style="{ width: inputWidth + 'px' }"
-                            @keydown.enter="updateWidth"
+                            @input="updateWidth"
+                            @keydown.enter="dt.gotoPage($event.target.value)"
                         /> / {{ total_pages }}
                         </span>
                     </div>
@@ -186,33 +196,36 @@
                                         >
                                             <top-action-btn
                                                 class="bg-view"
+                                                :show-text="showIconText"
                                                 title="View">
                                                 <template #icon>
                                                     <view-icon class="h-auto sm:w-4 w-3" />
                                                 </template>
-                                                <span v-show="showIconText">View</span>
+                                                <span>View</span>
                                             </top-action-btn>
                                         </Link>
 
                                         <top-action-btn
                                             v-if="canUpdate"
                                             @click="showEditDialogFunc(row.id)"
+                                            :show-text="showIconText"
                                             class="bg-edit"
                                             title="Modify this row">
                                             <template #icon>
                                                 <edit-icon class="h-auto sm:w-4 w-3" />
                                             </template>
-                                            <span v-show="showIconText">Edit</span>
+                                            <span>Edit</span>
                                         </top-action-btn>
                                         <top-action-btn
                                             v-if="canDelete"
                                             @click="showDeleteDialogFunc(row.id)"
+                                            :show-text="showIconText"
                                             class="bg-delete"
                                             title="Delete this row">
                                             <template #icon>
                                                 <delete-icon class="h-auto sm:w-4 w-3" />
                                             </template>
-                                            <span v-show="showIconText">Delete</span>
+                                            <span>Delete</span>
                                         </top-action-btn>
                                     </div>
                                     <context-menu ref="contextMenu" v-if="rowContextMenu">
@@ -557,11 +570,12 @@ export default {
         async showEditDialogFunc(id) {
             this.showModal = true;
             this.showEditDialog = true;
-            this.toEditData = (await new ApiService(this.baseUrl).get({
-                filter: 'id',
-                search: id,
-                is_exact: true,
-            }, this.baseModel)).data[0];
+            this.toEditData = (await new ApiService(route(this.baseModel.showUri, id)).get({
+                with: 'user,affiliated,location',
+                count: 'commodities'
+            }, this.baseModel)).data ?? null;
+
+            //console.log(this.toEditData);
         },
         showDeleteSelectedDialogFunc() {
             this.showModal = true;
@@ -598,10 +612,6 @@ export default {
                     this.inputWidth = input.scrollWidth;
                 }
             });
-            if (this.$refs.input && this.$refs.input.value > 0 && this.$refs.input.value <= this.total_pages)
-                this.dt.gotoPage(this.$refs.input.value);
-            else
-                this.dt.gotoPage(this.total_pages);
         },
         onColumnSort(column) {
             if (!column.sortable) {
