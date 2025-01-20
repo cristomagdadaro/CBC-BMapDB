@@ -1,12 +1,10 @@
 <template>
     <base-button :top-text="topText" class="text-gray-200 flex items-center justify-center gap-0.5 sm:h-7 h-6">
-        <div class="flex gap-1 item-center justify-center">
+        <div class="flex gap-1 item-center justify-center py-2">
             <slot name="icon" />
-           <template v-if="showText">
-                <span class="flex items-center justify-center">
-                    <slot />
-                </span>
-           </template>
+            <span class="flex items-center justify-center">
+                <slot />
+            </span>
         </div>
     </base-button>
 </template>
@@ -17,10 +15,6 @@ defineProps({
     topText: {
         type: [String, Number],
         default: null
-    },
-    showText: {
-        type: Boolean,
-        default: false
     }
 });
 </script>
