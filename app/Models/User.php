@@ -126,11 +126,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application');
     }
 
-    public function accountsRequested(): HasMany
-    {
-        return $this->hasMany(Accounts::class, 'user_id', 'id')->with('application');
-    }
-
     public function accounts(): HasMany
     {
         return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application');

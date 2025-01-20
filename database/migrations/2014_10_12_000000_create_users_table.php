@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('lname');
             $table->string('suffix')->nullable();
             $table->string('email')->unique();
-            $table->string('mobile_no')->nullable()->unique();
+            $table->string('mobile_no')->nullable();
             $table->foreignId('affiliation')->constrained('institutes');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

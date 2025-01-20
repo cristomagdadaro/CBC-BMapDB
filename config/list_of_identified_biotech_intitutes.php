@@ -552,6 +552,16 @@ return [
         'phone' => '(085) 341-4546; (085) 305-0092',
     ],
     [
+        'name' => 'RFO CAR',
+        'inst_type' => 'DA Unit',
+        'city' => 'Baguio City',
+        'province' => 'Benguet',
+        'region' => 'CAR',
+        'website' => 'car.da.gov.ph',
+        'email' => 'da_carfu@yahoo.com',
+        'phone' => '(074) 445-4973 / (074) 443-4621',
+    ],
+    [
         'name' => 'MAFAR BARRM',
         'inst_type' => 'DA Unit',
         'city' => 'Cotabato City',

@@ -12,7 +12,7 @@ export default {
     name: "AddAccount",
     components: {CustomDropdown, DropdownOption, Dropdown, Modal, PrimaryButton, ActionSection},
     props: {
-        appsOwned: Object,
+        accountsPending: Object,
     },
     computed: {
         DtoError() {

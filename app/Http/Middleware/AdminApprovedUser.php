@@ -41,7 +41,7 @@ class AdminApprovedUser
 
                 if ($temp == 0) {
                     return Inertia::render('Auth/WaitForAdminApproval', [
-                        'appsOwned' => $user->accountsRequested,
+                        'accountsPending' => $user->accountsPending,
                         'message' => 'You don\'t have any approved database access. As of the moment you can only manage your account details.'
                     ]);
                 } elseif ($temp >= 1 && $temp <= count($user->accounts)){

@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('twg_expert_id')->nullable()->constrained('twg_expert');
-            $table->string('name', 50);
-            $table->string('brand', 50)->nullable();
-            $table->string('purpose', 255)->nullable();
-            $table->string('cost', 50)->nullable();
+            $table->longText('name')->nullable();
+            $table->longText('brand')->nullable();
+            $table->longText('purpose')->nullable();
+            $table->string('cost')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('name')->unique();
-            $table->string('position');
+            $table->string('position')->nullable();
             $table->enum('educ_level', ["Bachelor\'s", "Master\'s", "Doctoral"])->nullable();
             $table->string('expertise')->nullable();
             $table->string('research_interest')->nullable();

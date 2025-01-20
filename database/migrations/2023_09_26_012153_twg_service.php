@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('twg_service', function(Blueprint $table){
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('twg_expert_id')->constrained('twg_expert');
+            $table->foreignId('twg_expert_id')->nullable()->constrained('twg_expert');
             $table->string('type', 255)->nullable();
-            $table->string('purpose', 255)->nullable();
-            $table->string('direct_beneficiaries', 255)->nullable();
-            $table->string('indirect_beneficiaries', 255)->nullable();
-            $table->string('officer_in_charge', 255)->nullable();
-            $table->string('cost', 255)->nullable();
+            $table->longText('purpose')->nullable();
+            $table->longText('direct_beneficiaries')->nullable();
+            $table->longText('indirect_beneficiaries')->nullable();
+            $table->longText('officer_in_charge')->nullable();
+            $table->longText('cost')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

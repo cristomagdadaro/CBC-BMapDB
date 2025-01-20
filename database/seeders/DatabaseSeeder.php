@@ -69,7 +69,7 @@ class DatabaseSeeder extends Seeder
         $researcher->approve(2);
 
         $this->call([
-            ///UserSeeder::class,
+            UserSeeder::class,
             BreedersMapSeeder::class,
             TWGDatabaseSeeder::class
         ]);
