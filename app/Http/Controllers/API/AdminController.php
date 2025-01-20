@@ -44,12 +44,13 @@ class AdminController extends BaseController
             'mname' => ['nullable', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
-            'mobile_no' =>  ['nullable', 'string', 'max:255'],
+            'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'affiliation' => ['required', 'exists:institutes,id'],
             'account_for' => ['required', 'numeric', 'exists:applications,id'],
             'password' => ['required', 'string','confirmed'],
-            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
+            'password_confirmation' => ['required', 'string'],
+            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? !auth()->user()->isAdmin() ? ['accepted', 'required'] : '' : '',
         ])->validate();
 
         if ($request['password'])
@@ -57,13 +58,20 @@ class AdminController extends BaseController
 
         $data = $this->service->create($request->all());
 
-        if ($data->original['data'] instanceof User)
+        if (isset($data->original['data']) && $data->original['data'] instanceof User) {
             Accounts::create([
                 'user_id' => $data->original['data']['id'],
                 'app_id' => $request['account_for'],
             ]);
-        else
-            $this->service->delete($data->original['data']['id']);
+
+            if (!$data->original['data']->hasVerifiedEmail()) {
+                $data->original['data']->sendEmailVerificationNotification();
+            }
+        } else {
+            if (isset($data->original['data'])) {
+                $this->service->delete($data->original['data']['id']);
+            }
+        }
 
         return $data;
     }

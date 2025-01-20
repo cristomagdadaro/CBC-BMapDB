@@ -136,6 +136,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application');
     }
 
+    public function accountsPending(): HasMany
+    {
+        return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNull('approved_at')->with('application');
+    }
+
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id')->with('permissions');

@@ -63,7 +63,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $model = $this->model->fill($data);
             $model->save();
 
-            return $this->jsonResponse($this->model->getNotifMessage('created'), $model->toArray(), 'New Data Inserted', 'success', 201);
+            return $this->jsonResponse($this->model->getNotifMessage('created'), $model, 'New Data Inserted', 'success', 201);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -76,7 +76,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $model->fill($data);
             $model->save();
 
-            return $this->jsonResponse( $model->getNotifMessage('updated'), $model->toArray(), 'Updated Data', 'success');
+            return $this->jsonResponse( $model->getNotifMessage('updated'), $model, 'Updated Data', 'success');
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -91,7 +91,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             else
                 return $this->jsonResponse($this->model->getNotifMessage('notFound'), null, 'Not found', 'error', 404);
 
-            return $this->jsonResponse($this->model->getNotifMessage('deleted'), $model->toArray(), 'Removed Data', 'warning');
+            return $this->jsonResponse($this->model->getNotifMessage('deleted'), $model, 'Removed Data', 'warning');
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -343,7 +343,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function sendError(Exception $error): JsonResponse
     {
         $error = new ErrorRepository($error);
-        return response()->json($error->getErrorMessage(), $error->getErrorCode());
+        return response()->json($error->getErrorMessage());
     }
 
     public function checkRole(BaseModel|Model $model)

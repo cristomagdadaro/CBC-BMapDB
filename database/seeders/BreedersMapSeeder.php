@@ -14,7 +14,7 @@ class BreedersMapSeeder extends Seeder
      */
     public function run(): void
     {
-        Breeder::factory()->count(50)->create()->each(function ($breeder) {
+        /*Breeder::factory()->count(50)->create()->each(function ($breeder) {
             $userId = User::inRandomOrder()->first()->id;
             $breeder->update(['user_id' => $userId]);
 
@@ -39,6 +39,6 @@ class BreedersMapSeeder extends Seeder
 
             $user->approve(2); //Breeders Map
             $user->assignRole(Role::BREEDER->value);
-        });
+        });*/
     }
 }

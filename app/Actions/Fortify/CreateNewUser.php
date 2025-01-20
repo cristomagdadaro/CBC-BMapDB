@@ -7,7 +7,6 @@ use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
 use Faker\Core\Uuid;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;

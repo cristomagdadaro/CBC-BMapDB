@@ -17,6 +17,26 @@ class AdminTest extends TestCase
     }
 
     /** @test */
+    public function create_user(): void
+    {
+        $response = $this->post('/api/administrator', [
+            'fname' => 'John',
+            'mname' => 'Doe',
+            'lname' => 'Smith',
+            'suffix' => 'Jr',
+            'mobile_no' => '09123456789',
+            'affiliation' => 1,
+            'email' => 'magdadaro.cristoreyc@gmail.com',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+            'terms' => 'accepted',
+            'account_for' => 2
+        ]);
+        print_r($response->collect()->toArray());
+        $response->assertStatus(200);
+    }
+
+    /** @test */
     public function delete_a_user(): void
     {
         $this->userSetup();

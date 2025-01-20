@@ -38,22 +38,28 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $apps = [];
+        $accountsPending = [];
         if ($request->user() && $request->user()->accounts)
+        {
             foreach ( $request->user()->accounts as $account ) {
                 $apps[] = $account->application;
             }
+
+            $accountsPending = $request->user()->accountsPending;
+        }
 
         return array_merge(
             parent::share($request), [
             "permissions" => $this->permissions($request),
             "accounts" => $apps,
+            "accountsPending" => $accountsPending,
             "affiliated" => $request->user() ? $request->user()->affiliated : [],
             'appName' => env('APP_NAME'),
             'appNameShort' => env('APP_NAME_SHORT'),
             'companyName' => env('COMPANY_NAME'),
             'companyNameShort' => env('COMPANY_NAME_SHORT'),
-                // team permissions
-                'teamPermissions' =>  $request->user() ? $request->user()->teamPermissions($request->user()->currentTeam) : null
+            // team permissions
+            'teamPermissions' =>  $request->user() ? $request->user()->teamPermissions($request->user()->currentTeam) : null
         ]);
     }
 

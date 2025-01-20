@@ -71,8 +71,8 @@ export default {
                 <li v-for="account in $page.props.auth.user.accounts" class="px-4 bg-white font-semibold text-xs text-gray-700 tracking-widest transition">
                     {{ account.application.name }}
                 </li>
-                <li v-if="$page.props.appsOwned && $page.props.appsOwned.length" class="py-2 bg-white font-bold text-xs text-gray-700 uppercase tracking-widest transition">Pending</li>
-                <li v-for="account in $page.props.appsOwned" class="px-4 bg-white font-semibold text-xs text-gray-700 tracking-widest transition">
+                <li v-if="$page.props.accountsPending && $page.props.accountsPending.length" class="py-2 bg-white font-bold text-xs text-gray-700 uppercase tracking-widest transition">Pending</li>
+                <li v-for="account in $page.props.accountsPending" class="px-4 bg-white font-semibold text-xs text-gray-700 tracking-widest transition">
                     {{ account.application.name }}
                 </li>
             </ul>

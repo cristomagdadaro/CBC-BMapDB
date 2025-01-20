@@ -28,7 +28,7 @@ class UpdateUserRequest extends FormRequest
             'mname' => ['nullable', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
-            'mobile_no' =>  ['nullable', 'string', 'max:255'],
+            'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:users,mobile_no,'.$this->id],
             'affiliation' => ['required', 'exists:institutes,id'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$this->id],
             'email_verified_at' =>  ['nullable', 'date'],

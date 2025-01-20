@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users', 'id');
-            $table->foreignId('app_id')->constrained('applications', 'id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('app_id')->constrained('applications');
             $table->timestamp('approved_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

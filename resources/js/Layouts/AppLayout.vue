@@ -110,20 +110,21 @@ export default {
             <div class="px-4 sm:px-6 py-3 lg:px-8 bg-cbc-dark-green">
                 <div class="flex justify-between items-center h-10">
                     <div class="sm:flex hidden flex-col text-gray-50">
-                        <div class="flex items-center">
+                        <div class="flex items-center gap-1 border-white border-b-4">
                             <span class="leading-tight text-normal uppercase">
                                 {{ user.getFullName }}
                             </span>
-                        </div>
-                        <div class="flex items-center gap-1 text-sm">
-                            <span class="leading-tight">
-                            {{ user.getRole }}
-                            </span>
-                            <span class="mx-1">|</span>
-                            <span class="leading-tight">
+                            <span class="leading-tight border-white border-l pl-1">
                                 {{ user.affiliation }}
                             </span>
-                            <span class="mx-1">|</span>
+                        </div>
+                        <div class="flex items-center gap-1 text-sm">
+                            <span class="leading-tight border-white border-r pr-1">
+                                ID: {{ user.id }}
+                            </span>
+                            <span class="leading-tight border-white border-r pr-1">
+                            {{ user.getRole }}
+                            </span>
                             <span class="leading-tight">
                                 {{ user.email }}
                             </span>

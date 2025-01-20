@@ -72,8 +72,6 @@ class BreederController extends BaseController implements BreederControllerInter
                 'approved_at' => now(),
             ]);
 
-            // set breeder as the user owner
-            $data = array_merge($data, ['user_id' => $breederUser->id]);
             $result = $this->service->create($data);
 
             DB::commit();
