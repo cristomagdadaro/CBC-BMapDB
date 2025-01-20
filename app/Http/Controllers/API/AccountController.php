@@ -52,7 +52,6 @@ class AccountController extends BaseController
 
         // Retrieve the updated user and app
         $user = User::find($validatedData['user_id']);
-        $appId = $validatedData['app_id'];
         $approvedAt = $validatedData['approved_at']; // Get the approved_at value
         $permissionIds = $validatedData['permissions'] ?? [];
         $roles = $validatedData['role'] ?? [];

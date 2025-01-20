@@ -51,10 +51,6 @@ class Application extends BaseModel
 
     public function account()
     {
-        /*return $this->belongsToMany(User::class, 'accounts', 'app_id', 'user_id')
-            ->withPivot('approved_at')
-            ->withTimestamps();*/
-
         return $this->belongsTo(Accounts::class, 'app_id', 'id');
     }
 

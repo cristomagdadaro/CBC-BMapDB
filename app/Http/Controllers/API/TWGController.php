@@ -54,6 +54,7 @@ class TWGController extends BaseController
     {
         try {
             if (auth()->user()->isAdmin())
+            {
                 return response()->json( ['data' => [
                     'totalExperts' => TWGExpert::all()->count(),
                     'totalProjects' => TWGProject::all()->count(),
@@ -69,6 +70,7 @@ class TWGController extends BaseController
                         ->pluck('project_count', 'name'),
                     'totalOnGoingProjects' => TWGProject::select('status', DB::raw('count(*) as total'))->groupBy('status')->get()->pluck('total', 'status'),
                 ]]);
+            }
             else {
                 // Filter experts by the authenticated user's ID
                 $totalExperts = TWGExpert::ownedBy(auth()->user())->get();
