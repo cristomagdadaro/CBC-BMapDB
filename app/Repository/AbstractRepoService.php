@@ -113,7 +113,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
                 }
             });
 
-            if ($counter && count($failed) == 0) {
+            if ($counter && count($failed) == 0)
                 return response()->json([
                     'message' => 'Successfully deleted all data',
                     'data' => $models,
@@ -122,18 +122,16 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
                     'type' => "warning",
                     'timeout' => 10000
                 ], Response::HTTP_OK);
-            }
 
-            else if ($counter && count($failed) > 0) {
+            else if ($counter && count($failed) > 0)
                 return response()->json([
-                    'message' => $counter . ' rows successfully deleted but failed to delete ' . count($failed) . ' rows',
+                    'message' => $counter. ' rows successfully deleted but failed to delete ' . count($failed) . ' rows',
                     'data' => $failed,
                     'show' => true,
                     'title' => "Deleted",
                     'type' => "warning",
                     'timeout' => 10000
-                ], Response::HTTP_OK);
-            }
+                ],  Response::HTTP_OK);
 
             return response()->json([
                 'message' => 'Failed to delete ' . count($failed) . ' rows of data',

@@ -26,12 +26,10 @@ class BaseModel extends Model
 
     public function getNotifMessage($action = null): string | null
     {
-        if ($action === null || !array_key_exists($action, $this->notifMessage)) {
+        if ($action === null || !array_key_exists($action, $this->notifMessage))
             return null;
-        }
-        else {
+        else
             return $this->notifMessage[$action];
-        }
     }
 
     protected function serializeDate(DateTimeInterface $date): string
@@ -52,9 +50,8 @@ class BaseModel extends Model
 
     public function scopeOwnedBy(Builder $query, $user)
     {
-        if ($this->ignoreUserBasedFiltratration) {
+        if ($this->ignoreUserBasedFiltratration)
             return $query;
-        }
 
         // If no user is provided, return no records (or handle as required)
         if (!$user) {

@@ -10,7 +10,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Password;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends BaseController
@@ -38,6 +37,12 @@ class AuthController extends BaseController
         if ($logged_in) {
             $user = Auth::user();
 
+            /*if (!$user->isActive()) {
+                auth()->logout();
+
+                return $this->sendError('User Deactivated', Response::HTTP_FORBIDDEN, ['error' => 'User Deactivated']);
+            }*/
+
             // invalidate old tokens from the same IP
             DB::table('personal_access_tokens')
                 ->where('tokenable_type', "App\Models\User")
@@ -63,17 +68,7 @@ class AuthController extends BaseController
      */
     public function forgetPassword(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-        ]);
-
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
-
-        return $status === Password::RESET_LINK_SENT
-            ? $this->sendResponse(['message' => __($status)])
-            : $this->sendError(['email' => __($status)], Response::HTTP_UNPROCESSABLE_ENTITY);
+        // TODO
     }
 
     /**

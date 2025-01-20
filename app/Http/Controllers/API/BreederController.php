@@ -154,7 +154,7 @@ class BreederController extends BaseController implements BreederControllerInter
     {
         $this->service->appendWith(['commodities']);
         $data = $this->service->search(new Collection($request->validated()), false);
-        if (empty($data)) {
+        if (count($data) === 0) {
             return response()->json(['message' => 'Data not found'], 404);
         }
         return response()->json(['data' => $data[0]->commodities]);

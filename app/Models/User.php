@@ -174,14 +174,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function approve(int | array $id = null): void
     {
         if ($id) {
-            if (is_int($id)) {
+            if (is_int($id))
                 $this->accounts()->create([
                     'user_id' => $this->id,
                     'app_id' => $id,
                     'approved_at' => now(),
                 ]);
-            }
-            else {
+            else
                 foreach ($id as $key => $value) {
                     $this->accounts()->create([
                         'user_id' => $this->id,
@@ -189,7 +188,6 @@ class User extends Authenticatable implements MustVerifyEmail
                         'approved_at' => now(),
                     ]);
                 }
-            }
         }
     }
 
@@ -200,9 +198,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function scopeOwnedBy(Builder $query, $user)
     {
-        if ($this->ignoreUserBasedFiltratration) {
+        if ($this->ignoreUserBasedFiltratration)
             return $query;
-        }
 
         // If no user is provided, return no records (or handle as required)
         if (!$user) {
@@ -221,6 +218,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailVerificationViaFocalPersonNotification(): void
     {
+        //$this->notify(new VerifyEmail);
+
         $this->notify(new FocalPersonInvitationToBreederEmail);
     }
 }

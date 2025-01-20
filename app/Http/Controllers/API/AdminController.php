@@ -53,23 +53,17 @@ class AdminController extends BaseController
         ])->validate();
 
         if ($request['password'])
-        {
             $request['password'] = Hash::make($request['password']);
-        }
 
         $data = $this->service->create($request->all());
 
         if ($data->original['data'] instanceof User)
-        {
             Accounts::create([
                 'user_id' => $data->original['data']['id'],
                 'app_id' => $request['account_for'],
             ]);
-        }
         else
-        {
             $this->service->delete($data->original['data']['id']);
-        }
 
         return $data;
     }
