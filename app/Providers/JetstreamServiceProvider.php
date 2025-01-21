@@ -51,7 +51,7 @@ class JetstreamServiceProvider extends ServiceProvider
 
         ])->description('Administrator users can perform any action across all databases.');
 
-        Jetstream::role(RoleEnum::EXPERT->value, RoleEnum::EXPERT->value, [
+        Jetstream::role(RoleEnum::TWG_ADMIN->value, RoleEnum::TWG_ADMIN->value, [
             PermissionEnum::CREATE_TWG_EXPERT->value,
             PermissionEnum::UPDATE_TWG_EXPERT->value,
             PermissionEnum::READ_TWG_EXPERT->value,

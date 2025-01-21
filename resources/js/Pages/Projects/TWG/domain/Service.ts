@@ -28,6 +28,8 @@ export default class Service extends BaseClass implements IService{
         this.destroyUri = 'api.twg.services.destroy';
         this.multiDestroyUri = 'api.twg.services.destroy.multi';
         this.summaryUri = 'api.twg.services.summary';
+
+        this.appendWith = ['expert'];
     }
 
     static createForm() {

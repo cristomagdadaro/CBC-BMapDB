@@ -1,12 +1,13 @@
-import User from "@/Modules/core/domain/auth/User";
+import DtoUser from "../../../Modules/core/dto/DtoUser";
 
-export default class AuthUser extends User
+export default class AuthUser extends DtoUser
 {
     accounts_count: number;
 
-    constructor(user: User)
+    constructor(user: DtoUser)
     {
         super(user);
+
         //@ts-ignore
         this.accounts_count = user.accounts_count;
 
@@ -16,6 +17,9 @@ export default class AuthUser extends User
         this.updateUri = 'api.administrator.update';
         this.destroyUri = 'api.administrator.destroy';
         this.multiDestroyUri = 'api.administrator.destroy.multi';
+
+        this.appendWith = ['roles','affiliated','accountFor'];
+        this.appendCount = ['accounts'];
     }
 
     static createForm()

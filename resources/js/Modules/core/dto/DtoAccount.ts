@@ -10,6 +10,7 @@ export default class DtoAccount extends BaseClass implements IAccount {
     user_id: number = null;
     app_id: number = null;
     approved_at: string = null;
+    created_at: string = null;
     application: IApplication = null;
     user: IUser = null;
 
@@ -20,6 +21,7 @@ export default class DtoAccount extends BaseClass implements IAccount {
         this.user_id = dto.user_id;
         this.app_id = dto.app_id;
         this.approved_at = dto.approved_at;
+        this.created_at = dto.created_at;
 
         if (dto.application)
             this.application = new DtoApplication(dto.application);

@@ -30,6 +30,8 @@ export default class Project extends BaseClass implements IProject{
         this.destroyUri = 'api.twg.projects.destroy';
         this.multiDestroyUri = 'api.twg.projects.destroy.multi';
         this.summaryUri = 'api.twg.projects.summary';
+
+        this.appendWith = ['expert'];
     }
 
     static createForm() {

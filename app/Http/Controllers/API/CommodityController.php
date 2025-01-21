@@ -28,21 +28,12 @@ class CommodityController extends BaseController implements CommodityControllerI
 
     public function show(GetCommoditiesRequest $request, int $id): JsonResponse
     {
-        $with = $request->toArray()['with'] ?? null;
-        $count = $request->toArray()['count'] ?? null;
-
-        if ($with)
-            $this->service->appendWith(explode(',',$with));
-        if ($count)
-            $this->service->appendCount(explode(',',$count));
-
-        return $this->sendResponse($this->service->find($id));
+        return parent::_show($request, $id);
     }
 
     public function store(CreateCommoditiesRequest $request): JsonResponse
     {
-        $data = $this->insertUserId($request->validated());
-        return $this->service->create($data);
+        return parent::_store($request);
     }
 
     public function update(UpdateCommoditiesRequest $request, int $id): JsonResponse
@@ -54,12 +45,12 @@ class CommodityController extends BaseController implements CommodityControllerI
 
     public function destroy(int $id): JsonResponse
     {
-        return $this->service->delete($id);
+        return parent::_destroy($id);
     }
 
     public function multiDestroy(DeleteCommoditiesRequest $request): JsonResponse
     {
-        return $this->service->multiDestroy($request->validated());
+        return parent::_multiDestroy($request);
     }
 
     public function summary(GetCommoditiesRequest $request): JsonResponse

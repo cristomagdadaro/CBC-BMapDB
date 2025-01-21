@@ -4,18 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Http\Controllers\BaseController;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Arr;
 use App\Http\Requests\DeleteUserRequest;
-use App\Http\Requests\GetUnverifiedUserRequest;
+use App\Http\Requests\GetUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\BaseCollection;
 use App\Models\Accounts;
 use App\Models\User;
 use App\Repository\API\UserRepo;
-use Faker\Core\Uuid;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Jetstream;
@@ -29,12 +24,9 @@ class AdminController extends BaseController
         $this->service = $adminRepository;
     }
 
-    public function index(GetUnverifiedUserRequest $request)
+    public function index(GetUserRequest $request)
     {
-        $this->service->appendWith(['roles','affiliated','accountFor']);
-        $this->service->appendCount(['accounts']);
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        return parent::_index($request);
     }
 
     public function store(FormRequest $request)
@@ -76,25 +68,23 @@ class AdminController extends BaseController
         return $data;
     }
 
-    public function show($id)
+    public function show(GetUserRequest $request, int $id)
     {
-        $this->service->appendWith(['accounts']);
-
-        return $this->service->find($id);
+        return parent::_show($request, $id);
     }
 
     public function update(UpdateUserRequest $request, $id)
     {
-        return $this->service->update($id, $request->validated());
+        return parent::_update($request, $id);
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        return $this->service->delete($id);
+        return parent::_destroy($id);
     }
 
     public function multiDestroy(DeleteUserRequest $request)
     {
-        return $this->service->multiDestroy($request->validated());
+        return parent::_multiDestroy($request);
     }
 }

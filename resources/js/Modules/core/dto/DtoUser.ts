@@ -7,6 +7,8 @@ import DtoRole from "./DtoRole";
 import DtoAccount from "./DtoAccount";
 import DtoPermission from "./DtoPermission";
 import DtoInstitute from "./DtoInstitute";
+import User from "../../../Modules/core/domain/auth/User";
+import {usePage} from "@inertiajs/vue3";
 
 export default class DtoUser extends BaseClass implements IUser {
     id?: number = null;
@@ -87,6 +89,30 @@ export default class DtoUser extends BaseClass implements IUser {
                 name: permission.name,
                 id: permission.id
             };
+        });
+    }
+
+    get affiliation() {
+        if (this.affiliated)
+            return this.affiliated.name;
+        return 'Unknown';
+    }
+
+    get isAdmin() {
+        return this.roles.some(role => role.name === "Administrator");
+    }
+
+    get accountsCount(): number {
+        if (this.accounts)
+            return this.accounts.length;
+        return 0;
+    }
+
+    get accountsList(): string[] {
+        return this.accounts.map(account => {
+            if (account.application)
+                return account.application.name;
+            return null;
         });
     }
 }

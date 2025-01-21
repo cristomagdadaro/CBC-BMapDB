@@ -27,6 +27,8 @@ export default class Product extends BaseClass implements IProduct{
         this.destroyUri = 'api.twg.products.destroy';
         this.multiDestroyUri = 'api.twg.products.destroy.multi';
         this.summaryUri = 'api.twg.products.summary';
+
+        this.appendWith = ['expert'];
     }
 
     static createForm() {

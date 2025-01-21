@@ -20,36 +20,31 @@ class TWGExpertController extends BaseController
 
     public function index(GetTWGExpertRequest $request)
     {
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        return parent::_index($request);
     }
 
     public function show(GetTWGExpertRequest $request, int $id)
     {
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        return parent::_show($request, $id);
     }
 
     public function store(CreateTWGExpertRequest $request)
     {
-        $data = $this->insertUserId($request->validated());
-        return $this->service->create($data);
+        return parent::_store($request);
     }
 
     public function update(UpdateTWGExpertRequest $request, int $id)
     {
-        $data = $this->insertUserId($request->validated());
-        $data = array_filter($data, fn($value) => !is_null($value) && $value !== '');
-        return $this->service->update($id, $data);
+        return parent::_update($request, $id);
     }
 
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        return parent::_destroy($id);
     }
 
     public function multiDestroy(DeleteTWGExpertRequest $request)
     {
-        return $this->service->multiDestroy($request->validated());
+        return parent::_multiDestroy($request);
     }
 }

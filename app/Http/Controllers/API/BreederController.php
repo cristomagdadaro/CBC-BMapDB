@@ -25,21 +25,12 @@ class BreederController extends BaseController implements BreederControllerInter
 
     public function index(GetBreederRequest $request): BaseCollection
     {
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        return parent::_index($request);
     }
 
     public function show(GetBreederRequest $request, int $id): JsonResponse
     {
-        $with = $request->toArray()['with'] ?? null;
-        $count = $request->toArray()['count'] ?? null;
-
-        if ($with)
-            $this->service->appendWith(explode(',',$with));
-        if ($count)
-            $this->service->appendCount(explode(',',$count));
-
-        return $this->sendResponse($this->service->find($id));
+        return parent::_show($request, $id);
     }
 
     /**
@@ -91,19 +82,17 @@ class BreederController extends BaseController implements BreederControllerInter
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
-        $data = $this->insertUserId($request->validated());
-        $data = array_filter($data, fn($value) => !is_null($value) && $value !== '');
-        return $this->service->update($id, $data);
+        return parent::_update($request, $id);
     }
 
     public function destroy(int $id): JsonResponse
     {
-        return $this->service->delete($id);
+        return parent::_destroy($id);
     }
 
     public function multiDestroy(DeleteBreederRequest $request): JsonResponse
     {
-        return $this->service->multiDestroy($request->validated());
+        return parent::_multiDestroy($request);
     }
 
     public function summary(GetBreederRequest $request): JsonResponse

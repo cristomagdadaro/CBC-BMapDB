@@ -119,11 +119,12 @@ export default {
                 :show-clear="true"
                 v-model="displayedInput"
                 :placeholder="placeholder"
+                @focusin="toggleDropdown()"
                 @click="toggleDropdown()"
                 @keydown="debounceApiCall($event.target.value)"
             />
             <div v-show="showDropdown" class="fixed inset-0 z-40" @click="closeDropdown()" />
-            <div v-show="showDropdown" class="relative z-50">
+            <div v-show="showDropdown" class="relative z-50" @focusout="closeDropdown()">
                 <div v-if="api"
                      class="fixed mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-md bg-white p-2 max-h-52 max-w-[20rem] overflow-x-auto z-50"
                 >

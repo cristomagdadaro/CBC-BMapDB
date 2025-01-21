@@ -9,6 +9,7 @@ import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
 import AuthAccount from "@/Pages/Admin/domain/Account";
+import User from "../../../../Modules/core/domain/auth/User";
 
 export default {
     components: {BaseEditForm, SelectSearchField, CustomDropdown, BaseButton},
@@ -107,6 +108,9 @@ export default {
         }
     },
     computed: {
+        User() {
+            return User
+        },
         selectedRole() {
             return this.roles.find(role => role.id === this.form.role);
         },
@@ -138,37 +142,43 @@ export default {
              <select-search-field :api-link="route('api.users.index')" :error="getError('user_id')" label="User" v-model="form.user_id" required />
                 <select-search-field :api-link="route('api.applications.index')" :error="getError('app_id')" label="App" v-model="form.app_id" required />
             </div>-->
-            <ul>
-                <li>
-                    {{ form.role }}
-                </li>
-                <li>
-                    {{ form.permissions }}
-                </li>
-            </ul>
-            <div v-if="!form.approved_at" class="p-2 my-2 rounded-md">
+
+<!--            <div v-if="!form.approved_at" class="p-2 my-2 rounded-md">
                 Take this action with caution. This will approve the user account and grant access to the application.
             </div>
             <div v-else class="p-2 my-2 rounded-md">
                 Take this action with caution. This will remove the user's access to the application.
-            </div>
+            </div>-->
             <div class="flex flex-col gap-2">
-                <span>
-                    <span v-if="form.approved_at">Approved at: {{ form.approved_at }}</span>
-                    <span v-else>Not yet approved</span>
-                </span>
+                <div class="font-semibold text-lg">
+                    {{ (new User(form.user)).getFullName }}
+                </div>
+                <div class="flex justify-between">
+                    <span>
+                        <span v-if="form.created_at">Requested at: {{ form.created_at }}</span>
+                    </span>
+                    <span>
+                        <span v-if="form.approved_at">Approved at: {{ form.approved_at }}</span>
+                        <span v-else>Not yet approved</span>
+                    </span>
+                </div>
                 <base-button v-if="!form.approved_at" @click.prevent="dateNow" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded items-center flex justify-center">Approve Now</base-button>
                 <base-button v-else @click.prevent="removeDateNow" class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded items-center flex justify-center">Remove Access</base-button>
             </div>
             <div>
                 <p class="mt-2">
-                    <strong>Assign Permission by role:</strong> The user will inherit the default permissions a role assigned to them
+                    <strong>Assign Permissions via Role:</strong> The user will inherit the default permissions a role assigned to them
                 </p>
                 <div class="flex flex-col gap-1">
                     <template v-for="role in roles">
                         <ul class="flex items-center gap-1 m-1 p-2 rounded bg-gray-200">
                             <input type="checkbox" :checked="checkRole(role.id)" :value="role.id" @change="checkBoxRoleChange($event, role.id)" class="rounded-full" />
-                            {{ role.name }}
+                            <div class="flex flex-col w-full">
+                                <span>{{ role.name }}</span>
+                                <div class="grid sm:grid-cols-3 grid-cols-2 gap-1 border border-t-gray-400">
+                                    <span v-for="permission in role.permissions" :key="permission.id" class="text-sm text-gray-600 whitespace-nowrap">• {{ permission.name }}</span>
+                                </div>
+                            </div>
                         </ul>
                     </template>
                 </div>
@@ -180,7 +190,7 @@ export default {
                 </p>
                 <div class="flex flex-col gap-1">
                     <template v-for="action in permissions">
-                        <ul class="grid grid-cols-2 m-1 p-2 rounded bg-gray-200">
+                        <ul class="grid sm:grid-cols-3 grid-cols-2 m-1 p-2 rounded bg-gray-200">
                             <li v-for="permission in action" :key="permission.id" class="flex items-center gap-1 select-none" >
                                 <input type="checkbox" :disabled="!checkUserPermission(permission.id) && checkPermission(permission.id)" :checked="checkPermission(permission.id)" :value="permission.id" @change="checkBoxPermissionChange($event, permission.id)" class="rounded-full disabled:opacity-25 disabled:cursor-not-allowed" />
                                 {{ permission.name }}

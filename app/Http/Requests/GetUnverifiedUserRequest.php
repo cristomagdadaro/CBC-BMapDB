@@ -21,6 +21,8 @@ class GetUnverifiedUserRequest extends BaseRequest
     {
         return array_merge([
             // add your rules here
-        ],config('system_variables.paginate_parameters'));
+        ],config('system_variables.paginate_parameters'),
+            config('system_variables.filtering_parameters'),
+            config('system_variables.appendable_parameters'));
     }
 }

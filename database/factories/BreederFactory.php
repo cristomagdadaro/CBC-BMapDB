@@ -24,10 +24,10 @@ class BreederFactory extends Factory
         $city = City::all()->random();
         return [
             'user_id' => User::all()->random()->id,
-            'fname' => $this->faker->name(),
-            'mname' => $this->faker->lastName(),
+            'fname' => $this->faker->firstName(),
+            'mname' => $this->faker->randomElement([null,$this->faker->lastName(),null,null,null,null]),
             'lname' => $this->faker->lastName(),
-            'suffix' => $this->faker->randomElement(['','','','Jr.','','Sr.','','','','I','','','II','','','III','','','','','IV']),
+            'suffix' => $this->faker->randomElement([null,null,null,'Jr.',null,'Sr.',null,null,null,'I',null,null,'II',null,null,'III',null,null,null,null,'IV']),
             'affiliation' => $institute->id,
             'geolocation' => $city->id,
             'mobile_no' => $this->faker->phoneNumber(),

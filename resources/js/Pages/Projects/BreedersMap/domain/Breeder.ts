@@ -1,9 +1,10 @@
 import DtoBreeder from "../dto/DtoBreeder";
+import User from "@/Modules/core/domain/auth/User";
+import {usePage} from "@inertiajs/vue3";
 
 export default class Breeder extends DtoBreeder{
     constructor(params : DtoBreeder) {
         super(params);
-
         this.indexUri = 'api.breeders.index';
         this.showUri = 'api.breeders.show';
         this.storeUri = 'api.breeders.store';
@@ -83,7 +84,8 @@ export default class Breeder extends DtoBreeder{
                 db_key: 'affiliated',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                // @ts-ignore
+                visible: (new User(usePage().props.auth.user)).isAdmin,
             },
             {
                 title: 'Phone',

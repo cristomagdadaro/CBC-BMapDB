@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\Role;
 use App\Models\Breeder;
+use App\Models\Commodity;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -14,12 +15,12 @@ class BreedersMapSeeder extends Seeder
      */
     public function run(): void
     {
-        /*Breeder::factory()->count(50)->create()->each(function ($breeder) {
-            $userId = User::inRandomOrder()->first()->id;
+        Breeder::factory()->count(50)->create()->each(function ($breeder) {
+            $userId = User::all()->random()->first()->id;
             $breeder->update(['user_id' => $userId]);
 
             $breeder->commodities()->createMany(
-                \App\Models\Commodity::factory()->count(rand(1, 15))->make([
+                Commodity::factory()->count(rand(1, 15))->make([
                     'user_id' => $userId
                 ])->toArray()
             );
@@ -39,6 +40,6 @@ class BreedersMapSeeder extends Seeder
 
             $user->approve(2); //Breeders Map
             $user->assignRole(Role::BREEDER->value);
-        });*/
+        });
     }
 }

@@ -661,4 +661,14 @@ return [
         'email' => 'cheryleusala@gmail.com; prrimain@gmail.com',
         'phone' => '(062) 055-1622; (02) 8928-8741 to 64 local 2255',
     ],
+    [
+        'name' => 'DA-Crop Biotechnology Center',
+        'inst_type' => 'DA Unit',
+        'city' => 'Science City of Muñoz',
+        'province' => 'Nueva Ecija',
+        'region' => 'Region III',
+        'website' => 'philrice.gov.ph',
+        'email' => 'cropbiotechcenter@gmail.com',
+        'phone' => '09088897135',
+    ],
 ];

@@ -23,27 +23,26 @@ class ApplicationController extends BaseController
 
     public function index(GetApplicationRequest $request)
     {
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        return parent::_index($request);
     }
 
-    public function show($id)
+    public function show(GetApplicationRequest $request, int $id)
     {
-        return $this->service->find($id);
+        return parent::_show($request, $id);
     }
 
     public function store(CreateApplicationRequest $request)
     {
-        return $this->service->create($request->validated());
+        return parent::_store($request);
     }
 
     public function update(UpdateApplicationRequest $request, $id)
     {
-        return $this->service->update($id, $request->validated());
+        return parent::_update($request, $id);
     }
 
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        return parent::_destroy($id);
     }
 }

@@ -1,9 +1,18 @@
-import Account from "@/Modules/core/domain/auth/Account";
-export default class AuthAccount extends Account
+import DtoAccount from "../../../Modules/core/dto/DtoAccount";
+
+export default class AuthAccount extends DtoAccount
 {
-    constructor(account: Account)
+    constructor(account: DtoAccount)
     {
         super(account);
+
+        this.indexUri = 'api.accounts.index';
+        this.showUri = 'api.accounts.show';
+        this.storeUri = 'api.accounts.store';
+        this.updateUri = 'api.accounts.update';
+        this.destroyUri = 'api.accounts.destroy';
+
+        this.appendWith = ['user', 'application'];
     }
 
     static createForm()
@@ -21,6 +30,7 @@ export default class AuthAccount extends Account
             user_id: oldValue.user_id ?? null,
             app_id: oldValue.app_id ?? null,
             approved_at: oldValue.approved_at ?? null,
+            created_at: oldValue.created_at ?? null,
             user: oldValue.user ?? null,
         }
     }

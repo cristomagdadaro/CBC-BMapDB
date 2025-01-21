@@ -35,26 +35,37 @@ class CreateAccountRequest extends FormRequest
                 'exists:applications,id',
             ],
             'approved_at' => 'nullable|date',
-            'accounts_user_id_app_id_unique' => [
-                Rule::unique('accounts')
-                    ->where(function ($query) {
-                        return $query->where('user_id', $this->user_id)
-                            ->where('app_id', $this->app_id);
-                    }),
-            ],
         ];
     }
 
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array<string, string>
-     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $userId = $this->input('user_id');
+            $appId = $this->input('app_id');
+
+            if ($userId && $appId) {
+                $exists = \DB::table('accounts')
+                    ->where('user_id', $userId)
+                    ->where('app_id', $appId)
+                    ->exists();
+
+                if ($exists) {
+                    $validator->errors()->add(
+                        'accounts_user_id_app_id_unique',
+                        'You already have an account/pending request for this application'
+                    );
+                }
+            }
+        });
+    }
+
     public function messages(): array
     {
         return [
             'user_id.required' => 'Please select a user',
             'app_id.required' => 'Please select an application',
+            'approved_at.date' => 'Invalid date format',
         ];
     }
 }

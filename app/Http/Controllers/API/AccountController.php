@@ -25,20 +25,17 @@ class AccountController extends BaseController
 
     public function index(GetAccountForRequest $request)
     {
-        $this->service->appendWith(['user', 'application']);
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        return parent::_index($request);
     }
 
-    public function show($id)
+    public function show(GetAccountForRequest $request, int $id)
     {
-        $this->service->appendWith(['user','application']);
-        return $this->service->find($id);
+        return parent::_show($request, $id);
     }
 
     public function store(CreateAccountRequest $request)
     {
-        return $this->service->create($request->validated());
+        return parent::_store($request);
     }
 
     /**
@@ -187,6 +184,6 @@ class AccountController extends BaseController
 
     public function destroy($id)
     {
-        return $this->service->delete($id);
+        return parent::_destroy($id);
     }
 }

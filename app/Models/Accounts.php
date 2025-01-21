@@ -19,7 +19,6 @@ class Accounts extends BaseModel
     ];
 
     protected $hidden = [
-        'created_at',
         'updated_at',
         'deleted_at',
     ];
@@ -29,6 +28,7 @@ class Accounts extends BaseModel
         'user_id',
         'app_id',
         'approved_at',
+        'created_at',
     ];
 
     protected array $notifMessage = [

@@ -6,6 +6,7 @@ export default interface IAccount {
     user_id: number;
     app_id: number;
     approved_at: string;
+    created_at: string;
 
     application: IApplication;
     user: IUser;

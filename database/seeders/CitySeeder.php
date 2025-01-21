@@ -16,8 +16,8 @@ class CitySeeder extends Seeder
         $temp = 0;
         $ph_cities =  config('cities');
         foreach ($ph_cities as $city) {
-            if ($temp >= 300)
-                break;
+            /*if ($temp >= 300)
+                break;*/
 
             City::factory()->create(
                 [
@@ -28,7 +28,8 @@ class CitySeeder extends Seeder
                     'provDesc' => $city['provDesc'],
                 ]
             );
-            $temp++;
+
+            //$temp++;
         }
     }
 }

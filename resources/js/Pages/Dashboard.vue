@@ -55,8 +55,6 @@ const user = new User(page.props.auth.user);
                     </div>
                 </div>
             </div>
-
-            {{ $page.props.teamPermissions }}
         </div>
     </AppLayout>
 </template>
