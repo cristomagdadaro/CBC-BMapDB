@@ -12,7 +12,10 @@ class GetBreederRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::READ_BREEDER->value) || auth()->user()->isAdmin();
+        if (!empty(auth()->user()))
+            return auth()->user()->hasPermissionTo(Permission::READ_BREEDER->value) || auth()->user()->isAdmin();
+
+        return true;
     }
 
     /**

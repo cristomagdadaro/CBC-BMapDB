@@ -86,6 +86,8 @@ export default {
 
         const logout = () => {
             router.post(route('logout'));
+
+            localStorage.clear();
         };
 
         return {

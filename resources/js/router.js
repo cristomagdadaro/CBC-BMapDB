@@ -47,7 +47,7 @@ const routes = [
                 name: 'administrator.users',
                 children: [
                     {
-                        path: '/administrator/users/:id',
+                        path: '/administrator/users',
                         component: async () => await import('@/Pages/Admin/components/NewUser/ViewUserAccount.vue'),
                         name: 'administrator.user.view',
                     }
@@ -81,12 +81,12 @@ const routes = [
                         name: 'projects.breedersmap.breeder',
                         children: [
                             {
-                                path: '/projects/breedersmap/breeder/:id?',
+                                path: '/projects/breedersmap/breeder',
                                 component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapViewBreeder.vue'),
                                 name: 'breedersmap.breeder.view',
                             },
                             {
-                                path: '/projects/breedersmap/breeder/:id?/geomap',
+                                path: '/projects/breedersmap/breeder/geomap',
                                 component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapViewBreeder.vue'),
                                 name: 'breedersmap.breeder.geomap',
                             },
@@ -98,14 +98,14 @@ const routes = [
                         name: 'projects.breedersmap.commodity',
                         children: [
                             {
-                                path: '/projects/breedersmap/commodity/:id',
+                                path: '/projects/breedersmap/commodity',
                                 component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapViewCommodity.vue'),
                                 name: 'breedersmap.commodity.view',
                             }
                         ]
                     },
                     {
-                        path: '/projects/breedersmap/geomap/:id?',
+                        path: '/projects/breedersmap/geomap',
                         component: async () => await import('@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue'),
                         name: 'projects.breedersmap.geomap',
                     },

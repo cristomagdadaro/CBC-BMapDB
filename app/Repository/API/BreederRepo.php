@@ -25,7 +25,10 @@ class BreederRepo extends AbstractRepoService
             });
 
         if ($geo_location_value) {
-            $model = $model->where('loc_cities.' . $group_by, $geo_location_value);
+            if ($geo_location_filter && $geo_location_filter !== 'institute')
+                $model = $model->where('loc_cities.' . $group_by, $geo_location_value);
+            else
+                $model = $model->where('affiliation.' . $group_by, $geo_location_value);
         }
 
         return $model;
@@ -61,16 +64,16 @@ class BreederRepo extends AbstractRepoService
             $model = $model->where($group_by, $search);
         }
 
-        $results = $model->selectRaw('name, CONCAT(name, "-", affiliation) as full_name, affiliation, phone as total')
+        $results = $model->selectRaw('CONCAT(fname," ",lname," ", "-", affiliation) as full_name, affiliation, mobile_no as total')
             ->orderBy('total', 'desc')
             ->get();
 
         $datasets = [];
 
-        foreach ($results->groupBy('name') as $name => $dataGroup) {
+        foreach ($results->groupBy('full_name') as $name => $dataGroup) {
             $dataset = [
                 'label' => $name,
-                'data' => $dataGroup->pluck('name')->toArray(),
+                'data' => $dataGroup->pluck('full_name')->toArray(),
                 'borderColor' => 'rgba('.rand(0, 255).', '.rand(0, 255).', '.rand(0, 255).', 1)',
                 'fill' => false
             ];
@@ -103,6 +106,7 @@ class BreederRepo extends AbstractRepoService
         $group_by = $this->determineLocFilterLevel($geo_location_filter);
 
         return $model
+            ->select('institutes.name','institutes.id')
             ->when($commodity, function ($query) use ($commodity) {
                 return $query->where('name', $commodity);
             })
@@ -110,7 +114,6 @@ class BreederRepo extends AbstractRepoService
             ->join('institutes', 'institutes.id', '=', 'breeders.affiliation')
             ->groupBy('institutes.name')
             ->get('institutes.name')
-            ->pluck('name')
             ->sort()
             ->values();
     }

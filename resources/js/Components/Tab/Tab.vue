@@ -17,7 +17,7 @@ export default {
     },
     data() {
         return {
-            activeTab: null,
+            activeTab: JSON.parse(localStorage.getItem('activeTab')) || null,
         };
     },
     methods: {
@@ -25,13 +25,15 @@ export default {
             this.$router.push({name: tab.route.name, params: {id: tab.route.params?.id}});
             this.activeTab = tab;
             this.activeTab.active = true;
+            localStorage.setItem('activeTab', JSON.stringify(tab));
         },
         isActiveTab(tab) {
             return this.activeTab === tab;
         },
         updateActiveTab() {
             if (this.tabs) {
-                this.activeTab = this.tabs.find(tab => tab.route.name === this.$route.name && tab.route.params?.id === this.$route.params.id) || this.tabs[0];
+                const savedTab = JSON.parse(localStorage.getItem('activeTab'));
+                this.activeTab = this.tabs.find(tab => tab.route.name === (savedTab?.route.name || this.$route.name) && tab.route.params?.id === (savedTab?.route.params?.id || this.$route.params.id)) || this.tabs[0];
                 this.activeTab.active = true;
             } else {
                 this.activeTab = null;

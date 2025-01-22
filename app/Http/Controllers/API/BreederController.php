@@ -63,6 +63,9 @@ class BreederController extends BaseController implements BreederControllerInter
                 'approved_at' => now(),
             ]);
 
+            if ($request->user()->isAdmin())
+                $data = array_merge($data, ['user_id' => $breederUser->id]);
+
             $result = $this->service->create($data);
 
             DB::commit();
@@ -75,6 +78,7 @@ class BreederController extends BaseController implements BreederControllerInter
         } catch (\Exception $e)
         {
             DB::rollBack();
+            throw $e;
         }
     }
 
@@ -114,8 +118,8 @@ class BreederController extends BaseController implements BreederControllerInter
             ->orderBy('total', 'desc')
             ->get();
         $breeders_chart = $this->service->applyFilters($model, $breeder, $geo_location_value, $geo_location_filter)
-            ->selectRaw('name as label, count(*) as total')
-            ->groupBy('name')
+            ->selectRaw('CONCAT(fname, mname, lname, suffix) as label, count(*) as total')
+            ->groupBy('label')
             ->orderBy('total', 'desc')
             ->get();
 

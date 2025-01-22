@@ -17,6 +17,7 @@ export default class DtoExpert extends BaseClass implements IExpert {
 
     constructor(expert: IExpert) {
         super();
+        this.table = 'experts';
         this.id = expert.id;
         this.user_id = expert.user_id;
         this.name = expert.name;

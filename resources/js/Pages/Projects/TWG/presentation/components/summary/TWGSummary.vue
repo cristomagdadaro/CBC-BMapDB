@@ -144,7 +144,7 @@ export default {
             return Object.values(data);
         }
     },
-    async mounted(){
+    async created(){
         await this.getSummary();
         //this.initializeLineChart('chartExperts', 'No. Projects', 'Experts', 'No. Projects', this.getKeys(this.topExperts), this.getValues(this.topExperts));
         this.initializePieChart('chartProjects','Status','Status', 'Projects', this.getKeys(this.totalOnGoingProjects), this.getValues(this.totalOnGoingProjects));

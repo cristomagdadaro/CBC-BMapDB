@@ -3,9 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\Permission;
-use App\Enums\Role;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
 
 class GetCommoditiesRequest extends BaseRequest
 {
@@ -14,7 +12,10 @@ class GetCommoditiesRequest extends BaseRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::READ_COMMODITY->value) || auth()->user()->isAdmin();
+        if (!empty(auth()->user()))
+            return auth()->user()->hasPermissionTo(Permission::READ_COMMODITY->value) || auth()->user()->isAdmin();
+
+        return true;
     }
 
     /**

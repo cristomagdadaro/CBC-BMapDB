@@ -31,6 +31,7 @@ import BaseClass from "@/Modules/core/domain/base/BaseClass";
 import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 import DataFiltrationFields
     from "@/Pages/Projects/BreedersMap/presentation/components/map/components/DataFiltrationFields.vue";
+import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 
 export default {
     components: {
@@ -96,7 +97,6 @@ export default {
                 iconSize: [30, 40],
                 iconAnchor: [15, 38],
             }),
-            showListOfPlaces: false,
             commodities: [],
             isHovered: false,
             tiles: null,
@@ -139,6 +139,9 @@ export default {
         };
     },
     computed: {
+        Breeder() {
+            return Breeder
+        },
         newData() {
             if (this.dataFiltration) {
                 this.placesSearched = this.dataFiltration.raw_data;
@@ -178,7 +181,7 @@ export default {
             return true; // return this.$page.props.permissions[Permission.VIEW];
         },
     },
-    mounted() {
+    created() {
         this.initializeMap();
     },
     methods: {
@@ -193,7 +196,7 @@ export default {
         async updateFilters(param, value) {
 
             if (this.mapApi && this.mapApi.processing) return;
-
+            if (this.params.hasOwnProperty(param) && value)
             this.params[param] = value;
             await this.mapApi.updateParam(this.params);
             this.loadData();
@@ -262,7 +265,10 @@ export default {
         },
         baseURL() {
             return this.dataFiltrationUrl + `?filter_by_parent_column=${this.params.filter_by_parent_column}&filter_by_parent_id=${this.params.filter_by_parent_id}`;
-        }
+        },
+        getNestedValue(obj, path) {
+            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        },
     },
     watch: {
         customPoint: {
@@ -278,7 +284,7 @@ export default {
 </script>
 
 <template>
-    <div v-if="mapApi && canView" class="flex gap-1 justify-end hidden">
+    <div v-if="mapApi && canView" class="gap-1 justify-end hidden">
         <top-action-btn @click="refreshData" class="bg-add text-normal py-2" title="Export data">
             <template v-if="processing" #icon>
                 <loader-icon class="h-auto sm:w-6 w-4" />
@@ -308,58 +314,6 @@ export default {
                     @processingRequest="processingRequest"
                 />
             </template>
-            <div class="w-full flex gap-1">
-                <search-box
-                    id="bm-search-box"
-                    :value="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : ''"
-                    :options="newData"
-                    :label="mapApi.selectedPlace ? mapApi.selectedPlace.location.cityDesc : 'Select a place'"
-                    @searchString="updateFilters('search', $event)"
-                    @input="offlineSearch($event.target.value)"
-                    @focusin="showListOfPlaces = true"
-                    class="w-full"
-                />
-                <search-by v-if="!offline"
-                            id="bm-columnsfilter-dropdown"
-                           :value="mapApi.request.getFilter"
-                           :is-exact="mapApi.request.getIsExact"
-                           :options="Commodity.getColumns().map(column => {
-                                 return {
-                                      name: column.key,
-                                      label: column.title
-                                 }
-                           })"
-                           @isExact="mapApi.isExactFilter({ is_exact: $event })"
-                           @searchBy="mapApi.filterByColumn({ column: $event })"
-                />
-            </div>
-            <div v-if="showListOfPlaces" class="absolute mt-1 rounded border-2 z-[999] bg-gray-100 shadow flex-col flex gap-1 overflow-y-auto max-h-96 p-2">
-                <div
-                    v-if="placesSearched && placesSearched.length"
-                    v-for="point in placesSearched"
-                    :key="point.id"
-                    @click="selectPoint(point)"
-                    :class="{'bg-gray-400': isPointSelected(point),'bg-white': !isPointSelected(point)}"
-                    class="flex flex-row items-center gap-1 border p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none"
-                >
-                    <p v-if="point instanceof Commodity" class="font-medium leading-5 px-1 w-full flex items-center">
-                        <b>{{ point.breeder.name}}</b>&nbsp;(<i class="font-light">{{ point.name }}</i>)
-                        <close-icon v-if="isPointSelected(point)" @click="deselectPoint(); showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" @click.stop="markerLatLng = null" />
-                    </p>
-                    <p v-else class="font-medium leading-5 px-1 w-full flex items-center">
-                        <b>{{ point.name}} </b>&nbsp;(<i class="font-light">{{ point.affiliated.name }}</i>)
-                        <close-icon v-if="isPointSelected(point)" @click="deselectPoint(); showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" @click.stop="markerLatLng = null" />
-                    </p>
-                </div>
-                <div
-                    v-else
-                    class="flex flex-row items-center gap-1 p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none"
-                >
-                    <h1 class="font-medium leading-5 px-1 w-full flex items-center justify-between">
-                        No data available
-                    </h1>
-                </div>
-            </div>
         </div>
         <div ref="mapContainer" id="bm-data-map" class="w-full flex gap-2 relative mt-1">
             <l-map
@@ -376,7 +330,6 @@ export default {
 
                 @update:zoom="updateZoom"
                 @update:center="updateCenter"
-                @click="showListOfPlaces = false"
             >
                 <l-control-layers position="topright" :collapsed="true" />
                 <l-geo-json
@@ -435,6 +388,24 @@ export default {
                     </div>
                 </l-control>
             </l-map>
+        </div>
+        <div class="hidden">
+            <table v-if="newData">
+                <thead>
+                    <tr>
+                        <template v-for="column in mapApi.model.getColumns()">
+                            <th v-if="column.visible" :key="column.db_key">{{ column.title }}</th>
+                        </template>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="point in newData" :key="point.id">
+                        <template v-for="column in mapApi.model.getColumns()">
+                            <td v-if="column.visible" :key="column.db_key">{{ getNestedValue(point, column.key) }}</td>
+                        </template>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div v-else class="flex flex-col max-h-fit gap-2" >

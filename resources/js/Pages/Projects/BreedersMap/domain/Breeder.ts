@@ -73,7 +73,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Name',
                 key: 'getFullName',
-                db_key: 'name',
+                db_key: 'fname',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -85,7 +85,7 @@ export default class Breeder extends DtoBreeder{
                 align: 'center',
                 sortable: true,
                 // @ts-ignore
-                visible: (new User(usePage().props.auth.user)).isAdmin,
+                visible: usePage().props.auth && usePage().props.auth.user ? (new User(usePage().props.auth.user)).isAdmin : true,
             },
             {
                 title: 'Phone',

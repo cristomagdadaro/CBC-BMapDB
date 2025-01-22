@@ -21,6 +21,7 @@ export default class DtoProject extends BaseClass implements IProject {
 
     constructor(project: IProject) {
         super();
+        this.table = 'projects';
         this.id = project.id;
         this.twg_expert_id = project.twg_expert_id;
         this.title = project.title;

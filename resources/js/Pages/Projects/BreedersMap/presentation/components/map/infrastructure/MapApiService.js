@@ -5,9 +5,11 @@ import BaseRequest from "@/Modules/core/domain/base/BaseRequest";
 export default class MapApiService{
     constructor(baseUrl, model = Object) {
         this.api = new ApiService(baseUrl);
+
         this.model = ref(model);
         this.response = ref(null);
         const localParams = BaseRequest.getParamsLocal();
+
         this.request = localParams? new BaseRequest(localParams) : new BaseRequest();
         // Default Map Center
         this.PHCenter = [12.296167, 122.763835];
@@ -120,7 +122,8 @@ export default class MapApiService{
     }
 
     async refresh() {
-        this.response = await this.api.get(this.request.toObject(), this.model);
+        if (this.request)
+            this.response = await this.api.get(this.request.toObject(), this.model);
     }
 
     getDataPoint() {

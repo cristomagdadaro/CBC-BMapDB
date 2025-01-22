@@ -76,7 +76,6 @@ export default class DtoBaseRequest implements IBaseRequest {
             this.removeParam(key);
         else
             this[key] = value;
-
         //this.saveParamsLocal();
     }
 

@@ -18,6 +18,7 @@ export default class DtoProduct extends BaseClass implements IProduct {
 
     constructor(product: IProduct) {
         super();
+        this.table = 'products';
         this.id = product.id;
         this.twg_expert_id = product.twg_expert_id;
         this.name = product.name;

@@ -2,6 +2,7 @@
 
 namespace App\Repository\API;
 
+use App\Http\Controllers\API\CommodityFilters;
 use App\Models\Commodity;
 use App\Repository\AbstractRepoService;
 use Illuminate\Support\Facades\Schema;
@@ -13,22 +14,46 @@ class CommodityRepo extends AbstractRepoService
         parent::__construct($model);
     }
 
-    public function applyFilters($model, $commodity, $geo_location_value = null, $geo_location_filter = null, $filter_by_parent_column = null, $filter_by_parent_id = null) {
-        $group_by = $this->determineLocFilterLevel($geo_location_filter);
+    public function applyFilters($model, CommodityFilters $filters) {
+        $group_by = $this->determineLocFilterLevel($filters->geo_location_filter);
 
-        if ($filter_by_parent_column && $filter_by_parent_id) {
-            $model = $model->where($filter_by_parent_column, $filter_by_parent_id);
+        if ($filters->filter_by_parent_column && $filters->filter_by_parent_id) {
+            $model = $model->where($filters->filter_by_parent_column, $filters->filter_by_parent_id);
         }
 
-        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation');
+        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')->join('users', 'users.id', '=', 'user_id');
 
-        $model = $model
-            ->when($commodity, function ($query) use ($commodity) {
-                return $query->where('name', $commodity);
-            });
 
-        if ($geo_location_value) {
-            $model = $model->where('loc_cities.' . $group_by, $geo_location_value);
+        if ($filters->search) {
+            /*if ($filters->filter)
+                $model = $model->where($filters->filter, 'like', '%'.$filters->search.'%');
+            else
+            {
+                foreach ($model->getModel()->getSearchable() as $column) {
+                    $model = $model->orWhere($column, 'like', '%' . $filters->search . '%');
+                }
+            }*/
+            $this->applySearch($model, $filters->search, $filters->filter, $filters->is_exact);
+
+            $appendWith = ['breeder', 'location'];
+            $this->applyAppends($model);
+            foreach ($appendWith as $table) {
+                $relatedModel = $this->model->{$table}()->getModel();
+                $this->applyRelationSearch($model, $filters->search, $filters->filter, $filters->is_exact, $table, $relatedModel);
+            }
+
+        }
+        //$this->applySearch($model, $filters->search, $filters->filter, $filters->is_exact);
+
+        $model = $model->when($filters->commodities, function ($query) use ($filters) {
+            return $query->where('name', $filters->commodities);
+        });
+
+        if ($filters->geo_location_value) {
+            if ($group_by !== 'affiliation')
+                $model = $model->where('loc_cities.' . $group_by, $filters->geo_location_value);
+            else
+                $model = $model->where('institutes.id', $filters->geo_location_value);
         }
 
         return $model;
@@ -105,6 +130,23 @@ class CommodityRepo extends AbstractRepoService
             ->get()
             ->pluck('name')
             ->unique()
+            ->sort()
+            ->values();
+    }
+
+    public function getGroupByInstitute($model, $commodity, $geo_location_filter) {
+        $group_by = $this->determineLocFilterLevel($geo_location_filter);
+
+        return $model
+            ->select('institutes.name','institutes.id')
+            ->when($commodity, function ($query) use ($commodity) {
+                return $query->where('commodities.name', $commodity);
+            })
+            ->join('loc_cities', 'loc_cities.id', '=', 'geolocation')
+            ->join('users', 'users.id','=','user_id')
+            ->join('institutes', 'institutes.id', '=', 'users.affiliation')
+            ->groupBy('institutes.name')
+            ->get('institutes.name')
             ->sort()
             ->values();
     }

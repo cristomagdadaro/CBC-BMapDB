@@ -157,7 +157,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
     }
 
-    private function applyAppends(Builder &$model)
+    protected function applyAppends(Builder &$model)
     {
         if (!empty($this->appendWith)) {
             $model = $model->with($this->appendWith);
@@ -260,10 +260,10 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         return $builder->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
 
-    private function applySearch(Builder $query, string $search, ?string $filter, bool $is_exact)
+    protected function applySearch(Builder $query, string $search, ?string $filter, bool $is_exact)
     {
         $query->where(function ($query) use ($search, $filter, $is_exact) {
-            foreach ($this->model->getSearchable() as $column) {
+            foreach ($query->getModel()->getSearchable() as $column) {
                 if ($filter && $column != $filter) {
                     $column = $filter;
                 }
@@ -277,7 +277,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         });
     }
 
-    private function applyRelationSearch(Builder $query, string $search, ?string $filter, bool $is_exact, string $relation, $relatedModel)
+    protected function applyRelationSearch(Builder $query, string $search, ?string $filter, bool $is_exact, string $relation, $relatedModel)
     {
         $query->orWhereHas($relation, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
             $query->where(function ($query) use ($search, $filter, $is_exact, $relatedModel) {
@@ -334,6 +334,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function determineLocFilterLevel(string $geo_location_filter): string
     {
         return match ($geo_location_filter) {
+            'institute' => 'institute',
             'province' => 'provDesc',
             'region' => 'regDesc',
             default => 'cityDesc',
@@ -350,12 +351,25 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     {
         if (auth()->check() && auth()->user()->isAdmin()) {
             return $model; // Return the model directly if the user is an admin
+        }else if (!auth()->check())
+        {
+            return $model; // Return the model directly if the user is not authenticated, for testing
         }
+
 
         if (Schema::hasColumn($this->model->getTable(), 'user_id')) {
             $model = $model->ownedBy(auth()->user()); // Filter data to retrieve only those owned by the user
         }
 
         return $model;
+    }
+
+    protected function logApiRequest(string $method, string $url, array $data): void
+    {
+        $log = new ApiRequestLog();
+        $log->method = $method;
+        $log->url = $url;
+        $log->data = $data;
+        $log->save();
     }
 }

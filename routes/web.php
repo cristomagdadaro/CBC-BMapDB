@@ -120,7 +120,6 @@ Route::prefix('/projects')->group(function () {
 
     Route::get('/breedersmap-db/{any?}', function (){
         return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic', [
-            'commodities' => Commodity::all(),
             'breadcrumbs' => [['label' => 'Home', 'to' => '/']],
         ]);
     })->name('projects.breedersmap.public');

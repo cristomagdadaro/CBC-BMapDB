@@ -36,16 +36,15 @@ class FocalPersonInvitationToBreederEmail extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         // Generate a signed URL with an expiration time
-        $url = URL::temporarySignedRoute(
-            'accept.breeder.role', // Name of the route to handle the acceptance
-            now()->addMinutes(60), // URL expiration time (60 minutes)
-            ['user' => $notifiable->id] // Pass user ID or any identifier
-        );
+        $url = URL::temporarySignedRoute( 'accept.breeder.role', now()->addMinutes(60), ['user' => $notifiable->id] );
 
         return (new MailMessage)
+            ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
+            ->subject('Breeder Role Invitation in ' . env('APP_NAME') . ' (' . env('APP_NAME_SHORT') . ') System')
+            ->greeting('Hi, ' . $this->getPersonName($notifiable) . '!')
             ->line("You have been invited to use the " . env('APP_NAME') . ' (' . env('APP_NAME_SHORT') . ') System developed by ' . env('COMPANY_NAME') . '.')
             ->line('You were invited to be a Breeder.')
-            ->line('Please click the button below to accept the invitation.')
+            ->line('Please click the button below to accept the invitation. This invitation will expire in 60 minutes.')
             ->action('Accept Breeder Role', $url)
             ->line('Have a nice day!');
     }

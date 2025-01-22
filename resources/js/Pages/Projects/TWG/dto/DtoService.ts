@@ -20,6 +20,7 @@ export default class DtoService extends BaseClass implements IService {
 
     constructor(service: IService) {
         super();
+        this.table = 'services';
         this.id = service.id;
         this.twg_expert_id = service.twg_expert_id;
         this.type = service.type;
