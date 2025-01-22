@@ -6,7 +6,7 @@ import DtoBreeder from "./DtoBreeder";
 import IUser from "@/Modules/core/interface/auth/IUser";
 import DtoUser from "@/Modules/core/dto/DtoUser";
 import ICharacteristics from "@/Pages/Projects/BreedersMap/interface/ICharacteristics";
-import ICommodityAdditionalInfo from "@/Pages/Projects/BreedersMap/interface/IAdditionalInfo";
+import IAdditionalInfo from "@/Pages/Projects/BreedersMap/interface/IAdditionalInfo";
 import DtoCharacteristics from "@/Pages/Projects/BreedersMap/dto/DtoCharacteristics";
 import DtoAdditionalInfo from "@/Pages/Projects/BreedersMap/dto/DtoAdditionalInfo";
 
@@ -31,7 +31,7 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     deleted_at: string;
 
     characteristics?: ICharacteristics;
-    additionalinfo?: ICommodityAdditionalInfo
+    additionalinfo?: IAdditionalInfo;
 
     breeder: IBreeder = null;
     user: IUser = null;

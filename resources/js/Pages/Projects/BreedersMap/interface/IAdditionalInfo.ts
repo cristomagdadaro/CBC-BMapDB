@@ -1,70 +1,63 @@
-export default interface ICommodityAdditionalInfo {
-    // Foreign Key
-    commodity_id: number;
+export default interface IAdditionalInfo {
+    id ?: number;
+    commodity_id?: number;
 
-    // NSIC Registration
-    nsicRegistration ?: string;
-    nsicRegistrationNumber ?: string;
-    nsicYearApproved ?: number; // Year as number
+    nsic_registration?: boolean;
+    nsic_registration_number?: string;
+    nsic_year_approved?: number;
 
-    // Plant Variety Protection
-    pvpCertificateNumber ?: string;
-    pvpRegistrationYear ?: number; // Year as number
+    pvp_certificate_number?: string;
+    pvp_registration_year?: number;
 
-    // GM Regulatory Approval
-    // NCBP
-    ncbpProjectType ?: string;
-    ncbpStatus ?: string;
-    ncbpSupervisingIbc ?: string;
-    ncbpProjectLeaders ?: string;
-    ncbpDateApproval ?: string; // ISO date string
-    ncbpDateCompletion ?: string; // ISO date string
+    ncbp_project_type?: string;
+    ncbp_status?: string;
+    ncbp_supervising_ibc?: string;
+    ncbp_project_leaders?: string;
+    ncbp_date_approval?: Date;
+    ncbp_date_completion?: Date;
 
-    // AO8
-    ao8TransformationEvent ?: string;
-    ao8TechnologyDeveloper ?: string;
-    ao8DirectUseStatus ?: string;
-    ao8DirectUseDateApplied ?: string; // ISO date string
-    ao8DirectUseDateApproved ?: string; // ISO date string
-    ao8FieldTrialStatus ?: string;
-    ao8FieldTrialDateApplied ?: string; // ISO date string
-    ao8FieldTrialDateApproved ?: string; // ISO date string
-    ao8PropagationStatus ?: string;
-    ao8PropagationDateApplied ?: string; // ISO date string
-    ao8PropagationDateApproved ?: string; // ISO date string
+    ao8_transformation_event?: string;
+    ao8_technology_developer?: string;
+    ao8_direct_use_status?: string;
+    ao8_direct_use_date_applied?: Date;
+    ao8_direct_use_date_approved?: Date;
+    ao8_field_trial_status?: string;
+    ao8_field_trial_date_applied?: Date;
+    ao8_field_trial_date_approved?: Date;
+    ao8_propagation_status?: string;
+    ao8_propagation_date_applied?: Date;
+    ao8_propagation_date_approved?: Date;
 
-    // JDC 2016
-    jdc2016TransformationEvent ?: string;
-    jdc2016TechnologyDeveloper ?: string;
-    jdc2016DirectUseStatus ?: string;
-    jdc2016DirectUseDateApplied ?: string; // ISO date string
-    jdc2016DirectUseDateApproved ?: string; // ISO date string
-    jdc2016FfpStatus ?: string;
-    jdc2016FfpDateApplied ?: string; // ISO date string
-    jdc2016FfpDateApproved ?: string; // ISO date string
-    jdc2016FieldTrialStatus ?: string;
-    jdc2016FieldTrialDateApplied ?: string; // ISO date string
-    jdc2016FieldTrialDateApproved ?: string; // ISO date string
-    jdc2016PropagationStatus ?: string;
-    jdc2016PropagationDateApplied ?: string; // ISO date string
-    jdc2016PropagationDateApproved ?: string; // ISO date string
-    jdc2016RenewalPropagationStatus ?: string;
-    jdc2016RenewalPropagationDateApplied ?: string; // ISO date string
-    jdc2016RenewalPropagationDateApproved ?: string; // ISO date string
-    jdc2016DeregulationStatus ?: string;
-    jdc2016DeregulationDateApplied ?: string; // ISO date string
-    jdc2016DeregulationDateApproved ?: string; // ISO date string
+    jdc_2016_transformation_event?: string;
+    jdc_2016_technology_developer?: string;
+    jdc_2016_direct_use_status?: string;
+    jdc_2016_direct_use_date_applied?: Date;
+    jdc_2016_direct_use_date_approved?: Date;
+    jdc_2016_ffp_status?: string;
+    jdc_2016_ffp_date_applied?: Date;
+    jdc_2016_ffp_date_approved?: Date;
+    jdc_2016_field_trial_status?: string;
+    jdc_2016_field_trial_date_applied?: Date;
+    jdc_2016_field_trial_date_approved?: Date;
+    jdc_2016_propagation_status?: string;
+    jdc_2016_propagation_date_applied?: Date;
+    jdc_2016_propagation_date_approved?: Date;
+    jdc_2016_renewal_propagation_status?: string;
+    jdc_2016_renewal_propagation_date_applied?: Date;
+    jdc_2016_renewal_propagation_date_approved?: Date;
+    jdc_2016_deregulation_status?: string;
+    jdc_2016_deregulation_date_applied?: Date;
+    jdc_2016_deregulation_date_approved?: Date;
 
-    // JDC 2021
-    jdc2021TransformationEvent ?: string;
-    jdc2021TechnologyDeveloper ?: string;
-    jdc2021DirectUseStatus ?: string;
-    jdc2021DirectUseDateApplied ?: string; // ISO date string
-    jdc2021DirectUseDateApproved ?: string; // ISO date string
-    jdc2021FieldTrialStatus ?: string;
-    jdc2021FieldTrialDateApplied ?: string; // ISO date string
-    jdc2021FieldTrialDateApproved ?: string; // ISO date string
-    jdc2021PropagationStatus ?: string;
-    jdc2021PropagationDateApplied ?: string; // ISO date string
-    jdc2021PropagationDateApproved ?: string; // ISO date string
+    jdc_2021_transformation_event?: string;
+    jdc_2021_technology_developer?: string;
+    jdc_2021_direct_use_status?: string;
+    jdc_2021_direct_use_date_applied?: Date;
+    jdc_2021_direct_use_date_approved?: Date;
+    jdc_2021_field_trial_status?: string;
+    jdc_2021_field_trial_date_applied?: Date;
+    jdc_2021_field_trial_date_approved?: Date;
+    jdc_2021_propagation_status?: string;
+    jdc_2021_propagation_date_applied?: Date;
+    jdc_2021_propagation_date_approved?: Date;
 }

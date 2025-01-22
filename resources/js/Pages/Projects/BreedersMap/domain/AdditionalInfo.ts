@@ -1,8 +1,8 @@
 import DtoAdditionalInfo from "@/Pages/Projects/BreedersMap/dto/DtoAdditionalInfo";
-import ICommodityAdditionalInfo from "@/Pages/Projects/BreedersMap/interface/IAdditionalInfo";
+import IAdditionalInfo from "@/Pages/Projects/BreedersMap/interface/IAdditionalInfo";
 
 export default class AdditionalInfo extends DtoAdditionalInfo {
-    constructor(additionalInfo: ICommodityAdditionalInfo) {
+    constructor(additionalInfo: IAdditionalInfo) {
         super(additionalInfo);
     }
 

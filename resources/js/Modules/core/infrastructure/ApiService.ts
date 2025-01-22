@@ -87,6 +87,7 @@ export default class ApiService implements IApiService
     {
         try {
             this._processing = true;
+            console.log(data);
             const response = await axios.put(this.baseUrl + '/' + data.id, data);
             return new BaseResponse(response);
         } catch (error) {
