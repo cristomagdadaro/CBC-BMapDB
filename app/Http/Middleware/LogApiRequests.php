@@ -16,7 +16,7 @@ class LogApiRequests
 
         // Capture required data
         $userId = Auth::id(); // Logged-in user ID
-        $userRole = Auth::user()->getRole(); // Logged-in user role
+        $userRole = Auth::user() ? Auth::user()->getRole() : null; // Logged-in user role
         $ip_address = $request->ip(); // Client IP address
         $method = $request->method(); // HTTP method
         $url = $request->fullUrl(); // Full request URL
