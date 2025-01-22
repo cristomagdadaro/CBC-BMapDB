@@ -9,6 +9,7 @@ use App\Http\Middleware\CheckBreedersMapStatus;
 use App\Http\Middleware\CheckTwgDbStatus;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\LogApiRequests;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
@@ -51,6 +52,7 @@ class Kernel extends HttpKernel
         ValidatePostSize::class,
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
+        LogApiRequests::class,
     ];
 
     /**
