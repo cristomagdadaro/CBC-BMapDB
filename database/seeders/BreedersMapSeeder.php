@@ -15,7 +15,7 @@ class BreedersMapSeeder extends Seeder
      */
     public function run(): void
     {
-        Breeder::factory()->count(50)->create()->each(function ($breeder) {
+        Breeder::factory()->count(10)->create()->each(function ($breeder) {
             $userId = User::all()->random()->first()->id;
             $breeder->update(['user_id' => $userId]);
 

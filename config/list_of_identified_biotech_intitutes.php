@@ -662,7 +662,7 @@ return [
         'phone' => '(062) 055-1622; (02) 8928-8741 to 64 local 2255',
     ],
     [
-        'name' => 'DA-Crop Biotechnology Center',
+        'name' => env('COMPANY_NAME'),
         'inst_type' => 'DA Unit',
         'city' => 'Science City of Muñoz',
         'province' => 'Nueva Ecija',
