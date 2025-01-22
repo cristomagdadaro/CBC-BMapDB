@@ -13,7 +13,7 @@ export default class Commodity extends DtoCommodity {
         this.multiDestroyUri = 'api.commodities.destroy.multi';
         this.summaryUri = 'api.commodities.summary';
 
-        this.appendWith = ['breeder', 'location'];
+        this.appendWith = ['breeder', 'location', 'characteristics', 'additionalinfo'];
     }
 
     static createForm()
@@ -200,7 +200,23 @@ export default class Commodity extends DtoCommodity {
                 sortable: true,
                 align: 'center',
                 visible: false,
-            }
+            },
+            {
+                title: 'Characteristics',
+                key: 'characteristics',
+                db_key: 'characteristics',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Additional Info',
+                key: 'additionalinfo',
+                db_key: 'additionalinfo',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
         ];
     }
 }

@@ -2,6 +2,8 @@ import IBreeder from "./IBreeder";
 import ICity from "../../../../Modules/core/interface/location/ICity";
 import IBaseClass from "../../../../Modules/core/interface/base/IBaseClass";
 import IUser from "@/Modules/core/interface/auth/IUser";
+import ICharacteristics from "@/Pages/Projects/BreedersMap/interface/ICharacteristics";
+import ICommodityAdditionalInfo from "@/Pages/Projects/BreedersMap/interface/IAdditionalInfo";
 
 export default interface ICommodity  extends IBaseClass {
     id: number;
@@ -21,6 +23,9 @@ export default interface ICommodity  extends IBaseClass {
     updated_at: string;
     created_at: string;
     deleted_at: string;
+
+    characteristics?: ICharacteristics;
+    additionalinfo?: ICommodityAdditionalInfo
 
     breeder: IBreeder;
     user: IUser;

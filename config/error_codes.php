@@ -32,4 +32,5 @@ return [
     '2200L' => 'Not an XML document',
     '2200M' => 'Invalid XML document',
     '2200N' => 'Invalid XML content',
+    //'42S22' => 'Column not found',
 ];

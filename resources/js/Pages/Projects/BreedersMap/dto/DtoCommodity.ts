@@ -5,6 +5,11 @@ import DtoCity from "../../../../Modules/core/dto/location/DtoCity";
 import DtoBreeder from "./DtoBreeder";
 import IUser from "@/Modules/core/interface/auth/IUser";
 import DtoUser from "@/Modules/core/dto/DtoUser";
+import ICharacteristics from "@/Pages/Projects/BreedersMap/interface/ICharacteristics";
+import ICommodityAdditionalInfo from "@/Pages/Projects/BreedersMap/interface/IAdditionalInfo";
+import DtoCharacteristics from "@/Pages/Projects/BreedersMap/dto/DtoCharacteristics";
+import DtoAdditionalInfo from "@/Pages/Projects/BreedersMap/dto/DtoAdditionalInfo";
+
 // @ts-ignore
 export default class DtoCommodity extends BaseClass implements ICommodity {
     id: number;
@@ -24,6 +29,9 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     created_at: string;
     updated_at: string;
     deleted_at: string;
+
+    characteristics?: ICharacteristics;
+    additionalinfo?: ICommodityAdditionalInfo
 
     breeder: IBreeder = null;
     user: IUser = null;
@@ -48,6 +56,7 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.created_at = commodity.created_at;
         this.updated_at = commodity.updated_at;
         this.deleted_at = commodity.deleted_at;
+
         if (commodity.breeder)
             this.breeder = new DtoBreeder(commodity.breeder);
 
@@ -56,6 +65,12 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
 
         if (commodity.user)
             this.user = new DtoUser(commodity.user);
+
+        if (commodity.characteristics)
+            this.characteristics = new DtoCharacteristics(commodity.characteristics);
+
+        if (commodity.additionalinfo)
+            this.additionalinfo = new DtoAdditionalInfo(commodity.additionalinfo);
     }
 
     get coordinates() {

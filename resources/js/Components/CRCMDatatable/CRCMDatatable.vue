@@ -68,7 +68,7 @@
                         <span v-show="showIconText">Deselect All</span>
                     </top-action-btn>
                     <top-action-btn
-                        v-if="data.length"
+                        v-if="data.length && showActionBtns && canView"
                         class="bg-export"
                         @click="dt.exportCSV()"
                         title="Export data into a CSV file">
@@ -78,7 +78,7 @@
                         <span v-show="showIconText">Export</span>
                     </top-action-btn>
                     <top-action-btn
-                        v-if="showActionBtns"
+                        v-if="showActionBtns && canCreate"
                         class="bg-import"
                         @click="showImportModal = true"
                         title="Import data from a CSV file">

@@ -33,39 +33,48 @@ export default class CRCMDatatable
 
     async init() {
         this.response = await this.api.get(this.request.toObject(), this.model);
-
-        this.getColumnsFromResponse(this.response)
+        if (await this.checkForErrors(this.response))
+            this.getColumnsFromResponse(this.response);
         this.closeAllModal = true;
     }
 
     async create(data) {
         const response = await this.api.post(this.model.toObject(data));
         await this.checkForErrors(response);
+        if (await this.checkForErrors(this.response))
+            await this.refresh();
     }
 
     async delete(id) {
         const response = await this.api.delete(id);
         await this.checkForErrors(response);
+        if (await this.checkForErrors(this.response))
+            await this.refresh();
         this.selected = this.selected.filter(item => item !== id);
     }
 
     async update(data) {
         const response = await this.api.put(this.model.toObject(data));
         await this.checkForErrors(response);
+        if (await this.checkForErrors(this.response))
+            await this.refresh();
     }
 
     async deleteSelected() {
         const response = await this.api.delete(this.selected);
         await this.checkForErrors(response);
+        if (await this.checkForErrors(this.response))
+            await this.refresh();
         this.selected = [];
     }
 
     async checkForErrors(response){
-        if (!(response instanceof DtoError)) {
-            await this.refresh();
+        if (response instanceof BaseResponse){
             this.closeAllModal = true;
+            return true;
         }
         new Notification(response);
+        return false;
     }
 
     get errorBag(){
@@ -286,7 +295,7 @@ export default class CRCMDatatable
     }
 
     getColumnsFromResponse(response) {
-        if (response['data'].length > 0)
+        if (response['data'] && response['data'].length > 0)
         {
             this.columns = Object.keys(response['data'][0]);
             // only include columns that are visible

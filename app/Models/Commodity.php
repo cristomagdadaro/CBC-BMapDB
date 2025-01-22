@@ -82,6 +82,16 @@ class Commodity extends BaseModel
             ->select((new Breeder())->getSearchable())->withTrashed();
     }
 
+    public function characteristics()
+    {
+        return $this->hasOne(CommodityCharacteristic::class);
+    }
+
+    public function additionalInfo()
+    {
+        return $this->hasOne(CommodityInfo::class);
+    }
+
     // Scope a query to only include commodities that belong to a specific breeder
     public function scopeOfModel($query, $breeder_id)
     {

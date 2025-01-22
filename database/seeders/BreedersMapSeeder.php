@@ -19,12 +19,18 @@ class BreedersMapSeeder extends Seeder
             $userId = User::all()->random()->first()->id;
             $breeder->update(['user_id' => $userId]);
 
-            $breeder->commodities()->createMany(
-                Commodity::factory()->count(rand(1, 15))->make([
-                    'user_id' => $userId
-                ])->toArray()
-            );
+            $commodities = Commodity::factory()->count(rand(1, 15))->make([
+                'user_id' => $userId
+            ])->toArray();
 
+            $savedCommodities = $breeder->commodities()->createMany($commodities);
+
+            $savedCommodities->each(function ($commodity) {
+                if ($commodity) {
+                    $commodity->characteristics()->create(['commodity_id' => $commodity->id]);
+                    $commodity->additionalinfo()->create(['commodity_id' => $commodity->id]);
+                }
+            });
 
             $user = User::factory()->create([
                 'fname' => $breeder->fname,

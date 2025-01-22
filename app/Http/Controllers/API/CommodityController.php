@@ -57,8 +57,7 @@ class CommodityController extends BaseController implements CommodityControllerI
 
     public function index(GetCommoditiesRequest $request): BaseCollection
     {
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        return parent::_index($request);
     }
 
     public function show(GetCommoditiesRequest $request, int $id): JsonResponse
@@ -73,9 +72,7 @@ class CommodityController extends BaseController implements CommodityControllerI
 
     public function update(UpdateCommoditiesRequest $request, int $id): JsonResponse
     {
-        $data = $this->insertUserId($request->validated());
-        $data = array_filter($data, fn($value) => !is_null($value) && $value !== '');
-        return $this->service->update($id, $data);
+        return parent::_update($request, $id);
     }
 
     public function destroy(int $id): JsonResponse

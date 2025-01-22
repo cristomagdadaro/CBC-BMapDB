@@ -28,7 +28,7 @@ class ResetProjectsTables extends Command
 
     public function handle()
     {
-        $tablesToReset = ['users','applications','accounts','breeders','commodities','twg_expert','twg_project','twg_product','twg_service','model_has_roles','model_has_permissions']; // Specify your tables here
+        $tablesToReset = ['users','applications','accounts','breeders','commodities','commodity_characteristics','commodity_info','twg_expert','twg_project','twg_product','twg_service','model_has_roles','model_has_permissions']; // Specify your tables here
 
         // Disable foreign key checks
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');

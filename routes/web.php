@@ -189,7 +189,8 @@ Route::middleware([
 
             Route::get('/commodity/{id}', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewCommodity', [
-                    'commodity' => Commodity::find(request()->id)->load('location','breeder'),
+                    'commodity' => Commodity::find(request()->id)->load('location','breeder','characteristics','additionalinfo'),
+                    'breadcrumbs' => [['label' => 'Commodities', 'to' => route('projects.breedersmap.index')]],
                 ]);
             })->name('breedersmap.commodity.view');
         });

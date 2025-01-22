@@ -2,12 +2,18 @@
 
 namespace App\Repository;
 
-class ErrorRepository
-{
-    protected \Exception $exception;
+use Exception;
+use Illuminate\Support\Collection;
 
-    public function __construct(\Exception $e)
+class ErrorRepository extends Exception
+{
+    protected Exception $exception;
+    protected int $errno;
+
+    public function __construct($e)
     {
+        $errno = $e->getCode();
+        parent::__construct($this->findErrorCodeMessage($e)['message'], (int) $errno);
         $this->exception = $e;
     }
 
@@ -16,14 +22,14 @@ class ErrorRepository
         return $this->findErrorCodeMessage($this->getErrorCode());
     }
 
-    private function findErrorCodeMessage($code): array
+    private function findErrorCodeMessage($error): array
     {
         $listOfErrorCodes = config('error_codes');
         //check if the error code exists in the list of error codes
-        if (!array_key_exists($code, $listOfErrorCodes)) {
+        if (!array_key_exists($error->getCode(), $listOfErrorCodes)) {
             return [
-                'errno' => $this->exception->getCode(),
-                'message' =>  $this->exception->getMessage(),
+                'errno' => 500,
+                'message' =>  $error->getMessage(),
                 'title' => 'Internal Server Error',
                 'type' => 'failed',
                 'timeout' => 10000,
@@ -31,8 +37,8 @@ class ErrorRepository
             ];
         }
         return [
-            'errno' => $code,
-            'message' => $listOfErrorCodes[$code],
+            'errno' => $error->getCode(),
+            'message' => $listOfErrorCodes[$error->getCode()],
             'title' => 'Failed',
             'type' => 'failed',
             'timeout' => 10000,
@@ -40,7 +46,7 @@ class ErrorRepository
         ];
     }
 
-    public function getErrorCode()
+    public function getErrorCode(): int
     {
         return $this->exception->getCode();
     }

@@ -341,10 +341,12 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         };
     }
 
-    public function sendError(Exception $error): JsonResponse
+    /**
+     * @throws ErrorRepository
+     */
+    public function sendError(Exception $error)
     {
-        $error = new ErrorRepository($error);
-        return response()->json($error->getErrorMessage());
+        throw new ErrorRepository($error);
     }
 
     public function checkRole(BaseModel|Model $model)

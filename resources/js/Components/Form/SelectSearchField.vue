@@ -5,6 +5,7 @@ import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
 import SelectField from "@/Components/Form/SelectField.vue";
 import {ValidationErrorResponse} from "@/Modules/core/domain/response/index";
+import BaseClass from "@/Modules/core/domain/base/BaseClass";
 
 export default {
     components: {SelectField, CloseIcon, TextField },
@@ -52,12 +53,11 @@ export default {
                 page,
                 //...(this.modelValue ? { filter: 'id' } : {})
             });
-
             if (this.fetchedResponse instanceof BaseResponse){
                 if (this.fetchedResponse.data && this.fetchedResponse.data.length)
                 this.formattedOptions = this.fetchedResponse.data.map(option => ({
                     value: option.id,
-                    label: option.name || option.title || option.label || option.value || option.fname
+                    label: option.name || option.title || option.label || option.value || (new BaseClass(option)).getFullName ,
                 }));
 
                 this.filteredOptions = this.formattedOptions;
