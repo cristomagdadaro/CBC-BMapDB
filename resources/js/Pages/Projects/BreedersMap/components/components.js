@@ -30,6 +30,13 @@ export const BreedersMapPages = {
                 component: defineAsyncComponent(
                     () => null,
                 ),
+            },
+            import: {
+                path: 'breedersmap.breeder.import',
+                name: 'ImportBreedersForm',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Projects/BreedersMap/presentation/components/breeders/ImportBreedersForm.vue')
+                ),
             }
         },
         commodity: {

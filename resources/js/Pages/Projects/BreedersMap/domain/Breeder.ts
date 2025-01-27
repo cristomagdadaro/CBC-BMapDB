@@ -28,6 +28,7 @@ export default class Breeder extends DtoBreeder{
             mobile_no: null,
             email: null,
             password: null,
+            password_confirmation: null,
             affiliation: null,
             geolocation: null,
             remember_token: null,

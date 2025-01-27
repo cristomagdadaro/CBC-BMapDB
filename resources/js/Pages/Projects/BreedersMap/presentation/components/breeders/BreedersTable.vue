@@ -38,6 +38,7 @@ export default {
         :add-form="BreedersMapPages.api.breeder.create.component"
         :edit-form="BreedersMapPages.api.breeder.edit.component"
         :view-form="BreedersMapPages.api.breeder.view.path"
+        :import-modal="BreedersMapPages?.api?.breeder?.import?.component || ''"
         :can-create="canCreate"
         :can-update="canUpdate"
         :can-delete="canDelete"
