@@ -53,6 +53,42 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
         this._appendedCount = value;
     }
 
+    get indexUri(): string {
+        return this._indexUri;
+    }
+
+    get showUri(): string {
+        return this._showUri;
+    }
+
+    get storeUri(): string {
+        return this._storeUri;
+    }
+
+    get updateUri(): string {
+        return this._updateUri;
+    }
+
+    get destroyUri(): string {
+        return this._destroyUri;
+    }
+
+    get multiDestroyUri(): string {
+        return this._multiDestroyUri;
+    }
+
+    get summaryUri(): string {
+        return this._summaryUri;
+    }
+
+    get appendWith(): string[] {
+        return this._appendedWith;
+    }
+
+    get appendCount(): string[] {
+        return this._appendedCount;
+    }
+
     static get appendWith(): string[] {
         return new this({})._appendedWith;
     }

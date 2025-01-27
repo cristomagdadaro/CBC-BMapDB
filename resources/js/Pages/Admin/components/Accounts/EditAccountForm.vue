@@ -150,8 +150,14 @@ export default {
                 Take this action with caution. This will remove the user's access to the application.
             </div>-->
             <div class="flex flex-col gap-2">
-                <div class="font-semibold text-lg">
-                    {{ (new User(form.user)).getFullName }}
+                <div class="flex flex-col items-center bg-cbc-dark-green p-1 py-2 rounded text-gray-100">
+                    <span class="font-semibold text-lg">
+                        {{ (new User(form.user)).getFullName }}
+                    </span>
+                    <div class="text-sm text-gray-400 flex flex-wrap gap-1">
+                        <label class="border-gray-400 border-r px-1">{{ form.user.id }}</label>
+                        <label>{{ form.user.email }}</label>
+                    </div>
                 </div>
                 <div class="flex justify-between">
                     <span>

@@ -9,6 +9,7 @@ import {Ref, ref} from "vue";
 import IApiService from "../interface/IApiService";
 import DtoError from "../dto/base/DtoError";
 import BaseClass from "../domain/base/BaseClass";
+import {route} from "ziggy-js";
 
 export default class ApiService implements IApiService
 {
@@ -64,6 +65,32 @@ export default class ApiService implements IApiService
 
             return new BaseResponse(response);
         } catch (error) {
+            return this.determineError(error);
+        } finally {
+            this._processing = false;
+        }
+    }
+
+    async show(id, params = {}, model = undefined)
+    {
+        try {
+                this._processing = true;
+                const response = await axios.get(route(this.baseUrl, id), {
+                    params: {
+                        ...params,
+                        ...(model?.appendWith && Array.isArray(model.appendWith) ? {with: model.appendWith.toString()} : {}),
+                        ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
+                    }
+                });
+
+            if (model) {
+                if (response && response.data && response.data.data) {
+                    response.data.data = new model(response.data.data);
+                }
+            }
+            return new BaseResponse(response);
+        }
+        catch (error) {
             return this.determineError(error);
         } finally {
             this._processing = false;

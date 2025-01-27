@@ -352,6 +352,7 @@ import CRCMDatatable from "@/Components/CRCMDatatable/core/infra/CRCMDatatable.j
 import { router } from "@inertiajs/vue3";
 import {defineAsyncComponent} from "vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
+import BaseClass from "@/Modules/core/domain/base/BaseClass";
 export default {
     name: "CRCMDatatable",
     props: {
@@ -361,7 +362,7 @@ export default {
             default: null,
         },
         baseModel: {
-            type: [Object, Function],
+            type: [BaseClass, Function],
             required: false,
         },
         params: {
@@ -557,11 +558,7 @@ export default {
         async showEditDialogFunc(id) {
             this.showModal = true;
             this.showEditDialog = true;
-            this.toEditData = (await new ApiService(this.baseUrl).get({
-                filter: 'id',
-                search: id,
-                is_exact: true,
-            }, this.baseModel)).data[0];
+            this.toEditData = (await new ApiService(this.baseModel.showUri).show(id,{}, this.baseModel)).data;
         },
         showDeleteSelectedDialogFunc() {
             this.showModal = true;

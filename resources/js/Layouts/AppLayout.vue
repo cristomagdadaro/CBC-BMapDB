@@ -111,25 +111,29 @@ export default {
             <!-- Primary Navigation Menu -->
             <div class="px-4 sm:px-6 py-3 lg:px-8 bg-cbc-dark-green">
                 <div class="flex justify-between items-center h-10">
-                    <div class="sm:flex hidden flex-col text-gray-50">
-                        <div class="flex items-center gap-1 border-white border-b-4">
-                            <span class="leading-tight text-normal uppercase">
-                                {{ user.getFullName }}
-                            </span>
-                            <span class="leading-tight border-white border-l pl-1">
-                                {{ user.affiliation }}
-                            </span>
-                        </div>
-                        <div class="flex items-center gap-1 text-sm">
-                            <span class="leading-tight border-white border-r pr-1">
-                                ID: {{ user.id }}
-                            </span>
-                            <span class="leading-tight border-white border-r pr-1">
-                            {{ user.getRole }}
-                            </span>
-                            <span class="leading-tight">
-                                {{ user.email }}
-                            </span>
+                    <div class="flex gap-1 items-center">
+                        <img src="/img/logos/pin.webp" alt="PIN Logo" class="h-10 w-auto" />
+                        <div class="sm:flex hidden flex-col text-gray-50">
+
+                            <div class="flex items-center gap-1 border-white border-b px-1">
+                                <span class="leading-tight text-normal uppercase">
+                                    {{ user.getFullName }}
+                                </span>
+                                    <span class="leading-tight border-white border-l pl-1">
+                                    {{ user.affiliation }}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-1 text-sm px-1">
+                                <span class="leading-tight border-white border-r pr-1">
+                                    ID: {{ user.id }}
+                                </span>
+                                    <span class="leading-tight border-white border-r pr-1">
+                                {{ user.getRole }}
+                                </span>
+                                    <span class="leading-tight">
+                                    {{ user.email }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <div class="hidden sm:flex sm:items-center sm:ml-6">

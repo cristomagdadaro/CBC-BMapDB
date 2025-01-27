@@ -16,6 +16,11 @@ export default {
             type: Array,
             required: true,
         },
+        params: {
+            type: Object,
+            required: false,
+            default: () => { return {  } },
+        },
     },
     created() {
         this.apiUrl = this.tables.length ? this.tables[0].route : null;
@@ -44,6 +49,14 @@ export default {
             if (this.filter.table_name === 'commodities')
                 return 'breeder_id';
             return null;
+        }
+    },
+    watch: {
+        params: {
+            handler(newVal) {
+                this.changeSearch(newVal.search);
+            },
+            deep: true,
         }
     },
 }

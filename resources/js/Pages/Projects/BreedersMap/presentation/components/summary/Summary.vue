@@ -130,6 +130,9 @@ export default {
         getNestedValue(obj, path) {
             return path.split('.').reduce((acc, part) => acc && acc[part], obj);
         },
+        async updateFilters(param, value) {
+            this.filter[param] = value;
+        },
     }
 }
 </script>
@@ -141,6 +144,7 @@ export default {
             <data-filtration-fields :tables="tableList"
                                     @dataRefreshed="apiResponseMixin = $event"
                                     @updatedFilter="filter = $event"
+                                    :params="filter"
             />
             <div id="bm-data-charts" class="flex flex-col md:flex-row justify-evenly items-center my-5 gap-0.5 overflow-x-auto">
                 <div v-if="apiResponseMixin && apiResponseMixin.chart_data && !filter.search"
@@ -169,10 +173,9 @@ export default {
                     :options="{}"
                     :label="filter.search ?? 'Select a place'"
                     @searchString="updateFilters('search', $event)"
-                    @keydown.enter="filterResponse($event.target.value)"
+                    @keydown.enter="updateFilters('search', $event)"
                     @focusin="showListOfPlaces = true"
-                    class="w-full"
-                />
+                    class="w-full"></search-box>
                 <search-by id="bm-columnsfilter-dropdown"
                            :value="filter.filter"
                            :is-exact="filter.is_exact"
