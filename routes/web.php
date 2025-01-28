@@ -1,22 +1,18 @@
 <?php
 
-use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\BreederController;
 use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\InstituteController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TWGController;
-use App\Http\Controllers\CityProvRegController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
-use App\Http\Requests\GetBreederRequest;
 use App\Mail\UserInvitationEmail;
 use App\Models\Breeder;
 use App\Models\Commodity;
 use App\Models\TWGExpert;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -86,7 +82,7 @@ Route::get('/accept-breeder-role/{user}', [InvitationController::class, 'acceptB
 /* Public Api */
 Route::prefix('/api/public')->group(function () {
     Route::get('/institutes', [InstituteController::class, 'index'])->name('api.institutes.index.public');
-    Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
+   // Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
 //    Route::get('/cities', [CityProvRegController::class, 'cityIndex'])->name('api.cities.index.public');
     Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
     Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
@@ -132,19 +128,6 @@ Route::middleware([
     'verified',
     AdminApprovedUser::class,
 ])->group(function () {
-
-    Route::middleware('admin')->prefix('administrator')->group(function () {
-        Route::get('/{any?}', function () {
-            return Inertia::render('Admin/Administrator');
-        })->name('administrator.index');
-
-        Route::get('/users/{id}', function ($id) {
-            return Inertia::render('Admin/components/NewUser/ViewUserAccount', [
-                'view' => \App\Models\User::with(['accounts', 'roles', 'permissions'])->findOrFail($id),
-                'breadcrumbs' => [['label' => 'Users', 'to' => '/administrator/users']],
-            ]);
-        })->name('administrator.user.view');
-    });
 
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');

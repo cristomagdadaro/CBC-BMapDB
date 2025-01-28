@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Modules\Administrator\Controllers;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\CreateApplicationRequest;
 use App\Http\Requests\GetApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
-use App\Http\Resources\ApplicationCollection;
-use App\Http\Resources\BaseCollection;
-use App\Models\Application;
 use App\Repository\API\ApplicationRepo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class ApplicationController extends BaseController
 {

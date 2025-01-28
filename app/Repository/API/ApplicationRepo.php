@@ -2,7 +2,7 @@
 
 namespace App\Repository\API;
 
-use App\Models\Application;
+use App\Modules\Administrator\Models\Application;
 use App\Repository\AbstractRepoService;
 
 class ApplicationRepo extends AbstractRepoService

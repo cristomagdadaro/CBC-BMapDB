@@ -7,7 +7,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Accounts; // Adjust this import according to your model's namespace
+use App\Modules\Administrator\Models\Accounts; // Adjust this import according to your model's namespace
 
 class AdminApprovedUser
 {

@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Enums\Applications;
-use App\Models\Application;
+use App\Modules\Administrator\Models\Application;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Inertia;

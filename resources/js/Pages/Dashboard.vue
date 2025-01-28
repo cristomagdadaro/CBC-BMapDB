@@ -35,7 +35,7 @@ onMounted(() => {
                 You have admin privileges
             </p>
 
-            <modal title="Feedback" :show="showNote" @close="showNote = false">
+            <modal :show="showNote" @close="showNote = false">
                 <div class="p-10 text-justify flex flex-col gap-3">
                     <div class="sm:text-xl text-lg text-center font-bold text-gray-900">
                         <h3 class="text-normal font-normal">

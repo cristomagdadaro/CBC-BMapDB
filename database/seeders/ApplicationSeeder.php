@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\Applications;
-use App\Models\Application;
+use App\Modules\Administrator\Models\Application;
 use Illuminate\Database\Seeder;
 
 class ApplicationSeeder extends Seeder

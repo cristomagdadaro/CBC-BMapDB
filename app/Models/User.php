@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Role as RoleEnum;
+use App\Modules\Administrator\Models\Accounts;
 use App\Notifications\FocalPersonInvitationToBreederEmail;
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;

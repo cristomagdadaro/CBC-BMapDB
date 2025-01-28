@@ -3,8 +3,8 @@
 namespace Tests\Unit;
 
 use App\Enums\Role as RoleEnum;
-use App\Models\Accounts;
-use App\Models\Application;
+use App\Modules\Administrator\Models\Accounts;
+use App\Modules\Administrator\Models\Application;
 use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;

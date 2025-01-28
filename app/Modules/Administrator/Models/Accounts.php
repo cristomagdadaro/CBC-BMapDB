@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Models;
+namespace App\Modules\Administrator\Models;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Accounts extends BaseModel

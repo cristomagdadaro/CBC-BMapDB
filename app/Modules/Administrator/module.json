@@ -1,0 +1,7 @@
+{
+    "name": "User Management",
+    "namespace": "App\\Modules\\Administrator",
+    "web_routes": "routes/web.php",
+    "api_routes": "routes/api.php",
+    "active": true
+}

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Modules\Administrator\Controllers;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\DeleteUserRequest;
 use App\Http\Requests\GetUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Accounts;
+use App\Modules\Administrator\Models\Accounts;
 use App\Models\User;
 use App\Repository\API\UserRepo;
 use Illuminate\Foundation\Http\FormRequest;

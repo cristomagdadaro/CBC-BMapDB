@@ -2,7 +2,7 @@
 
 namespace App\Actions\Fortify;
 
-use App\Models\Accounts;
+use App\Modules\Administrator\Models\Accounts;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;

@@ -6,7 +6,7 @@ use Faker\Core\Uuid;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Accounts>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Modules\Administrator\Models\Accounts>
  */
 class AccountsFactory extends Factory
 {
