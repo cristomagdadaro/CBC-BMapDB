@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Application;
 use Tests\TestCase;
 
 class ApplicationCrudTest extends TestCase
@@ -54,7 +55,7 @@ class ApplicationCrudTest extends TestCase
     /** @test **/
     public function create_an_application_with_existing_name(): void
     {
-        $app = \App\Models\Application::factory()->create();
+        $app = Application::factory()->create();
 
         $response = $this->postJson('/api/applications', $app->toArray());
 
@@ -66,7 +67,7 @@ class ApplicationCrudTest extends TestCase
     /** @test **/
     public function update_an_application(): void
     {
-        $app = \App\Models\Application::factory()->create();
+        $app = Application::factory()->create();
 
         $response = $this->putJson('/api/applications/'.$app->id, [
             'name' => 'Test',
@@ -87,7 +88,7 @@ class ApplicationCrudTest extends TestCase
     /** @test **/
     public function update_an_application_with_existing_name(): void
     {
-        $app = \App\Models\Application::factory()->create();
+        $app = Application::factory()->create();
         $response = $this->putJson('/api/applications/'.$app->id, [
             'name' => $app->name,
             'description' => 'test',

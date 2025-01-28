@@ -14,8 +14,8 @@ class AdminApprovedUser
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param Request $request
+     * @param Closure $next
      * @return \Inertia\Response | Response
      */
     public function handle(Request $request, Closure $next): \Inertia\Response | Response

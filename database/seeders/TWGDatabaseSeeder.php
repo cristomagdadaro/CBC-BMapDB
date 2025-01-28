@@ -785,7 +785,7 @@ class TWGDatabaseSeeder extends Seeder
                 'officer_in_charge' => $service['officer_in_charge'],
                 'cost' => $service['cost'],
             ]);
-        };
+        }
     }
 
     private function getUserId($affiliationName)

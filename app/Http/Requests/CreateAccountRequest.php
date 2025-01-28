@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Enums\Permission;
+use DB;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -19,7 +21,7 @@ class CreateAccountRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -45,7 +47,7 @@ class CreateAccountRequest extends FormRequest
             $appId = $this->input('app_id');
 
             if ($userId && $appId) {
-                $exists = \DB::table('accounts')
+                $exists = DB::table('accounts')
                     ->where('user_id', $userId)
                     ->where('app_id', $appId)
                     ->exists();

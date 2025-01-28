@@ -3,10 +3,11 @@
 namespace Database\Factories\Location;
 
 use App\Models\Location\Region;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends Factory<Model>
  */
 class ProvinceFactory extends Factory
 {
