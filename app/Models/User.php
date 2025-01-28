@@ -158,17 +158,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return $this->hasRole(\App\Enums\Role::ADMIN->value);
+        return $this->hasRole(RoleEnum::ADMIN->value);
     }
 
     public function isBreeder(): bool
     {
-        return $this->hasRole(\App\Enums\Role::BREEDER->value);
+        return $this->hasRole(RoleEnum::BREEDER->value);
     }
 
     public function isResearcher(): bool
     {
-        return $this->hasRole(\App\Enums\Role::RESEARCHER->value);
+        return $this->hasRole(RoleEnum::RESEARCHER->value);
     }
 
     public function approve(int | array $id = null): void

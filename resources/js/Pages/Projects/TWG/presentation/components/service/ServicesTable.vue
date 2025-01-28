@@ -16,7 +16,7 @@ export default {
             return this.$page.props.permissions.twgdb.services[Permission.CREATE];
         },
         canUpdate() {
-            return this.$page.props.permissions.twgdb.services[Permission.UPDATE];;
+            return this.$page.props.permissions.twgdb.services[Permission.UPDATE];
         },
         canDelete() {
             return this.$page.props.permissions.twgdb.services[Permission.DELETE];

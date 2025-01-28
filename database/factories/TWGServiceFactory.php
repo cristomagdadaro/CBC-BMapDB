@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\TWGExpert;
+use App\Models\TWGService;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TWGService>
+ * @extends Factory<TWGService>
  */
 class TWGServiceFactory extends Factory
 {

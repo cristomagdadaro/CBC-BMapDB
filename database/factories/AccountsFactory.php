@@ -2,11 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Accounts;
+use App\Models\Application;
+use App\Models\User;
 use Faker\Core\Uuid;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Accounts>
+ * @extends Factory<Accounts>
  */
 class AccountsFactory extends Factory
 {
@@ -18,8 +21,8 @@ class AccountsFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => \App\Models\User::inRandomOrder()->first(),
-            'app_id' => \App\Models\Application::inRandomOrder()->first(),
+            'user_id' => User::inRandomOrder()->first(),
+            'app_id' => Application::inRandomOrder()->first(),
             'approved_at' => $this->faker->randomElement([null, $this->faker->dateTime()]),
         ];
     }

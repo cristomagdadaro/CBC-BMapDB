@@ -15,6 +15,7 @@ use App\Mail\UserInvitationEmail;
 use App\Models\Breeder;
 use App\Models\Commodity;
 use App\Models\TWGExpert;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -140,7 +141,7 @@ Route::middleware([
 
         Route::get('/users/{id}', function ($id) {
             return Inertia::render('Admin/components/NewUser/ViewUserAccount', [
-                'view' => \App\Models\User::with(['accounts', 'roles', 'permissions'])->findOrFail($id),
+                'view' => User::with(['accounts', 'roles', 'permissions'])->findOrFail($id),
                 'breadcrumbs' => [['label' => 'Users', 'to' => '/administrator/users']],
             ]);
         })->name('administrator.user.view');

@@ -4,6 +4,7 @@ namespace App\Models\Location;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Region extends BaseModel
 {
@@ -22,7 +23,7 @@ class Region extends BaseModel
         return $this->belongsTo(Country::class, 'country_id', 'id');
     }
 
-    public function provinces(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function provinces(): HasMany
     {
         return $this->hasMany(Province::class, 'regDesc', 'regDesc');
     }

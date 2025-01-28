@@ -4,13 +4,14 @@ namespace Database\Factories;
 
 use App\Enums\PriorityCommodities;
 use App\Models\Breeder;
+use App\Models\Commodity;
 use App\Models\Location\City;
 use App\Models\Location\Province;
 use App\Models\Location\Region;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Commodity>
+ * @extends Factory<Commodity>
  */
 class CommodityFactory extends Factory
 {
