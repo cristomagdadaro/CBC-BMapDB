@@ -7,9 +7,11 @@ import PageLayout from '@/Layouts/PageLayout.vue';
 import TextField from "@/Components/Form/TextField.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
+import TabLink from "@/Components/Header/TabLink.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
+    canRegister: Boolean,
 });
 
 const form = useForm({
@@ -86,11 +88,13 @@ function onSignIn(googleUser) {
                                         <span class="ml-2 text-xs text-gray-100">Remember me</span>
                                     </label>
                                 </div>
-
                                 <div class="flex flex-col text-xs mt-4 sm:gap-5 gap-3">
                                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                         Log in
                                     </PrimaryButton>
+                                    <Link v-if="canRegister" :href="route('register')" class="text-gray-100 hover:text-cbc-yellow text-center hover:underline rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Create a new account
+                                    </Link>
                                     <Link v-if="canResetPassword" :href="route('password.request')" class="underline opacity-50 text-gray-100 hover:opacity-100 text-right rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                         Forgot your password?
                                     </Link>

@@ -1,10 +1,11 @@
 <script>
 import ArrowLeft from "@/Components/Icons/ArrowLeft.vue";
 import ArrowRight from "@/Components/Icons/ArrowRight.vue";
+import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 
 export default {
     name: "BmPriorityCom",
-    components: {ArrowRight, ArrowLeft},
+    components: {TransitionContainer, ArrowRight, ArrowLeft},
     methods: {
         handleInfiniteScroll($event = null) {
             const delta = $event ? $event.deltaY || $event.detail || $event.wheelDelta : 0;
@@ -115,12 +116,14 @@ export default {
                 <arrow-right class="w-16 h-auto" @click="handleInfiniteScroll(null)" />
             </div>
             <template v-for="commodity in scrolledCommodities">
-                <div v-if="scrolledCommodities.indexOf(commodity) < maxDisplay" @wheel.prevent="handleInfiniteScroll($event)" :class="commodity.name === currentCommodity?'scale-110 mx-0 shadow-md brightness-100':'scale-90 mx-0 brightness-50'" class="bg-cbc-dark-green sm:min-w-[20vw] min-w-[10rem] text-gray-100 relative duration-300 z-10">
-                    <img :src="commodity.image" :alt="commodity.name" class="absolute inset-0 w-full h-full object-cover rounded" />
-                    <div class="relative z-10 flex items-center justify-center h-full drop-shadow shadow-lg text-xl font-bold">
-                        {{ commodity.name }}
+                <transition-container type="slide-right">
+                    <div v-show="scrolledCommodities.indexOf(commodity) < maxDisplay" @wheel.prevent="handleInfiniteScroll($event)" :class="commodity.name === currentCommodity?'scale-110 mx-0 shadow-md brightness-100':'scale-90 mx-0 brightness-50'" class="bg-cbc-dark-green sm:min-w-[20vw] min-w-[10rem] text-gray-100 relative duration-300 z-10">
+                        <img :src="commodity.image" :alt="commodity.name" class="absolute inset-0 w-full h-full object-cover rounded" />
+                        <div class="relative z-10 flex items-center justify-center h-full drop-shadow shadow-lg text-xl font-bold">
+                            {{ commodity.name }}
+                        </div>
                     </div>
-                </div>
+                </transition-container>
             </template>
         </div>
         <div v-if="currentCommodityData" class="flex hidden flex-col justify-center text-gray-900 text-normal">

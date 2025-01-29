@@ -13,6 +13,7 @@ import BmDatabaseList from "@/Pages/Projects/BreedersMap/presentation/components
 import BmPriorityCom from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue";
 import BmOverviewMap from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue";
 import TopLeaf from "@/Components/Top-Leaf.vue";
+import ModelViewer from "@/Components/3dViewer/3dModelViewer.vue";
 
 export default {
     components: {
@@ -30,7 +31,8 @@ export default {
         Link,
         Head,
         PhilippineMapOutline,
-        companyName
+        companyName,
+        ModelViewer
     },
     methods: {
         companyName() {
@@ -128,6 +130,15 @@ export default {
             </public-page-section>
             <public-page-section class="flex items-center py-10">
                 <bm-overview-map />
+            </public-page-section>
+            <public-page-section class="flex items-center py-10">
+                <div class="relative flex flex-col">
+                    <model-viewer model-url="/img/3d/corn.glb"/>
+                    <label class="text-red-700 text-center text-xs">We will be adding more 3d images soon. Use Polycam or any mobile 3d object scanner app. Use iphones with LiDAR sensor.</label>
+                    <div class="w-full p-5 lg:m-2 rounded drop-shadow text-sm">
+                        <p class="text-justify"><span class="font-bold">Bt Corn </span> a genetically enhanced crop that has been engineered to produce a protein from the bacterium Bacillus thuringiensis (Bt). This protein is toxic to certain insect pests, such as the European corn borer, but harmless to humans, animals, and beneficial insects. By incorporating the Bt gene into the corn's DNA, the plant gains built-in resistance to specific pests, reducing the need for chemical insecticides. Bt corn has been widely adopted in agriculture due to its potential to increase crop yields, lower production costs, and reduce environmental impact. However, it has also sparked debates about its long-term effects on ecosystems, pest resistance, and food safety.</p>
+                    </div>
+                </div>
             </public-page-section>
             <public-page-section class="flex items-center py-10">
                 <bm-priority-com />

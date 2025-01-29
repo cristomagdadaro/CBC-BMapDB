@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Repository;
 
 use App\Http\Interfaces\AbstractRepoServiceInterface;
@@ -16,35 +17,35 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     /**
      * Model to be used
      * @var Model
-    **/
+     **/
     public Model $model;
 
     /**
      * Table to append with
      * @var string[]
-    */
+     */
     private array $appendWith = [];
 
     /**
      * Count the rows of the appended tables
      * @var string[]
-    */
+     */
     private array $appendCount = [];
 
     /**
      * Filter the data according to the parent id
-    */
+     */
     protected array|null $filterByParent = null;
 
     /**
      * Use to filter the data according to the role
-    */
+     */
     private int $appendFilter = 0;
 
     /**
      * List of searchable and viewable columns
      * @var string[]
-    **/
+     **/
     protected array $searchable = [];
 
     public function __construct(Model $model)
@@ -76,7 +77,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $model->fill($data);
             $model->save();
 
-            return $this->jsonResponse( $model->getNotifMessage('updated'), $model, 'Updated Data', 'success');
+            return $this->jsonResponse($model->getNotifMessage('updated'), $model, 'Updated Data', 'success');
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -125,13 +126,13 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
             else if ($counter && count($failed) > 0)
                 return response()->json([
-                    'message' => $counter. ' rows successfully deleted but failed to delete ' . count($failed) . ' rows',
+                    'message' => $counter . ' rows successfully deleted but failed to delete ' . count($failed) . ' rows',
                     'data' => $failed,
                     'show' => true,
                     'title' => "Deleted",
                     'type' => "warning",
                     'timeout' => 10000
-                ],  Response::HTTP_OK);
+                ], Response::HTTP_OK);
 
             return response()->json([
                 'message' => 'Failed to delete ' . count($failed) . ' rows of data',
@@ -141,7 +142,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
                 'type' => "warning",
                 'timeout' => 10000
             ], Response::HTTP_OK);
-        }catch (Exception $error) {
+        } catch (Exception $error) {
             return $this->sendError($error);
         }
     }
@@ -183,8 +184,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
                $data = null,
         string $title = '',
         string $type = 'info',
-        int $statusCode = Response::HTTP_OK
-    ): JsonResponse {
+        int    $statusCode = Response::HTTP_OK
+    ): JsonResponse
+    {
         return response()->json([
             'message' => $message,
             'data' => $data,
@@ -353,8 +355,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     {
         if (auth()->check() && auth()->user()->isAdmin()) {
             return $model; // Return the model directly if the user is an admin
-        }else if (!auth()->check())
-        {
+        } else if (!auth()->check()) {
             return $model; // Return the model directly if the user is not authenticated, for testing
         }
 

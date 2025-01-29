@@ -60,7 +60,12 @@ export default {
             <div v-show="showDropdown" class="fixed w-full h-full top-0 left-0 z-[1]" @click="closeDropdown()"></div>
 
             <div @click="toggleDropdown()" ref="hoverDropdown" class="z-[100]">
-                <Link @clic.prevent="null" :href="link" class="px-3 py-1 text-gray-100 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot name="trigger" /></Link>
+                <Link @clic.prevent="null" :href="link" class="px-3 py-1 text-gray-100 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass">
+                    <slot name="trigger" />
+                    <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </Link>
             </div>
 
             <transition

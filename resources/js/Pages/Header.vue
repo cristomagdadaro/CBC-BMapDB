@@ -41,6 +41,9 @@ const supportLinks = [
                         {{ link.name }}
                     </tab-link>
                 </template>
+                <template v-if="!$page.props.auth.user ">
+                    <tab-link v-if="canLogin" :link="route('login')" :active="route().current('login')">Log in</tab-link>
+                </template>
                 <tab-link sublinks :link="route('projects')" :active="route().current('projects') || route().current('home')">
                     <template #trigger>
                         Databases
@@ -51,10 +54,6 @@ const supportLinks = [
                         </tab-link>
                     </template>
                 </tab-link>
-                <template v-if="!$page.props.auth.user ">
-                    <tab-link v-if="canLogin" :link="route('login')" :active="route().current('login')">Log in</tab-link>
-                    <tab-link v-if="canRegister" :link="route('register')" :active="route().current('register')">Register</tab-link>
-                </template>
                 <tab-link v-if="!$page.props.auth.user" sublinks :link="route('support.what-is-pin')" :active="route().current('support.about-us')">
                     <template #trigger>
                         Support
