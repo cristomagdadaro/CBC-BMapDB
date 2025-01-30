@@ -7,7 +7,7 @@ import ErrorIcon from "@/Components/Icons/ErrorIcon.vue";
 import FailedIcon from "@/Components/Icons/FailedIcon.vue";
 </script>
 <template>
-    <div class="top-3 right-3 z-[100] flex justify-end fixed select-none">
+    <div class="top-3 right-3 z-[100] flex justify-end fixed">
       <div v-if="Notification.notifications.value.length" class="flex items-end flex-col gap-1">
         <template v-for="notify in Notification.notifications.value" :key="notify.id">
           <transition

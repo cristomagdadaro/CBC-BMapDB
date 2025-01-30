@@ -129,7 +129,7 @@ export default class AuthUser extends DtoUser
             {
                 title: 'No. of Accounts',
                 key: 'accounts_count',
-                db_key: 'accounts_count',
+                db_key: 'accounts.count',
                 align: 'text-center',
                 sortable: false,
                 visible: true,
@@ -145,7 +145,7 @@ export default class AuthUser extends DtoUser
             {
                 title: 'Affiliation',
                 key: 'affiliated.name',
-                db_key: 'affiliated',
+                db_key: 'affiliated.name',
                 align: 'left',
                 sortable: true,
                 visible: true,
@@ -162,6 +162,14 @@ export default class AuthUser extends DtoUser
                 title: 'Verified At',
                 key: 'email_verified_at',
                 db_key: 'email_verified_at',
+                align: 'left',
+                sortable: true,
+                visible: true,
+            },
+            {
+                title: 'Deleted',
+                key: 'deleted_at',
+                db_key: 'deleted_at',
                 align: 'left',
                 sortable: true,
                 visible: true,

@@ -17,46 +17,16 @@ class UserController extends BaseController
         $this->service = $userRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(GetUserRequest $request)
     {
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(int $id): JsonResponse
     {
         $data = $this->service->find($id);
         return $this->sendResponse('User retrieved successfully.', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, User $user)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @method destroy
-     */
-    public function destroy($id)
-    {
-        return 0;
-    }
 }

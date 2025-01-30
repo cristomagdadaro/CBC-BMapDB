@@ -78,8 +78,7 @@ class Commodity extends BaseModel
 
     public function breeder(): BelongsTo
     {
-        return $this->belongsTo(Breeder::class, 'breeder_id', 'id')
-            ->select((new Breeder())->getSearchable())->withTrashed();
+        return $this->belongsTo(Breeder::class, 'breeder_id', 'id')->select((new Breeder())->getSearchable())->withTrashed();
     }
 
     public function characteristics()

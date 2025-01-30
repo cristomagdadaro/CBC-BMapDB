@@ -242,7 +242,7 @@ export default class Commodity extends DtoCommodity {
             {
                 title: 'Breeder',
                 key: 'breeder.getFullName',
-                db_key: 'breeder',
+                db_key: 'breeder.name',
                 sortable: true,
                 align: 'center',
                 visible: true,

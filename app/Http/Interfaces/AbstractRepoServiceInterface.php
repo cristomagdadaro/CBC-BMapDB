@@ -46,10 +46,10 @@ interface AbstractRepoServiceInterface {
 
     /**
      * Perform multiple model deletion
-     * @param array $ids model primary key
+     * @param array $params model primary key
      * @return JsonResponse
      **/
-    public function multiDestroy(array $ids): JsonResponse;
+    public function multiDestroy(array $params): JsonResponse;
 
     /**
      * Retrieve a model by its primary key.
@@ -59,7 +59,7 @@ interface AbstractRepoServiceInterface {
      *
      * @throw Exception
      */
-    public function find(int $id): JsonResponse|BaseModel;
+    public function find(int $id): JsonResponse| Model;
 
     /**
      * Data filtering
@@ -69,5 +69,13 @@ interface AbstractRepoServiceInterface {
      */
     public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false);
 
-
+    /**
+     * Create a standardized JSON response.
+     *
+     * @param string $type Notification type (success, warning, error).
+     * @param mixed|null $data Response data.
+     * @param array|null $overrides
+     * @return JsonResponse
+     */
+    public function jsonResponse(string $type, mixed $data = null, ?array $overrides = null): JsonResponse;
 }

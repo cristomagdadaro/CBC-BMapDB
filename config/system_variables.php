@@ -59,6 +59,9 @@ return [
         'is_exact' => 'sometimes|string|in:true,false',
     ],
     'filtering_parameters' => [
+        'not' => 'sometimes|string',
+        'exact' => 'sometimes|string',
+        'or' => 'sometimes|string',
         'geo_location_filter' => 'sometimes|string|in:region,province,city,affiliation',
         'geo_location_value' => 'sometimes|string',
         'is_exact' => 'sometimes|string|in:true,false',

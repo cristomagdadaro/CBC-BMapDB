@@ -2,15 +2,21 @@
 
 namespace App\Repository;
 
+use App\Filters\Filter;
 use App\Http\Interfaces\AbstractRepoServiceInterface;
+use App\Models\ApiRequestLog;
 use App\Models\BaseModel;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Config;
 
 abstract class AbstractRepoService implements AbstractRepoServiceInterface
 {
@@ -24,13 +30,13 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
      * Table to append with
      * @var string[]
      */
-    private array $appendWith = [];
+    public array $appendWith = [];
 
     /**
      * Count the rows of the appended tables
      * @var string[]
      */
-    private array $appendCount = [];
+    public array $appendCount = [];
 
     /**
      * Filter the data according to the parent id
@@ -38,9 +44,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     protected array|null $filterByParent = null;
 
     /**
-     * Use to filter the data according to the role
+     * Add custom filters
      */
-    private int $appendFilter = 0;
+    private Filter $filters;
 
     /**
      * List of searchable and viewable columns
@@ -64,7 +70,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $model = $this->model->fill($data);
             $model->save();
 
-            return $this->jsonResponse($this->model->getNotifMessage('created'), $model, 'New Data Inserted', 'success', 201);
+            return $this->jsonResponse('created', $model->toArray());
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -77,7 +83,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $model->fill($data);
             $model->save();
 
-            return $this->jsonResponse($model->getNotifMessage('updated'), $model, 'Updated Data', 'success');
+            return $this->jsonResponse('updated', $model->toArray());
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -86,140 +92,129 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function delete(int $id): JsonResponse
     {
         try {
-            $model = $this->model->find($id);
-            if ($model)
-                $model->delete();
-            else
-                return $this->jsonResponse($this->model->getNotifMessage('notFound'), null, 'Not found', 'error', 404);
+            $model = $this->find($id);
 
-            return $this->jsonResponse($this->model->getNotifMessage('deleted'), $model, 'Removed Data', 'warning');
-        } catch (Exception $error) {
-            return $this->sendError($error);
+            if ($model instanceof JsonResponse)
+                return $model;
+
+            $model->delete();
+            return $this->jsonResponse('deleted', $model->toArray());
+        } catch (\Exception $e) {
+            return $this->sendError($e);
         }
     }
 
-    public function multiDestroy(array $ids): JsonResponse
+    public function multiDestroy(array $params): JsonResponse
     {
         try {
-            $models = $this->model->find($ids['ids']);
-            $counter = 0;
+            $successful = [];
             $failed = [];
 
-            $models->each(function ($model) use (&$counter, &$failed) {
+            $ids = $params['ids'];
+
+            foreach ($ids as $id) {
                 try {
+                    $model = $this->find($id);
+
+                    if ($model instanceof JsonResponse) {
+                        return $model;
+                    }
+
                     $model->delete();
-                    $counter++;
-                } catch (Exception $error) {
-                    $failed[] = $this->sendError($error);
+                    $successful[] = $model;
+
+                } catch (\Exception $e) {
+                    $failed[$id] = $this->sendError($e);
                 }
-            });
+            }
 
-            if ($counter && count($failed) == 0)
-                return response()->json([
-                    'message' => 'Successfully deleted all data',
-                    'data' => $models,
-                    'show' => true,
-                    'title' => "Deleted",
-                    'type' => "warning",
-                    'timeout' => 10000
-                ], Response::HTTP_OK);
+            if (!empty($successful)) {
+                return $this->jsonResponse('deleted', [
+                    'successful' => $successful,
+                    'message' => 'Some Data Deleted Successfully',
+                ]);
+            } elseif (empty($failed)) {
+                return $this->jsonResponse('failure', null, ['message' => 'No Data Found or Already Deleted']);
+            }
 
-            else if ($counter && count($failed) > 0)
-                return response()->json([
-                    'message' => $counter . ' rows successfully deleted but failed to delete ' . count($failed) . ' rows',
-                    'data' => $failed,
-                    'show' => true,
-                    'title' => "Deleted",
-                    'type' => "warning",
-                    'timeout' => 10000
-                ], Response::HTTP_OK);
+            return $this->jsonResponse('error');
 
-            return response()->json([
-                'message' => 'Failed to delete ' . count($failed) . ' rows of data',
-                'data' => $failed,
-                'show' => true,
-                'title' => "Deleted",
-                'type' => "warning",
-                'timeout' => 10000
-            ], Response::HTTP_OK);
-        } catch (Exception $error) {
-            return $this->sendError($error);
+        } catch (\Exception $e) {
+            return $this->sendError($e);
         }
     }
 
-    public function find(int $id): JsonResponse|BaseModel
+
+    public function find(int $id): JsonResponse|Model
     {
-        try {
-            $query = $this->model->query();
-            $this->applyAppends($query);
-            return $query->findOr($id, fn() => $this->jsonResponse($this->model->getNotifMessage('notFound'), null, 'Not found', 'error', 404));
-        } catch (Exception $error) {
-            return $this->sendError($error);
-        }
+        $builder = $this->model->query();
+        return $builder->findOr($id, fn() => $this->jsonResponse('not_found'));
     }
 
-    protected function applyAppends(Builder &$model)
+    public function jsonResponse(string $type, mixed $data = null, ?array $overrides = null): JsonResponse
     {
-        if (!empty($this->appendWith)) {
-            $model = $model->with($this->appendWith);
+        $responseConfig = Config::get("responses.{$type}");
+
+        if (!$responseConfig) {
+            throw new \InvalidArgumentException("Invalid response type: {$type}");
         }
 
-        if (!empty($this->appendCount)) {
-            $model = $model->withCount($this->appendCount);
-        }
-    }
-
-    /**
-     * Create a standardized JSON response.
-     *
-     * @param string $message Response message.
-     * @param mixed $data Response data.
-     * @param string $title Response title.
-     * @param string $type Notification type (success, warning, error).
-     * @param int $statusCode HTTP status code.
-     * @return JsonResponse
-     */
-    private function jsonResponse(
-        string $message,
-               $data = null,
-        string $title = '',
-        string $type = 'info',
-        int    $statusCode = Response::HTTP_OK
-    ): JsonResponse
-    {
-        return response()->json([
-            'message' => $message,
+        $response = array_merge([
             'data' => $data,
             'show' => true,
-            'title' => $title,
-            'type' => $type,
-            'timeout' => 10000,
-        ], $statusCode);
+        ], $responseConfig);
+
+        if ($overrides !== null) {
+            foreach ($overrides as $key => $value) {
+                if (array_key_exists($key, $response)) {
+                    $response[$key] = $value;
+                }
+            }
+        }
+
+        $statusCode = $responseConfig['statusCode'] ?? Response::HTTP_OK;
+        return response()->json($response, $statusCode);
     }
 
     public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
     {
         try {
-            return $this->searchData($parameters, $withPagination, $isTrashed);
+            return $this->buildSearchQuery($parameters, $withPagination, $isTrashed);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
     }
 
-    private function searchData(Collection $parameters, bool $withPagination, bool $isTrashed)
+    protected function buildSearchQuery(Collection $parameters, bool $withPagination, bool $isTrashed): LengthAwarePaginator
+    {
+        $builder = $this->checkRole($this->model);
+        $builder = $builder->select($this->model->getSearchable());
+
+        $this->applyAppends($builder, $parameters);
+        $this->applyParentFilter($builder, $parameters);
+
+        if ($isTrashed) {
+            $builder = $builder->onlyTrashed();
+        }
+
+        $this->applySearchFilters($builder, $parameters);
+        $this->applySorting($builder, $parameters);
+
+        if (!$withPagination)
+            return $builder->get();
+        return $this->applyPagination($builder, $parameters);
+    }
+
+    protected function applyPagination(Builder $query, Collection $parameters)
     {
         $perPage = $parameters->get('per_page', 10);
         $page = $parameters->get('page', 1);
-        $sort = $parameters->get('sort', 'created_at');
-        $order = $parameters->get('order', 'desc');
-        $search = $parameters->get('search', '');
-        $filter = $parameters->get('filter', null);
-        $is_exact = $parameters->get('is_exact', false);
-        $filter_by_parent_id = $parameters->get('filter_by_parent_id', null);
-        $filter_by_parent_column = $parameters->get('filter_by_parent_column', null);
 
-        $builder = $this->checkRole($this->model);
+        return $query->paginate($perPage, ['*'], 'page', $page)->withQueryString();
+    }
 
+    protected function applyAppends(Builder &$model, Collection $parameters): void
+    {
         $with = $parameters->get('with', null);
         $count = $parameters->get('count', null);
 
@@ -231,106 +226,128 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $this->appendCount = explode(',', $count);
         }
 
-        $builder = $builder->select($this->model->getSearchable());
-        $this->applyAppends($builder);
-
-        if ($filter_by_parent_column && $filter_by_parent_id) {
-            $builder = $builder->where($filter_by_parent_column, $filter_by_parent_id);
+        if ($this->appendWith) {
+            $model = $model->with($this->appendWith);
         }
 
-        if ($isTrashed) {
-            $builder = $builder->onlyTrashed();
+        if ($this->appendCount) {
+            $model = $model->withCount($this->appendCount);
         }
-
-        if ($search) {
-            $this->applySearch($builder, $search, $filter, $is_exact);
-
-            if ($this->appendWith) {
-                foreach ($this->appendWith as $table) {
-                    $relatedModel = $this->model->{$table}()->getModel();
-                    $this->applyRelationSearch($builder, $search, $filter, $is_exact, $table, $relatedModel);
-                }
-            }
-        }
-
-        $this->applySorting($builder, $sort, $order);
-
-        if (!$withPagination) {
-            return $builder->get();
-        }
-
-        return $builder->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
 
-    protected function applySearch(Builder $query, string $search, ?string $filter, bool $is_exact)
+    protected function applyParentFilter(Builder &$query, Collection $parameters): void
     {
-        $query->where(function ($query) use ($search, $filter, $is_exact) {
-            foreach ($query->getModel()->getSearchable() as $column) {
-                if ($filter && $column != $filter) {
-                    $column = $filter;
-                }
+        $filterByParentColumn = $parameters->get('filter_by_parent_column');
+        $filterByParentId = $parameters->get('filter_by_parent_id');
 
-                if ($is_exact) {
-                    $query->orWhere($column, $search);
-                } else {
-                    $query->orWhere($column, 'like', "%{$search}%");
-                }
-            }
-        });
+        if (!empty($filterByParentColumn) && !empty($filterByParentId)) {
+            $query = $query->where($filterByParentColumn, $filterByParentId);
+        }
     }
 
-    protected function applyRelationSearch(Builder $query, string $search, ?string $filter, bool $is_exact, string $relation, $relatedModel)
+    protected function applySearchFilters(Builder &$query, Collection $parameters): void
+    {
+        $isExact = $parameters->get('is_exact', false);
+        $filter = $parameters->get('filter', null);
+        $searchTerm = $parameters->get('search', '');
+
+        // Apply search on the main model
+        $this->applySearch($query, $searchTerm, $filter, $isExact);
+
+        // Apply search on related models if specified
+        foreach ($this->appendWith as $relation) {
+            $relatedModel = $this->model->{$relation}()->getModel();
+            if (!is_null($relatedModel) && $searchTerm) {
+                $this->applyRelationSearch($query, $searchTerm, $filter, $isExact, $relation, $relatedModel);
+            }
+        }
+    }
+
+    protected function applySearch(Builder $query, string $search, ?string $filter, bool $is_exact): void
+    {
+        $columns = collect($query->getModel()->getSearchable());
+
+        if (!empty($columns)) {
+            if ($filter && str_contains($filter, '.')){
+                $temp = explode('.', $filter);
+                $filter = $temp[1];
+            }
+
+            if ($filter === 'name' && $columns->contains('fname') && $columns->contains('lname'))
+                $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
+            else
+                $query->where(function ($subQuery) use ($columns, $search, $is_exact) {
+                    foreach ($columns as $column) {
+                        if ($is_exact) {
+                            $subQuery->orWhere($column, $search);
+                        } else {
+                            $subQuery->orWhere($column, 'like', "%{$search}%");
+                        }
+                    }
+                });
+        }
+    }
+
+    protected function applyRelationSearch(Builder $query, string $search, ?string $filter, bool $is_exact, string $relation, $relatedModel): void
     {
         $query->orWhereHas($relation, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
-            $query->where(function ($query) use ($search, $filter, $is_exact, $relatedModel) {
-                foreach ($relatedModel->getSearchable() as $column) {
-                    if ($filter && $column != $filter) {
-                        $column = $filter;
-                    }
+            if (str_contains($filter, '.')) {
+                $temp = explode('.', $filter);
+                $relatedModel = $this->model->{$temp[0]}()->getModel();
+                $filter = $temp[1];
+            }
 
+            // Get related table name
+            $table = $query->getModel()->getTable();
+            $searchable = Schema::getColumnListing($table);
+
+            $query->where(function ($query) use ($search, $searchable, $is_exact, $table, $filter) {
+                if (($filter === 'name' && in_array('fname', $searchable) && in_array('lname', $searchable) || $table === 'users')) {
+                    $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
+                } else if ($filter) {
                     if ($is_exact) {
-                        $query->orWhere($column, $search);
+                        $query->orWhere($filter, $search);
                     } else {
-                        $query->orWhere($column, 'like', "%{$search}%");
+                        $query->orWhere($filter, 'like', "%{$search}%");
+                    }
+                } else {
+                    foreach ($searchable as $column) {
+                        if (Schema::hasColumn($table, $column))
+                            if ($is_exact) {
+                                $query->orWhere($column, $search);
+                            } else {
+                                $query->orWhere($column, 'like', "%{$search}%");
+                            }
                     }
                 }
             });
         });
     }
 
-    private function applySorting(Builder $query, string $sort, string $order)
+    private function applySorting(Builder &$query, Collection $parameters): void
     {
-        if (!Schema::hasColumn($this->model->getTable(), $sort)) {
-            $sort = 'id'; // Default sort column
+        $sortColumn = $parameters->get('sort', 'created_at');
+        $order = strtoupper($parameters->get('order', 'desc'));
+
+        // Validate the sort column exists to prevent SQL errors
+        if (!Schema::hasColumn($query->getModel()->getTable(), $sortColumn)) {
+            $sortColumn = 'id'; // Default to ID if sorting column doesn't exist
         }
 
-        $query->orderBy($sort, $order);
-    }
-
-
-    public function appendWith(array $tableToAppend): void
-    {
-        $this->appendWith = $tableToAppend;
-    }
-
-    public function appendCount(array $countTable): void
-    {
-        $this->appendCount = $countTable;
-    }
-
-    public function filterByParent(array|null $parent): void
-    {
-        $this->filterByParent = $parent;
-    }
-
-    public function appendCondition(int $tableConditions): void
-    {
-        $this->appendFilter = $tableConditions;
+        if (in_array($order, ['ASC', 'DESC'])) {
+            $query->orderBy($sortColumn, $order);
+        } else {
+            $query->orderBy($sortColumn, 'desc'); // Fallback to descending order
+        }
     }
 
     public function summary(): int
     {
-        return $this->model->count();
+        try {
+            return $this->model->count();
+        } catch (\Exception $e) {
+            return 0;
+        }
     }
 
     public function determineLocFilterLevel(string $geo_location_filter): string
@@ -339,7 +356,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             'institute' => 'institute',
             'province' => 'provDesc',
             'region' => 'regDesc',
-            default => 'cityDesc',
+            default => throw new \InvalidArgumentException("Invalid geo location filter: {$geo_location_filter}"),
         };
     }
 
@@ -348,6 +365,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
      */
     public function sendError(Exception $error)
     {
+        Log::error('Error occurred: ' . $error->getMessage(), ['exception' => $error]);
         throw new ErrorRepository($error);
     }
 
@@ -359,9 +377,13 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             return $model; // Return the model directly if the user is not authenticated, for testing
         }
 
-
-        if (Schema::hasColumn($this->model->getTable(), 'user_id')) {
-            $model = $model->ownedBy(auth()->user()); // Filter data to retrieve only those owned by the user
+        try {
+            if (Schema::hasColumn($this->model->getTable(), 'user_id')) {
+                $model = $model->ownedBy(auth()->user()); // Filter data to retrieve only those owned by the user
+            }
+        } catch (\Exception $e) {
+            // Handle the exception appropriately, e.g., log it or return an error response
+            return $this->sendError($e);
         }
 
         return $model;

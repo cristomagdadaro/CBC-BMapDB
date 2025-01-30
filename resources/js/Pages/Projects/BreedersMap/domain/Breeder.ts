@@ -74,7 +74,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Name',
                 key: 'getFullName',
-                db_key: 'fname',
+                db_key: 'name',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -107,7 +107,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Commodities',
                 key: 'commoditiesCount',
-                db_key: 'commodities_count',
+                db_key: 'commodities.count',
                 align: 'text-center',
                 sortable: true,
                 visible: true,

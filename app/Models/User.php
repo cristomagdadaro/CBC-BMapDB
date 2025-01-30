@@ -88,6 +88,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'mobile_no',
         'affiliation',
         'email_verified_at',
+        'deleted_at'
     ];
 
     protected array $notifMessage = [
