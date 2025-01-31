@@ -23,8 +23,8 @@ class UpdateRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'label' => 'required|string|max:255|unique:roles,label',
-            'value' => 'required|string|max:255|unique:roles,value',
+            'name' => 'required|string|unique:roles,name,'.$this->id,
+            'guard_name' => 'required|string',
         ];
     }
 }

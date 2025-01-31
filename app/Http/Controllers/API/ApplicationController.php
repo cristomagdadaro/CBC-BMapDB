@@ -36,7 +36,7 @@ class ApplicationController extends BaseController
         return parent::_store($request);
     }
 
-    public function update(UpdateApplicationRequest $request, $id)
+    public function update(UpdateApplicationRequest $request, int $id)
     {
         return parent::_update($request, $id);
     }

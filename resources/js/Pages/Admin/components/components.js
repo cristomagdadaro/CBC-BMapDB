@@ -2,6 +2,7 @@ import {defineAsyncComponent} from "vue";
 import User from "@/Pages/Admin/domain/User";
 import Account from "@/Pages/Admin/domain/Account";
 import Application from "@/Pages/Admin/domain/Application";
+import Role from "../domain/Role";
 /**
  * Contains the forms, pages, api routes, and models for the BreedersMap project
  **/
@@ -85,6 +86,32 @@ export const AdminPages = {
                 ),
             }
         },
+        role: {
+            path: route('api.roles.index'),
+            name: 'Role Model',
+            model: Role,
+            create: {
+                path: null,
+                name: 'CreateRoleForm',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Admin/components/Roles/CreateRoleForm.vue')
+                ),
+            },
+            edit: {
+                path: null,
+                name: 'EditRoleForm',
+                component: defineAsyncComponent(
+                    () => import('@/Pages/Admin/components/Roles/EditRoleForm.vue')
+                ),
+            },
+            view: {
+                path: null,
+                name: 'ViewRole',
+                component: defineAsyncComponent(
+                    () => null,
+                ),
+            }
+        }
     },
     index: {
         path: route('administrator.index'),

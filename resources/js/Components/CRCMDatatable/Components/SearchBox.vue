@@ -6,7 +6,7 @@
                    type="text" id="dtSearch"
                    v-model="search"
                    :placeholder="placeholder"
-                   @keyup.capture.delete="!modelValue.length ? searchBy(null) : null"
+                   @keyup.capture.delete="!modelValue?.length ? searchBy(null) : null"
                    @keyup.capture.enter="searchBy($event)" />
             <button v-if="modelValue" class="p-2 rounded-r hover:border-0 active:scale-90 duration-300 hover:bg-gray-300 active:bg-gray-400 h-full" @click="clearSearch"><close-icon class="h-5 w-5"/> </button>
             <button v-else class="p-2 rounded-r hover:border-0 active:scale-90 duration-300 hover:bg-gray-300 active:bg-gray-400 h-full" @click="searchBy"><search-icon class="h-5 w-5 text-gray-600" /></button>

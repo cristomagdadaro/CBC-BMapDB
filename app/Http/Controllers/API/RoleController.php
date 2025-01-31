@@ -25,34 +25,26 @@ class RoleController extends BaseController
 
     public function index(GetRoleRequest $request): BaseCollection
     {
-        $this->service->appendWith(['permissions']);
-        $data = $this->service->search(new Collection($request->validated()));
-        // remove the Admin role from the list
-        foreach ($data->items() as $key => $value) {
-            if ($value->name == \App\Enums\Role::ADMIN->value) {
-                unset($data[$key]);
-            }
-        }
-        return new BaseCollection($data);
+        return parent::_index($request);
     }
 
-    public function show($id)
+    public function show(GetRoleRequest $request, int $id)
     {
-        return  $this->service->find($id);
+        return parent::_show($request, $id);
     }
 
     public function store(CreateRoleRequest $request)
     {
-        return $this->service->create($request->validated());
+        return parent::_store($request);
     }
 
-    public function update(UpdateRoleRequest $request, $id)
+    public function update(UpdateRoleRequest $request, int $id)
     {
-        return $this->service->update($id, $request->validated());
+        return parent::_update($request, $id);
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        return $this->service->delete($id);
+        return parent::_destroy($id);
     }
 }

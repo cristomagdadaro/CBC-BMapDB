@@ -18,4 +18,8 @@ export default class DtoRole extends BaseClass implements IRole {
         if (dto.permissions)
             this.permissions = dto.permissions.map(permission => new DtoPermission(permission));
     }
+
+    get getPermissions() {
+        return this.permissions.map(permission => permission.name).join(', ');
+    }
 }
