@@ -10,12 +10,14 @@ return [
             'route' => Applications::BREEDERS_MAP_ROUTE->value,
             'route_public' => Applications::BREEDERS_MAP_ROUTE_PUBLIC->value,
             'description' => Applications::BREEDERS_MAP_DESC->value,
+            'logo' => Applications::BREEDERS_MAP_LOGO->value,
         ],
         Applications::TWG_DATABASE->name => [
             'name' => Applications::TWG_DATABASE->value,
             'route' => Applications::TWG_DATABASE_ROUTE->value,
             'route_public' => Applications::TWG_DATABASE_ROUTE_PUBLIC->value,
             'description' => Applications::TWG_DATABASE_DESC->value,
+            'logo' => Applications::TWG_DATABASE_LOGO->value,
         ],
     ],
     'access_levels' => [

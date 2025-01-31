@@ -1,35 +1,65 @@
 <script>
-import {Head, Link} from "@inertiajs/vue3";
+import {Head, Link, usePage} from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import InfoPageLinks from "@/Pages/Support/components/InfoPageLinks.vue";
 import InfoPageLayout from "@/Pages/Support/components/InfoPageLayout.vue";
 
 export default {
     name: "AboutUs",
-    components: {InfoPageLayout, InfoPageLinks, PageLayout, Head, Link}
+    components: {InfoPageLayout, InfoPageLinks, PageLayout, Head, Link},
+    data() {
+        return {
+            page: usePage(),
+        }
+    },
+    computed: {
+        appName(){
+            return this.page.props.appName;
+        },
+        appNameShort(){
+            return this.page.props.appNameShort;
+        },
+        companyName(){
+            return this.page.props.companyName;
+        },
+        companyNameShort(){
+            return this.page.props.companyNameShort;
+        },
+    }
 }
 </script>
 
 <template>
     <info-page-layout title="About Us">
-        <div class="space-y-6 text-dark-color leading-relaxed">
-            <p class="text-lg">
-                The Crop Biotechnology Center (CBC) is a research and development facility of the Department of Agriculture (DA) that is dedicated to the advancement of crop biotechnology in the Philippines. Established in 2000, the CBC is committed to the development and promotion of biotechnology applications in agriculture to enhance food security, increase crop productivity, and improve the livelihoods of Filipino farmers.
-            </p>
-            <p class="text-lg">
-                The CBC is a key player in the Philippine government’s efforts to harness the potential of biotechnology to address the challenges of food security, poverty alleviation, and sustainable development. Through its research and development programs, the CBC aims to develop and deploy biotechnology tools and technologies that will help farmers produce more food with less resources, reduce the environmental impact of agriculture, and improve the nutritional quality of crops.
-            </p>
-            <p class="text-lg">
-                The CBC is also actively involved in capacity building, technology transfer, and public awareness activities to promote the responsible use of biotechnology in agriculture. The CBC works closely with government agencies, academic institutions, research organizations, and industry partners to ensure that the benefits of biotechnology are shared equitably and sustainably.
-            </p>
-            <p class="text-lg">
-                The CBC is committed to the principles of transparency, accountability, and stakeholder engagement in all its activities. The CBC is guided by the principles of good governance, ethical conduct, and social responsibility in its research and development programs. The CBC is committed to promoting the safe and responsible use of biotechnology in agriculture to benefit the Filipino people and the environment.
-            </p>
-            <p class="text-lg">
-                The CBC is proud to be a part of the Department of Agriculture and the Philippine government’s efforts to promote sustainable agriculture, food security, and rural development. The CBC is dedicated to the advancement of crop biotechnology in the Philippines and looks forward to contributing to the country’s agricultural development and economic growth.
-            </p>
-        </div>
+        <div class="space-y-6 text-dark-color leading-5">
+            <div>
+                <p class="text-lg font-bold">What is  {{ appNameShort }}?</p>
+                <p>The  {{ appName }}) System is an innovative online platform designed to serve as a centralized repository for crop biotechnology-related data. It aims to collect, store, and organize comprehensive information on various crops, including rice, corn, vegetables, and other agricultural products.</p>
+            </div>
+            <div>
+                <p class="font-bold">The system's primary objectives are:</p>
+                <ul class="list-decimal list-inside">
+                    <li><span class="font-semibold">Data Collection:</span> Gather and manage vast amounts of data from diverse sources within the agricultural sector.</li>
+                    <li><span class="font-semibold">Data Organization:</span> Store this information in a structured manner to facilitate easy access and retrieval.</li>
+                    <li><span class="font-semibold">Collaboration:</span> Foster collaboration among researchers, breeders, and other stakeholders by providing a shared platform for knowledge exchange.</li>
+                </ul>
+            </div>
+            <div>
+                <p class="font-bold">Modularity and Future-Proofing</p>
+                <p>The {{ appNameShort }} is designed with modularity in mind, allowing it to easily integrate additional databases in the future. This feature ensures that the system remains scalable and adaptable as new data sources become available, such as coconut germplasm or other crops.</p>
+            </div>
 
+            <div>
+                <p class="font-bold">The Team Driving Innovation</p>
+                The development and oversight of the {{ appNameShort }} are under the guidance of a dedicated team led by Dr. Roel R. Suralta, an esteemed expert in plant breeding with extensive experience in national agricultural programs. His team, the R&D Management Team at {{ companyName }} ({{companyNameShort}}), is committed to ensuring the system meets the highest standards of data integrity and innovation.
+            </div>
+
+            <div>
+                <p class="font-bold">Broader Impact</p>
+                <p>The {{ appNameShort }} plays a pivotal role in supporting the Department of Agriculture's Biotechnology Program Office (DA-BPO) by providing critical tools for agricultural research and development. It contributes to the country's food security and sustainability goals by promoting efficient use of resources and fostering sustainable agricultural practices.</p>
+                <p>Through {{ appNameShort }}, we strive to empower researchers, breeders, and policymakers with cutting-edge tools that enable them to drive progress in crop biotechnology, ultimately benefiting the nation's agriculture sector.</p>
+            </div>
+        </div>
     </info-page-layout>
 </template>
 

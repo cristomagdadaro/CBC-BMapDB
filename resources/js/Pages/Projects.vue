@@ -1,7 +1,7 @@
 <script>
 import PageLayout from "@/Layouts/PageLayout.vue";
-import {CBCProjectsPublic, companyName } from "@/Pages/constants.ts";
-import { Link, Head } from '@inertiajs/vue3';
+import {CBCProjectsPublic } from "@/Pages/constants.ts";
+import {Link, Head, usePage} from '@inertiajs/vue3';
 import PhilippineMapOutline from "@/Components/Icons/PhilippineMapOutline.vue";
 import BmCollaborators from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue";
 import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
@@ -31,13 +31,9 @@ export default {
         Link,
         Head,
         PhilippineMapOutline,
-        companyName,
         ModelViewer
     },
     methods: {
-        companyName() {
-            return companyName
-        },
         setupParticlesFor(id)  {
             particlesJS.load(id, '/particlesjs-config.json', function() {
                 console.log('particles for Projects Page loaded');
@@ -54,6 +50,25 @@ export default {
             CBCProjectsPublic,
         };
     },
+    data() {
+        return {
+            page: usePage(),
+        }
+    },
+    computed: {
+        appName(){
+            return this.page.props.appName;
+        },
+        appNameShort(){
+            return this.page.props.appNameShort;
+        },
+        companyName(){
+            return this.page.props.companyName;
+        },
+        companyNameShort(){
+            return this.page.props.companyNameShort;
+        },
+    }
 };
 </script>
 
@@ -66,36 +81,42 @@ export default {
                 <template v-slot:custom-bg>
                     <div id="header-particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
                 </template>
-                <div class="flex justify-center">
-                    <h1 class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
+                <div class="flex flex-col justify-center">
+                    <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
                         <div class="text-title leading-tight">
-                            <div class="sm:text-2xl text-lg  font-light">Welcome to</div>
+                            <h1 class="sm:text-2xl text-lg  font-light">Welcome to</h1>
                             <div class="leading-tight">
-                                <div>
+                                <h1>
                                     <span class="text-cbc-olive-green drop-shadow">P</span>lant&nbsp;Breeders and
-                                </div>
-                                <div>
+                                </h1>
+                                <h1>
                                     <span class="text-cbc-olive-green drop-shadow">I</span>nnovators
                                     <span class="text-cbc-olive-green drop-shadow">N</span>etwork
-                                </div>
+                                </h1>
                             </div>
                         </div>
-                        <p class="text-normal drop-shadow text-justify">
+                        <h1 class="text-normal drop-shadow text-justify px-1">
                             Empowering crop biotechnology research with innovation, one discovery at a time.
-                        </p>
-                    </h1>
+                        </h1>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-center items-center border-t">
+                        <Link v-for="project in CBCProjectsPublic" :href="route(project.route_public)" class="flex justify-center gap-1 items-center w-1/2 whitespace-nowrap text-cbc-brown bg-transparent text-center p-10  hover:text-gray-100 hover:drop-shadow-lg active:scale-95 duration-200 uppercase text-subtitle">
+                            <img :src="project.logo" :alt="project.label" class="w-auto h-[5rem]">
+                            <label>{{ project.label }}</label>
+                        </Link>
+                    </div>
                 </div>
             </public-page-section>
             <public-page-section class="flex items-center text-center">
                 <div class="flex flex-col gap-5 justify-between items-center">
-                    <Link class="flex items-center drop-shadow-lg" :href="'/'">
-                        <img src="/img/logos/pin.svg" class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] min-w-[40%]" alt="Plant Breeders Map Database Logo"/>
+                    <Link class="flex items-center h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15rem] drop-shadow-lg" :href="'/'">
+                        <img src="/img/logo-black.png" alt="DA-CBC Logo"/>
                     </Link>
                     <p class="text-normal text-dark-color">
                         This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
                     </p>
-                    <Link class="flex items-center h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15%] drop-shadow-lg" :href="'/'">
-                        <img src="/img/logo-black.png" alt="DA-CBC Logo"/>
+                    <Link class="flex items-center drop-shadow-lg" :href="'/'">
+                        <img src="/img/logos/pin.svg" class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] min-w-[40%]" alt="Plant Breeders Map Database Logo"/>
                     </Link>
                 </div>
             </public-page-section>
@@ -107,7 +128,7 @@ export default {
                          class="absolute top-0 left-0 w-full h-full z-[-1] brightness-50 object-cover object-top" />
                 </template>
                 <p class="text-subtitle text-center text-light-color">
-                    {{ companyName() }}
+                    {{ companyName }}
                 </p>
                 <p class="text-normal text-center text-light-color">
                     The center is a premier hub for innovation and research in agricultural biotechnology. Dedicated to advancing crop productivity and sustainability, the center provides cutting-edge solutions, resources, and technologies to support farmers, researchers, and stakeholders in addressing the challenges of food security and agricultural development.
@@ -116,7 +137,7 @@ export default {
             <public-page-section class="flex items-center">
                 <div class="grid grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 gap-2 md:gap-5">
                     <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[0].route_public)">
-                        <img class="h-auto" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo"/>
+                        <img class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15rem]" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo"/>
                     </Link>
                     <div class="flex flex-col justify-center text-center md:text-left">
                         <Link :href="route(Object.values(CBCProjectsPublic)[0].route_public)" class="text-subtitle text-dark-color">
@@ -145,8 +166,8 @@ export default {
             </public-page-section>
             <public-page-section class="flex items-center text-center">
                 <div class="flex flex-col gap-5 justify-between items-center">
-                    <Link class="h-auto w-[40%] min-w-[20rem] drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[1].route_public)">
-                        <img src="/img/logos/biotwg.png" alt="Biotech TWG Database Logo"/>
+                    <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(Object.values(CBCProjectsPublic)[1].route_public)">
+                        <img class="h-auto w-[12rem] sm:w-[17rem] lg:w-[25rem] max-w-[25rem]" src="/img/logos/biotwg.full.png" alt="Biotech TWG Database Logo"/>
                     </Link>
                     <p class="text-normal text-dark-color">
                         {{ Object.values(CBCProjectsPublic)[1].description }}
