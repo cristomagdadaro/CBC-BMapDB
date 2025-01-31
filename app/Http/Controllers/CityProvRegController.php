@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GetCityRequest;
 use App\Repository\API\CityRepo;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 class CityProvRegController extends BaseController

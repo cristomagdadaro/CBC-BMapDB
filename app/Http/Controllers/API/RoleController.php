@@ -3,18 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateRoleRequest;
-use App\Http\Requests\DeleteRoleRequest;
 use App\Http\Requests\GetRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\RoleCollection;
-use App\Models\Role;
 use App\Repository\API\RoleRepo;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class RoleController extends BaseController
 {

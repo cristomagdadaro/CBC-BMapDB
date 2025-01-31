@@ -44,7 +44,6 @@ class HandleInertiaRequests extends Middleware
             foreach ( $request->user()->accounts as $account ) {
                 $apps[] = $account->application;
             }
-
             $accountsPending = $request->user()->accountsPending;
         }
 
@@ -58,8 +57,6 @@ class HandleInertiaRequests extends Middleware
             'appNameShort' => env('APP_NAME_SHORT'),
             'companyName' => env('COMPANY_NAME'),
             'companyNameShort' => env('COMPANY_NAME_SHORT'),
-            // team permissions
-            'teamPermissions' =>  $request->user() ? $request->user()->teamPermissions($request->user()->currentTeam) : null
         ]);
     }
 
@@ -110,49 +107,6 @@ class HandleInertiaRequests extends Middleware
 
                 ]
             ];
-            /*return [
-                'breedersmap' => [
-                    'breeder' => [
-                        'view' => true,
-                        'create' => true,
-                        'update' => true,
-                        'delete' => true,
-                    ],
-                    'commodity' => [
-                        'view' => true,
-                        'create' => true,
-                        'update' => true,
-                        'delete' => true,
-                    ],
-                ],
-                'twgdb' => [
-                    'expert' => [
-                        'view' => true,
-                        'create' => true,
-                        'update' => true,
-                        'delete' => true,
-                    ],
-                    'product' => [
-                        'view' => true,
-                        'create' => true,
-                        'update' => true,
-                        'delete' => true,
-                    ],
-                    'project' => [
-                        'view' => true,
-                        'create' => true,
-                        'update' => true,
-                        'delete' => true,
-                    ],
-                    'services' => [
-                        'view' => true,
-                        'create' => true,
-                        'update' => true,
-                        'delete' => true,
-                    ],
-
-                ]
-            ];*/
         return [];
     }
 }

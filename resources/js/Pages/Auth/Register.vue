@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import {Head, Link, useForm} from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import InputError from '@/Components/InputError.vue';
@@ -32,7 +32,6 @@ const form = useForm({
 
 const applications = ref([]);
 const roles = ref([]);
-let api = null;
 
 const submit = () => {
     form.post(route('register'), {
@@ -70,8 +69,6 @@ function filterRolesByApplication() {
     filteredRoles.value = roles.value.filter(role =>
         allowedRoles.includes(role.label) // Assuming roles have a 'name' property
     );
-
-    console.log(filteredRoles.value);
 }
 
 // Watch for changes in the selected application to update the filtered roles

@@ -7,9 +7,7 @@ use App\Http\Requests\CreateTWGProjectRequest;
 use App\Http\Requests\DeleteTWGProjectRequest;
 use App\Http\Requests\GetTWGProjectRequest;
 use App\Http\Requests\UpdateTWGProjectRequest;
-use App\Http\Resources\BaseCollection;
 use App\Repository\API\TWGProjectRepo;
-use Illuminate\Support\Collection;
 
 class TWGProjectController extends BaseController
 {

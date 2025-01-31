@@ -11,7 +11,6 @@ use App\Models\Accounts;
 use App\Models\User;
 use App\Repository\API\UserRepo;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Jetstream\Jetstream;

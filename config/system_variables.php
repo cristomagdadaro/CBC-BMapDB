@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\Applications;
-use App\Enums\SystemVariable;
+use App\Enums\Role;
 
 return [
     'applications' => [
@@ -20,36 +20,12 @@ return [
             'logo' => Applications::TWG_DATABASE_LOGO->value,
         ],
     ],
-    'access_levels' => [
-        SystemVariable::ADMIN->value,
-        SystemVariable::USER->value,
-        SystemVariable::PUBLIC->value,
-    ],
-    'permissions' => [
-        SystemVariable::CREATE->value => [
-            'roles' => [
-                SystemVariable::ADMIN->value,
-                SystemVariable::USER->value,
-            ],
-        ],
-        SystemVariable::READ->value => [
-            'roles' => [
-                SystemVariable::ADMIN->value,
-                SystemVariable::USER->value,
-                SystemVariable::PUBLIC->value,
-            ],
-        ],
-        SystemVariable::UPDATE->value => [
-            'roles' => [
-                SystemVariable::ADMIN->value,
-                SystemVariable::USER->value,
-            ],
-        ],
-        SystemVariable::DELETE->value => [
-            'roles' => [
-                SystemVariable::ADMIN->value,
-            ],
-        ]
+    'roles' => [
+        Role::ADMIN->value,
+        Role::BREEDER->value,
+        Role::FOCAL_PERSON->value,
+        Role::TWG_ADMIN->value,
+        Role::RESEARCHER->value,
     ],
     'paginate_parameters' => [
         'page' => 'sometimes|integer|min:1',

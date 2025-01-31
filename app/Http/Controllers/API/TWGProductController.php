@@ -7,9 +7,7 @@ use App\Http\Requests\CreateTWGProductRequest;
 use App\Http\Requests\DeleteTWGProductRequest;
 use App\Http\Requests\GetTWGProductRequest;
 use App\Http\Requests\UpdateTWGProductRequest;
-use App\Http\Resources\BaseCollection;
 use App\Repository\API\TWGProductRepo;
-use Illuminate\Support\Collection;
 
 class TWGProductController extends BaseController
 {

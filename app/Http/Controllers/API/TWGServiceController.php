@@ -7,9 +7,7 @@ use App\Http\Requests\CreateTWGServiceRequest;
 use App\Http\Requests\DeleteTWGServiceRequest;
 use App\Http\Requests\GetTWGServiceRequest;
 use App\Http\Requests\UpdateTWGServiceRequest;
-use App\Http\Resources\BaseCollection;
 use App\Repository\API\TWGServiceRepo;
-use Illuminate\Support\Collection;
 
 class TWGServiceController extends BaseController
 {

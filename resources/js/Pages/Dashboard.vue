@@ -68,7 +68,7 @@ onMounted(() => {
                     </primary-button>
                 </div>
             </modal>
-
+            {{ page.props.system }}
             <div class="grid grid-cols-2">
                 <div class="p-3">
                     <p class="font-bold">
