@@ -23,14 +23,11 @@ class CommodityFactory extends Factory
     public function definition(): array
     {
         $commodities = [
-            PriorityCommodities::COCONUT,
             PriorityCommodities::RICE,
             PriorityCommodities::CORN,
             PriorityCommodities::BANANA,
             PriorityCommodities::COFFEE,
             PriorityCommodities::ABACA,
-            PriorityCommodities::RUBBER,
-            PriorityCommodities::CASSAVA,
         ];
 
         $commodity = $this->faker->randomElement($commodities);

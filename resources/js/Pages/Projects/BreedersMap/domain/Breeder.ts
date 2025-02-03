@@ -53,6 +53,77 @@ export default class Breeder extends DtoBreeder{
         }
     }
 
+    static getCardColumns() {
+        return [
+            {
+                title: 'ID',
+                key: 'id',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'User ID',
+                key: 'user_id',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Name',
+                key: 'getFullName',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Affiliation',
+                key: 'affiliated.name',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Phone',
+                key: 'mobile_no',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Email',
+                key: 'email',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Commodities',
+                key: 'commoditiesCount',
+                align: 'text-center',
+                visible: true,
+            },
+            {
+                title: 'Address',
+                key: 'location.getFullAddress',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Updated At',
+                key: 'updated_at',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Created At',
+                key: 'created_at',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Deleted At',
+                key: 'deleted_at',
+                align: 'center',
+                visible: false,
+            },
+        ];
+    }
+
     static getColumns() {
         return [
             {

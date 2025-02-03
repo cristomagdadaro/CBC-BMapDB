@@ -25,6 +25,11 @@ export default class DtoInstitute extends BaseClass implements IInstitute {
             this.location = new DtoCity(dto['city']);
     }
 
+    get getInstituteName()
+    {
+        return this.name;
+    }
+
     get city() {
         return this.location.city;
     }

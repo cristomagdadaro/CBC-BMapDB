@@ -925,14 +925,11 @@ class PriorityCommodities
     {
         // Retrieve the names of the commodities
         $commodities = [
-            self::COCONUT['name'],
             self::RICE['name'],
             self::CORN['name'],
             self::BANANA['name'],
             self::COFFEE['name'],
             self::ABACA['name'],
-            self::RUBBER['name'],
-            self::CASSAVA['name'],
         ];
 
         // Convert the array to a comma-separated string

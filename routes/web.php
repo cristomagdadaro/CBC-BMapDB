@@ -6,18 +6,16 @@ use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\InstituteController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TWGController;
-use App\Http\Controllers\CityProvRegController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
-use App\Http\Requests\GetBreederRequest;
 use App\Mail\UserInvitationEmail;
 use App\Models\Breeder;
 use App\Models\Commodity;
 use App\Models\TWGExpert;
 use App\Models\User;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\App;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -120,11 +118,13 @@ Route::prefix('/projects')->group(function () {
         Route::get('/twg-db', [TWGController::class, 'index'])->name('api.twg.summary.public');
     });
 
-    Route::get('/breedersmap-db/{any?}', function (){
+    Route::get('/breedersmap-db', function (Request $request) {
         return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic', [
             'breadcrumbs' => [['label' => 'Home', 'to' => '/']],
+            'params' => $request->all(),
         ]);
     })->name('projects.breedersmap.public');
+
 });
 
 

@@ -213,6 +213,149 @@ export default class Commodity extends DtoCommodity {
         };
     }
 
+    static getCardColumns() {
+        return [
+            {
+                title: 'ID',
+                key: 'id',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'User ID',
+                key: 'user_id',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Breeder ID',
+                key: 'breeder_id',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Breeder',
+                key: 'breederName',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Affiliation',
+                key: 'breederAffiliation',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Email',
+                key: 'breederEmail',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Contact #',
+                key: 'breederMobileNo',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Commodity',
+                key: 'name',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Scientific Name',
+                key: 'scientific_name',
+                align: 'center italic',
+                visible: true,
+            },
+            {
+                title: 'Variety',
+                key: 'variety',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Accession',
+                key: 'accession',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Germplasm',
+                key: 'germplasm',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Population',
+                key: 'population',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Maturity Period',
+                key: 'maturity_period',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Yield',
+                key: 'yield',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Description',
+                key: 'description',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Status',
+                key: 'status',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Location',
+                key: 'location.getFullAddress',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Updated At',
+                key: 'updated_at',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Created At',
+                key: 'created_at',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Deleted At',
+                key: 'deleted_at',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Characteristics',
+                key: 'characteristics',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Additional Info',
+                key: 'additionalinfo',
+                align: 'center',
+                visible: false,
+            },
+        ]
+    }
+
     static getColumns(){
         return [
             {

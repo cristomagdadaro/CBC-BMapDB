@@ -49,6 +49,18 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
             this.commodities = breeder.commodities.map(commodity => new DtoCommodity(commodity));
     }
 
+    get getAffiliation() {
+        return this.affiliated.getInstituteName;
+    }
+
+    get getEmail() {
+        return this.email;
+    }
+
+    get getMobileNo() {
+        return this.mobile_no;
+    }
+
     get city() {
         return this.affiliated.city;
     }

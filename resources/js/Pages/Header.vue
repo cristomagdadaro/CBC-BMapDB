@@ -37,7 +37,7 @@ const supportLinks = [
         <template #links>
             <ul class="lg:flex sm:gap-2">
                 <tab-link v-if="$page.props.auth.user" :link="route('dashboard')" :active="route().current('dashboard')">Dashboard</tab-link>
-                <template v-if="!$page.props.auth.user ">
+                <template v-if="!$page.props.auth.user">
                     <tab-link v-if="canLogin" :link="route('login')" :active="route().current('login')">Log in</tab-link>
                 </template>
                 <tab-link sublinks :link="route('projects')" :active="route().current('projects') || route().current('home')">

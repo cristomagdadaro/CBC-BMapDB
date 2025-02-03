@@ -5,19 +5,19 @@ use App\Enums\Role;
 
 return [
     'applications' => [
-        Applications::BREEDERS_MAP->name => [
-            'name' => Applications::BREEDERS_MAP->value,
-            'route' => Applications::BREEDERS_MAP_ROUTE->value,
-            'route_public' => Applications::BREEDERS_MAP_ROUTE_PUBLIC->value,
-            'description' => Applications::BREEDERS_MAP_DESC->value,
-            'logo' => Applications::BREEDERS_MAP_LOGO->value,
-        ],
         Applications::TWG_DATABASE->name => [
             'name' => Applications::TWG_DATABASE->value,
             'route' => Applications::TWG_DATABASE_ROUTE->value,
             'route_public' => Applications::TWG_DATABASE_ROUTE_PUBLIC->value,
             'description' => Applications::TWG_DATABASE_DESC->value,
             'logo' => Applications::TWG_DATABASE_LOGO->value,
+        ],
+        Applications::BREEDERS_MAP->name => [
+            'name' => Applications::BREEDERS_MAP->value,
+            'route' => Applications::BREEDERS_MAP_ROUTE->value,
+            'route_public' => Applications::BREEDERS_MAP_ROUTE_PUBLIC->value,
+            'description' => Applications::BREEDERS_MAP_DESC->value,
+            'logo' => Applications::BREEDERS_MAP_LOGO->value,
         ],
     ],
     'roles' => [
