@@ -5,7 +5,6 @@ import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
 import Notification from "@/Components/Modal/Notification/Notification";
 import { ErrorResponse } from "@/Pages/constants";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";
-import DtoError from "@/Modules/core/dto/base/DtoError";
 
 export default class CRCMDatatable
 {
@@ -13,6 +12,7 @@ export default class CRCMDatatable
         // api service class instance
         this.api = new ApiService(baseUrl);
         // array of columns to display
+        this.columns = ref([]);
         this.columns = ref([]);
         // response from the server
         this.response = ref([]);

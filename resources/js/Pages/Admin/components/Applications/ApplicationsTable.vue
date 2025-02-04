@@ -75,6 +75,19 @@ export default {
                 :can-view="canView"
             />
         </div>
+        <div>
+            <h3 class="text-center font-bold">User Roles and Permissions</h3>
+            <CRCMDatatable
+                :base-url="AdminPages.api.dataview.path"
+                :base-model="AdminPages.api.dataview.model"
+                :edit-form="AdminPages.api.dataview.edit.component"
+                :add-form="AdminPages.api.dataview.create.component"
+                :can-create="canCreate"
+                :can-update="canUpdate"
+                :can-delete="canDelete"
+                :can-view="canView"
+            />
+        </div>
     </div>
 </template>
 

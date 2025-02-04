@@ -79,7 +79,7 @@ class Breeder extends BaseModel
 
     public function commodities(): HasMany
     {
-        return $this->hasMany(Commodity::class, 'breeder_id', 'id')->with('affiliated','location','breeder');
+        return $this->hasMany(Commodity::class, 'breeder_id', 'id')->with('location','breeder');
     }
 
     public function affiliated(): BelongsTo

@@ -22,6 +22,7 @@ export default class DtoApplication extends BaseClass implements IApplication {
 
     get appTabs() {
         switch (this.name) {
+            // @ts-ignore
             case window.AppConfig.applications['BREEDERS_MAP'].name:
                 return [
                     {
@@ -37,6 +38,7 @@ export default class DtoApplication extends BaseClass implements IApplication {
                         label: 'Geo Map',
                     },
                 ];
+            // @ts-ignore
             case window.AppConfig.applications['TWG_DATABASE'].name:
                 return [
                     {

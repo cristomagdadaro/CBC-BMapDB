@@ -9,6 +9,10 @@ export default class DtoBaseClass extends Object implements IBaseClass {
         Object.assign(this, dto);
     }
 
+    get tableName() {
+        return this.table;
+    }
+
     get getFullName() {
         // check if the instance has a fname, mname, etc. attribute
         if (this.hasOwnProperty('fname') && this.hasOwnProperty('mname') && this.hasOwnProperty('lname') && this.hasOwnProperty('suffix')){

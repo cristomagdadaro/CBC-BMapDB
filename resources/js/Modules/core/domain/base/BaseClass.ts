@@ -9,6 +9,7 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
     _updateUri?: string;
     _destroyUri?: string;
     _multiDestroyUri?: string;
+    _dataViewUri?: string;
     _summaryUri?: string;
 
     _appendedWith?: string[];
@@ -37,6 +38,10 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
         this._destroyUri = value;
     }
 
+    set dataViewUri(value: string) {
+        this._dataViewUri = value;
+    }
+
     set multiDestroyUri(value: string) {
         this._multiDestroyUri = value;
     }
@@ -51,6 +56,10 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
 
     set appendCount(value: string[]) {
         this._appendedCount = value;
+    }
+
+    get dataViewUri(): string {
+        return this._dataViewUri;
     }
 
     get indexUri(): string {

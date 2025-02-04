@@ -25,27 +25,27 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
         super();
         this.table = 'breeders';
 
-        this.id = breeder.id;
-        this.user_id = breeder.user_id;
-        this.fname = breeder.fname;
-        this.mname = breeder.mname;
-        this.lname = breeder.lname;
-        this.suffix = breeder.suffix;
-        this.mobile_no = breeder.mobile_no;
-        this.email = breeder.email;
-        this.updated_at = breeder.updated_at;
-        this.created_at = breeder.created_at;
-        this.deleted_at = breeder.deleted_at;
+        this.id = breeder?.id;
+        this.user_id = breeder?.user_id;
+        this.fname = breeder?.fname;
+        this.mname = breeder?.mname;
+        this.lname = breeder?.lname;
+        this.suffix = breeder?.suffix;
+        this.mobile_no = breeder?.mobile_no;
+        this.email = breeder?.email;
+        this.updated_at = breeder?.updated_at;
+        this.created_at = breeder?.created_at;
+        this.deleted_at = breeder?.deleted_at;
 
-        this.commodities_count = breeder.commodities_count;
+        this.commodities_count = breeder?.commodities_count;
 
-        if (breeder.affiliated)
+        if (breeder?.affiliated)
             this.affiliated = new DtoInstitute(breeder.affiliated);
 
-        if (breeder.location)
+        if (breeder?.location)
             this.location = new DtoCity(breeder.location);
 
-        if (breeder.commodities)
+        if (breeder?.commodities)
             this.commodities = breeder.commodities.map(commodity => new DtoCommodity(commodity));
     }
 

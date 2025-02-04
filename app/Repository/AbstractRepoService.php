@@ -331,7 +331,10 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
         // Validate the sort column exists to prevent SQL errors
         if (!Schema::hasColumn($query->getModel()->getTable(), $sortColumn)) {
-            $sortColumn = 'id'; // Default to ID if sorting column doesn't exist
+            if (Schema::hasColumn($query->getModel()->getTable(), 'id'))
+                $sortColumn = 'id'; // Default to ID if sorting column doesn't exist
+            else
+                $sortColumn = 'uuid';
         }
 
         if (in_array($order, ['ASC', 'DESC'])) {
@@ -356,6 +359,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             'institute' => 'institute',
             'province' => 'provDesc',
             'region' => 'regDesc',
+            'city' => 'cityDesc',
             default => throw new \InvalidArgumentException("Invalid geo location filter: {$geo_location_filter}"),
         };
     }

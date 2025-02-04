@@ -110,6 +110,11 @@ const routes = [
                         name: 'projects.breedersmap.geomap',
                     },
                     {
+                        path: '/projects/breedersmap/settings',
+                        component: async () => await import('@/Pages/Projects/BreedersMap/presentation/components/misc/BmSettings.vue'),
+                        name: 'projects.breedersmap.settings',
+                    },
+                    {
                         path: '',
                         redirect: { name: 'projects.breedersmap.breeder' },
                         name: 'projects.breedersmap',

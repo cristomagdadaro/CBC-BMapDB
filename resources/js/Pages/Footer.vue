@@ -9,7 +9,7 @@ import {Link} from "@inertiajs/vue3";
 <template>
     <div class="resp-container text-center flex flex-col justify-center items-center select-none py-5 my-5 sm:my-10 lg:text-[1.4rem] md:text-[1.2rem] sm:text-[1rem] text-[0.8rem] font-normal text-gray-900 drop-shadow space-y-4">
         <div>
-            Visit our website at&nbsp;<a href="https://dacbc.philrice.gov.ph" class="underline">www.dacbc.philrice.gov.ph</a>
+            Visit our official website at&nbsp;<a href="https://dacbc.philrice.gov.ph" class="underline">www.dacbc.philrice.gov.ph</a>
         </div>
         <div>
             Reach us at&nbsp;<a href="mailto:cropbiotechcenter@gmail.com" class="underline">cropbiotechcenter@gmail.com</a>

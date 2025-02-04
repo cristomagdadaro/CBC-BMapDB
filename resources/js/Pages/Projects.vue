@@ -84,9 +84,9 @@ export default {
                 <div class="flex flex-col justify-center">
                     <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
                         <div class="text-title leading-tight">
-                            <h1 class="sm:text-2xl text-lg  font-light">Welcome to</h1>
-                            <div class="leading-tight">
-                                <h1>
+                            <h1 class="sm:text-2xl text-lg font-light">Welcome to</h1>
+                            <div class="leading-tight text-title">
+                                <h1 class="whitespace-nowrap">
                                     <span class="text-cbc-olive-green drop-shadow">P</span>lant&nbsp;Breeders and
                                 </h1>
                                 <h1>
@@ -100,9 +100,9 @@ export default {
                         </h1>
                     </div>
                     <div class="flex flex-col sm:flex-row justify-center items-center border-t">
-                        <Link v-for="project in CBCProjectsPublic" :href="route(project.route_public)" class="flex justify-center gap-1 items-center w-1/2 whitespace-nowrap text-cbc-brown bg-transparent text-center p-10  hover:text-gray-100 hover:drop-shadow-lg active:scale-95 duration-200 uppercase text-subtitle">
+                        <Link v-for="project in CBCProjectsPublic" :href="route(project.route_public)" class="flex flex-col lg:flex-row justify-center gap-1 items-center w-1/2 whitespace-nowrap text-cbc-brown bg-transparent text-center p-10  hover:text-gray-100 hover:drop-shadow-lg active:scale-95 duration-200 uppercase text-subtitle">
                             <img :src="project.logo" :alt="project.label" class="w-auto h-[5rem]">
-                            <label>{{ project.label }}</label>
+                            <label class="text-subtitle">{{ project.label }}</label>
                         </Link>
                     </div>
                 </div>
@@ -152,7 +152,7 @@ export default {
             <public-page-section class="flex items-center py-10">
                 <bm-overview-map />
             </public-page-section>
-            <public-page-section class="flex items-center py-10">
+<!--            <public-page-section class="flex items-center py-10">
                 <div class="relative flex flex-col">
                     <model-viewer model-url="/img/3d/corn.glb"/>
                     <label class="text-red-700 text-center text-xs">We will be adding more 3d images soon. Use Polycam or any mobile 3d object scanner app. Use iphones with LiDAR sensor.</label>
@@ -160,7 +160,7 @@ export default {
                         <p class="text-justify"><span class="font-bold">Bt Corn </span> a genetically enhanced crop that has been engineered to produce a protein from the bacterium Bacillus thuringiensis (Bt). This protein is toxic to certain insect pests, such as the European corn borer, but harmless to humans, animals, and beneficial insects. By incorporating the Bt gene into the corn's DNA, the plant gains built-in resistance to specific pests, reducing the need for chemical insecticides. Bt corn has been widely adopted in agriculture due to its potential to increase crop yields, lower production costs, and reduce environmental impact. However, it has also sparked debates about its long-term effects on ecosystems, pest resistance, and food safety.</p>
                     </div>
                 </div>
-            </public-page-section>
+            </public-page-section>-->
             <public-page-section class="flex items-center py-10">
                 <bm-priority-com />
             </public-page-section>

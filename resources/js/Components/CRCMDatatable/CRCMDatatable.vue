@@ -505,7 +505,7 @@ export default {
         },
         checkIfDataIsLoaded() {
             return !!this.dt.response && !!this.dt.response['meta'] && !!this.dt.response['data'];
-        }
+        },
     },
     methods: {
         dataValue(label) {

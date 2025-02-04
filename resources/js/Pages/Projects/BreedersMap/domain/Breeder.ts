@@ -12,6 +12,7 @@ export default class Breeder extends DtoBreeder{
         this.destroyUri = 'api.breeders.destroy';
         this.multiDestroyUri = 'api.breeders.destroy.multi';
         this.summaryUri = 'api.breeders.summary';
+        this.dataViewUri =  'api.dataview.show';
 
         this.appendWith = ['affiliated','location'];
         this.appendCount = ['commodities'] ;

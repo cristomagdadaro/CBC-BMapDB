@@ -17,11 +17,11 @@ export default {
                     link: "/",
                 },
                 {
-                    name: "DA - Regional Crop Protection Center (DA-RCPC) Region 3",
+                    name: "Regional Crop Protection Center (DA-RCPC) Region 3",
                     link: "/",
                 },
                 {
-                    name: "BPI - National Seed Quality Control Services (BPI-NSQCS) Region 3 ",
+                    name: "BPI - National Seed Quality Control Services (BPI-NSQCS) Region 3",
                     link: "/",
                 },
                 {

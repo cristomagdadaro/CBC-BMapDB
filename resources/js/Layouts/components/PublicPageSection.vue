@@ -32,7 +32,7 @@ export default {
 <template>
     <div class="relative min-h-screen">
         <slot name="custom-bg" />
-        <div v-if="animation" class="public-page-section resp-container py-8 w-full">
+        <div v-if="animation" class="public-page-section resp-container lg:py-8 md:py-6 sm:py-4 py-2 w-full">
             <slot />
         </div>
         <div v-else class="resp-container">

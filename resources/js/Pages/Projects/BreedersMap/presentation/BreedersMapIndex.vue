@@ -13,6 +13,9 @@
                     <Map :table-list="tables" :model="Commodity"/>
                 </div>
             </template>
+            <template #tab4>
+                <bm-settings />
+            </template>
         </Tab>
         <p v-else>Please login to view the data</p>
     </app-layout>
@@ -27,6 +30,7 @@ import { Head } from "@inertiajs/vue3";
 import { defineAsyncComponent } from "vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
+import BmSettings from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmSettings.vue";
 
 export default {
     computed: {
@@ -35,6 +39,7 @@ export default {
         }
     },
     components: {
+        BmSettings,
         Head,
         AppLayout: defineAsyncComponent({
             loader: async() => await import("@/Layouts/AppLayout.vue"),
@@ -72,6 +77,12 @@ export default {
                   label: "Geo Map",
                   active: false,
                   route: { name: 'projects.breedersmap.geomap' },
+              },
+              {
+                  name: "tab4",
+                  label: "Settings",
+                  active: false,
+                  route: { name: 'projects.breedersmap.settings' },
               },
           ],
           tables: [

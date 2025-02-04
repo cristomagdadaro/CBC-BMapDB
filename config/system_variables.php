@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Applications;
+use App\Enums\DataViews;
 use App\Enums\Role;
 
 return [
@@ -19,6 +20,12 @@ return [
             'description' => Applications::BREEDERS_MAP_DESC->value,
             'logo' => Applications::BREEDERS_MAP_LOGO->value,
         ],
+    ],
+    'dataview_guards' => [
+        DataViews::PUBLIC->value,
+        DataViews::ONLYME->value,
+        DataViews::INSTITUTIONAL->value,
+        DataViews::SYSTEM->value
     ],
     'roles' => [
         Role::ADMIN->value,

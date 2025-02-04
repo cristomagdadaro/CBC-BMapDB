@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             RoleAndPermissionSeeder::class,
             UserSeeder::class,
             BreedersMapSeeder::class,
-            TWGDatabaseSeeder::class
+            TWGDatabaseSeeder::class,
+            DataViewSeeder::class,
         ]);
 
         $users = User::all();

@@ -195,6 +195,10 @@ Route::middleware([
                     'breadcrumbs' => [['label' => 'Commodities', 'to' => route('projects.breedersmap.index')]],
                 ]);
             })->name('breedersmap.commodity.view');
+
+            Route::get('/settings', function () {
+                return Inertia::render('Projects/BreedersMap/presentation/components/misc/BmSettings');
+            })->name('projects.breedersmap.settings');
         });
     });
 });
