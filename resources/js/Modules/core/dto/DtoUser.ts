@@ -30,30 +30,30 @@ export default class DtoUser extends BaseClass implements IUser {
     constructor(dto: IUser) {
         super();
         this.table = 'users';
-        this.id = dto.id;
-        this.fname = dto.fname;
-        this.mname = dto.mname;
-        this.lname = dto.lname;
-        this.suffix = dto.suffix;
-        this.email = dto.email;
-        this.affiliated = dto.affiliated;
-        this.mobile_no = dto.mobile_no;
-        this.email_verified_at = dto.email_verified_at;
-        this.deleted_at = dto.deleted_at ? 'Deleted' : 'Active';
+        this.id = dto?.id;
+        this.fname = dto?.fname;
+        this.mname = dto?.mname;
+        this.lname = dto?.lname;
+        this.suffix = dto?.suffix;
+        this.email = dto?.email;
+        this.affiliated = dto?.affiliated;
+        this.mobile_no = dto?.mobile_no;
+        this.email_verified_at = dto?.email_verified_at;
+        this.deleted_at = dto?.deleted_at ? 'Deleted' : 'Active';
 
-        if (dto.password)
+        if (dto?.password)
         {
-            this.password = dto.password;
-            this.password_confirmation = dto.password_confirmation;
+            this.password = dto?.password;
+            this.password_confirmation = dto?.password_confirmation;
         }
 
-        if (dto.roles)
+        if (dto?.roles)
             this.roles = dto.roles.map(role => new DtoRole(role));
-        if (dto.accounts)
+        if (dto?.accounts)
             this.accounts = dto.accounts.map(account => new DtoAccount(account));
-        if (dto.permissions)
+        if (dto?.permissions)
             this.permissions = dto.permissions.map(permission => new DtoPermission(permission));
-        if (dto.affiliated)
+        if (dto?.affiliated)
             this.affiliated = new DtoInstitute(dto.affiliated);
     }
 

@@ -5,7 +5,7 @@ import {NotFoundErrorResponse} from "@/Modules/core/domain/response/NotFoundErro
 import {ServerErrorResponse} from "@/Modules/core/domain/response/ServerErrorResponse";
 import {JavascriptErrorResponse} from "@/Modules/core/domain/response/JavascriptErrorResponse";
 import {ForbiddenErrorResponse} from "@/Modules/core/domain/response/ForbiddenErrorResponse";
-import {Ref, ref} from "vue";
+import {Ref, ref, UnwrapRef} from "vue";
 import IApiService from "../interface/IApiService";
 import DtoError from "../dto/base/DtoError";
 import BaseClass from "../domain/base/BaseClass";
@@ -13,12 +13,13 @@ import {route} from "ziggy-js";
 
 export default class ApiService implements IApiService
 {
-    _processing: boolean;
+    _processing:  Ref<boolean>;
     _baseUrl: string;
     _errorBag: Ref<DtoError>  = ref();
 
     constructor(url: string) {
-        this._processing = false;
+        this._processing = ref();
+        this._processing.value = false;
         this._baseUrl = url;
     }
 
@@ -64,6 +65,7 @@ export default class ApiService implements IApiService
             }
             return new BaseResponse(response);
         } catch (error) {
+            console.log(error);
             return this.determineError(error);
         } finally {
             this._processing = false;

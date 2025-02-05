@@ -6,6 +6,7 @@ use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\InstituteController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TWGController;
+use App\Http\Controllers\ChatsController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
@@ -55,6 +56,14 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
         'breedersmap_overview' => $formattedData,
     ]);
+});
+
+
+Route::prefix('chats')->group(function () {
+    Route::get('/', [ChatsController::class, 'index']);
+    Route::post('send', [ChatsController::class, 'store']);
+    Route::get('messages', [ChatsController::class, 'fetchMessages'])->name('api.message.index');
+    Route::get('conversation', [ChatsController::class, 'fetchConversations'])->name('api.message.conversations');
 });
 
 Route::middleware([

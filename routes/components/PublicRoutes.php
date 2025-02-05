@@ -6,6 +6,7 @@ use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\InstituteController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\CityProvRegController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/institutes', [InstituteController::class, 'index'])->name('api.institutes.index.public');
 Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
 Route::get('/cities', [CityProvRegController::class, 'cityIndex'])->name('api.cities.index.public');
+Route::get('/chats/users', [UserController::class, 'indexPublic'])->name('api.users.index.public');
 Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
 Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
 Route::get('/breeders/summary', [BreederController::class, 'summary'])->name('api.breedersmap.breeders.summary.public');

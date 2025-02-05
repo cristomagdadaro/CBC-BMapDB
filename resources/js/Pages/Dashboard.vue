@@ -7,6 +7,8 @@ import Modal from "@/Components/Modal.vue";
 import {ref, onMounted} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Logo from "@/Components/Icons/Logo.vue";
+import ChatForm from "@/Components/ChatForm.vue";
+import Messages from "@/Pages/Message/Messages.vue";
 
 const page = usePage();
 
@@ -34,7 +36,7 @@ onMounted(() => {
             <p v-if="user.isAdmin" class="text-center p-2">
                 You have admin privileges
             </p>
-
+            <messages />
             <modal :show="showNote" @close="showNote = false">
                 <div class="p-10 text-justify flex flex-col gap-3">
                     <div class="sm:text-xl text-lg text-center font-bold text-gray-900">

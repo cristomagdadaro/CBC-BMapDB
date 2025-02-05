@@ -17,6 +17,11 @@ class UserController extends BaseController
         return parent::_index($request);
     }
 
+    public function indexPublic(GetUserRequest $request)
+    {
+        return parent::_index($request);
+    }
+
     public function show(GetUserRequest $request, int $id)
     {
         return parent::_show($request, $id);
