@@ -18,6 +18,13 @@ class CreateTWGProductRequest extends FormRequest
         return auth()->user()->hasPermissionTo(Permission::CREATE_TWG_PRODUCT->value) || auth()->user()->isAdmin();
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'institution' => auth()->user()->affiliation,
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,7 +33,7 @@ class CreateTWGProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'twg_expert_id' => ['required', 'integer', 'exists:'.(new TWGExpert())->getTableName().',id'],
+            'institution' => ['required', 'exists:institutes,id'],
             'name' => ['required', 'string', 'max:255'],
             'brand' => ['nullable', 'string', 'max:255'],
             'purpose' => ['required', 'string'],

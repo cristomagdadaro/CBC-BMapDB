@@ -1,5 +1,7 @@
 import IExpert from "../interface/IExpert";
 import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
+import IInstitute from "@/Modules/core/interface/auth/IInstitute";
+import DtoInstitute from "@/Modules/core/dto/DtoInstitute";
 
 export default class DtoExpert extends BaseClass implements IExpert {
     id: number;
@@ -11,9 +13,12 @@ export default class DtoExpert extends BaseClass implements IExpert {
     research_interest: string;
     mobile: string;
     email: string;
+    institution: number;
     created_at: string;
     updated_at: string;
     deleted_at: string;
+
+    affiliated: IInstitute;
 
     constructor(expert: IExpert) {
         super();
@@ -27,8 +32,12 @@ export default class DtoExpert extends BaseClass implements IExpert {
         this.research_interest = expert.research_interest;
         this.mobile = expert.mobile;
         this.email = expert.email;
+        this.institution = expert.institution;
         this.created_at = expert.created_at;
         this.updated_at = expert.updated_at;
         this.deleted_at = expert.deleted_at;
+
+        this.affiliated = new DtoInstitute(expert?.affiliated);
+
     }
 }

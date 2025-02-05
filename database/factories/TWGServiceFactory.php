@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Institute;
 use App\Models\TWGExpert;
 use App\Models\TWGService;
 use App\Models\User;
@@ -23,7 +24,7 @@ class TWGServiceFactory extends Factory
         $users = User::all();
         return [
             'user_id' => $users->random()->id,
-            'twg_expert_id' => $expert->id,
+            'institution' => Institute::all()->random()->id,
             'type' => $this->faker->randomElement(['service', 'training']),
             'purpose' => $this->faker->text(200),
             'direct_beneficiaries' => $this->faker->randomNumber(5),

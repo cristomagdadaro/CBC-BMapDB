@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Institute;
 use App\Models\TWGExpert;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -23,6 +24,7 @@ class TWGExpertFactory extends Factory
             'user_id' => $users->random()->id,
             'name' => $this->faker->name(),
             'position' => $this->faker->jobTitle(),
+            'institution' => Institute::all()->random()->id,
             'educ_level' => $this->faker->randomElement(["Bachelor's", "Master's", 'Doctoral']),
             'expertise' => $this->faker->randomElement(['Agriculture', 'Fishery', 'Livestock', 'Forestry', 'Microbiology', 'Botany', 'Biotechnology']),
             'research_interest' => $this->faker->randomElement(['Agriculture', 'Fishery', 'Livestock', 'Forestry', 'Microbiology', 'Botany', 'Biotechnology']),

@@ -56,8 +56,11 @@ export default class CRCMDatatable
     async update(data) {
         const response = await this.api.put(this.model.toObject(data));
         await this.checkForErrors(response);
-        if (await this.checkForErrors(this.response))
+        if (await this.checkForErrors(this.response)){
             await this.refresh();
+            return true;
+        }
+        return false;
     }
 
     async deleteSelected() {

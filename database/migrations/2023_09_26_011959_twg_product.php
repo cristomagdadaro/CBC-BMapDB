@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('twg_product', function(Blueprint $table){
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('twg_expert_id')->nullable()->constrained('twg_expert');
+            $table->foreignId('institution')->nullable()->constrained('institutes')->nullOnDelete();
             $table->longText('name')->nullable();
             $table->longText('brand')->nullable();
             $table->longText('purpose')->nullable();

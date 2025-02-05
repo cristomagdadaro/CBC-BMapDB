@@ -2,34 +2,36 @@ import DtoService from "../dto/DtoService";
 import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
 import IService from "../interface/IService";
 import IExpert from "../interface/IExpert";
+import IInstitute from "@/Modules/core/interface/auth/IInstitute";
 
 export default class Service extends BaseClass implements IService{
     id: number;
     user_id: number;
-    twg_expert_id: number;
     type: string;
     purpose: string;
     direct_beneficiaries: string;
     indirect_beneficiaries: string;
-    officer_in_charge: string;
     cost: number;
+    institution: number;
     created_at: string;
     updated_at: string;
     deleted_at: string;
-    expert: IExpert;
+
+    officer_in_charge: IExpert;
+    affiliated: IInstitute;
 
     constructor(params : DtoService) {
         super(params);
 
         this.indexUri = 'api.twg.services.index';
-        this.showUri = 'api.twg.services..show';
+        this.showUri = 'api.twg.services.show';
         this.storeUri = 'api.twg.services.store';
         this.updateUri = 'api.twg.services.update';
         this.destroyUri = 'api.twg.services.destroy';
         this.multiDestroyUri = 'api.twg.services.destroy.multi';
         this.summaryUri = 'api.twg.services.summary';
 
-        this.appendWith = ['expert'];
+        this.appendWith = ['affiliated', 'officerInCharge'];
     }
 
     static createForm() {
@@ -45,13 +47,13 @@ export default class Service extends BaseClass implements IService{
             updated_at: null,
             deleted_at: null,
             expert: null,
+            institution: null,
         }
     }
 
     static updateForm(oldValue: Partial<Service>) {
         return {
             id: oldValue.id ?? null,
-            twg_expert_id: oldValue.twg_expert_id ?? null,
             type: oldValue.type ?? null,
             purpose: oldValue.purpose ?? null,
             direct_beneficiaries: oldValue.direct_beneficiaries ?? null,
@@ -62,6 +64,7 @@ export default class Service extends BaseClass implements IService{
             updated_at: oldValue.updated_at ?? null,
             deleted_at: oldValue.created_at ?? null,
             expert: oldValue.updated_at ?? null,
+            institution: oldValue.institution ?? null,
         }
     }
 
@@ -76,17 +79,9 @@ export default class Service extends BaseClass implements IService{
                 visible: false,
             },
             {
-                title: 'Expert',
-                key: 'twg_expert_id',
-                db_key: 'twg_expert_id',
-                align: 'center',
-                sortable: true,
-                visible: false,
-            },
-            {
-                title: 'Expert',
-                key: 'expert.name',
-                db_key: 'name',
+                title: 'Institute',
+                key: 'affiliated.name',
+                db_key: 'institution',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -125,7 +120,7 @@ export default class Service extends BaseClass implements IService{
             },
             {
                 title: 'Officer In Charge',
-                key: 'officer_in_charge',
+                key: 'officer_in_charge.name',
                 db_key: 'officer_in_charge',
                 align: 'center',
                 sortable: true,

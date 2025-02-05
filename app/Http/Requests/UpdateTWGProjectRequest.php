@@ -24,11 +24,11 @@ class UpdateTWGProjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'twg_expert_id' => ['required', 'integer', 'exists:twg_expert,id'],
+            'institution' => ['required', 'exists:institutes,id'],
             'title' => ['required', 'string', 'max:255'],
             'objective' => ['required', 'string'],
             'expected_output' => ['required', 'string'],
-            'project_leader' => ['required', 'string'],
+            'project_leader' => ['required', 'exists:twg_expert,id'],
             'funding_agency' => ['required', 'string'],
             'duration' => ['required', 'string'],
             'status' => ['required', 'string'],

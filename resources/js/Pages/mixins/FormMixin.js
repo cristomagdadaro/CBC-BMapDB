@@ -8,6 +8,7 @@ import RadioField from "@/Components/Form/RadioField.vue";
 import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";
+import User from "@/Modules/core/domain/auth/User";
 
 export default {
     components: {
@@ -43,7 +44,7 @@ export default {
         id: {
             type: Number,
             default: null
-        }
+        },
     },
     methods: {
         resetForm() {
@@ -61,6 +62,9 @@ export default {
         },
         emitClose() {
             this.$emit('close');
+        },
+        isAdmin(){
+            return (new this.User(this.$page.props.auth.user)).isAdmin;
         }
     },
     watch: {
@@ -75,4 +79,9 @@ export default {
                 this.form = this.model.createForm(newVal);
         }
     },
+    computed: {
+        User() {
+            return User
+        },
+    }
 }

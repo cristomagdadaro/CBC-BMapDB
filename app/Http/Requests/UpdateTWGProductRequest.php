@@ -26,7 +26,7 @@ class UpdateTWGProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'twg_expert_id' => ['required', 'integer', 'exists:'.((new TWGExpert())->getTableName()).',id'],
+            'institution' => ['required', 'exists:institutes,id'],
             'name' => ['required', 'string', 'max:255'],
             'brand' => ['nullable', 'string', 'max:255'],
             'purpose' => ['required', 'string'],

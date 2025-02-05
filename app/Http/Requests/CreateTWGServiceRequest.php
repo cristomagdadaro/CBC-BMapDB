@@ -17,6 +17,13 @@ class CreateTWGServiceRequest extends FormRequest
         return auth()->user()->hasPermissionTo(Permission::CREATE_TWG_SERVICE->value) || auth()->user()->isAdmin();
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'institution' => auth()->user()->affiliation,
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,12 +32,12 @@ class CreateTWGServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'twg_expert_id' => ['required', 'integer', 'exists:'.((new TWGExpert())->getTableName()).',id'],
+            'institution' => ['required', 'exists:institutes,id'],
             'type' => ['required', 'string'],
             'purpose' => ['required', 'string'],
             'direct_beneficiaries' => ['nullable', 'string'],
             'indirect_beneficiaries' => ['nullable', 'string'],
-            'officer_in_charge' => ['required', 'string'],
+            'officer_in_charge' => ['required', 'exists:twg_expert,id'],
             'cost' => ['required'],
         ];
     }

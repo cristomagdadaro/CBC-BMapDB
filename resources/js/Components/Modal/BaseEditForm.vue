@@ -73,5 +73,8 @@ export default {
             this.close();
         },
     },
+    beforeDestroy() {
+        this.form = null;
+    }
 };
 </script>

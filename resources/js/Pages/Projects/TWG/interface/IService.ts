@@ -1,18 +1,19 @@
-import IExpert from "./IExpert";
+import IInstitute from "@/Modules/core/interface/auth/IInstitute";
+import IExpert from "@/Pages/Projects/TWG/interface/IExpert";
 
 export default interface IService {
     id: number;
     user_id: number;
-    twg_expert_id: number;
     type: string;
+    institution: number;
     purpose: string;
     direct_beneficiaries: string;
     indirect_beneficiaries: string;
-    officer_in_charge: string;
     cost: number;
     created_at: string;
     updated_at: string;
     deleted_at: string;
 
-    expert: IExpert;
+    officer_in_charge: IExpert;
+    affiliated: IInstitute;
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('twg_service', function(Blueprint $table){
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('twg_expert_id')->nullable()->constrained('twg_expert');
+            $table->foreignId('institution')->nullable()->constrained('institutes')->nullOnDelete();
             $table->string('type', 255)->nullable();
             $table->longText('purpose')->nullable();
             $table->longText('direct_beneficiaries')->nullable();

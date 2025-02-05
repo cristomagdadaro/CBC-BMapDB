@@ -1,6 +1,7 @@
 import IExpert from "../interface/IExpert";
 import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
 import DtoExpert from "../dto/DtoExpert";
+import IInstitute from "@/Modules/core/interface/auth/IInstitute";
 
 export default class Expert extends BaseClass implements IExpert {
     id: number;
@@ -9,6 +10,7 @@ export default class Expert extends BaseClass implements IExpert {
     position: string;
     educ_level: string;
     expertise: string;
+    institution: number;
     research_interest: string;
     mobile: string;
     email: string;
@@ -16,16 +18,20 @@ export default class Expert extends BaseClass implements IExpert {
     updated_at: string;
     deleted_at: string;
 
+    affiliated: IInstitute;
+
     constructor(params: DtoExpert) {
         super(params);
 
         this.indexUri = 'api.twg.experts.index';
-        this.showUri = 'api.twg.experts..show';
+        this.showUri = 'api.twg.experts.show';
         this.storeUri = 'api.twg.experts.store';
         this.updateUri = 'api.twg.experts.update';
         this.destroyUri = 'api.twg.experts.destroy';
         this.multiDestroyUri = 'api.twg.experts.destroy.multi';
         this.summaryUri = 'api.twg.experts.summary';
+
+        this.appendWith = ['affiliated'];
     }
 
     static createForm() {
@@ -37,7 +43,8 @@ export default class Expert extends BaseClass implements IExpert {
             expertise: null,
             research_interest: null,
             mobile: null,
-            email: null
+            email: null,
+            institution: null,
         }
     }
 
@@ -51,7 +58,8 @@ export default class Expert extends BaseClass implements IExpert {
             expertise: oldValue.expertise ?? null,
             research_interest: oldValue.research_interest ?? null,
             mobile: oldValue.mobile ?? null,
-            email: oldValue.email ?? null
+            email: oldValue.email ?? null,
+            institution: oldValue.institution ?? null,
         }
     }
 
@@ -64,6 +72,14 @@ export default class Expert extends BaseClass implements IExpert {
                 align: 'center',
                 sortable: true,
                 visible: false,
+            },
+            {
+                title: 'Institute',
+                key: 'affiliated.name',
+                db_key: 'institution',
+                align: 'center',
+                sortable: true,
+                visible: true,
             },
             {
                 title: 'User ID',
