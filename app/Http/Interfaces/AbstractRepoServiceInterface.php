@@ -55,11 +55,12 @@ interface AbstractRepoServiceInterface {
      * Retrieve a model by its primary key.
      *
      * @param int $id Model primary key.
+     * @param $parameters
      * @return JsonResponse | Model
      *
      * @throw Exception
      */
-    public function find(int $id): JsonResponse| Model;
+    public function find(int $id, $parameters): JsonResponse| Model;
 
     /**
      * Data filtering

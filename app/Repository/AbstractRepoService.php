@@ -14,7 +14,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Config;
 
@@ -145,9 +144,10 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     }
 
 
-    public function find(int $id): JsonResponse|Model
+    public function find(int $id, $parameters): JsonResponse|Model
     {
         $builder = $this->model->query();
+        $this->applyAppends($builder, $parameters);
         return $builder->findOr($id, fn() => $this->jsonResponse('not_found'));
     }
 

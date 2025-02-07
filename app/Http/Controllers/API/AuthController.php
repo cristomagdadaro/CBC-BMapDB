@@ -18,12 +18,12 @@ class AuthController extends BaseController
      */
     public function register(CreateApiUserRequest $request)
     {
-        // login user
-        $input = $request->all();
+        /*$input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
 
-        return $this->sendResponse(new UserLoginResource($user));
+        return $this->sendResponse(new UserLoginResource($user));*/
+        return null;
     }
 
     /**
@@ -35,12 +35,6 @@ class AuthController extends BaseController
 
         if ($logged_in) {
             $user = Auth::user();
-
-            /*if (!$user->isActive()) {
-                auth()->logout();
-
-                return $this->sendError('User Deactivated', Response::HTTP_FORBIDDEN, ['error' => 'User Deactivated']);
-            }*/
 
             // invalidate old tokens from the same IP
             DB::table('personal_access_tokens')
@@ -57,9 +51,11 @@ class AuthController extends BaseController
      */
     public function logout(Request $request)
     {
-        auth()->user()->tokens()->delete();
-
-        return $this->sendResponse('User logged out successfully.');
+        if (auth()->user()) {
+            auth()->user()->tokens()->delete();
+            return $this->sendResponse(['message' => 'User logged out successfully.']);
+        }
+        return $this->sendResponse(['message' => 'User currently not logged in']);
     }
 
     /**
@@ -75,8 +71,6 @@ class AuthController extends BaseController
      */
     public function user(Request $request)
     {
-        $user = $request->user()->only(['name', 'email']);
-
-        return $this->sendResponse($user);
+        return $this->sendResponse($request->user()->load(['accounts:id,user_id,app_id','roles:id,name']));
     }
 }

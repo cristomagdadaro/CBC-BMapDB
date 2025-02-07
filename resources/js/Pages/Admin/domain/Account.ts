@@ -13,6 +13,7 @@ export default class AuthAccount extends DtoAccount
         this.destroyUri = 'api.accounts.destroy';
 
         this.appendWith = ['user','application','role'];
+        this.appendCount = ['application'];
     }
 
     static createForm()

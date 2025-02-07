@@ -27,7 +27,7 @@ abstract class BaseController extends Controller
         if ($count)
             $this->service->appendCount = explode(',',$count);
 
-        return $this->sendResponse($this->service->find($id));
+        return $this->sendResponse($this->service->find($id, $request->collect()));
     }
 
     public function _store($request): JsonResponse
