@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class GoogleController extends Controller
 {
@@ -21,31 +23,47 @@ class GoogleController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
+        if (!$request->has('code')) {
+            return Redirect::route('login')->with('error', 'Authorization code parameter missing');
+        }
+
         try {
             $googleUser = Socialite::driver('google')->stateless()->user();
+            $existingUser = User::where('email', $googleUser->getEmail())->first();
 
-            $user = User::updateOrCreate(
-                ['email' => $googleUser->getEmail()],
-                [
+            // Check if the email exists but was NOT registered with Google
+            if ($existingUser && is_null($existingUser->google_id)) {
+                return redirect('/login')->with('error', 'This email is already registered. Please log in using your password.');
+            }
+
+            // If the user exists and has a Google ID, log them in
+            if ($existingUser) {
+                Auth::login($existingUser);
+            } else {
+                // Otherwise, create a new user
+                $user = User::create([
                     'fname' => $googleUser->user['given_name'],
                     'lname' => $googleUser->user['family_name'],
+                    'email' => $googleUser->getEmail(),
                     'affiliation' => 1,
                     'profile_photo_path' => $googleUser->user['picture'],
                     'google_id' => $googleUser->getId(),
-                    'password' => bcrypt(uniqid()), // Generate a random password
+                    'password' => bcrypt(uniqid()), // Random password to prevent direct login via email
                     'email_verified_at' => $googleUser->user['email_verified'] ? now() : null,
-                ]
-            );
-            // what happen when user who registered with google has already an account?
-            $user->assignRole(rand(2, 5));
+                ]);
 
-            Auth::login($user);
-            return redirect('/dashboard'); // Change this to your desired route
+                // Assign a random role (you may want to refine this logic)
+                $user->assignRole(rand(2, 5));
 
+                Auth::login($user);
+            }
+
+            return Redirect::route('dashboard')->with('message', 'Successful authenticated thru Google Account');
         } catch (\Exception $e) {
-            return redirect('/login');
+            return Redirect::route('login')->with('error', 'Google login failed: ' . $e->getMessage());
         }
     }
+
 }
 
 /*{

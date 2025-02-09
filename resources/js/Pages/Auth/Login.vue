@@ -1,5 +1,5 @@
 <script setup >
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import {Head, Link, useForm} from '@inertiajs/vue3';
 import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import Checkbox from '@/Components/Checkbox.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
@@ -9,6 +9,7 @@ import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import TabLink from "@/Components/Header/TabLink.vue";
 import {GoogleLogin} from "vue3-google-login";
+import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -31,7 +32,7 @@ const submit = () => {
 };
 const googleClientId = "347920378124-l0mnce2uk9lcqfhcm8hkfv2tttnnti14.apps.googleusercontent.com";
 const handleGoogleSignIn = async (response) => {
-    window.location.href = "/auth/google"; // This triggers Laravel's Socialite redirect
+    window.location.href = "/auth/google";
 }
 </script>
 <template>
@@ -44,11 +45,14 @@ const handleGoogleSignIn = async (response) => {
                     <div class="relative grid sm:grid-cols-2 grid-rows-1 items-center">
                         <div class="drop-shadow-lg select-none text-gray-50 flex flex-col w-full z-50 sm:text-left text-center">
                             <span class="text-lg leading-relaxed">Login to</span>
-                            <span class="font-bold sm:text-3xl text-2xl leading-tight">
-                                <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
-                                <span class="text-cbc-dark-green">I</span>nnovation
-                                <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
-                            </span>
+                            <div class="flex flex-row gap-2 items-center">
+                                <authentication-card-logo class="drop-shadow" />
+                                <span class="font-bold sm:text-3xl text-2xl leading-tight">
+                                    <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
+                                    <span class="text-cbc-dark-green">I</span>nnovation
+                                    <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
+                                </span>
+                            </div>
                         </div>
                         <div class="bg-cbc-dark-green sm:p-3 sm:px-5 p-4 shadow-lg rounded-md sm:min-w-[15rem] min-w-full">
                             <div v-if="status" class="mb-4 font-medium text-sm">
@@ -95,12 +99,12 @@ const handleGoogleSignIn = async (response) => {
                                         Forgot your password?
                                     </Link>
                                 </div>
-                                <GoogleLogin :clientId="googleClientId" :callback="handleGoogleSignIn">
-                                    <button class="bg-red-500 text-white px-4 py-2 rounded">
-                                        New Sign in with Google
-                                    </button>
-                                </GoogleLogin>
                             </form>
+                            <GoogleLogin :clientId="googleClientId" :callback="handleGoogleSignIn">
+                                <button class="bg-red-500 text-white px-4 py-2 rounded">
+                                    New Sign in with Google
+                                </button>
+                            </GoogleLogin>
                         </div>
                     </div>
                 </AuthenticationCard>
