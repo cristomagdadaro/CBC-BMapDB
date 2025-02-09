@@ -68,7 +68,7 @@ const routes = [
     {
         path: '/projects',
         component: async () => await import('@/Pages/Projects.vue'),
-        name: 'Projects',
+        name: 'projects',
         children: [
             {
                 path: '/projects/breedersmap',

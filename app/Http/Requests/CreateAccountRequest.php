@@ -36,6 +36,11 @@ class CreateAccountRequest extends FormRequest
                 'integer',
                 'exists:applications,id',
             ],
+            'role' => [
+                'required',
+                'integer',
+                'exists:roles,id',
+            ],
             'approved_at' => 'nullable|date',
         ];
     }

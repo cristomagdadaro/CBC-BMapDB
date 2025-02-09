@@ -40,8 +40,8 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
     require_once 'components/SystemRoutes.php';
 
     Route::controller(DataViewController::class)->group(function () {
-       //Route::get('/data-view', 'index')->name('api.dataview.index');
-       //Route::get('/data-view/{table?}', 'show')->name('api.dataview.show');
+       Route::get('/data-view', 'index')->name('api.dataview.index');
+       Route::get('/data-view/{table?}', 'show')->name('api.dataview.show');
        //Route::post('/data-view/{table?}', 'store')->name('api.dataview.store');
        //Route::put('/data-view/{table?}', 'update')->name('api.dataview.update');
     });

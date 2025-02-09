@@ -31,20 +31,7 @@ const submit = () => {
 };
 const googleClientId = "347920378124-l0mnce2uk9lcqfhcm8hkfv2tttnnti14.apps.googleusercontent.com";
 const handleGoogleSignIn = async (response) => {
-    console.log(response);
-
-    const res = await fetch("http://127.0.0.1:8000/auth/google/callback?code="+response?.code, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
-    }).then(response => {
-        console.log(response);
-    }).catch(error => {
-        console.log(error);
-    });
-    const data = await res.json();
-    console.log(data);
+    window.location.href = "/auth/google"; // This triggers Laravel's Socialite redirect
 }
 </script>
 <template>

@@ -7,6 +7,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\GetAccountForRequest;
 use App\Http\Requests\UpdateAccountRequest;
+use App\Models\Role;
 use App\Models\User;
 use App\Repository\API\AccountsRepo;
 use Illuminate\Support\Facades\DB;
@@ -33,6 +34,8 @@ class AccountController extends BaseController
 
     public function store(CreateAccountRequest $request)
     {
+        $role = Role::findOrFail($request->validated()['role'])->pluck('name');
+        auth()->user()->assignRole($role);
         return parent::_store($request);
     }
 
