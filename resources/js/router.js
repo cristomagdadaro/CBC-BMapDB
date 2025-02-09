@@ -166,6 +166,37 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/support-info/what-is-pin',
+        component: async () => await import('@/Pages/Support/AboutUs.vue'),
+        name: 'support.what-is-pin',
+    },
+    {
+        path: '/support-info/cbc-tour',
+        component: async () => await import('@/Pages/Support/VisitUs.vue'),
+        name: 'support.cbc-tour',
+    },
+    {
+        path: '/support-info/terms-of-use',
+        component: async () => await import('@/Pages/Support/TermsOfUse.vue'),
+        name: 'support.terms-of-use',
+    },
+    {
+        path: '/support-info/privacy-policy',
+        component: async () => await import('@/Pages/Support/PrivacyPolicy.vue'),
+        name: 'support.privacy-policy',
+    },
+    {
+        path: '/support-info/developers',
+        component: async () => await import('@/Pages/Support/Developers.vue'),
+        name: 'support.developers',
+    },
+    {
+        path: '/support-info/sitemap',
+        component: async () => await import('@/Pages/Support/Sitemap.vue'),
+        name: 'support.sitemap',
+    },
+
 ];
 
 const router = createRouter({

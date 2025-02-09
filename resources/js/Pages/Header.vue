@@ -10,8 +10,6 @@ defineProps({
     canRegister: Boolean,
 });
 
-const page = usePage();
-
 const supportLinks = [
     {name: 'What is PIN?', link: 'support.what-is-pin'},
     {name: 'Virtual Tour', link: 'support.cbc-tour'},
@@ -29,10 +27,10 @@ const supportLinks = [
             <Logo />
         </template>
         <template #subtitle>
-            {{ page.props.companyName }}
+            {{ $companyName }}
         </template>
         <template #title>
-            {{ page.props.appName }}
+            {{ $appName }}
         </template>
         <template #links>
             <ul class="lg:flex sm:gap-2">

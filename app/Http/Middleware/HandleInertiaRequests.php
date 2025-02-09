@@ -53,10 +53,6 @@ class HandleInertiaRequests extends Middleware
             "accounts" => $apps,
             "accountsPending" => $accountsPending,
             "affiliated" => $request->user() ? $request->user()->affiliated : [],
-            'appName' => env('APP_NAME'),
-            'appNameShort' => env('APP_NAME_SHORT'),
-            'companyName' => env('COMPANY_NAME'),
-            'companyNameShort' => env('COMPANY_NAME_SHORT'),
         ]);
     }
 

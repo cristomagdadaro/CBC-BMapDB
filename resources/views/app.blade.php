@@ -15,7 +15,7 @@
         <meta name="google-site-verification" content="ZrD_iUGZg325WPHfCGqb7gySTuljzzaFlh1Zq3UdkJk" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-signin-client_id" content="605043117472-0nk2ffvrtcrgu7122k1jghtn9a7f4duo.apps.googleusercontent.com">
-        <title inertia>{{ config('app.name', 'Laravel') }} - Department of Agriculture Crop Biotechnology Center</title>
+        <title inertia>{{ config('app.name', 'PIN System') }} - Department of Agriculture Crop Biotechnology Center</title>
         <link rel="icon" type="image/x-icon" href="/favicon.ico">
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -30,18 +30,18 @@
                 crossorigin=""></script>
         {{-- Leaflet Interactive Map Library --}}
         <!-- Scripts -->
-        @routes()
+
+        @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
         <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
-
+        <script>
+            window.AppConfig = {
+                applications: @json(config('system_variables.applications')),
+            };
+        </script>
     </head>
     <body class="font-sans antialiased">
         @inertia
     </body>
-    <script>
-        window.AppConfig = {
-            applications: @json(config('system_variables.applications')),
-        };
-    </script>
 </html>

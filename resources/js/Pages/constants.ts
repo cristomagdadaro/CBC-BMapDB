@@ -4,10 +4,6 @@ import TWGLogo from "../../../public/img/logos/biotwg.webp";
 import BreedersMapLogo from "../../../public/img/logos/pbmap.webp";
 import { JavascriptErrorResponse, ForbiddenErrorResponse, ValidationErrorResponse, NotFoundErrorResponse, ServerErrorResponse } from "@/Modules/core/domain/response/index";
 
-export const appName = "Plant Breeders and Innovators Network"
-export const companyName = "DA-Crop Biotechnology Center"
-
-
 export const ErrorResponse  = [
     ValidationErrorResponse,
     ServerErrorResponse,
@@ -20,7 +16,7 @@ export const CBCProjects = [
     {
         id: 3,
         //@ts-ignore
-        label: window.AppConfig.applications['TWG_DATABASE'],
+        label: window.AppConfig?.applications['TWG_DATABASE'],
         icon: TWGLogo,
         value: 'projects.twg.index',
         show: true,
@@ -28,7 +24,7 @@ export const CBCProjects = [
     {
         id: 4,
         //@ts-ignore
-        label: window.AppConfig.applications['BREEDERS_MAP'],
+        label: window.AppConfig?.applications['BREEDERS_MAP'],
         icon: BreedersMapLogo,
         value: 'projects.breedersmap.index',
         show: true,
@@ -39,28 +35,28 @@ export const CBCProjectsPublic = [
     {
         id: 1,
         //@ts-ignore
-        label: window.AppConfig.applications['BREEDERS_MAP'].name,
+        label: window.AppConfig?.applications['BREEDERS_MAP'].name,
         //@ts-ignore
-        route: window.AppConfig.applications['BREEDERS_MAP'].route,
+        route: window.AppConfig?.applications['BREEDERS_MAP'].route,
         //@ts-ignore
-        route_public: window.AppConfig.applications['BREEDERS_MAP'].route_public,
+        route_public: window.AppConfig?.applications['BREEDERS_MAP'].route_public,
         //@ts-ignore
-        description: window.AppConfig.applications['BREEDERS_MAP'].description,
+        description: window.AppConfig?.applications['BREEDERS_MAP'].description,
         //@ts-ignore
-        logo: window.AppConfig.applications['BREEDERS_MAP'].logo,
+        logo: window.AppConfig?.applications['BREEDERS_MAP'].logo,
     },
     {
         id: 2,
         //@ts-ignore
-        label: window.AppConfig.applications['TWG_DATABASE'].name,
+        label: window.AppConfig?.applications['TWG_DATABASE'].name,
         //@ts-ignore
-        route: window.AppConfig.applications['TWG_DATABASE'].route,
+        route: window.AppConfig?.applications['TWG_DATABASE'].route,
         //@ts-ignore
-        route_public: window.AppConfig.applications['TWG_DATABASE'].route_public,
+        route_public: window.AppConfig?.applications['TWG_DATABASE'].route_public,
         //@ts-ignore
-        description: window.AppConfig.applications['TWG_DATABASE'].description,
+        description: window.AppConfig?.applications['TWG_DATABASE'].description,
         //@ts-ignore
-        logo: window.AppConfig.applications['TWG_DATABASE'].logo,
+        logo: window.AppConfig?.applications['TWG_DATABASE'].logo,
     },
 ]
 

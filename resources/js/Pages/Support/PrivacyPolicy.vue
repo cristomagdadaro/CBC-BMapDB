@@ -10,20 +10,6 @@ export default {
             page: usePage(),
         }
     },
-    computed: {
-        appName(){
-            return this.page.props.appName;
-        },
-        appNameShort(){
-            return this.page.props.appNameShort;
-        },
-        companyName(){
-            return this.page.props.companyName;
-        },
-        companyNameShort(){
-            return this.page.props.companyNameShort;
-        },
-    }
 }
 </script>
 
@@ -31,7 +17,7 @@ export default {
     <info-page-layout title="Privacy Policy">
         <div class="space-y-6 text-gray-800 leading-5">
             <p class="text-lg">
-                Welcome to the {{ appName }}. Your use of this system is subject to our Privacy Policy, which outlines how we collect, store, use, and share your personal data. By accessing or using our services, you agree to the terms outlined in this Privacy Policy.
+                Welcome to the {{ $appName }}. Your use of this system is subject to our Privacy Policy, which outlines how we collect, store, use, and share your personal data. By accessing or using our services, you agree to the terms outlined in this Privacy Policy.
             </p>
             <div>
                 <p class="text-xl font-semibold">
@@ -45,7 +31,7 @@ export default {
                     <li><b>Usage Data:</b> We may collect data on how you use our system, such as the features you use, pages you visit, and other interaction analytics.</li>
                 </ul>
                 <p class="text-lg">
-                    We will only collect data that is necessary for the operation of the {{ appNameShort }}. Any additional data collection will be explicitly stated at the time of collection.
+                    We will only collect data that is necessary for the operation of the {{ $appNameShort }}. Any additional data collection will be explicitly stated at the time of collection.
                 </p>
             </div>
             <div>
@@ -123,7 +109,7 @@ export default {
                     Cookies and Tracking Technologies
                 </p>
                 <p class="text-lg">
-                    The {{ appNameShort }} may use cookies and other tracking technologies (e.g., analytics tools) to enhance user experience and optimize service delivery. These technologies collect non-personally identifiable information, such as usage patterns, device identifiers, and location data. You can disable cookies in your browser settings if you prefer not to receive this data collection.
+                    The {{ $appNameShort }} may use cookies and other tracking technologies (e.g., analytics tools) to enhance user experience and optimize service delivery. These technologies collect non-personally identifiable information, such as usage patterns, device identifiers, and location data. You can disable cookies in your browser settings if you prefer not to receive this data collection.
                 </p>
             </div>
             <div>

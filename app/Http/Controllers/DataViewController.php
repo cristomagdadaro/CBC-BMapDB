@@ -6,6 +6,7 @@ use App\Http\Requests\CreateDataViewRequest;
 use App\Http\Requests\GetDataViewsRequest;
 use App\Http\Requests\UpdateDataViewRequest;
 use App\Repository\API\DataViewRepo;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
@@ -17,9 +18,19 @@ class DataViewController extends BaseController
         $this->service =  $dataViewRepo;
     }
 
-    public function index(GetDataViewsRequest $request, string $table = null)
+    public function index(GetDataViewsRequest $request, string $table = null): JsonResponse
     {
-        return parent::_index($request);
+        $result = DB::table('data_views')
+            ->select('user_account_id', 'model', 'visibility_guard', 'columns')
+            ->when($table, fn($query) => $query->where('model', $table)) // Filter if table is provided
+            ->get()
+            ->groupBy('user_account_id')
+            ->map(fn($models) =>
+                $models->groupBy('model')->map(fn($visibilityGuards) =>
+                $visibilityGuards->pluck('columns', 'visibility_guard')->toArray())->toArray())
+            ->toArray();
+
+        return $this->sendResponse($result);
     }
 
     public function show(GetDataViewsRequest $request, string $table)

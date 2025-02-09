@@ -16,9 +16,13 @@ use App\Models\TWGExpert;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
+use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\Auth\GoogleController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,6 +60,9 @@ Route::get('/', function () {
         'breedersmap_overview' => $formattedData,
     ]);
 });
+
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google.redirect');
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback'); // This must be GET, not POST
 
 Route::middleware([
     'auth:sanctum',

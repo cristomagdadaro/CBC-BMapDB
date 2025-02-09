@@ -38,14 +38,12 @@ class DatabaseSeeder extends Seeder
                 case Role::TWG_ADMIN->value:
                     $user->approve([1]);
                     break;
+                case Role::RESEARCHER->value:
                 case Role::FOCAL_PERSON->value:
                     $user->approve([1, 2]);
                     break;
                 case Role::BREEDER->value:
                     $user->approve([2]);
-                    break;
-                case Role::RESEARCHER->value:
-                    $user->approve([1, 2]);
                     break;
             }
         }

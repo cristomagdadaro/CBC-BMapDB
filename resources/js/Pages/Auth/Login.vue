@@ -8,6 +8,7 @@ import TextField from "@/Components/Form/TextField.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import TabLink from "@/Components/Header/TabLink.vue";
+import {GoogleLogin} from "vue3-google-login";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -28,14 +29,22 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
-</script>
-<script>
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+const googleClientId = "347920378124-l0mnce2uk9lcqfhcm8hkfv2tttnnti14.apps.googleusercontent.com";
+const handleGoogleSignIn = async (response) => {
+    console.log(response);
+
+    const res = await fetch("http://127.0.0.1:8000/auth/google/callback?code="+response?.code, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }).then(response => {
+        console.log(response);
+    }).catch(error => {
+        console.log(error);
+    });
+    const data = await res.json();
+    console.log(data);
 }
 </script>
 <template>
@@ -99,7 +108,11 @@ function onSignIn(googleUser) {
                                         Forgot your password?
                                     </Link>
                                 </div>
-                                <div class="g-signin2 text-gray-100 text-xs my-2" data-onsuccess="onSignIn">Sign in with Google</div>
+                                <GoogleLogin :clientId="googleClientId" :callback="handleGoogleSignIn">
+                                    <button class="bg-red-500 text-white px-4 py-2 rounded">
+                                        New Sign in with Google
+                                    </button>
+                                </GoogleLogin>
                             </form>
                         </div>
                     </div>
