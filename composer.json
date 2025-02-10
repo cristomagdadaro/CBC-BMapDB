@@ -13,9 +13,10 @@
         "laravel/jetstream": "^4.0",
         "laravel/passport": "^12.3",
         "laravel/sanctum": "^3.3",
+        "laravel/socialite": "^5.17",
         "laravel/tinker": "^2.8",
         "spatie/laravel-permission": "^6.9",
-        "tightenco/ziggy": "^2.4",
+        "tightenco/ziggy": "^2.5",
         "twbs/bootstrap-icons": "^1.11"
     },
     "require-dev": {

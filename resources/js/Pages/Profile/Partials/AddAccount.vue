@@ -7,10 +7,15 @@ import DropdownOption from "@/Components/CustomDropdown/Components/DropdownOptio
 import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
 import DtoError from "@/Modules/core/dto/base/DtoError";
+import SelectField from "@/Components/Form/SelectField.vue";
+import RequestNewAccessMixin from "@/Pages/mixins/RequestNewAccessMixin";
+import {useForm} from "@inertiajs/vue3";
+import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 
 export default {
     name: "AddAccount",
-    components: {CustomDropdown, DropdownOption, Dropdown, Modal, PrimaryButton, ActionSection},
+    components: {LoaderIcon, SelectField, CustomDropdown, DropdownOption, Dropdown, Modal, PrimaryButton, ActionSection},
+    mixins: [RequestNewAccessMixin],
     props: {
         accountsPending: Object,
     },
@@ -22,34 +27,41 @@ export default {
     data(){
         return {
             showAddAccountModal: false,
-            form: {
-                app_id: null,
-                user_id: this.$page.props.auth.user.id,
-            },
+            form: null,
             apiService: null,
             errors: null
         }
     },
     methods: {
         async submitForm() {
-            this.apiService = new ApiService(route('api.accounts.store'));
-            const response = await this.apiService.post(this.form);
-            if (response instanceof this.DtoError){
-                this.errors = response;
-                new Notification(response);
-            }else
-                this.showAddAccountModal = false;
+            this.form.post(route('api.accounts.store'), {
+                onFinish: (response) => function (){
+                    if (response instanceof this.DtoError){
+                        this.errors = response;
+                        new Notification(response);
+                    }else
+                        this.showAddAccountModal = false;
+                },
+            });
         },
-        onSelectedChanged(value) {
-            this.form.app_id = value;
-        }
     },
     watch: {
         showAddAccountModal(val) {
             if (!val) {
                 this.form.app_id = null;
             }
+        },
+        selectedApplication(newVal) {
+            this.form.app_id = newVal;
+            this.filterRolesByApplication();
         }
+    },
+    beforeMount() {
+        this.form = useForm({
+            app_id: null,
+            user_id: this.$page.props.auth.user.id,
+            role: null,
+        })
     }
 }
 </script>
@@ -87,30 +99,17 @@ export default {
                    :closeable="true"
             >
                 <form @submit.prevent="submitForm" class="p-5 px-10 flex flex-col gap-5">
-                    <div class="mt-5">
-                        <div class="flex justify-between text-sm">
-                            <label for="database" class="block font-medium text-gray-700">Application <span class="text-red-700">*</span></label>
-                            <span v-if="errors" class="text-red-700">{{ errors.message }}</span>
-                        </div>
-                        <custom-dropdown
-                            placeholder="Select an application"
-                            :value="form.app_id"
-                            @selectedChange="onSelectedChanged"
-                            :withAllOption="false"
-                            :options="[
-                                {
-                                    name: 1,
-                                    label: 'Biotech TWG Database'
-                                },
-                                {
-                                    name: 2,
-                                    label:'Plant Breeders Map',
-                                }
-                            ]"
-                        />
+                    <div class="flex justify-between text-sm">
+                        <label for="database" class="block font-medium text-gray-700">Request new access to</label>
+                        <span v-if="errors" class="text-red-700">{{ errors.message }}</span>
                     </div>
-                    <PrimaryButton type="submit">
+                    <div class="grid grid-cols-2 gap-2">
+                        <SelectField v-if="applications" id="app_id" label="Database" v-model="selectedApplication" type="text" required autofocus autocomplete="name" :error="form?.errors.app_id" :options="applications" />
+                        <SelectField v-if="roles" id="role" label="Access Level" :disabled="!selectedApplication" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form?.errors.role" :options="filteredRoles" />
+                    </div>
+                    <PrimaryButton type="submit" :disabled="form.processing" :class="{ 'opacity-50': form.processing }">
                         Submit Request
+                        <loader-icon v-show="form.processing" />
                     </PrimaryButton>
                 </form>
             </modal>

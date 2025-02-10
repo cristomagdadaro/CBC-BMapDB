@@ -46,15 +46,15 @@ onMounted(() => {
                                 Welcome to
                             </h3>
                             <h3>
-                                {{ $page.props.appName }}
+                                {{ $appName }}
                             </h3>
                         </div>
                     </div>
                     <p>
-                        An integrated platform designed to centralize and manage all databases for <span class="whitespace-nowrap">{{$page.props.companyName}}</span>. This system serves as a foundational tool in streamlining data access and management across the country.
+                        An integrated platform designed to centralize and manage all databases for <span class="whitespace-nowrap">{{$companyName}}</span>. This system serves as a foundational tool in streamlining data access and management across the country.
                     </p>
                     <p>
-                        We appreciate your patience and understanding as we continue to improve and evolve the system to meet the highest standards of reliability and efficiency. Your feedback is invaluable in helping us identify and address any issues, ensuring that the <span class="whitespace-nowrap">{{$page.props.appName}}</span> becomes an indispensable resource for <span class="whitespace-nowrap">{{$page.props.companyName}}’s</span> operations.
+                        We appreciate your patience and understanding as we continue to improve and evolve the system to meet the highest standards of reliability and efficiency. Your feedback is invaluable in helping us identify and address any issues, ensuring that the <span class="whitespace-nowrap">{{ $appName }}</span> becomes an indispensable resource for <span class="whitespace-nowrap">{{$companyName}}’s</span> operations.
                     </p>
                     <p>
                         Thank you for your support as we work to deliver a robust and dependable solution.

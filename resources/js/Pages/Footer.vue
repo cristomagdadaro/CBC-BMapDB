@@ -3,7 +3,6 @@ import FooterLayout from '@/Layouts/FooterLayout.vue';
 import FooterLink from '@/Components/Footer/FooterLink.vue'
 import Logo from '@/Components/Icons/Logo.vue';
 import InfoPageLinks from "@/Pages/Support/components/InfoPageLinks.vue";
-import {companyName} from "./constants";
 import {Link} from "@inertiajs/vue3";
 </script>
 <template>
@@ -83,7 +82,7 @@ import {Link} from "@inertiajs/vue3";
         </template>
         <template #copyright>
             <div class="flex justify-between border-t-[1px] resp-container px-2 py-2 text-center sm:text-sm text-[0.6rem] font-light text-gray-100">
-                <span class="whitespace-nowrap">{{ companyName }}</span>
+                <span class="whitespace-nowrap">{{ $companyName }}</span>
                 <span>Powered by Philippine Rice Research Institute</span>
             </div>
         </template>

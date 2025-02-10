@@ -16,10 +16,10 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
-    'name_short' => env('APP_NAME_SHORT', 'Laravel'),
-    'company' => env('COMPANY_NAME', 'Laravel'),
-    'company_short' => env('COMPANY_NAME_SHORT', 'Laravel'),
+    'name' => env('APP_NAME', 'Plant Breeders and Innovators Network System'),
+    'name_short' => env('APP_NAME_SHORT', 'PIN System'),
+    'company' => env('COMPANY_NAME', 'DA - Crop Biotechnology Center'),
+    'company_short' => env('COMPANY_NAME_SHORT', 'DA-CBC'),
 
     /*
     |--------------------------------------------------------------------------
@@ -162,7 +162,7 @@ return [
         /*
          * Package service Providers...
          */
-
+        Laravel\Socialite\SocialiteServiceProvider::class,
         /*
          * Application service Providers...
          */
@@ -189,6 +189,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ])->toArray(),
 
 ];

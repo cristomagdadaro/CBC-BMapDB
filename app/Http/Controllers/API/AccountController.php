@@ -7,6 +7,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\GetAccountForRequest;
 use App\Http\Requests\UpdateAccountRequest;
+use App\Models\Role;
 use App\Models\User;
 use App\Repository\API\AccountsRepo;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +34,13 @@ class AccountController extends BaseController
 
     public function store(CreateAccountRequest $request)
     {
-        return parent::_store($request);
+        $role = Role::select('name')->where('id',$request->validated()['role'])->first();
+        if (!empty($role))
+        {
+            auth()->user()->assignRole($role->name);
+            return parent::_store($request);
+        }
+        return $this->sendResponse(['request' => $request->toArray()]);
     }
 
     /**

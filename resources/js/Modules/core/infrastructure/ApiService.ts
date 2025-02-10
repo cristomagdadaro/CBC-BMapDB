@@ -49,7 +49,7 @@ export default class ApiService implements IApiService
                     ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
                 }
             });
-
+            console.log(response);
             if (model) {
                 if (response && response.data){
                     if (response.data.data){

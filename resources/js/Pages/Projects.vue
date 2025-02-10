@@ -14,9 +14,11 @@ import BmPriorityCom from "@/Pages/Projects/BreedersMap/presentation/components/
 import BmOverviewMap from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue";
 import TopLeaf from "@/Components/Top-Leaf.vue";
 import ModelViewer from "@/Components/3dViewer/3dModelViewer.vue";
+import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 export default {
     components: {
+        ParticlesBackground,
         TopLeaf,
         BmOverviewMap,
         BmPriorityCom,
@@ -33,18 +35,6 @@ export default {
         PhilippineMapOutline,
         ModelViewer
     },
-    methods: {
-        setupParticlesFor(id)  {
-            particlesJS.load(id, '/particlesjs-config.json', function() {
-                console.log('particles for Projects Page loaded');
-            });
-        },
-    },
-    mounted() {
-        this.setupParticlesFor('header-particles-js');
-        //this.setupParticlesFor('center-particles-js');
-        this.setupParticlesFor('foot-particles-js');
-    },
     setup() {
         return {
             CBCProjectsPublic,
@@ -55,20 +45,6 @@ export default {
             page: usePage(),
         }
     },
-    computed: {
-        appName(){
-            return this.page.props.appName;
-        },
-        appNameShort(){
-            return this.page.props.appNameShort;
-        },
-        companyName(){
-            return this.page.props.companyName;
-        },
-        companyNameShort(){
-            return this.page.props.companyNameShort;
-        },
-    }
 };
 </script>
 
@@ -79,7 +55,7 @@ export default {
         <div class="grid grid-cols-1 body-grid-rows w-full bg-transparent">
             <public-page-section onload="" class="flex items-center justify-center">
                 <template v-slot:custom-bg>
-                    <div id="header-particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
+                    <particles-background id="header-particles-js" />
                 </template>
                 <div class="flex flex-col justify-center">
                     <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
@@ -128,7 +104,7 @@ export default {
                          class="absolute top-0 left-0 w-full h-full z-[-1] brightness-50 object-cover object-top" />
                 </template>
                 <p class="text-subtitle text-center text-light-color">
-                    {{ companyName }}
+                    {{ $companyName }}
                 </p>
                 <p class="text-normal text-center text-light-color">
                     The center is a premier hub for innovation and research in agricultural biotechnology. Dedicated to advancing crop productivity and sustainability, the center provides cutting-edge solutions, resources, and technologies to support farmers, researchers, and stakeholders in addressing the challenges of food security and agricultural development.
@@ -179,7 +155,7 @@ export default {
             </public-page-section>
             <public-page-section class="flex items-center py-10">
                 <template v-slot:custom-bg>
-                    <div id="foot-particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
+                    <particles-background id="foot-particles-js" />
                 </template>
                 <bm-collaborators />
             </public-page-section>

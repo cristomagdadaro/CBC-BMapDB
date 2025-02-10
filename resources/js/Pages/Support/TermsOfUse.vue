@@ -10,20 +10,6 @@ export default {
             page: usePage(),
         }
     },
-    computed: {
-        appName(){
-            return this.page.props.appName;
-        },
-        appNameShort(){
-            return this.page.props.appNameShort;
-        },
-        companyName(){
-            return this.page.props.companyName;
-        },
-        companyNameShort(){
-            return this.page.props.companyNameShort;
-        },
-    }
 }
 </script>
 
@@ -31,10 +17,10 @@ export default {
     <info-page-layout title="Terms of Use">
         <div class="space-y-6 text-gray-800 leading-5 text-justify">
             <p>
-                The following terms outline the rules, responsibilities, and expectations for users of the {{appNameShort}}. By accessing or utilizing the system, you agree to comply with these terms. The content and data presented are provided for informational purposes and public use in line with the agency's mandate to promote transparency and public access to government information.
+                The following terms outline the rules, responsibilities, and expectations for users of the {{$appNameShort}}. By accessing or utilizing the system, you agree to comply with these terms. The content and data presented are provided for informational purposes and public use in line with the agency's mandate to promote transparency and public access to government information.
             </p>
             <p>
-                The content of this website is for general information and use only. It is subject to change without notice. The {{companyNameShort}} makes no warranty or representation as to the accuracy, completeness, or suitability of the information and materials found or offered on this website for any particular purpose. You acknowledge that such information and materials may contain inaccuracies or errors and the {{companyNameShort}} expressly excludes liability for any such inaccuracies or errors to the fullest extent permitted by law.
+                The content of this website is for general information and use only. It is subject to change without notice. The {{$companyNameShort}} makes no warranty or representation as to the accuracy, completeness, or suitability of the information and materials found or offered on this website for any particular purpose. You acknowledge that such information and materials may contain inaccuracies or errors and the {{$companyNameShort}} expressly excludes liability for any such inaccuracies or errors to the fullest extent permitted by law.
             </p>
 
            <div>
@@ -50,7 +36,7 @@ export default {
                     User Eligibility
                 </p>
                 <p class="text-lg">
-                    Access to the {{appNameShort}} is restricted to authorized users who meet specific criteria, including affiliation with recognized organizations in the field of crop biotechnology or related fields. Proof of eligibility may be required upon registration.
+                    Access to the {{$appNameShort}} is restricted to authorized users who meet specific criteria, including affiliation with recognized organizations in the field of crop biotechnology or related fields. Proof of eligibility may be required upon registration.
                 </p>
             </div>
             <div>
@@ -68,7 +54,7 @@ export default {
                     Data Privacy and Security
                 </p>
                 <ul class="text-lg list-disc list-inside">
-                    <li>The {{appNameShort}} prioritizes the protection of sensitive biotechnology data. Users are prohibited from accessing or disclosing such data without proper authorization.</li>
+                    <li>The {{$appNameShort}} prioritizes the protection of sensitive biotechnology data. Users are prohibited from accessing or disclosing such data without proper authorization.</li>
                     <li>Users must comply with all applicable data protection laws, including GDPR and CCPA.</li>
                     <li>The system employs measures to ensure data security, but users must also take responsibility for their actions to prevent unauthorized access or data breaches.</li>
                 </ul>
@@ -130,7 +116,7 @@ export default {
                     Disclaimers of Warranties
                 </p>
                 <p class="text-lg">
-                    The {{appNameShort}} is provided "as-is" without any warranties regarding accuracy, completeness, or functionality. Users assume all risks associated with system use.
+                    The {{$appNameShort}} is provided "as-is" without any warranties regarding accuracy, completeness, or functionality. Users assume all risks associated with system use.
                 </p>
             </div>
             <div>
@@ -146,7 +132,7 @@ export default {
                     Contact Information
                 </p>
                 <p class="text-lg">
-                    For questions or concerns about these terms, please visit <a href="https://www.facebook.com/DACropBiotechCenter" target="_blank" class="underline">{{ companyName }}</a> or contact at <a href="mailto:cropbiotechcenter@gmail.com" class="underline">cropbiotechcenter@gmail.com</a>.
+                    For questions or concerns about these terms, please visit <a href="https://www.facebook.com/DACropBiotechCenter" target="_blank" class="underline">{{ $companyName }}</a> or contact at <a href="mailto:cropbiotechcenter@gmail.com" class="underline">cropbiotechcenter@gmail.com</a>.
                 </p>
             </div>
         </div>

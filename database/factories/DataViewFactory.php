@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Breeder;
 use App\Models\Commodity;
+use App\Models\DataView;
 use App\Models\TWGExpert;
 use App\Models\TWGProduct;
 use App\Models\TWGProject;
@@ -34,20 +35,27 @@ class DataViewFactory extends Factory
         ]);
 
         $table_name = (new $modelClass)->getTable();
+        $visibility_guard = $this->faker->randomElement(config('system_variables.dataview_guards'));
 
-        do {
-            $user_account_id = User::query()->inRandomOrder()->value('id');
+        // Find a unique user_account_id
+        $user_account_id = User::query()
+            ->inRandomOrder()
+            ->pluck('id')
+            ->first();
 
-            $success = DB::table('data_views')->where('user_account_id', $user_account_id)->where('model', $table_name)->count();
-            print_r($success);
-        } while ($success);
-
-        return [
-            'uuid' => $this->faker->uuid(),
-            'user_account_id' => $user_account_id,
-            'model' => $table_name,
-            'columns' => implode(',', (new $modelClass)->getSearchable() ?? []),
-            'visibility_guard' => $this->faker->randomElement(config('system_variables.dataview_guards'))
-        ];
+        // Ensure uniqueness before inserting using UUID as primary key
+        return DataView::firstOrCreate(
+            [
+                'user_account_id' => $user_account_id,
+                'model' => $table_name,
+                'visibility_guard' => $visibility_guard
+            ],
+            [
+                'uuid' => $this->faker->uuid(), // Explicitly define UUID
+                'columns' => implode(',', (new $modelClass)->getSearchable() ?? []),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        )->toArray();
     }
 }

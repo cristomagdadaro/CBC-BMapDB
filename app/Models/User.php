@@ -48,6 +48,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'affiliation',
         'email_verified_at',
+        'google_id',
+        'profile_photo_path',
     ];
 
     /**
@@ -164,7 +166,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->searchable;
     }
 
-    public function getRole(): string
+    public function getRole(): string | null
     {
         return $this->roles->pluck('name')->first();
     }

@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::prefix('/auth')->group(function () {
     Route::controller(AuthController::class)->group(function () {
         Route::post('register', 'register')->name('api.register');
@@ -38,7 +42,7 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
     Route::controller(DataViewController::class)->group(function () {
        Route::get('/data-view', 'index')->name('api.dataview.index');
        Route::get('/data-view/{table?}', 'show')->name('api.dataview.show');
-       Route::post('/data-view/{table?}', 'store')->name('api.dataview.store');
-       Route::put('/data-view/{table?}', 'update')->name('api.dataview.update');
+       //Route::post('/data-view/{table?}', 'store')->name('api.dataview.store');
+       //Route::put('/data-view/{table?}', 'update')->name('api.dataview.update');
     });
 });
