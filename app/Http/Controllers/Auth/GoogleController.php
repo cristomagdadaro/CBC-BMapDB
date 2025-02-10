@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -23,17 +24,15 @@ class GoogleController extends Controller
 
     public function handleGoogleCallback(Request $request)
     {
-        if (!$request->has('code')) {
-            return Redirect::route('login')->with('error', 'Authorization code parameter missing');
-        }
-
         try {
             $googleUser = Socialite::driver('google')->stateless()->user();
             $existingUser = User::where('email', $googleUser->getEmail())->first();
 
             // Check if the email exists but was NOT registered with Google
             if ($existingUser && is_null($existingUser->google_id)) {
-                return redirect('/login')->with('error', 'This email is already registered. Please log in using your password.');
+                $existingUser->update(['google_id' => $googleUser->getId()]);
+                $existingUser->save();
+                //return Redirect::route('login')->with('error', 'This email is already registered. Please log in using your password.');
             }
 
             // If the user exists and has a Google ID, log them in
@@ -53,14 +52,14 @@ class GoogleController extends Controller
                 ]);
 
                 // Assign a random role (you may want to refine this logic)
-                $user->assignRole(rand(2, 5));
+                $user->assignRole(Role::RESEARCHER->value);
 
                 Auth::login($user);
             }
 
             return Redirect::route('dashboard')->with('message', 'Successful authenticated thru Google Account');
         } catch (\Exception $e) {
-            return Redirect::route('login')->with('error', 'Google login failed: ' . $e->getMessage());
+            return redirect('login')->with('error', 'Google login failed: ' . $e->getMessage());
         }
     }
 

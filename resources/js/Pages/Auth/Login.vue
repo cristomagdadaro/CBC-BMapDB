@@ -32,6 +32,7 @@ const submit = () => {
 };
 const googleClientId = "347920378124-l0mnce2uk9lcqfhcm8hkfv2tttnnti14.apps.googleusercontent.com";
 const handleGoogleSignIn = async (response) => {
+    console.log(response);
     window.location.href = "/auth/google";
 }
 </script>
@@ -53,7 +54,7 @@ const handleGoogleSignIn = async (response) => {
                                     <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
                                 </span>
                             </div>
-                        </div>
+                        </div> {{ $page }}
                         <div class="bg-cbc-dark-green sm:p-3 sm:px-5 p-4 shadow-lg rounded-md sm:min-w-[15rem] min-w-full">
                             <div v-if="status" class="mb-4 font-medium text-sm">
                                 {{ status }}
