@@ -28,7 +28,7 @@ const submit = () => {
 <template>
     <Head title="Secure Area" />
 
-    <AuthenticationCard>
+    <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
         <template #logo>
             <AuthenticationCardLogo />
         </template>

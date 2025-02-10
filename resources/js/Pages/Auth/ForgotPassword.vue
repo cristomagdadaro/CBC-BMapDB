@@ -9,6 +9,7 @@ import TextInput from '@/Components/TextInput.vue';
 import PageLayout from "@/Layouts/PageLayout.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
+import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 defineProps({
     status: String,
@@ -27,9 +28,10 @@ const submit = () => {
     <Head title="Forgot Password" />
     <PageLayout :is-wide-display="true">
         <green-waves />
+        <particles-background />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
-                <AuthenticationCard class="min-h-[90vh]">
+                <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
                     <template #logo>
                         <AuthenticationCardLogo />
                     </template>

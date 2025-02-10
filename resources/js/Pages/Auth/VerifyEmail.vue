@@ -9,6 +9,7 @@ import GreenWaves from "@/Components/GreenWaves.vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
+import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 const props = defineProps({
     status: String,
@@ -27,9 +28,10 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
     <Head title="Email Verification" />
     <page-layout>
         <green-waves />
+        <particles-background />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
-                <AuthenticationCard class="min-h-[90vh]">
+                <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
                     <template #logo>
                         <AuthenticationCardLogo />
                     </template>

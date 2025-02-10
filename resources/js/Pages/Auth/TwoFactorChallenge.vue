@@ -10,6 +10,7 @@ import TextInput from '@/Components/TextInput.vue';
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import PageLayout from "@/Layouts/PageLayout.vue";
+import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 const recovery = ref(false);
 
@@ -44,9 +45,10 @@ const submit = () => {
     <Head title="Two-factor Confirmation" />
     <page-layout>
         <green-waves />
+        <particles-background />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
-                <AuthenticationCard class="min-h-[90vh]">
+                <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
                 <div class="mb-4 text-normal text-gray-600">
                     <template v-if="! recovery">
                         Please confirm access to your account by entering the authentication code provided by your authenticator application.

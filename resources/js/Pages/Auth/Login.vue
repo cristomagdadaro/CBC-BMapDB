@@ -8,6 +8,7 @@ import TextField from "@/Components/Form/TextField.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
+import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -29,7 +30,7 @@ const submit = () => {
     });
 };
 
-const handleGoogleSignIn = async () => {
+const handleGoogleSignIn = () => {
     window.location.href = "/auth/google";
 }
 </script>
@@ -37,9 +38,10 @@ const handleGoogleSignIn = async () => {
     <Head title="Log in" />
     <page-layout>
         <green-waves />
+        <particles-background />
         <div class="grid grid-cols-1 w-full bg-transparent select-none">
             <public-page-section class="flex items-center justify-center">
-                <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
+                <AuthenticationCard class="min-h-[90vh] sm:max-w-4xl mx-auto">
                     <div class="relative grid sm:grid-cols-2 grid-rows-1 items-center">
                         <div>
                             <div class="drop-shadow-lg text-gray-50 flex flex-col w-full z-50 text-left mb-5">
@@ -57,7 +59,7 @@ const handleGoogleSignIn = async () => {
                                     {{ status }}
                                 </div>
                             </div>
-                            <span class="absolute bottom-0 text-white drop-shadow text-xs">
+                            <span class="absolute bottom-0 text-white drop-shadow text-xs p-1">
                                 {{ $appVersion }}
                             </span>
                         </div>
@@ -85,35 +87,43 @@ const handleGoogleSignIn = async () => {
                                     :error="form.errors.password"
                                 />
 
-                                <div class="block mt-4">
+                                <div class="flex justify-between w-full">
                                     <label class="flex items-center">
                                         <Checkbox v-model:checked="form.remember" name="remember" />
-                                        <span class="ml-2 text-xs text-gray-100">Remember me</span>
+                                        <span class="ml-2 text-sm text-gray-100">Remember me</span>
                                     </label>
+                                    <Link v-if="canResetPassword" :href="route('password.request')" class="underline opacity-50 text-sm text-gray-100 my-3 hover:opacity-100 text-right rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Forgot your password?
+                                    </Link>
+                                </div>
+                                <div class="text-white text-xs opacity-75">
+                                    By using our system you agree with our
+                                    <a target="_blank" :href="route('support.terms-of-use')" class="underline hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms of Use</a> and
+                                    <a target="_blank" :href="route('support.privacy-policy')" class="underline hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy Policy</a>
                                 </div>
                                 <div class="flex flex-col text-xs mt-4 sm:gap-5 gap-3">
                                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                                        Log in
+                                        Sign in
                                     </PrimaryButton>
                                 </div>
                             </form>
                             <div class="border-b my-1"></div>
-                            <div class="flex flex-col items-center gap-1">
-                                <button @click="handleGoogleSignIn" class="bg-blue-600 text-white hover:shadow-lg hover:bg-blue-900 active:bg-red-600 duration-300 px-4 py-2 rounded w-full flex items-center gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                            <div class="flex md:flex-row flex-col items-center gap-2">
+                                <Link v-if="canRegister" :href="route('register')" class="text-white uppercase text-xs drop-shadow bg-cbc-yellow-green hover:bg-cbc-yellow hover:text-cbc-dark-green active:scale-95 duration-300 font-semibold px-4 py-2 rounded w-full flex items-center justify-center gap-1">
+                                    Sign Up
+                                </Link>
+                                <span class="text-white text-xs my-1">OR</span>
+                                <button disabled @click="handleGoogleSignIn" class="disabled:opacity-25 disabled:cursor-not-allowed bg-blue-600 text-white duration-300 px-4 py-2 rounded w-full flex items-center justify-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="p-0 m-0" viewBox="0 0 16 16">
                                         <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
                                     </svg>
-                                    Sign up with Google
+                                    <label class="flex flex-col leading-[1rem]">
+                                        <span class="font-semibold">Google Auth</span>
+                                        <span class="text-xs">Available Soon</span>
+                                    </label>
                                 </button>
-                                <span class="text-white text-xs my-1">OR</span>
-                                <Link v-if="canRegister" :href="route('register')" class="text-gray-100 hover:text-cbc-yellow text-center hover:underline rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Create a new account
-                                </Link>
-                                <Link v-if="canResetPassword" :href="route('password.request')" class="underline opacity-50 text-gray-100 my-3 hover:opacity-100 text-right rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Forgot your password?
-                                </Link>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
                 </AuthenticationCard>

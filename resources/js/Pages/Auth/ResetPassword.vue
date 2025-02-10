@@ -8,6 +8,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
+import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 const props = defineProps({
     email: String,
@@ -31,9 +32,10 @@ const submit = () => {
 <template>
     <Head title="Reset Password" />
     <green-waves />
+    <particles-background />
     <div class="grid grid-cols-1 w-full bg-transparent">
         <public-page-section class="flex items-center justify-center">
-            <AuthenticationCard class="min-h-[90vh]">
+            <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
             <template #logo>
                 <AuthenticationCardLogo />
             </template>

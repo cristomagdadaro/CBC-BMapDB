@@ -59,7 +59,8 @@ class GoogleController extends Controller
 
             return Redirect::route('dashboard')->with('message', 'Successful authenticated thru Google Account');
         } catch (\Exception $e) {
-            return redirect('login')->with('error', 'Google login failed: ' . $e->getMessage());
+            return view('errors.googleauth')->with('message', $e->getTraceAsString());
+            //return redirect('dashboard')->with('error', 'Google login failed: ' . $e->getMessage());
         }
     }
 

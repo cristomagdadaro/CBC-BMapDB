@@ -14,10 +14,11 @@ import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import RequestNewAccessMixin from "@/Pages/mixins/RequestNewAccessMixin";
+import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 export default {
     name: 'Register',
-    components: { AuthenticationCard, Head, Link, Checkbox, InputError, InputLabel, PrimaryButton, PageLayout, TextField, SelectField, ApiService, NewAccountProgressView, SelectSearchField, GreenWaves, PublicPageSection },
+    components: {ParticlesBackground, AuthenticationCard, Head, Link, Checkbox, InputError, InputLabel, PrimaryButton, PageLayout, TextField, SelectField, ApiService, NewAccountProgressView, SelectSearchField, GreenWaves, PublicPageSection },
     mixins: [RequestNewAccessMixin],
     beforeMount() {
         this.form = useForm({
@@ -58,9 +59,10 @@ export default {
     <Head title="Register" />
     <page-layout>
         <green-waves />
+        <particles-background />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
-                <AuthenticationCard class="min-h-[90vh]">
+                <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
                 <new-account-progress-view />
                 <div class="border-b pb-1 mb-2">
                     <h1 class="font-medium text-lg">Registration Form</h1>
