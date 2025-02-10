@@ -1,10 +1,11 @@
 <script>
 import ArrowLeft from "@/Components/Icons/ArrowLeft.vue";
 import ArrowRight from "@/Components/Icons/ArrowRight.vue";
-
+import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
+import {Link} from "@inertiajs/vue3";
 export default {
     name: "BmPriorityCom",
-    components: {ArrowRight, ArrowLeft},
+    components: {TransitionContainer, ArrowRight, ArrowLeft, Link},
     methods: {
         handleInfiniteScroll($event = null) {
             const delta = $event ? $event.deltaY || $event.detail || $event.wheelDelta : 0;
@@ -48,7 +49,8 @@ export default {
                         'varieties': 21,
                         'research': 323,
                         'breeders': 32,
-                    }
+                    },
+                    route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rice&geo_location_filter=region&with=breeder,location,characteristics,additionalinfo'
                 },
                 {
                     name: 'Corn',
@@ -57,7 +59,8 @@ export default {
                         'varieties': 54,
                         'research': 565,
                         'breeders': 122,
-                    }
+                    },
+                    route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Corn&geo_location_filter=region'
                 },
                 {
                     name: 'Cotton',
@@ -66,7 +69,8 @@ export default {
                         'varieties': 12,
                         'research': 123,
                         'breeders': 23,
-                    }
+                    },
+                    route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Cotton&geo_location_filter=region'
                 },
                 {
                     name: 'Tomato',
@@ -75,7 +79,8 @@ export default {
                         'varieties': 32,
                         'research': 234,
                         'breeders': 45,
-                    }
+                    },
+                    route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Tomato&geo_location_filter=region'
                 },
                 {
                     name: 'Eggplant',
@@ -84,7 +89,8 @@ export default {
                         'varieties': 23,
                         'research': 234,
                         'breeders': 45,
-                    }
+                    },
+                    route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Eggplant&geo_location_filter=region'
                 },
                 {
                     name: 'Rubber',
@@ -93,7 +99,8 @@ export default {
                         'varieties': 12,
                         'research': 123,
                         'breeders': 23,
-                    }
+                    },
+                    route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
                 }
             ]
         };
@@ -115,12 +122,14 @@ export default {
                 <arrow-right class="w-16 h-auto" @click="handleInfiniteScroll(null)" />
             </div>
             <template v-for="commodity in scrolledCommodities">
-                <div v-if="scrolledCommodities.indexOf(commodity) < maxDisplay" @wheel.prevent="handleInfiniteScroll($event)" :class="commodity.name === currentCommodity?'scale-110 mx-0 shadow-md brightness-100':'scale-90 mx-0 brightness-50'" class="bg-cbc-dark-green sm:min-w-[20vw] min-w-[10rem] text-gray-100 relative duration-300 z-10">
-                    <img :src="commodity.image" :alt="commodity.name" class="absolute inset-0 w-full h-full object-cover rounded" />
-                    <div class="relative z-10 flex items-center justify-center h-full drop-shadow shadow-lg text-xl font-bold">
-                        {{ commodity.name }}
-                    </div>
-                </div>
+                <transition-container>
+                    <Link :href="commodity.route" v-show="scrolledCommodities.indexOf(commodity) < maxDisplay" @wheel.prevent="handleInfiniteScroll($event)" :class="commodity.name === currentCommodity?'scale-110 mx-0 shadow-md brightness-100':'scale-90 mx-0 brightness-50'" class="bg-cbc-dark-green sm:min-w-[20vw] min-w-[10rem] text-gray-100 relative duration-300 z-10">
+                        <img :src="commodity.image" :alt="commodity.name" class="absolute inset-0 w-full h-full object-cover rounded" />
+                        <div class="relative z-10 flex items-center justify-center h-full drop-shadow shadow-lg text-xl font-bold">
+                            {{ commodity.name }}
+                        </div>
+                    </Link>
+                </transition-container>
             </template>
         </div>
         <div v-if="currentCommodityData" class="flex hidden flex-col justify-center text-gray-900 text-normal">

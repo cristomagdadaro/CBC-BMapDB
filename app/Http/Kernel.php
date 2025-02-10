@@ -6,6 +6,7 @@ use App\Http\Middleware\AdminAccess;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckApplicationStatus;
 use App\Http\Middleware\CheckBreedersMapStatus;
+use App\Http\Middleware\CheckPreLaunch;
 use App\Http\Middleware\CheckTwgDbStatus;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HandleInertiaRequests;
@@ -53,6 +54,7 @@ class Kernel extends HttpKernel
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
         LogApiRequests::class,
+        CheckPreLaunch::class,
     ];
 
     /**

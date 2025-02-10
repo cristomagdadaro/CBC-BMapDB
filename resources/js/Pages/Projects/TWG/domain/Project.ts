@@ -2,41 +2,41 @@ import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
 import IProject from "../interface/IProject";
 import IExpert from "../interface/IExpert";
 import DtoProject from "../dto/DtoProject";
+import IInstitute from "@/Modules/core/interface/auth/IInstitute";
 
 export default class Project extends BaseClass implements IProject{
     id: number;
     user_id: number;
-    twg_expert_id: number;
     title: string;
     objective: string;
     expected_output: string;
-    project_leader: string;
+    project_leader: IExpert;
     funding_agency: string;
     duration: string;
+    institution: number;
     status: string;
     created_at: string;
     updated_at: string;
     deleted_at: string;
 
-    expert: IExpert;
+    affiliated: IInstitute;
 
     constructor(params: DtoProject) {
         super(params);
 
         this.indexUri = 'api.twg.projects.index';
-        this.showUri = 'api.twg.projects..show';
+        this.showUri = 'api.twg.projects.show';
         this.storeUri = 'api.twg.projects.store';
         this.updateUri = 'api.twg.projects.update';
         this.destroyUri = 'api.twg.projects.destroy';
         this.multiDestroyUri = 'api.twg.projects.destroy.multi';
         this.summaryUri = 'api.twg.projects.summary';
 
-        this.appendWith = ['expert'];
+        this.appendWith = ['affiliated','projectLeader'];
     }
 
     static createForm() {
         return {
-            twg_expert_id: null,
             title: null,
             objective: null,
             expected_output: null,
@@ -48,13 +48,13 @@ export default class Project extends BaseClass implements IProject{
             updated_at: null,
             deleted_at: null,
             expert: null,
+            institution: null
         }
     }
 
     static updateForm(oldValue: Partial<Project>) {
         return {
             id: oldValue.id ?? null,
-            twg_expert_id: oldValue.twg_expert_id ?? null,
             title: oldValue.title ?? null,
             objective: oldValue.objective ?? null,
             expected_output: oldValue.expected_output ?? null,
@@ -65,7 +65,7 @@ export default class Project extends BaseClass implements IProject{
             created_at: oldValue.created_at ?? null,
             updated_at: oldValue.updated_at ?? null,
             deleted_at: oldValue.deleted_at ?? null,
-            expert: oldValue.expert ?? null,
+            institution: oldValue.institution ?? null,
         }
     }
 
@@ -80,17 +80,17 @@ export default class Project extends BaseClass implements IProject{
                 visible: false,
             },
             {
-                title: 'Expert ID',
-                key: 'twg_expert_id',
-                db_key: 'twg_expert_id',
+                title: 'Project Leader',
+                key: 'project_leader.name',
+                db_key: 'project_leader',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
-                title: 'Expert',
-                key: 'expert.name',
-                db_key: 'name',
+                title: 'Institute',
+                key: 'affiliated.name',
+                db_key: 'institution',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -115,14 +115,6 @@ export default class Project extends BaseClass implements IProject{
                 title: 'Expected Outputs',
                 key: 'expected_output',
                 db_key: 'expected_output',
-                align: 'center',
-                sortable: true,
-                visible: true,
-            },
-            {
-                title: 'Project Leader',
-                key: 'project_leader',
-                db_key: 'project_leader',
                 align: 'center',
                 sortable: true,
                 visible: true,

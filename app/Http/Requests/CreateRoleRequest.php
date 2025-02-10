@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRoleRequest extends FormRequest
@@ -17,13 +18,13 @@ class CreateRoleRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'label' => 'required|string|unique:roles,label',
-            'value' => 'required|string|unique:roles,value',
+            'name' => 'required|string|unique:roles,name',
+            'guard_name' => 'required|string',
         ];
     }
 }

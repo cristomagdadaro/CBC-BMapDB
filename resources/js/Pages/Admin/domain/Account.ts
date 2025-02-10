@@ -12,7 +12,8 @@ export default class AuthAccount extends DtoAccount
         this.updateUri = 'api.accounts.update';
         this.destroyUri = 'api.accounts.destroy';
 
-        this.appendWith = ['user', 'application'];
+        this.appendWith = ['user','application','role'];
+        this.appendCount = ['application'];
     }
 
     static createForm()
@@ -57,7 +58,7 @@ export default class AuthAccount extends DtoAccount
             {
                 title: 'User',
                 key: 'user.getFullName',
-                db_key: 'name',
+                db_key: 'user.name',
                 align: 'text-left',
                 sortable: false,
                 visible: true,
@@ -65,7 +66,7 @@ export default class AuthAccount extends DtoAccount
             {
                 title: 'Role',
                 key: 'user.getRole',
-                db_key: 'name',
+                db_key: 'role.name',
                 align: 'text-left',
                 sortable: false,
                 visible: true,
@@ -81,7 +82,7 @@ export default class AuthAccount extends DtoAccount
             {
                 title: 'Database App',
                 key: 'application.name',
-                db_key: 'name',
+                db_key: 'application.name',
                 align: 'text-center',
                 sortable: false,
                 visible: true,

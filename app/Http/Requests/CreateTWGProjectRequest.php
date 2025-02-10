@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\Permission;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateTWGProjectRequest extends FormRequest
@@ -15,19 +16,26 @@ class CreateTWGProjectRequest extends FormRequest
         return auth()->user()->hasPermissionTo(Permission::CREATE_TWG_PROJECT->value) || auth()->user()->isAdmin();
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'institution' => auth()->user()->affiliation,
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'twg_expert_id' => ['required', 'integer', 'exists:twg_expert,id'],
+            'institution' => ['required', 'exists:institutes,id'],
             'title' => ['required', 'string', 'max:255'],
             'objective' => ['required', 'string'],
             'expected_output' => ['required', 'string'],
-            'project_leader' => ['required', 'string'],
+            'project_leader' => ['required', 'exists:twg_expert,id'],
             'funding_agency' => ['required', 'string'],
             'duration' => ['required', 'string'],
             'status' => ['required', 'string'],

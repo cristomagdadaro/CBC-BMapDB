@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\Permission;
 use App\Models\TWGExpert;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTWGServiceRequest extends FormRequest
@@ -19,17 +20,17 @@ class UpdateTWGServiceRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'twg_expert_id' => ['required', 'integer', 'exists:'.((new TWGExpert())->getTableName()).',id'],
+            'institution' => ['required', 'exists:institutes,id'],
             'type' => ['required', 'string'],
             'purpose' => ['required', 'string'],
             'direct_beneficiaries' => ['nullable', 'string'],
             'indirect_beneficiaries' => ['nullable', 'string'],
-            'officer_in_charge' => ['required', 'string'],
+            'officer_in_charge' => ['required', 'exists:twg_expert,id'],
             'cost' => ['required'],
         ];
     }

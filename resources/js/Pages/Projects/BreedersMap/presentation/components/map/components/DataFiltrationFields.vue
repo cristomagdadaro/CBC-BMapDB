@@ -7,6 +7,7 @@ import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
 import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 export default {
     name: "DataFiltrationFields",
     components: {CloseIcon, SearchBy, SearchBox, LoaderIcon, CaretDown, CustomDropdown, CollapsableMenu},
@@ -24,13 +25,14 @@ export default {
     },
     created() {
         this.apiUrl = this.tables.length ? this.tables[0].route : null;
+
         this.filter =  {
             is_exact: true,
             filter: null,
             search: null,
             table_name: 'commodities',
-            commodity: null,
-            geo_location_filter: 'region',
+            commodity: this.params?.commodity,
+            geo_location_filter: this.params ? this.params.commodity: 'region',
             geo_location_value: null,
             filter_by_parent_column:  this.filter_by_parent_column,
             filter_by_parent_id: this.$page.props.commodity ? this.$page.props.commodity.id : null,
@@ -49,14 +51,6 @@ export default {
             if (this.filter.table_name === 'commodities')
                 return 'breeder_id';
             return null;
-        }
-    },
-    watch: {
-        params: {
-            handler(newVal) {
-                this.changeSearch(newVal.search);
-            },
-            deep: true,
         }
     },
 }

@@ -2,12 +2,13 @@
 
 namespace Database\Factories\Location;
 
+use App\Models\Location\City;
 use App\Models\Location\Province;
 use App\Models\Location\Region;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Location\City>
+ * @extends Factory<City>
  */
 class CityFactory extends Factory
 {

@@ -10,7 +10,7 @@ use App\Models\TWGProduct;
 use App\Models\TWGProject;
 use App\Models\TWGService;
 use App\Repository\API\UserRepo;
-use Illuminate\Support\Collection;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class TWGController extends BaseController
@@ -27,19 +27,19 @@ class TWGController extends BaseController
                     ->whereNull('twg_expert.deleted_at');
             })
             ->leftJoin('twg_product', function($join) {
-                $join->on('twg_expert.id', '=', 'twg_product.twg_expert_id')
+                $join->on('twg_expert.institution', '=', 'twg_product.institution')
                     ->whereNull('twg_product.deleted_at');
             })
             ->leftJoin('twg_service', function($join) {
-                $join->on('twg_expert.id', '=', 'twg_service.twg_expert_id')
+                $join->on('twg_expert.institution', '=', 'twg_service.institution')
                     ->whereNull('twg_service.deleted_at');
             })
             ->leftJoin('twg_project', function($join) {
-                $join->on('twg_expert.id', '=', 'twg_project.twg_expert_id')
+                $join->on('twg_expert.institution', '=', 'twg_project.institution')
                     ->whereNull('twg_project.deleted_at');
             })
             ->leftJoin('institutes', function($join) {
-                $join->on('institutes.id', '=', 'users.affiliation')
+                $join->on('institutes.id', '=', 'users.institution')
                     ->whereNull('institutes.deleted_at');
             })
             ->groupBy('users.affiliation')
@@ -61,7 +61,7 @@ class TWGController extends BaseController
                     'totalServices' => TWGService::all()->count(),
                     'typeServices' => TWGService::select('type', DB::raw('count(*) as total'))->groupBy('type')->get()->pluck('total', 'type'),
                     'topExperts' => TWGExpert::select('twg_expert.id', 'twg_expert.name', DB::raw('COUNT(twg_project.id) as project_count'))
-                        ->join('twg_project', 'twg_expert.id', '=', 'twg_project.twg_expert_id')
+                        ->join('twg_project', 'twg_expert.institution', '=', 'twg_project.institution')
                         ->groupBy('twg_expert.id', 'twg_expert.name')
                         ->orderByDesc('project_count')
                         ->limit(5)
@@ -78,7 +78,7 @@ class TWGController extends BaseController
 
                 // Get top 5 experts based on project count
                 $topExperts = TWGExpert::select('twg_expert.id', 'twg_expert.name', DB::raw('COUNT(twg_project.id) as project_count'))
-                    ->join('twg_project', 'twg_expert.id', '=', 'twg_project.twg_expert_id')
+                    ->join('twg_project', 'twg_expert.institution', '=', 'twg_project.institution')
                     ->groupBy('twg_expert.id', 'twg_expert.name')
                     ->orderByDesc('project_count')
                     ->limit(5)
@@ -105,7 +105,7 @@ class TWGController extends BaseController
                 ]]);
 
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }

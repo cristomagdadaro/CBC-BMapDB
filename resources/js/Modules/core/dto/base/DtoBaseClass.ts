@@ -1,5 +1,4 @@
 import IBaseClass from "../../interface/base/IBaseClass";
-import BaseClass from "../../domain/base/BaseClass";
 
 export default class DtoBaseClass extends Object implements IBaseClass {
     table?: string = null;
@@ -8,6 +7,10 @@ export default class DtoBaseClass extends Object implements IBaseClass {
         super();
         //@ts-ignore
         Object.assign(this, dto);
+    }
+
+    get tableName() {
+        return this.table;
     }
 
     get getFullName() {
@@ -22,6 +25,7 @@ export default class DtoBaseClass extends Object implements IBaseClass {
         //@ts-ignore
         return this.name || this.table || this.title;
     }
+
 
     /**
      * Get table name

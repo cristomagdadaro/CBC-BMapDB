@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Role extends BaseModel
 {
@@ -39,8 +40,8 @@ class Role extends BaseModel
         'unknown' => 'Unknown error, action failed.',
     ];
 
-    public function permissions()
+    public function permissions(): BelongsToMany
     {
-        return $this->belongsToMany(Permission::class, 'role_has_permissions');
+        return $this->belongsToMany(Permission::class, 'role_has_permissions', 'role_id', 'permission_id');
     }
 }

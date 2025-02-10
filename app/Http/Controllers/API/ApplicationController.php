@@ -6,12 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\CreateApplicationRequest;
 use App\Http\Requests\GetApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
-use App\Http\Resources\ApplicationCollection;
-use App\Http\Resources\BaseCollection;
-use App\Models\Application;
 use App\Repository\API\ApplicationRepo;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class ApplicationController extends BaseController
 {
@@ -36,7 +31,7 @@ class ApplicationController extends BaseController
         return parent::_store($request);
     }
 
-    public function update(UpdateApplicationRequest $request, $id)
+    public function update(UpdateApplicationRequest $request, int $id)
     {
         return parent::_update($request, $id);
     }

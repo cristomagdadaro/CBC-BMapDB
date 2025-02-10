@@ -8,10 +8,11 @@ export default {
         return {
             links: [
                 {name: 'What is PIN?', route: 'support.what-is-pin'},
+                {name: 'Virtual Tour', route: 'support.cbc-tour'},
                 {name: 'Terms of Use', route: 'support.terms-of-use'},
-                {name: 'Policy Notice', route: 'support.policy-notice'},
+                /*{name: 'Policy Notice', route: 'support.policy-notice'},*/
                 {name: 'Privacy Policy', route: 'support.privacy-policy'},
-                {name: 'Developers', route: 'support.developers'},
+                {name: 'Contributors', route: 'support.developers'},
                 {name: 'Sitemap', route: 'support.sitemap'},
             ]
         }

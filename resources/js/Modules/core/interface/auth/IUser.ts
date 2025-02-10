@@ -12,6 +12,7 @@ export default interface IUser {
     email: string;
     mobile_no?: string;
     email_verified_at?: string;
+    deleted_at?: string;
 
     roles?: IRole[];
     accounts?: IAccount[];

@@ -31,6 +31,10 @@ export default {
             type: String,
             default: null,
         },
+        disabled: {
+            type: Boolean,
+            default: false,
+        }
     },
     data() {
         return {
@@ -44,14 +48,14 @@ export default {
     },
     methods: {
         toggleDropdown() {
+            if (this.disabled) return;
             this.showDropdown = !this.showDropdown;
         },
-        async getOptionsFromApi(search = null, page = 1,) {
+        async getOptionsFromApi(search = null, page = 1) {
             this.fetchedResponse = await this.api.get({
                 ...(search ? { search } : {}),
                 per_page: 20,
                 page,
-                //...(this.modelValue ? { filter: 'id' } : {})
             });
             if (this.fetchedResponse instanceof BaseResponse){
                 if (this.fetchedResponse.data && this.fetchedResponse.data.length)
@@ -116,7 +120,8 @@ export default {
                 :label="label"
                 :error="$attrs.error"
                 :required="required"
-                :show-clear="true"
+                :show-clear="!disabled"
+                :disabled="disabled"
                 v-model="displayedInput"
                 :placeholder="placeholder"
                 @focusin="toggleDropdown()"

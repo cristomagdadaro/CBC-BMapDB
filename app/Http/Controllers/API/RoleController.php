@@ -3,18 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateRoleRequest;
-use App\Http\Requests\DeleteRoleRequest;
 use App\Http\Requests\GetRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\BaseCollection;
-use App\Http\Resources\RoleCollection;
-use App\Models\Role;
 use App\Repository\API\RoleRepo;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class RoleController extends BaseController
 {
@@ -25,34 +18,26 @@ class RoleController extends BaseController
 
     public function index(GetRoleRequest $request): BaseCollection
     {
-        $this->service->appendWith(['permissions']);
-        $data = $this->service->search(new Collection($request->validated()));
-        // remove the Admin role from the list
-        foreach ($data->items() as $key => $value) {
-            if ($value->name == \App\Enums\Role::ADMIN->value) {
-                unset($data[$key]);
-            }
-        }
-        return new BaseCollection($data);
+        return parent::_index($request);
     }
 
-    public function show($id)
+    public function show(GetRoleRequest $request, int $id)
     {
-        return  $this->service->find($id);
+        return parent::_show($request, $id);
     }
 
     public function store(CreateRoleRequest $request)
     {
-        return $this->service->create($request->validated());
+        return parent::_store($request);
     }
 
-    public function update(UpdateRoleRequest $request, $id)
+    public function update(UpdateRoleRequest $request, int $id)
     {
-        return $this->service->update($id, $request->validated());
+        return parent::_update($request, $id);
     }
 
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        return $this->service->delete($id);
+        return parent::_destroy($id);
     }
 }

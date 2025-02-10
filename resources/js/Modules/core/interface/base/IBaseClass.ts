@@ -10,4 +10,5 @@ export default interface IBaseClass {
     _updateUri?: string;
     _destroyUri?: string;
     _multiDestroyUri?: string;
+    _dataViewUri?: string;
 }

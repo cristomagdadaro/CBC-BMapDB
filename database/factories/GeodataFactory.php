@@ -2,10 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Breeder;
+use App\Models\Geodata;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Geodata>
+ * @extends Factory<Geodata>
  */
 class GeodataFactory extends Factory
 {
@@ -16,7 +18,7 @@ class GeodataFactory extends Factory
      */
     public function definition(): array
     {
-        $breeders = \App\Models\Breeder::pluck('id')->toArray();
+        $breeders = Breeder::pluck('id')->toArray();
 
 
         return [

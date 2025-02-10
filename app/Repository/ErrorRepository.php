@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use Exception;
-use Illuminate\Support\Collection;
 
 class ErrorRepository extends Exception
 {

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Commodity;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +13,6 @@ class CommoditySeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Commodity::factory()->count(100)->create();
+        Commodity::factory()->count(100)->create();
     }
 }

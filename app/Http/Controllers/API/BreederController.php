@@ -12,6 +12,7 @@ use App\Http\Requests\UpdateBreederRequest;
 use App\Http\Resources\BaseCollection;
 use App\Models\User;
 use App\Repository\API\BreederRepo;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class BreederController extends BaseController implements BreederControllerInter
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function store(CreateBreederRequest $request): JsonResponse
     {
@@ -75,7 +76,7 @@ class BreederController extends BaseController implements BreederControllerInter
             }
 
             return $result;
-        } catch (\Exception $e)
+        } catch (Exception $e)
         {
             DB::rollBack();
             throw $e;

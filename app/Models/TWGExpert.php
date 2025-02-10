@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TWGExpert extends BaseModel
@@ -16,6 +18,7 @@ class TWGExpert extends BaseModel
         'name',
         'position',
         'educ_level',
+        'institution',
         'expertise',
         'research_interest',
         'mobile',
@@ -37,6 +40,7 @@ class TWGExpert extends BaseModel
         'research_interest',
         'mobile',
         'email',
+        'institution',
         'twg_expert.created_at',
         'twg_expert.updated_at',
         'twg_expert.deleted_at',
@@ -53,18 +57,18 @@ class TWGExpert extends BaseModel
         'unknown' => 'Unknown error, action failed.',
     ];
 
-    public function projects()
+    public function user(): BelongsTo
     {
-        return $this->hasMany(TWGProject::class, 'twg_expert_id','id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function products()
+    public function affiliated(): BelongsTo
     {
-        return $this->hasMany(TWGProduct::class, 'twg_expert_id','id');
+        return $this->belongsTo(Institute::class, 'institution', 'id');
     }
 
-    public function services()
+    public function projects(): HasMany
     {
-        return $this->hasMany(TWGService::class,'twg_expert_id','id');
+        return $this->hasMany(TWGProject::class);
     }
 }

@@ -62,7 +62,6 @@ export default class ApiService implements IApiService
                     }
                 }
             }
-
             return new BaseResponse(response);
         } catch (error) {
             return this.determineError(error);
@@ -74,15 +73,15 @@ export default class ApiService implements IApiService
     async show(id, params = {}, model = undefined)
     {
         try {
-                this._processing = true;
-                const response = await axios.get(route(this.baseUrl, id), {
-                    params: {
-                        ...params,
-                        ...(model?.appendWith && Array.isArray(model.appendWith) ? {with: model.appendWith.toString()} : {}),
-                        ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
-                    }
-                });
-
+            this._processing = true;
+            const response = await axios.get(route(this.baseUrl, id), {
+                params: {
+                    ...params,
+                    ...(model?.appendWith && Array.isArray(model.appendWith) ? {with: model.appendWith.toString()} : {}),
+                    ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
+                }
+            });
+            console.log(response.data);
             if (model) {
                 if (response && response.data && response.data.data) {
                     response.data.data = new model(response.data.data);
@@ -114,7 +113,12 @@ export default class ApiService implements IApiService
     {
         try {
             this._processing = true;
-            const response = await axios.put(this.baseUrl + '/' + data.id, data);
+            let response = null;
+
+            if (data.id)
+                response = await axios.put(this.baseUrl + '/' + data.id, data);
+            else
+                response = await axios.put(this.baseUrl, data)
             return new BaseResponse(response);
         } catch (error) {
             return this.determineError(error);

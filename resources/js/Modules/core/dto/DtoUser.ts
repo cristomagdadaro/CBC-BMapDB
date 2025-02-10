@@ -7,8 +7,6 @@ import DtoRole from "./DtoRole";
 import DtoAccount from "./DtoAccount";
 import DtoPermission from "./DtoPermission";
 import DtoInstitute from "./DtoInstitute";
-import User from "../../../Modules/core/domain/auth/User";
-import {usePage} from "@inertiajs/vue3";
 
 export default class DtoUser extends BaseClass implements IUser {
     id?: number = null;
@@ -19,6 +17,7 @@ export default class DtoUser extends BaseClass implements IUser {
     email: string = null;
     mobile_no: string = null;
     email_verified_at: string = null;
+    deleted_at: string = null;
 
     roles?: IRole[] = [];
     accounts?: IAccount[] = [];
@@ -40,6 +39,7 @@ export default class DtoUser extends BaseClass implements IUser {
         this.affiliated = dto.affiliated;
         this.mobile_no = dto.mobile_no;
         this.email_verified_at = dto.email_verified_at;
+        this.deleted_at = dto.deleted_at ? 'Deleted' : 'Active';
 
         if (dto.password)
         {

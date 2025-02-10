@@ -28,6 +28,7 @@ export default {
         },
         removeDateNow() {
             this.form.approved_at = null;
+            this.form.roles = null;
         },
         getPermissions() {
             const service = new ApiService(route('api.permissions.index'));
@@ -60,12 +61,21 @@ export default {
                 if (this.checkUserPermission(permissionId)) {
                     this.form.permissions = this.form.permissions.filter(permission => permission !== permissionId);
                 }
+
+                // automatically approve user when custom permussion is selected
+                if (!this.permissionsList.length)
+                    this.dateNow();
             } else {
                 if (this.permissionsList.includes(permissionId) && !this.form.permissions.includes(-permissionId)) {
                     this.form.permissions.push(-permissionId);
                 }
 
                 this.form.permissions = this.form.permissions.filter(permission => permission !== permissionId);
+
+                // Remove approval date if no role is selected & no custom permissions
+                if (!this.form?.role?.length && !this.permissionsList.length && !this.form?.permissions?.length) {
+                    this.removeDateNow();
+                }
             }
         },
         checkBoxRoleChange(event, roleId) {
@@ -87,6 +97,10 @@ export default {
                 if (this.roleIdList.includes(roleId)) {
                     this.form.role = this.form.role.filter(role => role !== roleId);
                 }
+
+                // automatically approve user when role is selected
+                if (!this.roleIdList.length)
+                    this.dateNow();
             } else {
                 // If `roleId` exists in `roleIdList`, add `-roleId` (negative value)
                 if (this.roleIdList.includes(roleId) && !this.form.role.includes(-roleId)) {
@@ -95,6 +109,11 @@ export default {
 
                 // Remove `roleId` (positive) if it exists
                 this.form.role = this.form.role.filter(role => role !== roleId);
+
+                // Remove approval date if no role is selected & no custom permissions
+                if (!this.form?.role?.length && !this.form?.permissions?.length) {
+                    this.removeDateNow();
+                }
             }
         },
         checkPermission(permissionId) {
@@ -115,7 +134,9 @@ export default {
             return this.roles.find(role => role.id === this.form.role);
         },
         roleIdList() {
-            return this.form.user.roleList.map(role => role.id);
+            if (this.form.approved_at)
+                return this.form.user.roleList.map(role => role.id);
+            return [];
         },
         permissionsList() {
             // Combine userPermissionsList and rolePermissionsList into one array and map to permission IDs
@@ -136,19 +157,6 @@ export default {
             Approve User Account
         </template>
         <template v-slot:formFields>
-            <!--      Temporary delete, this allow user to assigned new user to an account or new account to a user          -->
-            <!--   <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-
-             <select-search-field :api-link="route('api.users.index')" :error="getError('user_id')" label="User" v-model="form.user_id" required />
-                <select-search-field :api-link="route('api.applications.index')" :error="getError('app_id')" label="App" v-model="form.app_id" required />
-            </div>-->
-
-<!--            <div v-if="!form.approved_at" class="p-2 my-2 rounded-md">
-                Take this action with caution. This will approve the user account and grant access to the application.
-            </div>
-            <div v-else class="p-2 my-2 rounded-md">
-                Take this action with caution. This will remove the user's access to the application.
-            </div>-->
             <div class="flex flex-col gap-2">
                 <div class="flex flex-col items-center bg-cbc-dark-green p-1 py-2 rounded text-gray-100">
                     <span class="font-semibold text-lg">

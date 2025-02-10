@@ -2,6 +2,8 @@
 
 namespace App\Actions\Fortify;
 
+use App\Enums\DefaultPassword;
+use App\Http\Requests\CreateBreederRequest;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
@@ -30,6 +32,19 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
+        }
+
+        // when user changes affiliation, add them as a breeder to the new agency. Don't remove them from the previous agency since it will make the data inconsistent.
+        if ($user->isBreeder()) {
+            // get the breeder model
+            $model = $user->breeder()->getModel();
+            // check if the user is already a breeder in the institution
+            $temp = $model->where('user_id', $user->id)->where('affiliation', $input['affiliation']);
+
+            if (!$temp->count()) {
+                Validator::make($input, (new CreateBreederRequest())->rules())->validateWithBag('updateProfileInformation');
+                $user->makeBreeder($input->all(), $user->breeder()->first());
+            }
         }
 
         if ($input['email'] !== $user->email &&

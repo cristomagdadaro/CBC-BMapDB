@@ -6,17 +6,16 @@ use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\InstituteController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\TWGController;
-use App\Http\Controllers\CityProvRegController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
-use App\Http\Requests\GetBreederRequest;
 use App\Mail\UserInvitationEmail;
 use App\Models\Breeder;
 use App\Models\Commodity;
 use App\Models\TWGExpert;
+use App\Models\User;
 use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\App;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -95,8 +94,9 @@ Route::prefix('/api/public')->group(function () {
 
 Route::prefix('/support-info')->group(function () {
     Route::get('/what-is-pin', [SupportInfoController::class, 'whatIsPIN'])->name('support.what-is-pin');
+    Route::get('/cbc-tour', [SupportInfoController::class, 'cbcTour'])->name('support.cbc-tour');
     Route::get('/terms-of-use', [SupportInfoController::class, 'termsOfUse'])->name('support.terms-of-use');
-    Route::get('/policy-notice', [SupportInfoController::class, 'policyNotice'])->name('support.policy-notice');
+    //Route::get('/policy-notice', [SupportInfoController::class, 'policyNotice'])->name('support.policy-notice');
     Route::get('/privacy-policy', [SupportInfoController::class, 'privacyPolicy'])->name('support.privacy-policy');
     Route::get('/sitemap', [SupportInfoController::class, 'sitemap'])->name('support.sitemap');
     Route::get('/developers', [SupportInfoController::class, 'developers'])->name('support.developers');
@@ -118,11 +118,13 @@ Route::prefix('/projects')->group(function () {
         Route::get('/twg-db', [TWGController::class, 'index'])->name('api.twg.summary.public');
     });
 
-    Route::get('/breedersmap-db/{any?}', function (){
+    Route::get('/breedersmap-db', function (Request $request) {
         return Inertia::render('Projects/BreedersMap/presentation/BreedersMapPublic', [
             'breadcrumbs' => [['label' => 'Home', 'to' => '/']],
+            'params' => $request->all(),
         ]);
     })->name('projects.breedersmap.public');
+
 });
 
 
@@ -140,7 +142,7 @@ Route::middleware([
 
         Route::get('/users/{id}', function ($id) {
             return Inertia::render('Admin/components/NewUser/ViewUserAccount', [
-                'view' => \App\Models\User::with(['accounts', 'roles', 'permissions'])->findOrFail($id),
+                'view' => User::with(['accounts', 'roles', 'permissions'])->findOrFail($id),
                 'breadcrumbs' => [['label' => 'Users', 'to' => '/administrator/users']],
             ]);
         })->name('administrator.user.view');
@@ -193,6 +195,10 @@ Route::middleware([
                     'breadcrumbs' => [['label' => 'Commodities', 'to' => route('projects.breedersmap.index')]],
                 ]);
             })->name('breedersmap.commodity.view');
+
+            Route::get('/settings', function () {
+                return Inertia::render('Projects/BreedersMap/presentation/components/misc/BmSettings');
+            })->name('projects.breedersmap.settings');
         });
     });
 });

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\DefaultPassword;
 use App\Enums\Role as RoleEnum;
 use App\Notifications\FocalPersonInvitationToBreederEmail;
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -88,6 +90,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'mobile_no',
         'affiliation',
         'email_verified_at',
+        'deleted_at'
     ];
 
     protected array $notifMessage = [
@@ -116,6 +119,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Breeder::class, 'user_id', 'id');
     }
 
+    public function makeBreeder(array $request, $olderBreeder): Model
+    {
+        return $this->breeder()->getModel()->create(
+            array_merge(
+                $request, // Ensure request is an array
+                [
+                    'user_id' => $this->id,
+                    'password' => bcrypt(DefaultPassword::Value->value),
+                    'password_confirmation' => bcrypt(DefaultPassword::Value->value),
+                    'geolocation' => optional($olderBreeder->affiliated()->getModel()->city())->select('id')->get(),
+                ]
+            )
+        );
+    }
+
     public function twgexpert(): HasMany
     {
         return $this->hasMany(TWGExpert::class, 'user_id', 'id');
@@ -123,22 +141,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function accountFor(): HasMany
     {
-        return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application');
+        return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application:id,name,url,status');
     }
 
     public function accounts(): HasMany
     {
-        return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application');
+        return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNotNull('approved_at')->with('application:id,name,url,status');
     }
 
     public function accountsPending(): HasMany
     {
-        return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNull('approved_at')->with('application');
+        return $this->hasMany(Accounts::class, 'user_id', 'id')->whereNull('approved_at')->with('application:id,name,url,status');
     }
 
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id')->with('permissions');
+        return $this->belongsToMany(Role::class, 'model_has_roles', 'model_id', 'role_id')->with('permissions:id,name');
     }
 
     public function getSearchable(): array
@@ -158,17 +176,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin(): bool
     {
-        return $this->hasRole(\App\Enums\Role::ADMIN->value);
+        return $this->hasRole(RoleEnum::ADMIN->value);
     }
 
     public function isBreeder(): bool
     {
-        return $this->hasRole(\App\Enums\Role::BREEDER->value);
+        return $this->hasRole(RoleEnum::BREEDER->value);
     }
 
     public function isResearcher(): bool
     {
-        return $this->hasRole(\App\Enums\Role::RESEARCHER->value);
+        return $this->hasRole(RoleEnum::RESEARCHER->value);
     }
 
     public function approve(int | array $id = null): void

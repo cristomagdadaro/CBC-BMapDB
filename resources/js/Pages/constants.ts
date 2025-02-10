@@ -46,6 +46,8 @@ export const CBCProjectsPublic = [
         route_public: window.AppConfig.applications['BREEDERS_MAP'].route_public,
         //@ts-ignore
         description: window.AppConfig.applications['BREEDERS_MAP'].description,
+        //@ts-ignore
+        logo: window.AppConfig.applications['BREEDERS_MAP'].logo,
     },
     {
         id: 2,
@@ -57,6 +59,8 @@ export const CBCProjectsPublic = [
         route_public: window.AppConfig.applications['TWG_DATABASE'].route_public,
         //@ts-ignore
         description: window.AppConfig.applications['TWG_DATABASE'].description,
+        //@ts-ignore
+        logo: window.AppConfig.applications['TWG_DATABASE'].logo,
     },
 ]
 

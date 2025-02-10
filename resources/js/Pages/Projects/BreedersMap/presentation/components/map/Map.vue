@@ -312,6 +312,7 @@ export default {
                     @tableChange="dataFiltrationUrl = $event"
                     @dataRefreshed="dataFiltration = $event"
                     @processingRequest="processingRequest"
+                    :params="params"
                 />
             </template>
         </div>
@@ -359,7 +360,7 @@ export default {
                         :radius="5"
                         :color="determinePointColor(place.name)"
                         :weight="1"
-                        @click="selectPoint(place)"
+                        @click="selectPoint(place); mapApi.sidebarVisible = true;"
                     >
                         <l-tooltip :content="place.name" />
                     </l-circle-marker>
@@ -393,7 +394,7 @@ export default {
             <table v-if="newData">
                 <thead>
                     <tr>
-                        <template v-for="column in mapApi.model.getColumns()">
+                        <template v-for="column in mapApi.model.getCardColumns()">
                             <th v-if="column.visible" :key="column.db_key">{{ column.title }}</th>
                         </template>
                     </tr>

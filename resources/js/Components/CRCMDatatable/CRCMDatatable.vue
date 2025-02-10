@@ -505,7 +505,7 @@ export default {
         },
         checkIfDataIsLoaded() {
             return !!this.dt.response && !!this.dt.response['meta'] && !!this.dt.response['data'];
-        }
+        },
     },
     methods: {
         dataValue(label) {
@@ -545,16 +545,6 @@ export default {
             this.showDeleteDialog = true;
             this.toDeleteId = id;
         },
-        showViewDialogFunc(id) {
-            if (typeof this.viewForm == "object"){
-                console.log("Object is passed, not yet implemented. Try passing a route name.");
-            }
-            else if (typeof this.viewForm == "string") {
-                router.get(route(this.viewForm, id));
-            } else {
-                alert("None is given");
-            }
-        },
         async showEditDialogFunc(id) {
             this.showModal = true;
             this.showEditDialog = true;
@@ -581,7 +571,7 @@ export default {
             this.dt = new CRCMDatatable(this.baseUrl, this.params, this.baseModel);
             //await this.dt.init();
             //the same as above, to initialize the table and the width of goto page field
-            this.$nextTick(() => {
+            await this.$nextTick(() => {
                 const input = this.$refs.input;
                 if (input) {
                     this.inputWidth = input.scrollWidth;

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TWGService extends BaseModel
@@ -13,7 +14,7 @@ class TWGService extends BaseModel
 
     protected $fillable = [
         'user_id',
-        'twg_expert_id',
+        'institution',
         'type',
         'purpose',
         'direct_beneficiaries',
@@ -25,7 +26,7 @@ class TWGService extends BaseModel
     protected array $searchable = [
         'id',
         'user_id',
-        'twg_expert_id',
+        'institution',
         'type',
         'purpose',
         'direct_beneficiaries',
@@ -48,8 +49,18 @@ class TWGService extends BaseModel
         'unknown' => 'Unknown error, action failed.',
     ];
 
-    public function expert()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(TWGExpert::class, 'twg_expert_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function affiliated(): BelongsTo
+    {
+        return $this->belongsTo(Institute::class, 'institution', 'id');
+    }
+
+    public function officerInCharge()
+    {
+        return $this->belongsTo(TWGExpert::class, 'officer_in_charge', 'id');
     }
 }

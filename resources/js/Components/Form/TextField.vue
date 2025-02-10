@@ -25,6 +25,10 @@ defineProps({
         type: Boolean,
         default: true,
     },
+    disabled: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 defineEmits(['update:modelValue']);
@@ -55,6 +59,7 @@ defineExpose({ focus: () => input.value.focus() });
                    :type="showPassword? 'text':'password'"
                    ref="input"
                    @change="error=null"
+                   :disabled="disabled"
                    class="border-0 w-full rounded-md text-gray-900 focus:ring-0 overflow-ellipsis"
                    :value="modelValue"
                    @input="$emit('update:modelValue', $event.target.value)"
@@ -69,6 +74,7 @@ defineExpose({ focus: () => input.value.focus() });
                    :type="typeInput"
                    ref="input"
                    @change="error=null"
+                   :disabled="disabled"
                    class="border-0 w-full rounded-md text-gray-900 focus:ring-0 overflow-ellipsis"
                    :value="modelValue"
                    @input="$emit('update:modelValue', $event.target.value)"
@@ -81,6 +87,7 @@ defineExpose({ focus: () => input.value.focus() });
         :id="id"
         id="id"
         ref="input"
+        :disabled="disabled"
         class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm h-fit-content"
         :value="modelValue"
         @input="$emit('update:modelValue', $event.target.value)">

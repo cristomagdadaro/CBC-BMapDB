@@ -23,7 +23,7 @@ export default {
                     route: { name: 'administrator.approved-accounts' },
                 },{
                     name: "tab3",
-                    label: "Applications",
+                    label: "System",
                     active: false,
                     route: { name: 'administrator.applications' },
                 },

@@ -68,19 +68,19 @@ export default {
                     leaveTo: "opacity-0"
                 },
                 "pop-in": {
-                    enterActive: "transition ease-out duration-200",
+                    enterActive: "transition ease-out duration-500",
                     enterFrom: "transform scale-90 opacity-0",
                     enterTo: "transform scale-100 opacity-100",
-                    leaveActive: "transition ease-in duration-75",
+                    leaveActive: "transition ease-in duration-500",
                     leaveFrom: "transform scale-100 opacity-100",
                     leaveTo: "transform scale-90 opacity-0"
                 },
                 "pop-out": {
-                    enterActive: "transition ease-out duration-200",
+                    enterActive: "transition ease-out duration-500",
                     enterFrom: "transform scale-110 opacity-0",
                     enterTo: "transform scale-100 opacity-100",
                     leaveActive: "transition ease-in duration-75",
-                    leaveFrom: "transform scale-100 opacity-100",
+                    leaveFrom: "transform scale-100 opacity-500",
                     leaveTo: "transform scale-110 opacity-0"
                 }
             },

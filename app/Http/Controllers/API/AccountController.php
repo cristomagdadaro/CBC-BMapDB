@@ -7,10 +7,8 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\GetAccountForRequest;
 use App\Http\Requests\UpdateAccountRequest;
-use App\Http\Resources\BaseCollection;
 use App\Models\User;
 use App\Repository\API\AccountsRepo;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Validation\ValidationException;
@@ -48,9 +46,9 @@ class AccountController extends BaseController
         $data = $this->service->update($id, $validatedData);
 
         // Retrieve the updated user and app
-        $user = User::find($validatedData['user_id']);
-        $appId = $validatedData['app_id'];
-        $approvedAt = $validatedData['approved_at']; // Get the approved_at value
+        $user = User::find($validatedData['user_id']) ?? null;
+        $appId = $validatedData['app_id'] ?? null;
+        $approvedAt = $validatedData['approved_at'] ?? null; // Get the approved_at value
         $permissionIds = $validatedData['permissions'] ?? [];
         $roles = $validatedData['role'] ?? [];
 

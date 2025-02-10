@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('twg_project', function (Blueprint $table){
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('twg_expert_id')->nullable()->constrained('twg_expert');
-            $table->string('title', 255)->nullable();
+            $table->foreignId('institution')->nullable()->constrained('institutes')->nullOnDelete();
+            $table->text('title')->nullable();
             $table->longText('objective')->nullable();
-            $table->string('expected_output', 255)->nullable();
-            $table->string('project_leader', 255)->nullable();
+            $table->text('expected_output')->nullable();
+            $table->text('project_leader')->nullable();
             $table->string('funding_agency', 255)->nullable();
             $table->string('duration', 255)->nullable();
             $table->enum('status', ['Active', 'Completed', 'Cancelled', 'On Hold'])->default('Active');

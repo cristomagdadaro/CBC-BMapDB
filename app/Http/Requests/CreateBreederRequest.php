@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Enums\Permission;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Laravel\Fortify\Rules\Password;
 
@@ -20,7 +21,7 @@ class CreateBreederRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
@@ -30,7 +31,7 @@ class CreateBreederRequest extends FormRequest
             'mname' => ['nullable', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
-            'mobile_no' =>  ['nullable', 'string', 'unique:users', 'max:255'],
+            'mobile_no' =>  ['nullable', 'string', 'max:255'],
             'email' => [
                 'required',
                 'email',

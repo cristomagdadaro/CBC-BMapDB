@@ -4,9 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\GetInstituteRequest;
-use App\Http\Resources\BaseCollection;
 use App\Repository\API\InstituteRepo;
-use Illuminate\Support\Collection;
 
 class InstituteController extends BaseController
 {
@@ -17,13 +15,11 @@ class InstituteController extends BaseController
 
     public function index(GetInstituteRequest $request)
     {
-        $this->service->appendWith(['city']);
-        $data = $this->service->search(new Collection($request->validated()));
-        return new BaseCollection($data);
+        return parent::_index($request);
     }
 
-    public function show($id)
+    public function show(GetInstituteRequest $request, int $id)
     {
-        return $this->service->find($id);
+        return parent::_show( $request, $id);
     }
 }

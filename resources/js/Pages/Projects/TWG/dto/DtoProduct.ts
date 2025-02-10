@@ -1,26 +1,26 @@
 import IProduct from "../interface/IProduct";
 import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
-import IExpert from "../interface/IExpert";
-import Expert from "../domain/Expert";
+import IInstitute from "@/Modules/core/interface/auth/IInstitute";
+import DtoInstitute from "@/Modules/core/dto/DtoInstitute";
 
 export default class DtoProduct extends BaseClass implements IProduct {
     id: number;
     user_id: number;
-    twg_expert_id: number;
     name: string;
     brand: string;
     purpose: string;
     cost: number;
+    institution: number;
     created_at: string;
     updated_at: string;
     deleted_at: string;
-    expert: IExpert;
+
+    affiliated: IInstitute;
 
     constructor(product: IProduct) {
         super();
         this.table = 'products';
         this.id = product.id;
-        this.twg_expert_id = product.twg_expert_id;
         this.name = product.name;
         this.brand = product.brand;
         this.purpose = product.purpose;
@@ -28,9 +28,8 @@ export default class DtoProduct extends BaseClass implements IProduct {
         this.created_at = product.created_at;
         this.updated_at = product.updated_at;
         this.deleted_at = product.deleted_at;
+        this.institution = product.institution;
 
-        if (product.expert)
-        //@ts-ignore
-        this.expert = new Expert(product.expert);
+        this.affiliated = new DtoInstitute(product?.affiliated);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Actions\Fortify\PasswordValidationRules;
 use App\Enums\Permission;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Rules\Password;
@@ -22,7 +23,7 @@ class UpdateBreederRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {

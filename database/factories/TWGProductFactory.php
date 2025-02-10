@@ -2,12 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\Institute;
 use App\Models\TWGExpert;
+use App\Models\TWGProduct;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TWGProduct>
+ * @extends Factory<TWGProduct>
  */
 class TWGProductFactory extends Factory
 {
@@ -22,7 +24,7 @@ class TWGProductFactory extends Factory
         $users = User::all();
         return [
             'user_id' => $users->random()->id,
-            'twg_expert_id' => $expert->id,
+            'institution' => Institute::all()->random()->id,
             'name' => $this->faker->name,
             'brand' => $this->faker->name,
             'purpose' => $this->faker->name,

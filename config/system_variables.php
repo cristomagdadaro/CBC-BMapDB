@@ -1,53 +1,38 @@
 <?php
 
 use App\Enums\Applications;
-use App\Enums\SystemVariable;
+use App\Enums\DataViews;
+use App\Enums\Role;
 
 return [
     'applications' => [
-        Applications::BREEDERS_MAP->name => [
-            'name' => Applications::BREEDERS_MAP->value,
-            'route' => Applications::BREEDERS_MAP_ROUTE->value,
-            'route_public' => Applications::BREEDERS_MAP_ROUTE_PUBLIC->value,
-            'description' => Applications::BREEDERS_MAP_DESC->value,
-        ],
         Applications::TWG_DATABASE->name => [
             'name' => Applications::TWG_DATABASE->value,
             'route' => Applications::TWG_DATABASE_ROUTE->value,
             'route_public' => Applications::TWG_DATABASE_ROUTE_PUBLIC->value,
             'description' => Applications::TWG_DATABASE_DESC->value,
+            'logo' => Applications::TWG_DATABASE_LOGO->value,
+        ],
+        Applications::BREEDERS_MAP->name => [
+            'name' => Applications::BREEDERS_MAP->value,
+            'route' => Applications::BREEDERS_MAP_ROUTE->value,
+            'route_public' => Applications::BREEDERS_MAP_ROUTE_PUBLIC->value,
+            'description' => Applications::BREEDERS_MAP_DESC->value,
+            'logo' => Applications::BREEDERS_MAP_LOGO->value,
         ],
     ],
-    'access_levels' => [
-        SystemVariable::ADMIN->value,
-        SystemVariable::USER->value,
-        SystemVariable::PUBLIC->value,
+    'dataview_guards' => [
+        DataViews::PUBLIC->value,
+        DataViews::ONLYME->value,
+        DataViews::INSTITUTIONAL->value,
+        DataViews::SYSTEM->value
     ],
-    'permissions' => [
-        SystemVariable::CREATE->value => [
-            'roles' => [
-                SystemVariable::ADMIN->value,
-                SystemVariable::USER->value,
-            ],
-        ],
-        SystemVariable::READ->value => [
-            'roles' => [
-                SystemVariable::ADMIN->value,
-                SystemVariable::USER->value,
-                SystemVariable::PUBLIC->value,
-            ],
-        ],
-        SystemVariable::UPDATE->value => [
-            'roles' => [
-                SystemVariable::ADMIN->value,
-                SystemVariable::USER->value,
-            ],
-        ],
-        SystemVariable::DELETE->value => [
-            'roles' => [
-                SystemVariable::ADMIN->value,
-            ],
-        ]
+    'roles' => [
+        Role::ADMIN->value,
+        Role::BREEDER->value,
+        Role::FOCAL_PERSON->value,
+        Role::TWG_ADMIN->value,
+        Role::RESEARCHER->value,
     ],
     'paginate_parameters' => [
         'page' => 'sometimes|integer|min:1',
@@ -59,6 +44,9 @@ return [
         'is_exact' => 'sometimes|string|in:true,false',
     ],
     'filtering_parameters' => [
+        'not' => 'sometimes|string',
+        'exact' => 'sometimes|string',
+        'or' => 'sometimes|string',
         'geo_location_filter' => 'sometimes|string|in:region,province,city,affiliation',
         'geo_location_value' => 'sometimes|string',
         'is_exact' => 'sometimes|string|in:true,false',

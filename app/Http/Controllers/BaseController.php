@@ -6,7 +6,6 @@ use App\Http\Resources\BaseCollection;
 use App\Repository\AbstractRepoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
 
 abstract class BaseController extends Controller
 {
@@ -24,11 +23,11 @@ abstract class BaseController extends Controller
         $count = $request->toArray()['count'] ?? null;
 
         if ($with)
-            $this->service->appendWith(explode(',',$with));
+            $this->service->appendWith = explode(',',$with);
         if ($count)
-            $this->service->appendCount(explode(',',$count));
+            $this->service->appendCount = explode(',',$count);
 
-        return $this->sendResponse($this->service->find($id));
+        return $this->sendResponse($this->service->find($id, $request->collect()));
     }
 
     public function _store($request): JsonResponse

@@ -12,6 +12,7 @@ export default class Breeder extends DtoBreeder{
         this.destroyUri = 'api.breeders.destroy';
         this.multiDestroyUri = 'api.breeders.destroy.multi';
         this.summaryUri = 'api.breeders.summary';
+        this.dataViewUri =  'api.dataview.show';
 
         this.appendWith = ['affiliated','location'];
         this.appendCount = ['commodities'] ;
@@ -53,6 +54,77 @@ export default class Breeder extends DtoBreeder{
         }
     }
 
+    static getCardColumns() {
+        return [
+            {
+                title: 'ID',
+                key: 'id',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'User ID',
+                key: 'user_id',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Name',
+                key: 'getFullName',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Affiliation',
+                key: 'affiliated.name',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Phone',
+                key: 'mobile_no',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Email',
+                key: 'email',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Commodities',
+                key: 'commoditiesCount',
+                align: 'text-center',
+                visible: true,
+            },
+            {
+                title: 'Address',
+                key: 'location.getFullAddress',
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Updated At',
+                key: 'updated_at',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Created At',
+                key: 'created_at',
+                align: 'center',
+                visible: false,
+            },
+            {
+                title: 'Deleted At',
+                key: 'deleted_at',
+                align: 'center',
+                visible: false,
+            },
+        ];
+    }
+
     static getColumns() {
         return [
             {
@@ -74,7 +146,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Name',
                 key: 'getFullName',
-                db_key: 'fname',
+                db_key: 'name',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -107,7 +179,7 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Commodities',
                 key: 'commoditiesCount',
-                db_key: 'commodities_count',
+                db_key: 'commodities.count',
                 align: 'text-center',
                 sortable: true,
                 visible: true,

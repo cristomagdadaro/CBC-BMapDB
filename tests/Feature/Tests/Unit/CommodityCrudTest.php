@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use App\Models\Breeder;
+use App\Models\Commodity;
 use Tests\Feature\BaseTest;
 use Tests\TestCase;
 
@@ -44,7 +46,7 @@ class CommodityCrudTest extends BaseTest
      */
     public function create_a_commodity(): void
     {
-        $breeder = \App\Models\Breeder::factory()->create();
+        $breeder = Breeder::factory()->create();
 
         $response = $this->postJson('/api/commodities', [
             'name' => 'Test',
@@ -79,7 +81,7 @@ class CommodityCrudTest extends BaseTest
      */
     public function create_a_commodity_with_existing_name(): void
     {
-        $commodity = \App\Models\Commodity::factory()->create();
+        $commodity = Commodity::factory()->create();
 
         $response = $this->postJson('/api/commodities', $commodity->toArray());
 
@@ -92,7 +94,7 @@ class CommodityCrudTest extends BaseTest
      */
     public function update_a_commodity(): void
     {
-        $commodity = \App\Models\Commodity::factory()->create();
+        $commodity = Commodity::factory()->create();
 
         $response = $this->putJson('/api/commodities/'.$commodity->id, [
             'name' => 'Test',
@@ -127,8 +129,8 @@ class CommodityCrudTest extends BaseTest
      */
     public function update_a_commodity_with_existing_name(): void
     {
-        $commodity = \App\Models\Commodity::factory()->create();
-        $com = \App\Models\Commodity::factory()->create();
+        $commodity = Commodity::factory()->create();
+        $com = Commodity::factory()->create();
         $response = $this->putJson('/api/commodities/'.$commodity->id, [
             'name' => $com->name,
             'variety' => 'test',
@@ -150,7 +152,7 @@ class CommodityCrudTest extends BaseTest
      */
     public function delete_a_commodity(): void
     {
-        $commodity = \App\Models\Commodity::factory()->create();
+        $commodity = Commodity::factory()->create();
 
         $response = $this->deleteJson('/api/commodities/'.$commodity->id);
 

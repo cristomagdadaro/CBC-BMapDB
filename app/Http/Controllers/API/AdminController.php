@@ -80,7 +80,9 @@ class AdminController extends BaseController
 
     public function destroy(int $id)
     {
-        return parent::_destroy($id);
+        $response = parent::_destroy($id);
+        Accounts::where('user_id', $id)->delete();
+        return $response;
     }
 
     public function multiDestroy(DeleteUserRequest $request)
