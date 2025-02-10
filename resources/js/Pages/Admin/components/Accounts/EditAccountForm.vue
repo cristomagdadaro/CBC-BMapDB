@@ -152,7 +152,7 @@ export default {
 </script>
 
 <template>
-    <base-edit-form :form="form" v-if="form.user" :forceClose="forceClose" @resetForm="resetForm">
+    <base-edit-form :form="form" v-if="form.user" :forceClose="forceClose" @resetForm="resetForm" >
         <template v-slot:formTitle>
             Approve User Account
         </template>
@@ -185,7 +185,7 @@ export default {
                 </p>
                 <div class="flex flex-col gap-1">
                     <template v-for="role in roles">
-                        <ul class="flex items-center gap-1 m-1 p-2 rounded bg-gray-200">
+                        <div class="flex items-center gap-1 m-1 p-2 rounded bg-gray-200">
                             <input type="checkbox" :checked="checkRole(role.id)" :value="role.id" @change="checkBoxRoleChange($event, role.id)" class="rounded-full" />
                             <div class="flex flex-col w-full">
                                 <span>{{ role.name }}</span>
@@ -193,7 +193,7 @@ export default {
                                     <span v-for="permission in role.permissions" :key="permission.id" class="text-sm text-gray-600 whitespace-nowrap">• {{ permission.name }}</span>
                                 </div>
                             </div>
-                        </ul>
+                        </div>
                     </template>
                 </div>
 

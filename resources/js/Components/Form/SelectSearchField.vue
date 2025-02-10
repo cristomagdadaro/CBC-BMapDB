@@ -4,11 +4,11 @@ import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
 import SelectField from "@/Components/Form/SelectField.vue";
-import {ValidationErrorResponse} from "@/Modules/core/domain/response/index";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";
+import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 
 export default {
-    components: {SelectField, CloseIcon, TextField },
+    components: {TransitionContainer, SelectField, CloseIcon, TextField },
     emits: ['update:modelValue'],
     props: {
         modelValue: {
@@ -108,26 +108,36 @@ export default {
                 this.displayedInput = null;
             }
         },
-    }
+    },
+     computed: {
+        processing() {
+            return this.api?.processing;
+        },
+         dynamicLabel() {
+            return this.processing ? `${this.label} (loading)` : this.label;
+         }
+     }
 };
 </script>
 
 <template>
     <div class="flex flex-col border-0 p-0 bg-transparent">
         <div class="flex flex-col">
-            <text-field
-                :id="id"
-                :label="label"
-                :error="$attrs.error"
-                :required="required"
-                :show-clear="!disabled"
-                :disabled="disabled"
-                v-model="displayedInput"
-                :placeholder="placeholder"
-                @focusin="toggleDropdown()"
-                @click="toggleDropdown()"
-                @keydown="debounceApiCall($event.target.value)"
-            />
+            <div class="relative">
+                <text-field
+                    :id="id"
+                    :label="dynamicLabel"
+                    :error="$attrs.error"
+                    :required="required"
+                    :show-clear="!disabled"
+                    :disabled="disabled || processing"
+                    v-model="displayedInput"
+                    :placeholder="placeholder"
+                    @focusin="toggleDropdown()"
+                    @click="toggleDropdown()"
+                    @keydown="debounceApiCall($event.target.value)"
+                />
+            </div>
             <div v-show="showDropdown" class="fixed inset-0 z-40" @click="closeDropdown()" />
             <div v-show="showDropdown" class="relative z-50" @focusout="closeDropdown()">
                 <div v-if="api"

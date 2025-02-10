@@ -17,7 +17,14 @@
             </div>
             <div class="flex flex-row justify-between gap-1 text-right">
                 <cancel-button @click="close">Cancel</cancel-button>
-                <button v-if="form" class="bg-add text-white px-4 py-2 rounded-md hover:bg-red-600 active:bg-red-700 duration-200" type="submit">Save</button>
+                <button v-if="form" :disabled="processing" :class="{'cursor-progress opacity-50' : processing}" class="bg-add text-white px-4 py-2 flex item-center rounded-md hover:bg-red-600 active:bg-red-700 duration-200" type="submit">
+                    <span v-if="processing">
+                        Saving
+                    </span>
+                    <span v-else>
+                        Save
+                    </span>
+                </button>
             </div>
         </div>
     </form>
@@ -25,10 +32,12 @@
 <script>
 import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
+import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 
 export default {
     name: "BaseCreateForm",
     components: {
+        LoaderIcon,
         CancelButton,
         CloseIcon,
     },
@@ -38,6 +47,10 @@ export default {
             default: null,
         },
         forceClose: {
+            type: Boolean,
+            default: false
+        },
+        processing: {
             type: Boolean,
             default: false
         }

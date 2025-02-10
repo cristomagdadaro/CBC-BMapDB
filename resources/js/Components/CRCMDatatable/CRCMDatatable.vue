@@ -262,13 +262,13 @@
             </div>
         </div>
         <dialog-form-modal :show="showImportModal && canCreate" @close="closeDialog">
-            <component :is="importModal" v-if="importModal" :errors="errorBag" @uploadForm="dt.importCSV($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+            <component :is="importModal" v-if="importModal" :processing="dt.processing" :errors="errorBag" @uploadForm="dt.importCSV($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
         <dialog-form-modal :show="showAddDialog && canCreate" @close="closeDialog">
-            <component :is="addForm" v-if="addForm" :errors="errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
+            <component :is="addForm" v-if="addForm" :processing="dt.processing" :errors="errorBag" @submitForm="dt.create($event)" @close="closeDialog" :forceClose="dt.closeAllModal"/>
         </dialog-form-modal>
         <dialog-form-modal :show="showEditDialog && canUpdate" @close="closeDialog">
-            <component :is="editForm" v-if="editForm" :errors="errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
+            <component :is="editForm" v-if="editForm" :processing="dt.processing" :errors="errorBag" @submitForm="dt.update($event)" @close="closeDialog" :forceClose="dt.closeAllModal" :data="toEditData"/>
         </dialog-form-modal>
         <dialog-modal :show="showDeleteDialog && canDelete" @close="closeDialog" :processing="dt.processing" :forceClose="dt.closeAllModal">
             <template #title>

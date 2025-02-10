@@ -3,17 +3,20 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import User from "@/Modules/core/domain/auth/User.ts";
 import WelcomeUserBanner from "@/Pages/Dashboard/components/WelcomeUserBanner.vue";
 import {usePage} from "@inertiajs/vue3";
+import router from '@/router.js';
 import Modal from "@/Components/Modal.vue";
 import {ref, onMounted} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Logo from "@/Components/Icons/Logo.vue";
 import BreedersMapCard from "@/Pages/Projects/BreedersMap/presentation/BreedersMapCard.vue";
 import DashboardCard from "@/Components/DashboardCard.vue";
+import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
 
 const page = usePage();
 
 const user = new User(page.props.auth.user);
 const showNote = ref(true);
+const showtempPasswordAlert = ref(false);
 
 onMounted(() => {
     const hasSeenNote = localStorage.getItem("hasSeenNote");
@@ -23,6 +26,8 @@ onMounted(() => {
     } else {
         showNote.value = false;
     }
+
+    showtempPasswordAlert.value = !!page.props.tempPasswordAlert;
 });
 
 </script>
@@ -35,6 +40,9 @@ onMounted(() => {
                 <p v-if="user.isAdmin" class="text-center">
                     You have admin privileges
                 </p>
+            </welcome-user-banner>
+            <welcome-user-banner v-show="page.props.acceptedBreederRole">
+               {{ page.props.acceptedBreederRole }}
             </welcome-user-banner>
 
             <modal :show="showNote" @close="showNote = false">
@@ -67,6 +75,24 @@ onMounted(() => {
                     </p>
                     <primary-button @click="showNote = false" class="bg-cbc-dark-green hover:bg-cbc-dark-green text-white py-2 px-4 rounded items-center flex justify-center">
                         Got it!
+                    </primary-button>
+                </div>
+            </modal>
+
+            <modal :show="showtempPasswordAlert" @close="showtempPasswordAlert = false">
+                <div class="p-10 text-justify flex flex-col gap-3">
+                    <div class="text-gray-900 text-center ">
+                        <logo class="w-auto h-20 mx-auto" />
+                        <div class="leading-tight uppercase mt-3 sm:text-xl text-lg font-bold ">
+                            {{ page.props.tempPasswordAlert }}
+                        </div>
+                        <span>
+                            Please check your email for the temporary password
+                        </span>
+                    </div>
+                    <update-password-form />
+                    <primary-button @click="showtempPasswordAlert = false; " class="bg-cbc-dark-green hover:bg-cbc-dark-green text-white py-2 px-4 rounded items-center flex justify-center">
+                        Finish!
                     </primary-button>
                 </div>
             </modal>

@@ -9,7 +9,7 @@ const routes = [
     {
         path: '/dashboard',
         component: async () => await import('@/Pages/Dashboard.vue'),
-        name: 'Dashboard',
+        name: 'dashboard',
     },
     {
         path: '/user/profile',

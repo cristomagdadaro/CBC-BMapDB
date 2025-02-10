@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\DefaultPassword;
 use App\Enums\Role;
 use App\Http\Controllers\BaseController;
 use App\Http\Interfaces\BreederControllerInterface;
@@ -53,7 +54,7 @@ class BreederController extends BaseController implements BreederControllerInter
                 'mobile_no' => $data['mobile_no'] ?? null,
                 'email' => $data['email'] ?? null,
                 'affiliation' => $data['affiliation'] ?? null,
-                'password' => $data['password'] ? bcrypt($data['password']) : null,
+                'password' => bcrypt(DefaultPassword::Value->value),
             ]);
 
             $breederUser->assignRole(Role::BREEDER->value);

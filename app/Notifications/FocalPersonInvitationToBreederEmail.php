@@ -3,8 +3,11 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
 use function env;
 
@@ -35,8 +38,18 @@ class FocalPersonInvitationToBreederEmail extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // Generate a temporary password
+        $temporaryPassword = Str::random(12);
+
         // Generate a signed URL with an expiration time
-        $url = URL::temporarySignedRoute( 'accept.breeder.role', now()->addMinutes(60), ['user' => $notifiable->id] );
+        $url = URL::temporarySignedRoute(
+            'accept.breeder.role',
+            now()->addMinutes(60),
+            ['user' => $notifiable->id]
+        );
+
+        // Update the user's password (hashing it before saving)
+        $notifiable->update(['password' => Hash::make($temporaryPassword)]);
 
         return (new MailMessage)
             ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'))
@@ -44,10 +57,14 @@ class FocalPersonInvitationToBreederEmail extends Notification
             ->greeting('Hi, ' . $this->getPersonName($notifiable) . '!')
             ->line("You have been invited to use the " . env('APP_NAME') . ' (' . env('APP_NAME_SHORT') . ') System developed by ' . env('COMPANY_NAME') . '.')
             ->line('You were invited to be a Breeder.')
+            ->line('Here are your credentials: (Do not share)')
+            ->line('Email: ' . $notifiable->email)
+            ->line('Temporary Password: ' . $temporaryPassword)
             ->line('Please click the button below to accept the invitation. This invitation will expire in 60 minutes.')
             ->action('Accept Breeder Role', $url)
             ->line('Have a nice day!');
     }
+
 
     /**
      * Get the array representation of the notification.
@@ -57,7 +74,7 @@ class FocalPersonInvitationToBreederEmail extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'title' => 'Breeder Role Invitation in ' . env('APP_NAME') . ' (' . env('APP_NAME_SHORT') . ') System',
+            'title' => 'Breeder Role Invitation in ' . env('APP_NAME') . ' (' . env('APP_NAME_SHORT') . ')',
         ];
     }
 
@@ -68,4 +85,5 @@ class FocalPersonInvitationToBreederEmail extends Notification
             ' ' . $notifiable->lname .
             ($notifiable->suffix ? ' ' . $notifiable->suffix : '');
     }
+
 }

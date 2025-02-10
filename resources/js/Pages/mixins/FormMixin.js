@@ -45,10 +45,14 @@ export default {
             type: Number,
             default: null
         },
+        processing: {
+            type: Boolean,
+            default: false
+        }
     },
     methods: {
         resetForm() {
-            this.form = Object.assign({}, this.data);
+            this.form = this.model.updateForm(this.data); // Get only fields needed for update
         },
         getError(name) {
             return this.errors ? this.errors[name] : null;

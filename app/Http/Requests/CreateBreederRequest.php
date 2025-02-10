@@ -38,7 +38,7 @@ class CreateBreederRequest extends FormRequest
                 'unique:breeders,email,'.$this->id,
             ],
             'affiliation' => ['required', 'exists:institutes,id'],
-            'password' => $this->passwordRules(),
+            //'password' => $this->passwordRules(),
             'geolocation' => 'nullable|exists:loc_cities,id',
         ];
     }

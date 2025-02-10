@@ -25,7 +25,6 @@ class Breeder extends BaseModel
         'suffix',
         'email',
         'mobile_no',
-        'password',
         'affiliation',
         'email_verified_at',
 
@@ -33,11 +32,6 @@ class Breeder extends BaseModel
     ];
 
     protected $guarded = ['id'];
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
     protected $casts = [
         'created_at' => 'datetime',

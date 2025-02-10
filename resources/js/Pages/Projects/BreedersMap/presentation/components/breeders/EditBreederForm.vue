@@ -14,7 +14,7 @@ export default {
 </script>
 
 <template>
-    <base-edit-form :form="form" :force-close="forceClose" @resetForm="resetForm">
+    <base-edit-form :form="form" :force-close="forceClose" @resetForm="resetForm" :processing="processing">
         <template v-slot:formTitle>
             Update Breeder Information
         </template>
@@ -35,7 +35,7 @@ export default {
                 <select-search-field required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                 <text-field required :show-clear="true" :error="getError('email')" label="Email" v-model="form.email" />
             </div>
-            <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1 mt-1">
+            <div class="hidden grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1 mt-1">
                 <text-field required :error="getError('password')" label="New Password" v-model="form.password" />
                 <text-field :required="!!form.password" :error="getError('password_confirmation')" label="Confirm Password" v-model="form.password_confirmation" />
             </div>

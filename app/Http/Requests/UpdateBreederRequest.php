@@ -43,7 +43,7 @@ class UpdateBreederRequest extends FormRequest
             ],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             'geolocation' => 'nullable|exists:loc_cities,id',
-            'password' => $this->passwordRules(),
+            //'password' => $this->passwordRules(),
         ];
     }
 

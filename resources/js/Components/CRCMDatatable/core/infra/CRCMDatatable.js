@@ -40,23 +40,20 @@ export default class CRCMDatatable
 
     async create(data) {
         const response = await this.api.post(this.model.toObject(data));
-        await this.checkForErrors(response);
-        if (await this.checkForErrors(this.response))
+        if (await this.checkForErrors(response))
             await this.refresh();
     }
 
     async delete(id) {
         const response = await this.api.delete(id);
-        await this.checkForErrors(response);
-        if (await this.checkForErrors(this.response))
+        if (await this.checkForErrors(response))
             await this.refresh();
         this.selected = this.selected.filter(item => item !== id);
     }
 
     async update(data) {
         const response = await this.api.put(this.model.toObject(data));
-        await this.checkForErrors(response);
-        if (await this.checkForErrors(this.response)){
+        if (await this.checkForErrors(response)){
             await this.refresh();
             return true;
         }
@@ -65,8 +62,7 @@ export default class CRCMDatatable
 
     async deleteSelected() {
         const response = await this.api.delete(this.selected);
-        await this.checkForErrors(response);
-        if (await this.checkForErrors(this.response))
+        if (await this.checkForErrors(response))
             await this.refresh();
         this.selected = [];
     }

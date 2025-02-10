@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Inertia\Inertia;
 
 class InvitationController extends Controller
 {
@@ -22,6 +25,6 @@ class InvitationController extends Controller
         Auth::login($user);
 
         // Redirect to the intended location
-        return redirect()->route('dashboard')->with('acceptedBreederRole', 'Welcome! You have accepted the Breeder role.');
+        return Inertia::render('Dashboard', ['acceptedBreederRole' => 'You have successfully accepted the invitation', 'tempPasswordAlert' => 'Please replace your temporary password!']);
     }
 }

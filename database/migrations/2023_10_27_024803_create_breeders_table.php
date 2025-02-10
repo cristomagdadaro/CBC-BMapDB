@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('suffix')->nullable();
             $table->string('mobile_no')->nullable();
             $table->string('email');
-            $table->string('password');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('affiliation')->constrained('institutes');
             $table->foreignId('geolocation')->constrained('loc_cities');
