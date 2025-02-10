@@ -54,7 +54,7 @@ export const CBCProjectsPublic = [
         //@ts-ignore
         route: window.AppConfig.applications['TWG_DATABASE'].route,
         //@ts-ignore
-        route_public: window.AppConfig.applications['BREEDERS_MAP'].route_public,
+        route_public: window.AppConfig.applications['TWG_DATABASE'].route_public,
         //@ts-ignore
         description: window.AppConfig.applications['TWG_DATABASE'].description,
     },

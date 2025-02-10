@@ -12,7 +12,11 @@ class GetTWGProjectRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::READ_TWG_PROJECT->value) || auth()->user()->isAdmin();
+        if (!empty(auth()->user()))
+            return auth()->user()->hasPermissionTo(Permission::READ_TWG_PROJECT->value) || auth()->user()->isAdmin();
+
+        return true;
+
     }
 
     /**

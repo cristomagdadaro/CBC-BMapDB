@@ -14,5 +14,5 @@ enum Role: string
 
     case PUBLIC = 'Public';
 
-    case TWG_ADMIN = 'TWG Admin'; // for TWG Database role
+    case TWG_MANAGER = 'TWG Manager'; // for TWG Database role
 }
