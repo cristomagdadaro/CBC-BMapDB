@@ -39,23 +39,29 @@ const handleGoogleSignIn = async (response) => {
     <Head title="Log in" />
     <page-layout>
         <green-waves />
-        <div class="grid grid-cols-1 w-full bg-transparent">
+        <div class="grid grid-cols-1 w-full bg-transparent select-none">
             <public-page-section class="flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
                     <div class="relative grid sm:grid-cols-2 grid-rows-1 items-center">
-                        <div class="drop-shadow-lg select-none text-gray-50 flex flex-col w-full z-50 sm:text-left text-center">
-                            <span class="text-normal leading-relaxed">Login to</span>
-                            <div class="flex flex-row gap-2 items-center">
-                                <authentication-card-logo class="drop-shadow" />
-                                <span class="font-bold sm:text-3xl text-2xl leading-tight">
-                                    <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
-                                    <span class="text-cbc-dark-green">I</span>nnovation
-                                    <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
-                                </span>
+                        <div>
+                            <div class="drop-shadow-lg text-gray-50 flex flex-col w-full z-50 text-left mb-5">
+                                <div class="flex flex-row gap-3 items-center">
+                                    <div class="bg-white h-full rounded p-3">
+                                        <authentication-card-logo class="drop-shadow" />
+                                    </div>
+                                    <div class="font-bold sm:text-3xl text-2xl leading-[1.8rem]">
+                                        <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
+                                        <span class="text-cbc-dark-green">I</span>nnovation
+                                        <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
+                                    </div>
+                                </div>
+                                <div v-if="status" class="m-2 font-medium text-sm text-center">
+                                    {{ status }}
+                                </div>
                             </div>
-                            <div v-if="status" class="m-2 font-medium text-sm text-center">
-                                {{ status }}
-                            </div>
+                            <span class="absolute bottom-0 text-white drop-shadow text-xs">
+                                v25.10.02
+                            </span>
                         </div>
                         <div class="flex flex-col gap-2 bg-cbc-dark-green sm:p-3 sm:px-5 p-4 shadow-lg rounded-md sm:min-w-[15rem] min-w-full">
                             <form @submit.prevent="submit">
@@ -96,7 +102,7 @@ const handleGoogleSignIn = async (response) => {
                             <div class="border-b my-1"></div>
                             <div class="flex flex-col items-center gap-1">
                                 <GoogleLogin :clientId="googleClientId" :callback="handleGoogleSignIn">
-                                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full flex items-center gap-1">
+                                    <button class="bg-blue-600 text-white hover:shadow-lg hover:bg-blue-900 active:bg-red-600 duration-300 px-4 py-2 rounded w-full flex items-center gap-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
                                             <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
                                         </svg>
