@@ -56,7 +56,8 @@ const handleGoogleSignIn = async (response) => {
                             <div v-if="status" class="m-2 font-medium text-sm text-center">
                                 {{ status }}
                             </div>
-
+                        </div>
+                        <div class="flex flex-col gap-2 bg-cbc-dark-green sm:p-3 sm:px-5 p-4 shadow-lg rounded-md sm:min-w-[15rem] min-w-full">
                             <form @submit.prevent="submit">
                                 <text-field
                                     id="email"
