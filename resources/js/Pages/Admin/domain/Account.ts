@@ -88,7 +88,15 @@ export default class AuthAccount extends DtoAccount
                 visible: true,
             },
             {
-                title: 'Approved At',
+                title: 'Request Date',
+                key: 'created_at',
+                db_key: 'created_at',
+                align: 'text-center',
+                sortable: true,
+                visible: true,
+            },
+            {
+                title: 'Approved Date',
                 key: 'approved_at',
                 db_key: 'approved_at',
                 align: 'text-center',

@@ -8,6 +8,8 @@ import TextField from "@/Components/Form/TextField.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import TabLink from "@/Components/Header/TabLink.vue";
+import {GoogleLogin} from "vue3-google-login";
+import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -28,14 +30,9 @@ const submit = () => {
         onFinish: () => form.reset('password'),
     });
 };
-</script>
-<script>
-function onSignIn(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+const googleClientId = "347920378124-l0mnce2uk9lcqfhcm8hkfv2tttnnti14.apps.googleusercontent.com";
+const handleGoogleSignIn = async (response) => {
+    window.location.href = "/auth/google";
 }
 </script>
 <template>
@@ -44,21 +41,23 @@ function onSignIn(googleUser) {
         <green-waves />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
-                <AuthenticationCard class="min-h-[90vh]">
+                <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
                     <div class="relative grid sm:grid-cols-2 grid-rows-1 items-center">
                         <div class="drop-shadow-lg select-none text-gray-50 flex flex-col w-full z-50 sm:text-left text-center">
-                            <span class="text-lg leading-relaxed">Login to</span>
-                            <span class="font-bold sm:text-3xl text-2xl leading-tight">
-                                <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
-                                <span class="text-cbc-dark-green">I</span>nnovation
-                                <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
-                            </span>
-                        </div>
-                        <div class="bg-cbc-dark-green sm:p-3 sm:px-5 p-4 shadow-lg rounded-md sm:min-w-[15rem] min-w-full">
-                            <div v-if="status" class="mb-4 font-medium text-sm">
+                            <span class="text-normal leading-relaxed">Login to</span>
+                            <div class="flex flex-row gap-2 items-center">
+                                <authentication-card-logo class="drop-shadow" />
+                                <span class="font-bold sm:text-3xl text-2xl leading-tight">
+                                    <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
+                                    <span class="text-cbc-dark-green">I</span>nnovation
+                                    <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
+                                </span>
+                            </div>
+                            <div v-if="status" class="m-2 font-medium text-sm text-center">
                                 {{ status }}
                             </div>
-
+                        </div>
+                        <div class="flex flex-col gap-2 bg-cbc-dark-green sm:p-3 sm:px-5 p-4 shadow-lg rounded-md sm:min-w-[15rem] min-w-full">
                             <form @submit.prevent="submit">
                                 <text-field
                                     id="email"
@@ -92,15 +91,27 @@ function onSignIn(googleUser) {
                                     <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                                         Log in
                                     </PrimaryButton>
-                                    <Link v-if="canRegister" :href="route('register')" class="text-gray-100 hover:text-cbc-yellow text-center hover:underline rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Create a new account
-                                    </Link>
-                                    <Link v-if="canResetPassword" :href="route('password.request')" class="underline opacity-50 text-gray-100 hover:opacity-100 text-right rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Forgot your password?
-                                    </Link>
                                 </div>
-                                <div class="g-signin2 text-gray-100 text-xs my-2" data-onsuccess="onSignIn">Sign in with Google</div>
                             </form>
+                            <div class="border-b my-1"></div>
+                            <div class="flex flex-col items-center gap-1">
+                                <GoogleLogin :clientId="googleClientId" :callback="handleGoogleSignIn">
+                                    <button class="bg-red-500 text-white px-4 py-2 rounded w-full flex items-center gap-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                            <path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
+                                        </svg>
+                                       Sign up with Google
+                                    </button>
+                                </GoogleLogin>
+                                <span class="text-white text-xs my-1">OR</span>
+                                <Link v-if="canRegister" :href="route('register')" class="text-gray-100 hover:text-cbc-yellow text-center hover:underline rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Create a new account
+                                </Link>
+                                <Link v-if="canResetPassword" :href="route('password.request')" class="underline opacity-50 text-gray-100 my-3 hover:opacity-100 text-right rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Forgot your password?
+                                </Link>
+                            </div>
+
                         </div>
                     </div>
                 </AuthenticationCard>

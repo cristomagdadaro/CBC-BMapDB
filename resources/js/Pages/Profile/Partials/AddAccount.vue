@@ -64,9 +64,10 @@ export default {
         </template>
         <template #content>
             <h3 class="text-lg font-medium text-gray-900">
-                You have access the to following applications:
+                You have access the to following applications: <span v-if="!$page.props?.accountsPending.length && !$page.props.auth.user.accounts.length" class="py-2 bg-white text-sm font-medium text-red-600"> Doesn't have any database access, kindly make a request</span>
             </h3>
             <ul class="max-w-xl text-sm text-gray-600">
+
                 <li v-if="$page.props.auth.user.accounts.length" class="py-2 bg-white font-bold text-xs text-gray-700 uppercase tracking-widest transition">Approved</li>
                 <li v-for="account in $page.props.auth.user.accounts" class="px-4 bg-white font-semibold text-xs text-gray-700 tracking-widest transition">
                     {{ account.application.name }}

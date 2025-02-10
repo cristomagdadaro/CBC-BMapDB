@@ -167,7 +167,7 @@ export default class AuthUser extends DtoUser
                 visible: true,
             },
             {
-                title: 'Deleted',
+                title: 'Status',
                 key: 'deleted_at',
                 db_key: 'deleted_at',
                 align: 'left',
