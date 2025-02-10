@@ -82,8 +82,11 @@ export default {
             <div id="bm-welcome-box"  class="flex flex-col sm:gap-1 gap-3 p-4 bg-white sm:text-left text-justify drop-shadow">
                 <div class="flex items-center gap-2 justify-between text-subtitle">
                     <div class="flex items-center gap-2">
-                        <span>{{ Object.values(CBCProjectsPublic())[0].label }}</span>
-                        <info-icon @click="fadeToggle" class="w-4 md:w-5 xl:w-6 h-auto cursor-pointer active:scale-90 duration-200" />
+                        <div class="flex  items-center gap-2">
+                            <img src="/img/logos/pbmap.webp" alt="Biotech TWG Database Logo" class="mx-auto w-auto h-[4rem] drop-shadow-md"/>
+                            <span>{{ Object.values(CBCProjectsPublic())[0].label }}</span>
+                        </div>
+                        <info-icon @click="fadeIn" class="w-4 md:w-5 xl:w-6 h-auto cursor-pointer active:scale-90 duration-200" />
                     </div>
                     <button id="bm-qg-start" @click="fadeToggle" class="bg-cbc-yellow text-dark-color py-1 px-2 text-normal z-[999]">Quick Guide?</button>
                 </div>

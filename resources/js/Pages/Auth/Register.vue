@@ -44,7 +44,7 @@ const submit = () => {
 const filteredRoles = ref([]); // To hold the roles specific to the selected application
 const selectedApplication = ref(''); // To track the currently selected application.
 const applicationRolesMap = {
-    "1": ['TWG Admin', 'Researcher'], // TWG Db
+    "1": ['TWG Manager', 'Researcher'], // TWG Db
     "2": ['Focal Person','Researcher', 'Breeder'], // Plant Breeders Map
 };
 

@@ -12,7 +12,10 @@ class GetUserRequest extends BaseRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::READ_USER->value) || auth()->user()->isAdmin();
+        if (!empty(auth()->user()))
+            return auth()->user()->hasPermissionTo(Permission::READ_USER->value) || auth()->user()->isAdmin();
+
+        return true;
     }
 
     /**
