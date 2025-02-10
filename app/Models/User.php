@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\DefaultPassword;
 use App\Enums\Role as RoleEnum;
 use App\Notifications\FocalPersonInvitationToBreederEmail;
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -115,6 +117,21 @@ class User extends Authenticatable implements MustVerifyEmail
     public function breeder(): HasMany
     {
         return $this->hasMany(Breeder::class, 'user_id', 'id');
+    }
+
+    public function makeBreeder(array $request, $olderBreeder): Model
+    {
+        return $this->breeder()->getModel()->create(
+            array_merge(
+                $request, // Ensure request is an array
+                [
+                    'user_id' => $this->id,
+                    'password' => bcrypt(DefaultPassword::Value->value),
+                    'password_confirmation' => bcrypt(DefaultPassword::Value->value),
+                    'geolocation' => optional($olderBreeder->affiliated()->getModel()->city())->select('id')->get(),
+                ]
+            )
+        );
     }
 
     public function twgexpert(): HasMany

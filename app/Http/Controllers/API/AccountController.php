@@ -46,9 +46,9 @@ class AccountController extends BaseController
         $data = $this->service->update($id, $validatedData);
 
         // Retrieve the updated user and app
-        $user = User::find($validatedData['user_id']);
-        $appId = $validatedData['app_id'];
-        $approvedAt = $validatedData['approved_at']; // Get the approved_at value
+        $user = User::find($validatedData['user_id']) ?? null;
+        $appId = $validatedData['app_id'] ?? null;
+        $approvedAt = $validatedData['approved_at'] ?? null; // Get the approved_at value
         $permissionIds = $validatedData['permissions'] ?? [];
         $roles = $validatedData['role'] ?? [];
 

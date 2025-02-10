@@ -31,7 +31,7 @@ class CreateBreederRequest extends FormRequest
             'mname' => ['nullable', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
-            'mobile_no' =>  ['nullable', 'string', 'unique:users', 'max:255'],
+            'mobile_no' =>  ['nullable', 'string', 'max:255'],
             'email' => [
                 'required',
                 'email',
