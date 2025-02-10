@@ -27,6 +27,7 @@ createInertiaApp({
         });
 
         // Set global property
+        app.config.globalProperties.$appVersion = import.meta.env.VITE_APP_VERSION;
         app.config.globalProperties.$appName = import.meta.env.VITE_APP_NAME;
         app.config.globalProperties.$appNameShort = appNameShort;
         app.config.globalProperties.$companyName = import.meta.env.VITE_COMPANY_NAME;
