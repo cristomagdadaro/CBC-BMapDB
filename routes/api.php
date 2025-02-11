@@ -33,6 +33,7 @@ Route::prefix('/auth')->group(function () {
 });
 
 require_once 'components/PublicRoutes.php';
+require_once 'components/OpenAiRoutes.php';
 
 Route::middleware(['api','auth:sanctum','verified'])->group(function() {
     require_once 'components/TWGDbRoutes.php';

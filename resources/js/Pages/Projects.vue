@@ -15,9 +15,11 @@ import BmOverviewMap from "@/Pages/Projects/BreedersMap/presentation/components/
 import TopLeaf from "@/Components/Top-Leaf.vue";
 import ModelViewer from "@/Components/3dViewer/3dModelViewer.vue";
 import ParticlesBackground from "@/Components/ParticlesBackground.vue";
+import AiChat from "@/Pages/OpenAi/AiChat/AiChat.vue";
 
 export default {
     components: {
+        AiChat,
         ParticlesBackground,
         TopLeaf,
         BmOverviewMap,
@@ -152,6 +154,9 @@ export default {
             </public-page-section>
             <public-page-section class="flex items-center">
                 <bm-database-list />
+            </public-page-section>
+            <public-page-section class="flex items-center">
+                <ai-chat />
             </public-page-section>
             <public-page-section class="flex items-center py-10">
                 <template v-slot:custom-bg>
