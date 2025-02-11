@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Hash;
@@ -80,10 +79,7 @@ class FocalPersonInvitationToBreederEmail extends Notification
 
     private function getPersonName(object $notifiable): string
     {
-        return $notifiable->fname .
-            ($notifiable->mname ? ' ' . $notifiable->mname : '') .
-            ' ' . $notifiable->lname .
-            ($notifiable->suffix ? ' ' . $notifiable->suffix : '');
+        return $notifiable->getFullName();
     }
 
 }

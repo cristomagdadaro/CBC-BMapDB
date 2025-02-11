@@ -106,6 +106,13 @@ class User extends Authenticatable implements MustVerifyEmail
         'unknown' => 'Unknown error, action failed.',
     ];
 
+    public function getFullName() {
+        return $this->fname .
+            ($this->mname ? ' ' . $this->mname : '') .
+            ' ' . $this->lname .
+            ($this->suffix ? ' ' . $this->suffix : '');
+    }
+
     public function getNotifMessage($action = null): string
     {
         return $this->notifMessage[$action];
@@ -238,8 +245,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function sendEmailVerificationViaFocalPersonNotification(): void
     {
-        //$this->notify(new VerifyEmail);
-
         $this->notify(new FocalPersonInvitationToBreederEmail);
     }
 }

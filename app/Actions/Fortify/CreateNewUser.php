@@ -6,6 +6,7 @@ use App\Models\Accounts;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
+use App\Notifications\NewSignUp;
 use Faker\Core\Uuid;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -55,6 +56,8 @@ class CreateNewUser implements CreatesNewUsers
             'user_id' => $user->id,
             'app_id' => $input['account_for'],
         ]);
+
+        $user->notify(new NewSignUp($user->getFullName(), $user->email));
 
         $this->createTeam($user);
 

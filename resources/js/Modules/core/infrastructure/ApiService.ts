@@ -49,17 +49,15 @@ export default class ApiService implements IApiService
                     ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
                 }
             });
-            console.log(response);
-            if (model) {
-                if (response && response.data){
-                    if (response.data.data){
-                        response.data.data = this.castToModel(response.data.data, model);
-                        return new BaseResponse(response);
-                    }
-                    else if (response.data.raw_data){
-                        response.data.raw_data = this.castToModel(response.data.raw_data, model);
-                        return response;
-                    }
+            console.log(response.data);
+            if (model && response.data) {
+                if (response.data.data){
+                    response.data.data = this.castToModel(response.data.data, model);
+                    return new BaseResponse(response);
+                }
+                else if (response.data.raw_data){
+                    response.data.raw_data = this.castToModel(response.data.raw_data, model);
+                    return response;
                 }
             }
             return new BaseResponse(response);
