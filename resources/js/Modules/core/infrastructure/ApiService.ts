@@ -10,6 +10,7 @@ import IApiService from "../interface/IApiService";
 import DtoError from "../dto/base/DtoError";
 import BaseClass from "../domain/base/BaseClass";
 import {route} from "ziggy-js";
+import {UnknownErrorResponse} from "@/Modules/core/domain/response";
 
 export default class ApiService implements IApiService
 {
@@ -103,6 +104,7 @@ export default class ApiService implements IApiService
             const response = await axios.post(this.baseUrl, data);
             return new BaseResponse(response);
         } catch (error) {
+            console.log(error);
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -161,7 +163,7 @@ export default class ApiService implements IApiService
     determineError(error: any): DtoError
     {
         let errorResponse = new JavascriptErrorResponse(error);
-        if(error.response)
+        if (error.response)
             switch (error.response.status) {
                 case 422:
                     errorResponse = new ValidationErrorResponse(error.response.data);
@@ -172,8 +174,11 @@ export default class ApiService implements IApiService
                 case 404:
                     errorResponse = new NotFoundErrorResponse(error.response.data);
                     break;
-                default:
+                case 500:
                     errorResponse = new ServerErrorResponse(error.response.data);
+                    break;
+                default:
+                    errorResponse = new UnknownErrorResponse(error.response.data);
             }
         //@ts-ignore
         this._errorBag = errorResponse;
