@@ -32,15 +32,12 @@ abstract class BaseController extends Controller
 
     public function _store($request): JsonResponse
     {
-        $data = $this->insertUserId($request->validated());
-        return $this->service->create($data);
+        return $this->service->create($request->validated());
     }
 
     public function _update($request, int $id): JsonResponse
     {
-        $data = $this->insertUserId($request->validated());
-        $data = array_filter($data, fn($value) => !is_null($value) && $value !== '');
-        return $this->service->update($id, $data);
+        return $this->service->update($id, $request->validated());
     }
 
     public function _destroy(int $id)

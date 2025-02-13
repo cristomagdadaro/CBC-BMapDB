@@ -49,9 +49,9 @@ const handleGoogleSignIn = () => {
                                     <div class="bg-white h-full rounded p-3">
                                         <authentication-card-logo class="drop-shadow" />
                                     </div>
-                                    <div class="font-bold sm:text-3xl text-2xl leading-[1.8rem]">
-                                        <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders
-                                        <span class="text-cbc-dark-green">I</span>nnovation
+                                    <div class="font-bold lg:text-3xl md:text-2xl text-xl leading-[1.2rem] lg:leading-[1.8rem] sm:text-left text-center">
+                                        <span class="text-cbc-dark-green">P</span>lant&nbsp;Breeders&nbsp;&
+                                        <span class="text-cbc-dark-green">I</span>nnovators
                                         <span class="text-cbc-dark-green">N</span>etwork&nbsp;System
                                     </div>
                                 </div>

@@ -19,10 +19,7 @@ export default {
             Update Breeder Information
         </template>
         <template v-slot:formDescription>
-            <div v-if="data" class="grid grid-cols-2 text-sm text-gray-600">
-                <span>Date created: {{ data.created_at }}</span>
-                <span>Last updated: {{ data.updated_at }}</span>
-            </div>
+                Please complete all required fields. Breeders has their own user account, updating a breeder information doesn't directly reflect to its user account.
         </template>
         <template v-slot:formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
@@ -35,9 +32,11 @@ export default {
                 <select-search-field required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                 <text-field required :show-clear="true" :error="getError('email')" label="Email" v-model="form.email" />
             </div>
-            <div class="hidden grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1 mt-1">
-                <text-field required :error="getError('password')" label="New Password" v-model="form.password" />
-                <text-field :required="!!form.password" :error="getError('password_confirmation')" label="Confirm Password" v-model="form.password_confirmation" />
+        </template>
+        <template v-slot:timestamps>
+            <div v-if="data" class="grid grid-cols-2">
+                <span>Date created: {{ data?.created_at }}</span>
+                <span>Last updated: {{ data?.updated_at }}</span>
             </div>
         </template>
     </base-edit-form>

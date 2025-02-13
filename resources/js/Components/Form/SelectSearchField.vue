@@ -44,12 +44,14 @@ export default {
             filteredOptions: [],
             showDropdown: false,
             displayedInput: null,
+            autoFocus: false,
         };
     },
     methods: {
         toggleDropdown() {
             if (this.disabled) return;
             this.showDropdown = !this.showDropdown;
+            this.autoFocus = true;
         },
         async getOptionsFromApi(search = null, page = 1) {
             this.fetchedResponse = await this.api.get({
@@ -89,6 +91,11 @@ export default {
                 this.getOptionsFromApi(search);
             }, 300);
         },
+        handleClickOutside(event) {
+            if (this.$el && !this.$el.contains(event.target)) {
+                this.closeDropdown();
+            }
+        }
     },
     expose: ['focus'],
     mounted() {
@@ -96,6 +103,11 @@ export default {
             this.api = new ApiService(this.apiLink);
             this.getOptionsFromApi(this.modelValue);
         }
+
+        document.addEventListener("click", this.handleClickOutside);
+    },
+    beforeUnmount() {
+        document.removeEventListener("click", this.handleClickOutside);
     },
     watch: {
         modelValue(newVal, oldVal) {
@@ -108,6 +120,13 @@ export default {
                 this.displayedInput = null;
             }
         },
+        'api.processing'(newVal) {
+            if (!newVal && this.autoFocus) {
+                this.$nextTick(() => {
+                    this.$refs?.textInput.focus();
+                });
+            }
+        }
     },
      computed: {
         processing() {
@@ -121,29 +140,27 @@ export default {
 </script>
 
 <template>
-    <div class="flex flex-col border-0 p-0 bg-transparent">
-        <div class="flex flex-col">
-            <div class="relative">
-                <text-field
-                    :id="id"
-                    :label="dynamicLabel"
-                    :error="$attrs.error"
-                    :required="required"
-                    :show-clear="!disabled"
-                    :disabled="disabled || processing"
-                    v-model="displayedInput"
-                    :placeholder="placeholder"
-                    @focusin="toggleDropdown()"
-                    @click="toggleDropdown()"
-                    @keydown="debounceApiCall($event.target.value)"
-                />
-            </div>
-            <div v-show="showDropdown" class="fixed inset-0 z-40" @click="closeDropdown()" />
-            <div v-show="showDropdown" class="relative z-50" @focusout="closeDropdown()">
+    <div class="relative flex flex-col border-0 p-0 bg-transparent">
+        <div class="flex flex-col w-full">
+            <text-field
+                :id="id"
+                ref="textInput"
+                :label="dynamicLabel"
+                :error="$attrs.error"
+                :required="required"
+                :show-clear="!disabled"
+                :disabled="disabled || processing"
+                v-model="displayedInput"
+                :placeholder="placeholder"
+                @focusin="toggleDropdown()"
+                @click="toggleDropdown()"
+                @keydown="debounceApiCall($event.target.value)"
+            />
+            <div v-show="showDropdown && !api.processing" class="relative z-[999]" @focusout="closeDropdown()">
                 <div v-if="api"
-                     class="fixed mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-md bg-white p-2 max-h-52 max-w-[20rem] overflow-x-auto z-50"
+                     class="absolute left-0 mt-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-md bg-white p-2 max-h-52 max-w-[20rem] overflow-x-auto z-50"
                 >
-                    <div v-show="filteredOptions.length !== 1" class="text-xs text-gray-200 pb-1 mb-1 select-none border-b border-gray-100">
+                <div v-show="filteredOptions.length !== 1" class="text-xs text-gray-200 pb-1 mb-1 select-none border-b border-gray-100">
                         <p v-if="api.processing">fetching more options</p>
                         <p v-else>Choose an option</p>
                     </div>

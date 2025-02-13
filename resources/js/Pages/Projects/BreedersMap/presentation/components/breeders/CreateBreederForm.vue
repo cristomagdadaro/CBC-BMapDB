@@ -18,6 +18,9 @@ export default {
         <template v-slot:formTitle>
             Register a new Breeder
         </template>
+        <template v-slot:formDescription>
+            Please complete all required fields. Once the breeder is successfully registered, an email notification will be sent to the provided email address.
+        </template>
         <template v-slot:formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                 <text-field required :error="getError('fname')" label="First Name" v-model="form.fname" />
@@ -28,10 +31,6 @@ export default {
                 <select-search-field required :api-link="route('api.institutes.index.public')"  :error="getError('affiliation')" label="Affiliation" v-model="form.affiliation" />
                 <select-search-field required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                 <text-field required :error="getError('email')" label="Email" v-model="form.email" />
-            </div>
-            <div class="hidden grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1 mt-1">
-                <text-field required :error="getError('password')" label="New Password" v-model="form.password" />
-                <text-field :required="!!form.password" :error="getError('password_confirmation')" label="Confirm Password" v-model="form.password_confirmation" />
             </div>
         </template>
     </base-create-form>

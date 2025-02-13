@@ -49,7 +49,7 @@ export default class ApiService implements IApiService
                     ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
                 }
             });
-            console.log(response);
+
             if (model) {
                 if (response && response.data){
                     if (response.data.data){
@@ -160,6 +160,7 @@ export default class ApiService implements IApiService
 
     determineError(error: any): DtoError
     {
+        console.log(error);
         let errorResponse = new JavascriptErrorResponse(error);
         if(error.response)
             switch (error.response.status) {

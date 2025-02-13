@@ -1,14 +1,14 @@
 <template>
     <form @submit.prevent="submitForm" @keydown="handleKeydown">
-        <div class="flex flex-col gap-5 px-6 py-10 bg-gray-100 shadow-md">
+        <div class="flex flex-col gap-3 px-6 py-10 bg-gray-100 shadow-md">
             <div class="flex flex-col">
-                <div class="text-lg font-medium text-gray-900 flex justify-between">
+                <div class="text-xl font-semibold text-gray-900 flex justify-between py-1 border-b border-gray-400">
                     <slot name="formTitle" />
-                    <button class="text-sm font-medium text-blue-500" @click="$emit('close')">
+                    <button class="text-sm font-medium text-red-500" @click="$emit('close')">
                         <CloseIcon class="w-7 h-auto hover:scale-110 active:scale-95 duration-100" />
                     </button>
                 </div>
-                <div>
+                <div class="text-sm text-gray-700 leading-tight p-2">
                     <slot name="formDescription" />
                 </div>
             </div>

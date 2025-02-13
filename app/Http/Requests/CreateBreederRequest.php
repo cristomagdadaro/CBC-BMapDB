@@ -31,11 +31,12 @@ class CreateBreederRequest extends FormRequest
             'mname' => ['nullable', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
-            'mobile_no' =>  ['nullable', 'string', 'max:255'],
+            'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:breeders,mobile_no'],
             'email' => [
                 'required',
                 'email',
                 'unique:breeders,email,'.$this->id,
+                'unique:users,email,'.$this->id,
             ],
             'affiliation' => ['required', 'exists:institutes,id'],
             //'password' => $this->passwordRules(),

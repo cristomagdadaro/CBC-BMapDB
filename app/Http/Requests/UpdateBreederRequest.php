@@ -20,6 +20,18 @@ class UpdateBreederRequest extends FormRequest
         return auth()->user()->hasPermissionTo(Permission::UPDATE_BREEDER->value) || auth()->user()->isAdmin();
     }
 
+    protected function prepareForValidation()
+    {
+        if (!auth()->user()->isAdmin())
+            $this->merge([
+                'institution' => auth()->user()->affiliation,
+            ]);
+
+        $this->merge([
+            'user_id'  => $this->user_id ?? auth()->user()->id
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,17 +40,17 @@ class UpdateBreederRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //'user_id' => 'required|exists:users,id',
-
+            'user_id' => 'required|exists:users,id',
             'fname' => ['required', 'string', 'max:255'],
             'mname' => ['nullable', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
-            'mobile_no' =>  ['required', 'string', 'max:255'],
+            'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:breeders,mobile_no,'.$this->id],
             'affiliation' => ['required', 'exists:institutes,id'],
             'email' => [
                 'required',
                 'email',
+                'unique:breeders,email,'.$this->id,
                 'unique:breeders,email,'.$this->id,
             ],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],

@@ -24,6 +24,7 @@ class UpdateCommoditiesRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_id' => 'required|exist:users,id',
             'name' => 'required|string|max:255',
             'breeder_id' => 'required|integer|exists:breeders,id',
             'scientific_name' => 'required|string|max:255',

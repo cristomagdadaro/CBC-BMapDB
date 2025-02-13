@@ -81,7 +81,7 @@ export default {
                 </button>
            </template>
         </div>
-        <div class="z-10 bg-white min-h-screen sm:px-4 px-2" v-if="activeTab">
+        <div class="z-10 bg-white min-h-fit sm:px-4 pb-4" v-if="activeTab">
             <slot :name="activeTab.name"/>
         </div>
     </div>

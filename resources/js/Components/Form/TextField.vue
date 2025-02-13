@@ -79,8 +79,8 @@ defineExpose({ focus: () => input.value.focus() });
                    :value="modelValue"
                    @input="$emit('update:modelValue', $event.target.value)"
             >
-            <div title="clear field" v-if="modelValue && showClear" @click="input = null; $emit('update:modelValue', null)" class="text-cbc-dark-green bg-transparent flex items-center border-gray-300 focus:border-indigo-500 overflow-ellipsis rounded-r-md pr-2">
-                <close-icon class="w-4 h-4 hover:scale-125 duration-200" />
+            <div title="clear field" v-if="modelValue && showClear" @click="input = null; $emit('update:modelValue', null)" class="text-cbc-dark-green bg-transparent absolute right-0 h-full flex items-center border-gray-300 focus:border-indigo-500 overflow-ellipsis rounded-r-md pr-2">
+                <close-icon class="w-5 h-5 hover:scale-125 duration-200" />
             </div>
         </div>
         <textarea v-else
