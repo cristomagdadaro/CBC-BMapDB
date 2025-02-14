@@ -9,6 +9,7 @@ import CancelButton from "@/Components/CRCMDatatable/Components/CancelButton.vue
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";
 import User from "@/Modules/core/domain/auth/User";
+import ApiService from "@/Modules/core/infrastructure/ApiService";
 
 export default {
     components: {
@@ -69,6 +70,10 @@ export default {
         },
         isAdmin(){
             return (new this.User(this.$page.props.auth.user)).isAdmin;
+        },
+        async getCustomSelectionOptions(url){
+            let response = await (new ApiService(url)).get()
+            return response;
         }
     },
     watch: {

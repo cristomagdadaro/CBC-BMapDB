@@ -16,6 +16,18 @@ class UpdateCommoditiesRequest extends FormRequest
         return auth()->user()->hasPermissionTo(Permission::UPDATE_COMMODITY->value) || auth()->user()->isAdmin();
     }
 
+    protected function prepareForValidation()
+    {
+        if (!auth()->user()->isAdmin())
+            $this->merge([
+                'institution' => auth()->user()->affiliation,
+            ]);
+
+        $this->merge([
+            'user_id'  => auth()->user()->id
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +36,7 @@ class UpdateCommoditiesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exist:users,id',
+            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'breeder_id' => 'required|integer|exists:breeders,id',
             'scientific_name' => 'required|string|max:255',

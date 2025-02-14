@@ -13,8 +13,8 @@
                 <template v-slot:tab1>
                     <div class="flex flex-col gap-8">
                         <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                            <text-field required :error="getError('name')" label="Commodity" v-model="form.name" />
-                            <text-field required :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
+                            <select-field required :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" />
+                            <text-field required :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
                             <select-search-field required :api-link="route('api.breeders.index')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
                             <text-field required :error="getError('variety')" label="Variety" v-model="form.variety" />
                             <text-field required :error="getError('accession')" label="Accession" v-model="form.accession" />
@@ -400,16 +400,29 @@ export default {
                     route: null,
                 },
             ],
+            priorityComs: []
         };
+    },
+    methods: {
+        getScientificName(comms) {
+            this.form.scientific_name = this.priorityComs?.data?.find(item => item.label === comms)?.sName;
+        }
+    },
+    watch: {
+        'form.name' (newVal){
+            this.getScientificName(newVal);
+        }
     },
     computed: {
         isInitialzedBreeeder(){
             return this.$page.props?.breeder?.id;
         }
     },
-    mounted() {
+    async mounted() {
         if (this.$page.props.breeder)
             this.form.breeder_id = this.$page.props.breeder.id;
+
+        this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'))
     }
 };
 </script>

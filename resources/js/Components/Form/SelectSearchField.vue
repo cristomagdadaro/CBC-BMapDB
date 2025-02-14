@@ -110,10 +110,10 @@ export default {
         document.removeEventListener("click", this.handleClickOutside);
     },
     watch: {
-        modelValue(newVal, oldVal) {
+        modelValue(newVal) {
             this.getOptionsFromApi(newVal);
         },
-        displayedInput(newVal, oldVal){
+        displayedInput(newVal){
             if (!newVal)
             {
                 this.$emit('update:modelValue', null);

@@ -134,6 +134,23 @@ class CommodityController extends BaseController implements CommodityControllerI
         ]);
     }
 
+    /**
+     * For Dropdown Menu
+    */
+    public function priorityCommodities()
+    {
+        $commodities = config('system_variables.commodities');
+        $formatted = [];
+        foreach ($commodities as $key => $value) {
+            $formatted[] = [
+                'id' => $key,
+                'label' => $key,
+                'sName' => $value
+            ];
+        }
+        return $this->sendResponse($formatted);
+    }
+
     public function noPage(GetCommoditiesRequest $request): BaseCollection
     {
         $this->service->appendWith(['breeder','cityDesc']);

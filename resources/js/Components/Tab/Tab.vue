@@ -33,18 +33,26 @@ export default {
             return this.activeTab === tab;
         },
         updateActiveTab() {
-            if (this.tabs) {
-                const savedTab = JSON.parse(localStorage.getItem('activeTab'));
-                this.activeTab = this.tabs.find(tab => {
-                    if (tab.route)
-                        return (this.$route.name === tab.route.name || this.$route.name === tab.route.name.replace('projects.breedersmap.', '')) && tab.route.params?.id === (savedTab?.route.params?.id || this.$route.params.id);
-                    return tab.name === (savedTab?.name || this.tabs[0].name);
-                }) || this.tabs[0];
-                this.activeTab.active = true;
-            } else {
+            if (!this.tabs || this.tabs.length === 0) {
                 this.activeTab = null;
+                return;
             }
-        },
+
+            const savedTab = localStorage.getItem('activeTab') ? JSON.parse(localStorage.getItem('activeTab')) : null;
+
+            this.activeTab = this.tabs.find(tab => {
+                if (tab.route) {
+                    const routeName = this.$route?.name?.replace('projects.breedersmap.', '');
+                    return this.$route.name === tab.route.name || routeName === tab.route.name;
+                }
+                return tab.name === (savedTab?.name || this.tabs[0].name);
+            }) || this.tabs[0];
+
+            if (this.activeTab) {
+                this.activeTab.active = true;
+            }
+        }
+
     },
     watch: {
         $route() {

@@ -32,7 +32,7 @@ export default {
             <button @click="closeSidebar" class="absolute z-[999] top-0 w-fit right-3 p-1">
                 <close-icon class="w-8 h-8 drop-shadow text-white" />
             </button>
-            <div v-if="point" class="drop-shadow overflow-y-auto overflow-x-hidden border text-sm">
+            <div v-if="point" class="drop-shadow-md overflow-y-auto overflow-x-hidden border text-sm">
                 <table>
                     <tr class="bg-cbc-dark-green text-white text-center uppercase">
                         <th colspan="2" class="p-2">Commodity Details</th>
@@ -49,6 +49,14 @@ export default {
                             <Link :href="route('register')" class="block px-4 py-2 text-sm leading-5 hover:bg-cbc-yellow-green focus:outline-none focus:bg-gray-100 transition duration-300 ease-in-out rounded">
                                 <span class="text-white underline active:text-gray-700 ">Create your own account</span>
                             </Link>
+                        </th>
+                    </tr>
+                    <tr class="bg-cbc-dark-green text-white text-center font-light" v-else>
+                        &nbsp;
+                        <th colspan="2" class="p-2 font-light">
+<!--                            <Link :href="route('projects.breedersmap.index')" class="block px-4 py-2 text-sm leading-5 hover:bg-cbc-yellow-green focus:outline-none focus:bg-gray-100 transition duration-300 ease-in-out rounded">
+                                <span class="text-white underline active:text-gray-700 ">Create your own account</span>
+                            </Link>-->
                         </th>
                     </tr>
                 </table>
