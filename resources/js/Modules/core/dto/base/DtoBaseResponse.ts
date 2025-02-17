@@ -1,8 +1,10 @@
 import IBaseResponse from "../../interface/base/IBaseResponse";
+import IDataView from "@/Modules/core/interface/base/IDataView";
 export default class DtoBaseResponse implements IBaseResponse {
     data: any;
     links?: any;
     meta?: any;
+    dataView?: IDataView;
 
     constructor(params: IBaseResponse) {
         if (!params) return;
@@ -11,6 +13,8 @@ export default class DtoBaseResponse implements IBaseResponse {
             this.links = params.data.links;
         if (params.data?.meta)
             this.meta = params.data.meta;
+        if (params.data?.dataView)
+            this.dataView = params.data.dataView;
     }
 
     getMeta() {
@@ -23,6 +27,10 @@ export default class DtoBaseResponse implements IBaseResponse {
 
     getLinks() {
         return this.links
+    }
+
+    getDataView(){
+        return this.dataView
     }
 
     getCurrentPage() {

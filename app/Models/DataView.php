@@ -31,4 +31,12 @@ class DataView extends BaseModel
     protected $casts = [
         'columns' => 'array',  // This will automatically cast it to an array on retrieval and store it as JSON in the database
     ];
+
+    /**
+     * Get the dataviews of a given model
+    */
+    public function scopeForModel($query, $model)
+    {
+        return $query->where('model', (new $model)->getTable());
+    }
 }

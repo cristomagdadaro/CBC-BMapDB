@@ -50,7 +50,7 @@ abstract class BaseController extends Controller
         return $this->service->multiDestroy($request->validated());
     }
 
-    public function sendResponse(...$data): JsonResponse
+    public function sendResponse($data = null): JsonResponse
     {
         $response = [
             'data' => $data,

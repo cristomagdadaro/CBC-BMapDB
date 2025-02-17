@@ -191,6 +191,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasRole(RoleEnum::RESEARCHER->value);
     }
 
+    public function dataView(): HasMany
+    {
+        return $this->hasMany(DataView::class, 'user_account_id');
+    }
+
+
     public function approve(int | array $id = null): void
     {
         if ($id) {

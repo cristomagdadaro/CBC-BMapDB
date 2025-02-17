@@ -29,12 +29,12 @@ export default {
         },
         async getBreedersDataView() {
             this.instance = new BMapSettingApiService(route('api.dataview.show')+'/'+this.breederTable);
-            this.responseBreeder = (await this.instance.get({})).data?.[0];
+            this.responseBreeder = (await this.instance.get({})).data;
             this.convertToDataViewClass('breeders');
         },
         async getCommoditiesDataView() {
             this.instance = new BMapSettingApiService(route('api.dataview.show')+'/'+this.commodityTable);
-            this.responseCommodity = (await this.instance.get({})).data?.[0];
+            this.responseCommodity = (await this.instance.get({})).data;
             this.convertToDataViewClass('commodities');
         },
         async saveForm(model) {
@@ -44,17 +44,19 @@ export default {
         },
         convertToDataViewClass(table) {
             if (!this.responseBreeder || typeof this.responseBreeder !== "object") {
-                console.warn("responseBreeder is not in the expected JSON format");
+                console.warn("responseBreeder is not in the expected JSON format. Converting...");
+                this.responseBreeder = {}; // Convert to an empty object to avoid errors
                 return;
             }
 
-            if (table === this.breederTable)
+
+            if (table === this.breederTable && this.responseBreeder)
                 Object.keys(this.responseBreeder).forEach(key => {
                     if (this.responseBreeder[key]) {
                         this.responseBreeder[key] = new DataView(this.responseBreeder[key]);
                     }
                 });
-            else if (table === this.commodityTable)
+            else if (table === this.commodityTable && this.responseCommodity)
                 Object.keys(this.responseCommodity).forEach(key => {
                     if (this.responseCommodity[key]) {
                         this.responseCommodity[key] = new DataView(this.responseCommodity[key]);
@@ -103,7 +105,9 @@ export default {
             <p class="mb-2">
                 Customize which data points are accessible based on different access levels.
                 Use the guide below to understand how each setting affects visibility.
+                <span class="font-semibold">Note:</span> This setting does not affect data tables; it only applies to cards, summaries, and other visual elements.
             </p>
+
 
             <label class="text-xl font-bold block mb-1">Access Level Guards:</label>
 
@@ -119,6 +123,7 @@ export default {
                 </li>
             </ul>
         </div>
+
         <div v-if="responseBreeder && !instance.processing " class="p-3 bg-gray-100 border">
             <h2 class="font-bold text-xl">Breeders Column View</h2>
             <template v-for="colGroup in responseBreeder">
