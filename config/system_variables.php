@@ -52,8 +52,8 @@ return [
     ],
     'dataview_guards' => [
         DataViews::PUBLIC->value,
-        DataViews::ONLYME->value,
-        DataViews::INSTITUTIONAL->value,
+        DataViews::PRIVATE->value,
+        //DataViews::INSTITUTIONAL->value,
         DataViews::SYSTEM->value
     ],
     'roles' => [

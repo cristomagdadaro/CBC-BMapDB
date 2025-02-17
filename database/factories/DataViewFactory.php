@@ -52,7 +52,7 @@ class DataViewFactory extends Factory
             ],
             [
                 'uuid' => $this->faker->uuid(), // Explicitly define UUID
-                'columns' => (new $modelClass)->getSearchable() ?? [],
+                'columns' => implode(',', (new $modelClass)->getSearchable() ?? []),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

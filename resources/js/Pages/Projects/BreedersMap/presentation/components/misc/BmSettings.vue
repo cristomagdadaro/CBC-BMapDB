@@ -3,15 +3,17 @@ import BMapSettingApiService from "@/Pages/Projects/BreedersMap/infrastructure/B
 import DataView from "@/Pages/Admin/domain/DataView";
 import Checkbox from "@/Components/Checkbox.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 
 export default {
     name: 'BmSettings',
-    components: {PrimaryButton, Checkbox},
+    components: {TransitionContainer, PrimaryButton, Checkbox},
     data() {
         return {
             instance: null,
             responseBreeder: null,
             responseCommodity: null,
+            responseApi: null,
             form: null,
             commodityTable: 'commodities',
             breederTable: 'breeders',
@@ -22,6 +24,9 @@ export default {
         await this.getCommoditiesDataView();
     },
     methods: {
+        clearForm(){
+          this.form = null;
+        },
         async getBreedersDataView() {
             this.instance = new BMapSettingApiService(route('api.dataview.show')+'/'+this.breederTable);
             this.responseBreeder = (await this.instance.get({})).data?.[0];
@@ -34,7 +39,8 @@ export default {
         },
         async saveForm(model) {
             this.instance = new BMapSettingApiService('/api/data-view'+'/'+model);
-            console.log(await this.instance.put(this.form));
+            this.responseApi = await this.instance.put(this.form);
+            this.clearForm();
         },
         convertToDataViewClass(table) {
             if (!this.responseBreeder || typeof this.responseBreeder !== "object") {
@@ -59,18 +65,22 @@ export default {
             return (new this.DataView(dataView))?.getVisibilityGuard;
         },
         isColumnVisible(guard, column, table) {
-            if (table === this.breederTable)
-                return this.responseBreeder?.[guard].getVisibleColumns.includes(column);
-            else if (table === this.commodityTable)
-                return this.responseCommodity?.[guard].getVisibleColumns.includes(column);
+            const visibleColumns =
+                table === this.breederTable
+                    ? this.responseBreeder?.[guard]?.getVisibleColumns
+                    : table === this.commodityTable
+                        ? this.responseCommodity?.[guard]?.getVisibleColumns
+                        : [];
+
+            return visibleColumns?.some((col) => col.endsWith(`.${column}`) || col === column);
         },
         toggleChecked(colGroup, col, model) {
             if (!this.form) {
                 this.form = DataView.updateForm(colGroup);
             }
 
-            if (this.form.columns.includes(col))
-                this.form.columns =  this.form.columns.filter((item) => item !== col);
+            if (this.form.columns?.some((column) => column.endsWith(`.${col}`) || col === column))
+                this.form.columns = this.form.columns.filter((item) => !item.endsWith(`.${col}`) && item !== col);
             else
                 this.form.columns.push(col);
 
@@ -88,26 +98,52 @@ export default {
 </script>
 
 <template>
-    <div class="flex flex-col gap-5">
+    <div class="flex flex-col gap-3">
+        <div class="text-lg leading-tight p-3 bg-gray-100 border rounded">
+            <p class="mb-2">
+                Customize which data points are accessible based on different access levels.
+                Use the guide below to understand how each setting affects visibility.
+            </p>
 
-        <div v-if="responseBreeder" class="p-3 bg-gray-100 border">
+            <label class="text-xl font-bold block mb-1">Access Level Guards:</label>
+
+            <ul class="list-disc list-inside space-y-1">
+                <li>
+                    <span class="font-bold">Public</span>: These columns are visible to everyone, including guests.
+                </li>
+                <li>
+                    <span class="font-bold">Private</span>: Only you can view these columns.
+                </li>
+                <li>
+                    <span class="font-bold">System</span>: These columns are restricted to authenticated users.
+                </li>
+            </ul>
+        </div>
+        <div v-if="responseBreeder && !instance.processing " class="p-3 bg-gray-100 border">
             <h2 class="font-bold text-xl">Breeders Column View</h2>
             <template v-for="colGroup in responseBreeder">
                 <form class="w-full p-2 flex flex-col gap-2" @submit.prevent="saveForm(getVisibility(colGroup), breederTable)" >
-                    <div class="flex flex-col leading-none">
+                    <div class="flex flex-col leading-tight">
                         <label class="font-semibold text-lg text-gray-700">Guard: {{ getVisibility(colGroup) }}</label>
                         <label class="text-sm text-gray-600">{{ colGroup.uuid }}</label>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         <template v-for="column in colGroup.getDefaultColumns">
-                            <div class="flex gap-2 items-center border p-1 px-2 w-fit rounded shadow-sm bg-white" @click="toggleChecked(colGroup, column, colGroup.model)">
+                            <div class="flex gap-2 items-center border py-3 px-4 w-fit rounded shadow-sm bg-white text-lg" :class="{'border-cbc-dark-green':isColumnVisible(getVisibility(colGroup), column, breederTable)}">
                                 <checkbox :value="column" :checked="isColumnVisible(getVisibility(colGroup), column, breederTable)" @update:checked="toggleChecked(colGroup, column, colGroup.model)"/>
                                 <label> {{column}} </label>
                             </div>
                         </template>
-                        <primary-button @click.prevent="saveForm(breederTable)">
-                            <span>Save</span>
-                        </primary-button>
+                        <transition-container>
+                            <div v-show="colGroup?.uuid === form?.uuid" class="flex flex-wrap gap-2">
+                                <primary-button @click.prevent="saveForm(commodityTable)">
+                                    Save
+                                </primary-button>
+                                <primary-button @click.prevent="clearForm">
+                                    Cancel
+                                </primary-button>
+                            </div>
+                        </transition-container>
                     </div>
                 </form>
             </template>
@@ -116,18 +152,27 @@ export default {
             <h2 class="font-bold text-xl">Commodities Column View</h2>
             <template v-for="colGroup in responseCommodity">
                 <form class="w-full p-2 flex flex-col gap-2" @submit.prevent="saveForm(getVisibility(colGroup), commodityTable)" >
-                    <div class="flex flex-col leading-none">
+                    <div class="flex flex-col leading-tight">
                         <label class="font-semibold text-lg text-gray-700">Guard: {{ getVisibility(colGroup) }}</label>
                         <label class="text-sm text-gray-600">{{ colGroup.uuid }}</label>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         <template v-for="column in colGroup.getDefaultColumns">
-                            <div class="flex gap-2 items-center border p-1 px-2 w-fit rounded shadow-sm bg-white">
+                            <div class="flex gap-2 items-center border py-3 px-4 w-fit rounded shadow-sm bg-white text-lg" :class="{'border-cbc-dark-green':isColumnVisible(getVisibility(colGroup), column, commodityTable)}">
                                 <checkbox :value="column" :checked="isColumnVisible(getVisibility(colGroup), column, commodityTable)" @update:checked="toggleChecked(colGroup, column, colGroup.model)"/>
                                 <label> {{column}} </label>
                             </div>
                         </template>
-                        <primary-button @click.prevent="saveForm(commodityTable)">Save</primary-button>
+                        <transition-container>
+                            <div v-show="colGroup?.uuid === form?.uuid" class="flex flex-wrap gap-2">
+                                <primary-button @click.prevent="saveForm(commodityTable)">
+                                    Save
+                                </primary-button>
+                                <primary-button @click.prevent="clearForm">
+                                    Cancel
+                                </primary-button>
+                            </div>
+                        </transition-container>
                     </div>
                 </form>
             </template>
