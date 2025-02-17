@@ -117,6 +117,8 @@ export default class ApiService implements IApiService
 
             if (data.id)
                 response = await axios.put(this.baseUrl + '/' + data.id, data);
+            else if (data.uuid)
+                response = await axios.put(this.baseUrl + '/' + data.uuid, data);
             else
                 response = await axios.put(this.baseUrl, data)
             return new BaseResponse(response);

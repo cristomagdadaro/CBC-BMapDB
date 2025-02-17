@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->bigInteger('user_account_id'); //accounts id table
             $table->string('model');
-            $table->text('columns')->nullable();
+            $table->json('columns')->nullable();
             $table->string('visibility_guard')->default('private');
             $table->timestamps();
             $table->softDeletes();

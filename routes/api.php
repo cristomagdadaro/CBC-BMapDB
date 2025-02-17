@@ -42,7 +42,7 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
     Route::controller(DataViewController::class)->group(function () {
        Route::get('/data-view', 'index')->name('api.dataview.index');
        Route::get('/data-view/{table?}', 'show')->name('api.dataview.show');
-       //Route::post('/data-view/{table?}', 'store')->name('api.dataview.store');
-       //Route::put('/data-view/{table?}', 'update')->name('api.dataview.update');
+       Route::post('/data-view/{table?}', 'store')->name('api.dataview.store');
+       Route::put('/data-view/{table?}/{uuid?}', 'update')->name('api.dataview.update');
     });
 });

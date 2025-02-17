@@ -18,7 +18,6 @@ class UpdateDataViewRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'uuid' => $this->uuid ?? Str::uuid()->toString(),
             'user_account_id' => auth()->user()->id,
         ]);
     }
@@ -34,7 +33,7 @@ class UpdateDataViewRequest extends FormRequest
             'uuid' => 'nullable|string',  // UUID can be nullable, and if not provided, it will be generated
             'user_account_id' => 'required|exists:users,id',
             'model' => 'required|string',
-            'columns' => 'required|string',
+            'columns' => 'required|array|min:1',
             'visibility_guard' => 'required|string',
         ];
     }
