@@ -60,7 +60,7 @@ return [
         Role::ADMIN->value,
         Role::BREEDER->value,
         Role::FOCAL_PERSON->value,
-        Role::TWG_ADMIN->value,
+        Role::TWG_MANAGER->value,
         Role::RESEARCHER->value,
     ],
     'paginate_parameters' => [
