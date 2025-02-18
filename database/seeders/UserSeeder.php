@@ -83,7 +83,7 @@ class UserSeeder extends Seeder
         $researcher->approve(2);
 
         $admin->assignRole(Role::ADMIN->value);
-        $twgAdmin->assignRole(Role::TWG_ADMIN->value);
+        $twgAdmin->assignRole(Role::TWG_MANAGER->value);
         $breeder->assignRole(Role::BREEDER->value);
         $focalPerson->assignRole(Role::FOCAL_PERSON->value);
         $researcher->assignRole(Role::RESEARCHER->value);
@@ -349,7 +349,7 @@ class UserSeeder extends Seeder
 
         foreach ($users as $user) {
             $user = User::create($user);
-            $user->assignRole(Role::TWG_ADMIN->value);
+            $user->assignRole(Role::TWG_MANAGER->value);
             $user->accounts()->create([
                 'user_id' => $user->id,
                 'app_id' => 1,
