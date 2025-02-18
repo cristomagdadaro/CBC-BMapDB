@@ -59,11 +59,9 @@ export default {
         <public-page-section :animation="false">
             <div class="drop-shadow-md flex flex-col gap-5 shadow-lg bg-cbc-yellow mb-10 rounded-md sm:gap-1 sm:p-8 p-5 sm:text-left text-center">
                 <div class="text-cbc-brown">
-                    <h1 class="text-subtitle leading-relaxed font-medium font-monospace">
-                       {{ Object.values(CBCProjectsPublic())[1].label }}
-                    </h1>
+                    <img src="/img/logos/biotwg.png" alt="Biotech TWG Database Logo" class="mx-auto w-auto h-[8rem] drop-shadow-md"/>
                     <p class="text-normal text-justify">
-                        Note: These data may change
+                        For a more comprehensive view of the TWG data, please login or register to the system.
                     </p>
                 </div>
                 <div v-if="apiService" class="flex flex-col gap-3">
