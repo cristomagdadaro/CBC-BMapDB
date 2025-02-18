@@ -196,6 +196,38 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(DataView::class, 'user_account_id');
     }
 
+    public function generateDataView()
+    {
+        $visibilityGuards = config('system_variables.dataview_guards');
+        $faker = \Faker\Factory::create(); // Correct Faker import
+        $modelClass = [
+            Breeder::class,
+            Commodity::class,
+            TWGExpert::class,
+            TWGProduct::class,
+            TWGProject::class,
+            TWGService::class
+        ];
+
+        foreach ($modelClass as $model) {
+            foreach ($visibilityGuards as $guard) {
+                // Check if entry exists, otherwise create it
+                DataView::firstOrCreate(
+                    [
+                        'user_account_id' => $this->id,
+                        'model' => (new $model)->getTable(),
+                        'visibility_guard' => $guard,
+                    ],
+                    [
+                        'uuid' => $faker->uuid(), // Generate UUID
+                        'columns' => (new $model)->getSearchable(),
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]
+                );
+            }
+        }
+    }
 
     public function approve(int | array $id = null): void
     {

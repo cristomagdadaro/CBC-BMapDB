@@ -82,10 +82,6 @@ export default {
                 is_exact: null
             })
         },
-        model: {
-            type: [BaseClass, Function],
-            required: false,
-        },
     },
     data() {
         return {
@@ -104,6 +100,7 @@ export default {
             placesSearched: [],
             //placesFiltered: [],
             dataFiltrationUrl: null,
+            dataModel: null,
             tileProviders: [
                 {
                     name: 'CartoDB Voyager',
@@ -232,7 +229,6 @@ export default {
             this.mapApi.selectPoint(point);
         },
         determinePointColor(value) {
-
             switch (value) {
                 case 'Rice':
                     return '#005B41';
@@ -256,7 +252,6 @@ export default {
         },
         offlineSearch(search)
         {
-            //filter every column
             this.placesSearched = this.newData.filter((point) => {
                 return Object.keys(point).some((key) => {
                     return String(point[key]).toLowerCase().includes(search.toLowerCase());
@@ -268,6 +263,13 @@ export default {
         },
         getNestedValue(obj, path) {
             return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        },
+        changeTable(table){
+            this.dataFiltrationUrl = table;
+            this.dataModel = this.tableList.filter((item) => item.route === table)?.[0]?.model;
+        },
+        dataRefreshed(data) {
+            this.dataFiltration = data;
         },
     },
     watch: {
@@ -309,8 +311,8 @@ export default {
             <template v-if="tableList && !offline">
                 <data-filtration-fields
                     :tables="tableList"
-                    @tableChange="dataFiltrationUrl = $event"
-                    @dataRefreshed="dataFiltration = $event"
+                    @tableChange="changeTable($event)"
+                    @dataRefreshed="dataRefreshed($event)"
                     @processingRequest="processingRequest"
                     :params="params"
                 />
@@ -385,28 +387,11 @@ export default {
                             </top-action-btn>
                             <FullscreenToggle :element="$refs.mapContainer" />
                         </div>
-                        <info-sidebar :model="model" :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
+                        {{ mapApi?.selectedPlace }}
+                        <info-sidebar :model="dataModel" :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
                     </div>
                 </l-control>
             </l-map>
-        </div>
-        <div class="hidden">
-            <table v-if="newData">
-                <thead>
-                    <tr>
-                        <template v-for="column in mapApi.model.getCardColumns()">
-                            <th v-if="column.visible" :key="column.db_key">{{ column.title }}</th>
-                        </template>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="point in newData" :key="point.id">
-                        <template v-for="column in mapApi.model.getColumns()">
-                            <td v-if="column.visible" :key="column.db_key">{{ getNestedValue(point, column.key) }}</td>
-                        </template>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </div>
     <div v-else class="flex flex-col max-h-fit gap-2" >

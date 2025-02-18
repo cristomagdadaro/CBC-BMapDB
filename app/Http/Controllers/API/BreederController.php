@@ -69,6 +69,8 @@ class BreederController extends BaseController implements BreederControllerInter
                 'approved_at' => now(),
             ]);
 
+            $breederUser->generateDataView();
+
             if ($request->user()->isAdmin())
                 $data = array_merge($data, ['user_id' => $breederUser->id]);
 
@@ -111,7 +113,7 @@ class BreederController extends BaseController implements BreederControllerInter
 
         // Update the corresponding user account
         $user = User::where('id' , $user_id);
-        
+
         if ($request->validated()['email'] !== $user->value('email') &&  $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $validator->validated());
         }

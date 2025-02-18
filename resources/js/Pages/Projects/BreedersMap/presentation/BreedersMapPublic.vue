@@ -100,7 +100,7 @@ export default {
             </div>
             <Tab :tabs="tabs">
                 <template #tab1>
-                    <Map :table-list="tables" :model="Commodity" :params="$page.props.params"/>
+                    <Map :table-list="tables" :params="$page.props.params"/>
                 </template>
                 <template #tab2>
                     <Summary :table-list="tables"  />

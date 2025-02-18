@@ -71,7 +71,6 @@ export default {
             <tab :tabs="tabs">
                 <template v-slot:tab1>
                     <div class="flex flex-col gap-8">
-                        {{form.scientific_name}}
                         <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                             <select-field required :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" />
                             <text-field required :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />

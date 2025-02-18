@@ -14,7 +14,7 @@ class BaseModel extends Model
 {
     protected $table = null;
 
-    protected $ignoreUserBasedFiltratration = false;
+    protected bool $ignoreUserBasedFiltratration = false;
 
     protected array $searchable = [];
 

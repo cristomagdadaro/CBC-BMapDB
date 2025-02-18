@@ -2,9 +2,17 @@
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import {Link} from "@inertiajs/vue3";
 import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
+import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 
 export default {
     computed: {
+        Breeder() {
+            return Breeder
+        },
+        Commodity() {
+            return Commodity
+        },
         instance() {
             return new this.model(this.point);
         }
@@ -33,11 +41,11 @@ export default {
                 <close-icon class="w-8 h-8 drop-shadow text-white" />
             </button>
             <div v-if="point" class="drop-shadow-md overflow-y-auto overflow-x-hidden border text-sm">
-                <table>
+                <table v-if="model === Commodity">
                     <tr class="bg-cbc-dark-green text-white text-center uppercase">
                         <th colspan="2" class="p-2">Commodity Details</th>
                     </tr>
-                    <template v-for="(value, key) in model.getCardColumns()" :key="key">
+                    <template v-if="model" v-for="(value, key) in model.getCardColumns()" :key="key">
                         <tr v-if="instance[value.key] && value.visible" >
                             <th class="text-right text-gray-900 whitespace-nowrap bg-gray-300 p-0.5 px-2">{{ value.title }}</th>
                             <td class="p-0.5 px-2">{{  getNestedValue(instance, value.key) }}</td>
@@ -46,6 +54,33 @@ export default {
                     <tr class="bg-cbc-dark-green text-white text-center font-light" v-if="!$page.props.auth.user">
                         <th colspan="2" class="p-2 font-light">
                             To access more information about this commodity
+                            <Link :href="route('register')" class="block px-4 py-2 text-sm leading-5 hover:bg-cbc-yellow-green focus:outline-none focus:bg-gray-100 transition duration-300 ease-in-out rounded">
+                                <span class="text-white underline active:text-gray-700 ">Create your own account</span>
+                            </Link>
+                        </th>
+                    </tr>
+                    <tr class="bg-cbc-dark-green text-white text-center font-light" v-else>
+                        &nbsp;
+                        <th colspan="2" class="p-2 font-light">
+<!--                            <Link :href="route('projects.breedersmap.index')" class="block px-4 py-2 text-sm leading-5 hover:bg-cbc-yellow-green focus:outline-none focus:bg-gray-100 transition duration-300 ease-in-out rounded">
+                                <span class="text-white underline active:text-gray-700 ">Create your own account</span>
+                            </Link>-->
+                        </th>
+                    </tr>
+                </table>
+                <table v-else-if="model === Breeder">
+                    <tr class="bg-cbc-dark-green text-white text-center uppercase">
+                        <th colspan="2" class="p-2">Breeder Details</th>
+                    </tr>
+                    <template v-if="model" v-for="(value, key) in model.getCardColumns()" :key="key">
+                        <tr v-if="instance[value.key] && value.visible" >
+                            <th class="text-right text-gray-900 whitespace-nowrap bg-gray-300 p-0.5 px-2">{{ value.title }}</th>
+                            <td class="p-0.5 px-2">{{  getNestedValue(instance, value.key) }}</td>
+                        </tr>
+                    </template>
+                    <tr class="bg-cbc-dark-green text-white text-center font-light" v-if="!$page.props.auth.user">
+                        <th colspan="2" class="p-2 font-light">
+                            To access more information about this breeder
                             <Link :href="route('register')" class="block px-4 py-2 text-sm leading-5 hover:bg-cbc-yellow-green focus:outline-none focus:bg-gray-100 transition duration-300 ease-in-out rounded">
                                 <span class="text-white underline active:text-gray-700 ">Create your own account</span>
                             </Link>
