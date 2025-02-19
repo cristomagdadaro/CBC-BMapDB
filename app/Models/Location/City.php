@@ -9,6 +9,8 @@ class City extends BaseModel
 {
     use HasFactory;
 
+    protected $ignoreUserBasedFiltratration = true;
+
     protected $table = 'loc_cities';
 
     protected $fillable = [

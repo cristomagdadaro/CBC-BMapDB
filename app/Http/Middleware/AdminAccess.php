@@ -19,8 +19,7 @@ class AdminAccess
         if ($request->user() && $request->user()->isAdmin()) {
             return $next($request);
         }
-        //return response()->json(['message' => 'You are not authorized to access. Need an admin access.'], 403);
-        // go dashboard
+
         return Inertia::location(route('dashboard'));
     }
 }

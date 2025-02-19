@@ -67,10 +67,12 @@ export default {
             <div v-if="breederInstance" class="flex flex-col gap-2">
                 <h1 class="text-lg font-semibold uppercase select-none px-3">Breeder Information</h1>
                 <div class="border p-3 rounded-lg bg-white mx-2 grid sm:grid-cols-2 grid-cols-1">
-                    <div class="flex gap-1" v-for="column in Breeder.visibleColumns()">
-                        <h2 class="h2 font-semibold select-none text-normal">{{column.title}}: </h2>
-                        <p class="text-normal">{{ Breeder.getNestedValue(breederInstance, column.key) }}</p>
-                    </div>
+                    <template v-for="column in Breeder.getCardColumns()" >
+                        <div class="flex gap-1" v-if="column.visible">
+                            <h2 class="h2 font-semibold select-none text-normal">{{column.title}}: </h2>
+                            <p class="text-normal">{{ Breeder.getNestedValue(breederInstance, column.key) }}</p>
+                        </div>
+                    </template>
                 </div>
                 <h1 class="text-lg font-semibold uppercase select-none px-3 mt-5">Commodities</h1>
                 <Tab :tabs="tabs">

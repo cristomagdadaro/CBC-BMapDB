@@ -163,6 +163,7 @@ return [
          * Package service Providers...
          */
         Laravel\Socialite\SocialiteServiceProvider::class,
+        //Modules\PbMap\Providers\PbMapServiceProvider::class,
         /*
          * Application service Providers...
          */

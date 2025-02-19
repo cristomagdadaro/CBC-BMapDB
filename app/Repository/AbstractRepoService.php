@@ -144,10 +144,11 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     }
 
 
-    public function find(int $id, $parameters): JsonResponse|Model
+    public function find(int $id, $parameters = null): JsonResponse|Model
     {
         $builder = $this->model->query();
-        $this->applyAppends($builder, $parameters);
+        if ($parameters)
+            $this->applyAppends($builder, $parameters);
         return $builder->findOr($id, fn() => $this->jsonResponse('not_found'));
     }
 
@@ -375,22 +376,8 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
     public function checkRole(BaseModel|Model $model)
     {
-        if (auth()->check() && auth()->user()->isAdmin()) {
-            return $model; // Return the model directly if the user is an admin
-        } else if (!auth()->check()) {
-            return $model; // Return the model directly if the user is not authenticated, for testing
-        }
-
-        try {
-            if (Schema::hasColumn($this->model->getTable(), 'user_id')) {
-                $model = $model->ownedBy(auth()->user()); // Filter data to retrieve only those owned by the user
-            }
-        } catch (\Exception $e) {
-            // Handle the exception appropriately, e.g., log it or return an error response
-            return $this->sendError($e);
-        }
-
-        return $model;
+        $query = $model->newQuery();
+        return $query->ownedBy($query);
     }
 
     protected function logApiRequest(string $method, string $url, array $data): void

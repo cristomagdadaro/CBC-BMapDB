@@ -1,12 +1,12 @@
 <?php
 
 use App\Http\Controllers\API\ApplicationController;
-use App\Http\Controllers\API\BreederController;
-use App\Http\Controllers\API\CommodityController;
 use App\Http\Controllers\API\InstituteController;
 use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\CityProvRegController;
 use Illuminate\Support\Facades\Route;
+use Modules\PbMap\Controllers\BreederController;
+use Modules\PbMap\Controllers\CommodityController;
 
 
 /* Public Api */

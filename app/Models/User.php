@@ -20,6 +20,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\PbMap\Models\Breeder;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -123,17 +124,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function makeBreeder(array $request, $olderBreeder): Model
     {
-        return $this->breeder()->getModel()->create(
-            array_merge(
-                $request, // Ensure request is an array
-                [
-                    'user_id' => $this->id,
-                    'password' => bcrypt(DefaultPassword::Value->value),
-                    'password_confirmation' => bcrypt(DefaultPassword::Value->value),
-                    'geolocation' => optional($olderBreeder->affiliated()->getModel()->city())->select('id')->get(),
-                ]
-            )
+        $attributes =  array_merge(
+            $request, // Ensure request is an array
+            [
+                'user_id' => $this->id,
+                'geolocation' => $this->affiliated->id,
+            ]
         );
+
+        return $this->breeder()->firstOrCreate($attributes);
     }
 
     public function twgexpert(): HasMany

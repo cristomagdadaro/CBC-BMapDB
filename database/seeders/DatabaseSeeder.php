@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Enums\Role;
-use App\Models\Institute;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -21,9 +19,9 @@ class DatabaseSeeder extends Seeder
             InstituteSeeder::class,
             RoleAndPermissionSeeder::class,
             UserSeeder::class,
-            //BreedersMapSeeder::class,
+            BreedersMapSeeder::class,
             //TWGDatabaseSeeder::class,
-            //DataViewSeeder::class,
+            DataViewSeeder::class,
         ]);
 
         $users = User::all();

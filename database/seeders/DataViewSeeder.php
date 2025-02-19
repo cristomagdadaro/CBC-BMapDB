@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Breeder;
-use App\Models\Commodity;
+use Modules\PbMap\Models\Breeder;
+use Modules\PbMap\Models\Commodity;
 use App\Models\DataView;
 use App\Models\TWGExpert;
 use App\Models\TWGProduct;

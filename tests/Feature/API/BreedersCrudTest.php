@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Models\Breeder;
+use Modules\PbMap\Models\Breeder;
 use Tests\TestCase;
 
 class BreedersCrudTest extends TestCase

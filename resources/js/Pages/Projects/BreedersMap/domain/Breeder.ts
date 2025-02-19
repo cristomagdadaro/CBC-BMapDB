@@ -57,10 +57,10 @@ export default class Breeder extends DtoBreeder{
     static getCardColumns() {
         return [
             {
-                title: 'ID',
+                title: 'Breeder No.',
                 key: 'id',
                 align: 'center',
-                visible: false,
+                visible: true,
             },
             {
                 title: 'User ID',
@@ -93,8 +93,8 @@ export default class Breeder extends DtoBreeder{
                 visible: true,
             },
             {
-                title: 'Commodities',
-                key: 'commoditiesCount',
+                title: 'Breeding Crops',
+                key: 'commoditiesList',
                 align: 'text-center',
                 visible: true,
             },

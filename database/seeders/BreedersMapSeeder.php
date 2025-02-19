@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Enums\Role;
-use App\Models\Breeder;
-use App\Models\Commodity;
+use Modules\PbMap\Models\Breeder;
+use Modules\PbMap\Models\Commodity;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
