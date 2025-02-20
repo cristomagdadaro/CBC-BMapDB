@@ -76,4 +76,9 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
     get commoditiesCount() {
         return this.commodities_count;
     }
+
+    get commoditiesList() {
+        // @ts-ignore
+        return [...new Set(this.commodities.map(c => c.name))].join(', ');
+    }
 }

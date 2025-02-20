@@ -3,10 +3,10 @@
 namespace Database\Factories;
 
 use App\Models\Institute;
-use App\Models\TWGExpert;
-use App\Models\TWGProject;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\TwgDb\Models\TWGExpert;
+use Modules\TwgDb\Models\TWGProject;
 
 /**
  * @extends Factory<TWGProject>

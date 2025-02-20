@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Permission;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class GetAccountForRequest extends BaseRequest

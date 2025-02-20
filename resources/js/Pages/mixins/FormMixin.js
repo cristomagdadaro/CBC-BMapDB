@@ -72,8 +72,7 @@ export default {
             return (new this.User(this.$page.props.auth.user)).isAdmin;
         },
         async getCustomSelectionOptions(url){
-            let response = await (new ApiService(url)).get()
-            return response;
+            return await (new ApiService(url)).get();
         }
     },
     watch: {

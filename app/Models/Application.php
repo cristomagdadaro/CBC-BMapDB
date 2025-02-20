@@ -12,7 +12,7 @@ class Application extends BaseModel
 
     protected $table = 'applications';
 
-    protected $ignoreUserBasedFiltratration = true;
+    protected bool $ignoreUserBasedFiltratration = true;
 
 
     protected $fillable = [

@@ -2,16 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\Breeder;
-use App\Models\Commodity;
 use App\Models\DataView;
-use App\Models\TWGExpert;
-use App\Models\TWGProduct;
-use App\Models\TWGProject;
-use App\Models\TWGService;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\DB;
+use Modules\PbMap\Models\Breeder;
+use Modules\PbMap\Models\Commodity;
+use Modules\TwgDb\Models\TWGExpert;
+use Modules\TwgDb\Models\TWGProduct;
+use Modules\TwgDb\Models\TWGProject;
+use Modules\TwgDb\Models\TWGService;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DataView>

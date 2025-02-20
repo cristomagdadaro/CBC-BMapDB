@@ -1,11 +1,10 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature\Tests\Unit;
 
-use App\Models\Breeder;
-use App\Models\Commodity;
+use Modules\PbMap\Models\Breeder;
+use Modules\PbMap\Models\Commodity;
 use Tests\Feature\BaseTest;
-use Tests\TestCase;
 
 class CommodityCrudTest extends BaseTest
 {

@@ -147,9 +147,8 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function find(int $id, $parameters = null): JsonResponse|Model
     {
         $builder = $this->model->query();
-        if ($parameters) {
+        if ($parameters)
             $this->applyAppends($builder, $parameters);
-        }
         return $builder->findOr($id, fn() => $this->jsonResponse('not_found'));
     }
 
@@ -304,9 +303,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $searchable = Schema::getColumnListing($table);
 
             $query->where(function ($query) use ($search, $searchable, $is_exact, $table, $filter) {
-                if ($filter === 'name' && $table === 'users') {
+                if (($filter === 'name' && in_array('fname', $searchable) && in_array('lname', $searchable) || $table === 'users')) {
                     $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
-                } else if ($filter && Schema::hasColumn($table, $filter)) {
+                } else if ($filter) {
                     if ($is_exact) {
                         $query->orWhere($filter, $search);
                     } else {

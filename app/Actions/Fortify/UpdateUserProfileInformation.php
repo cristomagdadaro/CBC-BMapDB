@@ -2,13 +2,12 @@
 
 namespace App\Actions\Fortify;
 
-use App\Enums\DefaultPassword;
-use App\Http\Requests\CreateBreederRequest;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
+use Modules\PbMap\Requests\CreateBreederRequest;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
@@ -36,14 +35,32 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 
         // when user changes affiliation, add them as a breeder to the new agency. Don't remove them from the previous agency since it will make the data inconsistent.
         if ($user->isBreeder()) {
-            // get the breeder model
+            // Get the breeder model
             $model = $user->breeder()->getModel();
-            // check if the user is already a breeder in the institution
-            $temp = $model->where('user_id', $user->id)->where('affiliation', $input['affiliation']);
 
-            if (!$temp->count()) {
-                Validator::make($input, (new CreateBreederRequest())->rules())->validateWithBag('updateProfileInformation');
-                $user->makeBreeder($input->all(), $user->breeder()->first());
+            // Check if the user is already a breeder in the institution
+            $breeder = $model->where('email', $input['email'])
+                ->where('mobile_no', $input['mobile_no'])
+                ->first();
+
+            if (!$breeder) {
+                // Validate input before creating a new breeder entry
+                $input = Validator::make($input, (new CreateBreederRequest())->rules($user->id))
+                    ->validateWithBag('updateProfileInformation');
+
+                // Create a new breeder entry for the new institution
+                $user->makeBreeder($input, $user->breeder());
+            } else {
+                // Update existing breeder record if necessary
+                $breeder->update([
+                    'fname' => $input['fname'] ?? $breeder->fname,
+                    'mname' => $input['mname'] ?? $breeder->mname,
+                    'lname' => $input['lname'] ?? $breeder->lname,
+                    'email' => $input['email'] ?? $breeder->email,
+                    'mobile_no' => $input['mobile_no'] ?? $breeder->mobile_no,
+                    'geolocation' => $input['geolocation'] ?? $breeder->geolocation,
+                    'affiliation' => $input['affiliation'] ?? $breeder->affiliation,
+                ]);
             }
         }
 

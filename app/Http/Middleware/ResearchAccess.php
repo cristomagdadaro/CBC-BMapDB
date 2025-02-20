@@ -18,6 +18,7 @@ class ResearchAccess
         if ($request->user() && ($request->user()->isResearcher() || $request->user()->isAdmin())) {
             return $next($request);
         }
+
         return response()->json(['message' => 'You are not authorized to access. Needs a researcher access.'], 403);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Permission;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class GetUserRequest extends BaseRequest
@@ -12,9 +11,6 @@ class GetUserRequest extends BaseRequest
      */
     public function authorize(): bool
     {
-        if (!empty(auth()->user()))
-            return auth()->user()->hasPermissionTo(Permission::READ_USER->value) || auth()->user()->isAdmin();
-
         return true;
     }
 

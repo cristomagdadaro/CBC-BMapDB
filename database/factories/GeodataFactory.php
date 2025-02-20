@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Breeder;
 use App\Models\Geodata;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\PbMap\Models\Breeder;
 
 /**
  * @extends Factory<Geodata>

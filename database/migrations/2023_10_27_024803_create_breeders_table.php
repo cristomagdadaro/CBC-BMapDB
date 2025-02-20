@@ -23,7 +23,6 @@ return new class extends Migration
             $table->foreignId('affiliation')->constrained('institutes');
             $table->foreignId('geolocation')->constrained('loc_cities');
 
-            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

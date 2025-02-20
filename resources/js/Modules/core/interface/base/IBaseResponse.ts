@@ -1,7 +1,8 @@
 import IDatatableResponse from "./IDatatableResponse";
-import Notification from "@/Components/Modal/Notification/Notification";
+import IDataView from "@/Modules/core/interface/base/IDataView";
 export default interface IBaseResponse {
     data: IDatatableResponse | any;
     meta?: any;
     links?: any;
+    dataView?: IDataView;
 }

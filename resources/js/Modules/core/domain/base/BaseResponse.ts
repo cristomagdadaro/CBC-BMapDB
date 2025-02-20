@@ -15,7 +15,6 @@ export default class BaseResponse extends DtoBaseResponse {
             data: this.data,
             meta: this.meta,
             links: this.links,
-            notification: this.notification,
         }
     }
 }

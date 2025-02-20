@@ -6,10 +6,10 @@ use App\Http\Requests\CreateDataViewRequest;
 use App\Http\Requests\GetDataViewsRequest;
 use App\Http\Requests\UpdateDataViewRequest;
 use App\Repository\API\DataViewRepo;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Str;
 
 class DataViewController extends BaseController
 {
@@ -33,30 +33,46 @@ class DataViewController extends BaseController
         return $this->sendResponse($result);
     }
 
-    public function show(GetDataViewsRequest $request, string $table)
+    public function show(GetDataViewsRequest $request, string $table): JsonResponse
     {
-        if (auth()->user()->isAdmin()){
-            $data = $this->service->model->all()->where('model', $table)->groupBy('visibility_guard');
-        } else {
-            $id = auth()->user()->id;
-            $data = $this->service->model->all()->where('model', $table)->where('user_account_id', $id)->groupBy('visibility_guard');
+        $user = auth()->user();
+        $query = $this->service->model->where('model', $table);
+
+        // If not admin, filter by user_account_id
+        if (!$user->isAdmin()) {
+            $query->where('user_account_id', $user->id);
         }
 
-        $default = Schema::table($table, function ($res) { return  $this->sendResponse([$res]);});
-        return $this->sendResponse([$data, ['default' => $default]]);
+        // Get data and group by visibility_guard
+        $data = $query->get()->groupBy('visibility_guard')->mapWithKeys(function ($items, $key) {
+            $item = $items->first(); // Assuming one row per visibility_guard
+            return [
+                $key => [
+                    'uuid'             => $item->uuid,
+                    'user_account_id'  => $item->user_account_id,
+                    'model'            => $item->model,
+                    'columns'          => $item->columns,
+                    'default'          => Schema::getColumnListing($item->model),
+                    'visibility_guard' => $item->visibility_guard,
+                    'created_at'       => $item->created_at,
+                    'updated_at'       => $item->updated_at,
+                    'deleted_at'       => $item->deleted_at,
+                ]
+            ];
+        });
+
+        return $this->sendResponse($data);
     }
+
 
     public function  store(CreateDataViewRequest $request)
     {
         return parent::_store($request);
     }
 
-    public function update(UpdateDataViewRequest $request)
+    public function update(UpdateDataViewRequest $request, $table, $uuid): JsonResponse
     {
-        $id = auth()->user()->id;
-        $data = $this->service->model->where('user_account_id', $id);
-        $data->update($request->validated());
-
-        return $this->sendResponse($data);
+        $data = $this->service->model->where('uuid', $uuid);
+        return $this->sendResponse($data->update($request->validated()));
     }
 }

@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Enums\Permission as PermissionEnum;
+use Modules\PbMap\Enums as PbMapPermissions;
+use Modules\TwgDb\Enums as TwgDbPermissions;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\GetAccountForRequest;
@@ -157,30 +158,30 @@ class AccountController extends BaseController
         // You might want to have a mapping or logic to determine permissions for each app
         return match ($appId) {
             1 => [
-                PermissionEnum::CREATE_TWG_EXPERT->value,
-                PermissionEnum::UPDATE_TWG_EXPERT->value,
-                PermissionEnum::READ_TWG_EXPERT->value,
+                TwgDbPermissions\Permissions::CREATE_TWG_EXPERT->value,
+                TwgDbPermissions\Permissions::UPDATE_TWG_EXPERT->value,
+                TwgDbPermissions\Permissions::READ_TWG_EXPERT->value,
 
-                PermissionEnum::CREATE_TWG_SERVICE->value,
-                PermissionEnum::UPDATE_TWG_SERVICE->value,
-                PermissionEnum::READ_TWG_SERVICE->value,
+                TwgDbPermissions\Permissions::CREATE_TWG_SERVICE->value,
+                TwgDbPermissions\Permissions::UPDATE_TWG_SERVICE->value,
+                TwgDbPermissions\Permissions::READ_TWG_SERVICE->value,
 
-                PermissionEnum::CREATE_TWG_PRODUCT->value,
-                PermissionEnum::UPDATE_TWG_PRODUCT->value,
-                PermissionEnum::READ_TWG_PRODUCT->value,
+                TwgDbPermissions\Permissions::CREATE_TWG_PRODUCT->value,
+                TwgDbPermissions\Permissions::UPDATE_TWG_PRODUCT->value,
+                TwgDbPermissions\Permissions::READ_TWG_PRODUCT->value,
 
-                PermissionEnum::CREATE_TWG_PROJECT->value,
-                PermissionEnum::UPDATE_TWG_PROJECT->value,
-                PermissionEnum::READ_TWG_PROJECT->value,
+                TwgDbPermissions\Permissions::CREATE_TWG_PROJECT->value,
+                TwgDbPermissions\Permissions::UPDATE_TWG_PROJECT->value,
+                TwgDbPermissions\Permissions::READ_TWG_PROJECT->value,
             ],
             2 => [
-                PermissionEnum::CREATE_BREEDER->value,
-                PermissionEnum::UPDATE_BREEDER->value,
-                PermissionEnum::READ_BREEDER->value,
+                PbMapPermissions\Permissions::CREATE_BREEDER->value,
+                PbMapPermissions\Permissions::UPDATE_BREEDER->value,
+                PbMapPermissions\Permissions::READ_BREEDER->value,
 
-                PermissionEnum::CREATE_COMMODITY->value,
-                PermissionEnum::UPDATE_COMMODITY->value,
-                PermissionEnum::READ_COMMODITY->value,
+                PbMapPermissions\Permissions::CREATE_COMMODITY->value,
+                PbMapPermissions\Permissions::UPDATE_COMMODITY->value,
+                PbMapPermissions\Permissions::READ_COMMODITY->value,
             ],
             default => [],
         };

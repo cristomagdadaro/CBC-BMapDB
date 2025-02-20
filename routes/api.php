@@ -4,7 +4,6 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\DataViewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
 /*
 |-------------------------------------------------------------------------
 | API Routes
@@ -36,14 +35,14 @@ require_once 'components/PublicRoutes.php';
 require_once 'components/OpenAiRoutes.php';
 
 Route::middleware(['api','auth:sanctum','verified'])->group(function() {
-    require_once 'components/TWGDbRoutes.php';
-    require_once 'components/BreedersMapRoutes.php';
+    require_once base_path('Modules/TwgDb/Routes/TWGDbRoutes.php');
+    require_once base_path('Modules/PbMap/Routes/BreedersMapRoutes.php');
     require_once 'components/SystemRoutes.php';
 
     Route::controller(DataViewController::class)->group(function () {
        Route::get('/data-view', 'index')->name('api.dataview.index');
        Route::get('/data-view/{table?}', 'show')->name('api.dataview.show');
-       //Route::post('/data-view/{table?}', 'store')->name('api.dataview.store');
-       //Route::put('/data-view/{table?}', 'update')->name('api.dataview.update');
+       Route::post('/data-view/{table?}', 'store')->name('api.dataview.store');
+       Route::put('/data-view/{table?}/{uuid?}', 'update')->name('api.dataview.update');
     });
 });

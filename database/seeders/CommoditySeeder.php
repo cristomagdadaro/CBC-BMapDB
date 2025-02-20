@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Commodity;
+use Modules\PbMap\Models\Commodity;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

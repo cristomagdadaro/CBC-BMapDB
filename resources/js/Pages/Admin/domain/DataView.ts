@@ -22,9 +22,10 @@ export default class DataView extends DtoDataView {
 
     static updateForm(oldValue: Partial<DtoDataView>) {
         return {
+            uuid: oldValue.uuid ?? null,
             user_account_id: oldValue.user_account_id ?? null,
             model: oldValue.model ?? null,
-            columns: oldValue.columns ?? null,
+            columns: oldValue.columns ?? [],
             visibility_guard: oldValue.visibility_guard ?? null,
         }
     }

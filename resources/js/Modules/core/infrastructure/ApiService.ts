@@ -82,7 +82,7 @@ export default class ApiService implements IApiService
                     ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
                 }
             });
-            console.log(response.data);
+            console.log(response);
             if (model) {
                 if (response && response.data && response.data.data) {
                     response.data.data = new model(response.data.data);
@@ -119,6 +119,8 @@ export default class ApiService implements IApiService
 
             if (data.id)
                 response = await axios.put(this.baseUrl + '/' + data.id, data);
+            else if (data.uuid)
+                response = await axios.put(this.baseUrl + '/' + data.uuid, data);
             else
                 response = await axios.put(this.baseUrl, data)
             return new BaseResponse(response);

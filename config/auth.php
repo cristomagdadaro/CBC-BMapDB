@@ -77,7 +77,7 @@ return [
 
         'breeder' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Breeder::class,
+            'model' => \Modules\PbMap\Models\Breeder::class,
         ],
 
         // 'users' => [

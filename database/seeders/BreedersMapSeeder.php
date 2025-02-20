@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Enums\Role;
-use App\Models\Breeder;
-use App\Models\Commodity;
+use Modules\PbMap\Models\Breeder;
+use Modules\PbMap\Models\Commodity;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,7 +15,7 @@ class BreedersMapSeeder extends Seeder
      */
     public function run(): void
     {
-        Breeder::factory()->count(10)->create()->each(function ($breeder) {
+        Breeder::factory()->count(100)->create()->each(function ($breeder) {
             $userId = User::all()->random()->first()->id;
             $breeder->update(['user_id' => $userId]);
 

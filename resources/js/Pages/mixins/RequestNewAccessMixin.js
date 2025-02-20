@@ -6,7 +6,7 @@ export default {
             filteredRoles: null, // To hold the roles specific to the selected application
             selectedApplication: null, // To track the currently selected application.
             applicationRolesMap: {
-                "1": ['TWG Admin', 'Researcher'], // TWG Db
+                "1": ['TWG Manager', 'Researcher'], // TWG Db
                 "2": ['Focal Person','Researcher', 'Breeder'], // Plant Breeders Map
             },
             applications: [],

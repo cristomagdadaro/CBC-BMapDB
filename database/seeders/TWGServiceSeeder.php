@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\TWGService;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Modules\TwgDb\Models\TWGService;
 
 class TWGServiceSeeder extends Seeder
 {

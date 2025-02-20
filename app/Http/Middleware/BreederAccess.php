@@ -18,6 +18,7 @@ class BreederAccess
         if ($request->user() && ($request->user()->isBreeder() || $request->user()->isAdmin())) {
             return $next($request);
         }
+
         return response()->json(['message' => 'You are not authorized to access. Needs a breeder access.'], 403);
     }
 }
