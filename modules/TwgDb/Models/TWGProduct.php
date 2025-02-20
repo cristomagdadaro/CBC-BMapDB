@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace Modules\TwgDb\Models;
 
+use App\Models\BaseModel;
+use App\Models\Institute;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;

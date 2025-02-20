@@ -3,8 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Enums\Permission;
-use App\Models\TWGExpert;
-use App\Models\TWGProduct;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 

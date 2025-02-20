@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Enums\DefaultPassword;
 use App\Enums\Role as RoleEnum;
 use App\Notifications\FocalPersonInvitationToBreederEmail;
+use App\Traits\OwnedByTrait;
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,18 +21,12 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Modules\PbMap\Models\Breeder;
+use Modules\TwgDb\Models\TWGExpert;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens;
-    use HasFactory;
-    use HasProfilePhoto;
-    use HasTeams;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
-    use HasRoles;
-    use SoftDeletes;
+    use HasApiTokens, HasFactory, HasProfilePhoto, HasTeams, Notifiable, TwoFactorAuthenticatable, HasRoles, SoftDeletes, OwnedByTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -220,26 +214,6 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsTo(Institute::class, 'affiliation', 'id');
     }
-
-    public function scopeOwnedBy(Builder $query, $user)
-    {
-        if ($this->ignoreUserBasedFiltratration)
-            return $query;
-
-        // If no user is provided, return no records (or handle as required)
-        if (!$user) {
-            return $query->whereRaw('1 = 0'); // No records
-        }
-
-        // If the user is not an admin or does not have the RESEARCHER role
-        if (!$user->isAdmin() && !$user->hasRole(RoleEnum::RESEARCHER->value)) {
-            $query->where('user_id', $user->id)
-                ->orWhere('affiliation', $user->affiliation);
-        }
-
-        return $query;
-    }
-
 
     public function sendEmailVerificationViaFocalPersonNotification(): void
     {

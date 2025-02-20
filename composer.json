@@ -36,6 +36,7 @@
             "Database\\Seeders\\": "database/seeders/",
             "Modules\\": "modules/",
             "Modules\\PbMap\\": "modules/PbMap/",
+            "Modules\\TwgDb\\": "modules/TwgDb/",
             "Modules\\PbMap\\Database\\Factories\\": "modules/PbMap/Database/factories",
             "Modules\\PbMap\\Database\\Seeders\\": "modules/PbMap/Database/seeders"
         }

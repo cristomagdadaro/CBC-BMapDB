@@ -4,6 +4,7 @@ namespace Modules\PbMap\Models;
 
 use App\Enums\Role as RoleEnum;
 use App\Models\BaseModel;
+use App\Traits\OwnedByTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -99,22 +100,5 @@ class Commodity extends BaseModel
             ->whereHas('user', function ($query) {
                 $query->where('user_id', auth()->id());
             });
-    }
-
-    public function scopeOwnedBy(Builder $query, $user)
-    {
-        if ($this->ignoreUserBasedFiltratration)
-            return $query;
-
-        // If no user is provided, return no records (or handle as required)
-        if (!$user) {
-            return $query->whereRaw('1 = 0'); // No records
-        }
-
-        $query->whereHas('breeder', function ($subQuery) use ($user) {
-            $subQuery->where('user_id', auth()->id())->orWhere('affiliation', auth()->user()->affiliation);
-        });
-
-        return $query;
     }
 }

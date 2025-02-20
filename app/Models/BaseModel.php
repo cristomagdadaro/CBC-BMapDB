@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Role as RoleEnum;
 use App\Models\Location\City;
+use App\Traits\OwnedByTrait;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,11 +13,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class BaseModel extends Model
 {
+    use OwnedByTrait;
+
     protected $table = null;
 
-    protected $ignoreUserBasedFiltratration = false;
+    protected bool $ignoreUserBasedFiltration = false;
 
     protected array $searchable = [];
+
 
     protected array $notifMessage = [];
 
@@ -47,23 +51,5 @@ class BaseModel extends Model
     {
         return $this->belongsTo(City::class, 'geolocation')
             ->select((new City())->getSearchable());
-    }
-
-    public function scopeOwnedBy(Builder $query, $user)
-    {
-        if ($this->ignoreUserBasedFiltratration)
-            return $query;
-
-        // If no user is provided, return no records (or handle as required)
-        if (!$user) {
-            return $query->whereRaw('1 = 0'); // No records
-        }
-
-        // If the user is not an admin or does not have the RESEARCHER role
-        if (!$user->isAdmin() && !$user->hasRole(RoleEnum::RESEARCHER->value)) {
-            $query->where('user_id', $user->id);
-        }
-
-        return $query;
     }
 }

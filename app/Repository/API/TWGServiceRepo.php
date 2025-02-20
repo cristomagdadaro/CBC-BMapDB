@@ -2,8 +2,8 @@
 
 namespace App\Repository\API;
 
-use App\Models\TWGService;
 use App\Repository\AbstractRepoService;
+use Modules\TwgDb\Models\TWGService;
 
 class TWGServiceRepo extends AbstractRepoService
 {

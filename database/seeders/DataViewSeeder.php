@@ -2,17 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Models\DataView;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 use Modules\PbMap\Models\Breeder;
 use Modules\PbMap\Models\Commodity;
-use App\Models\DataView;
-use App\Models\TWGExpert;
-use App\Models\TWGProduct;
-use App\Models\TWGProject;
-use App\Models\TWGService;
-use App\Models\User;
-use Faker\Factory as Faker;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use Modules\TwgDb\Models\TWGExpert;
+use Modules\TwgDb\Models\TWGProduct;
+use Modules\TwgDb\Models\TWGProject;
+use Modules\TwgDb\Models\TWGService;
 
 class DataViewSeeder extends Seeder
 {

@@ -5,7 +5,6 @@ namespace Modules\PbMap\Models;
 use App\Models\BaseModel;
 use App\Models\Institute;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -87,27 +86,6 @@ class Breeder extends BaseModel
     public function scopeOfModel($query)
     {
         return $query->where('user_id', auth()->id());
-    }
-
-    public function scopeOwnedBy(Builder $query, $user)
-    {
-        if ($this->ignoreUserBasedFiltratration)
-            return $query;
-
-        if (!auth()->check()) {
-            return $query->whereRaw('1 = 0'); // Return no records if user is not authenticated
-        }
-
-        // Check if the user is an admin and allow all data
-        if (auth()->user()->isAdmin()) {
-            return $query;
-        }
-
-        // Apply ownership filter based on user's ID or affiliation
-        $query->where('user_id', auth()->id())
-            ->orWhere('affiliation', auth()->user()->affiliation);
-
-        return $query;
     }
 
     /**

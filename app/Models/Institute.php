@@ -11,7 +11,7 @@ class Institute extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
-    protected $ignoreUserBasedFiltratration = true;
+    protected bool $ignoreUserBasedFiltratration = true;
 
     protected $fillable = [
         'name',

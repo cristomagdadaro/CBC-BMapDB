@@ -4,12 +4,12 @@ namespace Database\Seeders;
 
 use App\Enums\Role;
 use App\Models\Institute;
-use App\Models\TWGExpert;
-use App\Models\TWGProduct;
-use App\Models\TWGProject;
-use App\Models\TWGService;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Modules\TwgDb\Models\TWGExpert;
+use Modules\TwgDb\Models\TWGProduct;
+use Modules\TwgDb\Models\TWGProject;
+use Modules\TwgDb\Models\TWGService;
 
 enum InstituteList: string
 {

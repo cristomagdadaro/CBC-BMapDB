@@ -5,13 +5,13 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\GetUserRequest;
 use App\Http\Resources\BaseCollection;
-use App\Models\TWGExpert;
-use App\Models\TWGProduct;
-use App\Models\TWGProject;
-use App\Models\TWGService;
 use App\Repository\API\UserRepo;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Modules\TwgDb\Models\TWGExpert;
+use Modules\TwgDb\Models\TWGProduct;
+use Modules\TwgDb\Models\TWGProject;
+use Modules\TwgDb\Models\TWGService;
 
 class TWGController extends BaseController
 {

@@ -9,7 +9,6 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
 use App\Mail\UserInvitationEmail;
-use App\Models\TWGExpert;
 use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
@@ -20,6 +19,7 @@ use Modules\PbMap\Controllers\BreederController;
 use Modules\PbMap\Controllers\CommodityController;
 use Modules\PbMap\Models\Breeder;
 use Modules\PbMap\Models\Commodity;
+use Modules\TwgDb\Models\TWGExpert;
 
 /*
 |--------------------------------------------------------------------------
