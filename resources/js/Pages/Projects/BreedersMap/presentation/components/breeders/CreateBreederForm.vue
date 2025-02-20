@@ -28,6 +28,7 @@ export default {
                 <text-field required :error="getError('lname')" label="Surname" v-model="form.lname" />
                 <text-field :error="getError('suffix')" label="Suffix" v-model="form.suffix" />
                 <text-field :error="getError('mobile_no')" label="Phone Number" v-model="form.mobile_no" />
+                <select-field required :error="getError('breeder_type')" label="Type" v-model="form.breeder_type" :options="[{value: 'Public', label: 'Public'}, {value: 'Private', label: 'Private'}]" />
                 <select-search-field required :api-link="route('api.institutes.index.public')"  :error="getError('affiliation')" label="Affiliation" v-model="form.affiliation" />
                 <select-search-field required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                 <text-field required :error="getError('email')" label="Email" v-model="form.email" />

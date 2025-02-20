@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\PbMap\Enums\BreederType;
 
 return new class extends Migration
 {
@@ -19,6 +20,7 @@ return new class extends Migration
             $table->string('suffix')->nullable();
             $table->string('mobile_no')->nullable();
             $table->string('email');
+            $table->enum('breeder_type', [BreederType::PRIVATE->value, BreederType::PUBLIC->value])->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('affiliation')->constrained('institutes');
             $table->foreignId('geolocation')->constrained('loc_cities');

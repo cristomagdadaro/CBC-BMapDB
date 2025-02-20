@@ -6,6 +6,7 @@ use App\Models\Institute;
 use App\Models\Location\City;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\PbMap\Enums\BreederType;
 use Modules\PbMap\Models\Breeder;
 
 class BreederFactory extends Factory
@@ -20,11 +21,12 @@ class BreederFactory extends Factory
         return [
             'user_id' => User::inRandomOrder()->first()->id,  // Random user
             'fname' => $this->faker->firstName(),
-            'mname' => $this->faker->randomElement([null, $this->faker->lastName()]),
+            'mname' => $this->faker->randomElement([null, null, null, null, $this->faker->lastName()]),
             'lname' => $this->faker->lastName(),
             'suffix' => $this->faker->randomElement([null, 'Jr.', 'Sr.', 'II']),
             'affiliation' => $institute->id,  // Random affiliation
             'geolocation' => $city->id,  // Random city geolocation
+            'breeder_type' => $this->faker->randomElement([BreederType::PUBLIC->value, BreederType::PRIVATE->value]),
             'mobile_no' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
         ];

@@ -6,6 +6,7 @@ use App\Enums\Permission;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Laravel\Fortify\Rules\Password;
+use Modules\PbMap\Enums\BreederType;
 
 class CreateBreederRequest extends FormRequest
 {
@@ -37,14 +38,9 @@ class CreateBreederRequest extends FormRequest
                 'unique:breeders,email,'. $id ?? $this->id,
                 'unique:users,email,'. $id ?? $this->id,
             ],
+            'breeder_type' => ['required', 'string', "in:".BreederType::PRIVATE->value.",".BreederType::PUBLIC->value.","],
             'affiliation' => ['required', 'exists:institutes,id'],
-            //'password' => $this->passwordRules(),
             'geolocation' => 'nullable|exists:loc_cities,id',
         ];
-    }
-
-    protected function passwordRules(): array
-    {
-        return ['required', 'string', new Password, 'confirmed'];
     }
 }

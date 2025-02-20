@@ -6,6 +6,7 @@ use App\Enums\Permission;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Laravel\Fortify\Rules\Password;
+use Modules\PbMap\Enums\BreederType;
 
 class UpdateBreederRequest extends FormRequest
 {
@@ -45,6 +46,7 @@ class UpdateBreederRequest extends FormRequest
             'suffix' => ['nullable', 'string', 'max:255'],
             'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:breeders,mobile_no,'.$this->id],
             'affiliation' => ['required', 'exists:institutes,id'],
+            'breeder_type' => ['required', 'string', "in:".BreederType::PRIVATE->value.",".BreederType::PUBLIC->value.","],
             'email' => [
                 'required',
                 'email',

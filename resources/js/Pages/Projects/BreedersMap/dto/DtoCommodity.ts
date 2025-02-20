@@ -79,6 +79,10 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         return this.breeder.getFullName;
     }
 
+    get type() {
+        return this.breeder.breeder_type;
+    }
+
     get breederAffiliation()
     {
         // @ts-ignore

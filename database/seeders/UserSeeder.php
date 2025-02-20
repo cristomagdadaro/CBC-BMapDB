@@ -63,7 +63,7 @@ class UserSeeder extends Seeder
         $researcher->approve(2);
 
         $admin->assignRole(Role::ADMIN->value);
-        $twgAdmin->assignRole(Role::TWG_ADMIN->value);
+        $twgAdmin->assignRole(Role::TWG_MANAGER->value);
         $breeder->assignRole(Role::BREEDER->value);
         $focalPerson->assignRole(Role::FOCAL_PERSON->value);
         $researcher->assignRole(Role::RESEARCHER->value);

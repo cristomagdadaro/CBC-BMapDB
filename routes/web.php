@@ -33,18 +33,16 @@ use Modules\TwgDb\Models\TWGExpert;
 */
 
 Route::get('/', function () {
-    // Query to get breeders data joined with city location
     $data = Breeder::join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
-        ->selectRaw('loc_cities.id, loc_cities.provDesc as label, COUNT(*) as total')
+        ->selectRaw('loc_cities.provDesc as label, COUNT(*) as total')
         ->groupBy('loc_cities.provDesc')
-        ->groupBy('loc_cities.id')
         ->orderByDesc('total')
         ->get();
 
     $formattedData = $data->map(function ($item) {
         return [
-            'id' => $item->id,
-            'key' => Str::slug($item->label), //replace whitespace with dash (-)
+            'id' => Str::slug($item->label),
+            'key' => Str::slug($item->label),
             'province' => $item->label,
             'data' => $item->total,
         ];

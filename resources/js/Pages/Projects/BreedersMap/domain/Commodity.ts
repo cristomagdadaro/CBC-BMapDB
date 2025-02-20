@@ -240,6 +240,12 @@ export default class Commodity extends DtoCommodity {
                 visible: true,
             },
             {
+                title: 'Type',
+                key: 'type',
+                align: 'center',
+                visible: true,
+            },
+            {
                 title: 'Affiliation',
                 key: 'breederAffiliation',
                 align: 'center',

@@ -14,6 +14,7 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
     affiliated: DtoInstitute;
     mobile_no: string;
     email: string;
+    breeder_type: string;
     updated_at: string;
     created_at: string;
     deleted_at: string;
@@ -33,6 +34,7 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
         this.suffix = breeder?.suffix;
         this.mobile_no = breeder?.mobile_no;
         this.email = breeder?.email;
+        this.breeder_type = breeder?.breeder_type;
         this.updated_at = breeder?.updated_at;
         this.created_at = breeder?.created_at;
         this.deleted_at = breeder?.deleted_at;
@@ -59,6 +61,10 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
 
     get getMobileNo() {
         return this.mobile_no;
+    }
+
+    get type() {
+        return this.breeder_type;
     }
 
     get city() {

@@ -31,6 +31,7 @@ export default class Breeder extends DtoBreeder{
             password: null,
             password_confirmation: null,
             affiliation: null,
+            breeder_type: null,
             geolocation: null,
             remember_token: null,
         }
@@ -47,6 +48,7 @@ export default class Breeder extends DtoBreeder{
             suffix: oldValue.suffix ?? null,
             mobile_no: oldValue.mobile_no ?? null,
             email: oldValue.email ?? null,
+            breeder_type: oldValue.breeder_type ?? null,
             //@ts-ignore
             password: oldValue.password ?? null,
             affiliation: oldValue.affiliated ? oldValue.affiliated.id : null,
@@ -95,6 +97,12 @@ export default class Breeder extends DtoBreeder{
             {
                 title: 'Breeding Crops',
                 key: 'commoditiesList',
+                align: 'text-center',
+                visible: true,
+            },
+            {
+                title: 'Type',
+                key: 'breeder_type',
                 align: 'text-center',
                 visible: true,
             },
@@ -172,6 +180,14 @@ export default class Breeder extends DtoBreeder{
                 key: 'email',
                 db_key: 'email',
                 align: 'center',
+                sortable: true,
+                visible: true,
+            },
+            {
+                title: 'Type',
+                key: 'breeder_type',
+                db_key: 'breeder_type',
+                align: 'text-center',
                 sortable: true,
                 visible: true,
             },

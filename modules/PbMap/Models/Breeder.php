@@ -26,8 +26,7 @@ class Breeder extends BaseModel
         'email',
         'mobile_no',
         'affiliation',
-        'email_verified_at',
-
+        'breeder_type',
         'geolocation',
     ];
 
@@ -36,7 +35,6 @@ class Breeder extends BaseModel
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'email_verified_at' => 'datetime',
     ];
 
     protected array $searchable = [
@@ -48,6 +46,7 @@ class Breeder extends BaseModel
         'suffix',
         'affiliation',
         'geolocation',
+        'breeder_type',
         'mobile_no',
         'email',
         'breeders.created_at',
