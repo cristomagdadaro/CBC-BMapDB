@@ -2,7 +2,6 @@
 
 namespace Modules\PbMap\Models;
 
-use App\Enums\Role as RoleEnum;
 use App\Models\BaseModel;
 use App\Models\Institute;
 use App\Models\User;

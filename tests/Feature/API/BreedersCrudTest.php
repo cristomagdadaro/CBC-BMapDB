@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature\API;
 
 use Modules\PbMap\Models\Breeder;
 use Tests\TestCase;

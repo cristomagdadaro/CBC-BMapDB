@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature\Tests\Unit;
 
 use Modules\PbMap\Models\Breeder;
 use Modules\PbMap\Models\Commodity;

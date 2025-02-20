@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature\API;
 
-use App\Enums\Role as RoleEnum;
 use App\Models\Accounts;
 use App\Models\Application;
 use App\Models\User;
