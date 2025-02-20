@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Modules\TwgDb\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTWGProductRequest extends FormRequest
+class CreateTWGProjectRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,10 +31,13 @@ class CreateTWGProductRequest extends FormRequest
     {
         return [
             'institution' => ['required', 'exists:institutes,id'],
-            'name' => ['required', 'string', 'max:255'],
-            'brand' => ['nullable', 'string', 'max:255'],
-            'purpose' => ['required', 'string'],
-            'cost' => ['nullable', 'string', 'min:0'],
+            'title' => ['required', 'string', 'max:255'],
+            'objective' => ['required', 'string'],
+            'expected_output' => ['required', 'string'],
+            'project_leader' => ['required', 'exists:twg_expert,id'],
+            'funding_agency' => ['required', 'string'],
+            'duration' => ['required', 'string'],
+            'status' => ['required', 'string'],
         ];
     }
 }

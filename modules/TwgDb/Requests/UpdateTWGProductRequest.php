@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Modules\TwgDb\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class GetTWGProductRequest extends FormRequest
+class UpdateTWGProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,12 @@ class GetTWGProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        return array_merge([
-            // add your rules here
-        ],config('system_variables.paginate_parameters'),
-            config('system_variables.filtering_parameters'),
-            config('system_variables.appendable_parameters'));
+        return [
+            'institution' => ['required', 'exists:institutes,id'],
+            'name' => ['required', 'string', 'max:255'],
+            'brand' => ['nullable', 'string', 'max:255'],
+            'purpose' => ['required', 'string'],
+            'cost' => ['nullable', 'string', 'min:0'],
+        ];
     }
 }

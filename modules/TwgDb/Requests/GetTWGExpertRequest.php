@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Modules\TwgDb\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeleteTWGProductRequest extends FormRequest
+class GetTWGExpertRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,10 @@ class DeleteTWGProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'ids' => 'required|array|min:1',
-            'ids.*' => 'required|integer|exists:twg_product,id',
-        ];
+        return array_merge([
+            // add your rules here
+        ],config('system_variables.paginate_parameters'),
+            config('system_variables.filtering_parameters'),
+            config('system_variables.appendable_parameters'));
     }
 }

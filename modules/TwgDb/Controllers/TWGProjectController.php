@@ -3,11 +3,11 @@
 namespace Modules\TwgDb\Controllers;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\CreateTWGProjectRequest;
-use App\Http\Requests\DeleteTWGProjectRequest;
-use App\Http\Requests\GetTWGProjectRequest;
-use App\Http\Requests\UpdateTWGProjectRequest;
-use App\Repository\API\TWGProjectRepo;
+use Modules\TwgDb\Repositories\TWGProjectRepo;
+use Modules\TwgDb\Requests\CreateTWGProjectRequest;
+use Modules\TwgDb\Requests\DeleteTWGProjectRequest;
+use Modules\TwgDb\Requests\GetTWGProjectRequest;
+use Modules\TwgDb\Requests\UpdateTWGProjectRequest;
 
 class TWGProjectController extends BaseController
 {

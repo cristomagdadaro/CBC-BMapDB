@@ -3,11 +3,11 @@
 namespace Modules\TwgDb\Controllers;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\CreateTWGProductRequest;
-use App\Http\Requests\DeleteTWGProductRequest;
-use App\Http\Requests\GetTWGProductRequest;
-use App\Http\Requests\UpdateTWGProductRequest;
-use App\Repository\API\TWGProductRepo;
+use Modules\TwgDb\Repositories\TWGProductRepo;
+use Modules\TwgDb\Requests\CreateTWGProductRequest;
+use Modules\TwgDb\Requests\DeleteTWGProductRequest;
+use Modules\TwgDb\Requests\GetTWGProductRequest;
+use Modules\TwgDb\Requests\UpdateTWGProductRequest;
 
 class TWGProductController extends BaseController
 {

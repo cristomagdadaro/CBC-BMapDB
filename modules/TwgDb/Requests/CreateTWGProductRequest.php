@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace Modules\TwgDb\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateTWGProjectRequest extends FormRequest
+class CreateTWGProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,6 +13,13 @@ class UpdateTWGProjectRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'institution' => auth()->user()->affiliation,
+        ]);
     }
 
     /**
@@ -24,13 +31,10 @@ class UpdateTWGProjectRequest extends FormRequest
     {
         return [
             'institution' => ['required', 'exists:institutes,id'],
-            'title' => ['required', 'string', 'max:255'],
-            'objective' => ['required', 'string'],
-            'expected_output' => ['required', 'string'],
-            'project_leader' => ['required', 'exists:twg_expert,id'],
-            'funding_agency' => ['required', 'string'],
-            'duration' => ['required', 'string'],
-            'status' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'brand' => ['nullable', 'string', 'max:255'],
+            'purpose' => ['required', 'string'],
+            'cost' => ['nullable', 'string', 'min:0'],
         ];
     }
 }

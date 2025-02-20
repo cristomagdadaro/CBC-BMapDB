@@ -3,11 +3,11 @@
 namespace Modules\TwgDb\Controllers;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\CreateTWGExpertRequest;
-use App\Http\Requests\DeleteTWGExpertRequest;
-use App\Http\Requests\GetTWGExpertRequest;
-use App\Http\Requests\UpdateTWGExpertRequest;
-use App\Repository\API\TWGExpertRepo;
+use Modules\TwgDb\Repositories\TWGExpertRepo;
+use Modules\TwgDb\Requests\CreateTWGExpertRequest;
+use Modules\TwgDb\Requests\DeleteTWGExpertRequest;
+use Modules\TwgDb\Requests\GetTWGExpertRequest;
+use Modules\TwgDb\Requests\UpdateTWGExpertRequest;
 
 class TWGExpertController extends BaseController
 {

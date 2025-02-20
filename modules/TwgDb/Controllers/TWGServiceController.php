@@ -3,11 +3,11 @@
 namespace Modules\TwgDb\Controllers;
 
 use App\Http\Controllers\BaseController;
-use App\Http\Requests\CreateTWGServiceRequest;
-use App\Http\Requests\DeleteTWGServiceRequest;
-use App\Http\Requests\GetTWGServiceRequest;
-use App\Http\Requests\UpdateTWGServiceRequest;
-use App\Repository\API\TWGServiceRepo;
+use Modules\TwgDb\Repositories\TWGServiceRepo;
+use Modules\TwgDb\Requests\CreateTWGServiceRequest;
+use Modules\TwgDb\Requests\DeleteTWGServiceRequest;
+use Modules\TwgDb\Requests\GetTWGServiceRequest;
+use Modules\TwgDb\Requests\UpdateTWGServiceRequest;
 
 class TWGServiceController extends BaseController
 {

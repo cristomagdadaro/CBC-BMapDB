@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository\API;
+namespace Modules\TwgDb\Repositories;
 
 use App\Repository\AbstractRepoService;
 use Modules\TwgDb\Models\TWGService;

@@ -51,7 +51,6 @@ class GoogleController extends Controller
                     'email_verified_at' => $googleUser->user['email_verified'] ? now() : null,
                 ]);
 
-                // Assign a random role (you may want to refine this logic)
                 $user->assignRole(Role::RESEARCHER->value);
 
                 Auth::login($user);
@@ -60,44 +59,7 @@ class GoogleController extends Controller
             return Redirect::route('dashboard')->with('message', 'Successful authenticated thru Google Account');
         } catch (\Exception $e) {
             return view('errors.googleauth')->with('message', $e->getTraceAsString());
-            //return redirect('dashboard')->with('error', 'Google login failed: ' . $e->getMessage());
         }
     }
 
 }
-
-/*{
-    "id": "105442417288189291410",
-  "nickname": null,
-  "name": "Cristo Rey Magdadaro",
-  "email": "cristoreymagdadaro20@gmail.com",
-  "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLfzEEcbJ4jeW8OYMmn-2pPitCiJvg-zkHVygHhISEMK-LB09FX=s96-c",
-  "user": {
-    "sub": "105442417288189291410",
-    "name": "Cristo Rey Magdadaro",
-    "given_name": "Cristo Rey",
-    "family_name": "Magdadaro",
-    "picture": "https://lh3.googleusercontent.com/a/ACg8ocLfzEEcbJ4jeW8OYMmn-2pPitCiJvg-zkHVygHhISEMK-LB09FX=s96-c",
-    "email": "cristoreymagdadaro20@gmail.com",
-    "email_verified": true,
-    "id": "105442417288189291410",
-    "verified_email": true,
-    "link": null
-  },
-  "attributes": {
-    "id": "105442417288189291410",
-    "nickname": null,
-    "name": "Cristo Rey Magdadaro",
-    "email": "cristoreymagdadaro20@gmail.com",
-    "avatar": "https://lh3.googleusercontent.com/a/ACg8ocLfzEEcbJ4jeW8OYMmn-2pPitCiJvg-zkHVygHhISEMK-LB09FX=s96-c",
-    "avatar_original": "https://lh3.googleusercontent.com/a/ACg8ocLfzEEcbJ4jeW8OYMmn-2pPitCiJvg-zkHVygHhISEMK-LB09FX=s96-c"
-  },
-  "token": "ya29.a0AXeO80TBFsYP2PeFStzniR3qlA5hZGadewkWhvnxWecOqHfXXH8qdY2z8_oXuK_p0n0NqnNyNKetoyarVinEpJUGcEk1ernRhWeILt0x3jH79q_VqeTbIxtsbjfjJBAlVeWZmLUwrRwVexiHGiiWN846pg7ztFzFMig9xripaCgYKAckSARMSFQHGX2MiLqXpoVpyJ5H8BLZAvedaTw0175",
-  "refreshToken": null,
-  "expiresIn": 3598,
-  "approvedScopes": [
-    "openid",
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/userinfo.profile"
-]
-}*/
