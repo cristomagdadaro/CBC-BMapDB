@@ -13,7 +13,7 @@ class CreateCommoditiesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::CREATE_COMMODITY->value) || auth()->user()->isAdmin();
+        return true;
     }
 
     protected function prepareForValidation()

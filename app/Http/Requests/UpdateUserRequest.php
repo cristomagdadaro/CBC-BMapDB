@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Permission;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Laravel\Fortify\Rules\Password;
@@ -14,7 +13,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::UPDATE_USER->value) || auth()->user()->isAdmin();
+        return true;
     }
 
     /**

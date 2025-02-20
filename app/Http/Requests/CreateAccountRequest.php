@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Permission;
-use DB;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CreateAccountRequest extends FormRequest
 {
@@ -15,7 +13,7 @@ class CreateAccountRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::CREATE_APP_ACCOUNT->value) || auth()->user()->isAdmin();
+        return true;
     }
 
     /**

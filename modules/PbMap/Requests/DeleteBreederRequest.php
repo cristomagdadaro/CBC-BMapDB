@@ -13,7 +13,7 @@ class DeleteBreederRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::DELETE_BREEDER->value) || auth()->user()->isAdmin();
+        return true;
     }
 
     /**

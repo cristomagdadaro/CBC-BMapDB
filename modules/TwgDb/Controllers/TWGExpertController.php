@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace Modules\TwgDb\Controllers;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\CreateTWGExpertRequest;

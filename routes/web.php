@@ -3,7 +3,6 @@
 use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\InstituteController;
 use App\Http\Controllers\API\RoleController;
-use App\Http\Controllers\API\TWGController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\SupportInfoController;
@@ -19,6 +18,7 @@ use Modules\PbMap\Controllers\BreederController;
 use Modules\PbMap\Controllers\CommodityController;
 use Modules\PbMap\Models\Breeder;
 use Modules\PbMap\Models\Commodity;
+use Modules\TwgDb\Controllers\TWGController;
 use Modules\TwgDb\Models\TWGExpert;
 
 /*

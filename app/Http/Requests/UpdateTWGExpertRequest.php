@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Permission;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTWGExpertRequest extends FormRequest
@@ -14,7 +12,7 @@ class UpdateTWGExpertRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::UPDATE_TWG_EXPERT->value) || auth()->user()->isAdmin();
+        return true;
     }
 
     protected function prepareForValidation()

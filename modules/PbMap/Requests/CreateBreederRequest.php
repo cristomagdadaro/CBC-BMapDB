@@ -14,7 +14,7 @@ class CreateBreederRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::CREATE_BREEDER->value) || auth()->user()->isAdmin();
+        return true;
     }
 
     /**

@@ -13,7 +13,7 @@ class UpdateCommoditiesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::UPDATE_COMMODITY->value) || auth()->user()->isAdmin();
+        return true;
     }
 
     protected function prepareForValidation()

@@ -13,7 +13,7 @@ class DeleteCommoditiesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->hasPermissionTo(Permission::DELETE_COMMODITY->value) || auth()->user()->isAdmin();
+        return true;
     }
 
     /**
