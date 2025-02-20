@@ -15,7 +15,6 @@ class Breeder extends BaseModel
     use HasFactory, SoftDeletes;
 
     protected $table = 'breeders';
-    // user_id - id of the creator
 
     protected $fillable = [
         'user_id',
@@ -83,10 +82,10 @@ class Breeder extends BaseModel
     }
 
     // Scope a query to only include commodities that belong to the same institute
-    public function scopeOfModel($query)
+   /* public function scopeOfModel($query)
     {
         return $query->where('user_id', auth()->id());
-    }
+    }*/
 
     /**
      * Automatically create a user account for all breeder

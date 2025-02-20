@@ -11,11 +11,11 @@
         <template v-slot:formFields>
             <tab :tabs="tabs">
                 <template v-slot:tab1>
-                    <div class="flex flex-col gap-8"> {{ form }}
+                    <div class="flex flex-col gap-8">
                         <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                            <select-field required :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data?.[0]" />
+                            <select-field required :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" />
                             <text-field required :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
-                            <select-search-field required :api-link="route('api.breeders.index')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
+                            <select-search-field required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
                             <text-field required :error="getError('variety')" label="Variety" v-model="form.variety" />
                             <text-field required :error="getError('accession')" label="Accession" v-model="form.accession" />
                             <text-field required :error="getError('germplasm')" label="Germplasm" v-model="form.germplasm" />

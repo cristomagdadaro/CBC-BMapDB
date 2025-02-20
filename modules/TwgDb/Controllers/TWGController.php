@@ -71,10 +71,11 @@ class TWGController extends BaseController
                 ]]);
             else {
                 // Filter experts by the authenticated user's ID
-                $totalExperts = TWGExpert::ownedBy(auth()->user())->get();
-                $totalProjects = TWGProject::ownedBy(auth()->user())->get();
-                $totalProducts = TWGProduct::ownedBy(auth()->user())->get();
-                $totalServices = TWGService::ownedBy(auth()->user())->get();
+                $user = auth()->user();
+                $totalExperts = TWGExpert::ownedByUser($user)->ownedByAffiliation($user)->get();
+                $totalProjects = TWGProject::ownedByUser($user)->ownedByAffiliation($user)->get();
+                $totalProducts = TWGProduct::ownedByUser($user)->ownedByAffiliation($user)->get();
+                $totalServices = TWGService::ownedByUser($user)->ownedByAffiliation($user)->get();
 
                 // Get top 5 experts based on project count
                 $topExperts = TWGExpert::select('twg_expert.id', 'twg_expert.name', DB::raw('COUNT(twg_project.id) as project_count'))
@@ -96,7 +97,8 @@ class TWGController extends BaseController
                     'totalProducts' => $totalProducts->count(),
                     'totalServices' => $totalServices->count(),
                     'typeServices' => TWGService::select('type', DB::raw('count(*) as total'))
-                        ->ownedBy(auth()->user())
+                        ->ownedByUser($user)
+                        ->ownedByAffiliation($user)
                         ->groupBy('type')
                         ->get()
                         ->pluck('total', 'type'),

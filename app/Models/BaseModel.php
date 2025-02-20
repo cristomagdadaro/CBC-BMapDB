@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
-use App\Enums\Role as RoleEnum;
 use App\Models\Location\City;
 use App\Traits\OwnedByTrait;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class BaseModel extends Model
 {
@@ -17,10 +14,7 @@ class BaseModel extends Model
 
     protected $table = null;
 
-    protected bool $ignoreUserBasedFiltration = false;
-
     protected array $searchable = [];
-
 
     protected array $notifMessage = [];
 

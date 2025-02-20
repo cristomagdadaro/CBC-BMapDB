@@ -7,7 +7,6 @@ use App\Notifications\FocalPersonInvitationToBreederEmail;
 use App\Traits\OwnedByTrait;
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

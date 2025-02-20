@@ -377,7 +377,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function checkRole(BaseModel|Model $model)
     {
         $query = $model->newQuery();
-        return $query->ownedBy($query);
+        return $query->ownedByUser($query)->ownedByAffiliation($query);
     }
 
     protected function logApiRequest(string $method, string $url, array $data): void

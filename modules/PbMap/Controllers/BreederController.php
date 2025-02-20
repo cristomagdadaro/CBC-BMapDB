@@ -8,12 +8,14 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\BaseCollection;
 use App\Models\User;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Modules\PbMap\Interfaces\BreederControllerInterface;
+use Modules\PbMap\Models\Breeder;
 use Modules\PbMap\Repositories\BreederRepo;
 use Modules\PbMap\Requests\CreateBreederRequest;
 use Modules\PbMap\Requests\DeleteBreederRequest;
@@ -29,11 +31,20 @@ class BreederController extends BaseController implements BreederControllerInter
 
     public function index(GetBreederRequest $request): BaseCollection
     {
+        $this->authorize('view', $this->service->model);
+        return parent::_index($request);
+    }
+
+    // implement this to other controllers, api for selection option field
+    public function selection(GetBreederRequest $request): BaseCollection
+    {
+        $this->authorize('viewAny', $this->service->model);
         return parent::_index($request);
     }
 
     public function show(GetBreederRequest $request, int $id): JsonResponse
     {
+        $this->authorize('view', $this->service->model);
         return parent::_show($request, $id);
     }
 
@@ -42,6 +53,7 @@ class BreederController extends BaseController implements BreederControllerInter
      */
     public function store(CreateBreederRequest $request): JsonResponse
     {
+        $this->authorize('create', $this->service->model);
         try
         {
             DB::beginTransaction();
@@ -90,6 +102,7 @@ class BreederController extends BaseController implements BreederControllerInter
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
+        $this->authorize('update', $this->service->model);
         $temp = parent::_update($request, $id);
         $user_id = $request->validated()['user_id'] ?? null;
         // Validate using UpdateUserRequest rules
@@ -121,11 +134,13 @@ class BreederController extends BaseController implements BreederControllerInter
 
     public function destroy(int $id): JsonResponse
     {
+        $this->authorize('delete', $this->service->model);
         return parent::_destroy($id);
     }
 
     public function multiDestroy(DeleteBreederRequest $request): JsonResponse
     {
+        $this->authorize('delete', $this->service->model);
         return parent::_multiDestroy($request);
     }
 

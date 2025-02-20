@@ -3,10 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
-use App\Models\User;
 use Modules\PbMap\Models\Breeder;
-use App\Enums\Permission;
 use Modules\PbMap\Policies\BreederPolicy;
 
 // Ensure you have an Enum or define permission strings manually
@@ -20,7 +17,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // Add policies if needed
-        Breeder::class =>BreederPolicy::class,
+        Breeder::class => BreederPolicy::class,
     ];
 
     /**

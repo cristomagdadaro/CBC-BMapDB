@@ -157,8 +157,7 @@ export default class Breeder extends DtoBreeder{
                 db_key: 'affiliated',
                 align: 'center',
                 sortable: true,
-                // @ts-ignore
-                visible: usePage().props.auth && usePage().props.auth.user ? (new User(usePage().props.auth.user)).isAdmin : true,
+                visible: true,
             },
             {
                 title: 'Phone',

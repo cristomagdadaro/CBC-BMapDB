@@ -2,26 +2,21 @@
 
 namespace Modules\PbMap\Policies;
 
-use Modules\PbMap\Models\Breeder;
+use Illuminate\Auth\Access\HandlesAuthorization;
 use Modules\PbMap\Enums\Permissions;
+use Modules\PbMap\Models\Breeder;
 use App\Models\User;
 
 class BreederPolicy
 {
-/*Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/', [BreederController::class, 'index'])->name('api.breeders.index');
-Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
-Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/summary/{parent_id?}/', [BreederController::class, 'summary'])->name('api.breeders.summary');
-Route::middleware('can:'. Permission::READ_BREEDER->value)->get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
-Route::middleware('can:'. Permission::CREATE_BREEDER->value)->post('/', [BreederController::class, 'store'])->name('api.breeders.store');
-Route::middleware('can:'. Permission::UPDATE_BREEDER->value)->put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
-Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
-Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');*/
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasPermissionTo(Permissions::READ_BREEDER) || $user->isAdmin();
     }
 
     /**
@@ -29,7 +24,7 @@ Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/{id}', [B
      */
     public function view(User $user, Breeder $breeder): bool
     {
-        return $user->hasPermissionTo($breeder) || $user->isAdmin();
+        return $user->hasPermissionTo(Permissions::READ_BREEDER) || $user->isAdmin();
     }
 
     /**
@@ -37,7 +32,7 @@ Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/{id}', [B
      */
     public function create(User $user): bool
     {
-        //
+        return $user->hasPermissionTo(Permissions::CREATE_BREEDER);
     }
 
     /**
@@ -45,7 +40,7 @@ Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/{id}', [B
      */
     public function update(User $user, Breeder $breeder): bool
     {
-        //
+        return $user->hasPermissionTo(Permissions::UPDATE_BREEDER) || $user->isAdmin();
     }
 
     /**
@@ -53,7 +48,7 @@ Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/{id}', [B
      */
     public function delete(User $user, Breeder $breeder): bool
     {
-        //
+        return $user->hasPermissionTo(Permissions::DELETE_BREEDER) || $user->isAdmin();
     }
 
     /**
@@ -61,7 +56,7 @@ Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/{id}', [B
      */
     public function restore(User $user, Breeder $breeder): bool
     {
-        //
+        return false;
     }
 
     /**
@@ -69,6 +64,6 @@ Route::middleware('can:'. Permission::DELETE_BREEDER->value)->delete('/{id}', [B
      */
     public function forceDelete(User $user, Breeder $breeder): bool
     {
-        //
+        return false;
     }
 }

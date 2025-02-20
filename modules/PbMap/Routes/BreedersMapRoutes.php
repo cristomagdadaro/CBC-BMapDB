@@ -7,6 +7,7 @@ use Modules\PbMap\Controllers\CommodityController;
 /*Breeders' Map Related APIs*/
 Route::middleware(['check.status.breedersmap', 'auth:sanctum'])->prefix('breeders')->group(function () {
     Route::get('/', [BreederController::class, 'index'])->name('api.breeders.index');
+    Route::get('/selections', [BreederController::class, 'selection'])->name('api.breeders.selections');
     Route::get('/search/{id}', [BreederController::class, 'noPageSearch'])->name('api.breeders.noPageSearch');
     Route::get('/summary/{parent_id?}/', [BreederController::class, 'summary'])->name('api.breeders.summary');
     Route::get('/{id}', [BreederController::class, 'show'])->name('api.breeders.show');
