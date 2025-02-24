@@ -12,13 +12,13 @@ export default {
             model: Commodity,
             tabs: [
                 {
-                    name: "tab1",
+                    name: "tab2",
                     label: "Basic Information",
                     active: true,
                     route: null,
                 },
                 {
-                    name: "tab2",
+                    name: "tab1",
                     label: "Characteristics",
                     active: false,
                     route: null,
@@ -70,25 +70,6 @@ export default {
         <template v-slot:formFields>
             <tab :tabs="tabs">
                 <template v-slot:tab1>
-                    <div class="flex flex-col gap-8">
-                        {{form.scientific_name}}
-                        <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                            <select-field required :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" />
-                            <text-field required :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
-                            <select-search-field required :api-link="route('api.breeders.index')" :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
-                            <text-field required :show-clear="true" :error="getError('variety')" label="Variety" v-model="form.variety" />
-                            <text-field required :show-clear="true" :error="getError('accession')" label="Accession" v-model="form.accession" />
-                            <text-field required :show-clear="true" :error="getError('germplasm')" label="Germplasm" v-model="form.germplasm" />
-                            <text-field required :show-clear="true" type-input="number" :error="getError('population')" label="Population" v-model="form.population" />
-                            <text-field required :show-clear="true" :error="getError('maturity_period')" label="Maturity Period" v-model="form.maturity_period" />
-                            <text-field required :show-clear="true" typeInput="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
-                            <radio-field required :show-clear="true" :error="getError('status')" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
-                        </div>
-                        <select-search-field required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
-                        <text-field :show-clear="true" typeInput="longtext" :error="getError('description')" label="Description" v-model="form.description" />
-                    </div>
-                </template>
-                <template v-slot:tab2>
                     <div class="flex flex-col gap-8">
                         <div class="flex flex-col text-gray-600 gap-5">
                             <div>
@@ -219,6 +200,24 @@ export default {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </template>
+                <template v-slot:tab2>
+                    <div class="flex flex-col gap-8">
+                        <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
+                            <select-field required :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" />
+                            <text-field required :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
+                            <select-search-field required :api-link="route('api.breeders.index')" :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
+                            <text-field required :show-clear="true" :error="getError('variety')" label="Variety" v-model="form.variety" />
+                            <text-field required :show-clear="true" :error="getError('accession')" label="Accession" v-model="form.accession" />
+                            <text-field required :show-clear="true" :error="getError('germplasm')" label="Germplasm" v-model="form.germplasm" />
+                            <text-field required :show-clear="true" type-input="number" :error="getError('population')" label="Population" v-model="form.population" />
+                            <text-field required :show-clear="true" :error="getError('maturity_period')" label="Maturity Period" v-model="form.maturity_period" />
+                            <text-field required :show-clear="true" typeInput="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
+                            <radio-field required :show-clear="true" :error="getError('status')" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
+                        </div>
+                        <select-search-field required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
+                        <text-field :show-clear="true" typeInput="longtext" :error="getError('description')" label="Description" v-model="form.description" />
                     </div>
                 </template>
                 <template v-slot:tab3>

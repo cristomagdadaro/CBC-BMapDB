@@ -2,18 +2,21 @@
     <Head title="Plant Breeders Map" />
     <app-layout>
         <Tab :tabs="tabs" v-if="$page.props.auth.user">
-            <template #tab1>
+            <template v-slot:tab0>
+                <summary />
+            </template>
+            <template v-slot:tab1>
                 <breeders-table />
             </template>
-            <template #tab2>
+            <template v-slot:tab2>
                 <commodity-table />
             </template>
-            <template #tab3>
+            <template v-slot:tab3>
                 <div class="p-2 relative">
                     <Map :table-list="tables" :model="Commodity"/>
                 </div>
             </template>
-            <template #tab4>
+            <template v-slot:tab4>
                 <bm-settings />
             </template>
         </Tab>
@@ -56,10 +59,19 @@ export default {
         Map: defineAsyncComponent({
             loader: async() => await import("@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue"),
         }),
+        Summary: defineAsyncComponent({
+            loader: async() => await import("@/Pages/Projects/BreedersMap/presentation/components/summary/Summary.vue"),
+        })
     },
     data() {
       return {
           tabs: [
+              {
+                  name: "tab0",
+                  label: "Summary",
+                  active: true,
+                  route: { name: 'projects.breedersmap.summary' },
+              },
               {
                   name: "tab1",
                   label: "Breeders",

@@ -76,6 +76,11 @@ const routes = [
                 name: 'projects.breedersmap.index',
                 children: [
                     {
+                        path: '/projects/breedersmap/summary',
+                        component: async () => await import('@/Pages/Projects/BreedersMap/presentation/components/summary/Summary.vue'),
+                        name: 'projects.breedersmap.summary',
+                    },
+                    {
                         path: '/projects/breedersmap/breeder',
                         component: async () => await import('@/Pages/Projects/BreedersMap/presentation/components/breeders/BreedersTable.vue'),
                         name: 'projects.breedersmap.breeder',

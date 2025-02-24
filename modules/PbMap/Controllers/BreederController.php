@@ -31,7 +31,6 @@ class BreederController extends BaseController implements BreederControllerInter
 
     public function index(GetBreederRequest $request): BaseCollection
     {
-        $this->authorize('view', $this->service->model);
         return parent::_index($request);
     }
 
@@ -44,7 +43,6 @@ class BreederController extends BaseController implements BreederControllerInter
 
     public function show(GetBreederRequest $request, int $id): JsonResponse
     {
-        $this->authorize('view', $this->service->model);
         return parent::_show($request, $id);
     }
 
@@ -102,45 +100,16 @@ class BreederController extends BaseController implements BreederControllerInter
 
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
-        $this->authorize('update', $this->service->model);
-        $temp = parent::_update($request, $id);
-        $user_id = $request->validated()['user_id'] ?? null;
-        // Validate using UpdateUserRequest rules
-        $validator = Validator::make($request->all(), [
-            'fname' => ['required', 'string', 'max:255'],
-            'mname' => ['nullable', 'string', 'max:255'],
-            'lname' => ['required', 'string', 'max:255'],
-            'suffix' => ['nullable', 'string', 'max:255'],
-            'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:users,mobile_no,'.$user_id],
-            'affiliation' => ['required', 'exists:institutes,id'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user_id],
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        // Update the corresponding user account
-        $user = User::where('id' , $user_id);
-
-        if ($request->validated()['email'] !== $user->value('email') &&  $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $validator->validated());
-        }
-
-        $user->update($validator->validated());
-
-        return $temp;
+        return parent::_update($request, $id);
     }
 
     public function destroy(int $id): JsonResponse
     {
-        $this->authorize('delete', $this->service->model);
         return parent::_destroy($id);
     }
 
     public function multiDestroy(DeleteBreederRequest $request): JsonResponse
     {
-        $this->authorize('delete', $this->service->model);
         return parent::_multiDestroy($request);
     }
 

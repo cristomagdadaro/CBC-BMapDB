@@ -13,12 +13,15 @@ abstract class BaseController extends Controller
 
     public function _index($request): BaseCollection
     {
+        $this->authorize('view', $this->service->model);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
     public function _show($request, int $id): JsonResponse
     {
+        $this->authorize('view', $this->service->model);
+
         $with = $request->toArray()['with'] ?? null;
         $count = $request->toArray()['count'] ?? null;
 
@@ -32,21 +35,25 @@ abstract class BaseController extends Controller
 
     public function _store($request): JsonResponse
     {
+        $this->authorize('create', $this->service->model);
         return $this->service->create($request->validated());
     }
 
     public function _update($request, int $id): JsonResponse
     {
+        $this->authorize('update', $this->service->model);
         return $this->service->update($id, $request->validated());
     }
 
     public function _destroy(int $id)
     {
+        $this->authorize('delete', $this->service->model);
         return $this->service->delete($id);
     }
 
     public function _multiDestroy($request)
     {
+        $this->authorize('delete', $this->service->model);
         return $this->service->multiDestroy($request->validated());
     }
 

@@ -28,7 +28,7 @@ trait OwnedByTrait {
         return $query;
     }
 
-    public function scopeOwnedByAffiliation(Builder $query, $user)
+    public function scopeOwnedByAffiliation(Builder $query, $user): Builder
     {
         if ($this->ignoreAffiliationBasedFiltration || auth()->user()->isAdmin()) {
             return $query;
