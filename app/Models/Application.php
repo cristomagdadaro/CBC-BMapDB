@@ -12,9 +12,6 @@ class Application extends BaseModel
 
     protected $table = 'applications';
 
-    protected bool $ignoreUserBasedFiltratration = true;
-
-
     protected $fillable = [
         'name',
         'description',
@@ -48,6 +45,14 @@ class Application extends BaseModel
         'notFound' => 'Application not found.',
         'unknown' => 'Unknown error, action failed.',
     ];
+
+    public function  __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->ignoreUserBasedFiltration = true;
+        $this->ignoreAffiliationBasedFiltration = true;
+    }
 
     public function account()
     {

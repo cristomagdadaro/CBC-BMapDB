@@ -85,12 +85,6 @@ class Breeder extends BaseModel
         return $this->belongsTo(Institute::class, 'affiliation', 'id');
     }
 
-    // Scope a query to only include commodities that belong to the same institute
-   /* public function scopeOfModel($query)
-    {
-        return $query->where('user_id', auth()->id());
-    }*/
-
     /**
      * Automatically create a user account for all breeder
     */

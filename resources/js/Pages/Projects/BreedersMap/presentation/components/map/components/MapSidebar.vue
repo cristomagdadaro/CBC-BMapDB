@@ -57,8 +57,8 @@ export default {
                             <td class="p-0.5 px-2">{{  getNestedValue(instance, value.key) }}</td>
                         </tr>
                     </template>
-                    <tr class="bg-cbc-dark-green text-white text-center font-light" v-if="!$page.props.auth.user">
-                        <th colspan="2" class="p-2 font-light">
+                    <tr class="bg-green-700 text-white text-center font-light" v-if="!$page.props.auth.user">
+                        <th colspan="3" class="p-2 font-light">
                             To access more information about this commodity
                             <Link :href="route('register')" class="block px-4 py-2 text-sm leading-5 hover:bg-cbc-yellow-green focus:outline-none focus:bg-gray-100 transition duration-300 ease-in-out rounded">
                                 <span class="text-white underline active:text-gray-700 ">Create your own account</span>

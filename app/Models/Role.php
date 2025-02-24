@@ -11,8 +11,6 @@ class Role extends BaseModel
 
     protected $table = 'roles';
 
-    protected bool $ignoreUserBasedFiltratration = true;
-
     protected $fillable = [
         'name',
         'guard_name',
@@ -39,6 +37,14 @@ class Role extends BaseModel
         'notFound' => 'Role not found.',
         'unknown' => 'Unknown error, action failed.',
     ];
+
+    public function  __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->ignoreUserBasedFiltration = true;
+        $this->ignoreAffiliationBasedFiltration = true;
+    }
 
     public function permissions(): BelongsToMany
     {

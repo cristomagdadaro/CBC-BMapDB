@@ -11,8 +11,6 @@ class Institute extends BaseModel
 {
     use HasFactory, SoftDeletes;
 
-    protected bool $ignoreUserBasedFiltratration = true;
-
     protected $fillable = [
         'name',
         'inst_type',
@@ -44,6 +42,13 @@ class Institute extends BaseModel
         'phone',
     ];
 
+    public function  __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->ignoreUserBasedFiltration = true;
+        $this->ignoreAffiliationBasedFiltration = true;
+    }
 
     public function city(): BelongsTo
     {

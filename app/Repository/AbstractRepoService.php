@@ -376,17 +376,13 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
     public function checkRole(BaseModel|Model $model)
     {
-        if (auth()->check() && auth()->user()->isAdmin()) {
-            return $model; // Return the model directly if the user is an admin
-        } else if (!auth()->check()) {
-            return $model; // Return the model directly if the user is not authenticated, for testing
-        }
+        if (!auth()->check())
+            return $model;
 
         try {
             $user = auth()->user();
             $model = $model->ownedByUser($user)->ownedByAffiliation($user);
         } catch (\Exception $e) {
-            // Handle the exception appropriately, e.g., log it or return an error response
             return $this->sendError($e);
         }
 

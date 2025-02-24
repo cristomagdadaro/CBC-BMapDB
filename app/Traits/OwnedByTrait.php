@@ -7,13 +7,15 @@ use Illuminate\Support\Facades\Schema;
 
 trait OwnedByTrait {
 
-    protected bool $ignoreUserBasedFiltration = false;
+    protected bool $ignoreUserBasedFiltration = true;
 
     protected bool $ignoreAffiliationBasedFiltration = false; // toggle
 
     public function scopeOwnedByUser(Builder $query, $user): Builder
     {
-        if ($this->ignoreUserBasedFiltration || auth()->user()->isAdmin()) {
+        $this->ignoreUserBasedFiltration =  auth()->check();
+
+        if ($this->ignoreUserBasedFiltration || (auth()->check() && auth()->user()->isAdmin())) {
             return $query;
         }
 
@@ -30,7 +32,9 @@ trait OwnedByTrait {
 
     public function scopeOwnedByAffiliation(Builder $query, $user): Builder
     {
-        if ($this->ignoreAffiliationBasedFiltration || auth()->user()->isAdmin()) {
+        $this->ignoreAffiliationBasedFiltration =  auth()->check();
+
+        if ($this->ignoreAffiliationBasedFiltration || (auth()->check() && auth()->user()->isAdmin())) {
             return $query;
         }
 
@@ -38,7 +42,7 @@ trait OwnedByTrait {
             return $query->whereRaw('1 = 0'); // Return no records if user is not authenticated
         }
 
-        // Check if the affiliation column exists before applying the filter
+        // Check if the affiliation column exists in the current table
         if (Schema::hasColumn($this->getTable(), 'affiliation')) {
             $query->orWhere('affiliation', auth()->user()->affiliation);
         }

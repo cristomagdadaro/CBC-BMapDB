@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Application;
+use App\Models\Institute;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ApplicationPolicy
+class InstitutePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class ApplicationPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Application $application): bool
+    public function view(User $user, Institute $institute): bool
     {
         return true;
     }
@@ -35,7 +35,7 @@ class ApplicationPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Application $application): bool
+    public function update(User $user, Institute $institute): bool
     {
         return $user->isAdmin();
     }
@@ -43,7 +43,7 @@ class ApplicationPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Application $application): bool
+    public function delete(User $user, Institute $institute): bool
     {
         return $user->isAdmin();
     }
@@ -51,7 +51,7 @@ class ApplicationPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Application $application): bool
+    public function restore(User $user, Institute $institute): bool
     {
         return $user->isAdmin();
     }
@@ -59,7 +59,7 @@ class ApplicationPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Application $application): bool
+    public function forceDelete(User $user, Institute $institute): bool
     {
         return $user->isAdmin();
     }

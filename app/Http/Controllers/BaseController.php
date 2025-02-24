@@ -2,25 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Interfaces\BaseControllerInterface;
 use App\Http\Resources\BaseCollection;
 use App\Repository\AbstractRepoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
-abstract class BaseController extends Controller
+abstract class BaseController extends Controller implements BaseControllerInterface
 {
     protected AbstractRepoService $service;
 
     public function _index($request): BaseCollection
     {
-        $this->authorize('view', $this->service->model);
+        // to refactor, don't check gates when logged out
+        if (auth()->check()) {
+            $this->authorize('view', $this->service->model);
+        }
+
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
     public function _show($request, int $id): JsonResponse
     {
-        $this->authorize('view', $this->service->model);
+        // to refactor, don't check gates when logged out
+        if (auth()->check()) {
+            $this->authorize('view', $this->service->model);
+        }
 
         $with = $request->toArray()['with'] ?? null;
         $count = $request->toArray()['count'] ?? null;
@@ -66,7 +74,7 @@ abstract class BaseController extends Controller
         return response()->json($response);
     }
 
-    protected function insertUserId($request)
+    protected function insertUserId($request): array
     {
         if (!auth()->user()->isAdmin()) {
             return array_merge($request, ['user_id' => auth()->id()]);

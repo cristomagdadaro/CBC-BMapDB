@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Models\Accounts;
 use App\Models\Application;
+use App\Models\Institute;
 use App\Models\Role;
 use App\Models\User;
 use App\Policies\AccountPolicy;
 use App\Policies\ApplicationPolicy;
+use App\Policies\InstitutePolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -33,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Accounts::class => AccountPolicy::class,
         Role::class => RolePolicy::class,
         Application::class => ApplicationPolicy::class,
+        Institute::class => InstitutePolicy::class,
     ];
 
     /**

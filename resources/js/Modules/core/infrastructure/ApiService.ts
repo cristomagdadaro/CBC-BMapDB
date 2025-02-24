@@ -65,6 +65,7 @@ export default class ApiService implements IApiService
             }
             return new BaseResponse(response);
         } catch (error) {
+            console.log(error);
             return this.determineError(error);
         } finally {
             this._processing = false;

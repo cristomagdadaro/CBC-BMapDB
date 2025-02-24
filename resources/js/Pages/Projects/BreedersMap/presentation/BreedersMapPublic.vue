@@ -64,6 +64,11 @@ export default {
                 this.infoShow = false;
             }, 10000);
         },
+        fadeIn() {
+            setTimeout(() => {
+                this.infoShow = true;
+            }, 10000);
+        },
         fadeToggle() {
             this.infoShow = !this.infoShow;
         }

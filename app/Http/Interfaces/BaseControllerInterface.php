@@ -1,21 +1,34 @@
 <?php
 
 namespace App\Http\Interfaces;
-
-use App\Http\Requests\BaseRequest;
+;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
 
 interface BaseControllerInterface
 {
-    public function index(BaseRequest $request);
-
-    public function store(FormRequest $request);
-
-    public function show(int $id);
-
-    public function update(FormRequest $request, int $id);
-
-    public function destroy(int $id);
-
-    public function multiDestroy(FormRequest $request);
+    /**
+     * @throws AuthorizationException
+     */
+    public function _index($request);
+    /**
+     * @throws AuthorizationException
+     */
+    public function _store($request);
+    /**
+     * @throws AuthorizationException
+     */
+    public function _show($request, int $id);
+    /**
+     * @throws AuthorizationException
+     */
+    public function _update($request, int $id);
+    /**
+     * @throws AuthorizationException
+     */
+    public function _destroy(int $id);
+    /**
+     * @throws AuthorizationException
+     */
+    public function _multiDestroy($request);
 }
