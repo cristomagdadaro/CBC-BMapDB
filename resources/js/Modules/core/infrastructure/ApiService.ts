@@ -82,7 +82,7 @@ export default class ApiService implements IApiService
                     ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
                 }
             });
-            console.log(response);
+
             if (model) {
                 if (response && response.data && response.data.data) {
                     response.data.data = new model(response.data.data);
@@ -101,7 +101,12 @@ export default class ApiService implements IApiService
     {
         try {
             this._processing = true;
-            const response = await axios.post(this.baseUrl, data);
+            const response = await axios.post(this.baseUrl, data,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
             return new BaseResponse(response);
         } catch (error) {
             console.log(error);

@@ -28,9 +28,12 @@ class Breeder extends BaseModel
         'affiliation',
         'breeder_type',
         'geolocation',
+        'photo'
     ];
 
     protected $guarded = ['id'];
+
+    //protected $hidden = ['photo'];
 
     protected $casts = [
         'created_at' => 'datetime',
@@ -49,6 +52,7 @@ class Breeder extends BaseModel
         'breeder_type',
         'mobile_no',
         'email',
+        'photo',
         'breeders.created_at',
         'breeders.updated_at',
         'breeders.deleted_at',

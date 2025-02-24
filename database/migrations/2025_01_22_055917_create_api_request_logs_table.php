@@ -16,7 +16,7 @@ class CreateApiRequestLogsTable extends Migration
             $table->string('method')->nullable();
             $table->longText('url')->nullable();
             $table->string('model')->nullable();
-            $table->text('data')->nullable();
+            $table->longText('data')->nullable();
             $table->unsignedBigInteger('modified_id')->nullable();
             $table->timestamps();
         });

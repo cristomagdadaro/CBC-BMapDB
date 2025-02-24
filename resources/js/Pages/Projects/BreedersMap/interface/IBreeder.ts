@@ -14,6 +14,7 @@ export default interface IBreeder extends IBaseClass {
     mobile_no: string;
     email: string;
     breeder_type: string;
+    photo: string;
 
     commodities: ICommodity[];
     commodities_count?: number;

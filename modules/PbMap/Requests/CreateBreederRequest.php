@@ -38,6 +38,7 @@ class CreateBreederRequest extends FormRequest
                 'unique:breeders,email,'. $id ?? $this->id,
                 'unique:users,email,'. $id ?? $this->id,
             ],
+            'photo' => ['nullable', 'string'],
             'breeder_type' => ['required', 'string', "in:".BreederType::PRIVATE->value.",".BreederType::PUBLIC->value.","],
             'affiliation' => ['required', 'exists:institutes,id'],
             'geolocation' => 'nullable|exists:loc_cities,id',

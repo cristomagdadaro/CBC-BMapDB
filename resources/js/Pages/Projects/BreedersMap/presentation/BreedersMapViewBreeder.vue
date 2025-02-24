@@ -55,6 +55,9 @@ export default {
             if (this.breeder && this.breeder.commodities)
                 return this.breeder.commodities.map(commodity => new Commodity(commodity));
             return [];
+        },
+        profilePhoto() {
+            return this.breederInstance?.getProfilePhoto;
         }
     },
 }
@@ -66,13 +69,20 @@ export default {
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
             <div v-if="breederInstance" class="flex flex-col gap-2">
                 <h1 class="text-lg font-semibold uppercase select-none px-3">Breeder Information</h1>
-                <div class="border p-3 rounded-lg bg-white mx-2 grid sm:grid-cols-2 grid-cols-1">
-                    <template v-for="column in Breeder.getCardColumns()" >
-                        <div class="flex gap-1" v-if="column.visible">
-                            <h2 class="h2 font-semibold select-none text-normal">{{column.title}}: </h2>
-                            <p class="text-normal">{{ Breeder.getNestedValue(breederInstance, column.key) }}</p>
-                        </div>
-                    </template>
+                <div class="border p-3 rounded-lg bg-white mx-2 flex gap-3 items-center">
+                    <span
+                        v-if="profilePhoto"
+                        class="block rounded-lg w-20 h-20 lg:w-44 lg:h-44 md:w-32 md:h-32 bg-cover bg-no-repeat bg-center drop-shadow border-2 border-cbc-dark-green"
+                        :style="'background-image: url(\'' + profilePhoto + '\');'"
+                    />
+                    <div class="grid sm:grid-cols-2 grid-cols-1 w-full">
+                        <template v-for="column in Breeder.getCardColumns()" >
+                            <div class="flex gap-1" v-if="column.visible">
+                                <h2 class="h2 font-semibold select-none text-normal">{{column.title}}: </h2>
+                                <p class="text-normal">{{ Breeder.getNestedValue(breederInstance, column.key) }}</p>
+                            </div>
+                        </template>
+                    </div>
                 </div>
                 <h1 class="text-lg font-semibold uppercase select-none px-3 mt-5">Commodities</h1>
                 <Tab :tabs="tabs">

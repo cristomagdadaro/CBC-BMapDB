@@ -15,6 +15,7 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
     mobile_no: string;
     email: string;
     breeder_type: string;
+    photo: string;
     updated_at: string;
     created_at: string;
     deleted_at: string;
@@ -35,6 +36,7 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
         this.mobile_no = breeder?.mobile_no;
         this.email = breeder?.email;
         this.breeder_type = breeder?.breeder_type;
+        this.photo = breeder?.photo;
         this.updated_at = breeder?.updated_at;
         this.created_at = breeder?.created_at;
         this.deleted_at = breeder?.deleted_at;
@@ -49,6 +51,10 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
 
         if (breeder?.commodities)
             this.commodities = breeder.commodities.map(commodity => new DtoCommodity(commodity));
+    }
+
+    get getProfilePhoto() {
+        return this.photo;
     }
 
     get getAffiliation() {

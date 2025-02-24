@@ -46,6 +46,7 @@ class UpdateBreederRequest extends FormRequest
             'suffix' => ['nullable', 'string', 'max:255'],
             'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:breeders,mobile_no,'.$this->id],
             'affiliation' => ['required', 'exists:institutes,id'],
+            'photo' => ['nullable', 'string'],
             'breeder_type' => ['required', 'string', "in:".BreederType::PRIVATE->value.",".BreederType::PUBLIC->value.","],
             'email' => [
                 'required',
@@ -53,7 +54,6 @@ class UpdateBreederRequest extends FormRequest
                 'unique:breeders,email,'.$this->id,
                 'unique:breeders,email,'.$this->id,
             ],
-            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             'geolocation' => 'nullable|exists:loc_cities,id',
             //'password' => $this->passwordRules(),
         ];

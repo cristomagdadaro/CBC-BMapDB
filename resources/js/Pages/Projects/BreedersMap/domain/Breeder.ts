@@ -34,6 +34,7 @@ export default class Breeder extends DtoBreeder{
             breeder_type: null,
             geolocation: null,
             remember_token: null,
+            photo: null,
         }
     }
 
@@ -53,11 +54,18 @@ export default class Breeder extends DtoBreeder{
             password: oldValue.password ?? null,
             affiliation: oldValue.affiliated ? oldValue.affiliated.id : null,
             geolocation: oldValue.location ? oldValue.location.id : null,
+            photo: oldValue.photo ? oldValue.photo : null,
         }
     }
 
     static getCardColumns() {
         return [
+            {
+                title: 'Profile Photo',
+                key: 'photo',
+                align: 'center',
+                visible: false,
+            },
             {
                 title: 'Breeder No.',
                 key: 'id',

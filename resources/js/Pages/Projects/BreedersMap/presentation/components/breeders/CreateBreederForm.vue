@@ -1,8 +1,10 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin.js";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
+import FileField from "@/Components/Form/FileField.vue";
 
 export default {
+    components: {FileField},
     mixins: [FormMixin],
     name: "CreateBreederForm",
     data() {
@@ -10,6 +12,26 @@ export default {
             model: Breeder,
         };
     },
+    watch: {
+        'form.photo': {
+            handler: function (newVal) {
+                if (!newVal) return;
+
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    this.form.photo = e.target.result;
+                };
+
+                console.log(this.form.photo);
+
+                if (newVal instanceof File) {
+                    reader.readAsDataURL(newVal);
+                }
+            },
+            deep: true
+        }
+    }
 };
 </script>
 
@@ -32,6 +54,7 @@ export default {
                 <select-search-field required :api-link="route('api.institutes.index.public')"  :error="getError('affiliation')" label="Affiliation" v-model="form.affiliation" />
                 <select-search-field required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                 <text-field required :error="getError('email')" label="Email" v-model="form.email" />
+                <file-field :error="getError('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
             </div>
         </template>
     </base-create-form>

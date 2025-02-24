@@ -3,9 +3,11 @@ import InputError from "@/Components/InputError.vue";
 
 export default {
     name: "FileField",
-    components: {InputError},
+    components: { InputError },
+    emits: ["update:modelValue"], // Declare emitted events explicitly
     props: {
-        modelValue: Object,
+        accept: String,
+        modelValue: [Object, String],
         label: String,
         error: {
             type: [String, Array],
@@ -20,8 +22,59 @@ export default {
             default: false,
         },
         id: String,
+    },
+    data() {
+        return {
+            fileName: null,
+            previewUrl: null,
+            validationError: null,
+        };
+    },
+    watch: {
+        modelValue(newFile) {
+            if (!newFile) {
+                this.fileName = null;
+                this.previewUrl = null;
+                this.validationError = null;
+            }
+        }
+    },
+    methods: {
+        handleFileChange(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Validate file type
+            const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/heic"];
+            if (!allowedTypes.includes(file.type)) {
+                this.validationError = "Invalid file type. Only JPG, JPEG, PNG, and HEIC are allowed.";
+                this.clearFile();
+                return;
+            }
+
+            // Validate file size (2MB limit)
+            if (file.size > 2048 * 1024) {
+                this.validationError = "File size exceeds 2MB.";
+                this.clearFile();
+                return;
+            }
+
+            // Set file name and preview
+            this.fileName = file.name;
+            this.previewUrl = URL.createObjectURL(file);
+            this.validationError = null;
+
+            // Emit the file update
+            this.$emit("update:modelValue", file);
+        },
+        clearFile() {
+            this.fileName = null;
+            this.previewUrl = null;
+            this.validationError = null;
+            this.$emit("update:modelValue", null);
+        },
     }
-}
+};
 </script>
 
 <template>
@@ -32,17 +85,33 @@ export default {
                 <span v-if="required" class="text-red-500 font-bold text-xs">*</span>
             </label>
             <InputError v-for="msg in error" :message="msg" />
+            <InputError v-if="validationError" :message="validationError" />
         </div>
-        <div class="flex relative rounded-md shadow-sm border bg-white hover:ring-1 active:ring-1" :class="error && error.length ? 'border-red-300 focus:border-red-500 focus:ring-red-500':'border-gray-300 focus:border-indigo-500 overflow-ellipsis focus:ring-indigo-500'">
-            <input :id="id"
-                   type="file"
-                   @change="$emit('update:modelValue', $event.target.files[0])"
-                   class="border-0 w-full rounded-md focus:ring-0 overflow-ellipsis p-2"
-            >
-        </div>
+
+       <div class="flex gap-2">
+           <div class="flex relative rounded-md shadow-sm border bg-white hover:ring-1 active:ring-1 items-center w-full"
+                :class="error && error.length ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-300 focus:border-indigo-500 overflow-ellipsis focus:ring-indigo-500'">
+               <input :id="id"
+                      type="file"
+                      :accept="accept"
+                      @change="handleFileChange"
+                      class="border-0 w-full rounded-md focus:ring-0 overflow-ellipsis p-2"
+               >
+           </div>
+
+           <!-- Image Preview -->
+           <span
+               v-if="previewUrl || modelValue"
+               class="block w-20 h-20 bg-cover bg-no-repeat bg-center drop-shadow border"
+               :style="'background-image: url(\'' + modelValue ?? previewUrl + '\');'"
+           />
+       </div>
+        <!-- Clear Button -->
+        <button v-if="showClear && (fileName || modelValue)"
+                type="button"
+                class="mt-2 px-4 py-1 bg-red-500 text-white text-xs rounded hover:bg-red-600"
+                @click.prevent="clearFile">
+            Remove
+        </button>
     </div>
 </template>
-
-<style scoped>
-
-</style>
