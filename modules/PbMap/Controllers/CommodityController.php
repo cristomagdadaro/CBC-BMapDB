@@ -6,47 +6,13 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\BaseCollection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
+use Modules\PbMap\Filters\CommodityFilter;
 use Modules\PbMap\Interfaces\CommodityControllerInterface;
 use Modules\PbMap\Repositories\CommodityRepo;
 use Modules\PbMap\Requests\CreateCommoditiesRequest;
 use Modules\PbMap\Requests\DeleteCommoditiesRequest;
 use Modules\PbMap\Requests\GetCommoditiesRequest;
 use Modules\PbMap\Requests\UpdateCommoditiesRequest;
-
-class CommodityFilters
-{
-    public string|null $geo_location_value;
-    public string|null $geo_location_filter;
-    public string|null $filter_by_parent_column;
-    public string|null $filter_by_parent_id;
-    public string|null $filter;
-    public string|null $is_exact;
-    public string|null $group_by;
-    public string|null $commodities;
-    public string|null $search;
-
-    public function __construct($geo_location_value,
-                                $geo_location_filter,
-                                $filter_by_parent_column,
-                                $filter_by_parent_id,
-                                $filter,
-                                $search,
-                                $is_exact,
-                                $commodities,
-                                $group_by
-    )
-    {
-        $this->geo_location_value = $geo_location_value;
-        $this->geo_location_filter = $geo_location_filter;
-        $this->filter_by_parent_column = $filter_by_parent_column;
-        $this->filter_by_parent_id = $filter_by_parent_id;
-        $this->filter = $filter;
-        $this->search = $search;
-        $this->is_exact = $is_exact;
-        $this->commodities = $commodities;
-        $this->group_by = $group_by;
-    }
-}
 
 class CommodityController extends BaseController implements CommodityControllerInterface
 {
@@ -89,7 +55,7 @@ class CommodityController extends BaseController implements CommodityControllerI
     {
         $model = $this->service->model;
 
-        $filter = new CommodityFilters(
+        $filter = new CommodityFilter(
             $request->validated('geo_location_value'),
             $request->validated('geo_location_filter') ?? 'region',
             $request->validated('filter_by_parent_column'),

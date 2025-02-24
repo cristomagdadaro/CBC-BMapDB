@@ -4,6 +4,7 @@ namespace Modules\PbMap\Repositories;
 
 use App\Repository\AbstractRepoService;
 use Modules\PbMap\Controllers\CommodityFilters;
+use Modules\PbMap\Filters\CommodityFilter;
 use Modules\PbMap\Models\Commodity;
 
 class CommodityRepo extends AbstractRepoService
@@ -13,7 +14,7 @@ class CommodityRepo extends AbstractRepoService
         parent::__construct($model);
     }
 
-    public function applyFilters($model, CommodityFilters $filters) {
+    public function applyFilters($model, CommodityFilter $filters) {
         $group_by = $this->determineLocFilterLevel($filters->geo_location_filter);
 
         if ($filters->filter_by_parent_column && $filters->filter_by_parent_id) {

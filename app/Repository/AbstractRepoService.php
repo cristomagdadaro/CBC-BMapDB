@@ -384,7 +384,10 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
         try {
             if (Schema::hasColumn($this->model->getTable(), 'user_id')) {
-                $model = $model->ownedBy(auth()->user()); // Filter data to retrieve only those owned by the user
+                $model = $model->ownedByUser(auth()->user()); // Filter data to retrieve only those owned by the user
+            }
+            if (Schema::hasColumn($this->model->getTable(), 'affiliation')) {
+                $model = $model->ownedByAffiliation(auth()->user()); // Filter data to retrieve only those owned by the institute
             }
         } catch (\Exception $e) {
             // Handle the exception appropriately, e.g., log it or return an error response

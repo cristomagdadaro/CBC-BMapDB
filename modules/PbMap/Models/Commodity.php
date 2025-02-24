@@ -3,13 +3,14 @@
 namespace Modules\PbMap\Models;
 
 use App\Models\BaseModel;
+use App\Traits\OwnedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Commodity extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, OwnedByTrait;
 
     protected $table = 'commodities';
 
