@@ -19,6 +19,10 @@ export default {
             if (temp)
                 return temp.key;
             return null;
+        },
+        redirectToProvince(province) {
+            if (!province) return;
+            this.$router.push(`/projects/breedersmap-db/${province}`);
         }
     },
     computed: {
@@ -83,7 +87,7 @@ export default {
     <svg xmlns="http://www.w3.org/2000/svg"
          ref="philippine-map"
          viewBox="0 0 310.17 540.5">
-        <path class="cls-1" :id="getProvince('sulu')" d="M125.4,510.9l0.4,0.1l0.5,0.5l0.5,0.6l0.2,0.6l-0.4,0.7l-0.6,0.1l-0.9-0.3
+        <path class="cls-1" @click="redirectToProvince('sulu')" :id="getProvince('sulu')" d="M125.4,510.9l0.4,0.1l0.5,0.5l0.5,0.6l0.2,0.6l-0.4,0.7l-0.6,0.1l-0.9-0.3
 	l-0.2-0.2l-0.3-0.3l-0.3-0.4l-0.1-0.3l0.2-0.3l0.3-0.3l0.4-0.2L125.4,510.9L125.4,510.9z M158.8,496.2l0.9-0.4h0.4l0.1,0.4l-0.2,0.1
 	l-0.8,0.4l-1.4,0.5l-0.3-0.1l-1.7-1.1l-0.6-0.7l-0.3-0.6l0.6,0.1l1.7,1l0.8,0.3L158.8,496.2L158.8,496.2z M116.7,485.1l0.2,0.1
 	l0.2,0.3l0.1,0.3l0.1,0.3v0.6l-0.7,2.2l-0.2,0.3l-0.2,0.2l-0.3,0.1h-0.5l-1.3-0.2l-0.4-0.2l-0.2-0.4l0.1-0.2l0.3-0.1h0.4l0.2-0.1

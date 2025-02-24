@@ -23,6 +23,8 @@ return [
     ],
     'commodities' => [
         'Rice' => 'Oryza sativa',
+        'Adlay' => 'Coix lacryma-jobi',
+        'Quinoa' => 'Chenopodium quinoa',
         'Corn' => 'Zea mays',
         'Abaca' => 'Musa textilis',
         'Banana' => 'Musa spp.',
