@@ -3,6 +3,17 @@ import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 
 export default {
+    props: {
+        tables: {
+            type: Array,
+            required: true,
+        },
+        params: {
+            type: Object,
+            required: false,
+            default: () => { return {  } },
+        },
+    },
     data() {
         return {
             model: null,
@@ -137,6 +148,7 @@ export default {
         filter: {
             handler(value) {
                 this.$emit('updatedFilter', value);
+                this.dataChanged = true;
             },
             deep: true,
         },

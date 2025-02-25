@@ -25,25 +25,16 @@ class CommodityRepo extends AbstractRepoService
 
 
         if ($filters->search) {
-            /*if ($filters->filter)
-                $model = $model->where($filters->filter, 'like', '%'.$filters->search.'%');
-            else
-            {
-                foreach ($model->getModel()->getSearchable() as $column) {
-                    $model = $model->orWhere($column, 'like', '%' . $filters->search . '%');
-                }
-            }*/
             $this->applySearch($model, $filters->search, $filters->filter, $filters->is_exact);
 
             $appendWith = ['breeder', 'location'];
-            $this->applyAppends($model);
+            $this->applyAppends($model, $filters->collect());
             foreach ($appendWith as $table) {
                 $relatedModel = $this->model->{$table}()->getModel();
                 $this->applyRelationSearch($model, $filters->search, $filters->filter, $filters->is_exact, $table, $relatedModel);
             }
 
         }
-        //$this->applySearch($model, $filters->search, $filters->filter, $filters->is_exact);
 
         $model = $model->when($filters->commodities, function ($query) use ($filters) {
             return $query->where('name', $filters->commodities);

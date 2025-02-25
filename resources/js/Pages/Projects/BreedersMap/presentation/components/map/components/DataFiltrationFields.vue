@@ -12,17 +12,6 @@ export default {
     name: "DataFiltrationFields",
     components: {CloseIcon, SearchBy, SearchBox, LoaderIcon, CaretDown, CustomDropdown, CollapsableMenu},
     mixins: [DataFiltrationMixin],
-    props: {
-        tables: {
-            type: Array,
-            required: true,
-        },
-        params: {
-            type: Object,
-            required: false,
-            default: () => { return {  } },
-        },
-    },
     created() {
         this.apiUrl = this.tables.length ? this.tables[0].route : null;
 
@@ -58,7 +47,7 @@ export default {
 
 <template>
     <div v-if="api && filter" class="flex flex-col gap-1">
-        <div v-show="api.processing" class="absolute z-[900] flex gap-2 items-center justify-center top-0 w-full h-full bg-gray-100 opacity-75">
+        <div v-show="api.processing" class="absolute z-[900] flex gap-2 items-center justify-center top-0 left-0 w-full h-full bg-gray-200 opacity-75">
             <div class="flex items-center gap-2 justify-center">
                 <loader-icon /> Processing...
             </div>

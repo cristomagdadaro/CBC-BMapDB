@@ -38,13 +38,13 @@ export default {
                     name: "tab1",
                     label: "Geo Map",
                     active: true,
-                    route: { name: 'projects.breedersmap.geomap.public' },
+                    //route: { name: 'projects.breedersmap.geomap.public' },
                 },
                 {
                     name: "tab2",
                     label: "Charts",
                     active: true,
-                    route: { name: 'projects.breedersmap.chart.public' },
+                    //route: { name: 'projects.breedersmap.chart.public' },
 
                 },
             ],

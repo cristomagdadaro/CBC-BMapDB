@@ -1,6 +1,8 @@
 <?php
 namespace Modules\PbMap\Filters;
 
+use Illuminate\Database\Eloquent\Collection;
+
 class CommodityFilter
 {
     public string|null $geo_location_value;
@@ -33,5 +35,10 @@ class CommodityFilter
         $this->is_exact = $is_exact;
         $this->commodities = $commodities;
         $this->group_by = $group_by;
+    }
+
+    public function collect(): Collection
+    {
+        return new Collection($this);
     }
 }

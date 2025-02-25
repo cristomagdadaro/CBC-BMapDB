@@ -47,7 +47,7 @@ export default {
         return {
             filter: {
                 search: null,
-                is_exact: true,
+                is_exact: false,
                 filter: null,
                 table_name: 'commodities',
                 commodity: null,
@@ -84,7 +84,7 @@ export default {
             return Commodity
         },
         visibleColumns() {
-            return this.tableModel.getColumns().filter(column => column.visible);
+            return this.tableModel.getCardColumns().filter(column => column.visible);
         },
         tableModel() {
             if(this.filter.table_name === 'commodities')
@@ -179,12 +179,12 @@ export default {
                 <search-by id="bm-columnsfilter-dropdown"
                            :value="filter.filter"
                            :is-exact="filter.is_exact"
-                           :options="tableModel.getColumns().map(column => {
-                                 return {
-                                      name: column.key,
-                                      label: column.title
-                                 }
-                           })"
+                           :options="tableModel.getCardColumns().filter(item => item.visible).map(column => {
+                                return {
+                                    name: column.db_key,
+                                    label: column.title
+                                }
+                            })"
                            @isExact="filter.is_exact = $event"
                            @searchBy="filter.filter = $event"
                 />
@@ -194,7 +194,7 @@ export default {
                     <crcm-thead>
                         <thead-row>
                             <t-h
-                                v-for="column in tableModel.getColumns()"
+                                v-for="column in tableModel.getCardColumns()"
                                 :visible="column.visible"
                                 :sortable="column.sortable"
                                 :key="column.key + column.title"
@@ -208,6 +208,7 @@ export default {
                                 v-for="column in visibleColumns"
                                 :key="column.key + row_data[column.key]"
                                 :visible="column.visible"
+                                :class="column?.class"
                             >{{
                                     getNestedValue(row_data, column.key)
                                 }}</t-d>

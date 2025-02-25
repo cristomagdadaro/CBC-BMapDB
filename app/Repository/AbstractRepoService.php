@@ -274,8 +274,10 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
                 $filter = $temp[1];
             }
 
-            if ($filter === 'name' && $columns->contains('fname') && $columns->contains('lname'))
+            if ($columns->contains('fname') && $columns->contains('lname'))
                 $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
+            else if ($filter === 'name')
+                $query->where("name", "%{$search}%");
             else
                 $query->where(function ($subQuery) use ($columns, $search, $is_exact) {
                     foreach ($columns as $column) {
