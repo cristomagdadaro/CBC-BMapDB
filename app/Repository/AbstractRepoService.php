@@ -21,9 +21,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 {
     /**
      * Model to be used
-     * @var BaseModel
+     * @var Model
      **/
-    public BaseModel $model;
+    public Model $model;
 
     /**
      * Table to append with
@@ -191,11 +191,12 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $builder = $this->checkRole($this->model);
         $builder = $this->applyRawSelectColumns($builder, $parameters);
 
+        $this->applyAppends($builder, $parameters);
+        $this->applyParentFilter($builder, $parameters);
+
         if ($isTrashed)
             $builder = $builder->onlyTrashed();
 
-        $this->applyAppends($builder, $parameters);
-        $this->applyParentFilter($builder, $parameters);
         $this->applyGeoFilters($builder, $parameters);
         $this->applySearchFilters($builder, $parameters);
         $this->applyGroupBy($builder, $parameters);
@@ -233,15 +234,25 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $group_by = $this->determineLocFilterLevel($parameters->get('geo_location_filter'));
         $geo_location_value = $parameters->get('geo_location_value');
 
-        $query = $query->join('loc_cities', 'loc_cities.id', '=', 'geolocation')->join('users', 'users.id', '=', 'user_id');
+        if (Schema::hasColumn($this->model->getTable(), 'geolocation'))
+        $query = $query->join('loc_cities', 'loc_cities.id', '=', 'geolocation')
+            ->join('users', 'users.id', '=', 'user_id');
 
         if ($geo_location_value) {
-            if ($group_by !== 'affiliation')
-                $query = $query->where('loc_cities.' . $group_by, $geo_location_value);
-            else
-                $query = $query->where('institutes.id', $geo_location_value);
+            if ($group_by !== 'affiliation') {
+                // Check if the column exists before applying the filter
+                if (Schema::hasColumn('loc_cities', $group_by)) {
+                    $query = $query->where('loc_cities.' . $group_by, $geo_location_value);
+                }
+            } else {
+                // Assuming 'institutes' is another table you are joining, so check for its columns
+                if (Schema::hasColumn('institutes', 'id')) {
+                    $query = $query->where('institutes.id', $geo_location_value);
+                }
+            }
         }
     }
+
 
     protected function applyPagination(Builder $query, Collection $parameters)
     {
@@ -348,46 +359,40 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
     protected function applyRelationSearch(Builder $query, string $search, ?string $filter, bool $is_exact, string $relation, $relatedModel): void
     {
-        $query->whereHas($relation, function ($relatedQuery) use ($search, $filter, $is_exact, $relatedModel) {
-            // Extract the actual filter column if it's in the format `relation.column`
-            if ($filter && str_contains($filter, '.')) {
-                $filter = explode('.', $filter)[1];
+        $query->orWhereHas($relation, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
+            if (str_contains($filter, '.')) {
+                $temp = explode('.', $filter);
+                $filter = $temp[1];
             }
 
-            $table = $relatedModel->getTable();
-            $searchable = collect($relatedModel->getSearchable());
+            // Get related table name
+            $table = $query->getModel()->getTable();
+            $searchable = Schema::getColumnListing($table);
 
-            // Prevent empty searches if no searchable columns exist
-            if ($searchable->isEmpty()) {
-                return;
-            }
-
-            $relatedQuery->where(function ($subQuery) use ($search, $filter, $is_exact, $table, $searchable) {
-                // Special case: Full name search
-                if ($searchable->contains('fname') && $searchable->contains('lname')) {
-                    $subQuery->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
-                }
-
-                // If a filter is provided, search in that specific column
-                elseif ($filter && Schema::hasColumn($table, $filter)) {
-                    $operator = $is_exact ? '=' : 'like';
-                    $value = $is_exact ? $search : "%{$search}%";
-                    $subQuery->orWhere($filter, $operator, $value);
-                }
-
-                // Otherwise, search in all searchable columns
-                else {
+            $query->where(function ($query) use ($search, $searchable, $is_exact, $table, $filter) {
+                if (($filter === 'name' && in_array('fname', $searchable) && in_array('lname', $searchable) || $table === 'users')) {
+                    $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
+                } else if ($filter) {
+                    if ($is_exact) {
+                        $query->orWhere($filter, $search);
+                    } else {
+                        $query->orWhere($filter, 'like', "%{$search}%");
+                    }
+                } else {
                     foreach ($searchable as $column) {
-                        if (Schema::hasColumn($table, $column)) {
-                            $operator = $is_exact ? '=' : 'like';
-                            $value = $is_exact ? $search : "%{$search}%";
-                            $subQuery->orWhere($column, $operator, $value);
-                        }
+                        if (Schema::hasColumn($table, $column))
+                            if ($is_exact) {
+                                $query->orWhere($column, $search);
+                            } else {
+                                $query->orWhere($column, 'like', "%{$search}%");
+                            }
                     }
                 }
             });
         });
     }
+
+
 
     public function applySorting(Builder &$query, Collection $parameters): void
     {

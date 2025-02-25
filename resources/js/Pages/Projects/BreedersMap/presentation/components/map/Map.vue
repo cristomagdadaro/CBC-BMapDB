@@ -14,7 +14,7 @@ import {
 import 'leaflet/dist/leaflet.css';
 import { icon } from 'leaflet';
 import regions from "@/Pages/Projects/BreedersMap/components/geojsons/geoJson.js";
-import InfoSidebar from './components/MapSidebar.vue';
+import InfoSidebar from './components/MapSidebarV2.vue';
 import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import ExportIcon from "@/Components/Icons/ExportIcon.vue";
@@ -363,15 +363,18 @@ export default {
                         @click="selectPoint(place); mapApi.sidebarVisible = true;"
                     >
                         <l-tooltip :content="place.name" />
+                        <l-popup :options="{ minWidth:300, maxWidth:400, className:'popup-transition' }">
+                            <info-sidebar :model="model" :point="mapApi.selectedPlace" :visible="sidebarVisible" />
+                        </l-popup>
                     </l-circle-marker>
                 </template>
                 <l-control>
                     <div class="flex flex-col items-end">
-                        <div class="flex flex-row gap-1 justify-between w-fit items-center p-2">
+                        <div class="flex flex-row gap-2 justify-between w-fit items-center p-2">
                             <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
                                 <span>Recenter</span>
                             </top-action-btn>
-                            <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
+<!--                            <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
                                 <template #icon>
                                     <close-icon class="h-auto sm:w-6 w-4" />
                                 </template>
@@ -382,10 +385,9 @@ export default {
                                     <view-icon class="h-auto sm:w-4 w-3" />
                                 </template>
                                 <span>View&nbsp;Details</span>
-                            </top-action-btn>
+                            </top-action-btn>-->
                             <FullscreenToggle :element="$refs.mapContainer" />
                         </div>
-                        <info-sidebar :model="model" :point="mapApi.selectedPlace" :visible="sidebarVisible" @close="this.mapApi.sidebarVisible = false" />
                     </div>
                 </l-control>
             </l-map>
@@ -413,3 +415,11 @@ export default {
         You do not have permission to view this page
     </div>
 </template>
+<style scoped>
+.popup-transition-enter-active, .popup-transition-leave-active {
+    transition: opacity 0.5s;
+}
+.popup-transition-enter, .popup-transition-leave-to {
+    opacity: 0;
+}
+</style>

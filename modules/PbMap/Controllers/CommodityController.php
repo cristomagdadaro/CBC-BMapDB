@@ -58,58 +58,6 @@ class CommodityController extends BaseController implements CommodityControllerI
         return $this->summaryPublic($request);
     }
 
-    /*public function summaryPublic(GetCommoditiesRequest $request): JsonResponse
-    {
-        $model = $this->service->model;
-        $geo_location_filter = $request->validated('geo_location_filter') ?? null;
-        $filter = new CommodityFilter(
-            $geo_location_filter ? $request->validated('geo_location_value') : null,
-            $geo_location_filter,
-            $request->validated('filter_by_parent_column'),
-            $request->validated('filter_by_parent_id'),
-            $request->validated('filter'),
-     $request->validated('search') ?? '',
-       $request->validated('with') ?? '',
-            $request->validated('is_exact'),
-            $request->all()['commodity'] ?? null,
-            $this->service->determineLocFilterLevel($geo_location_filter),
-        );
-
-        $commodities = $this->service->search($filter->collect(), false)->get();
-
-        $groupBy = $this->service->determineLocFilterLevel($geo_location_filter ?? 'region');
-        $temp = $filter->collect()->put('select_raw', "$groupBy as label, count(*) as total");
-        $temp =  $temp->put('sort', 'total');
-        $temp =  $temp->put('order', 'desc');
-        $temp =  $temp->put('group_by', $groupBy);
-        $chart_data = $this->service->search($temp, false)->get();
-
-        $temp = $filter->collect()->put('select_raw', 'commodities.name as label, count(*) as total');
-        $temp =  $temp->put('group_by', 'commodities.name');
-        $temp =  $temp->put('sort', 'total');
-        $temp =  $temp->put('order', 'desc');
-        $commodities_chart = $this->service->search($temp, false)->get();
-
-        $geo_location_filter = $geo_location_filter ?? 'region';
-
-        return response()->json([
-            'params' => [
-                'commodity' => $filter->collect()->get('commodities'),
-                'group_by' => $filter->collect()->get('group_by'),
-                'geo_location_filter' => $geo_location_filter,
-                'geo_location_value' => $filter->collect()->get('geo_location_value'),
-                'is_exact' => $filter->collect()->get('is_exact'),
-            ],
-            'group_search_institute' => $this->service->getGroupByInstitute($model, $filter->collect()->get('commodities'), $geo_location_filter),
-            'chart_labels' => $commodities_chart,
-            'chart_data' => $chart_data,
-            'raw_data' => $commodities,
-            'raw_data_labels' => $this->service->getCommodityLabels($model, $filter->collect()->get('geo_location_value'), $filter->collect()->get('is_exact'), $geo_location_filter),
-            'group_search_labels' => $this->service->getGroupByGeoLoc($model, $filter->collect()->get('commodities'), $geo_location_filter),
-            'linechart_data' => $this->service->linechartData($model, $filter->collect()->get('geo_location_value'), $filter->collect()->get('is_exact'), $geo_location_filter, $filter->collect()->get('commodities')),
-        ]);
-    }*/
-
     public function summaryPublic(GetCommoditiesRequest $request): JsonResponse
     {
         $model = $this->service->model;

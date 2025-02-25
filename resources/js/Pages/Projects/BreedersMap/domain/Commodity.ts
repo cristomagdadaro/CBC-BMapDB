@@ -230,6 +230,14 @@ export default class Commodity extends DtoCommodity {
                 visible: false,
             },
             {
+                title: 'Breeder',
+                key: 'breederName',
+                db_key: 'breeder',
+                align: 'center',
+                class: 'whitespace-nowrap',
+                visible: true,
+            },
+            {
                 title: 'Commodity',
                 key: 'name',
                 db_key: 'name',
@@ -250,14 +258,6 @@ export default class Commodity extends DtoCommodity {
                 db_key: 'breeder_id',
                 align: 'center',
                 visible: false,
-            },
-            {
-                title: 'Breeder',
-                key: 'breederName',
-                db_key: 'breeder',
-                align: 'center',
-                class: 'whitespace-nowrap',
-                visible: true,
             },
             {
                 title: 'Type',

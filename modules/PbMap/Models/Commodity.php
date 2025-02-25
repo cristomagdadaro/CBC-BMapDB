@@ -7,6 +7,7 @@ use App\Models\Institute;
 use App\Traits\OwnedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -83,12 +84,12 @@ class Commodity extends BaseModel
         return $this->belongsTo(Breeder::class, 'breeder_id', 'id')->select((new Breeder())->getSearchable())->withTrashed()->with('affiliated');
     }
 
-    public function characteristics()
+    public function characteristics(): HasOne
     {
         return $this->hasOne(CommodityCharacteristic::class);
     }
 
-    public function additionalInfo()
+    public function additionalInfo(): HasOne
     {
         return $this->hasOne(CommodityInfo::class);
     }

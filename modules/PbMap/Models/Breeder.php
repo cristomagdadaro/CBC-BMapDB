@@ -5,11 +5,13 @@ namespace Modules\PbMap\Models;
 use App\Enums\DefaultPassword;
 use App\Models\BaseModel;
 use App\Models\Institute;
+use App\Models\Location\City;
 use App\Models\User;
 use App\Traits\OwnedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Breeder extends BaseModel
@@ -44,17 +46,17 @@ class Breeder extends BaseModel
 
     protected array $searchable = [
         'breeders.id',
-        'user_id',
-        'fname',
-        'mname',
-        'lname',
-        'suffix',
-        'affiliation',
-        'geolocation',
-        'breeder_type',
-        'mobile_no',
-        'email',
-        'photo',
+        'breeders.user_id',
+        'breeders.fname',
+        'breeders.mname',
+        'breeders.lname',
+        'breeders.suffix',
+        'breeders.affiliation',
+        'breeders.geolocation',
+        'breeders.breeder_type',
+        'breeders.mobile_no',
+        'breeders.email',
+        'breeders.photo',
         'breeders.created_at',
         'breeders.updated_at',
         'breeders.deleted_at',

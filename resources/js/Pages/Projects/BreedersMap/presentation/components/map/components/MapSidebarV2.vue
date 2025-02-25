@@ -27,25 +27,22 @@ export default {
 </script>
 
 <template>
-    <transition-container type="slide-right">
-        <div class="relative max-h-[800px] flex flex-col max-w-500px min-w-600px bg-gray-100 rounded" v-show="visible">
-            <button @click="closeSidebar" class="absolute z-[999] top-0 w-fit right-3 p-1">
-                <close-icon class="w-8 h-8 drop-shadow text-white" />
-            </button>
-            <div v-if="point" class="drop-shadow-md overflow-y-auto overflow-x-hidden border text-sm">
-                <table>
-                    <tr class="bg-cbc-dark-green text-white text-center uppercase">
-                        <th colspan="2" class="p-2">Commodity Details</th>
+    <transition-container>
+        <div class="relative max-h-[800px] flex flex-col max-w-500px min-w-600px text-gray-800 py-2" v-show="visible">
+            <div v-if="point" class="overflow-y-auto overflow-x-hidden text-sm " >
+                <table class="w-full">
+                    <tr>
                         <th v-if="instance.breeder.getProfilePhoto"
-                            :rowspan="model.getCardColumns().filter(item => item.visible).length">
+                            class="flex items-center justify-center"
+                            colspan="4">
                             <span
                                 class="block w-20 h-20 bg-cover bg-no-repeat bg-center"
                                 :style="'background-image: url(\'' + instance.breeder.getProfilePhoto + '\');'"
                             />
                         </th>
                         <th v-else
-                            :rowspan="model.getCardColumns().filter(item => item.visible).length">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-auto h-24 mx-2 drop-shadow" viewBox="0 0 16 16">
+                            class="flex items-center justify-center bg-gray-200 p-2" colspan="5">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-auto h-14 mx-2 drop-shadow" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
                                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                             </svg>
@@ -53,24 +50,16 @@ export default {
                     </tr>
                     <template v-for="(value, key) in model.getCardColumns()" :key="key">
                         <tr v-if="instance[value.key] && value.visible" >
-                            <th class="text-right text-gray-900 whitespace-nowrap bg-gray-300 p-0.5 px-2">{{ value.title }}</th>
-                            <td class="p-0.5 px-2">{{  getNestedValue(instance, value.key) }}</td>
+                            <th class="text-right text-gray-900 whitespace-nowrap bg-gray-200 p-0.5 px-2 align-text-top">{{ value.title }}</th>
+                            <td class="p-0.5 px-2 hover:bg-gray-100 align-text-top">{{  getNestedValue(instance, value.key) }}</td>
                         </tr>
                     </template>
                     <tr class="bg-green-700 text-white text-center font-light" v-if="!$page.props.auth.user">
-                        <th colspan="3" class="p-2 font-light">
-                            To access more information about this commodity
+                        <th colspan="2" class="p-2 font-light">
+                            To access more information about this breeder or commodity
                             <Link :href="route('register')" class="block px-4 py-2 text-sm leading-5 hover:bg-cbc-yellow-green focus:outline-none focus:bg-gray-100 transition duration-300 ease-in-out rounded">
                                 <span class="text-white underline active:text-gray-700 ">Create your own account</span>
                             </Link>
-                        </th>
-                    </tr>
-                    <tr class="bg-cbc-dark-green text-white text-center font-light" v-else>
-                        &nbsp;
-                        <th colspan="2" class="p-2 font-light">
-<!--                            <Link :href="route('projects.breedersmap.index')" class="block px-4 py-2 text-sm leading-5 hover:bg-cbc-yellow-green focus:outline-none focus:bg-gray-100 transition duration-300 ease-in-out rounded">
-                                <span class="text-white underline active:text-gray-700 ">Create your own account</span>
-                            </Link>-->
                         </th>
                     </tr>
                 </table>
