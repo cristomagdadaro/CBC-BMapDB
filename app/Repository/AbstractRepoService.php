@@ -21,9 +21,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 {
     /**
      * Model to be used
-     * @var Model
+     * @var BaseModel
      **/
-    public Model $model;
+    public BaseModel $model;
 
     /**
      * Table to append with
@@ -186,24 +186,61 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
     }
 
-    protected function buildSearchQuery(Collection $parameters, bool $withPagination, bool $isTrashed): LengthAwarePaginator
+    protected function buildSearchQuery(Collection $parameters, bool $withPagination, bool $isTrashed): LengthAwarePaginator | Builder
     {
         $builder = $this->checkRole($this->model);
-        $builder = $builder->select($this->model->getSearchable());
+        $builder = $this->applyRawSelectColumns($builder, $parameters);
+
+        if ($isTrashed)
+            $builder = $builder->onlyTrashed();
 
         $this->applyAppends($builder, $parameters);
         $this->applyParentFilter($builder, $parameters);
-
-        if ($isTrashed) {
-            $builder = $builder->onlyTrashed();
-        }
-
+        $this->applyGeoFilters($builder, $parameters);
         $this->applySearchFilters($builder, $parameters);
+        $this->applyGroupBy($builder, $parameters);
         $this->applySorting($builder, $parameters);
 
         if (!$withPagination)
-            return $builder->get();
+            return $builder;
         return $this->applyPagination($builder, $parameters);
+    }
+
+    public function applyRawSelectColumns($query, Collection $parameters)
+    {
+        $select = $parameters->get('select_raw', null);
+
+        if ($select) {
+            return $query->selectRaw($select);
+        } else if ($this->model->getSearchable()) {
+            return $query->select($this->model->getSearchable());
+        }
+
+        return $query->select('*');
+    }
+
+    public function applyGroupBy(Builder &$query, Collection $parameters): void
+    {
+        $group_by = $parameters->get('group_by', null);
+
+        if ($group_by) {
+            $query->groupBy($group_by);
+        }
+    }
+
+    public function applyGeoFilters(Builder &$query, Collection $parameters): void
+    {
+        $group_by = $this->determineLocFilterLevel($parameters->get('geo_location_filter'));
+        $geo_location_value = $parameters->get('geo_location_value');
+
+        $query = $query->join('loc_cities', 'loc_cities.id', '=', 'geolocation')->join('users', 'users.id', '=', 'user_id');
+
+        if ($geo_location_value) {
+            if ($group_by !== 'affiliation')
+                $query = $query->where('loc_cities.' . $group_by, $geo_location_value);
+            else
+                $query = $query->where('institutes.id', $geo_location_value);
+        }
     }
 
     protected function applyPagination(Builder $query, Collection $parameters)
@@ -214,7 +251,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         return $query->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
 
-    protected function applyAppends(Builder &$model, Collection $parameters): void
+    public function applyAppends(Builder &$model, Collection $parameters): void
     {
         $with = $parameters->get('with', null);
         $count = $parameters->get('count', null);
@@ -236,7 +273,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
     }
 
-    protected function applyParentFilter(Builder &$query, Collection $parameters): void
+    public function applyParentFilter(Builder &$query, Collection $parameters): void
     {
         $filterByParentColumn = $parameters->get('filter_by_parent_column');
         $filterByParentId = $parameters->get('filter_by_parent_id');
@@ -246,11 +283,13 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
     }
 
-    protected function applySearchFilters(Builder &$query, Collection $parameters): void
+    public function applySearchFilters(Builder &$query, Collection $parameters): void
     {
         $isExact = $parameters->get('is_exact', false);
         $filter = $parameters->get('filter', null);
         $searchTerm = $parameters->get('search', '');
+
+        if (empty($searchTerm)) return;
 
         // Apply search on the main model
         $this->applySearch($query, $searchTerm, $filter, $isExact);
@@ -266,78 +305,112 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
     protected function applySearch(Builder $query, string $search, ?string $filter, bool $is_exact): void
     {
-        $columns = collect($query->getModel()->getSearchable());
-
-        if (!empty($columns)) {
-            if ($filter && str_contains($filter, '.')){
-                $temp = explode('.', $filter);
-                $filter = $temp[1];
-            }
-
-            if ($columns->contains('fname') && $columns->contains('lname'))
-                $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
-            else if ($filter === 'name')
-                $query->where("name", "%{$search}%");
-            else
-                $query->where(function ($subQuery) use ($columns, $search, $is_exact) {
-                    foreach ($columns as $column) {
-                        if ($is_exact) {
-                            $subQuery->orWhere($column, $search);
-                        } else {
-                            $subQuery->orWhere($column, 'like', "%{$search}%");
-                        }
-                    }
-                });
+        if (empty($search)) {
+            return;
         }
+
+        // Apply search to a specific column if filter is provided
+        if ($filter) {
+            if (str_contains($filter, '.')) {
+                $filter = explode('.', $filter)[1]; // Extract the column name if filter contains a relation
+            }
+            $query->where($filter, 'like', "%{$search}%");
+            return;
+        }
+
+        // Retrieve searchable columns
+        $columns = collect($query->getModel()->getSearchable());
+        if ($columns->isEmpty()) {
+            return;
+        }
+
+        // Handle full name search
+        if ($columns->contains('fname') && $columns->contains('lname')) {
+            $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
+            return;
+        }
+
+        // Handle specific "name" column search
+        if ($filter === 'name') {
+            $query->where('name', 'like', "%{$search}%");
+            return;
+        }
+
+        // Apply search to all searchable columns
+        $query->where(function ($subQuery) use ($columns, $search, $is_exact) {
+            foreach ($columns as $column) {
+                $operator = $is_exact ? '=' : 'like';
+                $value = $is_exact ? $search : "%{$search}%";
+                $subQuery->orWhere($column, $operator, $value);
+            }
+        });
     }
 
     protected function applyRelationSearch(Builder $query, string $search, ?string $filter, bool $is_exact, string $relation, $relatedModel): void
     {
-        $query->orWhereHas($relation, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
-            if (str_contains($filter, '.')) {
-                $temp = explode('.', $filter);
-                $relatedModel = $this->model->{$temp[0]}()->getModel();
-                $filter = $temp[1];
+        $query->whereHas($relation, function ($relatedQuery) use ($search, $filter, $is_exact, $relatedModel) {
+            // Extract the actual filter column if it's in the format `relation.column`
+            if ($filter && str_contains($filter, '.')) {
+                $filter = explode('.', $filter)[1];
             }
 
-            // Get related table name
-            $table = $query->getModel()->getTable();
-            $searchable = Schema::getColumnListing($table);
+            $table = $relatedModel->getTable();
+            $searchable = collect($relatedModel->getSearchable());
 
-            $query->where(function ($query) use ($search, $searchable, $is_exact, $table, $filter) {
-                if (($filter === 'name' && in_array('fname', $searchable) && in_array('lname', $searchable) || $table === 'users')) {
-                    $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
-                } else if ($filter) {
-                    if ($is_exact) {
-                        $query->orWhere($filter, $search);
-                    } else {
-                        $query->orWhere($filter, 'like', "%{$search}%");
-                    }
-                } else {
+            // Prevent empty searches if no searchable columns exist
+            if ($searchable->isEmpty()) {
+                return;
+            }
+
+            $relatedQuery->where(function ($subQuery) use ($search, $filter, $is_exact, $table, $searchable) {
+                // Special case: Full name search
+                if ($searchable->contains('fname') && $searchable->contains('lname')) {
+                    $subQuery->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
+                }
+
+                // If a filter is provided, search in that specific column
+                elseif ($filter && Schema::hasColumn($table, $filter)) {
+                    $operator = $is_exact ? '=' : 'like';
+                    $value = $is_exact ? $search : "%{$search}%";
+                    $subQuery->orWhere($filter, $operator, $value);
+                }
+
+                // Otherwise, search in all searchable columns
+                else {
                     foreach ($searchable as $column) {
-                        if (Schema::hasColumn($table, $column))
-                            if ($is_exact) {
-                                $query->orWhere($column, $search);
-                            } else {
-                                $query->orWhere($column, 'like', "%{$search}%");
-                            }
+                        if (Schema::hasColumn($table, $column)) {
+                            $operator = $is_exact ? '=' : 'like';
+                            $value = $is_exact ? $search : "%{$search}%";
+                            $subQuery->orWhere($column, $operator, $value);
+                        }
                     }
                 }
             });
         });
     }
 
-    private function applySorting(Builder &$query, Collection $parameters): void
+    public function applySorting(Builder &$query, Collection $parameters): void
     {
-        $sortColumn = $parameters->get('sort', 'created_at');
+        $sortColumn = $parameters->get('sort', null);
         $order = strtoupper($parameters->get('order', 'desc'));
 
+        if (!$sortColumn) return;
+
         // Validate the sort column exists to prevent SQL errors
-        if (!Schema::hasColumn($query->getModel()->getTable(), $sortColumn)) {
-            if (Schema::hasColumn($query->getModel()->getTable(), 'id'))
-                $sortColumn = 'id'; // Default to ID if sorting column doesn't exist
-            else
+        $table = $query->getModel()->getTable();
+        if (!Schema::hasColumn($table, $sortColumn)) {
+            $selectedColumns = $query->getQuery()->getColumns() ? $query->getQuery()->getColumns()[0] : ''; // Get selected columns from query
+
+            if (str_contains($selectedColumns, $sortColumn)) {
+                // If sort column exists in the query, use it
+                $sortColumn = $sortColumn;
+            } elseif (Schema::hasColumn($query->getModel()->getTable(), 'id')) {
+                // Default to table ID if it exists
+                $sortColumn = $table.'.id';
+            } else {
+                // Default to UUID if no valid column is found
                 $sortColumn = 'uuid';
+            }
         }
 
         if (in_array($order, ['ASC', 'DESC'])) {
@@ -356,14 +429,14 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
     }
 
-    public function determineLocFilterLevel(string $geo_location_filter): string
+    public function determineLocFilterLevel($geo_location_filter): string|null
     {
         return match ($geo_location_filter) {
             'institute' => 'institute',
             'province' => 'provDesc',
             'region' => 'regDesc',
             'city' => 'cityDesc',
-            default => throw new \InvalidArgumentException("Invalid geo location filter: {$geo_location_filter}"),
+            default => null,
         };
     }
 

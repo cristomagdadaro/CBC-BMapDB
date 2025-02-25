@@ -11,10 +11,10 @@ interface AbstractRepoServiceInterface {
     /**
      * Determines the location filter level based on the given geolocation filter.
      *
-     * @param string $geo_location_filter The geolocation filter to determine the level.
-     * @return string The corresponding location filter level.
+     * @param string|null $geo_location_filter The geolocation filter to determine the level.
+     * @return string|null The corresponding location filter level.
      */
-    public function determineLocFilterLevel(string $geo_location_filter): string;
+    public function determineLocFilterLevel(string|null $geo_location_filter): string|null;
 
     /**
      * Get all data

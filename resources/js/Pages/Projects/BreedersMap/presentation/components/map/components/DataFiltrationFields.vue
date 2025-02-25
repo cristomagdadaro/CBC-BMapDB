@@ -16,7 +16,7 @@ export default {
         this.apiUrl = this.tables.length ? this.tables[0].route : null;
 
         this.filter =  {
-            is_exact: true,
+            is_exact: false,
             filter: null,
             search: null,
             table_name: 'commodities',

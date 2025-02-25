@@ -3,9 +3,11 @@
 namespace Modules\PbMap\Models;
 
 use App\Models\BaseModel;
+use App\Models\Institute;
 use App\Traits\OwnedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Commodity extends BaseModel

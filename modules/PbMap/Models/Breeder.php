@@ -2,6 +2,7 @@
 
 namespace Modules\PbMap\Models;
 
+use App\Enums\DefaultPassword;
 use App\Models\BaseModel;
 use App\Models\Institute;
 use App\Models\User;
@@ -97,7 +98,7 @@ class Breeder extends BaseModel
                 $user = User::create([
                     'name' => $breeder->fname . ' ' . $breeder->lname,
                     'email' => $breeder->email ?? fake()->unique()->safeEmail(),
-                    'password' => bcrypt('defaultpassword'), // Change this as needed
+                    'password' => bcrypt(DefaultPassword::Value->value), // Change this as needed
                 ]);
 
                 $breeder->user_id = $user->id;

@@ -14,6 +14,7 @@ class CommodityFilter
     public string|null $group_by;
     public string|null $commodities;
     public string|null $search;
+    public string|null $with;
 
     public function __construct($geo_location_value,
                                 $geo_location_filter,
@@ -21,9 +22,10 @@ class CommodityFilter
                                 $filter_by_parent_id,
                                 $filter,
                                 $search,
+                                $with,
                                 $is_exact,
                                 $commodities,
-                                $group_by
+                                $group_by,
     )
     {
         $this->geo_location_value = $geo_location_value;
@@ -32,13 +34,20 @@ class CommodityFilter
         $this->filter_by_parent_id = $filter_by_parent_id;
         $this->filter = $filter;
         $this->search = $search;
+        $this->with = $with;
         $this->is_exact = $is_exact;
         $this->commodities = $commodities;
         $this->group_by = $group_by;
+
     }
 
     public function collect(): Collection
     {
         return new Collection($this);
+    }
+
+    public function addFilter($key, $value): Collection|\Illuminate\Support\Collection
+    {
+        return $this->collect()->put($key, $value);
     }
 }
