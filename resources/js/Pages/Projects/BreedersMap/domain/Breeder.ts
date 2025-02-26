@@ -14,7 +14,7 @@ export default class Breeder extends DtoBreeder{
         this.summaryUri = 'api.breeders.summary';
         this.dataViewUri =  'api.dataview.show';
 
-        this.appendWith = ['affiliated','location'];
+        this.appendWith = ['affiliated','location','commodities'];
         this.appendCount = ['commodities'] ;
     }
 

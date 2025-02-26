@@ -58,7 +58,7 @@ class CommodityController extends BaseController implements CommodityControllerI
         return $this->summaryPublic($request);
     }
 
-    public function summaryPublic(GetCommoditiesRequest $request): JsonResponse
+    private function summaryPublic(GetCommoditiesRequest $request): JsonResponse
     {
         $model = $this->service->model;
 
@@ -87,7 +87,6 @@ class CommodityController extends BaseController implements CommodityControllerI
         });
 
         $builderA = (clone $builder);
-
         $commodities = $builderA->select($model->getSearchable())->get();
 
         $groupBy = $this->service->determineLocFilterLevel($geo_location_filter ?? 'region');
@@ -122,13 +121,14 @@ class CommodityController extends BaseController implements CommodityControllerI
         ]);
     }
 
-    public function summaryPrivate(GetCommoditiesRequest $request): JsonResponse
+    private function summaryPrivate(GetCommoditiesRequest $request): JsonResponse
     {
         $model = $this->service->model;
-
+        $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';
+        $groupBy =$this->service->determineLocFilterLevel($geo_location_filter);
         $filter = new CommodityFilter(
             $request->validated('geo_location_value'),
-            $request->validated('geo_location_filter') ?? 'region',
+            $geo_location_filter,
             $request->validated('filter_by_parent_column'),
             $request->validated('filter_by_parent_id'),
             $request->validated('filter'),
@@ -136,7 +136,7 @@ class CommodityController extends BaseController implements CommodityControllerI
             $request->validated('with') ?? '',
             $request->validated('is_exact'),
             $request->all()['commodity'] ?? null,
-            $this->service->determineLocFilterLevel($request->validated('geo_location_filter') ?? 'region'),
+            $groupBy,
         );
 
         $temp = $filter->collect();
@@ -154,7 +154,6 @@ class CommodityController extends BaseController implements CommodityControllerI
 
         $commodities = $builderA->select($model->getSearchable())->get();
 
-        $groupBy = $this->service->determineLocFilterLevel($geo_location_filter ?? 'region');
         $temp = $filter->collect()->put('select_raw', "$groupBy as label, count(*) as total");
         $temp =  $temp->put('group_by', $groupBy);
         $temp =  $temp->put('sort', 'total');

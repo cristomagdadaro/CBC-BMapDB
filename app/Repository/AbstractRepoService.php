@@ -231,23 +231,30 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
     public function applyGeoFilters(Builder &$query, Collection $parameters): void
     {
-        $group_by = $this->determineLocFilterLevel($parameters->get('geo_location_filter'));
+        $geo_location_filter = $this->determineLocFilterLevel($parameters->get('geo_location_filter'));
         $geo_location_value = $parameters->get('geo_location_value');
 
         if (Schema::hasColumn($this->model->getTable(), 'geolocation'))
-        $query = $query->join('loc_cities', 'loc_cities.id', '=', 'geolocation')
-            ->join('users', 'users.id', '=', 'user_id');
+            $query = $query->join('loc_cities', 'loc_cities.id', '=', 'geolocation')
+                ->join('users', 'users.id', '=', 'user_id');
+
+        // to refactor, breeder_id should not be explicitly specified
+        if (Schema::hasColumn($this->model->getTable(), 'breeder_id') && $geo_location_filter == 'institute')
+            $query = $query->with(['breeder']);
 
         if ($geo_location_value) {
-            if ($group_by !== 'affiliation') {
+            if ($geo_location_filter !== 'institute') {
                 // Check if the column exists before applying the filter
-                if (Schema::hasColumn('loc_cities', $group_by)) {
-                    $query = $query->where('loc_cities.' . $group_by, $geo_location_value);
+                if (Schema::hasColumn('loc_cities', $geo_location_filter)) {
+                    $query = $query->where('loc_cities.' . $geo_location_filter, $geo_location_value);
                 }
             } else {
                 // Assuming 'institutes' is another table you are joining, so check for its columns
-                if (Schema::hasColumn('institutes', 'id')) {
-                    $query = $query->where('institutes.id', $geo_location_value);
+                if (Schema::hasColumn('institutes', 'name')) {
+                    $query = $query->whereHas('breeder.affiliated', function ($instituteQuery) use ($geo_location_value) {
+                        // Apply the filter to the institutes table via the breeder relationship
+                        $instituteQuery->where('institutes.name', $geo_location_value);
+                    });
                 }
             }
         }

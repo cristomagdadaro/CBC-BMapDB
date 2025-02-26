@@ -57,7 +57,7 @@ class CommodityRepo extends AbstractRepoService
         $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation');
 
         // Apply filters based on search criteria and commodity
-        if ($search) {
+        if ($search && $group_by !== 'institute') {
             $model = $model->where($group_by, $search);
         }
 
@@ -92,31 +92,58 @@ class CommodityRepo extends AbstractRepoService
     public function getGroupByGeoLoc($model, $commodity, $geo_location_filter)
     {
         $pluck_name = $this->determineLocFilterLevel($geo_location_filter);
-
+        if ($pluck_name !== 'institute')
+            return $model
+                ->when($commodity, function ($query) use ($commodity) {
+                    return $query->where('name', $commodity);
+                })
+                ->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')
+                ->groupBy('loc_cities.' . $pluck_name)
+                ->get($pluck_name)
+                ->pluck($pluck_name)
+                ->sort()
+                ->values();
         return $model
             ->when($commodity, function ($query) use ($commodity) {
                 return $query->where('name', $commodity);
             })
-            ->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')
-            ->groupBy('loc_cities.' . $pluck_name)
-            ->get($pluck_name)
-            ->pluck($pluck_name)
+            ->join('breeders', 'breeder_id', '=', 'breeders.id')
+            ->join('institutes', 'institutes.id', '=', 'breeders.affiliation')
+            ->groupBy('breeders.affiliation')
+            ->get('institutes.name')
             ->sort()
-            ->values();
+            ->pluck('name');
     }
 
     public function getCommodityLabels($model, $geo_location_value, $is_exact, $geo_location_filter)
     {
         $group_by = $this->determineLocFilterLevel($geo_location_filter);
 
+        if ($group_by !== 'institute')
+            return $model
+                ->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')
+                ->when($geo_location_value, function ($query) use ($geo_location_value, $is_exact, $group_by) {
+                    if ($is_exact === 'true') {
+                        return $query->where($group_by, $geo_location_value);
+                    } else {
+                        return $query->where($group_by, 'like', '%'.$geo_location_value.'%');
+                    }
+                })
+                ->get()
+                ->pluck('name')
+                ->unique()
+                ->sort()
+                ->values();
+
+
+        $model = $model->with(['breeder']);
+
         return $model
             ->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')
-            ->when($geo_location_value, function ($query) use ($geo_location_value, $is_exact, $group_by) {
-                if ($is_exact === 'true') {
-                    return $query->where($group_by, $geo_location_value);
-                } else {
-                    return $query->where($group_by, 'like', '%'.$geo_location_value.'%');
-                }
+            ->join('users', 'users.id','=','user_id')
+            ->join('institutes', 'institutes.id', '=', 'users.affiliation')
+            ->whereHas('breeder.affiliated', function ($instituteQuery) use ($geo_location_value) {
+                $instituteQuery->where('institutes.name', $geo_location_value);
             })
             ->get()
             ->pluck('name')
@@ -131,7 +158,9 @@ class CommodityRepo extends AbstractRepoService
         return $model
             ->select('institutes.name','institutes.id')
             ->when($commodity, function ($query) use ($commodity) {
-                return $query->where('commodities.name', $commodity);
+                if ($commodity)
+                    return $query->where('commodities.name', $commodity);
+                return $query;
             })
             ->join('loc_cities', 'loc_cities.id', '=', 'geolocation')
             ->join('users', 'users.id','=','user_id')

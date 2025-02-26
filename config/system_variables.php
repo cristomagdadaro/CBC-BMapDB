@@ -78,7 +78,7 @@ return [
         'not' => 'sometimes|string',
         'exact' => 'sometimes|string',
         'or' => 'sometimes|string',
-        'geo_location_filter' => 'sometimes|string|in:region,province,city,affiliation',
+        'geo_location_filter' => 'sometimes|string|in:region,province,city,institute',
         'geo_location_value' => 'sometimes|string',
         'is_exact' => 'sometimes|string|in:true,false',
         'commodity' => 'sometimes|string',

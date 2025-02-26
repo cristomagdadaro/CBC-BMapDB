@@ -36,14 +36,27 @@ class BreederRepo extends AbstractRepoService
     {
         $group_by = $this->determineLocFilterLevel($geo_location_filter);
 
+        if ($group_by !== 'institute')
+            return $model
+                ->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
+                ->when($geo_location_value, function ($query) use ($geo_location_value, $is_exact, $group_by) {
+                    if ($is_exact === 'true') {
+                        return $query->where($group_by, $geo_location_value);
+                    } else {
+                        return $query->where($group_by, 'like', '%'.$geo_location_value.'%');
+                    }
+                })
+                ->get()
+                ->pluck('name')
+                ->unique()
+                ->sort()
+                ->values();
+
         return $model
             ->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
-            ->when($geo_location_value, function ($query) use ($geo_location_value, $is_exact, $group_by) {
-                if ($is_exact === 'true') {
-                    return $query->where($group_by, $geo_location_value);
-                } else {
-                    return $query->where($group_by, 'like', '%'.$geo_location_value.'%');
-                }
+            ->join('institutes', 'institutes.id', '=', 'users.affiliation')
+            ->whereHas('breeder.affiliated', function ($instituteQuery) use ($geo_location_value) {
+                $instituteQuery->where('institutes.name', $geo_location_value);
             })
             ->get()
             ->pluck('name')
@@ -58,7 +71,7 @@ class BreederRepo extends AbstractRepoService
 
         $model = $model->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation');
 
-        if ($search) {
+        if ($search && $group_by !== 'institute') {
             $model = $model->where($group_by, $search);
         }
 
@@ -87,17 +100,26 @@ class BreederRepo extends AbstractRepoService
 
     public function getGroupByGeoLoc($model, $commodity, $geo_location_filter) {
         $group_by = $this->determineLocFilterLevel($geo_location_filter);
-
+        if ($group_by !== 'institute')
+            return $model
+                ->when($commodity, function ($query) use ($commodity) {
+                    return $query->where('name', $commodity);
+                })
+                ->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
+                ->groupBy('loc_cities.' . $group_by)
+                ->get($group_by)
+                ->pluck($group_by)
+                ->sort()
+                ->values();
         return $model
             ->when($commodity, function ($query) use ($commodity) {
                 return $query->where('name', $commodity);
             })
-            ->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
-            ->groupBy('loc_cities.' . $group_by)
-            ->get($group_by)
-            ->pluck($group_by)
+            ->join('institutes', 'institutes.id', '=', 'breeders.affiliation')
+            ->groupBy('breeders.affiliation')
+            ->get('institutes.name')
             ->sort()
-            ->values();
+            ->pluck('name');
     }
 
     public function getGroupByInstitute($model, $commodity, $geo_location_filter) {
@@ -106,7 +128,9 @@ class BreederRepo extends AbstractRepoService
         return $model
             ->select('institutes.name','institutes.id')
             ->when($commodity, function ($query) use ($commodity) {
-                return $query->where('name', $commodity);
+                if ($commodity)
+                    return $query->where('breeders.name', $commodity);
+                return $query;
             })
             ->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
             ->join('institutes', 'institutes.id', '=', 'breeders.affiliation')

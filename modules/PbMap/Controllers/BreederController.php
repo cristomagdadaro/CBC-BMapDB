@@ -8,14 +8,10 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\BaseCollection;
 use App\Models\User;
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Modules\PbMap\Interfaces\BreederControllerInterface;
-use Modules\PbMap\Models\Breeder;
 use Modules\PbMap\Repositories\BreederRepo;
 use Modules\PbMap\Requests\CreateBreederRequest;
 use Modules\PbMap\Requests\DeleteBreederRequest;
@@ -114,6 +110,63 @@ class BreederController extends BaseController implements BreederControllerInter
     }
 
     public function summary(GetBreederRequest $request): JsonResponse
+    {
+        if (auth()->check())
+            return $this->summaryPrivate($request);
+        return $this->summaryPublic($request);
+    }
+
+    private function summaryPrivate(GetBreederRequest $request): JsonResponse
+    {
+        $model = $this->service->model;
+
+        $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';
+        $geo_location_value = $request->validated('geo_location_value') ?? '';
+        $is_exact = $request->validated('is_exact');
+        $breeder = $request->all()['breeder'] ?? null;
+
+        $builder = $model->newModelQuery();
+
+        $this->service->applyGeoFilters($builder, $request->collect());
+        $this->service->applySearchFilters($builder, $request->collect());
+
+        $builderA = (clone $builder);
+        $this->service->applyAppends($builderA, $request->collect());
+        $breeders = $builderA->select($model->getSearchable())->get();
+
+        $group_by = $this->service->determineLocFilterLevel($geo_location_filter ?? 'region');
+        $temp = $request->collect()->put('select_raw', "$group_by as label, count(*) as total");
+        $temp =  $temp->put('group_by', $group_by);
+        $temp =  $temp->put('sort', 'total');
+        $temp =  $temp->put('order', 'desc');
+
+        $builderB = (clone $builder)->selectRaw("$group_by as label, count(*) as total");;
+        $this->service->applySorting($builderB, $temp);
+        $chart_data = $builderB->groupBy($group_by)->get();
+
+        $builderC = (clone $builder)->selectRaw('CONCAT(breeders.fname, breeders.mname, breeders.lname, breeders.suffix) as label, count(*) as total');
+        $this->service->applySorting($builderC, $temp);
+        $breeders_chart = $builderC->groupBy('label')->get();
+
+        return response()->json([
+            'params' => [
+                'breeders' => $breeder,
+                'group_by' => $group_by,
+                'geo_location_filter' => $geo_location_filter,
+                'geo_location_value' => $geo_location_value,
+                'is_exact' => $is_exact,
+            ],
+            'group_search_labels' => $this->service->getGroupByGeoLoc($model, $breeder, $geo_location_filter),
+            'group_search_institute' => $this->service->getGroupByInstitute($model, $breeder, $geo_location_filter),
+            'raw_data' => $breeders,
+            'raw_data_labels' => $this->service->getBreederLabels($model, $geo_location_value, $is_exact, $geo_location_filter),
+            'chart_data' => $chart_data,
+            'chart_labels' => $breeders_chart,
+            'linechart_data' => $this->service->linechartData($model, $geo_location_value, $is_exact, $geo_location_filter),
+        ]);
+    }
+
+    private function summaryPublic(GetBreederRequest $request): JsonResponse
     {
         $model = $this->service->model;
         $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';

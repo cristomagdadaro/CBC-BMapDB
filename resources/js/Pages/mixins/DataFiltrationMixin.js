@@ -71,7 +71,7 @@ export default {
                 { label: 'Region', name: 'region' },
                 { label: 'Province', name: 'province' },
                 { label: 'City', name: 'city' },
-                {label: 'Institute', name: 'affiliation'}
+                {label: 'Institute', name: 'institute'}
             ];
         },
         specificLocationLabels() {
