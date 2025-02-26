@@ -33,13 +33,13 @@ class Institute extends BaseModel
     ];
 
     protected array $searchable = [
-        'id',
-        'name',
-        'inst_type',
-        'geolocation',
-        'website',
-        'email',
-        'phone',
+        'institutes.id',
+        'institutes.name',
+        'institutes.inst_type',
+        'institutes.geolocation',
+        'institutes.website',
+        'institutes.email',
+        'institutes.phone',
     ];
 
     public function  __construct(array $attributes = [])

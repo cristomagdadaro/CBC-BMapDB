@@ -235,8 +235,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $geo_location_value = $parameters->get('geo_location_value');
 
         if (Schema::hasColumn($this->model->getTable(), 'geolocation'))
-            $query = $query->join('loc_cities', 'loc_cities.id', '=', 'geolocation')
-                ->join('users', 'users.id', '=', 'user_id');
+            $query = $query->join('loc_cities', 'loc_cities.id', '=', 'geolocation');
+        if (Schema::hasColumn($this->model->getTable(), 'user_id'))
+            $query =  $query->join('users', 'users.id', '=', 'user_id');
 
         // to refactor, breeder_id should not be explicitly specified
         if (Schema::hasColumn($this->model->getTable(), 'breeder_id') && $geo_location_filter == 'institute')
