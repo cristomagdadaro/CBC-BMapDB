@@ -24,11 +24,11 @@ class Accounts extends BaseModel
     ];
 
     protected array $searchable = [
-        'id',
-        'user_id',
-        'app_id',
-        'approved_at',
-        'created_at',
+        'accounts.id',
+        'accounts.user_id',
+        'accounts.app_id',
+        'accounts.approved_at',
+        'accounts.created_at',
     ];
 
     protected array $notifMessage = [

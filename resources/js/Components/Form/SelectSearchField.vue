@@ -149,7 +149,7 @@ export default {
                 :error="$attrs.error"
                 :required="required"
                 :show-clear="!disabled"
-                :disabled="disabled || processing"
+                :disabled="disabled"
                 v-model="displayedInput"
                 :placeholder="placeholder"
                 @focusin="toggleDropdown()"

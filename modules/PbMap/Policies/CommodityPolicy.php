@@ -53,7 +53,7 @@ class CommodityPolicy
      */
     public function restore(User $user, Commodity $commodity): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -61,6 +61,6 @@ class CommodityPolicy
      */
     public function forceDelete(User $user, Commodity $commodity): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 }

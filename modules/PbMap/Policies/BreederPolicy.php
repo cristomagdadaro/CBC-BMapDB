@@ -56,7 +56,7 @@ class BreederPolicy
      */
     public function restore(User $user, Breeder $breeder): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 
     /**
@@ -64,6 +64,6 @@ class BreederPolicy
      */
     public function forceDelete(User $user, Breeder $breeder): bool
     {
-        return false;
+        return $user->isAdmin();
     }
 }

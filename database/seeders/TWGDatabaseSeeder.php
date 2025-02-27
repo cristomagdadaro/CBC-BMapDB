@@ -16,15 +16,29 @@ enum InstituteList: string
     case BPI = 'Bureau of Plant Industry';
     case PCA = 'Philippine Coconut Authority';
     case PRRI = 'Philippine Rubber Research Institute';
+    case PHILRICE = 'Philippine Rice Research Institute';
+    case RFOI = 'RFO Region I';
     case RFOII = 'RFO Region II';
     case RFOIII = 'RFO Region III';
     case RFOIVA = 'RFO Region IV-A';
     case RFOIVB = 'RFO Region IV-B';
+    case RFOV = 'RFO Region V';
     case RFOVI = 'RFO Region VI';
+    case RFOVII = 'RFO Region VII';
+    case RFOVIII = 'RFO Region VIII';
     case RFOIX = 'RFO Region IX';
-    case RFOX =  'RFO Region X';
-
+    case RFOX = 'RFO Region X';
+    case RFOXI = 'RFO Region XI';
+    case RFOXII = 'RFO Region XII';
+    case RFOXIII = 'RFO Region XIII';
+    case RFOCAR = 'RFO CAR';
+    case MAFAR_BARRM = 'MAFAR BARRM';
+    case BAR = 'Bureau of Agricultural Research';
+    case PHILFIDA = 'Philippine Fiber Industry Development Authority';
+    case NTA = 'National Tobacco Administration';
+    case SRA = 'Sugar Regulatory Administration';
 }
+
 
 class TWGDatabaseSeeder extends Seeder
 {
@@ -40,11 +54,11 @@ class TWGDatabaseSeeder extends Seeder
             TWGServiceSeeder::class,
         ]);*/
 
+        $this->insertTWGUserAccounts();
         $this->insertExperts();
         $this->insertProject();
         $this->insertProducts();
         $this->insertServices();
-        $this->insertTWGUserAccounts();
     }
 
     private function insertTWGUserAccounts()
@@ -55,7 +69,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'Q.',
                 'lname' => 'Bares',
                 'email' => 'ilocos@da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'RFO Region I')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOI->value),
                 'mobile_no' => '(072) 242-1045',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -65,7 +79,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'G.',
                 'lname' => 'Aquino',
                 'email' => 'ored.rfo2@da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'RFO Region II')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOII->value),
                 'mobile_no' => '(078) 396-9769',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -75,7 +89,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'L.',
                 'lname' => 'Lapuz',
                 'email' => 'ored@rfo3.da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'RFO Region III')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOIII->value),
                 'mobile_no' => '(045) 961-3075',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -85,7 +99,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'P.',
                 'lname' => 'Tornilla',
                 'email' => 'da5ored@yahoo.com',
-                'affiliation' => Institute::all()->where('name', 'RFO Region V')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOV->value),
                 'mobile_no' => '(054) 477-0381',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -95,7 +109,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'T.',
                 'lname' => 'Orais',
                 'email' => 'da8ored1@gmail.com',
-                'affiliation' => Institute::all()->where('name', 'RFO Region VIII')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOVIII->value),
                 'mobile_no' => '(053) 325-7242',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -105,7 +119,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'C.',
                 'lname' => 'De Leon',
                 'email' => 'prri.mail@philrice.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'Philippine Rice Research Institute')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::PHILRICE->value),
                 'mobile_no' => null,
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -115,7 +129,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'C.',
                 'lname' => 'Belmonte',
                 'email' => 'philrootcrops@vsu.edu.ph',
-                'affiliation' => Institute::all()->where('name', 'Philippine Rice Research Institute')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::PHILRICE->value),
                 'mobile_no' => '63 (053) 565 0600',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -125,7 +139,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'B.',
                 'lname' => 'Soriano',
                 'email' => 'jsoriano@bar.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'Bureau of Agricultural Research')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::BAR->value),
                 'mobile_no' => '(02) 8461-2900',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -135,7 +149,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'F.',
                 'lname' => 'Panganiban',
                 'email' => 'bpi.do@buplant.da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'Bureau of Plant Industry')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::BPI->value),
                 'mobile_no' => '(02) 8332-7567',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -145,7 +159,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'B.',
                 'lname' => 'Pagasan',
                 'email' => 'oed@philfida.da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'Philippine Fiber Industry Development Authority')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::PHILFIDA->value),
                 'mobile_no' => '(02) 8928-8741',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -155,7 +169,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'S.',
                 'lname' => 'Sanchez',
                 'email' => 'NA',
-                'affiliation' => Institute::all()->where('name', 'National Tobacco Administration')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::NTA->value),
                 'mobile_no' => '(02) 8374-3987',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -165,7 +179,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'F.',
                 'lname' => 'Cruz',
                 'email' => 'pca.ofad@gmail.com',
-                'affiliation' => Institute::all()->where('name', 'Philippine Coconut Authority')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::PCA->value),
                 'mobile_no' => '(02) 8927-8706',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -175,7 +189,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'S.',
                 'lname' => 'Azcona',
                 'email' => 'srahead@sra.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'Sugar Regulatory Administration')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::SRA->value),
                 'mobile_no' => '(02) 8929-3633',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -185,7 +199,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'L.',
                 'lname' => 'Libao',
                 'email' => 'ored@calabarzon.da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'RFO Region IV-A')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOIVA->value),
                 'mobile_no' => '(02) 8928-8741',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -195,7 +209,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'R.',
                 'lname' => 'Bañas',
                 'email' => 'mimaropa@mail.da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'RFO Region IV-B')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOIVB->value),
                 'mobile_no' => '(02) 8927-4350',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -205,7 +219,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'R.',
                 'lname' => 'Arpia',
                 'email' => 'westernvisayas@mail.da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'RFO Region VI')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOVI->value),
                 'mobile_no' => '(033) 337-1262',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -215,7 +229,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'C.',
                 'lname' => 'Enriquez',
                 'email' => 'redsoffice7@gmail.com',
-                'affiliation' => Institute::all()->where('name', 'RFO Region VII')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOVII->value),
                 'mobile_no' => '(033) 337-1262',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -225,7 +239,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'M.',
                 'lname' => 'Dawayan',
                 'email' => 'da_carfu@yahoo.com',
-                'affiliation' => Institute::all()->where('name', 'RFO CAR')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOCAR->value),
                 'mobile_no' => '(074) 445-4973',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -236,7 +250,7 @@ class TWGDatabaseSeeder extends Seeder
                 'lname' => 'Aves',
                 'suffix' => 'Sr.',
                 'email' => 'rfo9@mail.da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'RFO Region IX')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOIX->value),
                 'mobile_no' => '(062) 214-4677',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -246,7 +260,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'C.',
                 'lname' => 'Collado',
                 'email' => 'da10ored@gmail.com',
-                'affiliation' => Institute::all()->where('name', 'RFO Region X')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOX->value),
                 'mobile_no' => '(088) 856-6871',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -256,7 +270,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'I.',
                 'lname' => 'MonteaGudo',
                 'email' => 'darfoxi.red@gmail.com',
-                'affiliation' => Institute::all()->where('name', 'RFO Region XI')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOXI->value),
                 'mobile_no' => '(082) 221-9697',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -266,7 +280,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'B.',
                 'lname' => 'Pascual',
                 'email' => 'ored@rfo12.da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'RFO Region XII')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOXII->value),
                 'mobile_no' => '(083) 228-3413',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -276,7 +290,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'M.',
                 'lname' => 'Mangelen',
                 'email' => 'caraga@mail.da.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'RFO Region XIII')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::RFOXIII->value),
                 'mobile_no' => '(085) 341-4546',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -286,7 +300,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'S.',
                 'lname' => 'Yacob',
                 'email' => 'mafar@bangsamoro.gov.ph',
-                'affiliation' => Institute::all()->where('name', 'MAFAR BARRM')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::MAFAR_BARRM->value),
                 'mobile_no' => '(064) 421-1248',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -296,7 +310,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mname' => 'L.',
                 'lname' => 'Eusala',
                 'email' => 'cheryleusala@gmail.com',
-                'affiliation' => Institute::all()->where('name', 'Philippine Rubber Research Institute')->first()->id,
+                'affiliation' => $this->getInstituteId(InstituteList::PRRI->value),
                 'mobile_no' => '(062) 055-1622',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
@@ -318,8 +332,7 @@ class TWGDatabaseSeeder extends Seeder
     {
         $experts = [
             [
-                'user_id' => 14,
-                'institution' => $this->getInstituteId(InstituteList::BPI->value),
+                'institution' => InstituteList::BPI->value,
                 'name' => 'Geronima Eusebio',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -329,8 +342,7 @@ class TWGDatabaseSeeder extends Seeder
                 'email' => "bpi.do@buplant.da.gov.ph",
             ],
             [
-                'user_id' => 17,
-                'institution' => $this->getInstituteId(InstituteList::PCA->value),
+                'institution' => InstituteList::PCA->value,
                 'name' => 'Maria Czet Fulleros',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -340,8 +352,7 @@ class TWGDatabaseSeeder extends Seeder
                 'email' => "pca1.ofad@gmail.com",
             ],
             [
-                'user_id' => 17,
-                'institution' => $this->getInstituteId(InstituteList::PCA->value),
+                'institution' => InstituteList::PCA->value,
                 'name' => 'Maria Leonila Imperial',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -351,8 +362,7 @@ class TWGDatabaseSeeder extends Seeder
                 'email' => "pca2.ofad@gmail.com"
             ],
             [
-                'user_id' => 17,
-                'institution' => $this->getInstituteId(InstituteList::PCA->value),
+                'institution' => InstituteList::PCA->value,
                 'name' => 'Cristeta A. Cueto',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -362,8 +372,7 @@ class TWGDatabaseSeeder extends Seeder
                 'email' => "pca3.ofad@gmail.com"
             ],
             [
-                'user_id' => 17,
-                'institution' => $this->getInstituteId(InstituteList::PCA->value),
+                'institution' => InstituteList::PCA->value,
                 'name' => 'Maria Buena Areza-Ubaldo',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -373,8 +382,7 @@ class TWGDatabaseSeeder extends Seeder
                 'email' => "pca4.ofad@gmail.com"
             ],
             [
-                'user_id' => 17,
-                'institution' => $this->getInstituteId(InstituteList::PCA->value),
+                'institution' => InstituteList::PCA->value,
                 'name' => 'Ma. Leonila Imperial',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -384,8 +392,7 @@ class TWGDatabaseSeeder extends Seeder
                 'email' => "pca5.ofad@gmail.com"
             ],
             [
-                'user_id' => 30,
-                'institution' => $this->getInstituteId(InstituteList::PRRI->value),
+                'institution' => InstituteList::PRRI->value,
                 'name' => 'Jess Bryan M. Alvarino',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -395,8 +402,7 @@ class TWGDatabaseSeeder extends Seeder
                 'email' => "cheryleusala@gmail.com"
             ],
             [
-                'user_id' => 30,
-                'institution' => $this->getInstituteId(InstituteList::PRRI->value),
+                'institution' => InstituteList::PRRI->value,
                 'name' => 'Vivian M. Calambro',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -406,8 +412,7 @@ class TWGDatabaseSeeder extends Seeder
                 'email' => null
             ],
             [
-                'user_id' => 7,
-                'institution' => $this->getInstituteId(InstituteList::RFOII->value),
+                'institution' => InstituteList::RFOII->value,
                 'name' => 'Roynic Y. Aquino',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -416,8 +421,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mobile' => "09923456789",
                 'email' => null
             ],[
-                'user_id' => 7,
-                'institution' => $this->getInstituteId(InstituteList::RFOII->value),
+                'institution' => InstituteList::RFOII->value,
                 'name' => 'Reymar Gulatera',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -427,8 +431,7 @@ class TWGDatabaseSeeder extends Seeder
                 'email' => null
             ],
             [
-                'user_id' => 8,
-                'institution' => $this->getInstituteId(InstituteList::RFOIII->value),
+                'institution' => InstituteList::RFOIII->value,
                 'name' => 'Emily A. Soriano',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -437,8 +440,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mobile' => "09113456789",
                 'email' => null
             ],[
-                'user_id' => 8,
-                'institution' => $this->getInstituteId(InstituteList::RFOIII->value),
+                'institution' => InstituteList::RFOIII->value,
                 'name' => 'Veronica Mangune',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -447,8 +449,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mobile' => "09133456789",
                 'email' => null
             ],[
-                'user_id' => 19,
-                'institution' => $this->getInstituteId(InstituteList::RFOIVA->value),
+                'institution' => InstituteList::RFOIVA->value,
                 'name' => 'Gina R. Rosarda',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -457,8 +458,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mobile' => "09143456789",
                 'email' => null
             ],[
-                'user_id' => 20,
-                'institution' => $this->getInstituteId(InstituteList::RFOVI->value),
+                'institution' => InstituteList::RFOVI->value,
                 'name' => 'Ryan V. Rasgo',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -467,8 +467,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mobile' => "09153456789",
                 'email' => null
             ],[
-                'user_id' => 24,
-                'institution' => $this->getInstituteId(InstituteList::RFOIX->value),
+                'institution' => InstituteList::RFOIX->value,
                 'name' => 'Ernie C. Camacho',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -477,8 +476,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mobile' => "09163456789",
                 'email' => null
             ],[
-                'user_id' => 24,
-                'institution' => $this->getInstituteId(InstituteList::RFOIX->value),
+                'institution' => InstituteList::RFOIX->value,
                 'name' => 'Irene M. Dinoy',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -487,8 +485,7 @@ class TWGDatabaseSeeder extends Seeder
                 'mobile' => "09173456789",
                 'email' => null
             ],[
-                'user_id' => 25,
-                'institution' => $this->getInstituteId(InstituteList::RFOX->value),
+                'institution' => InstituteList::RFOX->value,
                 'name' => 'Eleazer A. Jumalon',
                 'position' =>  'NA',
                 'educ_level' => "Doctoral",
@@ -500,9 +497,11 @@ class TWGDatabaseSeeder extends Seeder
         ];
 
         foreach ($experts as $expert) {
+            $user_id = $this->getUserId($expert['institution']);
+            $institute = $this->getInstituteId($expert['institution']);
             TWGExpert::create([
-                'user_id' => $expert['user_id'],
-                'institution' => $expert['institution'],
+                'user_id' => $user_id,
+                'institution' => $institute,
                 'name' => $expert['name'],
                 'position' => $expert['position'],
                 'educ_level' => $expert['educ_level'],
@@ -1092,8 +1091,17 @@ class TWGDatabaseSeeder extends Seeder
 
     private function getUserId($affiliationName)
     {
-        return User::where('affiliation', Institute::where('name', $affiliationName)->first()->id)->first()->id;
+        // Try to get the first user with the 'TWGManager' role in the specified institution
+        $user = User::where('affiliation', $this->getInstituteId($affiliationName))
+            ->whereHas('roles', function ($query) {
+                $query->where('name', Role::TWG_MANAGER->value);
+            })
+            ->first();
+
+        // If no such user is found, return the admin's user ID
+        return $user ? $user->id : User::where('role', Role::ADMIN->value)->first()->id;
     }
+
 
     private function getInstituteId($name)
     {

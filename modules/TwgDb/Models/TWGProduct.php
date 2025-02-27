@@ -25,13 +25,13 @@ class TWGProduct extends BaseModel
     ];
 
     protected array $searchable = [
-        'id',
-        'user_id',
-        'institution',
-        'name',
-        'brand',
-        'purpose',
-        'cost',
+        'twg_product.id',
+        'twg_product.user_id',
+        'twg_product.institution',
+        'twg_product.name',
+        'twg_product.brand',
+        'twg_product.purpose',
+        'twg_product.cost',
         'twg_product.created_at',
         'twg_product.updated_at',
         'twg_product.deleted_at',
