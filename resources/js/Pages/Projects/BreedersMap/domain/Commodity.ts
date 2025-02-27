@@ -295,7 +295,7 @@ export default class Commodity extends DtoCommodity {
                 visible: false,
             },
             {
-                title: 'Accession',
+                title: 'Accession No.',
                 key: 'accession',
                 db_key: 'accession',
                 align: 'center',
@@ -448,7 +448,7 @@ export default class Commodity extends DtoCommodity {
                 visible: true,
             },
             {
-                title: 'Accession',
+                title: 'Accession No.',
                 key: 'accession',
                 db_key: 'accession',
                 sortable: true,
@@ -461,7 +461,7 @@ export default class Commodity extends DtoCommodity {
                 db_key: 'germplasm',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Population',
@@ -469,7 +469,7 @@ export default class Commodity extends DtoCommodity {
                 db_key: 'population',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Maturity Period',
@@ -493,7 +493,7 @@ export default class Commodity extends DtoCommodity {
                 db_key: 'description',
                 sortable: true,
                 align: 'center',
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Status',
