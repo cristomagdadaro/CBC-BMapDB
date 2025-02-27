@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('affiliation')->constrained('institutes');
             $table->foreignId('geolocation')->constrained('loc_cities');
-            $table->string('photo', 2048)->nullable();
+            $table->longText('photo')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

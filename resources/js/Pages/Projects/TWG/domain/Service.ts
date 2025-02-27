@@ -58,7 +58,7 @@ export default class Service extends BaseClass implements IService{
             purpose: oldValue.purpose ?? null,
             direct_beneficiaries: oldValue.direct_beneficiaries ?? null,
             indirect_beneficiaries: oldValue.indirect_beneficiaries ?? null,
-            officer_in_charge: oldValue.officer_in_charge ?? null,
+            officer_in_charge: oldValue.officer_in_charge?.id ?? null,
             cost: oldValue.cost ?? null,
             created_at: oldValue.created_at ?? null,
             updated_at: oldValue.updated_at ?? null,

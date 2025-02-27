@@ -5,6 +5,7 @@ namespace Modules\PbMap\Requests;
 use App\Enums\Permission;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\PbMap\Models\Breeder;
 
 class DeleteBreederRequest extends FormRequest
 {
@@ -13,7 +14,18 @@ class DeleteBreederRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $id = $this->route('id'); // Get the ID from route parameter
+        $model = Breeder::find($id);
+
+        if (auth()->user()->isAdmin() || auth()->user()->isFocalPerson()) {
+            return true; // Allow admins
+        }
+
+        if ($model && $model->user_id === auth()->id()) {
+            return true; // Allow owner
+        }
+
+        abort(403, __('You are not authorized to delete this breeder.'));
     }
 
     /**
@@ -24,8 +36,7 @@ class DeleteBreederRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'ids' => 'required|array|min:1',
-            'ids.*' => 'required|integer|exists:breeders,id',
+            'id' => 'nullable|integer|exists:breeders,id',
         ];
     }
 }

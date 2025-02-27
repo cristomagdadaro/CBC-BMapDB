@@ -96,36 +96,9 @@ onMounted(() => {
                     </primary-button>
                 </div>
             </modal>
-<!--            <div class="grid grid-cols-2">
-                <div class="p-3">
-                    <div class="flex flex-col gap-5">
-                        <div v-if="user.userPermissionsList.length">
-                            <p class="font-bold">
-                                Special Permissions:
-                            </p>
-                            <ul>
-                                <li v-for="permission in user.userPermissionsList" :key="permission">
-                                    {{ permission.name }}
-                                </li>
-                            </ul>
-                        </div>
+            <div class="flex flex-wrap drop-shadow w-full gap-2">
 
-                        <div v-if="user.rolePermissionsList.length">
-                            <p class="font-bold">
-                                Permissions according to your role:
-                            </p>
-                            <ul>
-                                <li v-for="permission in user.rolePermissionsList" :key="permission">
-                                    {{ permission.name }}
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
-            <div class="flex flex-wrap justify-evenly drop-shadow w-full gap-2">
-
-                <dashboard-card class="bg-blue-600 text-white">
+<!--                <dashboard-card class="bg-blue-600 text-white">
                     <template v-slot:title>
                         <div class="flex flex-col leading-[1]">
                             <span>
@@ -152,7 +125,7 @@ onMounted(() => {
                             </div>
                         </div>
                     </template>
-                </dashboard-card>
+                </dashboard-card>-->
                 <dashboard-card class="bg-green-600 text-white" v-if="user.userPermissionsList.length">
                     <template v-slot:title>
                         <div class="flex flex-col leading-[1]">
@@ -195,7 +168,7 @@ onMounted(() => {
                         </div>
                     </template>
                 </dashboard-card>
-                <breeders-map-card />
+<!--                <breeders-map-card />-->
                 <dashboard-card class="bg-blue-600 text-white">
                     <template v-slot:title>
                         <div class="flex flex-col leading-[1]">
@@ -231,6 +204,14 @@ onMounted(() => {
                                 </p>
                                 <p class="text-sm">
                                     Built-in messaging platform to allow users to interact and collaborate within PIN system
+                                </p>
+                            </div>
+                            <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
+                                <p class="font-bold">
+                                    Data View Customization
+                                </p>
+                                <p class="text-sm">
+                                    Users can customize the view of data based on their preferences
                                 </p>
                             </div>
 

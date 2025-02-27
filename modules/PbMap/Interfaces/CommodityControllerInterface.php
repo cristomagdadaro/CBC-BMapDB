@@ -60,12 +60,13 @@ interface CommodityControllerInterface {
     /**
      * Deletes a commodity record from the database based on the provided ID.
      *
+     * @param DeleteCommoditiesRequest $request The request object containing the validated data for deleting a commodity.
      * @param int $id The ID of the commodity to delete.
      * @return JsonResponse A JSON response indicating the success or failure of the operation.
      *                      On success, the response will contain a success message.
      *                      On failure, the response will contain an error message.
      */
-    public function destroy(int $id): JsonResponse;
+    public function destroy(DeleteCommoditiesRequest $request, int $id): JsonResponse;
 
     /**
      * Deletes multiple commodity records from the database based on the provided IDs.

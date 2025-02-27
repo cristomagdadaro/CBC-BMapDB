@@ -5,6 +5,7 @@ namespace Modules\PbMap\Requests;
 use App\Enums\Permission;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\PbMap\Models\Commodity;
 
 class UpdateCommoditiesRequest extends FormRequest
 {
@@ -13,7 +14,21 @@ class UpdateCommoditiesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if (auth()->user()->isAdmin()) {
+            return true; // Allow admins
+        }
+
+        $model = Commodity::find($this->id);
+
+        if ($this && $model->user_id === auth()->id()) {
+            return true; // Allow owner
+        }
+
+        if (auth()->user()->isFocalPerson() && $model->breeder()->first()->user_id === auth()->id()) {
+            return true; // Allow focal person
+        }
+
+        abort(403, __('You are not authorized to update this commodity.'));
     }
 
     protected function prepareForValidation()
@@ -23,8 +38,10 @@ class UpdateCommoditiesRequest extends FormRequest
                 'institution' => auth()->user()->affiliation,
             ]);
 
+        $commodity = Commodity::find($this->id);
+
         $this->merge([
-            'user_id'  => auth()->user()->id
+            'user_id'  => auth()->user()->isAdmin()? $commodity->user_id : auth()->user()->id
         ]);
     }
 

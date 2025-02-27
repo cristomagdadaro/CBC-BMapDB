@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             InstituteSeeder::class,
             RoleAndPermissionSeeder::class,
             UserSeeder::class,
-            BreedersMapSeeder::class,
+            //BreedersMapSeeder::class,
             TWGDatabaseSeeder::class,
             DataViewSeeder::class,
         ]);

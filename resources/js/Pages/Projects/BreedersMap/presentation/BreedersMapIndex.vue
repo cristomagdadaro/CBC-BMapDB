@@ -2,9 +2,6 @@
     <Head title="Plant Breeders Map" />
     <app-layout>
         <Tab :tabs="tabs" v-if="$page.props.auth.user">
-            <template v-slot:tab0>
-                <summary />
-            </template>
             <template v-slot:tab1>
                 <breeders-table />
             </template>
@@ -17,6 +14,11 @@
                 </div>
             </template>
             <template v-slot:tab4>
+                <div>
+                    <under-develop />
+                </div>
+            </template>
+            <template v-slot:tab5>
                 <bm-settings />
             </template>
         </Tab>
@@ -34,6 +36,7 @@ import { defineAsyncComponent } from "vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 import BmSettings from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmSettings.vue";
+import UnderDevelop from "@/Components/Modal/UnderDevelop.vue";
 
 export default {
     computed: {
@@ -42,6 +45,7 @@ export default {
         }
     },
     components: {
+        UnderDevelop,
         BmSettings,
         Head,
         AppLayout: defineAsyncComponent({
@@ -67,12 +71,6 @@ export default {
       return {
           tabs: [
               {
-                  name: "tab0",
-                  label: "Summary",
-                  active: true,
-                  route: { name: 'projects.breedersmap.summary' },
-              },
-              {
                   name: "tab1",
                   label: "Breeders",
                   active: true,
@@ -92,6 +90,12 @@ export default {
               },
               {
                   name: "tab4",
+                  label: "Gene Bank",
+                  active: true,
+                  route: { name: 'projects.breedersmap.summary' },
+              },
+              {
+                  name: "tab5",
                   label: "Settings",
                   active: false,
                   route: { name: 'projects.breedersmap.settings' },

@@ -374,13 +374,13 @@ export default {
                             <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
                                 <span>Recenter</span>
                             </top-action-btn>
-<!--                            <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
+                            <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
                                 <template #icon>
                                     <close-icon class="h-auto sm:w-6 w-4" />
                                 </template>
                                 <span>Deselect</span>
                             </top-action-btn>
-                            <top-action-btn v-if="mapApi.selectedPlace" @click="mapApi.sidebarVisible = true" class="bg-add text-xs" title="Deselect Point">
+ <!--                           <top-action-btn v-if="mapApi.selectedPlace" @click="mapApi.sidebarVisible = true" class="bg-add text-xs" title="Deselect Point">
                                 <template #icon>
                                     <view-icon class="h-auto sm:w-4 w-3" />
                                 </template>

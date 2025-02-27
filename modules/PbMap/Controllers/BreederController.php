@@ -99,7 +99,7 @@ class BreederController extends BaseController implements BreederControllerInter
         return parent::_update($request, $id);
     }
 
-    public function destroy(int $id): JsonResponse
+    public function destroy(DeleteBreederRequest $request, int $id): JsonResponse
     {
         return parent::_destroy($id);
     }

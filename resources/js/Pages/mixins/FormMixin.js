@@ -91,5 +91,5 @@ export default {
         User() {
             return User
         },
-    }
+    },
 }

@@ -41,7 +41,7 @@ class CommodityController extends BaseController implements CommodityControllerI
         return parent::_update($request, $id);
     }
 
-    public function destroy(int $id): JsonResponse
+    public function destroy(DeleteCommoditiesRequest $request, int $id): JsonResponse
     {
         return parent::_destroy($id);
     }

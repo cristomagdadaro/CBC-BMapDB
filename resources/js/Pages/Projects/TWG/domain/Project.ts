@@ -58,7 +58,7 @@ export default class Project extends BaseClass implements IProject{
             title: oldValue.title ?? null,
             objective: oldValue.objective ?? null,
             expected_output: oldValue.expected_output ?? null,
-            project_leader: oldValue.project_leader ?? null,
+            project_leader: oldValue.project_leader?.id ?? null,
             funding_agency: oldValue.funding_agency ?? null,
             duration: oldValue.duration ?? null,
             status: oldValue.status ?? null,

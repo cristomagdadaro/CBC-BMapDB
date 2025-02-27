@@ -16,9 +16,9 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('inst_type'); // SUC, DA Unit, LGU, etc.
             $table->foreignId('geolocation')->constrained('loc_cities');
-            $table->string('website');
-            $table->string('email');
-            $table->string('phone');
+            $table->string('website')->nullable();
+            $table->string('email')->nullable();
+            $table->string('phone')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

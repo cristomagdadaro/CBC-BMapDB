@@ -180,6 +180,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasRole(RoleEnum::ADMIN->value);
     }
 
+    public function isFocalPerson(): bool
+    {
+        return $this->hasRole(RoleEnum::FOCAL_PERSON->value);
+    }
+
     public function isBreeder(): bool
     {
         return $this->hasRole(RoleEnum::BREEDER->value);

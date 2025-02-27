@@ -64,7 +64,7 @@ interface BreederControllerInterface {
      *     If the operation is successful, the response will contain a success message.
      *     If the operation fails, the response will contain an error message.
      */
-    public function destroy(int $id): JsonResponse;
+    public function destroy(DeleteBreederRequest $request, int $id): JsonResponse;
 
     /**
      * Deletes multiple breeder records from the database based on the provided IDs.

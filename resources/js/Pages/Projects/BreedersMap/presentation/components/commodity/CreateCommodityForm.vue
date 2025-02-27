@@ -422,7 +422,7 @@ export default {
     async mounted() {
         if (this.$page.props.breeder)
             this.form.breeder_id = this.$page.props.breeder.id;
-
+        console.log(this.$page.props);
         this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'))
     }
 };
