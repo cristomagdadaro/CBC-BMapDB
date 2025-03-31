@@ -22,6 +22,10 @@ export default {
             default: false,
         },
         id: String,
+        title: {
+            type: String,
+            default: null,
+        }
     },
     data() {
         return {
@@ -80,12 +84,15 @@ export default {
 <template>
     <div class="flex flex-col border-0 p-0 bg-transparent">
         <div class="flex justify-between items-center">
-            <label :for="id" class="text-gray-600 flex gap-0.5 items-center">
+            <label :for="id" class="flex gap-0.5 items-center whitespace-nowrap justify-between px-1">
                 {{ label }}
-                <span v-if="required" class="text-red-500 font-bold text-xs">*</span>
+                <span v-if="required" class="text-red-500 font-bold text-normal">*</span>
             </label>
-            <InputError v-for="msg in error" :message="msg" />
-            <InputError v-if="validationError" :message="validationError" />
+            <InputError v-if="error && error?.length" :message="Array.isArray(error) ? error[0] : error" />
+            <InputError v-else-if="validationError" :message="validationError" />
+            <span v-else class="text-gray-600 opacity-50 font-bold text-xs">
+                    {{ title }}
+            </span>
         </div>
 
        <div class="flex gap-2">

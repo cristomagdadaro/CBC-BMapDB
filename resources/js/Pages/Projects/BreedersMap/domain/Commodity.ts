@@ -16,6 +16,109 @@ export default class Commodity extends DtoCommodity {
         this.appendWith = ['breeder', 'location', 'characteristics', 'additionalinfo'];
     }
 
+    static getCreateFieldTitles() {
+        return {
+            user_id: 'Enter the name of the data encoder',
+            breeder_id: 'Select the plant breeder',
+            name: 'Select a commodity name',
+            scientific_name: 'Enter the scientific name (if applicable)',
+            variety: 'Specify the variety name',
+            accession: 'Enter the accession number',
+            germplasm: 'Describe the germplasm type',
+            population: 'Enter the population size (if applicable)',
+            maturity_period: 'Enter the maturity period (e.g., days to harvest)',
+            yield: 'Specify the expected yield (e.g., tons per hectare)',
+            description: 'Provide additional details or remarks',
+            status: 'Indicate the current status (e.g., active, pending)',
+            geolocation: 'Enter the location coordinates or region',
+
+            weight: 'Enter the average weight (in grams or kilograms)',
+            length: 'Specify the length (in cm)',
+            width: 'Specify the width (in cm)',
+            shape: 'Describe the shape',
+
+            skin_color: 'Describe the skin color',
+            skin_texture: 'Describe the skin texture',
+            flesh_color: 'Specify the flesh color',
+            flesh_texture: 'Describe the flesh texture',
+            flesh_flavor: 'Describe the flavor profile',
+            aroma: 'Describe the aroma (if applicable)',
+
+            root_flesh_color: 'Specify the root flesh color',
+            root_cortex_color: 'Specify the root cortex color',
+            root_skin_color: 'Specify the root skin color',
+            root_shape: 'Describe the root shape',
+
+            tuber_flesh_color: 'Specify the tuber flesh color',
+            tuber_cortex_color: 'Specify the tuber cortex color',
+            tuber_skin_color: 'Specify the tuber skin color',
+            tuber_shape: 'Describe the tuber shape',
+
+            nsic_registration: 'Indicate if NSIC registration is available',
+            nsic_registration_number: 'Enter the NSIC registration number',
+            nsic_year_approved: 'Enter the year of NSIC approval',
+
+            pvp_certificate_number: 'Enter the PVP certificate number',
+            pvp_registration_year: 'Enter the year of PVP registration',
+
+            ncbp_project_type: 'Select the NCBP project type',
+            ncbp_status: 'Indicate the NCBP approval status',
+            ncbp_supervising_ibc: 'Enter the supervising IBC',
+            ncbp_project_leaders: 'List the project leaders',
+            ncbp_date_approval: 'Enter the date of NCBP approval',
+            ncbp_date_completion: 'Enter the expected completion date',
+
+            ao8_transformation_event: 'Enter the AO8 transformation event',
+            ao8_technology_developer: 'Enter the name of the technology developer',
+            ao8_direct_use_status: 'Indicate the direct use approval status',
+            ao8_direct_use_date_applied: 'Enter the date applied for direct use',
+            ao8_direct_use_date_approved: 'Enter the date approved for direct use',
+            ao8_field_trial_status: 'Indicate the field trial approval status',
+            ao8_field_trial_date_applied: 'Enter the date applied for field trial',
+            ao8_field_trial_date_approved: 'Enter the date approved for field trial',
+            ao8_propagation_status: 'Indicate the propagation approval status',
+            ao8_propagation_date_applied: 'Enter the date applied for propagation',
+            ao8_propagation_date_approved: 'Enter the date approved for propagation',
+
+            jdc_2016_transformation_event: 'Enter the JDC 2016 transformation event',
+            jdc_2016_technology_developer: 'Enter the JDC 2016 technology developer',
+            jdc_2016_direct_use_status: 'Indicate JDC 2016 direct use status',
+            jdc_2016_direct_use_date_applied: 'Enter the JDC 2016 direct use date applied',
+            jdc_2016_direct_use_date_approved: 'Enter the JDC 2016 direct use date approved',
+            jdc_2016_ffp_status: 'Indicate JDC 2016 FFP status',
+            jdc_2016_ffp_date_applied: 'Enter the JDC 2016 FFP date applied',
+            jdc_2016_ffp_date_approved: 'Enter the JDC 2016 FFP date approved',
+            jdc_2016_field_trial_status: 'Indicate JDC 2016 field trial status',
+            jdc_2016_field_trial_date_applied: 'Enter the JDC 2016 field trial date applied',
+            jdc_2016_field_trial_date_approved: 'Enter the JDC 2016 field trial date approved',
+            jdc_2016_propagation_status: 'Indicate JDC 2016 propagation status',
+            jdc_2016_propagation_date_applied: 'Enter the JDC 2016 propagation date applied',
+            jdc_2016_propagation_date_approved: 'Enter the JDC 2016 propagation date approved',
+            jdc_2016_renewal_propagation_status: 'Indicate JDC 2016 renewal propagation status',
+            jdc_2016_renewal_propagation_date_applied: 'Enter the JDC 2016 renewal propagation date applied',
+            jdc_2016_renewal_propagation_date_approved: 'Enter the JDC 2016 renewal propagation date approved',
+            jdc_2016_deregulation_status: 'Indicate JDC 2016 deregulation status',
+            jdc_2016_deregulation_date_applied: 'Enter the JDC 2016 deregulation date applied',
+            jdc_2016_deregulation_date_approved: 'Enter the JDC 2016 deregulation date approved',
+
+            jdc_2021_transformation_event: 'Enter the JDC 2021 transformation event',
+            jdc_2021_technology_developer: 'Enter the JDC 2021 technology developer',
+            jdc_2021_direct_use_status: 'Indicate JDC 2021 direct use status',
+            jdc_2021_direct_use_date_applied: 'Enter the JDC 2021 direct use date applied',
+            jdc_2021_direct_use_date_approved: 'Enter the JDC 2021 direct use date approved',
+            jdc_2021_field_trial_status: 'Indicate JDC 2021 field trial status',
+            jdc_2021_field_trial_date_applied: 'Enter the JDC 2021 field trial date applied',
+            jdc_2021_field_trial_date_approved: 'Enter the JDC 2021 field trial date approved',
+            jdc_2021_propagation_status: 'Indicate JDC 2021 propagation status',
+            jdc_2021_propagation_date_applied: 'Enter the JDC 2021 propagation date applied',
+            jdc_2021_propagation_date_approved: 'Enter the JDC 2021 propagation date approved',
+        };
+    }
+
+    static getUpdateFieldTitles() {
+        return this.getCreateFieldTitles();
+    }
+
     static createForm()
     {
         return {

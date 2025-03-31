@@ -11,4 +11,6 @@ export default interface IBaseClass {
     _destroyUri?: string;
     _multiDestroyUri?: string;
     _dataViewUri?: string;
+
+    _titles?: { [key: string]: string };
 }

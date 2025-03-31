@@ -1,6 +1,4 @@
 import DtoBreeder from "../dto/DtoBreeder";
-import User from "@/Modules/core/domain/auth/User";
-import {usePage} from "@inertiajs/vue3";
 
 export default class Breeder extends DtoBreeder{
     constructor(params : DtoBreeder) {
@@ -56,6 +54,27 @@ export default class Breeder extends DtoBreeder{
             geolocation: oldValue.location ? oldValue.location.id : null,
             photo: oldValue.photo ? oldValue.photo : null,
         }
+    }
+
+    static getCreateFieldTitles() {
+        return {
+            fname: 'E.g. Juan',
+            mname: 'E.g. Miguel',
+            lname: 'E.g. Dela Cruz',
+            suffix: 'E.g. Jr./Sr./IV',
+            mobile_no: 'Format: 09XX-XXX-XXXX',
+            email: 'Active email address',
+            password: 'Must be 8 character long',
+            password_confirmation: 'Repeat password',
+            affiliation: "Office/Agency/Organization",
+            breeder_type: 'Government funded (Public) or Private funded (Private)',
+            geolocation: 'Geographic location of the breeder',
+            photo: '5mb max file size',
+        };
+    }
+
+    static getUpdateFieldTitles() {
+        return this.getCreateFieldTitles();
     }
 
     static getCardColumns() {

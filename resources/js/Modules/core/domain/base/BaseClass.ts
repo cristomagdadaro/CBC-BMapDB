@@ -14,6 +14,7 @@ export default class BaseClass extends DtoBaseClass implements IBaseClass
 
     _appendedWith?: string[];
     _appendedCount?: string[];
+    _titles?: { [key: string]: string };
 
     constructor(resp = {}) {
         super(resp);

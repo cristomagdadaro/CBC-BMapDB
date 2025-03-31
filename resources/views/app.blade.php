@@ -11,6 +11,17 @@
             name="description"
             content="A centralized and user-friendly database system that provides comprehensive access to crop biotechnology information in the Philippines. This platform enables researchers, policymakers, and the public to explore data on crop varieties, genetic modifications, research projects, and related approvals, fostering innovation and informed decision-making in agricultural biotechnology."
         />
+		
+		<meta property="og:title" content="Plant Breeders and Innovators Network System">
+		<meta property="og:description" content="A centralized and user-friendly database system that provides comprehensive access to crop biotechnology information in the Philippines. This platform enables researchers, policymakers, and the public to explore data on crop varieties, genetic modifications, research projects, and related approvals, fostering innovation and informed decision-making in agricultural biotechnology."
+        />
+		<meta property="og:image" content="{{ asset('img/logos/pin.webp') }}">
+		<meta property="og:url" content="{{ url()->current() }}">
+		<meta property="og:type" content="website">
+		<meta property="og:site_name" content="Plant Breeders and Innovators Network System">
+		<meta property="og:image:width" content="1200">
+		<meta property="og:image:height" content="630">
+
 
         <meta name="google-site-verification" content="ZrD_iUGZg325WPHfCGqb7gySTuljzzaFlh1Zq3UdkJk" />
         <meta name="viewport" content="width=device-width, initial-scale=1">

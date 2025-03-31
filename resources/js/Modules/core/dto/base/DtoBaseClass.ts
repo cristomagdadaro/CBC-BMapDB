@@ -94,4 +94,20 @@ export default class DtoBaseClass extends Object implements IBaseClass {
     {
         return {};
     }
+
+    static getCreateFieldTitles() {
+        return {};
+    }
+
+    static getUpdateFieldTitles() {
+        return {};
+    }
+
+    static getCreateFieldTitle(name: string) {
+        return this.getCreateFieldTitles()[name];
+    }
+
+    static getUpdateFieldTitle(name: string) {
+        return this.getUpdateFieldTitles()[name];
+    }
 }

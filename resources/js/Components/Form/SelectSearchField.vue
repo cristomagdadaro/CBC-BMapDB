@@ -34,6 +34,10 @@ export default {
         disabled: {
             type: Boolean,
             default: false,
+        },
+        title: {
+            type: String,
+            default: null,
         }
     },
     data() {
@@ -145,6 +149,7 @@ export default {
             <text-field
                 :id="id"
                 ref="textInput"
+                :title="title"
                 :label="dynamicLabel"
                 :error="$attrs.error"
                 :required="required"

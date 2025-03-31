@@ -28,6 +28,10 @@ defineProps({
     disabled: {
         type: Boolean,
         default: false,
+    },
+    title: {
+        type: String,
+        default: null,
     }
 });
 
@@ -47,12 +51,15 @@ defineExpose({ focus: () => input.value.focus() });
 
 <template>
     <div class="flex flex-col border-0 p-0 bg-transparent">
-        <div class="flex justify-between items-center">
-            <label :for="id" class="flex text-sm gap-0.5 items-center whitespace-nowrap">
+        <div class="flex justify-between items-center px-1">
+            <label :for="id" class="flex gap-0.5 items-center whitespace-nowrap justify-between">
                 {{ label }}
-                <span v-if="required" class="text-red-500 font-bold text-xs">*</span>
+                <span v-if="required" class="text-red-500 font-bold text-normal">*</span>
             </label>
-            <InputError :message="Array.isArray(error) ? error[0] : error" />
+            <InputError v-if="error" :message="Array.isArray(error) ? error[0] : error" />
+            <span v-else class="text-gray-600 opacity-50 font-bold text-xs">
+                    {{ title }}
+            </span>
         </div>
         <div v-if="typeInput === 'password'" class="flex relative rounded-md shadow-sm border bg-white hover:ring-1 active:ring-1" :class="error && error.length? 'border-red-300 focus:border-red-500 focus:ring-red-500':'border-gray-300 focus:border-indigo-500 overflow-ellipsis focus:ring-indigo-500'">
             <input :id="id"

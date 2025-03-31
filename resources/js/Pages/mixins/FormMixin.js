@@ -55,6 +55,12 @@ export default {
         resetForm() {
             this.form = this.model.updateForm(this.data); // Get only fields needed for update
         },
+        getTitle(name) {
+            if (this.data)
+                return this.model.getUpdateFieldTitle(name);
+            else
+                return this.model.getCreateFieldTitle(name);
+        },
         getError(name) {
             return this.errors ? this.errors[name] : null;
         },
@@ -73,7 +79,7 @@ export default {
         },
         async getCustomSelectionOptions(url){
             return await (new ApiService(url)).get();
-        }
+        },
     },
     watch: {
         forceClose() {

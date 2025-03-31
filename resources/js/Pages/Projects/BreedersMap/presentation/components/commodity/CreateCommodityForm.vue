@@ -21,24 +21,28 @@
                                     <text-field
                                         type-input="number"
                                         :error="getError('weight')"
-                                        label="Weight"
+                                        label="Weight (grams)"
+                                        :title="getTitle('weight')"
                                         v-model="form.weight"
                                     />
                                     <text-field
                                         type-input="number"
                                         :error="getError('length')"
-                                        label="Length"
+                                        label="Length (cm)"
+                                        :title="getTitle('length')"
                                         v-model="form.length"
                                     />
                                     <text-field
                                         type-input="number"
                                         :error="getError('width')"
-                                        label="Width"
+                                        label="Width (cm)"
+                                        :title="getTitle('width')"
                                         v-model="form.width"
                                     />
                                     <text-field
                                         :error="getError('shape')"
                                         label="Shape"
+                                        :title="getTitle('shape')"
                                         v-model="form.shape"
                                     />
                                 </div>
@@ -53,10 +57,12 @@
                                     <text-field
                                         :error="getError('skin_color')"
                                         label="Skin Color"
+                                        :title="getTitle('skin_color')"
                                         v-model="form.skin_color"
                                     />
                                     <text-field
                                         :error="getError('skin_texture')"
+                                        :title="getTitle('skin_texture')"
                                         label="Skin Texture"
                                         v-model="form.skin_texture"
                                     />
@@ -146,19 +152,19 @@
                 <template v-slot:tab2>
                     <div class="flex flex-col gap-8">
                         <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                            <select-field required :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" />
-                            <text-field required :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
-                            <select-search-field required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
-                            <text-field required :error="getError('variety')" label="Variety" v-model="form.variety" />
-                            <text-field required :error="getError('accession')" label="Accession" v-model="form.accession" />
-                            <text-field required :error="getError('germplasm')" label="Germplasm" v-model="form.germplasm" />
-                            <text-field required type-input="number" :error="getError('population')" label="Breeding Population" v-model="form.population" />
-                            <text-field required :error="getError('maturity_period')" label="Maturity Period" v-model="form.maturity_period" />
-                            <text-field required type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
-                            <select-field required :error="getError('status')" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
+                            <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" />
+                            <text-field required disabled :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
+                            <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
+                            <text-field required :title="getTitle('variety')" :error="getError('variety')" label="Variety" v-model="form.variety" />
+                            <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Accession" v-model="form.accession" />
+                            <text-field required :title="getTitle('germplasm')" :error="getError('germplasm')" label="Germplasm" v-model="form.germplasm" />
+                            <text-field required :title="getTitle('population')" type-input="number" :error="getError('population')" label="Breeding Population" v-model="form.population" />
+                            <text-field required :title="getTitle('maturity_period')" :error="getError('maturity_period')" label="Maturity Period" v-model="form.maturity_period" />
+                            <text-field required :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
+                            <select-field required :title="getTitle('status')" :error="getError('status')" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
                         </div>
-                        <select-search-field required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
-                        <text-field type-input="longtext" :error="getError('description')" label="Other Description" v-model="form.description" />
+                        <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
+                        <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Other Description" v-model="form.description" />
                     </div>
                 </template>
                 <template v-slot:tab3>
@@ -422,7 +428,7 @@ export default {
     async mounted() {
         if (this.$page.props.breeder)
             this.form.breeder_id = this.$page.props.breeder.id;
-        console.log(this.$page.props);
+
         this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'))
     }
 };
