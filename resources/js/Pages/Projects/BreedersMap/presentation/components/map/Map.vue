@@ -378,14 +378,8 @@ export default {
                                 <template #icon>
                                     <close-icon class="h-auto sm:w-6 w-4" />
                                 </template>
-                                <span>Deselect</span>
+                                <span class="flex items-center justify-center">Deselect</span>
                             </top-action-btn>
- <!--                           <top-action-btn v-if="mapApi.selectedPlace" @click="mapApi.sidebarVisible = true" class="bg-add text-xs" title="Deselect Point">
-                                <template #icon>
-                                    <view-icon class="h-auto sm:w-4 w-3" />
-                                </template>
-                                <span>View&nbsp;Details</span>
-                            </top-action-btn>-->
                             <FullscreenToggle :element="$refs.mapContainer" />
                         </div>
                     </div>

@@ -19,6 +19,10 @@ defineProps({
     disabled : {
         type: Boolean,
         default: false,
+    },
+    title: {
+        type: String,
+        default: null,
     }
 });
 
@@ -37,12 +41,15 @@ defineExpose({ focus: () => input.value.focus() });
 
 <template>
     <div class="flex flex-col border-0 p-0 bg-transparent">
-        <div class="flex justify-between items-center">
-            <label :for="id" class="flex text-sm gap-0.5 items-center">
+        <div class="flex justify-between items-center px-1 gap-2">
+            <label :for="id" class="flex gap-0.5 items-center whitespace-nowrap justify-between">
                 {{ label }}
-                <span v-if="required" class="text-red-500 font-bold text-xs">*</span>
+                <span v-if="required" class="text-red-500 font-bold text-normal">*</span>
             </label>
-            <InputError :message="Array.isArray(error) ? error[0] : error" />
+            <InputError v-if="error" :message="Array.isArray(error) ? error[0] : error" />
+            <span v-else class="text-gray-600 opacity-50 font-bold text-xs text-right leading-none">
+                    {{ title }}
+            </span>
         </div>
         <input
             :id="id"

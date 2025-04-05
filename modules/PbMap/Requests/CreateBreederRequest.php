@@ -31,7 +31,7 @@ class CreateBreederRequest extends FormRequest
             'mname' => ['nullable', 'string', 'max:255'],
             'lname' => ['required', 'string', 'max:255'],
             'suffix' => ['nullable', 'string', 'max:255'],
-            'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:breeders,mobile_no'],
+            'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:breeders,mobile_no', 'regex:/^09\d{9}$/'],
             'email' => [
                 'required',
                 'email',
@@ -42,6 +42,24 @@ class CreateBreederRequest extends FormRequest
             'breeder_type' => ['required', 'string', "in:".BreederType::PRIVATE->value.",".BreederType::PUBLIC->value.","],
             'affiliation' => ['required', 'exists:institutes,id'],
             'geolocation' => 'nullable|exists:loc_cities,id',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'fname.required' => 'First name is required',
+            'lname.required' => 'Last name is required',
+            'email.required' => 'Email is required',
+            'email.email' => 'Email must be a valid email address',
+            'email.unique' => 'Email already exists',
+            'mobile_no.regex' => 'Invalid format. Format is 09XXXXXXXXX',
+            'mobile_no.unique' => 'Mobile number already exists',
+            'photo.string' => 'Photo must be a string',
+            'breeder_type.required' => 'Breeder type is required',
+            'breeder_type.in' => 'Breeder type must be either private or public',
+            'affiliation.exists' => 'Affiliation must exist in the institutes table',
+            'geolocation.exists' => 'Geolocation must exist in the loc_cities table'
         ];
     }
 }
