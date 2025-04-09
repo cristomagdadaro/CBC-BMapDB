@@ -54,8 +54,8 @@ defineExpose({ focus: () => input.value.focus() });
                 <span v-if="required" class="text-red-500 font-bold text-normal">*</span>
             </label>
             <InputError v-if="error" :message="Array.isArray(error) ? error[0] : error" />
-            <span v-else class="text-gray-600 opacity-50 font-bold text-xs text-right leading-none">
-                    {{ title }}
+            <span v-else :title="title" class="text-gray-600 opacity-50 font-bold text-[0.6rem] text-right leading-none border border-gray-800 rounded-full p-0.5 px-1 hover:bg-cbc-dark-green hover:text-white hover:border-cbc-dark-green" title="Can't find your commodity?">
+                ?
             </span>
         </div>
         <select

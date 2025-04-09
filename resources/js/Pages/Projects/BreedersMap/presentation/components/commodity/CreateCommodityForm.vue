@@ -18,7 +18,10 @@
                     </label>
                     <div class="flex flex-col gap-8">
                         <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                            <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" />
+                            <div class="flex gap-2 items-end">
+                                <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" class="w-full" />
+                                <request-add-commodity />
+                            </div>
                             <text-field required disabled :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
                             <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
                             <text-field required :title="getTitle('variety')" :error="getError('variety')" label="Variety" v-model="form.variety" />
@@ -461,9 +464,11 @@ import FormMixin from "@/Pages/mixins/FormMixin.js";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Tab from "@/Components/Tab/Tab.vue";
 import DateField from "@/Components/Form/DateField.vue";
+import RequestAddCommodity
+    from "@/Pages/Projects/BreedersMap/presentation/components/commodity/components/RequestAddCommodity.vue";
 
 export default {
-    components: {DateField, Tab},
+    components: {RequestAddCommodity, DateField, Tab},
     mixins: [FormMixin],
     data() {
         return {

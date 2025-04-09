@@ -53,7 +53,7 @@ export default {
             this.form.breeder_id = this.$page.props.breeder.id;
 
         this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'));
-        
+
          if (this.form.name)
             this.getScientificName(this.form.name);
     }
