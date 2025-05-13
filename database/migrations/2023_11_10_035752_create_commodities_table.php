@@ -19,14 +19,12 @@ return new class extends Migration
             $table->string('scientific_name')->nullable();
             $table->string('variety')->nullable();
             $table->string('accession')->nullable();
-            $table->string('germplasm')->nullable();
+            $table->double('yield')->nullable();
             $table->double('population')->nullable();
             $table->string('maturity_period')->nullable();
-            $table->double('yield')->nullable();
             $table->string('description')->nullable()->nullable();
             $table->binary('image')->nullable();
             $table->foreignId('geolocation')->constrained('loc_cities');
-            $table->string('status')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

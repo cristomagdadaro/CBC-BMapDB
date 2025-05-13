@@ -19,12 +19,10 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     scientific_name: string;
     variety: string;
     accession: string;
-    germplasm: string;
     population: string;
     maturity_period: string;
     yield: string;
     description: string;
-    status: string;
     location: DtoCity;
     created_at: string;
     updated_at: string;
@@ -47,12 +45,10 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.scientific_name = commodity?.scientific_name;
         this.variety = commodity?.variety;
         this.accession = commodity?.accession;
-        this.germplasm = commodity?.germplasm;
         this.population = commodity?.population;
         this.maturity_period = commodity?.maturity_period;
         this.yield = commodity?.yield;
         this.description = commodity?.description;
-        this.status = commodity?.status;
         this.created_at = commodity?.created_at;
         this.updated_at = commodity?.updated_at;
         this.deleted_at = commodity?.deleted_at;

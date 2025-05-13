@@ -59,13 +59,11 @@ class UpdateCommoditiesRequest extends FormRequest
             'scientific_name' => 'required|string|max:255',
             'variety' => 'required|string|max:255',
             'accession' => 'required|string|max:255',
-            'germplasm' => 'required|string|max:255',
             'population' => 'required|numeric',
             'maturity_period' => 'required|string',
             'yield' => 'required|numeric',
             'description' => 'nullable|string',
             'image' => 'nullable',
-            'status' => 'required|string',
             'geolocation' => 'required|exists:loc_cities,id',
 
             'weight' => 'nullable|numeric',

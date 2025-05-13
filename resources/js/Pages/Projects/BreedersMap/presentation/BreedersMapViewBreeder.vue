@@ -68,31 +68,31 @@ export default {
     <app-layout>
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
             <div v-if="breederInstance" class="flex flex-col gap-2">
-                <div class="flex flex-col gap-2 w-fit">
-                    <div class="bg-white shadow-md flex flex-row w-full rounded-md overflow-hidden">
+                <div class="flex flex-col shadow-md w-fit rounded-md mx-auto">
+                    <div class="bg-white flex md:flex-row flex-col w-full rounded-md overflow-hidden p-2">
                         <div
                             v-if="profilePhoto"
-                            class="block rounded-l-lg w-20 h-20 lg:w-44 lg:h-44 md:w-32 md:h-32 bg-cover bg-no-repeat bg-center drop-shadow"
+                            class="block w-full h-52 rounded-md lg:w-44 lg:h-44 md:w-32 md:h-32 bg-cover bg-no-repeat bg-center"
                             :style="'background-image: url(\'' + profilePhoto + '\');'"
                         />
-                        <div class="flex flex-col leading-none p-5 justify-between w-full">
+                        <div class="flex flex-col leading-none p-5 justify-between w-full text-center">
                             <div class="flex flex-col leading-none mb-1">
-                            <span class="text-left lg:text-5xl md:text-3xl sm:text-xl font-bold">
-                                {{ Breeder.getNestedValue(breederInstance, 'getFullName') }}
-                            </span>
+                                <span class="lg:text-5xl md:text-3xl sm:text-xl text-xl font-bold">
+                                    {{ Breeder.getNestedValue(breederInstance, 'getFullName') }}
+                                </span>
                             </div>
                             <div class="flex flex-col leading-none">
-                             <span class="text-left text-xl">
-                                {{ Breeder.getNestedValue(breederInstance, 'position') }}
-                            </span>
-                                <span class="text-left text-normal">
-                                at {{ Breeder.getNestedValue(breederInstance, 'affiliated.name') }}
-                            </span>
-                                <span class="text-left text-normal">
-                                {{ Breeder.getNestedValue(breederInstance, 'location.getFullAddress') }}
-                            </span>
+                                 <span class="text-normal md:text-xl font-semibold">
+                                    {{ Breeder.getNestedValue(breederInstance, 'position') }}
+                                 </span>
+                                 <span class="text-normal">
+                                    at {{ Breeder.getNestedValue(breederInstance, 'affiliated.name') }}
+                                 </span>
+                                 <span class="text-sm">
+                                    {{ Breeder.getNestedValue(breederInstance, 'location.getFullAddress') }}
+                                 </span>
                             </div>
-                            <div class="flex flex-row gap-3 leading-none">
+                            <div class="flex flex-row gap-3 justify-evenly leading-none text-sm mt-1">
                                 <div class="flex gap-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
                                         <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
@@ -112,21 +112,23 @@ export default {
                             </div>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 justify-center rounded-md overflow-hidden px-5">
-                   <span>
-                        Specialization
-                   </span>
-                        <span>
-                        Research Interest
-                   </span>
+                    <div class="bg-white flex flex-row w-full overflow-hidden" :class="{'hidden': !Breeder.getNestedValue(breederInstance, 'expertise') && !Breeder.getNestedValue(breederInstance, 'research_interest')}">
+                       <div class="flex gap-3 justify-evenly w-full py-3 bg-cbc-yellow-green mx-2 my-1 rounded-md">
+                           <span>
+                               Specialization
+                           </span>
+                           <span>
+                               Research Interest
+                           </span>
+                       </div>
                     </div>
-                    <div class="bg-white shadow-md grid grid-cols-2 justify-center rounded-md overflow-hidden p-5">
-                   <span>
-                       {{ Breeder.getNestedValue(breederInstance, 'expertise') }}
-                   </span>
-                        <span>
-                       {{ Breeder.getNestedValue(breederInstance, 'research_interest') }}
-                   </span>
+                    <div class="bg-white grid grid-cols-2 justify-center rounded-md overflow-hidden p-3 text-center" :class="{'hidden': !Breeder.getNestedValue(breederInstance, 'expertise') && !Breeder.getNestedValue(breederInstance, 'research_interest')}">
+                       <span>
+                           {{ Breeder.getNestedValue(breederInstance, 'expertise') }}
+                       </span>
+                            <span>
+                           {{ Breeder.getNestedValue(breederInstance, 'research_interest') }}
+                       </span>
                     </div>
                 </div>
                 <h1 class="text-lg font-semibold uppercase select-none px-3 mt-5">Commodities</h1>

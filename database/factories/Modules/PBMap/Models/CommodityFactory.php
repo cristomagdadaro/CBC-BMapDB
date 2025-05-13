@@ -34,14 +34,12 @@ class CommodityFactory extends Factory
             'scientific_name' => $commodity['scientific_name'],
             'variety' => $this->faker->randomElement($commodity['varieties']),
             'accession' => $this->faker->randomElement($commodity['accession']),
-            'germplasm' => $this->faker->randomElement($commodity['germplasm']),
             'population' => $this->faker->randomNumber(6),
             'maturity_period' => $this->faker->name,
             'yield' => $this->faker->randomFloat(),
             'description' => $this->faker->text,
             'image' => $this->faker->imageUrl(),
             'geolocation' => $city->id,
-            'status' => $this->faker->randomElement(['active', 'inactive']),
         ];
     }
 

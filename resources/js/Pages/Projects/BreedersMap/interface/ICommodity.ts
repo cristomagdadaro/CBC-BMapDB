@@ -13,12 +13,10 @@ export default interface ICommodity  extends IBaseClass {
     scientific_name: string;
     variety: string;
     accession: string;
-    germplasm: string;
     population: string;
     maturity_period: string;
     yield: string;
     description: string;
-    status: string;
     location: ICity;
     updated_at: string;
     created_at: string;

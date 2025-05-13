@@ -23,17 +23,15 @@
                                 <request-add-commodity />
                             </div>
                             <text-field required disabled :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
-                            <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
+                            <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder/Organization" v-model="form.breeder_id" />
                             <text-field required :title="getTitle('variety')" :error="getError('variety')" label="Variety" v-model="form.variety" />
-                            <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Accession" v-model="form.accession" />
-                            <text-field required :title="getTitle('germplasm')" :error="getError('germplasm')" label="Germplasm" v-model="form.germplasm" />
+                            <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Accession No./Germplasm Index" v-model="form.accession" />
                             <text-field required :title="getTitle('population')" type-input="number" :error="getError('population')" label="Breeding Population" v-model="form.population" />
                             <text-field required :title="getTitle('maturity_period')" :error="getError('maturity_period')" label="Maturity Period" v-model="form.maturity_period" />
                             <text-field required :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
-                            <select-field required :title="getTitle('status')" :error="getError('status')" label="Status" v-model="form.status" :options="[{value: 'active', label: 'Active'}, {value: 'inactive', label: 'Inactive'}]" />
                         </div>
                         <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
-                        <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Other Description" v-model="form.description" />
+                        <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Unique Traits" v-model="form.description" />
                     </div>
                 </template>
                 <template v-slot:tab1>
