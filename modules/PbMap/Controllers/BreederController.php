@@ -92,8 +92,6 @@ class BreederController extends BaseController implements BreederControllerInter
         }
     }
 
-
-
     public function update(UpdateBreederRequest $request, int $id): JsonResponse
     {
         return parent::_update($request, $id);

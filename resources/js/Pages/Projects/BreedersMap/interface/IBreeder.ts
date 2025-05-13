@@ -11,6 +11,10 @@ export default interface IBreeder extends IBaseClass {
     mname: string;
     suffix: string;
     affiliated: IInstitute;
+    position: string;
+    educ_level: string;
+    expertise: string;
+    research_interest: string;
     mobile_no: string;
     email: string;
     breeder_type: string;

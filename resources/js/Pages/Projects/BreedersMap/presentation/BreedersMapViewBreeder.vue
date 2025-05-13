@@ -68,20 +68,65 @@ export default {
     <app-layout>
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
             <div v-if="breederInstance" class="flex flex-col gap-2">
-                <h1 class="text-lg font-semibold uppercase select-none px-3">Breeder Information</h1>
-                <div class="border p-3 rounded-lg bg-white mx-2 flex gap-3 items-center">
-                    <span
-                        v-if="profilePhoto"
-                        class="block rounded-lg w-20 h-20 lg:w-44 lg:h-44 md:w-32 md:h-32 bg-cover bg-no-repeat bg-center drop-shadow border-2 border-cbc-dark-green"
-                        :style="'background-image: url(\'' + profilePhoto + '\');'"
-                    />
-                    <div class="grid sm:grid-cols-2 grid-cols-1 w-full">
-                        <template v-for="column in Breeder.getCardColumns()" >
-                            <div class="flex gap-1" v-if="column.visible">
-                                <h2 class="h2 font-semibold select-none text-normal">{{column.title}}: </h2>
-                                <p class="text-normal">{{ Breeder.getNestedValue(breederInstance, column.key) }}</p>
+                <div class="flex flex-col gap-2 w-fit">
+                    <div class="bg-white shadow-md flex flex-row w-full rounded-md overflow-hidden">
+                        <div
+                            v-if="profilePhoto"
+                            class="block rounded-l-lg w-20 h-20 lg:w-44 lg:h-44 md:w-32 md:h-32 bg-cover bg-no-repeat bg-center drop-shadow"
+                            :style="'background-image: url(\'' + profilePhoto + '\');'"
+                        />
+                        <div class="flex flex-col leading-none p-5 justify-between w-full">
+                            <div class="flex flex-col leading-none mb-1">
+                            <span class="text-left lg:text-5xl md:text-3xl sm:text-xl font-bold">
+                                {{ Breeder.getNestedValue(breederInstance, 'getFullName') }}
+                            </span>
                             </div>
-                        </template>
+                            <div class="flex flex-col leading-none">
+                             <span class="text-left text-xl">
+                                {{ Breeder.getNestedValue(breederInstance, 'position') }}
+                            </span>
+                                <span class="text-left text-normal">
+                                at {{ Breeder.getNestedValue(breederInstance, 'affiliated.name') }}
+                            </span>
+                                <span class="text-left text-normal">
+                                {{ Breeder.getNestedValue(breederInstance, 'location.getFullAddress') }}
+                            </span>
+                            </div>
+                            <div class="flex flex-row gap-3 leading-none">
+                                <div class="flex gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+                                    </svg>
+                                    <span>
+                                   {{ Breeder.getNestedValue(breederInstance, 'email') }}
+                                </span>
+                                </div>
+                                <div class="flex gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"/>
+                                    </svg>
+                                    <span>
+                                   {{ Breeder.getNestedValue(breederInstance, 'mobile_no') }}
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 justify-center rounded-md overflow-hidden px-5">
+                   <span>
+                        Specialization
+                   </span>
+                        <span>
+                        Research Interest
+                   </span>
+                    </div>
+                    <div class="bg-white shadow-md grid grid-cols-2 justify-center rounded-md overflow-hidden p-5">
+                   <span>
+                       {{ Breeder.getNestedValue(breederInstance, 'expertise') }}
+                   </span>
+                        <span>
+                       {{ Breeder.getNestedValue(breederInstance, 'research_interest') }}
+                   </span>
                     </div>
                 </div>
                 <h1 class="text-lg font-semibold uppercase select-none px-3 mt-5">Commodities</h1>

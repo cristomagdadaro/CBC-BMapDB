@@ -41,7 +41,11 @@ class CreateBreederRequest extends FormRequest
             'photo' => ['nullable', 'string'],
             'breeder_type' => ['required', 'string', "in:".BreederType::PRIVATE->value.",".BreederType::PUBLIC->value.","],
             'affiliation' => ['required', 'exists:institutes,id'],
-            'geolocation' => 'nullable|exists:loc_cities,id',
+            'position' => ['required', 'string'],
+            'expertise' => ['nullable', 'string'],
+            'research_interest' => ['nullable', 'string'],
+            'educ_level' => ['nullable', 'string'],
+            'geolocation' => 'required|exists:loc_cities,id',
         ];
     }
 
@@ -59,7 +63,7 @@ class CreateBreederRequest extends FormRequest
             'breeder_type.required' => 'Breeder type is required',
             'breeder_type.in' => 'Breeder type must be either private or public',
             'affiliation.exists' => 'Affiliation must exist in the institutes table',
-            'geolocation.exists' => 'Geolocation must exist in the loc_cities table'
+            'geolocation.exists' => 'Unknown Geolocation'
         ];
     }
 }

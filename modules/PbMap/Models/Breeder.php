@@ -22,7 +22,6 @@ class Breeder extends BaseModel
 
     protected $fillable = [
         'user_id',
-
         'fname',
         'mname',
         'lname',
@@ -30,7 +29,11 @@ class Breeder extends BaseModel
         'email',
         'mobile_no',
         'affiliation',
+        'position',
+        'educ_level',
         'breeder_type',
+        'expertise',
+        'research_interest',
         'geolocation',
         'photo'
     ];
@@ -52,6 +55,10 @@ class Breeder extends BaseModel
         'breeders.lname',
         'breeders.suffix',
         'breeders.affiliation',
+        'breeders.position',
+        'breeders.educ_level',
+        'breeders.expertise',
+        'breeders.research_interest',
         'breeders.geolocation',
         'breeders.breeder_type',
         'breeders.mobile_no',

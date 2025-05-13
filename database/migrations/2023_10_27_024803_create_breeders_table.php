@@ -23,6 +23,10 @@ return new class extends Migration
             $table->enum('breeder_type', [BreederType::PRIVATE->value, BreederType::PUBLIC->value])->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('affiliation')->constrained('institutes');
+            $table->string('position')->nullable();
+            $table->enum('educ_level', ["Bachelor\'s", "Master\'s", "Doctoral"])->nullable();
+            $table->string('expertise')->nullable();
+            $table->string('research_interest')->nullable();
             $table->foreignId('geolocation')->constrained('loc_cities');
             $table->longText('photo')->nullable();
 

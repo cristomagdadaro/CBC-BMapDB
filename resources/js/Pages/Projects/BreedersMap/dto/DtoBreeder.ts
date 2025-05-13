@@ -12,6 +12,10 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
     mname: string;
     suffix: string;
     affiliated: DtoInstitute;
+    educ_level: string;
+    expertise: string;
+    position:string;
+    research_interest: string;
     mobile_no: string;
     email: string;
     breeder_type: string;
@@ -34,6 +38,10 @@ export default class DtoBreeder extends BaseClass implements IBreeder {
         this.lname = breeder?.lname;
         this.suffix = breeder?.suffix;
         this.mobile_no = breeder?.mobile_no;
+        this.educ_level = breeder?.educ_level;
+        this.expertise = breeder?.expertise;
+        this.research_interest = breeder?.research_interest;
+        this.position = breeder?.position;
         this.email = breeder?.email;
         this.breeder_type = breeder?.breeder_type;
         this.photo = breeder?.photo;

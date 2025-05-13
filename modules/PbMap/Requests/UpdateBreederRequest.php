@@ -62,8 +62,11 @@ class UpdateBreederRequest extends FormRequest
                 'unique:breeders,email,'.$this->id,
                 'unique:breeders,email,'.$this->id,
             ],
-            'geolocation' => 'nullable|exists:loc_cities,id',
-            //'password' => $this->passwordRules(),
+            'geolocation' => 'required|exists:loc_cities,id',
+            'position' => ['required', 'string'],
+            'expertise' => ['nullable', 'string'],
+            'research_interest' => ['nullable', 'string'],
+            'educ_level' => ['nullable', 'string'],
         ];
     }
 
