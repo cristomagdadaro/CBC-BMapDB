@@ -25,7 +25,7 @@ class BreederFactory extends Factory
             'lname' => $this->faker->lastName(),
             'suffix' => $this->faker->randomElement([null, 'Jr.', 'Sr.', 'II']),
             'affiliation' => $institute->id,  // Random affiliation
-            'position' => $this->faker->word(),
+            'position' => $this->faker->randomElement(["Science Research Analyst", "Science Research Assistant", "Science Research Specialist I", "Science Research Specialist II", "Senior Science Research Specialist", "Supervising Science Research Specialist", "Laborer I", "Laborer II", "Laboratory Assistant I", "Laboratory Assistant II", "Laboratory Technician I", "Laboratory Technician II"]),
             'educ_level' => $this->faker->randomElement(["Bachelor\'s", "Master\'s", "Doctoral"]),
             'geolocation' => $city->id,  // Random city geolocation
             'expertise' => $this->faker->text(),
