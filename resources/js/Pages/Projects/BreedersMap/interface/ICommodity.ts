@@ -17,6 +17,7 @@ export default interface ICommodity  extends IBaseClass {
     maturity_period: string;
     yield: string;
     description: string;
+    photo: string;
     location: ICity;
     updated_at: string;
     created_at: string;

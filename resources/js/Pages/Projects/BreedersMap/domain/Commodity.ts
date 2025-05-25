@@ -28,6 +28,7 @@ export default class Commodity extends DtoCommodity {
             maturity_period: 'Enter the maturity period (e.g., days to harvest)',
             yield: 'Specify the expected yield (e.g., tons per hectare)',
             description: 'Provide additional details or remarks',
+            photo: '5mb max file size',
             geolocation: 'Enter the location coordinates or region',
 
             weight: 'Enter the average weight (in grams or kilograms)',
@@ -130,6 +131,7 @@ export default class Commodity extends DtoCommodity {
             maturity_period: '',
             yield: '',
             description: '',
+            photo: '',
             geolocation: '',
 
             weight: '',
@@ -228,6 +230,7 @@ export default class Commodity extends DtoCommodity {
             maturity_period: oldValue.maturity_period ?? '',
             yield: oldValue.yield ?? '',
             description: oldValue.description ?? '',
+            photo: oldValue.photo ?? '',
             geolocation: oldValue.location ? oldValue.location.id : '',
 
             weight: oldValue.characteristics?.weight ?? '',

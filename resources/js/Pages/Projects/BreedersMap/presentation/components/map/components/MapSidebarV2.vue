@@ -13,7 +13,11 @@ export default {
     props: {
         point: Object,
         visible: Boolean,
-        model: [Object, Function]
+    },
+    data() {
+        return {
+            model: [Object, Function]
+        }
     },
     methods: {
         closeSidebar() {
@@ -26,16 +30,16 @@ export default {
 }
 </script>
 
-<template>
+<template> {{ model.name }}
     <transition-container>
         <div class="relative max-h-[800px] flex flex-col max-w-500px min-w-600px text-gray-800 py-2" v-show="visible">
             <div v-if="point" class="overflow-y-auto overflow-x-hidden text-sm " >
                 <table class="w-full">
-                    <tr v-if="instance.breeder.getProfilePhoto">
+                    <tr v-if="instance.getProfilePhoto">
                         <th colspan="2" class="p-2 border-b bg-cbc-yellow-green rounded-lg">
                            <span
                                class="block w-32 h-32 rounded-full bg-cover bg-no-repeat bg-center drop-shadow-lg mx-auto border-2"
-                               :style="'background-image: url(\'' + instance.breeder.getProfilePhoto + '\');'"
+                               :style="'background-image: url(\'' + instance.getProfilePhoto + '\');'"
                            />
                         </th>
                     </tr>

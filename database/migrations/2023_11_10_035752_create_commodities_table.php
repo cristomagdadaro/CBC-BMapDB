@@ -23,7 +23,7 @@ return new class extends Migration
             $table->double('population')->nullable();
             $table->string('maturity_period')->nullable();
             $table->string('description')->nullable()->nullable();
-            $table->binary('image')->nullable();
+            $table->longText('photo')->nullable();
             $table->foreignId('geolocation')->constrained('loc_cities');
             $table->timestamps();
             $table->softDeletes();

@@ -63,7 +63,7 @@ class UpdateCommoditiesRequest extends FormRequest
             'maturity_period' => 'required|string',
             'yield' => 'required|numeric',
             'description' => 'nullable|string',
-            'image' => 'nullable',
+            'photo' => 'nullable',
             'geolocation' => 'required|exists:loc_cities,id',
 
             'weight' => 'nullable|numeric',

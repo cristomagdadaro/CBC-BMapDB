@@ -56,9 +56,9 @@ export default {
                 return;
             }
 
-            // Validate file size (2MB limit)
-            if (file.size > 2048 * 1024) {
-                this.validationError = "File size exceeds 2MB.";
+            // Validate file size (5MB limit)
+            if (file.size > 5120 * 1024) {
+                this.validationError = "File size exceeds 5MB.";
                 this.clearFile();
                 return;
             }

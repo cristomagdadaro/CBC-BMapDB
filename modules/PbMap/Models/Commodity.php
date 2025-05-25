@@ -28,7 +28,7 @@ class Commodity extends BaseModel
         'maturity_period',
         'yield',
         'description',
-        'image',
+        'photo',
         'geolocation',
     ];
 
@@ -44,7 +44,7 @@ class Commodity extends BaseModel
         'maturity_period',
         'yield',
         'description',
-        'image',
+        'photo',
         'geolocation',
         'commodities.created_at',
         'commodities.updated_at',

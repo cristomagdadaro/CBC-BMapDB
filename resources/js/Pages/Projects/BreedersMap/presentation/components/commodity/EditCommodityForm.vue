@@ -3,9 +3,10 @@ import FormMixin from "@/Pages/mixins/FormMixin.js";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Tab from "@/Components/Tab/Tab.vue";
 import DateField from "@/Components/Form/DateField.vue";
+import FileField from "@/Components/Form/FileField.vue";
 
 export default {
-    components: {DateField, Tab},
+    components: {FileField, DateField, Tab},
     mixins: [FormMixin],
     data() {
         return {
@@ -89,6 +90,7 @@ export default {
                         </div>
                         <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                         <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Other Description" v-model="form.description" />
+                        <file-field :error="getError('photo')" :title="getTitle('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
                     </div>
                 </template>
                 <template v-slot:tab1>

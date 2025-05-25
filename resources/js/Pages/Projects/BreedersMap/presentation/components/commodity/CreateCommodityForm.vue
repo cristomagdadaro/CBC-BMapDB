@@ -32,6 +32,7 @@
                         </div>
                         <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                         <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Unique Traits" v-model="form.description" />
+                        <file-field :error="getError('photo')" :title="getTitle('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
                     </div>
                 </template>
                 <template v-slot:tab1>
@@ -464,9 +465,10 @@ import Tab from "@/Components/Tab/Tab.vue";
 import DateField from "@/Components/Form/DateField.vue";
 import RequestAddCommodity
     from "@/Pages/Projects/BreedersMap/presentation/components/commodity/components/RequestAddCommodity.vue";
+import FileField from "@/Components/Form/FileField.vue";
 
 export default {
-    components: {RequestAddCommodity, DateField, Tab},
+    components: {FileField, RequestAddCommodity, DateField, Tab},
     mixins: [FormMixin],
     data() {
         return {

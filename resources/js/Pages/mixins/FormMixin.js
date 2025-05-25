@@ -80,6 +80,38 @@ export default {
         async getCustomSelectionOptions(url){
             return await (new ApiService(url)).get();
         },
+        resizedataURL(datas, wantedWidth, wantedHeight, callback) {
+            var img = new Image();
+
+            img.onload = function () {
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+
+                canvas.width = wantedWidth;
+                canvas.height = wantedHeight;
+
+                ctx.drawImage(this, 0, 0, wantedWidth, wantedHeight);
+
+                let quality = 0.8; // Start with high quality
+                let compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+
+                // Reduce quality if still over 2MB
+                function checkSize(dataUrl) {
+                    let byteSize = Math.ceil((dataUrl.length - 'data:image/jpeg;base64,'.length) * 3 / 4);
+                    console.log(byteSize)
+                    if (byteSize > 2 * 1024 * 1024) {
+                        quality -= 0.05;
+                        if (quality > 0) {
+                            compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                            checkSize(compressedDataUrl);
+                        }
+                    }
+                }
+                checkSize(compressedDataUrl);
+                callback(compressedDataUrl); // Return final compressed image
+            };
+            img.src = datas;
+        }
     },
     watch: {
         forceClose() {
@@ -91,6 +123,24 @@ export default {
                 this.form = this.model.updateForm(newVal);
             else
                 this.form = this.model.createForm(newVal);
+        },
+        'form.photo': {
+            handler: function (newVal) {
+                if (!newVal) return;
+
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    this.resizedataURL(e.target.result, 960/2, 540/2, (compressedDataUrl) => {
+                        this.form.photo = compressedDataUrl;
+                    });
+                };
+
+                if (newVal instanceof File) {
+                    reader.readAsDataURL(newVal);
+                }
+            },
+            deep: true
         }
     },
     computed: {

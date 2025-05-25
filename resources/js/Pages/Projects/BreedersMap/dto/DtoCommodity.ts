@@ -24,6 +24,7 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     yield: string;
     description: string;
     location: DtoCity;
+    photo: string;
     created_at: string;
     updated_at: string;
     deleted_at: string;
@@ -49,6 +50,7 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.maturity_period = commodity?.maturity_period;
         this.yield = commodity?.yield;
         this.description = commodity?.description;
+        this.photo = commodity?.photo;
         this.created_at = commodity?.created_at;
         this.updated_at = commodity?.updated_at;
         this.deleted_at = commodity?.deleted_at;
@@ -73,6 +75,10 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     {
         // @ts-ignore
         return this.breeder.getFullName;
+    }
+
+    get getProfilePhoto() {
+        return this.photo;
     }
 
     get type() {
