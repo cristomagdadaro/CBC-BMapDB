@@ -27,34 +27,33 @@
                 </div>
                 <div>
                     <label class="text-sm font-medium text-gray-700">Step 3: Upload CSV File</label>
-
                 </div>
             </div>
 
             <file-field
-                v-model="form.csvContent"
+                v-model="form"
                 id="csvContent"
                 label="CSV File"
                 type="file"
                 required
-                :error="errors ? errors.csvContent : null"
+                :error="errors ? errors : null"
                 @change="handleFileUpload"
             />
-            <div v-if="form.csvContent">
-                <label v-for="error in form.csvContent.errors" class="text-red-600">{{ error.message }}</label>
+            <div v-if="form">
+                <label v-for="error in form.errors" class="text-red-600">{{ error.message }}</label>
             </div>
-            <div class="overflow-x-scroll mt-2 flex flex-col shadow max-h-[50vh]" v-if="form.csvContent && form.csvContent.data && form.csvContent.data.length">
+            <div class="overflow-x-scroll mt-2 flex flex-col shadow max-h-[50vh]" v-if="form && form.data && form.data.length">
                 <table class="min-w-full bg-white">
                     <thead>
                     <tr class="text-center font-medium text-gray-700 bg-gray-200">
                         <th class="border p-0.5">#</th>
-                        <th v-for="(value, key) in form.csvContent.data[0]" :key="key" class="border p-0.5">
+                        <th v-for="(value, key) in form.data[0]" :key="key" class="border p-0.5">
                             {{ key }}
                         </th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(row, index) in form.csvContent.data" :key="index" class="text-center">
+                    <tr v-for="(row, index) in form.data" :key="index" class="text-center">
                         <td class="border px-1">{{ index + 1 }}</td>
                         <td v-for="(value, key) in row" :key="key" class="border px-1">
                             {{ value }}
@@ -74,7 +73,7 @@ import RadioField from "@/Components/Form/RadioField.vue";
 import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
 import FileField from "@/Components/Form/FileField.vue";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
-import ImportMixin from "@/Pages/mixins/ImportMixin.js";
+import ImportMixin from "@/Pages/mixins/ImportMixin";
 
 export default {
     name: "ImportBreedersForm",
@@ -90,7 +89,3 @@ export default {
     },
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -4,9 +4,7 @@ export default {
     data() {
         return {
             parsing: false,
-            form: {
-                csvContent: null,
-            },
+            form: null,
         };
     },
     props: {
@@ -32,7 +30,7 @@ export default {
             this.$emit('close');
         },
         uploadForm() {
-            this.$emit('uploadForm', this.form.csvContent);
+            this.$emit('uploadForm', this.form.data);
         },
         handleFileUpload(event) {
             const file = event.target.files[0];
@@ -45,7 +43,9 @@ export default {
                 Papa.parse(csvData, {
                     header: true,
                     complete: (results) => {
-                        this.form.csvContent = results;
+                        //remove the last empty row if it exists
+                        results.data.pop();
+                        this.form = results;
                     },
                     error: (error) => {
                         console.error('Error parsing CSV:', error);

@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         $admin = User::factory()->withPersonalTeam()->create([
             'fname' => 'Cristo Rey',
             'lname' => 'Magdadaro',
-            'email' => 'admin@cbc.gov.ph',
+            'email' => 'pin.dacbc@gmail.com',
             'email_verified_at' => now(),
             'affiliation' => Institute::where('name', env('COMPANY_NAME'))->first()->id
         ]);

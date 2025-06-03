@@ -242,9 +242,7 @@ export default class CRCMDatatable
             }
         }
     }
-
-
-    async importCSV(data) {
+    async importCSV(data) { console.log(data);
         let success = 0;
         let failed = 0;
         let total = 0;
