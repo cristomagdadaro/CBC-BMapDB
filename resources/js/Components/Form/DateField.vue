@@ -47,7 +47,7 @@ defineExpose({ focus: () => input.value.focus() });
                 <span v-if="required" class="text-red-500 font-bold text-normal">*</span>
             </label>
             <InputError v-if="error" :message="Array.isArray(error) ? error[0] : error" />
-            <span v-else class="text-gray-600 opacity-50 font-bold text-xs text-right leading-none">
+            <span v-else-if="title" class="text-gray-600 opacity-50 font-bold text-xs text-right leading-none">
                     {{ title }}
             </span>
         </div>

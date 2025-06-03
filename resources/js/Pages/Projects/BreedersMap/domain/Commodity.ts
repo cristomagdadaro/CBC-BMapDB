@@ -53,7 +53,9 @@ export default class Commodity extends DtoCommodity {
             tuber_skin_color: 'Specify the tuber skin color',
             tuber_shape: 'Describe the tuber shape',
 
-            nsic_registration: 'Indicate if NSIC registration is available',
+            regulations: 'Enter the regulations or approvals related to this commodity',
+
+            /*nsic_registration: 'Indicate if NSIC registration is available',
             nsic_registration_number: 'Enter the NSIC registration number',
             nsic_year_approved: 'Enter the year of NSIC approval',
 
@@ -110,7 +112,7 @@ export default class Commodity extends DtoCommodity {
             jdc_2021_field_trial_date_approved: 'Enter the JDC 2021 field trial date approved',
             jdc_2021_propagation_status: 'Indicate JDC 2021 propagation status',
             jdc_2021_propagation_date_applied: 'Enter the JDC 2021 propagation date applied',
-            jdc_2021_propagation_date_approved: 'Enter the JDC 2021 propagation date approved',
+            jdc_2021_propagation_date_approved: 'Enter the JDC 2021 propagation date approved',*/
         };
     }
 
@@ -156,7 +158,9 @@ export default class Commodity extends DtoCommodity {
             tuber_skin_color: '',
             tuber_shape: '',
 
-            nsic_registration: '',
+            regulations: '',
+
+            /*nsic_registration: '',
             nsic_registration_number: '',
             nsic_year_approved: '',
 
@@ -213,7 +217,7 @@ export default class Commodity extends DtoCommodity {
             jdc_2021_field_trial_date_approved: '',
             jdc_2021_propagation_status: '',
             jdc_2021_propagation_date_applied: '',
-            jdc_2021_propagation_date_approved: '',
+            jdc_2021_propagation_date_approved: '',*/
         };
     }
 
@@ -254,7 +258,9 @@ export default class Commodity extends DtoCommodity {
             tuber_skin_color: oldValue.characteristics?.tuber_skin_color ?? '',
             tuber_shape: oldValue.characteristics?.tuber_shape ?? '',
 
-            nsic_registration: oldValue.additionalinfo?.nsic_registration ?? '',
+            regulations: oldValue.regulations ?? null,
+
+            /*nsic_registration: oldValue.additionalinfo?.nsic_registration ?? '',
             nsic_registration_number: oldValue.additionalinfo?.nsic_registration_number ?? '',
             nsic_year_approved: oldValue.additionalinfo?.nsic_year_approved ?? '',
             pvp_certificate_number: oldValue.additionalinfo?.pvp_certificate_number ?? '',
@@ -309,7 +315,7 @@ export default class Commodity extends DtoCommodity {
             jdc_2021_field_trial_date_approved: oldValue.additionalinfo?.jdc_2021_field_trial_date_approved ?? '',
             jdc_2021_propagation_status: oldValue.additionalinfo?.jdc_2021_propagation_status ?? '',
             jdc_2021_propagation_date_applied: oldValue.additionalinfo?.jdc_2021_propagation_date_applied ?? '',
-            jdc_2021_propagation_date_approved: oldValue.additionalinfo?.jdc_2021_propagation_date_approved ?? '',
+            jdc_2021_propagation_date_approved: oldValue.additionalinfo?.jdc_2021_propagation_date_approved ?? '',*/
         };
     }
 
@@ -465,12 +471,18 @@ export default class Commodity extends DtoCommodity {
                 visible: false,
             },
             {
+                title: 'Regulatory Compliance',
+                key: 'regulations',
+                db_key: 'regulations',
+                align: 'center',
+                visible: false,
+            }/*,{
                 title: 'Additional Info',
                 key: 'additionalinfo',
                 db_key: 'additionalinfo',
                 align: 'center',
                 visible: false,
-            },
+            },*/
         ]
     }
 
@@ -614,13 +626,21 @@ export default class Commodity extends DtoCommodity {
                 visible: false,
             },
             {
+                title: 'Regulatory Compliance',
+                key: 'regulations',
+                db_key: 'regulations',
+                sortable: true,
+                align: 'center',
+                visible: false,
+            },
+            /*{
                 title: 'Additional Info',
                 key: 'additionalinfo',
                 db_key: 'additionalinfo',
                 sortable: true,
                 align: 'center',
                 visible: false,
-            },
+            },*/
         ];
     }
 }

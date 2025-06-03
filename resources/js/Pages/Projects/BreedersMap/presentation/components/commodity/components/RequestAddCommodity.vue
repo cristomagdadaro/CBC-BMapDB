@@ -1,9 +1,18 @@
 <script>
 import { Link } from "@inertiajs/vue3";
+import {BaseButton} from "@/Components/CRCMDatatable/Components/index.js";
+import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
+import RequestAddCommodityForm
+    from "@/Pages/Projects/BreedersMap/presentation/components/commodity/components/RequestAddCommodityForm.vue";
 
 export default {
     name: "RequestAddCommodity",
-    components: {Link}
+    components: {RequestAddCommodityForm, DialogFormModal, BaseButton, Link},
+    data() {
+        return {
+            showAddCommodityForm: false,
+        }
+    },
 }
 </script>
 
@@ -14,12 +23,13 @@ export default {
                 ?
             </span>
         </div>
-        <div class="flex relative rounded-md shadow-sm border bg-white hover:ring-1 active:ring-1 h-fit p-2">
-            <Link :href="route('breedersmap.commodity.requestaddcommodity')" @click.prevent class="border-0 w-full rounded-md text-gray-900 focus:ring-0 overflow-ellipsis leading-none text-xs">
-                Request to Add Commodity
-            </Link>
-        </div>
+        <BaseButton @click.prevent="showAddCommodityForm = true" class="border-0 w-full text-gray-900 bg-cbc-yellow-green py-2 focus:ring-0 overflow-ellipsis leading-none text-xs">
+            Request to Add Commodity
+        </BaseButton>
     </div>
+    <dialog-form-modal :show="showAddCommodityForm" @close="showAddCommodityForm = false">
+        <request-add-commodity-form @submitForm="null" @close="showAddCommodityForm = false"/>
+    </dialog-form-modal>
 </template>
 
 <style scoped>

@@ -194,16 +194,10 @@ Route::middleware([
 
             Route::get('/commodity/{id}', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/BreedersMapViewCommodity', [
-                    'commodity' => Commodity::find(request()->id)->load('location','breeder','characteristics','additionalinfo'),
+                    'commodity' => Commodity::findOrFail(request()->id)->load('location','breeder','characteristics','additionalinfo'),
                     'breadcrumbs' => [['label' => 'Commodities', 'to' => route('projects.breedersmap.index')]],
                 ]);
             })->name('breedersmap.commodity.view');
-
-            Route::get('/commodity/request-add-commodity', function () {
-                return Inertia::render('Projects/BreedersMap/presentation/components/RequestAddCommodityForm', [
-                    'breadcrumbs' => [['label' => 'Commodities', 'to' => route('projects.breedersmap.index')]],
-                ]);
-            })->name('breedersmap.commodity.requestaddcommodity');
 
             Route::get('/settings', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/components/misc/BmSettings');

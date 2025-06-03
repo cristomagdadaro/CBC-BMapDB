@@ -24,7 +24,8 @@ export default interface ICommodity  extends IBaseClass {
     deleted_at: string;
 
     characteristics?: ICharacteristics;
-    additionalinfo?: IAdditionalInfo
+    regulations?: object;
+    //additionalinfo?: IAdditionalInfo
 
     breeder: IBreeder;
     user: IUser;

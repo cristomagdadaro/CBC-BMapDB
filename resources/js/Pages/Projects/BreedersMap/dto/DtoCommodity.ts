@@ -30,7 +30,8 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     deleted_at: string;
 
     characteristics?: ICharacteristics;
-    additionalinfo?: IAdditionalInfo;
+    regulations?: object
+    //additionalinfo?: IAdditionalInfo;
 
     breeder: IBreeder = null;
     user: IUser = null;
@@ -54,6 +55,7 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.created_at = commodity?.created_at;
         this.updated_at = commodity?.updated_at;
         this.deleted_at = commodity?.deleted_at;
+        this.regulations = commodity?.regulations;
 
         if (commodity?.breeder)
             this.breeder = new DtoBreeder(commodity.breeder);
@@ -67,8 +69,8 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         if (commodity?.characteristics)
             this.characteristics = new DtoCharacteristics(commodity.characteristics);
 
-        if (commodity?.additionalinfo)
-            this.additionalinfo = new DtoAdditionalInfo(commodity.additionalinfo);
+        //if (commodity?.additionalinfo)
+            //this.additionalinfo = new DtoAdditionalInfo(commodity.additionalinfo);
     }
 
     get breederName()

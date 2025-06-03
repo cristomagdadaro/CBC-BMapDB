@@ -71,7 +71,11 @@ class CreateCommoditiesRequest extends FormRequest
             'tuber_skin_color' => 'nullable|string',
             'tuber_shape' => 'nullable|string',
 
-            'nsic_registration' => 'nullable|string',
+            'regulations' => 'nullable|array',
+            'regulations.*.regulatory_body' => 'nullable|string',
+            'regulations.*.registration_no' => 'nullable|string',
+            'regulations.*.registration_date' => 'nullable|date',
+            /*'nsic_registration' => 'nullable|string',
             'nsic_registration_number' => 'nullable|string',
             'nsic_year_approved' => 'nullable|integer',
 
@@ -128,7 +132,7 @@ class CreateCommoditiesRequest extends FormRequest
             'jdc_2021_field_trial_date_approved' => 'nullable|date',
             'jdc_2021_propagation_status' => 'nullable|string',
             'jdc_2021_propagation_date_applied' => 'nullable|date',
-            'jdc_2021_propagation_date_approved' => 'nullable|date',
+            'jdc_2021_propagation_date_approved' => 'nullable|date',*/
 
         ];
     }

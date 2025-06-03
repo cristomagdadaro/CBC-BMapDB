@@ -1,3 +1,77 @@
+<script>
+import FormMixin from "@/Pages/mixins/FormMixin";
+import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
+import Tab from "@/Components/Tab/Tab.vue";
+import DateField from "@/Components/Form/DateField.vue";
+import RequestAddCommodity from "@/Pages/Projects/BreedersMap/presentation/components/commodity/components/RequestAddCommodity.vue";
+import FileField from "@/Components/Form/FileField.vue";
+import Checkbox from "@/Components/Checkbox.vue";
+import {BaseButton} from "@/Components/CRCMDatatable/Components/index.js";
+import AddIcon from "@/Components/Icons/AddIcon.vue";
+
+export default {
+    components: {AddIcon, BaseButton, Checkbox, FileField, RequestAddCommodity, DateField, Tab},
+    mixins: [FormMixin],
+    data() {
+        return {
+            model: Commodity,
+            tabs: [
+                {
+                    name: "tab2",
+                    label: "Basic Information",
+                    active: true,
+                    route: null,
+                },
+                {
+                    name: "tab1",
+                    label: "Characteristics",
+                    active: false,
+                    route: null,
+                },
+                {
+                    name: "tab3",
+                    label: "Additional Information",
+                    active: false,
+                    route: null,
+                },
+            ],
+            priorityComs: []
+        };
+    },
+    methods: {
+        getScientificName(comms) {
+            return this.form.scientific_name = this.priorityComs?.data?.find(item => item.label === comms)?.sName;
+        },
+        addRegulation() {
+            this.form.regulations.push({
+                regulatory_body: '',
+                registration_no: '',
+                registration_date: ''
+            })
+        },
+        removeRegulation(index) {
+            this.form.regulations.splice(index, 1)
+        }
+    },
+    watch: {
+        'form.name' (newVal){
+            this.form.scientific_name = this.getScientificName(newVal);
+        },
+
+    },
+    computed: {
+        isInitialzedBreeeder(){
+            return this.$page.props?.breeder?.id;
+        }
+    },
+    async mounted() {
+        if (this.$page.props.breeder)
+            this.form.breeder_id = this.$page.props.breeder.id;
+        this.form = {...this.form, regulations: [{regulatory_body: null, registration_no: null, registration_date: null}]};
+        this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'))
+    }
+};
+</script>
 <template>
     <base-create-form :form="form" :force-close="forceClose">
         <template v-slot:formTitle>
@@ -24,14 +98,11 @@
                             </div>
                             <text-field required disabled :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
                             <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder/Organization" v-model="form.breeder_id" />
-                            <text-field required :title="getTitle('variety')" :error="getError('variety')" label="Variety" v-model="form.variety" />
-                            <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Accession No./Germplasm Index" v-model="form.accession" />
-                            <text-field required :title="getTitle('population')" type-input="number" :error="getError('population')" label="Breeding Population" v-model="form.population" />
-                            <text-field required :title="getTitle('maturity_period')" :error="getError('maturity_period')" label="Maturity Period" v-model="form.maturity_period" />
+                            <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Variety/Accession No./Germplasm Index" v-model="form.accession" />
                             <text-field required :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
                         </div>
                         <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
-                        <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Unique Traits" v-model="form.description" />
+                        <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Other Unique Traits" v-model="form.description" />
                         <file-field :error="getError('photo')" :title="getTitle('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
                     </div>
                 </template>
@@ -190,265 +261,63 @@
                     <div class="flex flex-col gap-8">
                         <div class="flex flex-col text-gray-600 gap-5">
                             <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
-                                    NSIC Registration
+                                <label class="flex text-lg font-semibold gap-0.5 items-center whitespace-nowrap">
+                                    Legal and Regulatory Compliance
                                 </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                                    <text-field
-                                        :error="getError('nsic_registration')"
-                                        :title="getTitle('nsic_registration')"
-                                        label="NSIC Registration"
-                                        v-model="form.nsic_registration"
-                                    />
-                                    <text-field
-                                        :error="getError('nsic_registration_number')"
-                                        :title="getTitle('nsic_registration_number')"
-                                        label="NSIC Registration Number"
-                                        v-model="form.nsic_registration_number"
-                                    />
-                                    <text-field
-                                        :error="getError('nsic_year_approved')"
-                                        :title="getTitle('nsic_year_approved')"
-                                        label="NSIC Year Approved"
-                                        v-model="form.nsic_year_approved"
-                                    />
+                                <p class="flex gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
+                                    List any legal or regulatory compliance information related to the commodity, such as certifications, registrations, or approvals.
+                                </p>
+                                <div class="flex flex-row gap-2 w-full my-2">
+                                    <div class="flex flex-row gap-2 w-full bg-cbc-yellow items-center">
+                                        <p v-for="item in [
+                                            'Regulatory Body',
+                                            'Cert./Reg. No.',
+                                            'Date Issued',
+                                        ]" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
+                                            {{ item }}
+                                        </p>
+                                    </div>
+                                    <base-button classes="opacity-0 h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white">
+                                        <add-icon class="w-auto h-6" />
+                                    </base-button>
                                 </div>
-                            </div>
+                                <div class="flex flex-col gap-4">
+                                    <div
+                                        v-for="(regulation, index) in form.regulations"
+                                        :key="index"
+                                        class="flex items-center gap-2"
+                                    >
+                                        <div class="grid grid-cols-3 gap-2 w-full">
+                                            <text-field
+                                                :error="getError(`regulations[${index}].regulatory_body`)"
+                                                v-model="regulation.regulatory_body"
+                                            />
+                                            <text-field
+                                                :error="getError(`regulations[${index}].registration_no`)"
+                                                v-model="regulation.registration_no"
+                                            />
+                                            <date-field :error="getError(`regulations[${index}].registration_date`)"
+                                                        v-model="regulation.registration_date"/>
+                                        </div>
 
-                            <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
-                                    Plant Variety Protection
-                                </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                                    <text-field
-                                        :error="getError('pvp_certificate_number')"
-                                        :title="getTitle('pvp_certificate_number')"
-                                        label="PVP Certificate Number"
-                                        v-model="form.pvp_certificate_number"
-                                    />
-                                    <text-field
-                                        :error="getError('pvp_registration_year')"
-                                        :title="getTitle('pvp_registration_year')"
-                                        label="PVP Registration Year"
-                                        v-model="form.pvp_registration_year"
-                                    />
-                                </div>
-                            </div>
+                                        <!-- Remove Button (X) -->
+                                        <base-button
+                                            v-if="form.regulations.length > 1"
+                                            @click.prevent="removeRegulation(index)"
+                                            classes="h-fit w-fit p-2 bg-red-100 text-red-600 hover:bg-red-600 hover:text-white"
+                                        >
+                                            <close-icon class="w-auto h-6" />
+                                        </base-button>
 
-                            <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
-                                    GM Regulatory Approval: NCBP
-                                </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                                    <text-field :error="getError('ncbp_project_type')"
-                                                :title="getTitle('ncbp_project_type')"
-                                                label="NCBP Project Type"
-                                                v-model="form.ncbp_project_type"/>
-                                    <text-field :error="getError('ncbp_status')"
-                                                :title="getTitle('ncbp_status')"
-                                                label="NCBP Status"
-                                                v-model="form.ncbp_status"/>
-                                    <text-field :error="getError('ncbp_supervising_ibc')"
-                                                :title="getTitle('ncbp_supervising_ibc')"
-                                                label="NCBP Supervising IBC"
-                                                v-model="form.ncbp_supervising_ibc"/>
-                                    <text-field :error="getError('ncbp_project_leaders')"
-                                                :title="getTitle('ncbp_project_leaders')"
-                                                label="NCBP Project Leaders"
-                                                v-model="form.ncbp_project_leaders"/>
-                                    <date-field :error="getError('ncbp_date_approval')"
-                                                :title="getTitle('ncbp_date_approval')"
-                                                label="NCBP Date of Approval"
-                                                v-model="form.ncbp_date_approval"/>
-                                    <date-field :error="getError('ncbp_date_completion')"
-                                                :title="getTitle('ncbp_date_completion')"
-                                                label="NCBP Date of Completion"
-                                                v-model="form.ncbp_date_completion"/>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
-                                    GM Regulatory Approval: AO8
-                                </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                                    <text-field :error="getError('ao8_transformation_event')"
-                                                :title="getTitle('ao8_transformation_event')"
-                                                label="AO8 Transformation Event"
-                                                v-model="form.ao8_transformation_event"/>
-                                    <text-field :error="getError('ao8_technology_developer')"
-                                                :title="getTitle('ao8_technology_developer')"
-                                                label="AO8 Technology Developer"
-                                                v-model="form.ao8_technology_developer"/>
-                                    <text-field :error="getError('ao8_direct_use_status')"
-                                                :title="getTitle('ao8_direct_use_status')"
-                                                label="AO8 Direct Use Status"
-                                                v-model="form.ao8_direct_use_status"/>
-                                    <date-field :error="getError('ao8_direct_use_date_applied')"
-                                                :title="getTitle('ao8_direct_use_date_applied')"
-                                                label="AO8 Direct Use Date Applied"
-                                                v-model="form.ao8_direct_use_date_applied"/>
-                                    <date-field :error="getError('ao8_direct_use_date_approved')"
-                                                :title="getTitle('ao8_direct_use_date_approved')"
-                                                label="AO8 Direct Use Date Approved"
-                                                v-model="form.ao8_direct_use_date_approved"/>
-                                    <text-field :error="getError('ao8_field_trial_status')"
-                                                :title="getTitle('ao8_field_trial_status')"
-                                                label="AO8 Field Trial Status"
-                                                v-model="form.ao8_field_trial_status"/>
-                                    <date-field :error="getError('ao8_field_trial_date_applied')"
-                                                :title="getTitle('ao8_field_trial_date_applied')"
-                                                label="AO8 Field Trial Date Applied"
-                                                v-model="form.ao8_field_trial_date_applied"/>
-                                    <date-field :error="getError('ao8_field_trial_date_approved')"
-                                                :title="getTitle('ao8_field_trial_date_approved')"
-                                                label="AO8 Field Trial Date Approved"
-                                                v-model="form.ao8_field_trial_date_approved"/>
-                                    <text-field :error="getError('ao8_propagation_status')"
-                                                :title="getTitle('ao8_propagation_status')"
-                                                label="AO8 Propagation Status"
-                                                v-model="form.ao8_propagation_status"/>
-                                    <date-field :error="getError('ao8_propagation_date_applied')"
-                                                :title="getTitle('ao8_propagation_date_applied')"
-                                                label="AO8 Propagation Date Applied"
-                                                v-model="form.ao8_propagation_date_applied"/>
-                                    <date-field :error="getError('ao8_propagation_date_approved')"
-                                                :title="getTitle('ao8_propagation_date_approved')"
-                                                label="AO8 Propagation Date Approved"
-                                                v-model="form.ao8_propagation_date_approved"/>
-                                </div>
-                            </div>
-
-                            <!--  -->
-                            <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
-                                    GM Regulatory Approval: JDC 2016
-                                </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                                    <text-field :error="getError('jdc_2016_transformation_event')"
-                                                :title="getTitle('jdc_2016_transformation_event')"
-                                                label="JDC 2016 Transformation Event"
-                                                v-model="form.jdc_2016_transformation_event"/>
-                                    <text-field :error="getError('jdc_2016_technology_developer')"
-                                                :title="getTitle('jdc_2016_technology_developer')"
-                                                label="JDC 2016 Technology Developer"
-                                                v-model="form.jdc_2016_technology_developer"/>
-                                    <text-field :error="getError('jdc_2016_direct_use_status')"
-                                                :title="getTitle('jdc_2016_direct_use_status')"
-                                                label="JDC 2016 Direct Use Status" v-model="form.jdc_2016_direct_use_status"/>
-                                    <date-field :error="getError('jdc_2016_direct_use_date_applied')"
-                                                :title="getTitle('jdc_2016_direct_use_date_applied')"
-                                                label="JDC 2016 Direct Use Date Applied"
-                                                v-model="form.jdc_2016_direct_use_date_applied"/>
-                                    <date-field :error="getError('jdc_2016_direct_use_date_approved')"
-                                                :title="getTitle('jdc_2016_direct_use_date_approved')"
-                                                label="JDC 2016 Direct Use Date Approved"
-                                                v-model="form.jdc_2016_direct_use_date_approved"/>
-                                    <date-field :error="getError('jdc_2016_ffp_status')" label="JDC 2016 FFP Status"
-                                                :title="getTitle('jdc_2016_ffp_status')"
-                                                v-model="form.jdc_2016_ffp_status"/>
-                                    <date-field :error="getError('jdc_2016_ffp_date_applied')" label="JDC 2016 FFP Date Applied"
-                                                :title="getTitle('jdc_2016_ffp_date_applied')"
-                                                v-model="form.jdc_2016_ffp_date_applied"/>
-                                    <date-field :error="getError('jdc_2016_ffp_date_approved')"
-                                                :title="getTitle('jdc_2016_ffp_date_approved')"
-                                                label="JDC 2016 FFP Date Approved" v-model="form.jdc_2016_ffp_date_approved"/>
-                                    <date-field :error="getError('jdc_2016_field_trial_status')"
-                                                :title="getTitle('jdc_2016_field_trial_status')"
-                                                label="JDC 2016 Field Trial Status" v-model="form.jdc_2016_field_trial_status"/>
-                                    <date-field :error="getError('jdc_2016_field_trial_date_applied')"
-                                                :title="getTitle('jdc_2016_field_trial_date_applied')"
-                                                label="JDC 2016 Field Trial Date Applied"
-                                                v-model="form.jdc_2016_field_trial_date_applied"/>
-                                    <date-field :error="getError('jdc_2016_field_trial_date_approved')"
-                                                :title="getTitle('jdc_2016_field_trial_date_approved')"
-                                                label="JDC 2016 Field Trial Date Approved"
-                                                v-model="form.jdc_2016_field_trial_date_approved"/>
-                                    <date-field :error="getError('jdc_2016_propagation_status')"
-                                                :title="getTitle('jdc_2016_propagation_status')"
-                                                label="JDC 2016 Propagation Status" v-model="form.jdc_2016_propagation_status"/>
-                                    <date-field :error="getError('jdc_2016_propagation_date_applied')"
-                                                :title="getTitle('jdc_2016_propagation_date_applied')"
-                                                label="JDC 2016 Propagation Date Applied"
-                                                v-model="form.jdc_2016_propagation_date_applied"/>
-                                    <date-field :error="getError('jdc_2016_propagation_date_approved')"
-                                                :title="getTitle('jdc_2016_propagation_date_approved')"
-                                                label="JDC 2016 Propagation Date Approved"
-                                                v-model="form.jdc_2016_propagation_date_approved"/>
-                                    <date-field :error="getError('jdc_2016_renewal_propagation_status')"
-                                                :title="getTitle('jdc_2016_renewal_propagation_status')"
-                                                label="JDC 2016 Renewal Propagation Status"
-                                                v-model="form.jdc_2016_renewal_propagation_status"/>
-                                    <date-field :error="getError('jdc_2016_renewal_propagation_date_applied')"
-                                                :title="getTitle('jdc_2016_renewal_propagation_date_applied')"
-                                                label="JDC 2016 Renewal Propagation Date Applied"
-                                                v-model="form.jdc_2016_renewal_propagation_date_applied"/>
-                                    <date-field :error="getError('jdc_2016_renewal_propagation_date_approved')"
-                                                :title="getTitle('jdc_2016_renewal_propagation_date_approved')"
-                                                label="JDC 2016 Renewal Propagation Date Approved"
-                                                v-model="form.jdc_2016_renewal_propagation_date_approved"/>
-                                    <date-field :error="getError('jdc_2016_deregulation_status')"
-                                                :title="getTitle('jdc_2016_deregulation_status')"
-                                                label="JDC 2016 Deregulation Status"
-                                                v-model="form.jdc_2016_deregulation_status"/>
-                                    <date-field :error="getError('jdc_2016_deregulation_date_applied')"
-                                                :title="getTitle('jdc_2016_deregulation_date_applied')"
-                                                label="JDC 2016 Deregulation Date Applied"
-                                                v-model="form.jdc_2016_deregulation_date_applied"/>
-                                    <date-field :error="getError('jdc_2016_deregulation_date_approved')"
-                                                :title="getTitle('jdc_2016_deregulation_date_approved')"
-                                                label="JDC 2016 Deregulation Date Approved"
-                                                v-model="form.jdc_2016_deregulation_date_approved"/>
-                                </div>
-                            </div>
-
-                            <!--  -->
-                            <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
-                                    GM Regulatory Approval: JDC 2021
-                                </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                                    <text-field :error="getError('jdc_2021_transformation_event')"
-                                                :title="getTitle('jdc_2021_transformation_event')"
-                                                label="JDC 2021 Transformation Event"
-                                                v-model="form.jdc_2021_transformation_event"/>
-                                    <text-field :error="getError('jdc_2021_technology_developer')"
-                                                :title="getTitle('jdc_2021_technology_developer')"
-                                                label="JDC 2021 Technology Developer"
-                                                v-model="form.jdc_2021_technology_developer"/>
-                                    <text-field :error="getError('jdc_2021_direct_use_status')"
-                                                :title="getTitle('jdc_2021_direct_use_status')"
-                                                label="JDC 2021 Direct Use Status" v-model="form.jdc_2021_direct_use_status"/>
-                                    <date-field :error="getError('jdc_2021_direct_use_date_applied')"
-                                                :title="getTitle('jdc_2021_direct_use_date_applied')"
-                                                label="JDC 2021 Direct Use Date Applied"
-                                                v-model="form.jdc_2021_direct_use_date_applied"/>
-                                    <date-field :error="getError('jdc_2021_direct_use_date_approved')"
-                                                :title="getTitle('jdc_2021_direct_use_date_approved')"
-                                                label="JDC 2021 Direct Use Date Approved"
-                                                v-model="form.jdc_2021_direct_use_date_approved"/>
-                                    <date-field :error="getError('jdc_2021_field_trial_status')"
-                                                :title="getTitle('jdc_2021_field_trial_status')"
-                                                label="JDC 2021 Field Trial Status" v-model="form.jdc_2021_field_trial_status"/>
-                                    <date-field :error="getError('jdc_2021_field_trial_date_applied')"
-                                                :title="getTitle('jdc_2021_field_trial_date_applied')"
-                                                label="JDC 2021 Field Trial Date Applied"
-                                                v-model="form.jdc_2021_field_trial_date_applied"/>
-                                    <date-field :error="getError('jdc_2021_field_trial_date_approved')"
-                                                :title="getTitle('jdc_2021_field_trial_date_approved')"
-                                                label="JDC 2021 Field Trial Date Approved"
-                                                v-model="form.jdc_2021_field_trial_date_approved"/>
-                                    <date-field :error="getError('jdc_2021_propagation_status')"
-                                                :title="getTitle('jdc_2021_propagation_status')"
-                                                label="JDC 2021 Propagation Status" v-model="form.jdc_2021_propagation_status"/>
-                                    <date-field :error="getError('jdc_2021_propagation_date_applied')"
-                                                :title="getTitle('jdc_2021_propagation_date_applied')"
-                                                label="JDC 2021 Propagation Date Applied"
-                                                v-model="form.jdc_2021_propagation_date_applied"/>
-                                    <date-field :error="getError('jdc_2021_propagation_date_approved')"
-                                                :title="getTitle('jdc_2021_propagation_date_approved')"
-                                                label="JDC 2021 Propagation Date Approved"
-                                                v-model="form.jdc_2021_propagation_date_approved"/>
+                                        <!-- Add Button (+) -->
+                                        <base-button
+                                            v-if="index === form.regulations.length - 1"
+                                            @click.prevent="addRegulation"
+                                            classes="h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white"
+                                        >
+                                            <add-icon class="w-auto h-6" />
+                                        </base-button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -458,65 +327,4 @@
         </template>
     </base-create-form>
 </template>
-<script>
-import FormMixin from "@/Pages/mixins/FormMixin.js";
-import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
-import Tab from "@/Components/Tab/Tab.vue";
-import DateField from "@/Components/Form/DateField.vue";
-import RequestAddCommodity
-    from "@/Pages/Projects/BreedersMap/presentation/components/commodity/components/RequestAddCommodity.vue";
-import FileField from "@/Components/Form/FileField.vue";
 
-export default {
-    components: {FileField, RequestAddCommodity, DateField, Tab},
-    mixins: [FormMixin],
-    data() {
-        return {
-            model: Commodity,
-            tabs: [
-                {
-                    name: "tab2",
-                    label: "Basic Information",
-                    active: true,
-                    route: null,
-                },
-                {
-                    name: "tab1",
-                    label: "Characteristics",
-                    active: false,
-                    route: null,
-                },
-                {
-                    name: "tab3",
-                    label: "Additional Information",
-                    active: false,
-                    route: null,
-                },
-            ],
-            priorityComs: []
-        };
-    },
-    methods: {
-        getScientificName(comms) {
-            return this.form.scientific_name = this.priorityComs?.data?.find(item => item.label === comms)?.sName;
-        }
-    },
-    watch: {
-        'form.name' (newVal){
-            this.form.scientific_name = this.getScientificName(newVal);
-        },
-
-    },
-    computed: {
-        isInitialzedBreeeder(){
-            return this.$page.props?.breeder?.id;
-        }
-    },
-    async mounted() {
-        if (this.$page.props.breeder)
-            this.form.breeder_id = this.$page.props.breeder.id;
-
-        this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'))
-    }
-};
-</script>
