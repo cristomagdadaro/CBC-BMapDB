@@ -26,6 +26,7 @@ return new class extends Migration
             $table->longText('photo')->nullable();
             $table->foreignId('geolocation')->constrained('loc_cities');
             $table->json('regulations')->nullable();
+            $table->json('stress_resilience')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

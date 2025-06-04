@@ -11,10 +11,7 @@ export default interface ICommodity  extends IBaseClass {
     name: string;
     breeder_id: number;
     scientific_name: string;
-    variety: string;
     accession: string;
-    population: string;
-    maturity_period: string;
     yield: string;
     description: string;
     photo: string;
@@ -25,7 +22,7 @@ export default interface ICommodity  extends IBaseClass {
 
     characteristics?: ICharacteristics;
     regulations?: object;
-    //additionalinfo?: IAdditionalInfo
+    stress_resilience?: object;
 
     breeder: IBreeder;
     user: IUser;

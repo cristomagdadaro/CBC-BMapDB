@@ -49,6 +49,16 @@ export default {
         },
         removeRegulation(index) {
             this.form.regulations.splice(index, 1)
+        },
+        addStressResilience() {
+            this.form.stress_resilience.push({
+                type: null,
+                stress: null,
+                reaction: null
+            })
+        },
+        removeStressResilience(index) {
+            this.form.stress_resilience.splice(index, 1)
         }
     },
     computed: {
@@ -68,6 +78,12 @@ export default {
         this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'));
          if (this.form.name)
             this.getScientificName(this.form.name);
+
+        this.form = {
+            ...this.form,
+            regulations: [{regulatory_body: null, registration_no: null, registration_date: null}],
+            stress_resilience: [{type: null, stress: null, reaction: null}],
+        };
     }
 };
 </script>
@@ -108,6 +124,71 @@ export default {
                 </template>
                 <template v-slot:tab1>
                     <div class="flex flex-col gap-8">
+                        <div class="flex flex-col text-gray-600 gap-5">
+                            <div>
+                                <label class="flex text-lg font-semibold gap-0.5 items-center whitespace-nowrap">
+                                    Stress Resilience
+                                </label>
+                                <p class="flex gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
+                                    Biotic stress resistance and Abiotic stress tolerance.
+                                </p>
+                                <div class="flex flex-row gap-2 w-full my-2 bg-cbc-yellow ">
+                                    <div class="flex flex-row gap-2 w-full items-center">
+                                        <p v-for="item in [
+                                            'Type',
+                                            'Disease/Pest/Drought',
+                                            'Reaction',
+                                        ]" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
+                                            {{ item }}
+                                        </p>
+                                    </div>
+                                    <base-button classes="opacity-0 h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white">
+                                        <add-icon class="w-auto h-6" />
+                                    </base-button>
+                                </div>
+                                <div class="flex flex-col gap-4">
+                                    <div
+                                        v-for="(stress_resilience, index) in form.stress_resilience"
+                                        :key="index"
+                                        class="flex flex-col items-end gap-2"
+                                    >
+                                        <div class="flex gap-2 w-full items-center">
+                                            <div class="grid grid-cols-3 gap-2 w-full">
+                                                <text-field
+                                                    :error="getError(`stress_resilience[${index}].type`)"
+                                                    v-model="stress_resilience.type"
+                                                />
+                                                <text-field
+                                                    :error="getError(`stress_resilience[${index}].stress`)"
+                                                    v-model="stress_resilience.stress"
+                                                />
+                                                <text-field
+                                                    :error="getError(`stress_resilience[${index}].reaction`)"
+                                                    v-model="stress_resilience.reaction"
+                                                />
+                                            </div>
+
+                                            <!-- Remove Button (X) -->
+                                            <base-button
+                                                v-if="form.stress_resilience.length > 1"
+                                                @click.prevent="removeStressResilience(index)"
+                                                classes="h-fit w-fit p-2 bg-red-100 text-red-600 hover:bg-red-600 hover:text-white"
+                                            >
+                                                <close-icon class="w-auto h-6" />
+                                            </base-button>
+                                        </div>
+                                        <!-- Add Button (+) -->
+                                        <base-button
+                                            v-if="index === form.stress_resilience.length - 1"
+                                            @click.prevent="addStressResilience"
+                                            classes="h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white"
+                                        >
+                                            <add-icon class="w-auto h-6" />
+                                        </base-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="flex flex-col text-gray-600 gap-5">
                             <div>
                                 <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
@@ -293,7 +374,7 @@ export default {
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="flex flex-row gap-2 w-full my-2">
+                                <div class="flex flex-row gap-2 w-full my-2 bg-cbc-yellow">
                                     <div class="flex flex-row gap-2 w-full bg-cbc-yellow items-center">
                                         <p v-for="item in [
                                             'Regulatory Body',
@@ -312,29 +393,31 @@ export default {
                                         v-if="form.regulations"
                                         v-for="(regulation, index) in form.regulations"
                                         :key="index"
-                                        class="flex items-center gap-2"
+                                        class="flex flex-col items-end gap-2"
                                     >
-                                        <div class="grid grid-cols-3 gap-2 w-full">
-                                            <text-field
-                                                :error="getError(`regulations[${index}].regulatory_body`)"
-                                                v-model="regulation.regulatory_body"
-                                            />
-                                            <text-field
-                                                :error="getError(`regulations[${index}].registration_no`)"
-                                                v-model="regulation.registration_no"
-                                            />
-                                            <date-field :error="getError(`regulations[${index}].registration_date`)"
-                                                        v-model="regulation.registration_date"/>
-                                        </div>
+                                        <div class="flex gap-2 w-full items-center">
+                                            <div class="grid grid-cols-3 gap-2 w-full">
+                                                <text-field
+                                                    :error="getError(`regulations[${index}].regulatory_body`)"
+                                                    v-model="regulation.regulatory_body"
+                                                />
+                                                <text-field
+                                                    :error="getError(`regulations[${index}].registration_no`)"
+                                                    v-model="regulation.registration_no"
+                                                />
+                                                <date-field :error="getError(`regulations[${index}].registration_date`)"
+                                                            v-model="regulation.registration_date"/>
+                                            </div>
 
-                                        <!-- Remove Button (X) -->
-                                        <base-button
-                                            v-if="form.regulations.length > 1"
-                                            @click.prevent="removeRegulation(index)"
-                                            classes="h-fit w-fit p-2 bg-red-100 text-red-600 hover:bg-red-600 hover:text-white"
-                                        >
-                                            <close-icon class="w-auto h-6" />
-                                        </base-button>
+                                            <!-- Remove Button (X) -->
+                                            <base-button
+                                                v-if="form.regulations.length > 1"
+                                                @click.prevent="removeRegulation(index)"
+                                                classes="h-fit w-fit p-2 bg-red-100 text-red-600 hover:bg-red-600 hover:text-white"
+                                            >
+                                                <close-icon class="w-auto h-6" />
+                                            </base-button>
+                                        </div>
 
                                         <!-- Add Button (+) -->
                                         <base-button

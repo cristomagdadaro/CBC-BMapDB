@@ -220,7 +220,7 @@ export default class Breeder extends DtoBreeder{
                 db_key: 'educ_level',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Expertise',
@@ -244,7 +244,7 @@ export default class Breeder extends DtoBreeder{
                 db_key: 'mobile_no',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Email',
@@ -252,7 +252,7 @@ export default class Breeder extends DtoBreeder{
                 db_key: 'email',
                 align: 'center',
                 sortable: true,
-                visible: true,
+                visible: false,
             },
             {
                 title: 'Type',

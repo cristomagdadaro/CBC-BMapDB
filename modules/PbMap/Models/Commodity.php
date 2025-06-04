@@ -31,6 +31,7 @@ class Commodity extends BaseModel
         'photo',
         'geolocation',
         'regulations',
+        'stress_resilience',
     ];
 
     protected array $searchable = [
@@ -48,6 +49,7 @@ class Commodity extends BaseModel
         'photo',
         'geolocation',
         'regulations',
+        'stress_resilience',
         'commodities.created_at',
         'commodities.updated_at',
         'commodities.deleted_at',
@@ -60,6 +62,7 @@ class Commodity extends BaseModel
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
         'regulations' => 'array',
+        'stress_resilience' => 'array',
     ];
 
     protected array $notifMessage = [

@@ -77,9 +77,9 @@ export default {
                             Empowering crop biotechnology research with innovation, one discovery at a time.
                         </h1>
                     </div>
-                    <div class="flex flex-col sm:flex-row justify-center items-center border-t">
+                    <div class="flex flex-col sm:flex-row justify-between items-center border-t lg:gap-32 gap-5">
                         <Link v-for="project in CBCProjectsPublic" :href="route(project.route_public)" class="flex flex-col lg:flex-row justify-center gap-1 items-center w-1/2 whitespace-nowrap text-cbc-brown bg-transparent text-center p-10  hover:text-gray-100 hover:drop-shadow-lg active:scale-95 duration-200 uppercase text-subtitle">
-                            <img :src="project.logo" :alt="project.label" class="w-auto h-[5rem]">
+                            <img :src="project.logo" :alt="project.label" class="w-auto h-[5rem]" />
                             <label class="text-subtitle">{{ project.label }}</label>
                         </Link>
                     </div>

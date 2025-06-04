@@ -41,6 +41,7 @@ class CommodityFactory extends Factory
             'photo' => $this->faker->imageUrl(),
             'geolocation' => $city->id,
             'regulations' => json_encode($this->faker->words(3)),
+            'stress_resilience' => json_encode($this->faker->words(3)),
         ];
     }
 

@@ -17,10 +17,7 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     breeder_id: number;
     name: string;
     scientific_name: string;
-    variety: string;
     accession: string;
-    population: string;
-    maturity_period: string;
     yield: string;
     description: string;
     location: DtoCity;
@@ -30,8 +27,8 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
     deleted_at: string;
 
     characteristics?: ICharacteristics;
-    regulations?: object
-    //additionalinfo?: IAdditionalInfo;
+    regulations?: object;
+    stress_resilience?: object;
 
     breeder: IBreeder = null;
     user: IUser = null;
@@ -45,10 +42,7 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.name = commodity?.name;
         this.breeder_id = commodity?.breeder_id;
         this.scientific_name = commodity?.scientific_name;
-        this.variety = commodity?.variety;
         this.accession = commodity?.accession;
-        this.population = commodity?.population;
-        this.maturity_period = commodity?.maturity_period;
         this.yield = commodity?.yield;
         this.description = commodity?.description;
         this.photo = commodity?.photo;
@@ -56,6 +50,7 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
         this.updated_at = commodity?.updated_at;
         this.deleted_at = commodity?.deleted_at;
         this.regulations = commodity?.regulations;
+        this.stress_resilience = commodity?.stress_resilience;
 
         if (commodity?.breeder)
             this.breeder = new DtoBreeder(commodity.breeder);
@@ -68,9 +63,6 @@ export default class DtoCommodity extends BaseClass implements ICommodity {
 
         if (commodity?.characteristics)
             this.characteristics = new DtoCharacteristics(commodity.characteristics);
-
-        //if (commodity?.additionalinfo)
-            //this.additionalinfo = new DtoAdditionalInfo(commodity.additionalinfo);
     }
 
     get breederName()
