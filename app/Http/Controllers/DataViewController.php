@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateDataViewRequest;
 use App\Http\Requests\GetDataViewsRequest;
 use App\Http\Requests\UpdateDataViewRequest;
+use App\Http\Resources\DataViewResource;
 use App\Repository\API\DataViewRepo;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class DataViewController extends BaseController
 {
@@ -35,33 +34,19 @@ class DataViewController extends BaseController
 
     public function show(GetDataViewsRequest $request, string $table): JsonResponse
     {
+        /** @var \App\Models\User $user */
         $user = auth()->user();
         $query = $this->service->model->where('model', $table);
 
         // If not admin, filter by user_account_id
-        if (!$user->isAdmin()) {
+        if ($user && !$user->isAdmin()) {
             $query->where('user_account_id', $user->id);
         }
 
         // Get data and group by visibility_guard
-        $data = $query->get()->groupBy('visibility_guard')->mapWithKeys(function ($items, $key) {
-            $item = $items->first(); // Assuming one row per visibility_guard
-            return [
-                $key => [
-                    'uuid'             => $item->uuid,
-                    'user_account_id'  => $item->user_account_id,
-                    'model'            => $item->model,
-                    'columns'          => $item->columns,
-                    'default'          => Schema::getColumnListing($item->model),
-                    'visibility_guard' => $item->visibility_guard,
-                    'created_at'       => $item->created_at,
-                    'updated_at'       => $item->updated_at,
-                    'deleted_at'       => $item->deleted_at,
-                ]
-            ];
-        });
+        $data = $query->get()->keyBy('visibility_guard');
 
-        return $this->sendResponse($data);
+        return $this->sendResponse(DataViewResource::collection($data));
     }
 
 
@@ -72,7 +57,8 @@ class DataViewController extends BaseController
 
     public function update(UpdateDataViewRequest $request, $table, $uuid): JsonResponse
     {
-        $data = $this->service->model->where('uuid', $uuid);
-        return $this->sendResponse($data->update($request->validated()));
+        $dataView = $this->service->model->where('uuid', $uuid)->firstOrFail();
+        $dataView->update($request->validated());
+        return $this->sendResponse($dataView);
     }
 }

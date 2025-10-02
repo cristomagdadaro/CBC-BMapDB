@@ -39,10 +39,10 @@ class TWGController extends BaseController
                     ->whereNull('twg_project.deleted_at');
             })
             ->leftJoin('institutes', function($join) {
-                $join->on('institutes.id', '=', 'users.institution')
+                $join->on('institutes.id', '=', 'users.affiliation')
                     ->whereNull('institutes.deleted_at');
             })
-            ->groupBy('users.affiliation')
+            ->groupBy('institutes.name')
             ->selectRaw('institutes.name as affiliation, COUNT(DISTINCT twg_expert.id) as experts, COUNT(DISTINCT twg_product.id) as products, COUNT(DISTINCT twg_project.id) as projects, COUNT(DISTINCT twg_service.id) as services')
             ->get();
 

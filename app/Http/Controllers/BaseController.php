@@ -14,10 +14,7 @@ abstract class BaseController extends Controller implements BaseControllerInterf
 
     public function _index($request): BaseCollection
     {
-        // to refactor, don't check gates when logged out
-        if (auth()->check()) {
-            $this->authorize('view', $this->service->model);
-        }
+        $this->authorize('view', $this->service->model);
 
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
@@ -25,18 +22,17 @@ abstract class BaseController extends Controller implements BaseControllerInterf
 
     public function _show($request, int $id): JsonResponse
     {
-        // to refactor, don't check gates when logged out
-        if (auth()->check()) {
-            $this->authorize('view', $this->service->model);
+        $this->authorize('view', $this->service->model);
+
+        $with = $request->input('with');
+        $count = $request->input('count');
+
+        if ($with) {
+            $this->service->appendWith = explode(',', $with);
         }
-
-        $with = $request->toArray()['with'] ?? null;
-        $count = $request->toArray()['count'] ?? null;
-
-        if ($with)
-            $this->service->appendWith = explode(',',$with);
-        if ($count)
-            $this->service->appendCount = explode(',',$count);
+        if ($count) {
+            $this->service->appendCount = explode(',', $count);
+        }
 
         return $this->sendResponse($this->service->find($id, $request->collect()));
     }

@@ -7,17 +7,31 @@ export default {
     computed: {
         instance() {
             return new this.model(this.point);
-        }
+        },
+        hasCustomPhoto() {
+            const photo = this.instance.getProfilePhoto;
+            if (!photo) return false; // null, undefined, or empty string
+
+            // Check for base64 data URI
+            if (photo.startsWith('data:image/')) return true;
+
+            // Check if it's a known placeholder (e.g., from via.placeholder.com)
+            if (photo.includes('http') || photo.includes('https')) return false;
+
+            // Assume it's a real custom URL (S3, Facebook, etc.)
+            return true;
+        },
+        photoStyle() {
+            return {
+                backgroundImage: `url('${this.instance.getProfilePhoto}')`,
+            };
+        },
     },
     components: {TransitionContainer, Link, CloseIcon},
     props: {
         point: Object,
         visible: Boolean,
-    },
-    data() {
-        return {
-            model: [Object, Function]
-        }
+        model: [Object, Function]
     },
     methods: {
         closeSidebar() {
@@ -26,28 +40,29 @@ export default {
         getNestedValue(obj, path) {
             return path.split('.').reduce((acc, part) => acc && acc[part], obj);
         },
-    }
+    },
 }
 </script>
 
-<template> {{ model.name }}
+<template>
     <transition-container>
         <div class="relative max-h-[800px] flex flex-col max-w-500px min-w-600px text-gray-800 py-2" v-show="visible">
             <div v-if="point" class="overflow-y-auto overflow-x-hidden text-sm " >
                 <table class="w-full">
-                    <tr v-if="instance.getProfilePhoto">
+                    <tr v-if="hasCustomPhoto">
                         <th colspan="2" class="p-2 border-b bg-cbc-yellow-green rounded-lg">
-                           <span
-                               class="block w-32 h-32 rounded-full bg-cover bg-no-repeat bg-center drop-shadow-lg mx-auto border-2"
-                               :style="'background-image: url(\'' + instance.getProfilePhoto + '\');'"
-                           />
+                            <span class="block w-32 h-32 rounded-full bg-cover bg-no-repeat bg-center drop-shadow-lg mx-auto border-2" :style="photoStyle" />
                         </th>
                     </tr>
+
                     <tr v-else>
-                        <th colspan="2" class="p-2 border-b bg-cbc-yellow-green rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-auto h-14 drop-shadow mx-auto" viewBox="0 0 16 16">
+                        <th colspan="2"
+                            class="p-2 border-b bg-cbc-yellow-green rounded-lg">
+                            <!-- fallback SVG -->
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                 class="w-auto h-14 drop-shadow mx-auto" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7 a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37 A7 7 0 0 0 8 1"/>
                             </svg>
                         </th>
                     </tr>

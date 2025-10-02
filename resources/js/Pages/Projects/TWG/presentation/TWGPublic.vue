@@ -65,7 +65,7 @@ export default {
                     </p>
                 </div>
                 <div v-if="apiService" class="flex flex-col gap-3">
-                    <div v-if="apiService.request" class="hidden flex gap-2 justify-start sm:mb-2 mb-1 pb-4 border-b">
+                    <div v-if="apiService.request" class="flex gap-2 justify-start sm:mb-2 mb-1 pb-4 border-b">
                         <search-by :value="apiService.request.getFilter"
                                    :is-exact="apiService.request.getIsExact"
                                    :options="[]"

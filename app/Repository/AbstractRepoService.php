@@ -66,10 +66,8 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function create(array $data): JsonResponse
     {
         try {
-            $model = $this->model->fill($data);
-            $model->save();
-
-            return $this->jsonResponse('created', $model->toArray());
+            $model = $this->model->create($data);
+            return $this->jsonResponse('created', $model);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -78,11 +76,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function update(int $id, array $data): JsonResponse
     {
         try {
-            $model = $this->model->find($id);
-            $model->fill($data);
-            $model->save();
-
-            return $this->jsonResponse('updated', $model->toArray());
+            $model = $this->model->findOrFail($id);
+            $model->update($data);
+            return $this->jsonResponse('updated', $model);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -91,13 +87,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function delete(int $id): JsonResponse
     {
         try {
-            $model = $this->find($id);
-
-            if ($model instanceof JsonResponse)
-                return $model;
-
+            $model = $this->model->findOrFail($id);
             $model->delete();
-            return $this->jsonResponse('deleted', $model->toArray());
+            return $this->jsonResponse('deleted', $model);
         } catch (\Exception $e) {
             return $this->sendError($e);
         }
@@ -106,37 +98,14 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function multiDestroy(array $params): JsonResponse
     {
         try {
-            $successful = [];
-            $failed = [];
-
             $ids = $params['ids'];
+            $deletedCount = $this->model->whereIn('id', $ids)->delete();
 
-            foreach ($ids as $id) {
-                try {
-                    $model = $this->find($id);
-
-                    if ($model instanceof JsonResponse) {
-                        return $model;
-                    }
-
-                    $model->delete();
-                    $successful[] = $model;
-
-                } catch (\Exception $e) {
-                    $failed[$id] = $this->sendError($e);
-                }
+            if ($deletedCount > 0) {
+                return $this->jsonResponse('deleted', ['count' => $deletedCount]);
             }
 
-            if (!empty($successful)) {
-                return $this->jsonResponse('deleted', [
-                    'successful' => $successful,
-                    'message' => 'Some Data Deleted Successfully',
-                ]);
-            } elseif (empty($failed)) {
-                return $this->jsonResponse('failure', null, ['message' => 'No Data Found or Already Deleted']);
-            }
-
-            return $this->jsonResponse('error');
+            return $this->jsonResponse('failure', null, ['message' => 'No Data Found or Already Deleted']);
 
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -224,7 +193,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     {
         $group_by = $parameters->get('group_by', null);
 
-        if ($group_by) {
+        if (is_string($group_by)) {
             $query->groupBy($group_by);
         }
     }
@@ -275,11 +244,11 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $with = $parameters->get('with', null);
         $count = $parameters->get('count', null);
 
-        if ($with) {
+        if (is_string($with)) {
             $this->appendWith = explode(',', $with);
         }
 
-        if ($count) {
+        if (is_string($count)) {
             $this->appendCount = explode(',', $count);
         }
 
@@ -407,16 +376,15 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $sortColumn = $parameters->get('sort', null);
         $order = strtoupper($parameters->get('order', 'desc'));
 
-        if (!$sortColumn) return;
+        if (!$sortColumn || !is_string($sortColumn)) return;
 
         // Validate the sort column exists to prevent SQL errors
         $table = $query->getModel()->getTable();
         if (!Schema::hasColumn($table, $sortColumn)) {
             $selectedColumns = $query->getQuery()->getColumns() ? $query->getQuery()->getColumns()[0] : ''; // Get selected columns from query
 
-            if (str_contains($selectedColumns, $sortColumn)) {
+            if (is_string($selectedColumns) && str_contains($selectedColumns, $sortColumn)) {
                 // If sort column exists in the query, use it
-                $sortColumn = $sortColumn;
             } elseif (Schema::hasColumn($query->getModel()->getTable(), 'id')) {
                 // Default to table ID if it exists
                 $sortColumn = $table.'.id';

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\CBCTourVisitor;
 use Illuminate\Http\Request;
 
 class CBCTourController extends Controller
@@ -10,15 +10,13 @@ class CBCTourController extends Controller
 
     public function storeVisitor(Request $request)
     {
-        DB::table('cbctour_visitors')->insert([
+        CBCTourVisitor::create([
             'ip_address' => $request->ip(),
             'method' => $request->method(),
-            'data' => json_encode($request->all()),
-            'created_at' => now(),
-            'updated_at' => now(),
+            'data' => $request->all(),
         ]);
 
-        return response()->json(['visitorCount' => DB::table('cbctour_visitors')->count()]);
+        return response()->json(['visitorCount' => CBCTourVisitor::count()]);
     }
 
 }
