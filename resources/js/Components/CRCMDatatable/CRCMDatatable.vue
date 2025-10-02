@@ -349,7 +349,6 @@ import ViewIcon from "@/Components/Icons/ViewIcon.vue";
 
 <script>
 import CRCMDatatable from "@/Components/CRCMDatatable/core/infra/CRCMDatatable.js";
-import { router } from "@inertiajs/vue3";
 import {defineAsyncComponent} from "vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";

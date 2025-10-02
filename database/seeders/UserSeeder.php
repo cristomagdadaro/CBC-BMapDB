@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'lname' => 'Magdadaro',
             'email' => 'pin.dacbc@gmail.com',
             'email_verified_at' => now(),
+            'password' => bcrypt('AO26@2021'),
             'affiliation' => Institute::where('name', env('COMPANY_NAME'))->first()->id
         ]);
 

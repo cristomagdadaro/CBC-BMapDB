@@ -21,8 +21,8 @@ export default class DtoBaseRequest implements IBaseRequest {
     constructor(params : IBaseRequest = {
         page: 1,
         per_page: 10,
-        sort: 'id',
-        order: 'asc',
+        sort: 'created_at',
+        order: 'desc',
         search: null,
         filter: null,
         is_exact: null,
