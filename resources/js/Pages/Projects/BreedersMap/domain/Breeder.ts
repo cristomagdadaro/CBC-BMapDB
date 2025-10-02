@@ -40,6 +40,25 @@ export default class Breeder extends DtoBreeder{
         }
     }
 
+    static importTemplateHeaders() {
+        const exclude = ['id','user_id','remember_token','photo','password_confirmation'];
+        return Object.keys(this.createForm()).filter(k => !exclude.includes(k));
+    }
+
+    static importTemplateDropdowns() {
+        return {
+            breeder_type: ['Public', 'Private'],
+            educ_level: [
+                'Bachelor\'s',
+                'Master\'s',
+                'Doctorate/PhD',
+            ],
+            geolocation: [
+                // Populated from API
+            ]
+        };
+    }
+
     static updateForm(oldValue: Partial<Breeder>)
     {
         return {
@@ -223,22 +242,6 @@ export default class Breeder extends DtoBreeder{
                 visible: false,
             },
             {
-                title: 'Expertise',
-                key: 'expertise',
-                db_key: 'expertise',
-                align: 'center',
-                sortable: true,
-                visible: true,
-            },
-            {
-                title: 'Research Interest',
-                key: 'research_interest',
-                db_key: 'research_interest',
-                align: 'center',
-                sortable: true,
-                visible: true,
-            },
-            {
                 title: 'Phone',
                 key: 'mobile_no',
                 db_key: 'mobile_no',
@@ -274,6 +277,22 @@ export default class Breeder extends DtoBreeder{
                 title: 'Address',
                 key: 'location.getFullAddress',
                 db_key: 'location',
+                align: 'center',
+                sortable: true,
+                visible: true,
+            },
+            {
+                title: 'Expertise',
+                key: 'expertise',
+                db_key: 'expertise',
+                align: 'center',
+                sortable: true,
+                visible: true,
+            },
+            {
+                title: 'Research Interest',
+                key: 'research_interest',
+                db_key: 'research_interest',
                 align: 'center',
                 sortable: true,
                 visible: true,
