@@ -258,7 +258,32 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
         if ($select) {
             return $query->selectRaw($select);
-        } else if ($this->model->getSearchable()) {
+        }
+
+        // Researchers should see only basic fields for Breeder records
+        try {
+            if (auth()->check() && method_exists(auth()->user(), 'isResearcher') && auth()->user()->isResearcher()) {
+                $table = $this->model->getTable();
+                if ($table === 'breeders') {
+                    return $query->select([
+                        'breeders.id',
+                        'breeders.fname',
+                        'breeders.mname',
+                        'breeders.lname',
+                        'breeders.suffix',
+                        'breeders.affiliation',
+                        'breeders.geolocation',
+                        'breeders.breeder_type',
+                        'breeders.created_at',
+                        'breeders.updated_at',
+                    ]);
+                }
+            }
+        } catch (\Throwable $e) {
+            // ignore and proceed to default selection
+        }
+
+        if ($this->model->getSearchable()) {
             return $query->select($this->model->getSearchable());
         }
 

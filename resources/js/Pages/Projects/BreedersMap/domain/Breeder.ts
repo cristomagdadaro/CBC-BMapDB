@@ -208,7 +208,7 @@ export default class Breeder extends DtoBreeder{
                 db_key: 'user_id',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Name',

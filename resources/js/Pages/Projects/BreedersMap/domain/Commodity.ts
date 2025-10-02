@@ -323,7 +323,7 @@ export default class Commodity extends DtoCommodity {
                 db_key: 'user_id',
                 align: 'center',
                 sortable: true,
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Breeder ID',
