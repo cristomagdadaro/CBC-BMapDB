@@ -12,6 +12,32 @@ export const ErrorResponse  = [
     JavascriptErrorResponse
 ]
 
+export const BreederType = [
+    {
+        label: "Public",
+        value: "Public",
+    },
+    {
+        label: "Private",
+        value: "Private",
+    },
+];
+
+export const EducLevel = [
+    {
+        label: "Bachelor's",
+        value: "Bachelor's",
+    },
+    {
+        label: "Master's",
+        value: "Master's",
+    },
+    {
+        label: "Doctorate/PhD",
+        value: "Doctorate/PhD",
+    }
+];
+
 export const CBCProjects = [
     {
         id: 3,

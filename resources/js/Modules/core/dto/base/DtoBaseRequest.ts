@@ -2,7 +2,7 @@ import IBaseRequest from "../../interface/base/IBaseRequest";
 import { usePage } from "@inertiajs/vue3";
 export default class DtoBaseRequest implements IBaseRequest {
     page: number;
-    per_page: number;
+    per_page: string;
     sort: string;
     order: string;
 
@@ -20,7 +20,7 @@ export default class DtoBaseRequest implements IBaseRequest {
 
     constructor(params : IBaseRequest = {
         page: 1,
-        per_page: 10,
+        per_page: '10',
         sort: 'created_at',
         order: 'desc',
         search: null,

@@ -292,7 +292,6 @@ export default class CRCMDatatable
 
         if (failed <= 0)
             await this.refresh();
-        this.errorBag = {};
     }
 
     getColumnsFromResponse(response) {

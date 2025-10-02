@@ -1,6 +1,6 @@
 export default interface IBaseRequest {
     page: number;
-    per_page: number;
+    per_page: string;
     sort: string;
     order: string;
 

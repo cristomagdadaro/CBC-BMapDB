@@ -121,52 +121,6 @@ export default {
                 </template>
             </custom-dropdown>
         </collapsable-menu>
-        <div class="w-full flex flex-col gap-1 relative hidden" v-if="model">
-            <div class="w-full flex gap-1 relative">
-                <search-box
-                    id="bm-search-box"
-                    :value="filter.search"
-                    :placeholder='"Search a commodity or breeder by " + model.getColumns().find(column => column.db_key === filter.filter)?.title'
-                    @focusin="showListOfPlaces = true"
-                    @searchString="!api.processing ? changeSearch($event) : null"
-                    class="w-full"
-                />
-                <search-by id="bm-columnsfilter-dropdown"
-                           @searchBy="changeSearchBy($event)"
-                           @isExact="changeIsExact($event)"
-                           :is-exact="filter.is_exact"
-                           :value="filter.filter"
-                           :options="model.getColumns().map(column => { return { name: column.db_key, label: column.title } })" />
-                <div>
-                    {{ filter }}
-                </div>
-            </div>
-            <div v-if="showListOfPlaces" class="absolute top-16 rounded border-2 z-[999] bg-gray-100 shadow flex-col flex gap-1 overflow-y-auto max-h-96 p-2">
-                <div
-                    v-if="data && data.raw_data"
-                    v-for="point in data.raw_data"
-                    :key="point.id"
-                    class="flex flex-row items-center gap-1 border p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none"
-                >
-                    <p v-if="point instanceof model" class="font-medium leading-5 px-1 w-full flex items-center">
-                        <b>{{ point.breeder.getFullName }}</b>&nbsp;(<i class="font-light">{{ point.name }}</i>)
-                        <close-icon @click="showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" />
-                    </p>
-                    <p v-else-if="point instanceof model" class="font-medium leading-5 px-1 w-full flex items-center">
-                        <b>{{ point.getFullName }} </b>&nbsp;(<i class="font-light">{{ point.affiliated.name }}</i>)
-                        <close-icon @click="showListOfPlaces = false" class="h-4 w-4 hover:scale-110 duration-200" />
-                    </p>
-                </div>
-                <div
-                    v-else
-                    class="flex flex-row items-center gap-1 p-1 py-2 rounded hover:bg-gray-200 leading-1 duration-200 select-none">
-                    <h1 class="font-medium leading-5 px-1 w-full flex items-center justify-between">
-                        No data available
-                    </h1>
-                </div>
-            </div>
-        </div>
-
     </div>
 </template>
 

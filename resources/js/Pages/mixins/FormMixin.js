@@ -78,7 +78,7 @@ export default {
             return (new this.User(this.$page.props.auth.user)).isAdmin;
         },
         async getCustomSelectionOptions(url){
-            return await (new ApiService(url)).get();
+            return await (new ApiService(url)).get({}, null);
         },
         resizedataURL(datas, wantedWidth, wantedHeight, callback) {
             var img = new Image();

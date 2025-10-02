@@ -1,4 +1,7 @@
 import DtoBreeder from "../dto/DtoBreeder";
+import {BreederType, EducLevel} from "@/Pages/constants";
+import axios from "axios";
+import {route} from "ziggy-js";
 
 export default class Breeder extends DtoBreeder{
     constructor(params : DtoBreeder) {
@@ -47,14 +50,12 @@ export default class Breeder extends DtoBreeder{
 
     static importTemplateDropdowns() {
         return {
-            breeder_type: ['Public', 'Private'],
-            educ_level: [
-                'Bachelor\'s',
-                'Master\'s',
-                'Doctorate/PhD',
-            ],
+            breeder_type: BreederType.map(bt => bt.value),
+            educ_level: EducLevel.map(bt => bt.value),
             geolocation: [
-                // Populated from API
+                async () => (await axios.get(route('api.cities.index.public'),{
+                    params: { per_page: '*' }
+                })).data.data.map((item: any) => item.name)
             ]
         };
     }

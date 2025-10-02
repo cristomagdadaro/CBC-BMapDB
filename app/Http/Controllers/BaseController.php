@@ -15,7 +15,6 @@ abstract class BaseController extends Controller implements BaseControllerInterf
     public function _index($request): BaseCollection
     {
         $this->authorize('view', $this->service->model);
-
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }

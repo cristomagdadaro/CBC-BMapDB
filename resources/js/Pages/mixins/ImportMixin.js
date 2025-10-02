@@ -1,12 +1,39 @@
 import Papa from "papaparse";
 import ExcelJS from "exceljs";
+import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
+import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
+import RadioField from "@/Components/Form/RadioField.vue";
+import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
+import FileField from "@/Components/Form/FileField.vue";
+
 
 export default {
+    components: { FileField, BaseButton, RadioField, SelectSearchField, BaseCreateForm },
     data() {
         return {
             parsing: false,
             form: null,
+            uploadFile: null,
+            model: null,
         };
+    },
+    computed: {
+        headers() {
+            // Use sanitized headers that exclude auto-generated and non-import fields
+            return this.model.importTemplateHeaders();
+        },
+        dropdowns() {
+            // Optional dropdown lists per column for Excel data validation
+            return this.model.importTemplateDropdowns();
+        },
+        xlsxFileName() {
+            // date_stamped filename
+            const date = new Date();
+            const y = date.getFullYear();
+            const m = String(date.getMonth() + 1).padStart(2, '0');
+            const d = String(date.getDate()).padStart(2, '0');
+            return `import_template_${y}${m}${d}.xlsx`;
+        }
     },
     props: {
         errors: {
@@ -33,10 +60,10 @@ export default {
         uploadForm() {
             this.$emit('uploadForm', this.form.data);
         },
-        handleFileUpload(event) {
+        async handleFileUpload(event) {
             const file = event.target.files[0];
             if (!file) return;
-            this.importFile(file);
+            await this.importFile(file);
         },
         async importFile(file) {
             const name = (file.name || '').toLowerCase();
@@ -147,7 +174,56 @@ export default {
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
         },
-        downloadExcelTemplate(headers, fileName = 'template.xlsx', dropdowns = {}) {
+        async downloadExcelTemplate(headers, fileName = 'template.xlsx', dropdowns = {}) {
+            // If caller passed a Promise, await it
+            if (dropdowns && typeof dropdowns.then === 'function') {
+                try { dropdowns = await dropdowns; } catch (e) { dropdowns = {}; }
+            }
+            // Resolve dropdowns that may be arrays, functions, or promises
+            async function resolveDropdowns(raw) {
+                const out = {};
+                if (!raw || typeof raw !== 'object') return out;
+                const keys = Object.keys(raw);
+                for (const key of keys) {
+                    let val = raw[key];
+                    // Function returning promise/array
+                    if (typeof val === 'function') {
+                        val = await val();
+                    } else if (val && typeof val.then === 'function') {
+                        // Promise
+                        val = await val;
+                    } else if (Array.isArray(val)) {
+                        const acc = [];
+                        for (const item of val) {
+                            if (typeof item === 'function') {
+                                const res = await item();
+                                if (Array.isArray(res)) acc.push(...res); else acc.push(res);
+                            } else if (item && typeof item.then === 'function') {
+                                const res = await item;
+                                if (Array.isArray(res)) acc.push(...res); else acc.push(res);
+                            } else if (item !== null && item !== undefined) {
+                                acc.push(item);
+                            }
+                        }
+                        val = acc;
+                    }
+                    // Ensure array of strings
+                    if (Array.isArray(val)) {
+                        val = val
+                            .filter(v => v !== null && v !== undefined)
+                            .map(v => String(v));
+                    } else if (val !== undefined && val !== null) {
+                        val = [String(val)];
+                    } else {
+                        val = [];
+                    }
+                    out[key] = val;
+                }
+                return out;
+            }
+
+            const resolvedDropdowns = await resolveDropdowns(dropdowns);
+
             const workbook = new ExcelJS.Workbook();
             const ws = workbook.addWorksheet('Template');
 
@@ -168,7 +244,7 @@ export default {
             });
 
             // If dropdowns are provided, create a hidden sheet with list values and set validations
-            const keysWithDropdowns = Object.keys(dropdowns || {}).filter(k => Array.isArray(dropdowns[k]) && dropdowns[k].length);
+            const keysWithDropdowns = Object.keys(resolvedDropdowns || {}).filter(k => Array.isArray(resolvedDropdowns[k]) && resolvedDropdowns[k].length);
             let listsSheet = null;
             if (keysWithDropdowns.length) {
                 listsSheet = workbook.addWorksheet('Lists');
@@ -177,7 +253,7 @@ export default {
                 // Build each list in its own column and keep a map of ranges
                 const ranges = {};
                 keysWithDropdowns.forEach((key, colIdx) => {
-                    const values = dropdowns[key].filter(v => v !== null && v !== undefined).map(v => String(v));
+                    const values = resolvedDropdowns[key].filter(v => v !== null && v !== undefined).map(v => String(v));
                     if (!values.length) return;
                     // Write header for clarity (optional)
                     listsSheet.getCell(1, colIdx + 1).value = key;
@@ -208,17 +284,16 @@ export default {
             }
 
             // Generate and trigger download
-            workbook.xlsx.writeBuffer().then((buffer) => {
-                const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            });
+            const buffer = await workbook.xlsx.writeBuffer();
+            const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         },
     },
     watch: {

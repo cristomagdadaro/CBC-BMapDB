@@ -218,13 +218,20 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
     {
         try {
+            // Respect request param 'paginate' when provided (default true)
+            $paginateRaw = $parameters->get('paginate', $withPagination);
+            $normalized = $this->normalizeBoolean($paginateRaw);
+            if (!is_null($normalized)) {
+                $withPagination = $normalized;
+            }
+
             return $this->buildSearchQuery($parameters, $withPagination, $isTrashed);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
     }
 
-    protected function buildSearchQuery(Collection $parameters, bool $withPagination, bool $isTrashed): LengthAwarePaginator | Builder
+    protected function buildSearchQuery(Collection $parameters, bool $withPagination, bool $isTrashed): LengthAwarePaginator | Builder | \Illuminate\Support\Collection
     {
         $builder = $this->checkRole($this->model);
         $builder = $this->applyRawSelectColumns($builder, $parameters);
@@ -241,7 +248,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $this->applySorting($builder, $parameters);
 
         if (!$withPagination)
-            return $builder;
+            return $builder->get();
         return $this->applyPagination($builder, $parameters);
     }
 
@@ -268,8 +275,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     }
 
     /**
-     * Apply geographic filters by joining location-related tables when available
-     * and filtering by region/province/city or by institute via breeder relation.
+     * Apply geographic filters to the query builder.
      */
     public function applyGeoFilters(Builder &$query, Collection $parameters): void
     {
@@ -312,9 +318,19 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
      */
     protected function applyPagination(Builder $query, Collection $parameters)
     {
-        $perPage = (int) $parameters->get('per_page', Config::get('app.pagination_per_page', self::DEFAULT_PER_PAGE));
+        $perPageRaw = $parameters->get('per_page', Config::get('app.pagination_per_page', self::DEFAULT_PER_PAGE));
         $page = (int) $parameters->get('page', Config::get('app.pagination_page', self::DEFAULT_PAGE));
 
+        // If per_page is '*', return all rows on a single page
+        if (is_string($perPageRaw) && trim($perPageRaw) === '*') {
+            // Clone the builder for a safe count without affecting the original
+            $total = (clone $query)->count();
+            $perPage = max(1, (int) $total);
+            $page = 1; // normalize to first page
+            return $query->paginate($perPage, ['*'], 'page', $page)->withQueryString();
+        }
+
+        $perPage = (int) $perPageRaw;
         return $query->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
 
@@ -464,15 +480,16 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $table = $query->getModel()->getTable();
         if (!Schema::hasColumn($table, $sortColumn)) {
             $selectedColumns = $query->getQuery()->getColumns() ? $query->getQuery()->getColumns()[0] : ''; // Get selected columns from query
+            $selectedInQuery = is_string($selectedColumns) && str_contains($selectedColumns, $sortColumn);
 
-            if (is_string($selectedColumns) && str_contains($selectedColumns, $sortColumn)) {
-                // If sort column exists in the query, use it
-            } elseif (Schema::hasColumn($query->getModel()->getTable(), self::COL_ID)) {
-                // Default to table ID if it exists
-                $sortColumn = $table.'.'.self::COL_ID;
-            } else {
-                // Default to UUID if no valid column is found
-                $sortColumn = self::COL_UUID;
+            if (!$selectedInQuery) {
+                if (Schema::hasColumn($query->getModel()->getTable(), self::COL_ID)) {
+                    // Default to table ID if it exists
+                    $sortColumn = $table.'.'.self::COL_ID;
+                } else {
+                    // Default to UUID if no valid column is found
+                    $sortColumn = self::COL_UUID;
+                }
             }
         }
 
@@ -548,5 +565,21 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $log->url = $url;
         $log->data = $data;
         $log->save();
+    }
+
+    /**
+     * Normalize various truthy/falsey representations to boolean.
+     * Returns null if value cannot be determined.
+     */
+    protected function normalizeBoolean($value): ?bool
+    {
+        if (is_bool($value)) return $value;
+        if (is_int($value)) return $value !== 0;
+        if (is_string($value)) {
+            $v = strtolower(trim($value));
+            if (in_array($v, ['1','true','yes','on'], true)) return true;
+            if (in_array($v, ['0','false','no','off'], true)) return false;
+        }
+        return null;
     }
 }
