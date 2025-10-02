@@ -5,6 +5,7 @@ import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
 import Notification from "@/Components/Modal/Notification/Notification";
 import { ErrorResponse } from "@/Pages/constants";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";
+import DtoError from "@/Modules/core/dto/base/DtoError.js";
 
 export default class CRCMDatatable
 {
@@ -242,20 +243,21 @@ export default class CRCMDatatable
             }
         }
     }
-    async importCSV(data) { console.log(data);
+    async importCSV(data) {
+        console.log(data);
         let success = 0;
         let failed = 0;
         let total = 0;
-
+        let response = null;
         for (const row of data) {
-            const response = await this.api.post(this.model.toObject(row));
-            if (response instanceof BaseResponse){
-                success++;
-            }
-            else if (ErrorResponse.some(error => response instanceof error)){
-                failed++;
-            }
-            total++;
+           response = await this.api.post(this.model.toObject(row));
+           if (response instanceof BaseResponse){
+               success++;
+           }
+           else if (ErrorResponse.some(error => response instanceof error)){
+               failed++;
+           }
+           total++;
         }
 
         if (success === total)
@@ -287,7 +289,9 @@ export default class CRCMDatatable
                 timeout: 5000,
                 show: true
             });
-        await this.refresh();
+
+        if (failed <= 0)
+            await this.refresh();
         this.errorBag = {};
     }
 

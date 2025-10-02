@@ -4,7 +4,7 @@ import InputError from "@/Components/InputError.vue";
 export default {
     name: "FileField",
     components: { InputError },
-    emits: ["update:modelValue"], // Declare emitted events explicitly
+    emits: ["update:modelValue", "change"], // also emit native-like change for parent handlers
     props: {
         accept: String,
         modelValue: [Object, String],
@@ -44,32 +44,55 @@ export default {
         }
     },
     methods: {
+        isImage(file) {
+            return file && file.type && file.type.startsWith('image/');
+        },
+        validateByAccept(file) {
+            if (!this.accept) return { ok: true };
+            const tokens = this.accept.split(',').map(t => t.trim().toLowerCase()).filter(Boolean);
+            if (!tokens.length) return { ok: true };
+            const ext = `.${(file.name || '').split('.').pop()?.toLowerCase()}`;
+            const type = (file.type || '').toLowerCase();
+            const match = tokens.some(t => t === ext || (t.endsWith('/*') ? type.startsWith(t.replace('/*','/')) : type === t));
+            return match ? { ok: true } : { ok: false, msg: `Invalid file type. Allowed: ${this.accept}` };
+        },
         handleFileChange(event) {
             const file = event.target.files[0];
             if (!file) return;
 
-            // Validate file type
-            const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/heic"];
-            if (!allowedTypes.includes(file.type)) {
-                this.validationError = "Invalid file type. Only JPG, JPEG, PNG, and HEIC are allowed.";
+            // If accept prop provided, use it to validate; otherwise fallback to image validation
+            const acceptCheck = this.validateByAccept(file);
+            if (!acceptCheck.ok) {
+                this.validationError = acceptCheck.msg;
                 this.clearFile();
                 return;
             }
 
-            // Validate file size (5MB limit)
-            if (file.size > 5120 * 1024) {
+            // If no accept provided, keep legacy image-only checks
+            if (!this.accept && !this.isImage(file)) {
+                const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/heic"];
+                if (!allowedTypes.includes(file.type)) {
+                    this.validationError = "Invalid file type. Only JPG, JPEG, PNG, and HEIC are allowed.";
+                    this.clearFile();
+                    return;
+                }
+            }
+
+            // Enforce 5MB size limit only for images; allow larger for data files
+            if (this.isImage(file) && file.size > 5120 * 1024) {
                 this.validationError = "File size exceeds 5MB.";
                 this.clearFile();
                 return;
             }
 
-            // Set file name and preview
+            // Set file name and optional preview for images
             this.fileName = file.name;
-            this.previewUrl = URL.createObjectURL(file);
+            this.previewUrl = this.isImage(file) ? URL.createObjectURL(file) : null;
             this.validationError = null;
 
-            // Emit the file update
+            // Emit both v-model update and change for parent listeners
             this.$emit("update:modelValue", file);
+            this.$emit("change", event);
         },
         clearFile() {
             this.fileName = null;
@@ -108,9 +131,9 @@ export default {
 
            <!-- Image Preview -->
            <span
-               v-if="previewUrl || modelValue"
+               v-if="(previewUrl || modelValue) && previewUrl"
                class="block w-20 h-20 bg-cover bg-no-repeat bg-center drop-shadow border"
-               :style="'background-image: url(\'' + modelValue ?? previewUrl + '\');'"
+               :style="'background-image: url(' + (previewUrl ?? modelValue) + ');'"
            />
        </div>
         <!-- Clear Button -->

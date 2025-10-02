@@ -2,9 +2,12 @@
     <template v-if="visible">
         <th class="dtHeaderColumn whitespace-nowrap text-light-color text-normal select-none" >
             <div class="dtHeaderCell flex gap-1 p-1 sm:py-2 justify-center items-center sm:rounded rounded-sm" :class="[{'hover:bg-opacity-70 ':sortable}, sortedColumnClass, {'border-2 border-yellow-400': filteredValues}]">
-                <span class="dtHeaderCellText">
-                    {{ props.column }}
-                </span>
+                <template v-if="props.column">
+                    <span class="dtHeaderCellText">
+                        {{ props.column }}
+                    </span>
+                </template>
+                <slot v-else />
                 <span class="dtHeaderCellSortIco text-yellow-500 text-xs" :class="sorted"></span>
             </div>
         </th>
