@@ -16,14 +16,44 @@ export default {
             return this.$page.props.permissions.breedersmap.breeder[Permission.CREATE];
         },
         canUpdate() {
-            return this.$page.props.permissions.breedersmap.breeder[Permission.UPDATE];
+            const hasPerm = this.$page.props.permissions.breedersmap.breeder[Permission.UPDATE];
+            return hasPerm || this.isAdmin || this.isFocal;
         },
         canDelete() {
-            return this.$page.props.permissions.breedersmap.breeder[Permission.DELETE];
+            const hasPerm = this.$page.props.permissions.breedersmap.breeder[Permission.DELETE];
+            return hasPerm || this.isAdmin || this.isFocal;
         },
         canView() {
             return this.$page.props.permissions.breedersmap.breeder[Permission.VIEW];
         },
+        isAdmin() {
+            const roles = this.$page?.props?.auth?.user?.roles || [];
+            return roles.some(r => r.name === 'Administrator');
+        },
+        isFocal() {
+            const roles = this.$page?.props?.auth?.user?.roles || [];
+            return roles.some(r => r.name === 'Focal Person');
+        },
+        currentUserAffiliationId() {
+            return this.$page?.props?.auth?.user?.affiliated?.id || null;
+        }
+    },
+    methods: {
+        isSameInstituteBreeder(row) {
+            const userAff = Number(this.currentUserAffiliationId);
+            const rowAff = Number(row?.affiliation ?? null);
+            return !!userAff && !!rowAff && userAff === rowAff;
+        },
+        rowCanUpdate(row) {
+            if (this.isAdmin) return true;
+            if (this.isFocal && this.isSameInstituteBreeder(row)) return true;
+            return false;
+        },
+        rowCanDelete(row) {
+            if (this.isAdmin) return true;
+            if (this.isFocal && this.isSameInstituteBreeder(row)) return true;
+            return false;
+        }
     },
     components: {
         CRCMDatatable,
@@ -43,5 +73,7 @@ export default {
         :can-update="canUpdate"
         :can-delete="canDelete"
         :can-view="canView"
+        :row-can-update="rowCanUpdate"
+        :row-can-delete="rowCanDelete"
     />
 </template>

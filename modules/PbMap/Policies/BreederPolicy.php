@@ -40,7 +40,20 @@ class BreederPolicy
      */
     public function update(User $user, Breeder $breeder): bool
     {
-        return $user->hasPermissionTo(Permissions::UPDATE_BREEDER) || $user->isAdmin();
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        // Focal person can update breeders within the same institute
+        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $breederAff = (int) ($breeder->affiliation ?? 0);
+            if ($userAff && $breederAff && $userAff === $breederAff) {
+                return true;
+            }
+        }
+
+        return $user->hasPermissionTo(Permissions::UPDATE_BREEDER);
     }
 
     /**
@@ -48,7 +61,20 @@ class BreederPolicy
      */
     public function delete(User $user, Breeder $breeder): bool
     {
-        return $user->hasPermissionTo(Permissions::DELETE_BREEDER) || $user->isAdmin();
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        // Focal person can delete breeders within the same institute
+        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $breederAff = (int) ($breeder->affiliation ?? 0);
+            if ($userAff && $breederAff && $userAff === $breederAff) {
+                return true;
+            }
+        }
+
+        return $user->hasPermissionTo(Permissions::DELETE_BREEDER);
     }
 
     /**

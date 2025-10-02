@@ -27,16 +27,40 @@ export default {
             return this.$page.props.permissions.breedersmap.commodity[Permission.CREATE];
         },
         canUpdate() {
-            return this.$page.props.permissions.breedersmap.commodity[Permission.UPDATE];
+            const hasPerm = this.$page.props.permissions.breedersmap.commodity[Permission.UPDATE];
+            return hasPerm || this.isAdmin || this.isFocal;
         },
         canDelete() {
-            return this.$page.props.permissions.breedersmap.commodity[Permission.DELETE];
+            const hasPerm = this.$page.props.permissions.breedersmap.commodity[Permission.DELETE];
+            return hasPerm || this.isAdmin || this.isFocal;
         },
         canView() {
             return this.$page.props.permissions.breedersmap.commodity[Permission.VIEW];
         },
         currentUserId() {
             return this.$page?.props?.auth?.user?.id || null;
+        },
+        isAdmin() {
+            const roles = this.$page?.props?.auth?.user?.roles || [];
+            return roles.some(r => r.name === 'Administrator');
+        },
+        isFocal() {
+            const roles = this.$page?.props?.auth?.user?.roles || [];
+            return roles.some(r => r.name === 'Focal Person');
+        },
+        currentUserAffiliationId() {
+            return this.$page?.props?.auth?.user?.affiliated?.id || null;
+        },
+        computedParams() {
+            // Merge incoming params with default relation include for breeder
+            const base = this.params || {};
+            if (!base.with) {
+                return { ...base, with: 'breeder' };
+            }
+            // Avoid duplicates
+            const withVal = Array.isArray(base.with) ? base.with : String(base.with).split(',').map(s => s.trim()).filter(Boolean);
+            if (!withVal.includes('breeder')) withVal.push('breeder');
+            return { ...base, with: withVal.join(',') };
         }
     },
     methods: {
@@ -48,12 +72,21 @@ export default {
             const breederUserId = row?.breeder?.user_id ?? null;
             return breederUserId && Number(breederUserId) === Number(uid);
         },
+        isSameInstituteCommodity(row) {
+            const userAff = Number(this.currentUserAffiliationId);
+            const rowAff = Number(row?.breeder?.affiliation ?? null);
+            return !!userAff && !!rowAff && userAff === rowAff;
+        },
         rowCanUpdate(row) {
-            // Only allow update when row is owned
+            // Admin can always update; Focal Person can update within institute; Breeder can update own
+            if (this.isAdmin) return true;
+            if (this.isFocal && this.isSameInstituteCommodity(row)) return true;
             return this.isOwner(row);
         },
         rowCanDelete(row) {
-            // Only allow delete when row is owned
+            // Admin can always delete; Focal Person can delete within institute; Breeder can delete own
+            if (this.isAdmin) return true;
+            if (this.isFocal && this.isSameInstituteCommodity(row)) return true;
             return this.isOwner(row);
         }
     },
@@ -73,7 +106,7 @@ export default {
         :can-update="canUpdate"
         :can-delete="canDelete"
         :can-view="canView"
-        :params="params"
+        :params="computedParams"
         :row-can-update="rowCanUpdate"
         :row-can-delete="rowCanDelete"
     />

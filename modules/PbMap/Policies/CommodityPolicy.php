@@ -34,12 +34,21 @@ class CommodityPolicy
 
     /**
      * Determine whether the user can update the model.
-     * Breeders: can only update their own commodities; Admins: always allowed.
+     * Breeders: can only update their own commodities; Admins: always allowed; Focal Person: can update commodities within their institute.
      */
     public function update(User $user, Commodity $commodity): bool
     {
         if ($user->isAdmin()) {
             return true;
+        }
+
+        // Focal person can update commodities within their institute (via breeder affiliation)
+        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $commodityAff = (int) ($commodity->relationLoaded('breeder') ? optional($commodity->breeder)->affiliation : $commodity->breeder()->value('affiliation'));
+            if ($userAff && $commodityAff && $userAff === $commodityAff) {
+                return true;
+            }
         }
 
         if (!$user->hasPermissionTo(Permissions::UPDATE_COMMODITY)) {
@@ -65,12 +74,21 @@ class CommodityPolicy
 
     /**
      * Determine whether the user can delete the model.
-     * Breeders: can only delete their own commodities; Admins: always allowed.
+     * Breeders: can only delete their own commodities; Admins: always allowed; Focal Person: can delete commodities within their institute.
      */
     public function delete(User $user, Commodity $commodity): bool
     {
         if ($user->isAdmin()) {
             return true;
+        }
+
+        // Focal person can delete commodities within their institute (via breeder affiliation)
+        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $commodityAff = (int) ($commodity->relationLoaded('breeder') ? optional($commodity->breeder)->affiliation : $commodity->breeder()->value('affiliation'));
+            if ($userAff && $commodityAff && $userAff === $commodityAff) {
+                return true;
+            }
         }
 
         if (!$user->hasPermissionTo(Permissions::DELETE_COMMODITY)) {
