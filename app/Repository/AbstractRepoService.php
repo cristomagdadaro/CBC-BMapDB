@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Filters\Filter;
 use App\Http\Interfaces\AbstractRepoServiceInterface;
 use App\Models\ApiRequestLog;
 use App\Models\BaseModel;
@@ -17,8 +16,58 @@ use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Config;
 
+/**
+ * Base repository service providing common data access helpers with
+ * pagination, filtering, sorting, relation appends, and standardized
+ * JSON responses.
+ *
+ * Notes
+ * - Avoid magic strings; common keys and table/column names are centralized as constants.
+ * - Responses are driven by config('responses.*') using the type keys below.
+ */
 abstract class AbstractRepoService implements AbstractRepoServiceInterface
 {
+    // Response type keys used with config('responses.*')
+    public const RESPONSE_CREATED = 'created';
+    public const RESPONSE_UPDATED = 'updated';
+    public const RESPONSE_DELETED = 'deleted';
+    public const RESPONSE_FAILURE = 'failure';
+    public const RESPONSE_NOT_FOUND = 'not_found';
+
+    // Defaults and common options
+    public const DEFAULT_PER_PAGE = 10;
+    public const DEFAULT_PAGE = 1;
+    public const SORT_DEFAULT_ORDER = 'desc';
+    public const ORDER_ASC = 'ASC';
+    public const ORDER_DESC = 'DESC';
+
+    // Table names
+    public const GEO_TABLE_LOC_CITIES = 'loc_cities';
+    public const GEO_TABLE_USERS = 'users';
+    public const GEO_TABLE_INSTITUTES = 'institutes';
+
+    // Column names
+    public const COL_ID = 'id';
+    public const COL_UUID = 'uuid';
+    public const COL_NAME = 'name';
+    public const COL_GEOLOCATION = 'geolocation';
+    public const COL_USER_ID = 'user_id';
+    public const COL_BREEDER_ID = 'breeder_id';
+    public const COL_FNAME = 'fname';
+    public const COL_MNAME = 'mname';
+    public const COL_LNAME = 'lname';
+    public const COL_SUFFIX = 'suffix';
+
+    // Geo filter keys/columns
+    public const GEO_FILTER_INSTITUTE = 'institute';
+    public const LOC_COL_PROVINCE = 'provDesc';
+    public const LOC_COL_REGION = 'regDesc';
+    public const LOC_COL_CITY = 'cityDesc';
+
+    // Messages
+    public const MSG_NO_DATA = 'No Data Found or Already Deleted';
+    public const MSG_NO_IDS = 'No IDs provided';
+
     /**
      * Model to be used
      * @var Model
@@ -43,11 +92,6 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     protected array|null $filterByParent = null;
 
     /**
-     * Add custom filters
-     */
-    private Filter $filters;
-
-    /**
      * List of searchable and viewable columns
      * @var string[]
      **/
@@ -67,7 +111,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     {
         try {
             $model = $this->model->create($data);
-            return $this->jsonResponse('created', $model);
+            return $this->jsonResponse(self::RESPONSE_CREATED, $model);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -78,7 +122,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         try {
             $model = $this->model->findOrFail($id);
             $model->update($data);
-            return $this->jsonResponse('updated', $model);
+            return $this->jsonResponse(self::RESPONSE_UPDATED, $model);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -89,23 +133,41 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         try {
             $model = $this->model->findOrFail($id);
             $model->delete();
-            return $this->jsonResponse('deleted', $model);
+            return $this->jsonResponse(self::RESPONSE_DELETED, $model);
         } catch (\Exception $e) {
             return $this->sendError($e);
         }
     }
 
+    /**
+     * Bulk delete by IDs.
+     *
+     * Accepts an array of IDs or a comma-separated string in params['ids'].
+     */
     public function multiDestroy(array $params): JsonResponse
     {
         try {
-            $ids = $params['ids'];
-            $deletedCount = $this->model->whereIn('id', $ids)->delete();
+            $ids = $params['ids'] ?? [];
 
-            if ($deletedCount > 0) {
-                return $this->jsonResponse('deleted', ['count' => $deletedCount]);
+            if (!is_array($ids)) {
+                if (is_string($ids)) {
+                    $ids = array_filter(array_map('trim', explode(',', $ids)));
+                } else {
+                    $ids = [];
+                }
             }
 
-            return $this->jsonResponse('failure', null, ['message' => 'No Data Found or Already Deleted']);
+            if (empty($ids)) {
+                return $this->jsonResponse(self::RESPONSE_FAILURE, null, ['message' => self::MSG_NO_IDS]);
+            }
+
+            $deletedCount = $this->model->whereIn(self::COL_ID, $ids)->delete();
+
+            if ($deletedCount > 0) {
+                return $this->jsonResponse(self::RESPONSE_DELETED, ['count' => $deletedCount]);
+            }
+
+            return $this->jsonResponse(self::RESPONSE_FAILURE, null, ['message' => self::MSG_NO_DATA]);
 
         } catch (\Exception $e) {
             return $this->sendError($e);
@@ -118,10 +180,17 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $builder = $this->model->query();
         if ($parameters)
             $this->applyAppends($builder, $parameters);
-        return $builder->findOr($id, fn() => $this->jsonResponse('not_found'));
+        return $builder->findOr($id, fn() => $this->jsonResponse(self::RESPONSE_NOT_FOUND));
     }
 
-    public function jsonResponse(string $type, mixed $data = null, ?array $overrides = null): JsonResponse
+    /**
+         * Build a standardized JSON response payload from config('responses.*').
+         *
+         * @param string $type Response type key (see RESPONSE_* constants)
+         * @param mixed $data Optional payload data
+         * @param array|null $overrides Optional keys to override from the config template
+         */
+        public function jsonResponse(string $type, mixed $data = null, ?array $overrides = null): JsonResponse
     {
         $responseConfig = Config::get("responses.{$type}");
 
@@ -198,32 +267,39 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
     }
 
+    /**
+     * Apply geographic filters by joining location-related tables when available
+     * and filtering by region/province/city or by institute via breeder relation.
+     */
     public function applyGeoFilters(Builder &$query, Collection $parameters): void
     {
         $geo_location_filter = $this->determineLocFilterLevel($parameters->get('geo_location_filter'));
         $geo_location_value = $parameters->get('geo_location_value');
 
-        if (Schema::hasColumn($this->model->getTable(), 'geolocation'))
-            $query = $query->join('loc_cities', 'loc_cities.id', '=', 'geolocation');
-        if (Schema::hasColumn($this->model->getTable(), 'user_id'))
-            $query =  $query->join('users', 'users.id', '=', 'user_id');
+        if (Schema::hasColumn($this->model->getTable(), self::COL_GEOLOCATION)) {
+            $query = $query->join(self::GEO_TABLE_LOC_CITIES, self::GEO_TABLE_LOC_CITIES.'.'.self::COL_ID, '=', self::COL_GEOLOCATION);
+        }
+        if (Schema::hasColumn($this->model->getTable(), self::COL_USER_ID)) {
+            $query = $query->join(self::GEO_TABLE_USERS, self::GEO_TABLE_USERS.'.'.self::COL_ID, '=', self::COL_USER_ID);
+        }
 
         // to refactor, breeder_id should not be explicitly specified
-        if (Schema::hasColumn($this->model->getTable(), 'breeder_id') && $geo_location_filter == 'institute')
+        if (Schema::hasColumn($this->model->getTable(), self::COL_BREEDER_ID) && $geo_location_filter === self::GEO_FILTER_INSTITUTE) {
             $query = $query->with(['breeder']);
+        }
 
         if ($geo_location_value) {
-            if ($geo_location_filter !== 'institute') {
+            if ($geo_location_filter !== self::GEO_FILTER_INSTITUTE) {
                 // Check if the column exists before applying the filter
-                if (Schema::hasColumn('loc_cities', $geo_location_filter)) {
-                    $query = $query->where('loc_cities.' . $geo_location_filter, $geo_location_value);
+                if (Schema::hasColumn(self::GEO_TABLE_LOC_CITIES, $geo_location_filter)) {
+                    $query = $query->where(self::GEO_TABLE_LOC_CITIES.'.' . $geo_location_filter, $geo_location_value);
                 }
             } else {
-                // Assuming 'institutes' is another table you are joining, so check for its columns
-                if (Schema::hasColumn('institutes', 'name')) {
-                    $query = $query->whereHas('breeder.affiliated', function ($instituteQuery) use ($geo_location_value) {
-                        // Apply the filter to the institutes table via the breeder relationship
-                        $instituteQuery->where('institutes.name', $geo_location_value);
+                // Institute filter via breeder relationship
+                if (Schema::hasColumn(self::GEO_TABLE_INSTITUTES, self::COL_NAME)) {
+                    $tableDotName = self::GEO_TABLE_INSTITUTES.'.'.self::COL_NAME;
+                    $query = $query->whereHas('breeder.affiliated', function ($instituteQuery) use ($geo_location_value, $tableDotName) {
+                        $instituteQuery->where($tableDotName, $geo_location_value);
                     });
                 }
             }
@@ -231,10 +307,13 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     }
 
 
+    /**
+     * Apply pagination with config-driven defaults and safe fallbacks.
+     */
     protected function applyPagination(Builder $query, Collection $parameters)
     {
-        $perPage = $parameters->get('per_page', 10);
-        $page = $parameters->get('page', 1);
+        $perPage = (int) $parameters->get('per_page', Config::get('app.pagination_per_page', self::DEFAULT_PER_PAGE));
+        $page = (int) $parameters->get('page', Config::get('app.pagination_page', self::DEFAULT_PAGE));
 
         return $query->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
@@ -313,14 +392,14 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
 
         // Handle full name search
-        if ($columns->contains('fname') && $columns->contains('lname')) {
+        if ($columns->contains(self::COL_FNAME) && $columns->contains(self::COL_LNAME)) {
             $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
             return;
         }
 
         // Handle specific "name" column search
-        if ($filter === 'name') {
-            $query->where('name', 'like', "%{$search}%");
+        if ($filter === self::COL_NAME) {
+            $query->where(self::COL_NAME, 'like', "%{$search}%");
             return;
         }
 
@@ -347,7 +426,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $searchable = Schema::getColumnListing($table);
 
             $query->where(function ($query) use ($search, $searchable, $is_exact, $table, $filter) {
-                if (($filter === 'name' && in_array('fname', $searchable) && in_array('lname', $searchable) || $table === 'users')) {
+                if (($filter === self::COL_NAME && in_array(self::COL_FNAME, $searchable) && in_array(self::COL_LNAME, $searchable) || $table === self::GEO_TABLE_USERS)) {
                     $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
                 } else if ($filter) {
                     if ($is_exact) {
@@ -371,10 +450,13 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
 
 
-    public function applySorting(Builder &$query, Collection $parameters): void
+    /**
+     * Apply sorting by validated column and order. Falls back to ID/UUID if needed.
+     */
+        public function applySorting(Builder &$query, Collection $parameters): void
     {
         $sortColumn = $parameters->get('sort', null);
-        $order = strtoupper($parameters->get('order', 'desc'));
+        $order = strtoupper($parameters->get('order', self::SORT_DEFAULT_ORDER));
 
         if (!$sortColumn || !is_string($sortColumn)) return;
 
@@ -385,23 +467,26 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
             if (is_string($selectedColumns) && str_contains($selectedColumns, $sortColumn)) {
                 // If sort column exists in the query, use it
-            } elseif (Schema::hasColumn($query->getModel()->getTable(), 'id')) {
+            } elseif (Schema::hasColumn($query->getModel()->getTable(), self::COL_ID)) {
                 // Default to table ID if it exists
-                $sortColumn = $table.'.id';
+                $sortColumn = $table.'.'.self::COL_ID;
             } else {
                 // Default to UUID if no valid column is found
-                $sortColumn = 'uuid';
+                $sortColumn = self::COL_UUID;
             }
         }
 
-        if (in_array($order, ['ASC', 'DESC'])) {
+        if (in_array($order, [self::ORDER_ASC, self::ORDER_DESC], true)) {
             $query->orderBy($sortColumn, $order);
         } else {
-            $query->orderBy($sortColumn, 'desc'); // Fallback to descending order
+            $query->orderBy($sortColumn, self::SORT_DEFAULT_ORDER); // Fallback to descending order
         }
     }
 
-    public function summary(): int
+    /**
+         * Quick summary count of the model records.
+         */
+        public function summary(): int
     {
         try {
             return $this->model->count();
@@ -410,18 +495,23 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
     }
 
+    /**
+     * Normalize incoming geo_location_filter to the corresponding column/key.
+     */
     public function determineLocFilterLevel($geo_location_filter): string|null
     {
         return match ($geo_location_filter) {
-            'institute' => 'institute',
-            'province' => 'provDesc',
-            'region' => 'regDesc',
-            'city' => 'cityDesc',
+            self::GEO_FILTER_INSTITUTE => self::GEO_FILTER_INSTITUTE,
+            'province' => self::LOC_COL_PROVINCE,
+            'region' => self::LOC_COL_REGION,
+            'city' => self::LOC_COL_CITY,
             default => null,
         };
     }
 
     /**
+     * Log the exception and wrap it into an ErrorRepository for unified error handling.
+     *
      * @throws ErrorRepository
      */
     public function sendError(Exception $error)
@@ -430,7 +520,10 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         throw new ErrorRepository($error);
     }
 
-    public function checkRole(BaseModel|Model $model)
+    /**
+     * Apply ownership scoping based on the authenticated user when available.
+     */
+        public function checkRole(BaseModel|Model $model)
     {
         if (!auth()->check())
             return $model;
@@ -445,7 +538,10 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         return $model;
     }
 
-    protected function logApiRequest(string $method, string $url, array $data): void
+    /**
+         * Persist a simple API request log entry.
+         */
+        protected function logApiRequest(string $method, string $url, array $data): void
     {
         $log = new ApiRequestLog();
         $log->method = $method;
