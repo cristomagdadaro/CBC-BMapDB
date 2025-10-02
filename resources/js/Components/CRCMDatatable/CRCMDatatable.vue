@@ -164,7 +164,7 @@
                                 <t-d class="text-normal text-gray-600 items-center">
                                     <div class="flex gap-1">
                                         {{ meta_from + data.indexOf(row) }}
-                                        <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
+                                        <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" :disabled="!isRowDeletable(row)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
                                     </div>
                                 </t-d>
                                 <!-- Cell Data -->
@@ -195,7 +195,7 @@
                                         </Link>
 
                                         <top-action-btn
-                                            v-if="canUpdate"
+                                            v-if="canUpdate && isRowUpdatable(row)"
                                             @click="showEditDialogFunc(row.id)"
                                             class="bg-edit"
                                             title="Modify this row">
@@ -205,7 +205,7 @@
                                             <span v-show="showIconText">Edit</span>
                                         </top-action-btn>
                                         <top-action-btn
-                                            v-if="canDelete"
+                                            v-if="canDelete && isRowDeletable(row)"
                                             @click="showDeleteDialogFunc(row.id)"
                                             class="bg-delete"
                                             title="Delete this row">
@@ -228,7 +228,7 @@
                                             </Link>
 
                                             <button
-                                                v-if="canUpdate"
+                                                v-if="canUpdate && isRowUpdatable(rowContextMenu)"
                                                 @click="showEditDialogFunc(rowContextMenu.id)"
                                                 title="Modify this row"
                                                 class="flex gap-1 p-1 items-center hover:bg-gray-200"
@@ -237,7 +237,7 @@
                                                 <span>Update</span>
                                             </button>
                                             <div
-                                                v-if="canDelete"
+                                                v-if="canDelete && isRowDeletable(rowContextMenu)"
                                                 @click="showDeleteDialogFunc(rowContextMenu.id)"
                                                 title="Delete this row"
                                                 class="flex gap-1 p-1 items-center hover:bg-gray-200 cursor-pointer"
@@ -421,6 +421,17 @@ export default {
             required: false,
             default: false,
         },
+        // New: optional per-row permission hooks
+        rowCanUpdate: {
+            type: Function,
+            required: false,
+            default: null,
+        },
+        rowCanDelete: {
+            type: Function,
+            required: false,
+            default: null,
+        },
     },
     data() {
         return {
@@ -602,8 +613,13 @@ export default {
             } else {
                 return this.dt.sortFunc({ sort: column.key });
             }
-        }
-
+        },
+        isRowUpdatable(row) {
+            return this.rowCanUpdate ? !!this.rowCanUpdate(row) : true;
+        },
+        isRowDeletable(row) {
+            return this.rowCanDelete ? !!this.rowCanDelete(row) : true;
+        },
     },
     async mounted() {
         if (this.baseUrl){
@@ -618,3 +634,6 @@ export default {
 };
 </script>
 
+<style scoped>
+/* ...existing code... */
+</style>

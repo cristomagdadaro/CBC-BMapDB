@@ -35,6 +35,27 @@ export default {
         canView() {
             return this.$page.props.permissions.breedersmap.commodity[Permission.VIEW];
         },
+        currentUserId() {
+            return this.$page?.props?.auth?.user?.id || null;
+        }
+    },
+    methods: {
+        // A row is owned if commodity.user_id matches current user or the related breeder.user_id matches
+        isOwner(row) {
+            const uid = this.currentUserId;
+            if (!uid || !row) return false;
+            if (row.user_id && Number(row.user_id) === Number(uid)) return true;
+            const breederUserId = row?.breeder?.user_id ?? null;
+            return breederUserId && Number(breederUserId) === Number(uid);
+        },
+        rowCanUpdate(row) {
+            // Only allow update when row is owned
+            return this.isOwner(row);
+        },
+        rowCanDelete(row) {
+            // Only allow delete when row is owned
+            return this.isOwner(row);
+        }
     },
     components: {CRCMDatatable}
 }
@@ -53,6 +74,8 @@ export default {
         :can-delete="canDelete"
         :can-view="canView"
         :params="params"
+        :row-can-update="rowCanUpdate"
+        :row-can-delete="rowCanDelete"
     />
 </template>
 
