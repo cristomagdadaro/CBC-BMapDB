@@ -124,7 +124,7 @@ export default {
                 </button>
             </template>
         </div>
-        <div class="z-10 bg-white min-h-fit sm:px-4 pb-4" v-if="activeIndex !== null">
+        <div class="z-10 bg-white min-h-fit" v-if="activeIndex !== null">
             <slot :name="tabs[activeIndex]?.name"/>
         </div>
     </div>

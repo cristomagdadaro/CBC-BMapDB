@@ -9,7 +9,7 @@
                 <commodity-table />
             </template>
             <template v-slot:tab3>
-                <div class="flex flex-col gap-5 p-2 relative">
+                <div class="flex flex-col gap-5 relative">
 
                     <MapExample />
 

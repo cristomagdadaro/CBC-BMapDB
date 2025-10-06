@@ -67,15 +67,15 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     public function aggregateData(Builder $query, array $filters): array
     {
-        $filterBy = $filters['filter_by'] ?? 'region';
+        $filterBy = $filters['filter_by'] ?? 'city';
 
         switch ($filterBy) {
             case 'province':
                 return $this->aggregateByProvince($query);
-            case 'city':
-                return $this->aggregateByCity($query);
-            default:
+            case 'region':
                 return $this->aggregateByRegion($query);
+            default:
+                return $this->aggregateByCity($query);
         }
     }
 

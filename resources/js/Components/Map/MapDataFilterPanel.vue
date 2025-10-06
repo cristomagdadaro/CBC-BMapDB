@@ -339,7 +339,7 @@ defineExpose({
                 :options="filterByOptions"
                 :disabled="loading"
                 :searchable="false"
-                :clearable="false"
+                :clearable="true"
                 @change="updateFilter('filter_by', $event?.value)"
             />
 

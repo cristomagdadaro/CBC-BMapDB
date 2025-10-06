@@ -49,7 +49,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex gap-5 h-screen bg-gray-50 p-5">
+    <div class="flex gap-5 h-screen bg-gray-50 pt-5 pl-5 pr-2">
         <!-- Filter Panel -->
         <div class="w-80 flex-shrink-0">
             <MapDataFilterPanel
