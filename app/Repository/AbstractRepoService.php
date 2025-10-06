@@ -35,7 +35,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public const RESPONSE_NOT_FOUND = 'not_found';
 
     // Defaults and common options
-    public const DEFAULT_PER_PAGE = 10;
+    public const DEFAULT_PER_PAGE = 25;
     public const DEFAULT_PAGE = 1;
     public const SORT_DEFAULT_ORDER = 'desc';
     public const ORDER_ASC = 'ASC';

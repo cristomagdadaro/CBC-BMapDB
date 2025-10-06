@@ -20,7 +20,7 @@ export default class DtoBaseRequest implements IBaseRequest {
 
     constructor(params : IBaseRequest = {
         page: 1,
-        per_page: '10',
+        per_page: '25',
         sort: 'created_at',
         order: 'desc',
         search: null,

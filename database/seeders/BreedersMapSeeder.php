@@ -15,11 +15,11 @@ class BreedersMapSeeder extends Seeder
      */
     public function run(): void
     {
-        Breeder::factory()->count(100)->create()->each(function ($breeder) {
+        Breeder::factory()->count(500)->create()->each(function ($breeder) {
             $userId = User::all()->random()->first()->id;
             $breeder->update(['user_id' => $userId]);
 
-            $commodities = Commodity::factory()->count(rand(1, 15))->make([
+            $commodities = Commodity::factory()->count(rand(1, 10))->make([
                 'user_id' => $userId
             ])->toArray();
 

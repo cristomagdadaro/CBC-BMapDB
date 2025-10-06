@@ -74,6 +74,8 @@ class CommodityFilterStrategy extends BaseFilterStrategy
                 return $this->aggregateByProvince($query);
             case 'region':
                 return $this->aggregateByRegion($query);
+            case 'institute':
+                return $this->aggregateByInstitute($query);
             default:
                 return $this->aggregateByCity($query);
         }

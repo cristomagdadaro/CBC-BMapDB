@@ -15,6 +15,8 @@ import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
 import CaretDown from "@/Components/Icons/CaretDown.vue";
 
 export default {
+    name: "PerPage",
+    emits: ['changePerPage'],
     components: {CaretDown, CustomDropdown},
     props: {
         value: [String, Number],
@@ -22,10 +24,10 @@ export default {
     data(){
         return {
             perPage: [
-                {label: 10, name: 10, selected: true},
-                {label: 25, name: 25, selected: false},
+                {label: 25, name: 25, selected: true},
                 {label: 50, name: 50, selected: false},
                 {label: 100, name: 100, selected: false},
+                {label: 1000, name: 1000, selected: false},
             ],
         }
     },
