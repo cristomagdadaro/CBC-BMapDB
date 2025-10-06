@@ -93,31 +93,47 @@ abstract class BaseFilterStrategy
 
     /**
      * Get geographic options (shared logic)
+     * Only include regions, provinces, and cities that have at least one breeder or commodity
      */
     protected function getGeographicOptions(): array
     {
+        // Regions with breeders or commodities
+        $regions = \DB::table('loc_cities')
+            ->join('breeders', 'loc_cities.id', '=', 'breeders.geolocation')
+            ->join('commodities', 'breeders.id', '=', 'commodities.breeder_id')
+            ->select('loc_cities.regDesc as value', 'loc_cities.regDesc as label')
+            ->whereNotNull('loc_cities.regDesc')
+            ->groupBy('loc_cities.regDesc')
+            ->orderBy('loc_cities.regDesc')
+            ->get()
+            ->toArray();
+
+        // Provinces with breeders or commodities
+        $provinces = \DB::table('loc_cities')
+            ->join('breeders', 'loc_cities.id', '=', 'breeders.geolocation')
+            ->join('commodities', 'breeders.id', '=', 'commodities.breeder_id')
+            ->select('loc_cities.provDesc as value', 'loc_cities.provDesc as label')
+            ->whereNotNull('loc_cities.provDesc')
+            ->groupBy('loc_cities.provDesc')
+            ->orderBy('loc_cities.provDesc')
+            ->get()
+            ->toArray();
+
+        // Cities with breeders or commodities
+        $cities = \DB::table('loc_cities')
+            ->join('breeders', 'loc_cities.id', '=', 'breeders.geolocation')
+            ->join('commodities', 'breeders.id', '=', 'commodities.breeder_id')
+            ->select('loc_cities.id as value', 'loc_cities.cityDesc as label')
+            ->whereNotNull('loc_cities.cityDesc')
+            ->groupBy('loc_cities.id', 'loc_cities.cityDesc')
+            ->orderBy('loc_cities.cityDesc')
+            ->get()
+            ->toArray();
+
         return [
-            'regions' => \DB::table('loc_cities')
-                ->select('regDesc as value', 'regDesc as label')
-                ->distinct()
-                ->whereNotNull('regDesc')
-                ->orderBy('regDesc')
-                ->get()
-                ->toArray(),
-            'provinces' => \DB::table('loc_cities')
-                ->select('provDesc as value', 'provDesc as label')
-                ->distinct()
-                ->whereNotNull('provDesc')
-                ->orderBy('provDesc')
-                ->get()
-                ->toArray(),
-            'cities' => \DB::table('loc_cities')
-                ->select(\DB::raw('id as value, cityDesc as label'))
-                ->distinct()
-                ->whereNotNull('cityDesc')
-                ->orderBy('cityDesc')
-                ->get()
-                ->toArray(),
+            'regions' => $regions,
+            'provinces' => $provinces,
+            'cities' => $cities,
         ];
     }
 }
