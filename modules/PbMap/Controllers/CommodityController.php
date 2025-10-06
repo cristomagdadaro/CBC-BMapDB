@@ -194,8 +194,8 @@ class CommodityController extends BaseController implements CommodityControllerI
         $formatted = [];
         foreach ($commodities as $key => $value) {
             $formatted[] = [
-                'id' => $key,
-                'label' => $key,
+                'value' => $key,
+                'label' => $key. ' (' . $value . ')',
                 'sName' => $value
             ];
         }

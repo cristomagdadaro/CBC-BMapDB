@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         getScientificName(comms) {
-            return this.form.scientific_name = this.priorityComs?.data?.find(item => item.label === comms)?.sName;
+            return this.form.scientific_name = this.priorityComs?.data?.data.find(item => item.label === comms)?.sName;
         },
         addRegulation() {
             this.form.regulations.push({
@@ -116,16 +116,16 @@ export default {
                     </label>
                     <div class="flex flex-col gap-8">
                         <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                            <div class="flex gap-2 items-end">
-                                <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" class="w-full" />
+                            <div class="flex gap-2 items-end col-span-2">
+                                <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data?.data" class="w-full" />
                                 <request-add-commodity />
                             </div>
-                            <text-field required disabled :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
+                            <text-field class="hidden" required disabled :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
                             <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder/Organization" v-model="form.breeder_id" />
                             <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Variety/Accession No./Germplasm Index" v-model="form.accession" />
                             <text-field required :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
                         </div>
-                        <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
+                        <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.options.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                         <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Other Unique Traits" v-model="form.description" />
                         <file-field :error="getError('photo')" :title="getTitle('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
                     </div>

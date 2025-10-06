@@ -287,9 +287,9 @@ defineExpose({
 <template>
     <div class="flex flex-col border-0 p-0 bg-transparent space-y-1">
         <!-- Label and Error Row -->
-        <div class="flex justify-between items-center px-1 gap-2 min-h-[1.25rem]">
+        <div v-if="label" class="flex justify-between items-center px-1 gap-2 min-h-[1.25rem]">
             <label
-                v-if="label"
+
                 :for="id"
                 class="flex gap-0.5 items-center whitespace-nowrap text-sm font-medium text-gray-700 cursor-pointer"
                 :class="{ 'text-red-600': hasError }"
