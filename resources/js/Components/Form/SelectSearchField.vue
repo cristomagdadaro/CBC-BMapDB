@@ -2,7 +2,6 @@
 import TextField from "@/Components/Form/TextField.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
-import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
 import SelectField from "@/Components/Form/SelectField.vue";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";
 import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
@@ -96,33 +95,18 @@ export default {
 
                 this.fetchedResponse = await this.api.get(params);
 
-                if (this.fetchedResponse instanceof BaseResponse && this.fetchedResponse.data) {
-                    const newOptions = this.fetchedResponse.data.map(option => ({
-                        value: option.id,
+                if (this.fetchedResponse.status === 200 && this.fetchedResponse.data) {
+                    const newOptions = this.fetchedResponse.data.data.map(option => ({
+                        value: option.id || option.value,
                         label: option.name || option.title || option.label || option.value || (new BaseClass(option)).getFullName,
                     }));
 
-                    if (append) {
-                        this.formattedOptions = [...this.formattedOptions, ...newOptions];
-                    } else {
-                        this.formattedOptions = newOptions;
-                    }
+                    this.formattedOptions = append
+                        ? [...this.formattedOptions, ...newOptions]
+                        : newOptions;
 
                     this.filteredOptions = this.formattedOptions;
-
-                    // Check if there's more data
                     this.hasMoreData = newOptions.length === this.perPage;
-
-                    // Auto-select if searching for specific value
-                    if (search && !append) {
-                        const foundOption = this.filteredOptions.find(option =>
-                            option.value == search || option.label.toLowerCase().includes(search.toLowerCase())
-                        );
-                        if (foundOption && this.modelValue == foundOption.value) {
-                            this.selectedOption = foundOption;
-                            this.displayedInput = foundOption.label;
-                        }
-                    }
                 }
             } catch (error) {
                 console.error('Error fetching options:', error);
@@ -142,6 +126,12 @@ export default {
             this.selectedOption = option;
             this.$emit('update:modelValue', option.value);
             this.displayedInput = option.label;
+            // Clear any pending search debounce to avoid late fetches
+            if (this.debounceTimeout) {
+                clearTimeout(this.debounceTimeout);
+                this.debounceTimeout = null;
+            }
+            this.currentSearch = '';
             this.closeDropdown();
         },
 
@@ -157,10 +147,13 @@ export default {
             this.filteredOptions = [];
         },
 
-        debounceApiCall(searchValue) {
+        debounceApiCall(eventOrValue) {
             clearTimeout(this.debounceTimeout);
             this.debounceTimeout = setTimeout(() => {
-                this.handleSearch(searchValue);
+                const value = typeof eventOrValue === 'string'
+                    ? eventOrValue
+                    : eventOrValue?.target?.value ?? '';
+                this.handleSearch(value);
             }, 300);
         },
 
@@ -193,26 +186,67 @@ export default {
 
         // Load selected option data on mount if modelValue exists
         async loadSelectedOption() {
-            if (this.modelValue && this.api) {
+            const hasValue = this.modelValue !== null && this.modelValue !== undefined && this.modelValue !== '';
+            if (!hasValue) return;
+
+
+            if (this.api) {
                 try {
                     const response = await this.api.get({
-                        id: this.modelValue,
-                        per_page: 1
+                        filter: 'id',
+                        search: this.modelValue ?? null,
+                        per_page: 1,
                     });
 
-                    if (response instanceof BaseResponse && response.data && response.data.length) {
-                        const option = response.data[0];
-                        this.selectedOption = {
-                            value: option.id,
-                            label: option.name || option.title || option.label || option.value || (new BaseClass(option)).getFullName,
-                        };
-                        this.displayedInput = this.selectedOption.label;
+                    if (response.status === 200 && response.data) {
+                        const payload = Array.isArray(response.data?.data)
+                            ? response.data.data
+                            : Array.isArray(response.data)
+                                ? response.data
+                                : [];
+                        if (payload.length) {
+                            const opt = this.formatOption(payload[0]);
+                            if (opt) {
+                                this.selectedOption = opt;
+                                this.displayedInput = opt.label;
+                            }
+                        }
                     }
                 } catch (error) {
                     console.error('Error loading selected option:', error);
                 }
+            } else {
+                // Fallback to options provided in props
+                if (!this.formattedOptions.length) this.initLocalOptions();
+                const found = this.formattedOptions.find(o => String(o.value) === String(this.modelValue));
+                if (found) {
+                    this.selectedOption = found;
+                    this.displayedInput = found.label;
+                }
             }
-        }
+
+            // If nothing matched, show the raw modelValue as initial input
+            if (!this.selectedOption && (this.displayedInput == null || this.displayedInput === '')) {
+                this.displayedInput = String(this.modelValue);
+            }
+        },
+
+        // Add back missing helpers used by loadSelectedOption
+        formatOption(option) {
+            if (option == null) return null;
+            if (typeof option === 'string' || typeof option === 'number') {
+                return { value: option, label: String(option) };
+            }
+            return {
+                value: option.id || option.value,
+                label: option.name || option.title || option.label || option.value || (new BaseClass(option)).getFullName,
+            };
+        },
+        initLocalOptions() {
+            const mapped = (this.options || []).map(this.formatOption).filter(Boolean);
+            this.formattedOptions = mapped;
+            this.filteredOptions = mapped;
+        },
     },
 
     expose: ['focus'],
@@ -220,8 +254,9 @@ export default {
     async mounted() {
         if (this.apiLink) {
             this.api = new ApiService(this.apiLink);
-            await this.loadSelectedOption();
         }
+        // Always attempt to load initial selection from modelValue
+        await this.loadSelectedOption();
 
         document.addEventListener("click", this.handleClickOutside);
     },
@@ -236,7 +271,11 @@ export default {
     watch: {
         async modelValue(newVal, oldVal) {
             if (newVal !== oldVal) {
-                if (newVal) {
+                if (newVal !== null && newVal !== undefined && newVal !== '') {
+                    // If selection already matches, skip reloading to avoid flicker/reverts
+                    if (this.selectedOption && String(this.selectedOption.value) === String(newVal)) {
+                        return;
+                    }
                     await this.loadSelectedOption();
                 } else {
                     this.clearSelection();
@@ -311,7 +350,7 @@ export default {
                 :placeholder="placeholder"
                 @focusin="toggleDropdown()"
                 @click="toggleDropdown()"
-                @input="debounceApiCall($event.target.value)"
+                @input="debounceApiCall($event)"
                 @clear="clearSelection"
             />
 

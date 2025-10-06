@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\GetInstituteRequest;
-use App\Http\Resources\BaseCollection;
 use App\Repository\API\InstituteRepo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;

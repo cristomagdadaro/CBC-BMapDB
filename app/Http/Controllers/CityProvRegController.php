@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GetCityRequest;
-use App\Http\Resources\BaseCollection;
 use App\Http\Resources\CityResource;
 use App\Repository\API\CityRepo;
 use Illuminate\Http\JsonResponse;
@@ -35,7 +34,7 @@ class CityProvRegController extends BaseController
         $data->getCollection()->transform(function ($city) {
             return [
                 'value' => $city->id,
-                'label' => $city->cityDesc . ' (' . $city->provDesc . ')',
+                'label' => $city->cityDesc . ', ' . $city->provDesc . ', ' . $city->regDesc,
             ];
         });
 

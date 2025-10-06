@@ -1675,7 +1675,7 @@ return array(
     ),
     array(
         'id' => 210,
-        'cityDesc' => 'Bi?an City',
+        'cityDesc' => 'Biñan City',
         'provDesc' => 'Laguna',
         'regDesc' => 'REGION IV-A',
         'latitude' => 14.33,
@@ -3443,7 +3443,7 @@ return array(
     ),
     array(
         'id' => 431,
-        'cityDesc' => 'Dasmari?�as City',
+        'cityDesc' => 'Dasmariñ�as City',
         'provDesc' => 'Cavite',
         'regDesc' => 'REGION IV-A',
         'latitude' => 14.32639,
@@ -3755,7 +3755,7 @@ return array(
     ),
     array(
         'id' => 470,
-        'cityDesc' => 'Do?a Remedios Trinidad',
+        'cityDesc' => 'Doña Remedios Trinidad',
         'provDesc' => 'Bulacan',
         'regDesc' => 'REGION III',
         'latitude' => 15,
@@ -3819,7 +3819,7 @@ return array(
     ),
     array(
         'id' => 478,
-        'cityDesc' => 'Due?as',
+        'cityDesc' => 'Dueñas',
         'provDesc' => 'Iloilo',
         'regDesc' => 'REGION VI',
         'latitude' => 11.067,
@@ -5715,7 +5715,7 @@ return array(
     ),
     array(
         'id' => 715,
-        'cityDesc' => 'Las Pi?�as',
+        'cityDesc' => 'Las Piñ�as',
         'provDesc' => 'Metro Manila',
         'regDesc' => 'NCR',
         'latitude' => 14.45,
@@ -6171,7 +6171,7 @@ return array(
     ),
     array(
         'id' => 772,
-        'cityDesc' => 'Los Ba?os',
+        'cityDesc' => 'Los Baños',
         'provDesc' => 'Laguna',
         'regDesc' => 'REGION IV-A',
         'latitude' => 14.167,
@@ -8563,7 +8563,7 @@ return array(
     ),
     array(
         'id' => 1071,
-        'cityDesc' => 'Para?aque',
+        'cityDesc' => 'Parañaque',
         'provDesc' => 'Metro Manila',
         'regDesc' => 'NCR',
         'latitude' => 14.47,
@@ -8723,7 +8723,7 @@ return array(
     ),
     array(
         'id' => 1091,
-        'cityDesc' => 'Pe?ablanca',
+        'cityDesc' => 'Peñablanca',
         'provDesc' => 'Cagayan',
         'regDesc' => 'REGION II',
         'latitude' => 17.633,
@@ -8731,7 +8731,7 @@ return array(
     ),
     array(
         'id' => 1092,
-        'cityDesc' => 'Pe?aranda',
+        'cityDesc' => 'Peñaranda',
         'provDesc' => 'Nueva Ecija',
         'regDesc' => 'REGION III',
         'latitude' => 15.35,
@@ -8739,7 +8739,7 @@ return array(
     ),
     array(
         'id' => 1093,
-        'cityDesc' => 'Pe?arrubia',
+        'cityDesc' => 'Peñarrubia',
         'provDesc' => 'Abra',
         'regDesc' => 'CAR',
         'latitude' => 17.567,
@@ -8755,7 +8755,7 @@ return array(
     ),
     array(
         'id' => 1095,
-        'cityDesc' => 'Pi?an',
+        'cityDesc' => 'Piñan',
         'provDesc' => 'Zamboanga del Norte',
         'regDesc' => 'REGION IX',
         'latitude' => 8.4,
@@ -9611,7 +9611,7 @@ return array(
     ),
     array(
         'id' => 1202,
-        'cityDesc' => 'Sag?ay',
+        'cityDesc' => 'Sagñay',
         'provDesc' => 'Camarines Sur',
         'regDesc' => 'REGION V',
         'latitude' => 13.60417,
@@ -11067,7 +11067,7 @@ return array(
     ),
     array(
         'id' => 1384,
-        'cityDesc' => 'Santo Ni?o',
+        'cityDesc' => 'Santo Niño',
         'provDesc' => 'Cagayan',
         'regDesc' => 'REGION II',
         'latitude' => 17.883,
@@ -11075,7 +11075,7 @@ return array(
     ),
     array(
         'id' => 1385,
-        'cityDesc' => 'Santo Ni?o',
+        'cityDesc' => 'Santo Niño',
         'provDesc' => 'Samar',
         'regDesc' => 'REGION VIII',
         'latitude' => 11.93889,
@@ -11083,7 +11083,7 @@ return array(
     ),
     array(
         'id' => 1386,
-        'cityDesc' => 'Santo Ni?o',
+        'cityDesc' => 'Santo Niño',
         'provDesc' => 'South Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.433,
@@ -11219,7 +11219,7 @@ return array(
     ),
     array(
         'id' => 1403,
-        'cityDesc' => 'Science City Of Mu?oz',
+        'cityDesc' => 'Science City Of Muñoz',
         'provDesc' => 'Nueva Ecija',
         'regDesc' => 'REGION III',
         'latitude' => 15.717,
@@ -11243,7 +11243,7 @@ return array(
     ),
     array(
         'id' => 1406,
-        'cityDesc' => 'Sergio Osme?a Sr.',
+        'cityDesc' => 'Sergio Osmeña Sr.',
         'provDesc' => 'Zamboanga del Norte',
         'regDesc' => 'REGION IX',
         'latitude' => 8.267,
@@ -11563,7 +11563,7 @@ return array(
     ),
     array(
         'id' => 1446,
-        'cityDesc' => 'Sofronio Espa?ola',
+        'cityDesc' => 'Sofronio Española',
         'provDesc' => 'Palawan',
         'regDesc' => 'REGION IV-B',
         'latitude' => 9.05,

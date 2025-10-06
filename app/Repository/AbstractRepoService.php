@@ -215,7 +215,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         return response()->json($response, $statusCode);
     }
 
-    public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
+    public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false): Builder|LengthAwarePaginator|Collection
     {
         try {
             // Respect request param 'paginate' when provided (default true)
