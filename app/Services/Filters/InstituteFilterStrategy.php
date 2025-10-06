@@ -29,7 +29,7 @@ class InstituteFilterStrategy extends BaseFilterStrategy
 
         // Institute type filter
         if (!empty($filters['institute_type'])) {
-            $query->where('institutes.type', $filters['institute_type']);
+            $query->where('institutes.inst_type', $filters['institute_type']);
         }
 
         // Apply geographic filters through breeders
@@ -50,15 +50,18 @@ class InstituteFilterStrategy extends BaseFilterStrategy
 
     public function aggregateData(Builder $query, array $filters): array
     {
-        $filterBy = $filters['filter_by'] ?? 'region';
+        $filterBy = $filters['filter_by'] ?? 'institute';
 
         switch ($filterBy) {
             case 'province':
                 return $this->aggregateByProvince($query);
             case 'city':
                 return $this->aggregateByCity($query);
-            default:
+            case 'region':
                 return $this->aggregateByRegion($query);
+            default:
+                // For institutes, default to showing individual institutes with their details
+                return $this->aggregateByInstitute($query);
         }
     }
 
@@ -81,7 +84,7 @@ class InstituteFilterStrategy extends BaseFilterStrategy
                 COUNT(DISTINCT institutes.id) as total_institutes,
                 COUNT(DISTINCT breeders.id) as total_breeders,
                 COUNT(DISTINCT loc_cities.regDesc) as total_regions,
-                COUNT(DISTINCT institutes.type) as total_institute_types
+                COUNT(DISTINCT institutes.inst_type) as total_institute_types
             ')
             ->first();
 
@@ -99,7 +102,7 @@ class InstituteFilterStrategy extends BaseFilterStrategy
             'region' => 'loc_cities.regDesc',
             'province' => 'loc_cities.provDesc',
             'city' => 'loc_cities.cityDesc',
-            'institute_type' => 'institutes.type',
+            'institute_type' => 'institutes.inst_type',
         ];
 
         $column = $columnMap[$groupBy] ?? 'loc_cities.regDesc';
@@ -124,12 +127,46 @@ class InstituteFilterStrategy extends BaseFilterStrategy
     private function aggregateByInstituteType(Builder $query): array
     {
         return $query
-            ->selectRaw('institutes.type as label, COUNT(DISTINCT institutes.id) as total, AVG(institutes.latitude) as lat, AVG(institutes.longitude) as lng')
-            ->whereNotNull('institutes.type')
-            ->groupBy('institutes.type')
+            ->selectRaw('institutes.inst_type as label, COUNT(DISTINCT institutes.id) as total, AVG(institutes.latitude) as lat, AVG(institutes.longitude) as lng')
+            ->whereNotNull('institutes.inst_type')
+            ->groupBy('institutes.inst_type')
             ->orderByDesc('total')
             ->get()
             ->toArray();
+    }
+
+    private function aggregateByInstitute(Builder $query): array
+    {
+        // Get individual institutes with their breeder and commodity counts
+        // Institutes get their coordinates from the loc_cities table via geolocation field
+        $institutes = Institute::query()
+            ->select(
+                'institutes.id',
+                'institutes.name',
+                'institutes.geolocation',
+                'city.latitude',
+                'city.longitude',
+                DB::raw('COUNT(DISTINCT breeders.id) as breeder_count'),
+                DB::raw('COUNT(DISTINCT commodities.id) as commodity_count')
+            )
+            ->leftJoin('loc_cities as city', 'institutes.geolocation', '=', 'city.id')
+            ->leftJoin('breeders', 'institutes.id', '=', 'breeders.affiliation')
+            ->leftJoin('commodities', 'breeders.id', '=', 'commodities.breeder_id')
+            ->whereNotNull('city.latitude')
+            ->whereNotNull('city.longitude')
+            ->groupBy('institutes.id', 'institutes.name', 'institutes.geolocation', 'city.latitude', 'city.longitude')
+            ->get();
+
+        return $institutes->map(function($institute) {
+            return [
+                'label' => $institute->name . ' (' . $institute->breeder_count . ' breeders, ' . $institute->commodity_count . ' commodities)',
+                'lat' => (float) $institute->latitude,
+                'lng' => (float) $institute->longitude,
+                'total' => $institute->breeder_count + $institute->commodity_count,
+                'breeder_count' => $institute->breeder_count,
+                'commodity_count' => $institute->commodity_count,
+            ];
+        })->toArray();
     }
 
     private function aggregateByRegion(Builder $query): array
@@ -168,10 +205,10 @@ class InstituteFilterStrategy extends BaseFilterStrategy
     private function getInstituteTypeOptions(): array
     {
         return DB::table('institutes')
-            ->select('type as value', 'type as label')
-            ->whereNotNull('type')
+            ->select('inst_type as value', 'inst_type as label')
+            ->whereNotNull('inst_type')
             ->distinct()
-            ->orderBy('type')
+            ->orderBy('inst_type')
             ->get()
             ->toArray();
     }
