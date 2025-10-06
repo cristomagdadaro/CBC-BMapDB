@@ -3,6 +3,8 @@ import { ref, computed, watch, onMounted } from 'vue'
 import SelectField from '@/Components/Form/SelectField.vue'
 import TextField from '@/Components/Form/TextField.vue'
 import LoaderIcon from '@/Components/Icons/LoaderIcon.vue'
+import ApiService from '@/Modules/core/infrastructure/ApiService.ts'
+import BaseResponse from '@/Modules/core/domain/base/BaseResponse'
 
 const props = defineProps({
     initialDataType: {
@@ -17,8 +19,12 @@ const props = defineProps({
 
 const emit = defineEmits(['dataUpdated', 'filtersChanged'])
 
+// API Services
+const mapDataApi = ref(null)
+const filterOptionsApi = ref(null)
+const summaryApi = ref(null)
+
 // Reactive state
-const loading = ref(false)
 const filters = ref({
     data_type: props.initialDataType,
     group_by: 'region',
@@ -49,77 +55,90 @@ const availableOptions = computed(() => {
     return options
 })
 
-// API methods
+const loading = computed(() => {
+    return mapDataApi.value?.processing ||
+           filterOptionsApi.value?.processing ||
+           summaryApi.value?.processing
+})
+
+// Initialize API services
+const initializeApiServices = () => {
+    mapDataApi.value = new ApiService('/api/map-data')
+    filterOptionsApi.value = new ApiService('/api/map-data/filter-options')
+    summaryApi.value = new ApiService('/api/map-data/summary')
+}
+
+// API methods using ApiService
 const fetchFilterOptions = async (dataType) => {
     try {
-        loading.value = true
-        const response = await fetch(`/api/map-data/filter-options?data_type=${dataType}`)
-        const result = await response.json()
-
-        if (result.success) {
-            filterOptions.value = result.options
+        error.value = null
+        const params = { data_type: dataType }
+        const response = await filterOptionsApi.value.get(params)
+        if (response.status === 200 && response.data.success) {
+            filterOptions.value = response?.data?.options || {}
         } else {
-            throw new Error(result.message)
+            throw new Error(response.message || 'Failed to fetch filter options')
         }
     } catch (err) {
-        error.value = err.message
+        error.value = err.message || 'Failed to fetch filter options'
         console.error('Failed to fetch filter options:', err)
-    } finally {
-        loading.value = false
     }
 }
 
 const fetchMapData = async () => {
     try {
-        loading.value = true
         error.value = null
 
-        const queryParams = new URLSearchParams()
+        // Clean filters - remove empty values
+        const cleanFilters = {}
         Object.entries(filters.value).forEach(([key, value]) => {
             if (value !== null && value !== undefined && value !== '') {
-                queryParams.append(key, value)
+                cleanFilters[key] = value
             }
         })
 
-        const response = await fetch(`/api/map-data?${queryParams}`)
-        const result = await response.json()
+        const response = await mapDataApi.value.get(cleanFilters)
 
-        if (result.success) {
-            mapData.value = result.data
-            filterOptions.value = result.filter_options
+        if (response.status === 200 && response.data.success) {
+            mapData.value = response.data.data || []
+
+            // Update filter options if they're included in response
+            if (response.data.filter_options) {
+                filterOptions.value = response.data.filter_options
+            }
+
             emit('dataUpdated', {
-                data: result.data,
-                metadata: result.metadata,
+                data: response.data.data || [],
+                metadata: response.data.metadata || {},
                 filters: filters.value
             })
         } else {
-            throw new Error(result.message)
+            throw new Error(response.message || 'Failed to fetch map data')
         }
     } catch (err) {
-        error.value = err.message
+        error.value = err.message || 'Failed to fetch map data'
         console.error('Failed to fetch map data:', err)
-    } finally {
-        loading.value = false
     }
 }
 
 const fetchSummaryData = async () => {
     try {
-        const queryParams = new URLSearchParams()
+        // Clean filters - remove empty values
+        const cleanFilters = {}
         Object.entries(filters.value).forEach(([key, value]) => {
             if (value !== null && value !== undefined && value !== '') {
-                queryParams.append(key, value)
+                cleanFilters[key] = value
             }
         })
 
-        const response = await fetch(`/api/map-data/summary?${queryParams}`)
-        const result = await response.json()
+        const response = await summaryApi.value.get(cleanFilters)
 
-        if (result.success) {
-            summaryData.value = result.summary
+        if (response instanceof BaseResponse && response.success) {
+            summaryData.value = response.data.summary || {}
         }
     } catch (err) {
         console.error('Failed to fetch summary data:', err)
+        // Don't show error for summary data as it's not critical
     }
 }
 
@@ -153,7 +172,6 @@ const resetToDefaults = () => {
 watch(() => filters.value.data_type, async (newDataType) => {
     if (newDataType) {
         // Reset other filters when data type changes
-        const groupBy = filters.value.group_by
         filters.value = {
             data_type: newDataType,
             group_by: 'region'
@@ -172,6 +190,7 @@ watch(filters, async () => {
 
 // Lifecycle
 onMounted(async () => {
+    initializeApiServices()
     await fetchFilterOptions(currentDataType.value)
     await fetchMapData()
     await fetchSummaryData()
@@ -179,9 +198,9 @@ onMounted(async () => {
 
 // Expose methods for parent components
 defineExpose({
-    refreshData: () => {
-        fetchMapData()
-        fetchSummaryData()
+    refreshData: async () => {
+        await fetchMapData()
+        await fetchSummaryData()
     },
     getFilters: () => filters.value,
     setFilters: (newFilters) => {

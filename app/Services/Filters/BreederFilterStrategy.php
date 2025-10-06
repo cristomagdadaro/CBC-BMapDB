@@ -2,9 +2,9 @@
 
 namespace App\Services\Filters;
 
-use App\Models\Breeder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
+use Modules\PbMap\Models\Breeder;
 
 /**
  * Filter strategy for breeder data

@@ -10,8 +10,10 @@
             </template>
             <template v-slot:tab3>
                 <div class="flex flex-col gap-5 p-2 relative">
+
                     <MapExample />
-                    <Map :table-list="tables" :model="Commodity"/>
+
+<!--                    <Map :table-list="tables" :model="Commodity"/>-->
                 </div>
             </template>
             <template v-slot:tab4>

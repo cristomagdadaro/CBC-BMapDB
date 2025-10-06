@@ -33,6 +33,7 @@
         "chart.js": "^4.4.4",
         "chartjs-plugin-datalabels": "^2.2.0",
         "dotenv": "^16.4.5",
+        "exceljs": "^4.4.0",
         "leaflet-sidebar-v2": "^3.2.3",
         "papaparse": "^5.4.1",
         "rollup": "^3.29.5",
@@ -42,12 +43,12 @@
         "v-onboarding": "^2.8.2",
         "vue-barcode-reader": "^1.0.3",
         "vue-chartjs": "^5.3.1",
+        "vue-leaflet": "^0.1.0",
         "vue-qrcode-reader": "^5.5.3",
         "vue-router": "^4.2.5",
         "vue3-google-login": "^2.0.33",
         "vuex": "^4.1.0",
         "ziggy": "^2.4.0",
-        "ziggy-js": "^2.5.1",
-        "exceljs": "^4.4.0"
+        "ziggy-js": "^2.5.1"
     }
 }

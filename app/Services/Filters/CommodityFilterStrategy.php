@@ -2,7 +2,7 @@
 
 namespace App\Services\Filters;
 
-use App\Models\Commodity;
+use Modules\PbMap\Models\Commodity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
