@@ -14,7 +14,7 @@ class CommodityFilterStrategy extends BaseFilterStrategy
     public function buildBaseQuery(): Builder
     {
         return Commodity::query()
-            ->with(['breeder.geolocation', 'breeder.institute'])
+            ->select('commodities.*', 'loc_cities.latitude', 'loc_cities.longitude', 'loc_cities.regDesc', 'loc_cities.provDesc', 'loc_cities.cityDesc')
             ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
             ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
             ->leftJoin('institutes', 'breeders.affiliation', '=', 'institutes.id');
@@ -22,19 +22,41 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     public function applyFilters(Builder $query, array $filters): Builder
     {
-        // Commodity name filter
-        if (!empty($filters['commodity'])) {
-            $query->where('commodities.name', $filters['commodity']);
+        // Commodity name filter (supports both 'commodity' and 'commodities' keys)
+        $commodityFilter = $filters['commodity'] ?? $filters['commodities'] ?? null;
+        if (!empty($commodityFilter)) {
+            $query->where('commodities.name', $commodityFilter);
         }
 
-        // Institute/affiliation filter
-        if (!empty($filters['institute'])) {
-            $query->where('institutes.name', $filters['institute']);
+        // Hierarchical geographic filtering - Region → Province → City
+        if (!empty($filters['regions']) || !empty($filters['region'])) {
+            $regionValue = $filters['regions'] ?? $filters['region'];
+            $query->where('loc_cities.regDesc', $regionValue);
+        }
+
+        if (!empty($filters['provinces']) || !empty($filters['province'])) {
+            $provinceValue = $filters['provinces'] ?? $filters['province'];
+            $query->where('loc_cities.provDesc', $provinceValue);
+        }
+
+        if (!empty($filters['cities']) || !empty($filters['city'])) {
+            $cityValue = $filters['cities'] ?? $filters['city'];
+            // Cities filter uses ID since that's what the geolocation column references
+            $query->where('loc_cities.id', $cityValue);
         }
 
         // Breeder type filter
         if (!empty($filters['breeder_type'])) {
             $query->where('breeders.breeder_type', $filters['breeder_type']);
+        }
+
+        // Search filter (applies to commodity name and breeder name)
+        if (!empty($filters['search'])) {
+            $query->where(function($q) use ($filters) {
+                $q->where('commodities.name', 'LIKE', '%' . $filters['search'] . '%')
+                  ->orWhereRaw("CONCAT_WS(' ', breeders.fname, breeders.mname, breeders.lname, breeders.suffix) LIKE ?",
+                      ['%' . $filters['search'] . '%']);
+            });
         }
 
         // Apply geographic filters
@@ -45,17 +67,13 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     public function aggregateData(Builder $query, array $filters): array
     {
-        $groupBy = $filters['group_by'] ?? 'region';
+        $filterBy = $filters['filter_by'] ?? 'region';
 
-        switch ($groupBy) {
-            case 'institute':
-                return $this->aggregateByInstitute($query);
+        switch ($filterBy) {
             case 'province':
                 return $this->aggregateByProvince($query);
             case 'city':
                 return $this->aggregateByCity($query);
-            case 'commodity':
-                return $this->aggregateByCommodity($query);
             default:
                 return $this->aggregateByRegion($query);
         }
@@ -65,15 +83,7 @@ class CommodityFilterStrategy extends BaseFilterStrategy
     {
         $options = [
             'commodities' => $this->getCommodityOptions(),
-            'institutes' => $this->getInstituteOptions(),
             'breeder_types' => $this->getBreederTypeOptions(),
-            'group_by_options' => [
-                ['value' => 'region', 'label' => 'Region'],
-                ['value' => 'province', 'label' => 'Province'],
-                ['value' => 'city', 'label' => 'City'],
-                ['value' => 'institute', 'label' => 'Institute'],
-                ['value' => 'commodity', 'label' => 'Commodity'],
-            ]
         ];
 
         return array_merge($options, $this->getGeographicOptions());
@@ -81,12 +91,18 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     public function getSummaryStats(Builder $query): array
     {
-        $stats = $query->selectRaw('
-            COUNT(DISTINCT commodities.id) as total_commodities,
-            COUNT(DISTINCT breeders.id) as total_breeders,
-            COUNT(DISTINCT institutes.id) as total_institutes,
-            COUNT(DISTINCT loc_cities.regDesc) as total_regions
-        ')->first();
+        // Create a fresh query for aggregation to avoid GROUP BY issues
+        $stats = Commodity::query()
+            ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
+            ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
+            ->leftJoin('institutes', 'breeders.affiliation', '=', 'institutes.id')
+            ->selectRaw('
+                COUNT(DISTINCT commodities.id) as total_commodities,
+                COUNT(DISTINCT breeders.id) as total_breeders,
+                COUNT(DISTINCT institutes.id) as total_institutes,
+                COUNT(DISTINCT loc_cities.regDesc) as total_regions
+            ')
+            ->first();
 
         return [
             'total_commodities' => $stats->total_commodities ?? 0,
@@ -119,16 +135,16 @@ class CommodityFilterStrategy extends BaseFilterStrategy
     {
         return [
             'commodity', 'institute', 'breeder_type', 'region',
-            'province', 'city', 'group_by'
+            'province', 'city', 'filter_by'
         ];
     }
 
     private function aggregateByInstitute(Builder $query): array
     {
         return $query
-            ->selectRaw('institutes.name as label, COUNT(*) as total, institutes.latitude as lat, institutes.longitude as lng')
+            ->selectRaw('institutes.name as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng')
             ->whereNotNull('institutes.name')
-            ->groupBy('institutes.id', 'institutes.name', 'institutes.latitude', 'institutes.longitude')
+            ->groupBy('institutes.id', 'institutes.name')
             ->orderByDesc('total')
             ->get()
             ->toArray();
@@ -137,7 +153,7 @@ class CommodityFilterStrategy extends BaseFilterStrategy
     private function aggregateByRegion(Builder $query): array
     {
         return $query
-            ->selectRaw('loc_cities.regDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng')
+            ->select(DB::raw('loc_cities.regDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->groupBy('loc_cities.regDesc')
             ->orderByDesc('total')
             ->get()
@@ -147,7 +163,7 @@ class CommodityFilterStrategy extends BaseFilterStrategy
     private function aggregateByProvince(Builder $query): array
     {
         return $query
-            ->selectRaw('loc_cities.provDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng')
+            ->select(DB::raw('loc_cities.provDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->groupBy('loc_cities.provDesc')
             ->orderByDesc('total')
             ->get()
@@ -157,8 +173,8 @@ class CommodityFilterStrategy extends BaseFilterStrategy
     private function aggregateByCity(Builder $query): array
     {
         return $query
-            ->selectRaw('loc_cities.cityDesc as label, COUNT(*) as total, loc_cities.latitude as lat, loc_cities.longitude as lng')
-            ->groupBy('loc_cities.id', 'loc_cities.cityDesc', 'loc_cities.latitude', 'loc_cities.longitude')
+            ->select(DB::raw('loc_cities.cityDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
+            ->groupBy('loc_cities.id', 'loc_cities.cityDesc')
             ->orderByDesc('total')
             ->get()
             ->toArray();
@@ -167,12 +183,13 @@ class CommodityFilterStrategy extends BaseFilterStrategy
     private function aggregateByCommodity(Builder $query): array
     {
         return $query
-            ->selectRaw('commodities.name as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng')
-            ->groupBy('commodities.name')
+            ->select(DB::raw('loc_cities.cityDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
+            ->groupBy('loc_cities.id', 'loc_cities.cityDesc')
             ->orderByDesc('total')
             ->get()
             ->toArray();
     }
+
 
     private function getCommodityOptions(): array
     {

@@ -95,6 +95,11 @@ class Breeder extends BaseModel
         return $this->belongsTo(Institute::class, 'affiliation', 'id');
     }
 
+    public function geolocation(): HasOne
+    {
+        return $this->hasOne(\App\Models\Location\City::class, 'id', 'geolocation')->select(['id', 'cityDesc', 'provCode', 'provDesc', 'regCode', 'regDesc']);
+    }
+
     /**
      * Automatically create a user account for all breeder
     */

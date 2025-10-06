@@ -96,6 +96,10 @@ class Commodity extends BaseModel
         return $this->hasOne(CommodityInfo::class);
     }
 
+    public function geolocation(): HasOne
+    {
+        return $this->hasOne(\App\Models\Location\City::class, 'id', 'geolocation')->select(['id', 'cityDesc', 'provCode', 'provDesc', 'regCode', 'regDesc']);
+    }
     // Scope a query to only include commodities that belong to a specific breeder
     /*public function scopeOfModel($query, $breeder_id)
     {

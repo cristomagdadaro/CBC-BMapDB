@@ -27,7 +27,7 @@ const summaryApi = ref(null)
 // Reactive state
 const filters = ref({
     data_type: props.initialDataType,
-    group_by: 'region',
+    filter_by: null,
     ...props.initialFilters
 })
 const filterOptions = ref({})
@@ -42,18 +42,93 @@ const dataTypeOptions = [
     { value: 'institutes', label: 'Institutes' }
 ]
 
+// Filter by options
+const filterByOptions = [
+    { value: 'region', label: 'By Region' },
+    { value: 'province', label: 'By Province' },
+    { value: 'city', label: 'By City' }
+]
+
 // Computed properties
 const currentDataType = computed(() => filters.value.data_type)
-
-const groupByOptions = computed(() => {
-    return filterOptions.value.group_by_options || []
-})
 
 const availableOptions = computed(() => {
     const options = { ...filterOptions.value }
     delete options.group_by_options
-    return options
+
+    // Filter based on filter_by selection
+    const filteredOptions = {}
+    const currentFilterBy = filters.value.filter_by
+
+    Object.entries(options).forEach(([key, value]) => {
+        // Show the filter only if it matches the filter_by or is a basic filter
+        if (shouldShowFilter(key, currentFilterBy)) {
+            filteredOptions[key] = value
+        }
+    })
+
+    return filteredOptions
 })
+
+// Helper function to determine which filters to show based on filter_by
+const shouldShowFilter = (filterKey, filterBy) => {
+    // If no filter_by is selected, show all relevant filters
+    if (!filterBy) {
+        // Always show basic geographic filters for hierarchical filtering
+        if (['region', 'province', 'city'].includes(filterKey)) {
+            return true
+        }
+
+        // Show commodity filter when data type is commodities
+        if (filterKey === 'commodities') {
+            return currentDataType.value === 'commodities'
+        }
+
+        // Show institute filter
+        if (filterKey === 'institutes') {
+            return currentDataType.value === 'institutes' || currentDataType.value === 'breeders'
+        }
+
+        // Show breeder types filter when relevant
+        if (filterKey === 'breeder_types') {
+            return currentDataType.value === 'breeders'
+        }
+
+        // Show institute types filter when relevant
+        if (filterKey === 'institute_types') {
+            return currentDataType.value === 'institutes'
+        }
+
+        return true
+    }
+
+    // Show filters based on filter_by selection
+    if (filterBy === 'commodity' && filterKey === 'commodities') {
+        return true
+    }
+    if (filterBy === 'region' && filterKey === 'regions') {
+        return true
+    }
+    if (filterBy === 'province' && filterKey === 'provinces') {
+        return true
+    }
+    if (filterBy === 'city' && filterKey === 'cities') {
+        return true
+    }
+
+    // Always show other data-specific filters
+    if (filterKey === 'breeder_types' && currentDataType.value === 'breeders') {
+        return true
+    }
+    if (filterKey === 'institute_types' && currentDataType.value === 'institutes') {
+        return true
+    }
+    if (filterKey === 'institutes') {
+        return true
+    }
+
+    return false
+}
 
 const loading = computed(() => {
     return mapDataApi.value?.processing ||
@@ -98,7 +173,7 @@ const fetchMapData = async () => {
         })
 
         const response = await mapDataApi.value.get(cleanFilters)
-
+        console.log(response)
         if (response.status === 200 && response.data.success) {
             mapData.value = response.data.data || []
 
@@ -150,11 +225,9 @@ const updateFilter = (key, value) => {
 
 const clearFilters = () => {
     const dataType = filters.value.data_type
-    const groupBy = filters.value.group_by
 
     filters.value = {
-        data_type: dataType,
-        group_by: groupBy
+        data_type: dataType
     }
 
     emit('filtersChanged', filters.value)
@@ -162,8 +235,7 @@ const clearFilters = () => {
 
 const resetToDefaults = () => {
     filters.value = {
-        data_type: 'commodities',
-        group_by: 'region'
+        data_type: 'commodities'
     }
     emit('filtersChanged', filters.value)
 }
@@ -173,8 +245,7 @@ watch(() => filters.value.data_type, async (newDataType) => {
     if (newDataType) {
         // Reset other filters when data type changes
         filters.value = {
-            data_type: newDataType,
-            group_by: 'region'
+            data_type: newDataType
         }
 
         await fetchFilterOptions(newDataType)
@@ -260,15 +331,15 @@ defineExpose({
                 @change="updateFilter('data_type', $event?.value)"
             />
 
-            <!-- Group By Selection -->
+            <!-- Filter By Selection -->
             <SelectField
-                label="Group By"
-                v-model="filters.group_by"
-                :options="groupByOptions"
+                label="Filter By"
+                v-model="filters.filter_by"
+                :options="filterByOptions"
                 :disabled="loading"
                 :searchable="false"
                 :clearable="false"
-                @change="updateFilter('group_by', $event?.value)"
+                @change="updateFilter('filter_by', $event?.value)"
             />
 
             <!-- Dynamic Filter Options -->
@@ -286,7 +357,7 @@ defineExpose({
 
             <!-- Search Field -->
             <TextField
-                v-if="currentDataType === 'breeders' || currentDataType === 'institutes'"
+                v-if="currentDataType === 'breeders'"
                 label="Search"
                 v-model="filters.search"
                 :disabled="loading"

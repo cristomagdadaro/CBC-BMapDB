@@ -1,7 +1,23 @@
+<!-- Default: Clustering enabled
+<LeafletMap :mapData="yourData" />
+
+Heatmap mode
+<LeafletMap :mapData="yourData" :showHeatmap="true" :clustered="false" />
+
+Individual markers
+<LeafletMap :mapData="yourData" :clustered="false" :showHeatmap="false" />
+ -->
 <script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
 import { LMap, LTileLayer, LMarker, LPopup, LIcon } from '@vue-leaflet/vue-leaflet'
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+
+// Import clustering and heatmap plugins
+import 'leaflet.markercluster/dist/MarkerCluster.css'
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+import 'leaflet.markercluster'
+import 'leaflet.heat'
 
 const props = defineProps({
     mapData: {
@@ -27,6 +43,10 @@ const props = defineProps({
     showHeatmap: {
         type: Boolean,
         default: false
+    },
+    defaultTileProvider: {
+        type: String,
+        default: 'CartoDB Voyager'
     }
 })
 
@@ -37,6 +57,25 @@ const map = ref(null)
 const mapReady = ref(false)
 const currentCenter = ref(props.center)
 const currentZoom = ref(props.zoom)
+
+// Clustering and heatmap layers
+const markerClusterGroup = ref(null)
+const heatmapLayer = ref(null)
+
+// Tile provider management
+const tileProviders = ref([
+    { name: 'CartoDB Voyager', visible: true, url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
+    { name: 'CartoDB VoyagerNoLabels', visible: false, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>', url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png' },
+    { name: 'CartoDB DarkMatter', visible: false, url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
+    { name: 'CartoDB DarkMatterNoLabels', visible: false, url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
+    { name: 'Esri WorldGrayCanvas', visible: false, url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ' },
+    { name: 'OpenStreetMap', visible: false, url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' },
+    { name: 'Esri WorldImagery', visible: false, url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community' },
+    { name: 'CartoDB Positron', visible: false, url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' }
+])
+
+const currentTileProvider = ref(null)
+const showTileSelector = ref(false)
 
 // Marker management
 const markers = ref([])
@@ -96,13 +135,48 @@ const fitMapToMarkers = () => {
         try {
             const leafletObject = map.value.leafletObject
             if (leafletObject && markers.value.length > 0) {
-                const group = new L.featureGroup(
-                    markers.value.map(m => L.marker(m.position))
+                // Validate that we have valid coordinates
+                const validMarkers = markers.value.filter(m =>
+                    m.position &&
+                    Array.isArray(m.position) &&
+                    m.position.length === 2 &&
+                    !isNaN(m.position[0]) &&
+                    !isNaN(m.position[1]) &&
+                    isFinite(m.position[0]) &&
+                    isFinite(m.position[1])
                 )
-                leafletObject.fitBounds(group.getBounds().pad(0.1))
+
+                if (validMarkers.length === 0) {
+                    console.warn('No valid markers found for bounds calculation')
+                    return
+                }
+
+                if (validMarkers.length === 1) {
+                    // If only one marker, just center on it
+                    leafletObject.setView(validMarkers[0].position, 10)
+                    return
+                }
+
+                // Create bounds from valid markers
+                const bounds = L.latLngBounds(validMarkers.map(m => m.position))
+
+                // Check if bounds are valid
+                if (bounds.isValid()) {
+                    leafletObject.fitBounds(bounds, {
+                        padding: [20, 20],
+                        maxZoom: 15
+                    })
+                } else {
+                    console.warn('Calculated bounds are not valid')
+                    // Fallback to Philippines center
+                    leafletObject.setView([12.8797, 121.7740], 6)
+                }
             }
         } catch (error) {
-            console.warn('Could not fit map to markers:', error)
+            // Fallback to Philippines center if bounds fail
+            if (map.value?.leafletObject) {
+                map.value.leafletObject.setView([12.8797, 121.7740], 6)
+            }
         }
     })
 }
@@ -111,6 +185,9 @@ const fitMapToMarkers = () => {
 const onMapReady = () => {
     mapReady.value = true
     emit('mapReady', map.value)
+
+    // Initialize map layers
+    updateMapLayers()
 
     // Fit map to markers after a short delay
     setTimeout(() => {
@@ -133,9 +210,175 @@ const createCustomIcon = (color, size) => {
     }
 }
 
+// Tile provider management functions
+const initializeTileProvider = () => {
+    // Set default tile provider based on prop
+    const defaultProvider = tileProviders.value.find(p => p.name === props.defaultTileProvider)
+    if (defaultProvider) {
+        setActiveTileProvider(defaultProvider.name)
+    } else {
+        // Fallback to first provider if default not found
+        setActiveTileProvider(tileProviders.value[0].name)
+    }
+}
+
+const setActiveTileProvider = (providerName) => {
+    // Set all providers to invisible
+    tileProviders.value.forEach(provider => {
+        provider.visible = false
+    })
+
+    // Set selected provider to visible
+    const selectedProvider = tileProviders.value.find(p => p.name === providerName)
+    if (selectedProvider) {
+        selectedProvider.visible = true
+        currentTileProvider.value = selectedProvider
+    }
+
+    // Close selector
+    showTileSelector.value = false
+}
+
+const toggleTileSelector = () => {
+    showTileSelector.value = !showTileSelector.value
+}
+
+// Clustering and heatmap management
+const initializeClustering = () => {
+    if (!map.value?.leafletObject) return
+
+    // Remove existing cluster group if it exists
+    if (markerClusterGroup.value) {
+        map.value.leafletObject.removeLayer(markerClusterGroup.value)
+    }
+
+    if (props.clustered && markers.value.length > 0) {
+        // Create marker cluster group with custom options
+        markerClusterGroup.value = L.markerClusterGroup({
+            chunkedLoading: true,
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+            maxClusterRadius: 80,
+            iconCreateFunction: function(cluster) {
+                const count = cluster.getChildCount()
+                let size = 40
+                let className = 'marker-cluster-small'
+
+                if (count < 10) {
+                    size = 40
+                    className = 'marker-cluster-small'
+                } else if (count < 100) {
+                    size = 50
+                    className = 'marker-cluster-medium'
+                } else {
+                    size = 60
+                    className = 'marker-cluster-large'
+                }
+
+                return new L.DivIcon({
+                    html: `<div><span>${count}</span></div>`,
+                    className: `marker-cluster ${className}`,
+                    iconSize: new L.Point(size, size)
+                })
+            }
+        })
+
+        // Add markers to cluster group
+        markers.value.forEach(marker => {
+            const leafletMarker = L.marker(marker.position, {
+                icon: L.divIcon({
+                    html: `<div style="background-color: ${marker.color}; width: ${marker.size}px; height: ${marker.size}px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>`,
+                    className: 'custom-marker',
+                    iconSize: [marker.size, marker.size],
+                    iconAnchor: [marker.size/2, marker.size/2]
+                })
+            })
+
+            leafletMarker.bindPopup(`
+                <div class="p-2 min-w-[200px]">
+                    <h3 class="font-semibold text-gray-900 mb-2">${marker.label}</h3>
+                    <div class="space-y-1 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Total:</span>
+                            <span class="font-medium">${marker.total}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Location:</span>
+                            <span class="text-xs text-gray-500">
+                                ${marker.position[0].toFixed(4)}, ${marker.position[1].toFixed(4)}
+                            </span>
+                        </div>
+                    </div>
+                    ${marker.data.description ? `
+                        <div class="mt-2 pt-2 border-t border-gray-200">
+                            <p class="text-xs text-gray-600">${marker.data.description}</p>
+                        </div>
+                    ` : ''}
+                </div>
+            `)
+
+            leafletMarker.on('click', () => {
+                onMarkerClick(marker)
+            })
+
+            markerClusterGroup.value.addLayer(leafletMarker)
+        })
+
+        map.value.leafletObject.addLayer(markerClusterGroup.value)
+    }
+}
+
+const initializeHeatmap = () => {
+    if (!map.value?.leafletObject) return
+
+    // Remove existing heatmap if it exists
+    if (heatmapLayer.value) {
+        map.value.leafletObject.removeLayer(heatmapLayer.value)
+        heatmapLayer.value = null
+    }
+
+    if (props.showHeatmap && markers.value.length > 0) {
+        // Prepare heatmap data: [lat, lng, intensity]
+        const maxTotal = Math.max(...markers.value.map(m => m.total))
+        const heatmapData = markers.value.map(marker => [
+            marker.position[0], // lat
+            marker.position[1], // lng
+            marker.total / maxTotal // normalized intensity (0-1)
+        ])
+
+        heatmapLayer.value = L.heatLayer(heatmapData, {
+            radius: 25,
+            blur: 15,
+            maxZoom: 17,
+            gradient: {
+                0.0: '#3b82f6', // blue
+                0.2: '#10b981', // green
+                0.4: '#f59e0b', // yellow
+                0.6: '#f97316', // orange
+                0.8: '#ef4444', // red
+                1.0: '#dc2626'  // dark red
+            }
+        })
+
+        map.value.leafletObject.addLayer(heatmapLayer.value)
+    }
+}
+
+const updateMapLayers = () => {
+    nextTick(() => {
+        if (props.showHeatmap) {
+            initializeHeatmap()
+        } else {
+            initializeClustering()
+        }
+    })
+}
+
 // Watch for data changes
 watch(() => props.mapData, () => {
     processMapData()
+    updateMapLayers()
 
     // Fit map to new markers after processing
     nextTick(() => {
@@ -144,6 +387,11 @@ watch(() => props.mapData, () => {
         }
     })
 }, { deep: true, immediate: true })
+
+// Watch for clustering and heatmap prop changes
+watch([() => props.clustered, () => props.showHeatmap], () => {
+    updateMapLayers()
+})
 
 // Expose methods
 defineExpose({
@@ -160,6 +408,7 @@ defineExpose({
 
 onMounted(() => {
     processMapData()
+    initializeTileProvider()
 })
 </script>
 
@@ -173,15 +422,18 @@ onMounted(() => {
             @ready="onMapReady"
             class="h-full w-full rounded-lg overflow-hidden"
         >
-            <!-- Tile Layer - OpenStreetMap -->
+            <!-- Tile Layer - Only render the active/visible provider -->
             <LTileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+                v-if="currentTileProvider"
+                :key="currentTileProvider.name"
+                :url="currentTileProvider.url"
+                :attribution="currentTileProvider.attribution"
                 :max-zoom="18"
             />
 
-            <!-- Markers -->
+            <!-- Markers - Only show when not clustering and not showing heatmap -->
             <LMarker
+                v-if="!clustered && !showHeatmap"
                 v-for="marker in markers"
                 :key="marker.id"
                 :lat-lng="marker.position"
@@ -229,6 +481,16 @@ onMounted(() => {
                 <div v-if="markers.length > 0">
                     Total Items: {{ markers.reduce((sum, m) => sum + m.total, 0) }}
                 </div>
+                <div class="mt-2 text-xs">
+                    <div class="flex items-center gap-1">
+                        <span class="w-2 h-2 rounded-full" :class="clustered ? 'bg-green-500' : 'bg-gray-300'"></span>
+                        <span>Clustering: {{ clustered ? 'On' : 'Off' }}</span>
+                    </div>
+                    <div class="flex items-center gap-1 mt-1">
+                        <span class="w-2 h-2 rounded-full" :class="showHeatmap ? 'bg-blue-500' : 'bg-gray-300'"></span>
+                        <span>Heatmap: {{ showHeatmap ? 'On' : 'Off' }}</span>
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-col gap-1">
@@ -239,6 +501,49 @@ onMounted(() => {
                 >
                     Fit to Data
                 </button>
+            </div>
+        </div>
+
+        <!-- Tile Provider Selector (Collapsible) -->
+        <div v-if="tileProviders.length > 1" class="absolute top-3 left-14 bg-white rounded-lg shadow-lg z-[1000]">
+            <!-- Header Button -->
+            <button
+                @click="showTileSelector = !showTileSelector"
+                class="flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50 rounded-lg transition-colors"
+            >
+                <div class="flex items-center gap-2">
+                    <span class="text-xs">🗺️</span>
+                    <span>{{ currentTileProvider?.name || 'Map Style' }}</span>
+                </div>
+                <svg
+                    class="w-4 h-4 transition-transform duration-200"
+                    :class="{ 'rotate-180': showTileSelector }"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+            </button>
+
+            <!-- Collapsible Content -->
+            <div v-if="showTileSelector" class="border-t border-gray-100 p-2">
+                <div class="text-xs text-gray-500 mb-2 px-1">Choose map style:</div>
+                <div class="flex flex-col gap-1 max-h-60 overflow-y-auto">
+                    <button
+                        v-for="provider in tileProviders"
+                        :key="provider.name"
+                        @click="setActiveTileProvider(provider.name)"
+                        class="flex items-center justify-between text-left w-full px-2 py-1.5 rounded transition-all text-sm"
+                        :class="{
+                            'bg-blue-500 text-white': provider.visible,
+                            'bg-gray-50 text-gray-900 hover:bg-gray-100': !provider.visible
+                        }"
+                    >
+                        <span>{{ provider.name }}</span>
+                        <span v-if="provider.visible" class="text-xs">✓</span>
+                    </button>
+                </div>
             </div>
         </div>
 

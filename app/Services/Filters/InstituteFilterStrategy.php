@@ -14,9 +14,10 @@ class InstituteFilterStrategy extends BaseFilterStrategy
     public function buildBaseQuery(): Builder
     {
         return Institute::query()
-            ->with(['breeders.geolocation'])
+            ->select('institutes.*', 'loc_cities.latitude', 'loc_cities.longitude', 'loc_cities.regDesc', 'loc_cities.provDesc', 'loc_cities.cityDesc')
             ->leftJoin('breeders', 'institutes.id', '=', 'breeders.affiliation')
-            ->leftJoin('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id');
+            ->leftJoin('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
+            ->distinct();
     }
 
     public function applyFilters(Builder $query, array $filters): Builder
@@ -49,11 +50,9 @@ class InstituteFilterStrategy extends BaseFilterStrategy
 
     public function aggregateData(Builder $query, array $filters): array
     {
-        $groupBy = $filters['group_by'] ?? 'region';
+        $filterBy = $filters['filter_by'] ?? 'region';
 
-        switch ($groupBy) {
-            case 'institute_type':
-                return $this->aggregateByInstituteType($query);
+        switch ($filterBy) {
             case 'province':
                 return $this->aggregateByProvince($query);
             case 'city':
@@ -67,12 +66,6 @@ class InstituteFilterStrategy extends BaseFilterStrategy
     {
         $options = [
             'institute_types' => $this->getInstituteTypeOptions(),
-            'group_by_options' => [
-                ['value' => 'region', 'label' => 'Region'],
-                ['value' => 'province', 'label' => 'Province'],
-                ['value' => 'city', 'label' => 'City'],
-                ['value' => 'institute_type', 'label' => 'Institute Type'],
-            ]
         ];
 
         return array_merge($options, $this->getGeographicOptions());
@@ -80,12 +73,17 @@ class InstituteFilterStrategy extends BaseFilterStrategy
 
     public function getSummaryStats(Builder $query): array
     {
-        $stats = $query->selectRaw('
-            COUNT(DISTINCT institutes.id) as total_institutes,
-            COUNT(DISTINCT breeders.id) as total_breeders,
-            COUNT(DISTINCT loc_cities.regDesc) as total_regions,
-            COUNT(DISTINCT institutes.type) as total_institute_types
-        ')->first();
+        // Create a fresh query for aggregation to avoid GROUP BY issues
+        $stats = Institute::query()
+            ->leftJoin('breeders', 'institutes.id', '=', 'breeders.affiliation')
+            ->leftJoin('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
+            ->selectRaw('
+                COUNT(DISTINCT institutes.id) as total_institutes,
+                COUNT(DISTINCT breeders.id) as total_breeders,
+                COUNT(DISTINCT loc_cities.regDesc) as total_regions,
+                COUNT(DISTINCT institutes.type) as total_institute_types
+            ')
+            ->first();
 
         return [
             'total_institutes' => $stats->total_institutes ?? 0,
@@ -119,7 +117,7 @@ class InstituteFilterStrategy extends BaseFilterStrategy
     {
         return [
             'search', 'institute_type', 'region',
-            'province', 'city', 'group_by'
+            'province', 'city', 'filter_by'
         ];
     }
 
@@ -137,7 +135,7 @@ class InstituteFilterStrategy extends BaseFilterStrategy
     private function aggregateByRegion(Builder $query): array
     {
         return $query
-            ->selectRaw('loc_cities.regDesc as label, COUNT(DISTINCT institutes.id) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng')
+            ->select(DB::raw('loc_cities.regDesc as label, COUNT(DISTINCT institutes.id) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->whereNotNull('loc_cities.regDesc')
             ->groupBy('loc_cities.regDesc')
             ->orderByDesc('total')
@@ -148,7 +146,7 @@ class InstituteFilterStrategy extends BaseFilterStrategy
     private function aggregateByProvince(Builder $query): array
     {
         return $query
-            ->selectRaw('loc_cities.provDesc as label, COUNT(DISTINCT institutes.id) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng')
+            ->select(DB::raw('loc_cities.provDesc as label, COUNT(DISTINCT institutes.id) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->whereNotNull('loc_cities.provDesc')
             ->groupBy('loc_cities.provDesc')
             ->orderByDesc('total')
@@ -159,9 +157,9 @@ class InstituteFilterStrategy extends BaseFilterStrategy
     private function aggregateByCity(Builder $query): array
     {
         return $query
-            ->selectRaw('loc_cities.cityDesc as label, COUNT(DISTINCT institutes.id) as total, loc_cities.latitude as lat, loc_cities.longitude as lng')
+            ->select(DB::raw('loc_cities.cityDesc as label, COUNT(DISTINCT institutes.id) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->whereNotNull('loc_cities.cityDesc')
-            ->groupBy('loc_cities.id', 'loc_cities.cityDesc', 'loc_cities.latitude', 'loc_cities.longitude')
+            ->groupBy('loc_cities.id', 'loc_cities.cityDesc')
             ->orderByDesc('total')
             ->get()
             ->toArray();

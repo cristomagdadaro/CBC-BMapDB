@@ -50,6 +50,7 @@ class MapDataFilterService
         $aggregatedData = $strategy->aggregateData($query, $filters);
 
         return [
+            'sql' => $query->toSql(),
             'data' => $aggregatedData,
             'metadata' => $this->generateMetadata($dataType, $filters),
             'options' => $this->getFilterOptions($dataType, $filters),

@@ -14,12 +14,6 @@ const handleDataUpdated = (result) => {
     mapData.value = result.data
     mapMetadata.value = result.metadata
     currentFilters.value = result.filters
-
-    console.log('Map data updated:', {
-        dataPoints: result.data.length,
-        dataType: result.filters.data_type,
-        groupBy: result.filters.group_by
-    })
 }
 
 // Handle filter changes
@@ -55,19 +49,18 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex gap-6 h-screen bg-gray-50 p-6">
+    <div class="flex gap-5 h-screen bg-gray-50 p-5">
         <!-- Filter Panel -->
         <div class="w-80 flex-shrink-0">
             <MapDataFilterPanel
                 :initial-data-type="'commodities'"
-                :initial-filters="{ group_by: 'region' }"
                 @data-updated="handleDataUpdated"
                 @filters-changed="handleFiltersChanged"
             />
         </div>
 
         <!-- Map Container -->
-        <div class="flex-1 flex flex-col gap-4">
+        <div class="flex-1 flex flex-col gap-5">
             <!-- Map Header -->
             <div class="bg-white rounded-lg shadow-lg p-4">
                 <div class="flex items-center justify-between">
@@ -76,7 +69,7 @@ onMounted(() => {
                         <p class="text-sm text-gray-600 mt-1">
                             Showing {{ mapData.length }} locations
                             <span v-if="currentFilters.data_type" class="ml-2">
-                                • {{ currentFilters.data_type }} grouped by {{ currentFilters.group_by }}
+                                • {{ currentFilters.data_type }} <span v-if="currentFilters.filter_by">filtered by {{ currentFilters.filter_by }}</span>
                             </span>
                         </p>
                     </div>
@@ -85,7 +78,7 @@ onMounted(() => {
                             @click="fitMapToData"
                             class="px-3 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
                             :disabled="mapData.length === 0"
-                        >
+                         >
                             Fit to Data
                         </button>
                     </div>
@@ -97,6 +90,8 @@ onMounted(() => {
                 <LeafletMap
                     ref="mapComponent"
                     :map-data="mapData"
+                    :clustered="false"
+                    :showHeatmap="false"
                     :center="[12.8797, 121.7740]"
                     :zoom="6"
                     height="100%"
@@ -106,7 +101,7 @@ onMounted(() => {
             </div>
 
             <!-- Selected Marker Details -->
-            <div v-if="selectedMarker" class="bg-white rounded-lg shadow-lg p-4">
+            <div v-if="selectedMarker" class="hidden bg-white rounded-lg shadow-lg p-4">
                 <h3 class="text-lg font-semibold text-gray-900 mb-3">Selected Location</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>

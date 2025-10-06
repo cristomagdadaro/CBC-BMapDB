@@ -35,6 +35,8 @@
         "dotenv": "^16.4.5",
         "exceljs": "^4.4.0",
         "leaflet-sidebar-v2": "^3.2.3",
+        "leaflet.heat": "^0.2.0",
+        "leaflet.markercluster": "^1.5.3",
         "papaparse": "^5.4.1",
         "rollup": "^3.29.5",
         "three": "^0.172.0",

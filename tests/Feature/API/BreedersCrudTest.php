@@ -271,4 +271,13 @@ class BreedersCrudTest extends TestCase
         print_r($response->collect()->toArray());
         $response->assertStatus(200);
     }
+
+    /** @test **/
+    public function get_breeders_new_api(): void
+    {
+        $this->userSetup();
+        $response = $this->getJson('/api/map-data?data_type=breeders');
+        print_r($response->collect()->toArray());
+        $response->assertStatus(200);
+    }
 }

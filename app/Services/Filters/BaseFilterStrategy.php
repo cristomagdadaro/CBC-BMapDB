@@ -100,18 +100,21 @@ abstract class BaseFilterStrategy
             'regions' => \DB::table('loc_cities')
                 ->select('regDesc as value', 'regDesc as label')
                 ->distinct()
+                ->whereNotNull('regDesc')
                 ->orderBy('regDesc')
                 ->get()
                 ->toArray(),
             'provinces' => \DB::table('loc_cities')
                 ->select('provDesc as value', 'provDesc as label')
                 ->distinct()
+                ->whereNotNull('provDesc')
                 ->orderBy('provDesc')
                 ->get()
                 ->toArray(),
             'cities' => \DB::table('loc_cities')
-                ->select('cityDesc as value', 'cityDesc as label')
+                ->select(\DB::raw('id as value, cityDesc as label'))
                 ->distinct()
+                ->whereNotNull('cityDesc')
                 ->orderBy('cityDesc')
                 ->get()
                 ->toArray(),

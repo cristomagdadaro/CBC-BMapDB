@@ -2,9 +2,9 @@
 
 namespace App\Services\Filters;
 
+use Modules\PbMap\Models\Breeder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-use Modules\PbMap\Models\Breeder;
 
 /**
  * Filter strategy for breeder data
@@ -14,7 +14,7 @@ class BreederFilterStrategy extends BaseFilterStrategy
     public function buildBaseQuery(): Builder
     {
         return Breeder::query()
-            ->with(['geolocation', 'institute', 'commodities'])
+            ->select('breeders.*', 'loc_cities.latitude', 'loc_cities.longitude', 'loc_cities.regDesc', 'loc_cities.provDesc', 'loc_cities.cityDesc', 'institutes.name as institute_name')
             ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
             ->leftJoin('institutes', 'breeders.affiliation', '=', 'institutes.id');
     }
@@ -47,17 +47,13 @@ class BreederFilterStrategy extends BaseFilterStrategy
 
     public function aggregateData(Builder $query, array $filters): array
     {
-        $groupBy = $filters['group_by'] ?? 'region';
+        $filterBy = $filters['filter_by'] ?? 'region';
 
-        switch ($groupBy) {
-            case 'institute':
-                return $this->aggregateByInstitute($query);
+        switch ($filterBy) {
             case 'province':
                 return $this->aggregateByProvince($query);
             case 'city':
                 return $this->aggregateByCity($query);
-            case 'breeder_type':
-                return $this->aggregateByBreederType($query);
             default:
                 return $this->aggregateByRegion($query);
         }
@@ -68,13 +64,6 @@ class BreederFilterStrategy extends BaseFilterStrategy
         $options = [
             'institutes' => $this->getInstituteOptions(),
             'breeder_types' => $this->getBreederTypeOptions(),
-            'group_by_options' => [
-                ['value' => 'region', 'label' => 'Region'],
-                ['value' => 'province', 'label' => 'Province'],
-                ['value' => 'city', 'label' => 'City'],
-                ['value' => 'institute', 'label' => 'Institute'],
-                ['value' => 'breeder_type', 'label' => 'Breeder Type'],
-            ]
         ];
 
         return array_merge($options, $this->getGeographicOptions());
@@ -82,12 +71,17 @@ class BreederFilterStrategy extends BaseFilterStrategy
 
     public function getSummaryStats(Builder $query): array
     {
-        $stats = $query->selectRaw('
-            COUNT(DISTINCT breeders.id) as total_breeders,
-            COUNT(DISTINCT institutes.id) as total_institutes,
-            COUNT(DISTINCT loc_cities.regDesc) as total_regions,
-            COUNT(DISTINCT breeders.breeder_type) as total_breeder_types
-        ')->first();
+        // Create a fresh query for aggregation to avoid GROUP BY issues
+        $stats = Breeder::query()
+            ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
+            ->leftJoin('institutes', 'breeders.affiliation', '=', 'institutes.id')
+            ->selectRaw('
+                COUNT(DISTINCT breeders.id) as total_breeders,
+                COUNT(DISTINCT institutes.id) as total_institutes,
+                COUNT(DISTINCT loc_cities.regDesc) as total_regions,
+                COUNT(DISTINCT breeders.breeder_type) as total_breeder_types
+            ')
+            ->first();
 
         return [
             'total_breeders' => $stats->total_breeders ?? 0,
@@ -121,7 +115,7 @@ class BreederFilterStrategy extends BaseFilterStrategy
     {
         return [
             'institute', 'breeder_type', 'search', 'region',
-            'province', 'city', 'group_by'
+            'province', 'city', 'filter_by'
         ];
     }
 
@@ -139,7 +133,7 @@ class BreederFilterStrategy extends BaseFilterStrategy
     private function aggregateByRegion(Builder $query): array
     {
         return $query
-            ->selectRaw('loc_cities.regDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng')
+            ->select(DB::raw('loc_cities.regDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->groupBy('loc_cities.regDesc')
             ->orderByDesc('total')
             ->get()
@@ -149,7 +143,7 @@ class BreederFilterStrategy extends BaseFilterStrategy
     private function aggregateByProvince(Builder $query): array
     {
         return $query
-            ->selectRaw('loc_cities.provDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng')
+            ->select(DB::raw('loc_cities.provDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->groupBy('loc_cities.provDesc')
             ->orderByDesc('total')
             ->get()
@@ -159,8 +153,8 @@ class BreederFilterStrategy extends BaseFilterStrategy
     private function aggregateByCity(Builder $query): array
     {
         return $query
-            ->selectRaw('loc_cities.cityDesc as label, COUNT(*) as total, loc_cities.latitude as lat, loc_cities.longitude as lng')
-            ->groupBy('loc_cities.id', 'loc_cities.cityDesc', 'loc_cities.latitude', 'loc_cities.longitude')
+            ->select(DB::raw('loc_cities.cityDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
+            ->groupBy('loc_cities.id', 'loc_cities.cityDesc')
             ->orderByDesc('total')
             ->get()
             ->toArray();
