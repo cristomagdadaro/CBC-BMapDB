@@ -57,11 +57,11 @@ export default {
                 </div>
                 <div class="grid sm:grid-cols-2 grid-cols-1 text-sm gap-2">
                     <text-field :error="getError('mobile_no')" :title="getTitle('mobile_no')" label="Phone Number" v-model="form.mobile_no" />
-                    <select-search-field required :api-link="route('api.cities.index.public')" :title="getTitle('geolocation')" :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
-                    <select-search-field required :api-link="route('api.institutes.index.public')" :title="getTitle('affiliation')" :error="getError('affiliation')" label="Affiliation" v-model="form.affiliation" />
+                    <select-search-field required :api-link="route('api.cities.options.public')" :title="getTitle('geolocation')" :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
+                    <select-search-field required :api-link="route('api.institutes.options.public')" :title="getTitle('affiliation')" :error="getError('affiliation')" label="Affiliation" v-model="form.affiliation" />
                     <select-field required :error="getError('breeder_type')" :title="getTitle('breeder_type')" label="Funding Type" v-model="form.breeder_type" :options="[{value: 'Public', label: 'Public'}, {value: 'Private', label: 'Private'}]" />
                     <text-field required :error="getError('position')" :title="getTitle('position')" label="Position" v-model="form.position" />
-                    <select-field required :error="getError('educ_level')" :title="getTitle('educ_level')" label="Education Level" v-model="form.educ_level" :options="TWGPages.educLevelOptions" />
+                    <select-field :error="getError('educ_level')" :title="getTitle('educ_level')" label="Education Level" v-model="form.educ_level" :options="TWGPages.educLevelOptions" />
                     <text-field required :error="getError('email')" :title="getTitle('email')" label="Email" v-model="form.email" />
                     <file-field :error="getError('photo')" :title="getTitle('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
                 </div>

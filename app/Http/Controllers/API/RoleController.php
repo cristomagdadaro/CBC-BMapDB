@@ -8,6 +8,8 @@ use App\Http\Requests\GetRoleRequest;
 use App\Http\Requests\UpdateRoleRequest;
 use App\Http\Resources\BaseCollection;
 use App\Repository\API\RoleRepo;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Collection;
 
 class RoleController extends BaseController
 {
@@ -39,5 +41,23 @@ class RoleController extends BaseController
     public function destroy(int $id)
     {
         return parent::_destroy($id);
+    }
+
+    /**
+     * Get roles formatted for selection options (public use)
+     */
+    public function options(GetRoleRequest $request): JsonResponse
+    {
+        $data = $this->service->search(new Collection($request->validated()));
+
+        // Transform the data to option format
+        $data->getCollection()->transform(function ($role) {
+            return [
+                'value' => $role->id,
+                'label' => $role->name,
+            ];
+        });
+
+        return response()->json($data);
     }
 }

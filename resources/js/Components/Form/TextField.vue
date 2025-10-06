@@ -125,7 +125,7 @@ const containerClasses = computed(() => {
 });
 
 const inputClasses = computed(() => {
-    const baseClasses = 'border-0 w-full text-gray-900 focus:ring-0 bg-transparent transition-colors duration-200';
+    const baseClasses = 'border-0 w-full text-gray-900 focus:ring-0 bg-transparent transition-colors duration-200 overflow-hidden overflow-ellipsis';
     const stateClasses = {
         'rounded-md': !isTextarea.value,
         'cursor-not-allowed': props.disabled,

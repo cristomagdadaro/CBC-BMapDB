@@ -39,7 +39,7 @@ const error = ref(null)
 const dataTypeOptions = [
     { value: 'commodities', label: 'Commodities' },
     { value: 'breeders', label: 'Breeders' },
-    { value: 'institutes', label: 'Institutes' }
+    { value: 'institutes', label: 'Institutions' }
 ]
 
 // Filter by options
@@ -323,7 +323,7 @@ defineExpose({
         <div class="space-y-4">
             <!-- Data Type Selection -->
             <SelectField
-                label="Data Type"
+                label="Data List"
                 v-model="filters.data_type"
                 :options="dataTypeOptions"
                 :disabled="loading"
