@@ -21,6 +21,23 @@ class BreederFilterStrategy extends BaseFilterStrategy
 
     public function applyFilters(Builder $query, array $filters): Builder
     {
+        // Hierarchical geographic filtering - Region → Province → City
+        if (!empty($filters['regions']) || !empty($filters['region'])) {
+            $regionValue = $filters['regions'] ?? $filters['region'];
+            $query->where('loc_cities.regDesc', $regionValue);
+        }
+
+        if (!empty($filters['provinces']) || !empty($filters['province'])) {
+            $provinceValue = $filters['provinces'] ?? $filters['province'];
+            $query->where('loc_cities.provDesc', $provinceValue);
+        }
+
+        if (!empty($filters['cities']) || !empty($filters['city'])) {
+            $cityValue = $filters['cities'] ?? $filters['city'];
+            // Cities filter uses ID since that's what the geolocation column references
+            $query->where('loc_cities.id', $cityValue);
+        }
+
         // Institute/affiliation filter
         if (!empty($filters['institute'])) {
             $query->where('institutes.name', $filters['institute']);
@@ -39,8 +56,6 @@ class BreederFilterStrategy extends BaseFilterStrategy
             });
         }
 
-        // Apply geographic filters
-        $query = $this->applyGeographicFilters($query, $filters);
 
         return $query;
     }
@@ -66,15 +81,13 @@ class BreederFilterStrategy extends BaseFilterStrategy
             'breeder_types' => $this->getBreederTypeOptions(),
         ];
 
-        return array_merge($options, $this->getGeographicOptions());
+        return array_merge($options, $this->getGeographicOptions($currentFilters));
     }
 
     public function getSummaryStats(Builder $query): array
     {
-        // Create a fresh query for aggregation to avoid GROUP BY issues
-        $stats = Breeder::query()
-            ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
-            ->leftJoin('institutes', 'breeders.affiliation', '=', 'institutes.id')
+        // Use the already filtered query instead of creating a fresh one
+        $stats = $query
             ->selectRaw('
                 COUNT(DISTINCT breeders.id) as total_breeders,
                 COUNT(DISTINCT institutes.id) as total_institutes,
@@ -191,5 +204,88 @@ class BreederFilterStrategy extends BaseFilterStrategy
             ->orderBy('breeder_type')
             ->get()
             ->toArray();
+    }
+
+    /**
+     * Context-aware geographic options: provinces filtered by region, cities filtered by province (and region)
+     */
+    protected function getGeographicOptions(array $currentFilters = []): array
+    {
+        $region = $currentFilters['region'] ?? $currentFilters['regions'] ?? null;
+        $province = $currentFilters['province'] ?? $currentFilters['provinces'] ?? null;
+
+        // Regions with breeders, commodities, or institutes
+        $regions = collect(
+            \DB::select(<<<SQL
+                SELECT DISTINCT regDesc as value, regDesc as label FROM loc_cities
+                WHERE regDesc IS NOT NULL AND id IN (SELECT geolocation FROM breeders)
+                UNION
+                SELECT DISTINCT regDesc as value, regDesc as label FROM loc_cities
+                WHERE regDesc IS NOT NULL AND id IN (
+                    SELECT breeders.geolocation FROM breeders
+                    JOIN commodities ON breeders.id = commodities.breeder_id
+                )
+                UNION
+                SELECT DISTINCT regDesc as value, regDesc as label FROM loc_cities
+                WHERE regDesc IS NOT NULL AND id IN (
+                    SELECT geolocation FROM breeders WHERE affiliation IN (SELECT id FROM institutes)
+                )
+            SQL)
+        )->unique('value')->sortBy('label')->values()->toArray();
+
+        // Provinces with breeders, commodities, or institutes, filtered by region if set
+        $provinceWhere = '';
+        if ($region) {
+            $provinceWhere = "AND regDesc = '" . str_replace("'", "''", $region) . "'";
+        }
+        $provinces = collect(
+            \DB::select(<<<SQL
+                SELECT DISTINCT provDesc as value, provDesc as label FROM loc_cities
+                WHERE provDesc IS NOT NULL $provinceWhere AND id IN (SELECT geolocation FROM breeders)
+                UNION
+                SELECT DISTINCT provDesc as value, provDesc as label FROM loc_cities
+                WHERE provDesc IS NOT NULL $provinceWhere AND id IN (
+                    SELECT breeders.geolocation FROM breeders
+                    JOIN commodities ON breeders.id = commodities.breeder_id
+                )
+                UNION
+                SELECT DISTINCT provDesc as value, provDesc as label FROM loc_cities
+                WHERE provDesc IS NOT NULL $provinceWhere AND id IN (
+                    SELECT geolocation FROM breeders WHERE affiliation IN (SELECT id FROM institutes)
+                )
+            SQL)
+        )->unique('value')->sortBy('label')->values()->toArray();
+
+        // Cities with breeders, commodities, or institutes, filtered by province (and region) if set
+        $cityWhere = '';
+        if ($province) {
+            $cityWhere .= "AND provDesc = '" . str_replace("'", "''", $province) . "'";
+        }
+        if ($region) {
+            $cityWhere .= " AND regDesc = '" . str_replace("'", "''", $region) . "'";
+        }
+        $cities = collect(
+            \DB::select(<<<SQL
+                SELECT DISTINCT id as value, cityDesc as label FROM loc_cities
+                WHERE cityDesc IS NOT NULL $cityWhere AND id IN (SELECT geolocation FROM breeders)
+                UNION
+                SELECT DISTINCT id as value, cityDesc as label FROM loc_cities
+                WHERE cityDesc IS NOT NULL $cityWhere AND id IN (
+                    SELECT breeders.geolocation FROM breeders
+                    JOIN commodities ON breeders.id = commodities.breeder_id
+                )
+                UNION
+                SELECT DISTINCT id as value, cityDesc as label FROM loc_cities
+                WHERE cityDesc IS NOT NULL $cityWhere AND id IN (
+                    SELECT geolocation FROM breeders WHERE affiliation IN (SELECT id FROM institutes)
+                )
+            SQL)
+        )->unique('value')->sortBy('label')->values()->toArray();
+
+        return [
+            'regions' => $regions,
+            'provinces' => $provinces,
+            'cities' => $cities,
+        ];
     }
 }
