@@ -1,16 +1,15 @@
 <script>
 import CollapsableMenu from "@/Components/Collapsable/CollapsableMenu/CollapsableMenu.vue";
-import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
-import CaretDown from "@/Components/Icons/CaretDown.vue";
 import DataFiltrationMixin from "@/Pages/mixins/DataFiltrationMixin";
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
 import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
 import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
+import SelectField from "@/Components/Form/SelectField.vue";
 export default {
     name: "DataFiltrationFields",
-    components: {CloseIcon, SearchBy, SearchBox, LoaderIcon, CaretDown, CustomDropdown, CollapsableMenu},
+    components: {SelectField, CloseIcon, SearchBy, SearchBox, LoaderIcon, CollapsableMenu},
     mixins: [DataFiltrationMixin],
     created() {
         this.apiUrl = this.tables.length ? this.tables[0].route : null;
@@ -53,73 +52,62 @@ export default {
             </div>
         </div>
         <collapsable-menu id="bm-filter-dropdown" label="Filters" open-default>
-            <custom-dropdown
+            <SelectField
                 id="bm-listfilter-dropdown"
                 label="Select a list"
                 :disabled="api.processing"
-                :value="filter.table_name"
-                :withAllOption="false"
+                v-model="filter.table_name"
                 :options="dataTables"
                 placeholder="Select a list"
-                @selectedChange="!api.processing ? changeListOf($event) : null">
-                <template #icon>
-                    <caret-down  class="h-4 w-4 text-gray-700" />
-                </template>
-            </custom-dropdown>
-            <custom-dropdown
+                :searchable="false"
+                :clearable="false"
+                @change="!api.processing ? changeListOf($event?.value) : null"
+            />
+
+            <SelectField
                 id="bm-commodityfilter-dropdown"
                 v-if="data && !!data.raw_data_labels && filter.table_name === 'commodities'"
                 label="Select a specific commodity"
-                searchable
-                :value="filter.commodity"
-                :withAllOption="false"
+                v-model="filter.commodity"
                 :options="commodityLabels"
                 placeholder="None"
-                @selectedChange="!api.processing ? changeCommodity($event) : null">
-                <template #icon>
-                    <caret-down  class="h-4 w-4 text-gray-700" />
-                </template>
-            </custom-dropdown>
-            <custom-dropdown
+                :disabled="api.processing"
+                @change="!api.processing ? changeCommodity($event?.value) : null"
+            />
+
+            <SelectField
                 id="bm-locationfilter-dropdown"
                 label="Group by"
-                :value="filter.geo_location_filter"
-                :withAllOption="false"
+                v-model="filter.geo_location_filter"
                 :options="locationLabels"
                 placeholder="None"
-                @selectedChange="!api.processing ? changeLocation($event) : null">
-                <template #icon>
-                    <caret-down  class="h-4 w-4 text-gray-700" />
-                </template>
-            </custom-dropdown>
-            <custom-dropdown
+                :disabled="api.processing"
+                :searchable="false"
+                :clearable="false"
+                @change="!api.processing ? changeLocation($event?.value) : null"
+            />
+
+            <SelectField
                 id="bm-cprfilter-dropdown"
                 v-if="data && data.group_search_labels && filter.geo_location_filter !== 'affiliation'"
-                searchable
                 :label="`Select a specific ${filter.geo_location_filter}`"
-                :value="filter.geo_location_value"
-                :withAllOption="false"
+                v-model="filter.geo_location_value"
                 :options="specificLocationLabels"
                 placeholder="None"
-                @selectedChange="!api.processing ? changeSpecificLocation($event) : null">
-                <template #icon>
-                    <caret-down  class="h-4 w-4 text-gray-700" />
-                </template>
-            </custom-dropdown>
-            <custom-dropdown
-                id="bm-cprfilter-dropdown"
+                :disabled="api.processing"
+                @change="!api.processing ? changeSpecificLocation($event?.value) : null"
+            />
+
+            <SelectField
+                id="bm-cprfilter-institute-dropdown"
                 v-if="data && data.group_search_institute && filter.geo_location_filter === 'affiliation'"
-                searchable
-                :label="`Select a specific institute`"
-                :value="filter.group_search_institute"
-                :withAllOption="false"
+                label="Select a specific institute"
+                v-model="filter.group_search_institute"
                 :options="specificInstituteLabels"
                 placeholder="None"
-                @selectedChange="changeSpecificLocation($event)">
-                <template #icon>
-                    <caret-down  class="h-4 w-4 text-gray-700" />
-                </template>
-            </custom-dropdown>
+                :disabled="api.processing"
+                @change="changeSpecificLocation($event?.value)"
+            />
         </collapsable-menu>
     </div>
 </template>

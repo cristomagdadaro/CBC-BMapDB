@@ -38,6 +38,10 @@ export default {
         title: {
             type: String,
             default: null,
+        },
+        perPage: {
+            type: Number,
+            default: 10,
         }
     },
     data() {
@@ -49,97 +53,245 @@ export default {
             showDropdown: false,
             displayedInput: null,
             autoFocus: false,
+            currentPage: 1,
+            hasMoreData: true,
+            isLoadingMore: false,
+            currentSearch: '',
+            debounceTimeout: null,
+            selectedOption: null,
         };
     },
     methods: {
         toggleDropdown() {
             if (this.disabled) return;
-            this.showDropdown = !this.showDropdown;
-            this.autoFocus = true;
-        },
-        async getOptionsFromApi(search = null, page = 1) {
-            this.fetchedResponse = await this.api.get({
-                ...(search ? { search } : {}),
-                per_page: 20,
-                page,
-            });
-            if (this.fetchedResponse instanceof BaseResponse){
-                if (this.fetchedResponse.data && this.fetchedResponse.data.length)
-                this.formattedOptions = this.fetchedResponse.data.map(option => ({
-                    value: option.id,
-                    label: option.name || option.title || option.label || option.value || (new BaseClass(option)).getFullName ,
-                }));
 
-                this.filteredOptions = this.formattedOptions;
+            if (!this.showDropdown) {
+                this.showDropdown = true;
+                this.autoFocus = true;
 
-                if (search) {
-                    this.filteredOptions.forEach(option => {
-                        if (option.value === search) {
-                            this.selectOption(option);
-                        }
-                    });
+                // Load initial data if not already loaded
+                if (this.formattedOptions.length === 0) {
+                    this.resetPagination();
+                    this.getOptionsFromApi();
                 }
+            } else {
+                this.closeDropdown();
             }
         },
+
+        async getOptionsFromApi(search = null, page = 1, append = false) {
+            if (!this.api) return;
+
+            try {
+                // Prevent multiple simultaneous requests
+                if (this.isLoadingMore && append) return;
+
+                this.isLoadingMore = append;
+
+                const params = {
+                    per_page: this.perPage,
+                    page,
+                    ...(search ? { search } : {}),
+                };
+
+                this.fetchedResponse = await this.api.get(params);
+
+                if (this.fetchedResponse instanceof BaseResponse && this.fetchedResponse.data) {
+                    const newOptions = this.fetchedResponse.data.map(option => ({
+                        value: option.id,
+                        label: option.name || option.title || option.label || option.value || (new BaseClass(option)).getFullName,
+                    }));
+
+                    if (append) {
+                        this.formattedOptions = [...this.formattedOptions, ...newOptions];
+                    } else {
+                        this.formattedOptions = newOptions;
+                    }
+
+                    this.filteredOptions = this.formattedOptions;
+
+                    // Check if there's more data
+                    this.hasMoreData = newOptions.length === this.perPage;
+
+                    // Auto-select if searching for specific value
+                    if (search && !append) {
+                        const foundOption = this.filteredOptions.find(option =>
+                            option.value == search || option.label.toLowerCase().includes(search.toLowerCase())
+                        );
+                        if (foundOption && this.modelValue == foundOption.value) {
+                            this.selectedOption = foundOption;
+                            this.displayedInput = foundOption.label;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching options:', error);
+            } finally {
+                this.isLoadingMore = false;
+            }
+        },
+
+        async loadMoreOptions() {
+            if (!this.hasMoreData || this.isLoadingMore || !this.api) return;
+
+            this.currentPage++;
+            await this.getOptionsFromApi(this.currentSearch, this.currentPage, true);
+        },
+
         selectOption(option) {
+            this.selectedOption = option;
             this.$emit('update:modelValue', option.value);
             this.displayedInput = option.label;
             this.closeDropdown();
         },
+
         closeDropdown() {
             this.showDropdown = false;
+            this.autoFocus = false;
         },
-        debounceApiCall(search) {
+
+        resetPagination() {
+            this.currentPage = 1;
+            this.hasMoreData = true;
+            this.formattedOptions = [];
+            this.filteredOptions = [];
+        },
+
+        debounceApiCall(searchValue) {
             clearTimeout(this.debounceTimeout);
             this.debounceTimeout = setTimeout(() => {
-                this.getOptionsFromApi(search);
+                this.handleSearch(searchValue);
             }, 300);
         },
+
+        handleSearch(searchValue) {
+            this.currentSearch = searchValue;
+            this.resetPagination();
+            this.getOptionsFromApi(searchValue);
+        },
+
+        handleDropdownScroll(event) {
+            const { scrollTop, scrollHeight, clientHeight } = event.target;
+            const threshold = 50; // pixels from bottom
+
+            if (scrollHeight - scrollTop - clientHeight < threshold) {
+                this.loadMoreOptions();
+            }
+        },
+
         handleClickOutside(event) {
             if (this.$el && !this.$el.contains(event.target)) {
                 this.closeDropdown();
             }
+        },
+
+        clearSelection() {
+            this.selectedOption = null;
+            this.displayedInput = null;
+            this.$emit('update:modelValue', null);
+        },
+
+        // Load selected option data on mount if modelValue exists
+        async loadSelectedOption() {
+            if (this.modelValue && this.api) {
+                try {
+                    const response = await this.api.get({
+                        id: this.modelValue,
+                        per_page: 1
+                    });
+
+                    if (response instanceof BaseResponse && response.data && response.data.length) {
+                        const option = response.data[0];
+                        this.selectedOption = {
+                            value: option.id,
+                            label: option.name || option.title || option.label || option.value || (new BaseClass(option)).getFullName,
+                        };
+                        this.displayedInput = this.selectedOption.label;
+                    }
+                } catch (error) {
+                    console.error('Error loading selected option:', error);
+                }
+            }
         }
     },
+
     expose: ['focus'],
-    mounted() {
+
+    async mounted() {
         if (this.apiLink) {
             this.api = new ApiService(this.apiLink);
-            this.getOptionsFromApi(this.modelValue);
+            await this.loadSelectedOption();
         }
 
         document.addEventListener("click", this.handleClickOutside);
     },
+
     beforeUnmount() {
         document.removeEventListener("click", this.handleClickOutside);
+        if (this.debounceTimeout) {
+            clearTimeout(this.debounceTimeout);
+        }
     },
+
     watch: {
-        modelValue(newVal) {
-            this.getOptionsFromApi(newVal);
-        },
-        displayedInput(newVal){
-            if (!newVal)
-            {
-                this.$emit('update:modelValue', null);
-                this.displayedInput = null;
+        async modelValue(newVal, oldVal) {
+            if (newVal !== oldVal) {
+                if (newVal) {
+                    await this.loadSelectedOption();
+                } else {
+                    this.clearSelection();
+                }
             }
         },
+
+        displayedInput(newVal) {
+            if (!newVal && this.selectedOption) {
+                this.clearSelection();
+            }
+        },
+
         'api.processing'(newVal) {
             if (!newVal && this.autoFocus) {
                 this.$nextTick(() => {
-                    this.$refs?.textInput.focus();
+                    this.$refs?.textInput?.focus();
                 });
             }
         }
     },
-     computed: {
+
+    computed: {
         processing() {
             return this.api?.processing;
         },
-         dynamicLabel() {
-            return this.processing ? `${this.label} (loading)` : this.label;
-         }
-     }
+
+        dynamicLabel() {
+            if (this.processing && !this.isLoadingMore) {
+                return `${this.label} (loading)`;
+            }
+            return this.label;
+        },
+
+        hasOptions() {
+            return this.filteredOptions && this.filteredOptions.length > 0;
+        },
+
+        showLoadingMore() {
+            return this.isLoadingMore && this.hasOptions;
+        },
+
+        emptyStateMessage() {
+            if (this.processing && !this.hasOptions) {
+                return 'Loading options...';
+            }
+            if (this.currentSearch && !this.hasOptions) {
+                return 'No results found';
+            }
+            if (!this.currentSearch && !this.hasOptions) {
+                return 'Type to search...';
+            }
+            return '';
+        }
+    }
 };
 </script>
 
@@ -159,24 +311,78 @@ export default {
                 :placeholder="placeholder"
                 @focusin="toggleDropdown()"
                 @click="toggleDropdown()"
-                @keydown="debounceApiCall($event.target.value)"
+                @input="debounceApiCall($event.target.value)"
+                @clear="clearSelection"
             />
-            <div v-show="showDropdown && !api.processing" class="relative z-[999]" @focusout="closeDropdown()">
-                <div v-if="api"
-                     class="absolute left-0 mt-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-md bg-white p-2 max-h-52 max-w-[20rem] overflow-x-auto z-50"
+
+            <transition-container>
+                <div
+                    v-show="showDropdown"
+                    class="absolute left-0 mt-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-lg bg-white z-[999] min-w-full max-w-[20rem]"
+                    style="top: 100%;"
                 >
-                <div v-show="filteredOptions.length !== 1" class="text-xs text-gray-200 pb-1 mb-1 select-none border-b border-gray-100">
-                        <p v-if="api.processing">fetching more options</p>
-                        <p v-else>Choose an option</p>
+                    <!-- Dropdown Header -->
+                    <div
+                        v-if="!processing || hasOptions"
+                        class="text-xs text-gray-500 px-3 py-2 border-b border-gray-100 bg-gray-50 rounded-t-md"
+                    >
+                        <p v-if="hasOptions">
+                            {{ filteredOptions.length }} option{{ filteredOptions.length !== 1 ? 's' : '' }}
+                            <span v-if="hasMoreData" class="text-gray-400">(scroll for more)</span>
+                        </p>
+                        <p v-else>{{ emptyStateMessage }}</p>
                     </div>
-                    <div v-if="filteredOptions.length" v-for="option in filteredOptions" :key="option.value" @click="selectOption(option)" class="whitespace-nowrap hover:bg-gray-200 px-2 py-0.5 select-none rounded-sm overflow-ellipsis overflow-x-hidden">{{ option.label }}</div>
-                    <div v-else-if="displayedInput">Not found</div>
-                    <div v-else>Type a word</div>
-                    <div v-if="api.processing" class="text-center text-gray-300 whitespace-nowrap select-none">
-                        fetching options...
+
+                    <!-- Options List -->
+                    <div
+                        v-if="hasOptions"
+                        class="max-h-48 overflow-y-auto"
+                        @scroll="handleDropdownScroll"
+                    >
+                        <div
+                            v-for="option in filteredOptions"
+                            :key="option.value"
+                            @click="selectOption(option)"
+                            class="px-3 py-2 hover:bg-indigo-50 cursor-pointer border-b border-gray-50 last:border-b-0 transition-colors duration-150"
+                            :class="{
+                                'bg-indigo-100 text-indigo-900': selectedOption?.value === option.value,
+                                'text-gray-900': selectedOption?.value !== option.value
+                            }"
+                        >
+                            <div class="truncate" :title="option.label">
+                                {{ option.label }}
+                            </div>
+                        </div>
+
+                        <!-- Loading More Indicator -->
+                        <div
+                            v-if="showLoadingMore"
+                            class="px-3 py-2 text-center text-sm text-gray-500 border-t border-gray-100"
+                        >
+                            Loading more options...
+                        </div>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div
+                        v-else-if="!processing"
+                        class="px-3 py-4 text-center text-gray-500 text-sm"
+                    >
+                        {{ emptyStateMessage }}
+                    </div>
+
+                    <!-- Initial Loading State -->
+                    <div
+                        v-else
+                        class="px-3 py-4 text-center text-gray-500 text-sm"
+                    >
+                        <div class="flex items-center justify-center space-x-2">
+                            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-500"></div>
+                            <span>Loading options...</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </transition-container>
         </div>
     </div>
 </template>

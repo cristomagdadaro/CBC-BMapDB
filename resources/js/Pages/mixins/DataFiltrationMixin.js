@@ -61,24 +61,24 @@ export default {
             return this.apiResponse;
         },
         dataTables() {
-            return this.tables.map(item => ({ label: item.label, name: item.name }));
+            return this.tables.map(item => ({ label: item.label, value: item.name }));
         },
         commodityLabels() {
-            return this.data.raw_data_labels.map(item => ({ label: item, name: item }));
+            return this.data.raw_data_labels.map(item => ({ label: item, value: item }));
         },
         locationLabels() {
             return [
-                { label: 'Region', name: 'region' },
-                { label: 'Province', name: 'province' },
-                { label: 'City', name: 'city' },
-                {label: 'Institute', name: 'institute'}
+                { label: 'Region', value: 'region' },
+                { label: 'Province', value: 'province' },
+                { label: 'City', value: 'city' },
+                {label: 'Institute', value: 'institute'}
             ];
         },
         specificLocationLabels() {
-            return this.data.group_search_labels.map(item => ({ label: item, name: item }));
+            return this.data.group_search_labels.map(item => ({ label: item, value: item }));
         },
         specificInstituteLabels() {
-            return this.data.group_search_institute.map(item => ({ label: item.name, name: item.id }));
+            return this.data.group_search_institute.map(item => ({ label: item.name, value: item.id }));
         }
     },
     methods: {

@@ -32,6 +32,10 @@ import TransitionContainer from "@/Components/CustomDropdown/Components/Transiti
 import DataFiltrationFields
     from "@/Pages/Projects/BreedersMap/presentation/components/map/components/DataFiltrationFields.vue";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
+import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
+import { defineAsyncComponent } from 'vue';
+import axios from 'axios';
+import { route } from 'ziggy-js';
 
 export default {
     components: {
@@ -56,7 +60,10 @@ export default {
         LGeoJson,
         LTooltip,
         LControl,
-        LIcon
+        LIcon,
+        DialogFormModal,
+        EditCommodityForm: defineAsyncComponent(() => import('@/Pages/Projects/BreedersMap/presentation/components/commodity/EditCommodityForm.vue')),
+        EditBreederForm: defineAsyncComponent(() => import('@/Pages/Projects/BreedersMap/presentation/components/breeders/EditBreederForm.vue')),
     },
     props: {
         customPoint: {
@@ -102,60 +109,53 @@ export default {
             tiles: null,
             map: null,
             placesSearched: [],
-            //placesFiltered: [],
             dataFiltrationUrl: null,
             tileProviders: [
-                {
-                    name: 'CartoDB Voyager',
-                    visible: true,
-                    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                },
-                {
-                    name: 'CartoDB VoyagerNoLabels',
-                    visible: false,
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png'
-                },
-                {
-                    name: 'CartoDB DarkMatter',
-                    visible: false,
-                    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                },
-                {
-                    name: 'CartoDB DarkMatterNoLabels',
-                    visible: false,
-                    url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
-                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                },
-                {
-                    name: 'Esri WorldGrayCanvas',
-                    visible: false,
-                    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-                    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-                }
+                { name: 'CartoDB Voyager', visible: true, url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
+                { name: 'CartoDB VoyagerNoLabels', visible: false, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>', url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png' },
+                { name: 'CartoDB DarkMatter', visible: false, url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
+                { name: 'CartoDB DarkMatterNoLabels', visible: false, url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
+                { name: 'Esri WorldGrayCanvas', visible: false, url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ' }
             ],
+            // Edit/Delete modal state
+            showEditDialog: false,
+            editFormComponentName: null,
+            editData: null,
+            errorBag: null,
+            submitting: false,
         };
     },
     computed: {
         Breeder() {
             return Breeder
         },
+        currentModelEntry() {
+            if (!this.tableList || !this.tableList.length || !this.dataFiltrationUrl) {
+                return { model: this.model || Commodity, name: (this.model === Breeder ? 'breeder' : 'commodity') };
+            }
+            const ent = this.tableList.find(t => t.route === this.dataFiltrationUrl);
+            if (ent) {
+                return { model: ent.model, name: (ent.model === Breeder ? 'breeder' : 'commodity') };
+            }
+            return { model: this.model || Commodity, name: (this.model === Breeder ? 'breeder' : 'commodity') };
+        },
+        currentModel() {
+            return this.currentModelEntry.model;
+        },
+        currentModelName() {
+            return this.currentModelEntry.name;
+        },
         newData() {
             if (this.dataFiltration) {
                 this.placesSearched = this.dataFiltration.raw_data;
                 return this.placesSearched;
             }
-
             if (this.customPoint){
                 this.placesSearched = this.customPoint;
                 return this.customPoint;
             }
-
             return [];
         },
-
         Commodity() {
             return Commodity;
         },
@@ -178,29 +178,31 @@ export default {
             return this.mapApi ? this.mapApi.getDataPoint() : [];
         },
         canView() {
-            return true; // return this.$page.props.permissions[Permission.VIEW];
+            return true;
         },
+        editFormComponent() {
+            if (this.editFormComponentName === 'commodity') return 'EditCommodityForm';
+            if (this.editFormComponentName === 'breeder') return 'EditBreederForm';
+            return null;
+        }
     },
     created() {
         this.initializeMap();
     },
     methods: {
         async initializeMap() {
-            this.mapApi = new MapApiService(this.dataFiltrationUrl, this.model);
-            //this.loadData();
+            this.mapApi = new MapApiService(this.dataFiltrationUrl, this.currentModel);
         },
         async refreshData() {
             await this.mapApi.refresh();
             this.loadData();
         },
         async updateFilters(param, value) {
-
             if (this.mapApi && this.mapApi.processing) return;
             if (this.params.hasOwnProperty(param) && value)
-            this.params[param] = value;
+                this.params[param] = value;
             await this.mapApi.updateParam(this.params);
             this.loadData();
-
             this.offlineSearch(value);
         },
         loadData() {
@@ -209,66 +211,92 @@ export default {
                 this.selectPoint(this.commodities[0]);
             }
         },
-        updateCenter(center) {
-            this.mapApi.updateCenter(center);
-        },
-        updateZoom(zoom) {
-            this.mapApi.updateZoom(zoom);
-        },
-        isPointSelected(point) {
-            return this.mapApi.isPointSelected(point);
-        },
-        deselectPoint() {
-            this.mapApi.deselectPoint();
-        },
-        recenter() {
-            this.mapApi.recenter();
-        },
-        isValidPoint(point) {
-            return point && point.latitude && point.longitude;
-        },
+        updateCenter(center) { this.mapApi.updateCenter(center); },
+        updateZoom(zoom) { this.mapApi.updateZoom(zoom); },
+        isPointSelected(point) { return this.mapApi.isPointSelected(point); },
+        deselectPoint() { this.mapApi.deselectPoint(); },
+        recenter() { this.mapApi.recenter(); },
+        isValidPoint(point) { return point && point.latitude && point.longitude; },
         selectPoint(point) {
             if (!this.$refs.map && !this.isValidPoint(point.location)) return;
             this.mapApi.selectPoint(point);
         },
         determinePointColor(value) {
-
             switch (value) {
-                case 'Rice':
-                    return '#005B41';
-                case 'Corn':
-                    return '#3B5998';
-                case 'Coconut':
-                    return '#FFA500';
-                case 'Banana':
-                    return '#FFD700';
-                case 'Coffee':
-                    return '#A52A2A';
-                case 'Cassava':
-                    return '#8B4513';
-                case 'Abaca':
-                    return '#FF0000';
-                case 'Rubber':
-                    return '#FF69B4';
-                default:
-                    return '#005B41';
+                case 'Rice': return '#005B41';
+                case 'Corn': return '#3B5998';
+                case 'Coconut': return '#FFA500';
+                case 'Banana': return '#FFD700';
+                case 'Coffee': return '#A52A2A';
+                case 'Cassava': return '#8B4513';
+                case 'Abaca': return '#FF0000';
+                case 'Rubber': return '#FF69B4';
+                default: return '#005B41';
             }
         },
-        offlineSearch(search)
-        {
-            //filter every column
+        offlineSearch(search) {
             this.placesSearched = this.newData.filter((point) => {
                 return Object.keys(point).some((key) => {
-                    return String(point[key]).toLowerCase().includes(search.toLowerCase());
+                    return String(point[key]).toLowerCase().includes(String(search || '').toLowerCase());
                 });
             });
         },
         baseURL() {
             return this.dataFiltrationUrl + `?filter_by_parent_column=${this.params.filter_by_parent_column}&filter_by_parent_id=${this.params.filter_by_parent_id}`;
         },
-        getNestedValue(obj, path) {
-            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        getNestedValue(obj, path) { return path.split('.').reduce((acc, part) => acc && acc[part], obj); },
+        // Sidebar actions
+        async handleEdit({ point, modelName }) {
+            try {
+                const ModelClass = this.currentModel;
+                const instance = new ModelClass(point);
+                const showRoute = instance.showUri;
+                const res = await axios.get(route(showRoute, point.id), { params: { with: (ModelClass.appendWith || []).toString() } });
+                const full = res?.data?.data || point;
+                this.editData = full;
+                this.editFormComponentName = modelName;
+                this.showEditDialog = true;
+            } catch (e) {
+                console.error('Failed to load data for edit', e);
+            }
         },
+        async handleDelete({ point }) {
+            const ModelClass = this.currentModel;
+            const instance = new ModelClass(point);
+            const destroyRoute = instance.destroyUri;
+            if (!window.confirm('Are you sure you want to delete this item?')) return;
+            try {
+                await axios.delete(route(destroyRoute, point.id));
+                this.mapApi.deselectPoint();
+                await this.refreshData();
+            } catch (e) {
+                console.error('Delete failed', e);
+            }
+        },
+        async submitEdit(form) {
+            try {
+                this.submitting = true;
+                const ModelClass = this.currentModel;
+                const instance = new ModelClass(this.editData || {});
+                const updateRoute = instance.updateUri;
+                await axios.put(route(updateRoute, this.editData.id), form);
+                this.showEditDialog = false;
+                this.editFormComponentName = null;
+                this.editData = null;
+                await this.refreshData();
+            } catch (e) {
+                this.errorBag = e?.response?.data?.errors || null;
+                console.error('Update failed', e);
+            } finally {
+                this.submitting = false;
+            }
+        },
+        closeEditDialog() {
+            this.showEditDialog = false;
+            this.editFormComponentName = null;
+            this.editData = null;
+            this.errorBag = null;
+        }
     },
     watch: {
         customPoint: {
@@ -279,6 +307,13 @@ export default {
             },
             deep: true
         },
+        // When table (list) changes, update the model used for casting/relations
+        dataFiltrationUrl() {
+            if (this.mapApi) {
+                // Update model for relation casting on next fetch
+                this.mapApi.model = this.currentModel;
+            }
+        }
     }
 };
 </script>
@@ -328,7 +363,6 @@ export default {
                 :minZoom="mapApi.minZoom"
                 :max-bounds="[mapApi.maxBound.southwest, mapApi.maxBound.northeast]"
                 :options="mapOptions"
-
                 @update:zoom="updateZoom"
                 @update:center="updateCenter"
             >
@@ -364,7 +398,7 @@ export default {
                     >
                         <l-tooltip :content="place.name" />
                         <l-popup :options="{ minWidth:300, maxWidth:400, className:'popup-transition' }">
-                            <info-sidebar :model="model" :point="mapApi.selectedPlace" :visible="sidebarVisible" />
+                            <info-sidebar :model="currentModel" :model-name="currentModelName" :point="mapApi.selectedPlace" :visible="sidebarVisible" @edit="handleEdit" @delete="handleDelete" />
                         </l-popup>
                     </l-circle-marker>
                 </template>
@@ -386,27 +420,10 @@ export default {
                 </l-control>
             </l-map>
         </div>
-        <div class="hidden">
-            <table v-if="newData">
-                <thead>
-                    <tr>
-                        <template v-for="column in mapApi.model.getCardColumns()">
-                            <th v-if="column.visible" :key="column.db_key">{{ column.title }}</th>
-                        </template>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="point in newData" :key="point.id">
-                        <template v-for="column in mapApi.model.getColumns()">
-                            <td v-if="column.visible" :key="column.db_key">{{ getNestedValue(point, column.key) }}</td>
-                        </template>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div v-else class="flex flex-col max-h-fit gap-2" >
-        You do not have permission to view this page
+        <!-- Edit dialog -->
+        <dialog-form-modal :show="showEditDialog" @close="closeEditDialog">
+            <component :is="editFormComponent" v-if="editFormComponent" :processing="submitting" :errors="errorBag" :data="editData" @submitForm="submitEdit" @close="closeEditDialog" :forceClose="false" />
+        </dialog-form-modal>
     </div>
 </template>
 <style scoped>

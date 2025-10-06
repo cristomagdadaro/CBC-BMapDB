@@ -108,15 +108,15 @@ export const TWGPages = {
     educLevelOptions: [
         {
             label: "Bachelor's",
-            name: "Bachelor's",
+            value: "Bachelor's",
         },
         {
             label: "Master's",
-            name: "Master's",
+            value: "Master's",
         },
         {
             label: "Doctoral",
-            name: "Doctoral",
+            value: "Doctoral",
         },
-    ]
+    ],
 }
