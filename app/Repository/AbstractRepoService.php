@@ -59,7 +59,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public const COL_SUFFIX = 'suffix';
 
     // Geo filter keys/columns
-    public const GEO_FILTER_INSTITUTE = 'institute';
+    public const GEO_FILTER_INSTITUTE = 'affiliation';
     public const LOC_COL_PROVINCE = 'provDesc';
     public const LOC_COL_REGION = 'regDesc';
     public const LOC_COL_CITY = 'cityDesc';
@@ -304,35 +304,41 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
      */
     public function applyGeoFilters(Builder &$query, Collection $parameters): void
     {
-        $geo_location_filter = $this->determineLocFilterLevel($parameters->get('geo_location_filter'));
+        $geo_location_filter_param = $parameters->get('geo_location_filter');
+        $geo_location_filter = $this->determineLocFilterLevel($geo_location_filter_param);
         $geo_location_value = $parameters->get('geo_location_value');
 
+        // Always join loc_cities if the model has geolocation column
         if (Schema::hasColumn($this->model->getTable(), self::COL_GEOLOCATION)) {
             $query = $query->join(self::GEO_TABLE_LOC_CITIES, self::GEO_TABLE_LOC_CITIES.'.'.self::COL_ID, '=', self::COL_GEOLOCATION);
         }
+
+        // Always join users if the model has user_id column
         if (Schema::hasColumn($this->model->getTable(), self::COL_USER_ID)) {
             $query = $query->join(self::GEO_TABLE_USERS, self::GEO_TABLE_USERS.'.'.self::COL_ID, '=', self::COL_USER_ID);
         }
 
-        // to refactor, breeder_id should not be explicitly specified
-        if (Schema::hasColumn($this->model->getTable(), self::COL_BREEDER_ID) && $geo_location_filter === self::GEO_FILTER_INSTITUTE) {
-            $query = $query->with(['breeder']);
+        // Handle affiliation filtering by joining institutes table through breeders
+        if ($geo_location_filter_param === 'affiliation') {
+            // Always join breeders table if we have breeder_id column (needed for affiliation grouping)
+            if (Schema::hasColumn($this->model->getTable(), self::COL_BREEDER_ID)) {
+                $query = $query->join('breeders', 'breeders.id', '=', self::COL_BREEDER_ID);
+            }
+            // Always join institutes table through breeders.affiliation (needed for affiliation grouping)
+            $query = $query->join(self::GEO_TABLE_INSTITUTES, self::GEO_TABLE_INSTITUTES.'.id', '=', 'breeders.affiliation');
         }
 
+        // Apply specific value filtering if geo_location_value is provided
         if ($geo_location_value) {
-            if ($geo_location_filter !== self::GEO_FILTER_INSTITUTE) {
-                // Check if the column exists before applying the filter
-                if (Schema::hasColumn(self::GEO_TABLE_LOC_CITIES, $geo_location_filter)) {
-                    $query = $query->where(self::GEO_TABLE_LOC_CITIES.'.' . $geo_location_filter, $geo_location_value);
+            if ($geo_location_filter_param !== 'affiliation') {
+                // Standard geo location filtering (province, region, city)
+                $columnName = str_replace(['loc_cities.', 'provDesc', 'regDesc', 'cityDesc'], ['', 'provDesc', 'regDesc', 'cityDesc'], $geo_location_filter);
+                if ($columnName && Schema::hasColumn(self::GEO_TABLE_LOC_CITIES, $columnName)) {
+                    $query = $query->where(self::GEO_TABLE_LOC_CITIES.'.' . $columnName, $geo_location_value);
                 }
             } else {
-                // Institute filter via breeder relationship
-                if (Schema::hasColumn(self::GEO_TABLE_INSTITUTES, self::COL_NAME)) {
-                    $tableDotName = self::GEO_TABLE_INSTITUTES.'.'.self::COL_NAME;
-                    $query = $query->whereHas('breeder.affiliated', function ($instituteQuery) use ($geo_location_value, $tableDotName) {
-                        $instituteQuery->where($tableDotName, $geo_location_value);
-                    });
-                }
+                // Institute/affiliation filtering
+                $query = $query->where(self::GEO_TABLE_INSTITUTES.'.'.self::COL_NAME, $geo_location_value);
             }
         }
     }
@@ -456,7 +462,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
     protected function applyRelationSearch(Builder $query, string $search, ?string $filter, bool $is_exact, string $relation, $relatedModel): void
     {
-        $query->orWhereHas($relation, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
+        $query->orWhereHas($relation, function ($query) use ($search, $filter, $is_exact, $relation, $relatedModel) {
             if (str_contains($filter, '.')) {
                 $temp = explode('.', $filter);
                 $filter = $temp[1];
@@ -543,7 +549,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function determineLocFilterLevel($geo_location_filter): string|null
     {
         return match ($geo_location_filter) {
-            self::GEO_FILTER_INSTITUTE => self::GEO_FILTER_INSTITUTE,
+            'affiliation' => 'institutes.name',
             'province' => self::LOC_COL_PROVINCE,
             'region' => self::LOC_COL_REGION,
             'city' => self::LOC_COL_CITY,

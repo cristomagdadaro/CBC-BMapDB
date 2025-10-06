@@ -9,7 +9,8 @@
                 <commodity-table />
             </template>
             <template v-slot:tab3>
-                <div class="p-2 relative">
+                <div class="flex flex-col gap-5 p-2 relative">
+                    <MapExample />
                     <Map :table-list="tables" :model="Commodity"/>
                 </div>
             </template>
@@ -37,6 +38,7 @@ import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 import BmSettings from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmSettings.vue";
 import UnderDevelop from "@/Components/Modal/UnderDevelop.vue";
+import MapExample from "@/Components/Map/MapExample.vue";
 
 export default {
     computed: {
@@ -45,6 +47,7 @@ export default {
         }
     },
     components: {
+        MapExample,
         UnderDevelop,
         BmSettings,
         Head,

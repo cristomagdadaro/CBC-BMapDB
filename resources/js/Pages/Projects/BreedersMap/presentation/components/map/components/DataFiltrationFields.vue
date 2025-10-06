@@ -100,13 +100,13 @@ export default {
 
             <SelectField
                 id="bm-cprfilter-institute-dropdown"
-                v-if="data && data.group_search_institute && filter.geo_location_filter === 'affiliation'"
+                v-if="data && data.group_search_institute /*&& filter.geo_location_filter === 'affiliation'*/"
                 label="Select a specific institute"
                 v-model="filter.group_search_institute"
                 :options="specificInstituteLabels"
                 placeholder="None"
                 :disabled="api.processing"
-                @change="changeSpecificLocation($event?.value)"
+                @change="!api.processing ? changeSpecificLocation($event?.value) : null"
             />
         </collapsable-menu>
     </div>

@@ -57,7 +57,7 @@ export default {
         }
     },
     computed: {
-        data() {
+        data() {console.log(this.apiResponse)
             return this.apiResponse;
         },
         dataTables() {
@@ -78,7 +78,7 @@ export default {
             return this.data.group_search_labels.map(item => ({ label: item, value: item }));
         },
         specificInstituteLabels() {
-            return this.data.group_search_institute.map(item => ({ label: item.name, value: item.id }));
+            return this.data?.group_search_institute?.map(item => ({ label: item.name, value: item.id }));
         }
     },
     methods: {

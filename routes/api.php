@@ -51,3 +51,11 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
 Route::middleware(['api'])->group(function() {
     Route::get('/cbc360tour/visitor/counter', [CBCTourController::class, 'storeVisitor'])->name('cbc360tour.visitor.counter');
 });
+
+// New Map Data API Routes - Cleaner and more maintainable
+Route::prefix('map-data')->group(function () {
+    Route::get('/', [App\Http\Controllers\Api\MapDataController::class, 'getMapData']);
+    Route::get('/filter-options', [App\Http\Controllers\Api\MapDataController::class, 'getFilterOptions']);
+    Route::get('/summary', [App\Http\Controllers\Api\MapDataController::class, 'getSummary']);
+    Route::get('/geographic-distribution', [App\Http\Controllers\Api\MapDataController::class, 'getGeographicDistribution']);
+});
