@@ -46,7 +46,8 @@ const dataTypeOptions = [
 const filterByOptions = [
     { value: 'region', label: 'By Region' },
     { value: 'province', label: 'By Province' },
-    { value: 'city', label: 'By City' }
+    { value: 'city', label: 'By City' },
+    { value: 'institute', label: 'By Institute' },
 ]
 
 // Computed properties

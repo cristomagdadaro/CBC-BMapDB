@@ -24,7 +24,7 @@ class MapDataController extends Controller
     {
         $validated = $request->validate([
             'data_type' => 'required|string|in:commodities,breeders,institutes',
-            'filter_by' => 'nullable|string|in:commodity,city,province,region',
+            'filter_by' => 'nullable|string|in:commodity,city,province,region,institute',
             'commodity' => 'nullable|string',
             'commodities' => 'nullable|string', // Alternative naming
             'institute' => 'nullable|string',
@@ -61,7 +61,6 @@ class MapDataController extends Controller
                 'success' => true,
                 'data' => $result['data'],
                 'metadata' => $result['metadata'],
-                'sql' => $result['sql'] ?? null,
                 'filter_options' => $result['options'],
             ]);
 
@@ -134,7 +133,7 @@ class MapDataController extends Controller
     {
         $validated = $request->validate([
             'data_type' => 'required|string|in:commodities,breeders,institutes',
-            'filter_by' => 'nullable|string|in:commodity,city,province,region',
+            'filter_by' => 'nullable|string|in:commodity,city,province,region,institute',
             'commodity' => 'nullable|string',
             'institute' => 'nullable|string',
             'breeder_type' => 'nullable|string',
@@ -172,7 +171,7 @@ class MapDataController extends Controller
     {
         $validated = $request->validate([
             'data_type' => 'required|string|in:commodities,breeders,institutes',
-            'filter_by' => 'nullable|string|in:commodity,city,province,region',
+            'filter_by' => 'nullable|string|in:commodity,city,province,region,institute',
             'commodity' => 'nullable|string',
             'institute' => 'nullable|string',
             'breeder_type' => 'nullable|string',

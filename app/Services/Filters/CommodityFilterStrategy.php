@@ -84,6 +84,7 @@ class CommodityFilterStrategy extends BaseFilterStrategy
         $options = [
             'commodities' => $this->getCommodityOptions(),
             'breeder_types' => $this->getBreederTypeOptions(),
+            'institutes' => $this->getInstituteOptions(),
         ];
 
         return array_merge($options, $this->getGeographicOptions());
