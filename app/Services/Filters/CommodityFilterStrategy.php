@@ -50,6 +50,11 @@ class CommodityFilterStrategy extends BaseFilterStrategy
             $query->where('breeders.breeder_type', $filters['breeder_type']);
         }
 
+        // Institute filter
+        if (!empty($filters['institute'])) {
+            $query->where('institutes.name', $filters['institute']);
+        }
+
         // Search filter (applies to commodity name and breeder name)
         if (!empty($filters['search'])) {
             $query->where(function($q) use ($filters) {
@@ -59,8 +64,6 @@ class CommodityFilterStrategy extends BaseFilterStrategy
             });
         }
 
-        // Apply geographic filters
-        $query = $this->applyGeographicFilters($query, $filters);
 
         return $query;
     }
@@ -94,11 +97,11 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     public function getSummaryStats(Builder $query): array
     {
-        // Create a fresh query for aggregation to avoid GROUP BY issues
-        $stats = Commodity::query()
-            ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
-            ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
-            ->leftJoin('institutes', 'breeders.affiliation', '=', 'institutes.id')
+        // Clone the query and replace the select to avoid mixing individual columns with aggregates
+        $statsQuery = clone $query;
+        $statsQuery->getQuery()->columns = null; // Clear existing select columns
+
+        $stats = $statsQuery
             ->selectRaw('
                 COUNT(DISTINCT commodities.id) as total_commodities,
                 COUNT(DISTINCT breeders.id) as total_breeders,

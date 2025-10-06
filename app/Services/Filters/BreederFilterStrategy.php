@@ -86,8 +86,11 @@ class BreederFilterStrategy extends BaseFilterStrategy
 
     public function getSummaryStats(Builder $query): array
     {
-        // Use the already filtered query instead of creating a fresh one
-        $stats = $query
+        // Clone the query and replace the select to avoid mixing individual columns with aggregates
+        $statsQuery = clone $query;
+        $statsQuery->getQuery()->columns = null; // Clear existing select columns
+
+        $stats = $statsQuery
             ->selectRaw('
                 COUNT(DISTINCT breeders.id) as total_breeders,
                 COUNT(DISTINCT institutes.id) as total_institutes,
