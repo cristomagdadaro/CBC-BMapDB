@@ -1,90 +1,10 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin";
-import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
-import Tab from "@/Components/Tab/Tab.vue";
-import DateField from "@/Components/Form/DateField.vue";
-import FileField from "@/Components/Form/FileField.vue";
-import {BaseButton} from "@/Components/CRCMDatatable/Components/index.js";
-import AddIcon from "@/Components/Icons/AddIcon.vue";
+import CommodityFormMixin from "@/Pages/Projects/BreedersMap/infrastructure/CommodityFormMixin";
 
 export default {
-    components: {AddIcon, BaseButton, FileField, DateField, Tab},
-    mixins: [FormMixin],
-    data() {
-        return {
-            model: Commodity,
-            tabs: [
-                {
-                    name: "tab2",
-                    label: "Basic Information",
-                    active: true,
-                    route: null,
-                },
-                {
-                    name: "tab1",
-                    label: "Characteristics",
-                    active: false,
-                    route: null,
-                },
-                {
-                    name: "tab3",
-                    label: "Additional Information",
-                    active: false,
-                    route: null,
-                },
-            ],
-            priorityComs: [],
-        };
-    },
-    methods: {
-        getScientificName(comms) {
-            this.form.scientific_name = this.priorityComs?.data?.data?.find(item => item.label === comms)?.sName;
-        },
-        addRegulation() {
-            this.form.regulations.push({
-                regulatory_body: '',
-                registration_no: '',
-                registration_date: ''
-            })
-        },
-        removeRegulation(index) {
-            this.form.regulations.splice(index, 1)
-        },
-        addStressResilience() {
-            this.form.stress_resilience.push({
-                type: null,
-                stress: null,
-                reaction: null
-            })
-        },
-        removeStressResilience(index) {
-            this.form.stress_resilience.splice(index, 1)
-        }
-    },
-    computed: {
-        isInitialzedBreeeder(){
-            return this.$page.props?.breeder?.id;
-        }
-    },
-    watch: {
-        'form.name' (newVal){
-            this.getScientificName(newVal);
-        }
-    },
-    async mounted() {
-        if (this.$page.props.breeder)
-            this.form.breeder_id = this.$page.props.breeder.id;
-
-        this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'));
-         if (this.form.name)
-            this.getScientificName(this.form.name);
-
-        this.form = {
-            ...this.form,
-            regulations: [{regulatory_body: null, registration_no: null, registration_date: null}],
-            stress_resilience: [{type: null, stress: null, reaction: null}],
-        };
-    }
+    name: "EditCommodityForm",
+    mixins: [FormMixin, CommodityFormMixin],
 };
 </script>
 <template>
@@ -112,7 +32,6 @@ export default {
                     <div class="flex flex-col gap-8">
                         <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
                             <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data?.data"  />
-                            <text-field required class="hidden" disabled :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
                             <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
                             <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Variety/Accession No./Germplasm Index" v-model="form.accession" />
                             <text-field required :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
