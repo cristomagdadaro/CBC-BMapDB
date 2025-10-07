@@ -38,7 +38,7 @@ class CommodityFactory extends Factory
             'maturity_period' => $this->faker->name,
             'yield' => $this->faker->randomFloat(),
             'description' => $this->faker->text,
-            'photo' => $this->faker->imageUrl(),
+            'photo' => '/img/logo_cbc.png',
             'geolocation' => $city->id,
             'regulations' => json_encode($this->faker->words(3)),
             'stress_resilience' => json_encode($this->faker->words(3)),

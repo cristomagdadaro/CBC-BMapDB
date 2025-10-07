@@ -115,6 +115,52 @@ const orbitRadius = ref(80)
 const orbitCache = new Map()
 let orbitHideTimer = null
 
+const requestQueue = []
+let isProcessingQueue = false
+
+const processRequestQueue = async () => {
+    if (isProcessingQueue || requestQueue.length === 0) return
+    isProcessingQueue = true
+
+    while (requestQueue.length > 0) {
+        const { cityId, resolve, reject } = requestQueue.shift()
+        try {
+            const key = cacheKey(cityId)
+            if (orbitCache.has(key)) {
+                resolve(orbitCache.get(key))
+            } else {
+                const { data } = await axios.get('/api/map-data/orbit-items', {
+                    params: { data_type: props.dataType, city_id: cityId, limit: 12 }
+                })
+                const items = data?.data || data?.items || []
+                orbitCache.set(key, items)
+                resolve(items)
+            }
+        } catch (e) {
+            console.error('Failed to fetch orbit items from queue', e)
+            reject(e)
+        }
+        // Wait a bit before the next request to avoid rate limiting
+        await new Promise(r => setTimeout(r, 250))
+    }
+    isProcessingQueue = false
+}
+
+const enqueueFetch = (cityId) => {
+    return new Promise((resolve, reject) => {
+        const key = cacheKey(cityId)
+        if (orbitCache.has(key)) {
+            resolve(orbitCache.get(key))
+            return
+        }
+
+        if (!requestQueue.some(req => req.cityId === cityId)) {
+            requestQueue.push({ cityId, resolve, reject })
+        }
+        processRequestQueue()
+    })
+}
+
 const cacheKey = (cityId) => `${props.dataType}:${cityId}`
 
 const cancelHide = () => {
@@ -136,24 +182,11 @@ const hideOrbit = (immediate = false) => {
         orbitVisible.value = false
         orbitItems.value = []
         orbitLoading.value = false
-    }, 150)
+    }, 300)
 }
 
 const fetchOrbitItems = async (cityId) => {
-    const key = cacheKey(cityId)
-    if (orbitCache.has(key)) return orbitCache.get(key)
-
-    try {
-        const { data } = await axios.get('/api/map-data/orbit-items', {
-            params: { data_type: props.dataType, city_id: cityId, limit: 12 }
-        })
-        const items = data?.data || data?.items || []
-        orbitCache.set(key, items)
-        return items
-    } catch (e) {
-        console.error('Failed to fetch orbit items', e)
-        return []
-    }
+    return enqueueFetch(cityId)
 }
 
 const prefetchNearby = (marker) => {
@@ -170,11 +203,11 @@ const prefetchNearby = (marker) => {
         .slice(0, 4)
         .map(x => x.m)
 
-    candidates.forEach(async (m) => {
+    candidates.forEach((m) => {
         const id = m.data?.city_id || m.cityId || m.data?.cityId
         const key = cacheKey(id)
         if (!orbitCache.has(key)) {
-            try { await fetchOrbitItems(id) } catch (_) { /* ignore */ }
+            enqueueFetch(id).catch(() => { /* ignore errors in prefetch */ })
         }
     })
 }
@@ -669,7 +702,7 @@ onMounted(() => {
             :y="orbitY"
             :radius="orbitRadius"
             :data-type="dataType"
-            @close="hideOrbit(true)"
+            @close="hideOrbit()"
             @enter="cancelHide()"
         />
 

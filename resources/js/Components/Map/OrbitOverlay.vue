@@ -1,6 +1,5 @@
 <script setup>
 import {computed} from 'vue'
-import { MotionDirective as vMotion } from '@vueuse/motion'
 
 const props = defineProps({
     items: {type: Array, default: () => []},
@@ -16,12 +15,13 @@ const emit = defineEmits(['close', 'iconClick', 'enter'])
 
 const positions = computed(() => {
     const n = props.items.length || 1
-    const step = (2 * Math.PI) / n
+    const angleStep = (2 * Math.PI) / n
     return props.items.map((_, i) => {
-        const angle = i * step
-        // translate radius from center using CSS transform chain
+        const angle = i * angleStep - (Math.PI / 2) // Start from top
+        const x = props.radius * Math.cos(angle)
+        const y = props.radius * Math.sin(angle)
         return {
-            transform: `rotate(${(angle * 180) / Math.PI}deg) translate(${props.radius}px) rotate(${(-angle * 180) / Math.PI}deg)`
+            transform: `translate(${x}px, ${y}px)`
         }
     })
 })
@@ -47,39 +47,65 @@ const getImageSrc = (image) => {
 </script>
 
 <template>
-    <div
-        v-if="visible"
-        class="absolute pointer-events-auto"
-        :style="{ left: x + 'px', top: y + 'px', transform: 'translate(-50%, -50%)', zIndex: 1001 }"
-        @mouseleave="() => emit('close')"
-        @mouseenter="() => emit('enter')"
-    >
-        <!-- central hub -->
+    <transition name="orbit-container">
         <div
-            class="relative w-10 h-10 rounded-full bg-white shadow ring-2 ring-blue-500 flex items-center justify-center">
-            <div v-if="loading"
-                 class="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"/>
-            <div v-else class="w-2 h-2 rounded-full bg-blue-500"/>
+            v-if="visible"
+            class="absolute pointer-events-auto"
+            :style="{ left: x + 'px', top: y + 'px', transform: 'translate(-50%, -50%)', zIndex: 1001 }"
+            @mouseleave="() => emit('close')"
+            @mouseenter="() => emit('enter')"
+        >
+            <!-- central hub -->
+            <div
+                class="relative w-10 h-10 rounded-full bg-white shadow ring-2 ring-blue-500 flex items-center justify-center">
+                <div v-if="loading"
+                     class="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"/>
+                <div v-else class="w-2 h-2 rounded-full bg-blue-500"/>
 
-            <!-- orbiting icons container -->
-            <div class="absolute inset-0" style="pointer-events: none;">
-                <template v-for="(item, i) in items" :key="item.id">
+                <!-- orbiting icons container -->
+                <transition-group
+                    tag="div"
+                    name="orbit-item"
+                    class="absolute inset-0"
+                    style="pointer-events: none;"
+                >
                     <a
-                        v-motion
-                        :initial="{ opacity: 0, scale: 0.6 }"
-                        :enter="{ opacity: 1, scale: 1, transition: { delay: i * 0.06 } }"
-                        :leave="{ opacity: 0, scale: 0.6, transition: { duration: 0.12 } }"
-                        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 block w-10 h-10 rounded-full ring-2 ring-white shadow pointer-events-auto bg-white overflow-hidden hover:ring-blue-400"
-                        :style="positions[i]"
+                        v-for="(item, i) in items"
+                        :key="item.id"
+                        class="orbit-item absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 block w-10 h-10 rounded-full ring-2 ring-white shadow pointer-events-auto bg-white overflow-hidden hover:ring-blue-400"
+                        :style="[positions[i], { transitionDelay: `${i * 50}ms` }]"
                         :href="toHref(item)"
                     >
                         <img :src="getImageSrc(item.image)" :alt="item.label || 'icon'" class="w-full h-full object-cover"/>
                     </a>
-                </template>
+                </transition-group>
             </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <style scoped>
+/* Orbit Container Transition */
+.orbit-container-enter-active,
+.orbit-container-leave-active {
+    transition: opacity 300ms ease, transform 300ms ease;
+}
+.orbit-container-enter-from,
+.orbit-container-leave-to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
+/* Orbit Item Transition */
+.orbit-item {
+    transition: opacity 300ms ease, transform 300ms ease;
+}
+.orbit-item-enter-from,
+.orbit-item-leave-to {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+}
+.orbit-item-leave-active {
+    position: absolute; /* Required for <transition-group> leave animations */
+}
 </style>
