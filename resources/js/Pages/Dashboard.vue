@@ -164,25 +164,41 @@ const refreshActivities = async () => {
             <!-- When loading, DashboardShell shows the loader; below is the main content -->
             <template v-if="!loading">
                 <!-- System Statistics Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-6">
                     <dashboard-summary-card
                         title="Total Users"
+                        to="administrator.users"
                         background-color="bg-gradient-to-br from-blue-500 to-blue-600"
-                        :sum-value="systemStats.totalUsers || 0" />
+                        :sum-value="systemStats.totalUsers || 0"
+                        />
                     <dashboard-summary-card
                         title="Active Users"
+                        to="administrator.users"
                         background-color="bg-gradient-to-br from-green-500 to-green-600"
                         :sum-value="systemStats.activeUsers || 0"
                         sub-value-label="Last 7 days"/>
                     <dashboard-summary-card
                         title="Online Now"
+                        to="administrator.users"
                         background-color="bg-gradient-to-br from-emerald-500 to-emerald-600"
-                        :sum-value="systemStats.onlineUsers || 0" />
+                        :sum-value="systemStats.onlineUsers || 0"
+                        :sub-value-label="systemStats.onlineUsers > 1 ? 'System Users' : 'System User'"/>
                     <dashboard-summary-card
                         title="New Users"
+                        to="administrator.users"
                         background-color="bg-gradient-to-br from-purple-500 to-purple-600"
                         :sum-value="systemStats.recentRegistrations || 0"
                         sub-value-label="This month"/>
+                    <dashboard-summary-card
+                        title="Pending Accounts Approval"
+                        to="administrator.approved-accounts"
+                        background-color="bg-gradient-to-br from-yellow-500 to-yellow-600"
+                        :sum-value="systemStats.totalNotApprovedAccounts || 0" />
+                    <dashboard-summary-card
+                        title="Remaining Unverified Accounts"
+                        to="administrator.users"
+                        background-color="bg-gradient-to-br from-orange-500 to-orange-600"
+                        :sum-value="systemStats.totalUnverifiedEmails || 0" />
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">

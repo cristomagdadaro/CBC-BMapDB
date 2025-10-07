@@ -23,6 +23,10 @@ class DashboardApiController extends Controller
             'totalBreeders' => User::role(Role::BREEDER->value)->count(),
             'totalFocalPersons' => User::role(Role::FOCAL_PERSON->value)->count(),
             'totalResearchers' => User::role(Role::RESEARCHER->value)->count(),
+            'totalUnverifiedEmails' => User::whereNull('email_verified_at')->count(),
+            'totalNotApprovedAccounts' => User::whereDoesntHave('accounts', function ($query) {
+                $query->whereNotNull('approved_at');
+            })->count(),
         ]);
     }
 

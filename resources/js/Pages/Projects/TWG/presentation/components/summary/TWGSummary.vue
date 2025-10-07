@@ -341,6 +341,7 @@ onMounted(async () => {
                 <!-- Experts Card -->
                 <dashboard-summary-card
                     title="Total Experts"
+                    to="projects.twg.experts"
                     background-color="bg-gradient-to-br from-purple-500 to-purple-600 "
                     :sum-value="totalExperts"
                     :sub-value="expertUtilization"
@@ -354,6 +355,7 @@ onMounted(async () => {
                 <!-- Projects Card -->
                 <dashboard-summary-card
                     title="Total Projects"
+                    to="projects.twg.projects"
                     background-color="bg-gradient-to-br from-blue-500 to-blue-600"
                     :sum-value="totalProjects"
                     :sub-value-label="`${activeProjectsCount} active, ${completedProjectsCount} completed`">
@@ -366,6 +368,7 @@ onMounted(async () => {
                 <!-- Products Card -->
                 <dashboard-summary-card
                     title="Total Products"
+                    to="projects.twg.products"
                     background-color="bg-gradient-to-br from-green-500 to-green-600"
                     :sum-value="totalProducts"
                     sub-value-label="Biotech innovations">
@@ -378,6 +381,7 @@ onMounted(async () => {
                 <!-- Services Card -->
                 <dashboard-summary-card
                     title="Total Services"
+                    to="projects.twg.services"
                     background-color="bg-gradient-to-br from-orange-500 to-orange-600"
                     :sum-value="totalServices"
                     :sub-value-label="`Top: ${ mostPopularService }`">

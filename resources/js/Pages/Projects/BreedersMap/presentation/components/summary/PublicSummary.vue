@@ -181,5 +181,6 @@ export default {
                 </div>
             </div>
         </div>
+    </DashboardShell>
 </template>
 

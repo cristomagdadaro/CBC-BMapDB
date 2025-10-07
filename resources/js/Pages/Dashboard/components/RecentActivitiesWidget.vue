@@ -25,14 +25,6 @@
                 class="flex items-start p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition border-l-4"
                 :class="getActivityColor(activity.type)"
             >
-                <div class="flex-shrink-0">
-                    <div
-                        class="w-10 h-10 rounded-full flex items-center justify-center"
-                        :class="getIconBg(activity.type)"
-                    >
-                        <i :class="getIcon(activity.type)" class="text-white"></i>
-                    </div>
-                </div>
                 <div class="ml-3 flex-1">
                     <div class="flex items-start justify-between">
                         <div class="flex-1">

@@ -10,6 +10,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <dashboard-summary-card
                     title="Total Breeders"
+                    to="projects.breedersmap.breeder"
                     background-color="bg-gradient-to-br from-blue-500 to-blue-600"
                     :sum-value="loading ? '—' : stat('breeders')">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 16 16">
@@ -18,6 +19,7 @@
                 </dashboard-summary-card>
                 <dashboard-summary-card
                     title="Total Commodities"
+                    to="projects.breedersmap.commodity"
                     background-color="bg-gradient-to-br from-emerald-500 to-emerald-600"
                     :sum-value="loading ? '—' : stat('commodities')">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 16 16">
@@ -26,6 +28,7 @@
                 </dashboard-summary-card>
                 <dashboard-summary-card
                     title="Regions Covered"
+                    to="projects.breedersmap.geomap"
                     background-color="bg-gradient-to-br from-fuchsia-500 to-fuchsia-600"
                     :sum-value="loading ? '—' : stat('regions')">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 16 16">
@@ -35,6 +38,7 @@
                 </dashboard-summary-card>
                 <dashboard-summary-card
                     title="Institutes"
+                    to="projects.breedersmap.geomap"
                     background-color="bg-gradient-to-br from-amber-500 to-amber-600"
                     :sum-value="loading ? '—' : stat('institutes')">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 16 16">
