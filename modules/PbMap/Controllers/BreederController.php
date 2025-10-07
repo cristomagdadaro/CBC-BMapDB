@@ -35,11 +35,9 @@ class BreederController extends BaseController implements BreederControllerInter
         return parent::_index($request);
     }
 
-    // implement this to other controllers, api for selection option field
     public function selection(GetBreederRequest $request): BaseCollection
     {
-        $this->authorize('viewAny', $this->service->model);
-        return parent::_index($request);
+        return parent::_selection($request);
     }
 
     public function show(GetBreederRequest $request, int $id): JsonResponse
@@ -47,22 +45,6 @@ class BreederController extends BaseController implements BreederControllerInter
         return parent::_show($request, $id);
     }
 
-    public function noPage(int $id, GetBreederRequest $request): JsonResponse
-    {
-        $breeder = $this->service->model->find($id);
-
-        if (!$breeder) {
-            return response()->json(['message' => 'Data not found'], 404);
-        }
-
-        $commodities = $breeder->commodities;
-
-        return response()->json(['data' => $commodities]);
-    }
-
-    /**
-     * @throws Exception
-     */
     public function store(CreateBreederRequest $request): JsonResponse
     {
         $this->authorize('create', $this->service->model);

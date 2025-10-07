@@ -38,15 +38,6 @@ interface CommodityControllerInterface {
     public function store(CreateCommoditiesRequest $request): JsonResponse;
 
     /**
-     * Retrieves a paginated list of commodities based on the provided request parameters,
-     * but without pagination.
-     *
-     * @param \Modules\PbMap\Requests\GetCommoditiesRequest $request The request object containing the search parameters.
-     * @return BaseCollection A JSON response containing the commodities without pagination.
-     */
-    public function noPage(GetCommoditiesRequest $request): BaseCollection;
-
-    /**
      * Updates an existing commodity record in the database.
      *
      * @param \Modules\PbMap\Requests\UpdateCommoditiesRequest $request The request object containing the validated data for updating an existing commodity.

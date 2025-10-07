@@ -77,4 +77,10 @@ abstract class BaseController extends Controller implements BaseControllerInterf
 
         return $request;
     }
+
+    public function _selection($request): BaseCollection
+    {
+        $this->authorize('viewAny', $this->service->model);
+        return parent::_index($request);
+    }
 }

@@ -36,16 +36,6 @@ interface BreederControllerInterface {
     public function store(CreateBreederRequest $request): JsonResponse;
 
     /**
-     * Retrieves commodities associated with a specific breeder record without pagination.
-     *
-     * @param int $id The unique identifier of the breeder record.
-     * @param GetBreederRequest $request The request object containing the filters.
-     * @return JsonResponse A JSON response containing the commodities associated with the breeder.
-     *     If no data is found, a 404 status code with a 'Data not found' message is returned.
-     */
-    public function noPage(int $id, GetBreederRequest $request): JsonResponse;
-
-    /**
      * Updates an existing breeder record in the database.
      *
      * @param UpdateBreederRequest $request The request object containing the updated breeder data.

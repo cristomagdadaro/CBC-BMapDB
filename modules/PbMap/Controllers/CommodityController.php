@@ -26,6 +26,11 @@ class CommodityController extends BaseController implements CommodityControllerI
         return parent::_index($request);
     }
 
+    public function selection(GetCommoditiesRequest $request): BaseCollection
+    {
+        return parent::_selection($request);
+    }
+
     public function show(GetCommoditiesRequest $request, int $id): JsonResponse
     {
         return parent::_show($request, $id);
@@ -200,12 +205,5 @@ class CommodityController extends BaseController implements CommodityControllerI
             ];
         }
         return $this->sendResponse($formatted);
-    }
-
-    public function noPage(GetCommoditiesRequest $request): BaseCollection
-    {
-        $this->service->appendWith(['breeder','cityDesc']);
-        $data = $this->service->search(new Collection($request->validated()), false);
-        return new BaseCollection($data);
     }
 }
