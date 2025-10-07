@@ -26,6 +26,10 @@ export default class DtoApplication extends BaseClass implements IApplication {
             case window.AppConfig.applications['BREEDERS_MAP'].name:
                 return [
                     {
+                        name: 'projects.breedersmap.summary',
+                        label: 'Summary',
+                    },
+                    {
                         name: 'projects.breedersmap.breeder',
                         label: 'Breeders',
                     },
