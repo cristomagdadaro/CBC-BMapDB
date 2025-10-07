@@ -34,27 +34,6 @@ const props = defineProps({
 
 const actions = [
     {
-        label: 'Add Commodity',
-        icon: 'fas fa-plus-circle',
-        bgColor: 'bg-green-500',
-        route: '/projects/breedersmap',
-        roles: ['admin', 'breeder', 'focal person']
-    },
-    {
-        label: 'Add Project',
-        icon: 'fas fa-project-diagram',
-        bgColor: 'bg-blue-500',
-        route: '/projects/twgdb',
-        roles: ['admin', 'researcher', 'focal person']
-    },
-    {
-        label: 'View Reports',
-        icon: 'fas fa-chart-bar',
-        bgColor: 'bg-purple-500',
-        route: '/reports',
-        roles: ['admin', 'focal person']
-    },
-    {
         label: 'Manage Users',
         icon: 'fas fa-users-cog',
         bgColor: 'bg-red-500',
@@ -62,17 +41,38 @@ const actions = [
         roles: ['admin']
     },
     {
-        label: 'View Map',
+        label: 'System Settings',
+        icon: 'fas fa-cog',
+        bgColor: 'bg-gray-600',
+        route: '/administrator/settings',
+        roles: ['admin']
+    },
+    {
+        label: 'View Profile',
+        icon: 'fas fa-user',
+        bgColor: 'bg-blue-500',
+        route: '/user/profile',
+        roles: ['admin', 'breeder', 'focal person', 'researcher']
+    },
+    {
+        label: 'Breeders Map',
         icon: 'fas fa-map-marked-alt',
-        bgColor: 'bg-indigo-500',
+        bgColor: 'bg-green-500',
         route: '/projects/breedersmap',
         roles: ['admin', 'breeder', 'focal person', 'researcher']
     },
     {
-        label: 'Browse Database',
+        label: 'TWG Database',
         icon: 'fas fa-database',
-        bgColor: 'bg-teal-500',
+        bgColor: 'bg-indigo-500',
         route: '/projects/twgdb',
+        roles: ['admin', 'breeder', 'focal person', 'researcher']
+    },
+    {
+        label: 'Security',
+        icon: 'fas fa-shield-alt',
+        bgColor: 'bg-purple-500',
+        route: '/user/profile',
         roles: ['admin', 'breeder', 'focal person', 'researcher']
     }
 ];

@@ -15,7 +15,7 @@ import OnlineUsersWidget from "@/Pages/Dashboard/components/OnlineUsersWidget.vu
 import RecentActivitiesWidget from "@/Pages/Dashboard/components/RecentActivitiesWidget.vue";
 import SystemOverviewWidget from "@/Pages/Dashboard/components/SystemOverviewWidget.vue";
 import QuickActionsWidget from "@/Pages/Dashboard/components/QuickActionsWidget.vue";
-import axios from 'axios';
+import DashboardService from '@/Services/DashboardService.js';
 
 const page = usePage();
 
@@ -23,16 +23,15 @@ const user = new User(page.props.auth.user);
 const showNote = ref(true);
 const showtempPasswordAlert = ref(false);
 
-// Dashboard data from backend
-const statistics = computed(() => page.props.statistics || {});
-const recentActivities = computed(() => page.props.recentActivities || []);
-const onlineUsers = computed(() => page.props.onlineUsers || []);
-const systemOverview = computed(() => page.props.systemOverview || {});
-const breederStats = computed(() => page.props.breederStats || null);
-const focalPersonStats = computed(() => page.props.focalPersonStats || null);
-const researcherStats = computed(() => page.props.researcherStats || null);
+// Dashboard data fetched from API
+const systemStats = ref({});
+const onlineUsers = ref([]);
+const recentUsers = ref([]);
+const systemActivities = ref([]);
+const userRoleDistribution = ref({});
+const loading = ref(true);
 
-onMounted(() => {
+onMounted(async () => {
     const hasSeenNote = localStorage.getItem("hasSeenNote");
     if (!hasSeenNote) {
         showNote.value = true;
@@ -43,21 +42,55 @@ onMounted(() => {
 
     showtempPasswordAlert.value = !!page.props.tempPasswordAlert;
 
+    // Fetch dashboard data from API
+    await fetchDashboardData();
+
     // Track user activity
     trackActivity();
     setInterval(trackActivity, 60000); // Update every minute
 });
 
+const fetchDashboardData = async () => {
+    try {
+        loading.value = true;
+
+        // Fetch system stats (available to all users)
+        systemStats.value = await DashboardService.getSystemStats();
+
+        // Fetch system activities
+        systemActivities.value = await DashboardService.getSystemActivities();
+
+        // Fetch admin-specific data
+        if (user.isAdmin) {
+            try {
+                onlineUsers.value = await DashboardService.getOnlineUsers();
+                recentUsers.value = await DashboardService.getRecentUsers();
+                userRoleDistribution.value = await DashboardService.getUserRoleDistribution();
+            } catch (error) {
+                console.error('Error fetching admin data:', error);
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+    } finally {
+        loading.value = false;
+    }
+};
+
 const trackActivity = async () => {
     try {
-        await axios.post('/dashboard/activity');
+        await DashboardService.updateActivity();
     } catch (error) {
         console.error('Failed to track activity:', error);
     }
 };
 
-const refreshActivities = () => {
-    router.reload({ only: ['recentActivities'] });
+const refreshActivities = async () => {
+    try {
+        systemActivities.value = await DashboardService.getSystemActivities();
+    } catch (error) {
+        console.error('Error refreshing activities:', error);
+    }
 };
 </script>
 
@@ -126,153 +159,162 @@ const refreshActivities = () => {
                 </div>
             </modal>
 
-            <!-- Statistics Cards Section -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <statistics-card
-                    title="Total Breeders"
-                    :value="statistics.totalBreeders || 0"
-                    icon="fas fa-user-tie"
-                    bg-color="from-green-500 to-green-600"
-                />
-                <statistics-card
-                    title="Total Commodities"
-                    :value="statistics.totalCommodities || 0"
-                    icon="fas fa-seedling"
-                    bg-color="from-blue-500 to-blue-600"
-                />
-                <statistics-card
-                    title="TWG Experts"
-                    :value="statistics.totalTWGExperts || 0"
-                    icon="fas fa-user-graduate"
-                    bg-color="from-purple-500 to-purple-600"
-                />
-                <statistics-card
-                    title="TWG Projects"
-                    :value="statistics.totalTWGProjects || 0"
-                    icon="fas fa-project-diagram"
-                    bg-color="from-indigo-500 to-indigo-600"
-                />
+            <!-- Loading State -->
+            <div v-if="loading" class="flex justify-center items-center py-20">
+                <div class="text-center">
+                    <i class="fas fa-spinner fa-spin text-4xl text-cbc-dark-green mb-4"></i>
+                    <p class="text-gray-600">Loading dashboard...</p>
+                </div>
             </div>
 
-            <!-- Role-Specific Statistics -->
-            <div v-if="breederStats" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                <statistics-card
-                    title="My Commodities"
-                    :value="statistics.myCommodities || 0"
-                    subtitle="Commodities you've registered"
-                    icon="fas fa-leaf"
-                    bg-color="from-emerald-500 to-emerald-600"
-                />
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                <!-- Main Content Area -->
-                <div class="lg:col-span-2 space-y-6">
-                    <!-- Recent Activities -->
-                    <recent-activities-widget
-                        :activities="recentActivities"
-                        @refresh="refreshActivities"
+            <!-- Dashboard Content -->
+            <div v-else>
+                <!-- System Statistics Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <statistics-card
+                        title="Total Users"
+                        :value="systemStats.totalUsers || 0"
+                        icon="fas fa-users"
+                        bg-color="from-blue-500 to-blue-600"
                     />
-
-                    <!-- Breeder Stats -->
-                    <div v-if="breederStats && breederStats.recentCommodities?.length" class="bg-white rounded-lg shadow-lg p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                            <i class="fas fa-seedling text-green-500 mr-2"></i>
-                            My Recent Commodities
-                        </h3>
-                        <div class="space-y-2">
-                            <div
-                                v-for="commodity in breederStats.recentCommodities"
-                                :key="commodity.id"
-                                class="flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
-                            >
-                                <div>
-                                    <p class="font-medium text-gray-900">{{ commodity.name }}</p>
-                                    <p class="text-sm text-gray-500">{{ commodity.variety }}</p>
-                                </div>
-                                <span class="text-xs text-gray-400">{{ new Date(commodity.updated_at).toLocaleDateString() }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Permissions Cards (existing) -->
-                    <dashboard-card class="bg-green-600 text-white" v-if="user.userPermissionsList.length">
-                        <template v-slot:title>
-                            <div class="flex flex-col leading-[1]">
-                                <span>User Permissions</span>
-                                <span class="text-[0.7rem] text-gray-200">Special permissions given to you</span>
-                            </div>
-                        </template>
-                        <template v-slot:body>
-                            <div class="flex flex-row gap-5 max-h-[15rem] overflow-hidden overflow-y-auto">
-                                <ul class="italic list-disc list-inside">
-                                    <li v-for="permission in user.userPermissionsList" :key="permission">
-                                        {{ permission.name }}
-                                    </li>
-                                </ul>
-                            </div>
-                        </template>
-                    </dashboard-card>
-
-                    <dashboard-card class="bg-cbc-yellow text-dark" v-if="user.rolePermissionsList.length">
-                        <template v-slot:title>
-                            <div class="flex flex-col leading-[1]">
-                                <span>Role permission</span>
-                                <span class="text-[0.7rem]">Inherited permissions by your role</span>
-                            </div>
-                        </template>
-                        <template v-slot:body>
-                            <div class="flex flex-row gap-5 max-h-[15rem] overflow-hidden overflow-y-auto">
-                                <ul class="italic list-disc list-inside">
-                                    <li v-for="permission in user.rolePermissionsList" :key="permission">
-                                        {{ permission.name }}
-                                    </li>
-                                </ul>
-                            </div>
-                        </template>
-                    </dashboard-card>
+                    <statistics-card
+                        title="Active Users"
+                        :value="systemStats.activeUsers || 0"
+                        subtitle="Last 7 days"
+                        icon="fas fa-user-check"
+                        bg-color="from-green-500 to-green-600"
+                    />
+                    <statistics-card
+                        title="Online Now"
+                        :value="systemStats.onlineUsers || 0"
+                        icon="fas fa-circle"
+                        bg-color="from-emerald-500 to-emerald-600"
+                    />
+                    <statistics-card
+                        title="New Users"
+                        :value="systemStats.recentRegistrations || 0"
+                        subtitle="This month"
+                        icon="fas fa-user-plus"
+                        bg-color="from-purple-500 to-purple-600"
+                    />
                 </div>
 
-                <!-- Sidebar -->
-                <div class="space-y-6">
-                    <!-- Quick Actions -->
-                    <quick-actions-widget :user-role="user.getRole" />
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Main Content Area -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Recent System Activities -->
+                        <recent-activities-widget
+                            :activities="systemActivities"
+                            @refresh="refreshActivities"
+                        />
 
-                    <!-- Admin-Only Widgets -->
-                    <template v-if="user.isAdmin">
-                        <online-users-widget :online-users="onlineUsers" />
-                        <system-overview-widget :overview="systemOverview" />
-                    </template>
-
-                    <!-- Upcoming Features -->
-                    <dashboard-card class="bg-blue-600 text-white">
-                        <template v-slot:title>
-                            <div class="flex flex-col leading-[1]">
-                                <span>Upcoming Features</span>
-                                <span class="text-[0.7rem] text-gray-300">We are working hard to further improve the system</span>
-                            </div>
-                        </template>
-                        <template v-slot:body>
-                            <div class="flex flex-col gap-1">
-                                <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
-                                    <p class="font-bold">Executive Dashboards</p>
-                                    <p class="text-sm">System can generate and publish comprehensive summary of information</p>
-                                </div>
-                                <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
-                                    <p class="font-bold">Application Programming Interface (API) Service</p>
-                                    <p class="text-sm">Provide real-time and secure data access to other systems</p>
-                                </div>
-                                <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
-                                    <p class="font-bold">Chat Room</p>
-                                    <p class="text-sm">Built-in messaging platform to allow users to interact and collaborate within PIN system</p>
-                                </div>
-                                <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
-                                    <p class="font-bold">Data View Customization</p>
-                                    <p class="text-sm">Users can customize the view of data based on their preferences</p>
+                        <!-- Recent Users (Admin only) -->
+                        <div v-if="user.isAdmin && recentUsers.length > 0" class="bg-white rounded-lg shadow-lg p-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+                                <i class="fas fa-user-plus text-blue-500 mr-2"></i>
+                                Recent User Registrations
+                            </h3>
+                            <div class="space-y-2">
+                                <div
+                                    v-for="recentUser in recentUsers"
+                                    :key="recentUser.id"
+                                    class="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition"
+                                >
+                                    <div class="flex items-center">
+                                        <img
+                                            :src="recentUser.profile_photo_url"
+                                            :alt="recentUser.name"
+                                            class="w-10 h-10 rounded-full mr-3"
+                                        />
+                                        <div>
+                                            <p class="font-medium text-gray-900">{{ recentUser.name }}</p>
+                                            <p class="text-xs text-gray-500">{{ recentUser.role }}</p>
+                                        </div>
+                                    </div>
+                                    <span class="text-xs text-gray-400">{{ new Date(recentUser.created_at).toLocaleDateString() }}</span>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- Permissions Cards (existing) -->
+                        <dashboard-card class="bg-green-600 text-white" v-if="user.userPermissionsList.length">
+                            <template v-slot:title>
+                                <div class="flex flex-col leading-[1]">
+                                    <span>User Permissions</span>
+                                    <span class="text-[0.7rem] text-gray-200">Special permissions given to you</span>
+                                </div>
+                            </template>
+                            <template v-slot:body>
+                                <div class="flex flex-row gap-5 max-h-[15rem] overflow-hidden overflow-y-auto">
+                                    <ul class="italic list-disc list-inside">
+                                        <li v-for="permission in user.userPermissionsList" :key="permission">
+                                            {{ permission.name }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </template>
+                        </dashboard-card>
+
+                        <dashboard-card class="bg-cbc-yellow text-dark" v-if="user.rolePermissionsList.length">
+                            <template v-slot:title>
+                                <div class="flex flex-col leading-[1]">
+                                    <span>Role permission</span>
+                                    <span class="text-[0.7rem]">Inherited permissions by your role</span>
+                                </div>
+                            </template>
+                            <template v-slot:body>
+                                <div class="flex flex-row gap-5 max-h-[15rem] overflow-hidden overflow-y-auto">
+                                    <ul class="italic list-disc list-inside">
+                                        <li v-for="permission in user.rolePermissionsList" :key="permission">
+                                            {{ permission.name }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </template>
+                        </dashboard-card>
+                    </div>
+
+                    <!-- Sidebar -->
+                    <div class="space-y-6">
+                        <!-- Quick Actions -->
+                        <quick-actions-widget :user-role="user.getRole" />
+
+                        <!-- Admin-Only Widgets -->
+                        <template v-if="user.isAdmin">
+                            <online-users-widget :online-users="onlineUsers" />
+                            <system-overview-widget :overview="userRoleDistribution" />
                         </template>
-                    </dashboard-card>
+
+                        <!-- Upcoming Features -->
+                        <dashboard-card class="bg-blue-600 text-white">
+                            <template v-slot:title>
+                                <div class="flex flex-col leading-[1]">
+                                    <span>Upcoming Features</span>
+                                    <span class="text-[0.7rem] text-gray-300">We are working hard to further improve the system</span>
+                                </div>
+                            </template>
+                            <template v-slot:body>
+                                <div class="flex flex-col gap-1">
+                                    <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
+                                        <p class="font-bold">Executive Dashboards</p>
+                                        <p class="text-sm">System can generate and publish comprehensive summary of information</p>
+                                    </div>
+                                    <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
+                                        <p class="font-bold">Application Programming Interface (API) Service</p>
+                                        <p class="text-sm">Provide real-time and secure data access to other systems</p>
+                                    </div>
+                                    <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
+                                        <p class="font-bold">Chat Room</p>
+                                        <p class="text-sm">Built-in messaging platform to allow users to interact and collaborate within PIN system</p>
+                                    </div>
+                                    <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
+                                        <p class="font-bold">Data View Customization</p>
+                                        <p class="text-sm">Users can customize the view of data based on their preferences</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </dashboard-card>
+                    </div>
                 </div>
             </div>
         </div>

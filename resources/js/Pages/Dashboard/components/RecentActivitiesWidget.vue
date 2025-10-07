@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between mb-4">
             <h3 class="text-lg font-semibold text-gray-800 flex items-center">
                 <i class="fas fa-clock text-blue-500 mr-2"></i>
-                Recent Activities
+                Recent System Activities
             </h3>
             <button
                 @click="refreshActivities"
@@ -43,11 +43,9 @@
                                 {{ activity.description }}
                             </p>
                             <div class="flex items-center mt-2 text-xs text-gray-500">
-                                <span class="bg-gray-200 px-2 py-0.5 rounded">{{ activity.module }}</span>
+                                <span v-if="activity.role" class="bg-gray-200 px-2 py-0.5 rounded">{{ activity.role }}</span>
                                 <span class="mx-2">•</span>
                                 <span>{{ activity.action }}</span>
-                                <span class="mx-2">by</span>
-                                <span class="font-medium">{{ activity.user }}</span>
                             </div>
                         </div>
                         <span class="text-xs text-gray-400 ml-2 whitespace-nowrap">
@@ -75,10 +73,8 @@ const emit = defineEmits(['refresh']);
 
 const getActivityColor = (type) => {
     const colors = {
-        commodity: 'border-green-500',
-        twg_project: 'border-blue-500',
-        breeder: 'border-purple-500',
-        expert: 'border-yellow-500',
+        user_registration: 'border-blue-500',
+        user_activity: 'border-green-500',
         default: 'border-gray-500'
     };
     return colors[type] || colors.default;
@@ -86,10 +82,8 @@ const getActivityColor = (type) => {
 
 const getIconBg = (type) => {
     const colors = {
-        commodity: 'bg-green-500',
-        twg_project: 'bg-blue-500',
-        breeder: 'bg-purple-500',
-        expert: 'bg-yellow-500',
+        user_registration: 'bg-blue-500',
+        user_activity: 'bg-green-500',
         default: 'bg-gray-500'
     };
     return colors[type] || colors.default;
@@ -97,10 +91,8 @@ const getIconBg = (type) => {
 
 const getIcon = (type) => {
     const icons = {
-        commodity: 'fas fa-seedling',
-        twg_project: 'fas fa-project-diagram',
-        breeder: 'fas fa-user-tie',
-        expert: 'fas fa-user-graduate',
+        user_registration: 'fas fa-user-plus',
+        user_activity: 'fas fa-user-check',
         default: 'fas fa-circle'
     };
     return icons[type] || icons.default;
@@ -114,4 +106,3 @@ const refreshActivities = () => {
     emit('refresh');
 };
 </script>
-

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DashboardApiController;
 use App\Http\Controllers\CBCTourController;
 use App\Http\Controllers\DataViewController;
 use Illuminate\Http\Request;
@@ -39,6 +40,16 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
     require_once base_path('Modules/TwgDb/Routes/TWGDbRoutes.php');
     require_once base_path('Modules/PbMap/Routes/BreedersMapRoutes.php');
     require_once 'components/SystemRoutes.php';
+
+    // Dashboard API Routes
+    Route::prefix('dashboard')->controller(DashboardApiController::class)->group(function () {
+        Route::get('/system-stats', 'getSystemStats')->name('api.dashboard.system-stats');
+        Route::get('/online-users', 'getOnlineUsers')->name('api.dashboard.online-users');
+        Route::get('/recent-users', 'getRecentUsers')->name('api.dashboard.recent-users');
+        Route::get('/user-role-distribution', 'getUserRoleDistribution')->name('api.dashboard.user-role-distribution');
+        Route::get('/system-activities', 'getSystemActivities')->name('api.dashboard.system-activities');
+        Route::post('/activity', 'updateActivity')->name('api.dashboard.activity');
+    });
 
     Route::controller(DataViewController::class)->group(function () {
        Route::get('/data-view', 'index')->name('api.dataview.index');

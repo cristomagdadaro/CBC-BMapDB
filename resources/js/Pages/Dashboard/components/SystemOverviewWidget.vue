@@ -8,14 +8,14 @@
         <div class="grid grid-cols-2 gap-4 mb-6">
             <div class="p-4 bg-blue-50 rounded-lg">
                 <p class="text-sm text-gray-600">Total Users</p>
-                <p class="text-2xl font-bold text-blue-600">{{ overview.totalUsers }}</p>
+                <p class="text-2xl font-bold text-blue-600">{{ overview.totalUsers || 0 }}</p>
                 <p class="text-xs text-gray-500 mt-1">
-                    <span class="text-green-600">+{{ overview.recentRegistrations }}</span> this week
+                    <span class="text-green-600">+{{ overview.recentRegistrations || 0 }}</span> this month
                 </p>
             </div>
             <div class="p-4 bg-green-50 rounded-lg">
                 <p class="text-sm text-gray-600">Active Users</p>
-                <p class="text-2xl font-bold text-green-600">{{ overview.activeUsers }}</p>
+                <p class="text-2xl font-bold text-green-600">{{ overview.activeUsers || 0 }}</p>
                 <p class="text-xs text-gray-500 mt-1">Last 7 days</p>
             </div>
         </div>
@@ -29,10 +29,10 @@
                         <div class="w-32 bg-gray-200 rounded-full h-2 mr-2">
                             <div
                                 class="bg-red-500 h-2 rounded-full"
-                                :style="{width: getPercentage(overview.totalAdmins, overview.totalUsers)}"
+                                :style="{width: getPercentage(overview.admins, overview.totalUsers)}"
                             ></div>
                         </div>
-                        <span class="text-sm font-medium">{{ overview.totalAdmins }}</span>
+                        <span class="text-sm font-medium">{{ overview.admins || 0 }}</span>
                     </div>
                 </div>
                 <div class="flex items-center justify-between">
@@ -41,10 +41,10 @@
                         <div class="w-32 bg-gray-200 rounded-full h-2 mr-2">
                             <div
                                 class="bg-green-500 h-2 rounded-full"
-                                :style="{width: getPercentage(overview.totalBreeders, overview.totalUsers)}"
+                                :style="{width: getPercentage(overview.breeders, overview.totalUsers)}"
                             ></div>
                         </div>
-                        <span class="text-sm font-medium">{{ overview.totalBreeders }}</span>
+                        <span class="text-sm font-medium">{{ overview.breeders || 0 }}</span>
                     </div>
                 </div>
                 <div class="flex items-center justify-between">
@@ -53,10 +53,10 @@
                         <div class="w-32 bg-gray-200 rounded-full h-2 mr-2">
                             <div
                                 class="bg-yellow-500 h-2 rounded-full"
-                                :style="{width: getPercentage(overview.totalFocalPersons, overview.totalUsers)}"
+                                :style="{width: getPercentage(overview.focalPersons, overview.totalUsers)}"
                             ></div>
                         </div>
-                        <span class="text-sm font-medium">{{ overview.totalFocalPersons }}</span>
+                        <span class="text-sm font-medium">{{ overview.focalPersons || 0 }}</span>
                     </div>
                 </div>
                 <div class="flex items-center justify-between">
@@ -65,47 +65,10 @@
                         <div class="w-32 bg-gray-200 rounded-full h-2 mr-2">
                             <div
                                 class="bg-blue-500 h-2 rounded-full"
-                                :style="{width: getPercentage(overview.totalResearchers, overview.totalUsers)}"
+                                :style="{width: getPercentage(overview.researchers, overview.totalUsers)}"
                             ></div>
                         </div>
-                        <span class="text-sm font-medium">{{ overview.totalResearchers }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-            <div class="border-t pt-4">
-                <h4 class="text-xs font-semibold text-gray-600 mb-2">Plant Breeders Map</h4>
-                <div class="space-y-1">
-                    <div class="flex justify-between text-xs">
-                        <span class="text-gray-600">Breeders:</span>
-                        <span class="font-medium">{{ overview.pbmap?.totalBreeders || 0 }}</span>
-                    </div>
-                    <div class="flex justify-between text-xs">
-                        <span class="text-gray-600">Commodities:</span>
-                        <span class="font-medium">{{ overview.pbmap?.totalCommodities || 0 }}</span>
-                    </div>
-                    <div class="flex justify-between text-xs text-green-600">
-                        <span>Recent:</span>
-                        <span class="font-medium">+{{ overview.pbmap?.recentCommodities || 0 }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t pt-4">
-                <h4 class="text-xs font-semibold text-gray-600 mb-2">TWG Biotech Database</h4>
-                <div class="space-y-1">
-                    <div class="flex justify-between text-xs">
-                        <span class="text-gray-600">Experts:</span>
-                        <span class="font-medium">{{ overview.twgdb?.totalExperts || 0 }}</span>
-                    </div>
-                    <div class="flex justify-between text-xs">
-                        <span class="text-gray-600">Projects:</span>
-                        <span class="font-medium">{{ overview.twgdb?.totalProjects || 0 }}</span>
-                    </div>
-                    <div class="flex justify-between text-xs text-green-600">
-                        <span>Recent:</span>
-                        <span class="font-medium">+{{ overview.twgdb?.recentProjects || 0 }}</span>
+                        <span class="text-sm font-medium">{{ overview.researchers || 0 }}</span>
                     </div>
                 </div>
             </div>
@@ -126,4 +89,3 @@ const getPercentage = (value, total) => {
     return `${Math.round((value / total) * 100)}%`;
 };
 </script>
-
