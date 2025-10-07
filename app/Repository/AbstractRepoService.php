@@ -196,7 +196,6 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false): Builder|LengthAwarePaginator|Collection
     {
         try {
-            // Normalize pagination preference
             $paginateRaw = $parameters->get('paginate', $withPagination);
             $normalized = $this->normalizeBoolean($paginateRaw);
             if (!is_null($normalized)) {
@@ -214,8 +213,11 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
      */
     protected function buildSearchQuery(Collection $parameters, bool $withPagination, bool $isTrashed): LengthAwarePaginator|Builder|Collection
     {
-        // Start with role-based query
-        $builder = $this->checkRole($this->model);
+        // Start with a fresh query builder (not applying scopes to the model directly)
+        $builder = $this->model->newQuery();
+
+        // Apply role-based filtering
+        $builder = $this->applyRoleBasedFiltering($builder);
 
         // Apply soft delete filter
         if ($isTrashed) {
@@ -310,8 +312,38 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
     /**
      * Apply ownership scoping based on the authenticated user.
+     * This method now works with a query builder instead of the model directly.
      */
-    public function checkRole(BaseModel|Model $model): BaseModel|Model|Builder
+    private function applyRoleBasedFiltering(Builder $builder): Builder
+    {
+        if (!auth()->check()) {
+            return $builder;
+        }
+
+        try {
+            $user = auth()->user();
+            $model = $builder->getModel();
+
+            // Check if model uses OwnedByTrait scopes
+            if (method_exists($model, 'scopeOwnedByUser')) {
+                $builder = $builder->ownedByUser($user);
+            }
+
+            if (method_exists($model, 'scopeOwnedByAffiliation')) {
+                $builder = $builder->ownedByAffiliation($user);
+            }
+        } catch (Exception $e) {
+            Log::warning('Failed to apply role-based filtering', ['error' => $e->getMessage()]);
+        }
+
+        return $builder;
+    }
+
+    /**
+     * Apply ownership scoping based on the authenticated user.
+     * @deprecated Use applyRoleBasedFiltering() instead
+     */
+    public function checkRole(BaseModel|Model $model): BaseModel|Model
     {
         if (!auth()->check()) {
             return $model;
@@ -319,7 +351,15 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
 
         try {
             $user = auth()->user();
-            $model = $model->ownedByUser($user)->ownedByAffiliation($user);
+
+            // Only apply if methods exist to avoid errors
+            if (method_exists($model, 'ownedByUser')) {
+                $model = $model->ownedByUser($user);
+            }
+
+            if (method_exists($model, 'ownedByAffiliation')) {
+                $model = $model->ownedByAffiliation($user);
+            }
         } catch (Exception $e) {
             Log::warning('Failed to apply role-based filtering', ['error' => $e->getMessage()]);
         }
@@ -391,65 +431,4 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         return $this;
     }
 
-    // ============================================================================
-    // DEPRECATED METHODS - Maintained for backward compatibility
-    // These methods are now handled by the FilterPipeline
-    // ============================================================================
-
-    /**
-     * @deprecated Use FilterPipeline with SelectFilter instead
-     */
-    public function applyRawSelectColumns($query, Collection $parameters)
-    {
-        // This is now handled by SelectFilter in the pipeline
-        return $query;
-    }
-
-    /**
-     * @deprecated Use FilterPipeline with GroupByFilter instead
-     */
-    public function applyGroupBy(Builder &$query, Collection $parameters): void
-    {
-        // This is now handled by GroupByFilter in the pipeline
-    }
-
-    /**
-     * @deprecated Use FilterPipeline with GeoLocationFilter instead
-     */
-    public function applyGeoFilters(Builder &$query, Collection $parameters): void
-    {
-        // This is now handled by GeoLocationFilter in the pipeline
-    }
-
-    /**
-     * @deprecated Use FilterPipeline with RelationshipFilter instead
-     */
-    public function applyAppends(Builder &$model, Collection $parameters): void
-    {
-        // This is now handled by RelationshipFilter in the pipeline
-    }
-
-    /**
-     * @deprecated Use FilterPipeline with ParentFilter instead
-     */
-    public function applyParentFilter(Builder &$query, Collection $parameters): void
-    {
-        // This is now handled by ParentFilter in the pipeline
-    }
-
-    /**
-     * @deprecated Use FilterPipeline with SearchFilter instead
-     */
-    public function applySearchFilters(Builder &$query, Collection $parameters): void
-    {
-        // This is now handled by SearchFilter in the pipeline
-    }
-
-    /**
-     * @deprecated Use FilterPipeline with SortFilter instead
-     */
-    public function applySorting(Builder &$query, Collection $parameters): void
-    {
-        // This is now handled by SortFilter in the pipeline
-    }
 }

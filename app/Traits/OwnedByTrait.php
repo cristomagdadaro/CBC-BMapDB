@@ -115,9 +115,10 @@ trait OwnedByTrait {
             }
 
             // Scope via breeder relation having same affiliation
+            // IMPORTANT: Use withoutGlobalScopes() to prevent infinite recursion
             if (method_exists($model, 'breeder')) {
                 return $query->whereHas('breeder', function (Builder $q) use ($aff) {
-                    $q->where('affiliation', $aff);
+                    $q->withoutGlobalScopes()->where('affiliation', $aff);
                 });
             }
 
@@ -146,15 +147,16 @@ trait OwnedByTrait {
         }
 
         // Otherwise, attempt to scope via known relations that contain affiliation
+        // IMPORTANT: Use withoutGlobalScopes() to prevent infinite recursion
         if (method_exists($model, 'breeder')) {
             return $query->whereHas('breeder', function (Builder $q) use ($aff) {
-                $q->where('affiliation', $aff);
+                $q->withoutGlobalScopes()->where('affiliation', $aff);
             });
         }
 
         if (method_exists($model, 'user')) {
             return $query->whereHas('user', function (Builder $q) use ($aff) {
-                $q->where('affiliation', $aff);
+                $q->withoutGlobalScopes()->where('affiliation', $aff);
             });
         }
 

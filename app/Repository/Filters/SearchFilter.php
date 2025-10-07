@@ -103,21 +103,31 @@ class SearchFilter extends AbstractFilter
         $model = $query->getModel();
 
         foreach ($this->relations as $relation) {
-            if (!method_exists($model, $relation)) {
+            $relation = trim($relation);
+            if (empty($relation) || !method_exists($model, $relation)) {
                 continue;
             }
 
-            $relatedModel = $model->{$relation}()->getModel();
-            $this->applyRelationWhereHas($query, $relation, $relatedModel, $search, $filter, $isExact);
+            try {
+                // Don't get the related model here - it can cause recursion
+                // We'll get it inside the whereHas callback instead
+                $this->applyRelationWhereHas($query, $relation, $search, $filter, $isExact);
+            } catch (\Exception $e) {
+                // Skip this relation if there's an error
+                continue;
+            }
         }
     }
 
     /**
      * Apply whereHas for a specific relation.
      */
-    private function applyRelationWhereHas(Builder $query, string $relation, $relatedModel, string $search, ?string $filter, bool $isExact): void
+    private function applyRelationWhereHas(Builder $query, string $relation, string $search, ?string $filter, bool $isExact): void
     {
-        $query->orWhereHas($relation, function ($q) use ($relatedModel, $search, $filter, $isExact) {
+        $query->orWhereHas($relation, function ($q) use ($search, $filter, $isExact) {
+            // IMPORTANT: Disable global scopes on the relationship query to prevent infinite recursion
+            $q->withoutGlobalScopes();
+
             $table = $q->getModel()->getTable();
             $searchable = Schema::getColumnListing($table);
 
@@ -168,4 +178,3 @@ class SearchFilter extends AbstractFilter
                $table === self::GEO_TABLE_USERS;
     }
 }
-
