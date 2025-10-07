@@ -72,7 +72,7 @@ class TWGController extends BaseController
                     ->pluck('total', 'status');
 
                 // Return the response as JSON
-                return response()->json([ 'data' => [
+                return response()->json([
                     'totalExperts' => $totalExperts->count(),
                     'totalProjects' => $totalProjects->count(),
                     'totalProducts' => $totalProducts->count(),
@@ -85,7 +85,7 @@ class TWGController extends BaseController
                         ->pluck('total', 'type'),
                     'topExperts' => $topExperts,
                     'totalOnGoingProjects' => $totalOnGoingProjects,
-                ]]);
+                ]);
 
             }
         } catch (Exception $e) {
