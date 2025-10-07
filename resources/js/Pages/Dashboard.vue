@@ -3,9 +3,8 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import User from "@/Modules/core/domain/auth/User.ts";
 import WelcomeUserBanner from "@/Pages/Dashboard/components/WelcomeUserBanner.vue";
 import {usePage} from "@inertiajs/vue3";
-import router from '@/router.js';
 import Modal from "@/Components/Modal.vue";
-import {ref, onMounted, computed} from "vue";
+import {ref, onMounted} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Logo from "@/Components/Icons/Logo.vue";
 import DashboardCard from "@/Components/DashboardCard.vue";
@@ -16,6 +15,7 @@ import RecentActivitiesWidget from "@/Pages/Dashboard/components/RecentActivitie
 import SystemOverviewWidget from "@/Pages/Dashboard/components/SystemOverviewWidget.vue";
 import QuickActionsWidget from "@/Pages/Dashboard/components/QuickActionsWidget.vue";
 import DashboardService from '@/Services/DashboardService.js';
+import DashboardShell from '@/Components/DashboardShell.vue';
 
 const page = usePage();
 
@@ -30,6 +30,7 @@ const recentUsers = ref([]);
 const systemActivities = ref([]);
 const userRoleDistribution = ref({});
 const loading = ref(true);
+const lastUpdated = ref(null);
 
 onMounted(async () => {
     const hasSeenNote = localStorage.getItem("hasSeenNote");
@@ -44,6 +45,7 @@ onMounted(async () => {
 
     // Fetch dashboard data from API
     await fetchDashboardData();
+    lastUpdated.value = new Date().toISOString();
 
     // Track user activity
     await trackActivity();
@@ -77,6 +79,11 @@ const fetchDashboardData = async () => {
     }
 };
 
+const refreshDashboard = async () => {
+    await fetchDashboardData();
+    lastUpdated.value = new Date().toISOString();
+};
+
 const trackActivity = async () => {
     try {
         await DashboardService.updateActivity();
@@ -96,17 +103,13 @@ const refreshActivities = async () => {
 
 <template>
     <AppLayout title="Dashboard">
-        <div class="bg-gray-50 min-h-screen p-4">
-            <welcome-user-banner>
-                Welcome, {{ user.getFullName }}!
-                <p v-if="user.isAdmin" class="text-center">
-                    You have admin privileges
-                </p>
-            </welcome-user-banner>
-            <welcome-user-banner v-show="page.props.acceptedBreederRole">
-               {{ page.props.acceptedBreederRole }}
-            </welcome-user-banner>
-
+        <DashboardShell
+            title="System Dashboard"
+            :isLoading="loading"
+            :lastUpdated="lastUpdated"
+            @refresh="refreshDashboard"
+        >
+            <!-- Notes/Alerts Modals -->
             <modal :show="showNote" @close="showNote = false">
                 <div class="p-10 text-justify flex flex-col gap-3">
                     <div class="sm:text-xl text-lg text-center font-bold text-gray-900">
@@ -159,16 +162,8 @@ const refreshActivities = async () => {
                 </div>
             </modal>
 
-            <!-- Loading State -->
-            <div v-if="loading" class="flex justify-center items-center py-20">
-                <div class="text-center">
-                    <i class="fas fa-spinner fa-spin text-4xl text-cbc-dark-green mb-4"></i>
-                    <p class="text-gray-600">Loading dashboard...</p>
-                </div>
-            </div>
-
-            <!-- Dashboard Content -->
-            <div v-else>
+            <!-- When loading, DashboardShell shows the loader; below is the main content -->
+            <template v-if="!loading">
                 <!-- System Statistics Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     <statistics-card
@@ -269,7 +264,7 @@ const refreshActivities = async () => {
                         </template>
                     </div>
                 </div>
-            </div>
-        </div>
+            </template>
+        </DashboardShell>
     </AppLayout>
 </template>

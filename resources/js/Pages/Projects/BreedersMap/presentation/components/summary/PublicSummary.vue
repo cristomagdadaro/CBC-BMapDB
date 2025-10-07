@@ -23,6 +23,7 @@ import BarGraph from "@/Pages/Projects/BreedersMap/presentation/components/summa
 import DoughnutGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/DoughnutGraph.vue";
 import LineGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/LineGraph.vue";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
+import DashboardShell from '@/Components/DashboardShell.vue';
 
 export default {
     name: "PublicSummary",
@@ -38,7 +39,8 @@ export default {
         FilterIcon,
         TD,
         TbodyRow,
-        CrcmTbody, TH, TheadRow, CrcmThead, CrcmTable, SearchBox, SearchBy, CustomDropdown, CaretDown
+        CrcmTbody, TH, TheadRow, CrcmThead, CrcmTable, SearchBox, SearchBy, CustomDropdown, CaretDown,
+        DashboardShell,
     },
     data() {
         return {
@@ -70,6 +72,9 @@ export default {
                 linechart_data: {labels: [], datasets: []},
                 raw_data: [],
             },
+            isLoading: false,
+            lastUpdated: null,
+            refreshKey: 0,
         }
     },
     computed: {
@@ -100,6 +105,9 @@ export default {
             return this.apiResponse?.linechart_data || {labels: [], datasets: []};
         },
     },
+    mounted() {
+        this.lastUpdated = new Date().toISOString();
+    },
     methods: {
         getNestedValue(obj, path) {
             return path.split('.').reduce((acc, part) => acc && acc[part], obj);
@@ -107,60 +115,71 @@ export default {
         updateFilters(param, value) {
             this.filter[param] = value;
         },
+        refreshDashboard() {
+            this.refreshKey++;
+            this.lastUpdated = new Date().toISOString();
+        }
     }
 }
 </script>
 
 <template>
-    <div class="flex flex-col gap-2">
-        <breeders-map-onboarding/>
-        <div class="relative sm:p-4 p-1 ">
-            <data-filtration-fields
-                :tables="tables"
-                :params="filter"
-                @dataRefreshed="apiResponse = $event"
-                @updatedFilter="filter = $event"
-            />
+    <DashboardShell
+        title="BreedersMap Summary (Public)"
+        :isLoading="isLoading"
+        :lastUpdated="lastUpdated"
+        @refresh="refreshDashboard"
+    >
+        <div class="flex flex-col gap-2">
+            <breeders-map-onboarding/>
+            <div class="relative sm:p-4 p-1 ">
+                <data-filtration-fields
+                    :key="refreshKey"
+                    :tables="tables"
+                    :params="filter"
+                    @dataRefreshed="apiResponse = $event"
+                    @updatedFilter="filter = $event"
+                />
 
-            <div id="bm-data-charts"
-                 class="flex flex-col md:flex-row justify-evenly items-center my-5 gap-0.5 overflow-x-auto">
-                <div v-if="apiResponse && apiResponse.chart_data && !filter.search" class="flex justify-center"
-                     style="width: 50%; height: auto">
-                    <bar-graph :data="barGraphData"/>
+                <div id="bm-data-charts"
+                     class="flex flex-col md:flex-row justify-evenly items-center my-5 gap-0.5 overflow-x-auto">
+                    <div v-if="apiResponse && apiResponse.chart_data && !filter.search" class="flex justify-center"
+                         style="width: 50%; height: auto">
+                        <bar-graph :data="barGraphData"/>
+                    </div>
+                    <div v-if="apiResponse && apiResponse.chart_labels && !filter.commodity" class="flex justify-center"
+                         style="width: 30%; height: auto">
+                        <doughnut-graph :data="doughnutGraphData"/>
+                    </div>
+                    <div v-if="apiResponse && apiResponse.linechart_data && filter.commodity" class="flex justify-center"
+                         style="width: 50%; height: auto">
+                        <line-graph :data="lineGraphData"/>
+                    </div>
                 </div>
-                <div v-if="apiResponse && apiResponse.chart_labels && !filter.commodity" class="flex justify-center"
-                     style="width: 30%; height: auto">
-                    <doughnut-graph :data="doughnutGraphData"/>
-                </div>
-                <div v-if="apiResponse && apiResponse.linechart_data && filter.commodity" class="flex justify-center"
-                     style="width: 50%; height: auto">
-                    <line-graph :data="lineGraphData"/>
-                </div>
-            </div>
 
-            <div id="bm-data-table" v-if="apiResponse && apiResponse.raw_data" class="text-xs overflow-x-auto">
-                <crcm-table>
-                    <crcm-thead>
-                        <thead-row>
-                            <t-h v-for="column in tableModel.getCardColumns()" :visible="column.visible"
-                                 :sortable="column.sortable" :key="column.key + column.title" :column="column.title"/>
-                        </thead-row>
-                    </crcm-thead>
-                    <crcm-tbody class="max-h-[100vh] overflow-y-auto">
-                        <tbody-row v-if="apiResponse && apiResponse.raw_data.length"
-                                   v-for="row_data in apiResponse.raw_data">
-                            <t-d v-for="column in visibleColumns" :key="column.key + row_data[column.key]"
-                                 :visible="column.visible" :class="column?.class">
-                                {{ getNestedValue(row_data, column.key) }}
-                            </t-d>
-                        </tbody-row>
-                        <tbody-row v-else>
-                            <t-d class="text-center text-gray-500" colspan="8">No Data Found</t-d>
-                        </tbody-row>
-                    </crcm-tbody>
-                </crcm-table>
+                <div id="bm-data-table" v-if="apiResponse && apiResponse.raw_data" class="text-xs overflow-x-auto">
+                    <crcm-table>
+                        <crcm-thead>
+                            <thead-row>
+                                <t-h v-for="column in tableModel.getCardColumns()" :visible="column.visible"
+                                     :sortable="column.sortable" :key="column.key + column.title" :column="column.title"/>
+                            </thead-row>
+                        </crcm-thead>
+                        <crcm-tbody class="max-h-[100vh] overflow-y-auto">
+                            <tbody-row v-if="apiResponse && apiResponse.raw_data.length"
+                                       v-for="row_data in apiResponse.raw_data">
+                                <t-d v-for="column in visibleColumns" :key="column.key + row_data[column.key]"
+                                     :visible="column.visible" :class="column?.class">
+                                    {{ getNestedValue(row_data, column.key) }}
+                                </t-d>
+                            </tbody-row>
+                            <tbody-row v-else>
+                                <t-d class="text-center text-gray-500" colspan="8">No Data Found</t-d>
+                            </tbody-row>
+                        </crcm-tbody>
+                    </crcm-table>
+                </div>
             </div>
         </div>
-    </div>
 </template>
 

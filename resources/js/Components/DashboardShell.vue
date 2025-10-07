@@ -1,15 +1,15 @@
 <template>
   <div class="w-full px-4 py-6 space-y-6 bg-gray-50 min-h-screen">
     <!-- Header with Actions -->
-    <div class="bg-white rounded-xl shadow-sm p-6 mb-6">
+    <div class="bg-white rounded-xl shadow-sm p-3 mb-3">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
-          <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ title }}</h1>
+          <h1 class="text-2xl font-bold text-gray-800 mb-2">{{ title }}</h1>
           <p v-if="lastUpdated" class="text-gray-600 flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
             </svg>
-            Last updated: {{ new Date(lastUpdated).toLocaleString() }}
+            <span class="text-sm">Last Fetched: {{ new Date(lastUpdated).toLocaleString() }}</span>
           </p>
         </div>
 
