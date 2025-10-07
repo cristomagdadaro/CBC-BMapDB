@@ -213,53 +213,64 @@ class MapDataController extends Controller
     {
         $validated = $request->validate([
             'data_type' => 'required|string|in:commodities,breeders',
-            'city_id' => 'required|integer',
+            'city_ids' => 'required|string', // Expect a comma-separated string of IDs
             'limit' => 'nullable|integer|min:1|max:24',
         ]);
 
         $type = $validated['data_type'];
-        $cityId = (int) $validated['city_id'];
+        $cityIds = array_filter(array_map('intval', explode(',', $validated['city_ids'])));
         $limit = (int) ($validated['limit'] ?? 12);
 
+        if (empty($cityIds)) {
+            return response()->json(['success' => true, 'data' => []]);
+        }
+
         try {
+            $query = null;
             if ($type === 'commodities') {
-                $rows = \DB::table('commodities')
+                $query = \DB::table('commodities')
                     ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
                     ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
-                    ->where('loc_cities.id', $cityId)
-                    ->select(['commodities.id', 'commodities.name as label', 'commodities.photo as photo'])
-                    ->orderBy('commodities.updated_at', 'desc')
-                    ->limit($limit)
-                    ->get();
-
-                $items = $rows->map(function ($r) {
-                    return [
-                        'id' => $r->id,
-                        'label' => $r->label,
-                        'image' => $r->photo ? asset($r->photo) : asset('img/logos/pin.webp'),
-                    ];
-                })->values();
+                    ->whereIn('loc_cities.id', $cityIds)
+                    ->select([
+                        'loc_cities.id as city_id',
+                        'commodities.id',
+                        'commodities.name as label',
+                        'commodities.photo as photo',
+                        \DB::raw('ROW_NUMBER() OVER (PARTITION BY loc_cities.id ORDER BY commodities.updated_at DESC) as rn')
+                    ]);
             } else { // breeders
-                $rows = \DB::table('breeders')
+                $query = \DB::table('breeders')
                     ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
-                    ->where('loc_cities.id', $cityId)
-                    ->select(['breeders.id', \DB::raw("TRIM(CONCAT(breeders.fname,' ',IFNULL(breeders.mname,''),' ',breeders.lname,' ',IFNULL(breeders.suffix,''))) as label"), 'breeders.photo as photo'])
-                    ->orderBy('breeders.updated_at', 'desc')
-                    ->limit($limit)
-                    ->get();
+                    ->whereIn('loc_cities.id', $cityIds)
+                    ->select([
+                        'loc_cities.id as city_id',
+                        'breeders.id',
+                        \DB::raw("TRIM(CONCAT(breeders.fname,' ',IFNULL(breeders.mname,''),' ',breeders.lname,' ',IFNULL(breeders.suffix,''))) as label"),
+                        'breeders.photo as photo',
+                        \DB::raw('ROW_NUMBER() OVER (PARTITION BY loc_cities.id ORDER BY breeders.updated_at DESC) as rn')
+                    ]);
+            }
 
-                $items = $rows->map(function ($r) {
+            // Wrap the query to apply the limit per city
+            $rankedRows = \DB::table(\DB::raw("({$query->toSql()}) as sub"))
+                ->mergeBindings($query)
+                ->where('rn', '<=', $limit)
+                ->get();
+
+            $groupedData = $rankedRows->groupBy('city_id')->map(function ($rows) {
+                return $rows->map(function ($r) {
                     return [
                         'id' => $r->id,
                         'label' => $r->label,
                         'image' => $r->photo ? asset($r->photo) : asset('img/logos/pin.webp'),
                     ];
-                })->values();
-            }
+                });
+            });
 
             return response()->json([
                 'success' => true,
-                'data' => $items,
+                'data' => $groupedData,
             ]);
         } catch (\Throwable $e) {
             return response()->json([

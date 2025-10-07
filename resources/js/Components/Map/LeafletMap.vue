@@ -111,39 +111,54 @@ const orbitLoading = ref(false)
 const orbitItems = ref([])
 const orbitX = ref(0)
 const orbitY = ref(0)
+const orbitLocationName = ref('')
 const orbitRadius = ref(80)
 const orbitCache = new Map()
 let orbitHideTimer = null
 
-const requestQueue = []
-let isProcessingQueue = false
+let batchRequestQueue = []
+let batchTimeout = null
 
-const processRequestQueue = async () => {
-    if (isProcessingQueue || requestQueue.length === 0) return
-    isProcessingQueue = true
+const processBatchRequest = async () => {
+    if (batchRequestQueue.length === 0) return
 
-    while (requestQueue.length > 0) {
-        const { cityId, resolve, reject } = requestQueue.shift()
-        try {
-            const key = cacheKey(cityId)
-            if (orbitCache.has(key)) {
-                resolve(orbitCache.get(key))
-            } else {
-                const { data } = await axios.get('/api/map-data/orbit-items', {
-                    params: { data_type: props.dataType, city_id: cityId, limit: 12 }
-                })
-                const items = data?.data || data?.items || []
-                orbitCache.set(key, items)
-                resolve(items)
-            }
-        } catch (e) {
-            console.error('Failed to fetch orbit items from queue', e)
-            reject(e)
-        }
-        // Wait a bit before the next request to avoid rate limiting
-        await new Promise(r => setTimeout(r, 250))
+    const requests = [...batchRequestQueue]
+    batchRequestQueue = []
+
+    const cityIdsToFetch = requests.map(req => req.cityId).filter(id => id)
+
+    if (cityIdsToFetch.length === 0) {
+        // Resolve all promises with empty arrays if there are no valid IDs
+        requests.forEach(req => req.resolve([]))
+        return
     }
-    isProcessingQueue = false
+
+    try {
+        const { data } = await axios.get('/api/map-data/orbit-items', {
+            params: {
+                data_type: props.dataType,
+                city_ids: cityIdsToFetch.join(','),
+                limit: 20
+            }
+        })
+
+        const results = data.data || {}
+
+        // Update cache and resolve promises
+        Object.entries(results).forEach(([cityId, items]) => {
+            const key = cacheKey(cityId)
+            orbitCache.set(key, items)
+        })
+
+        requests.forEach(req => {
+            const key = cacheKey(req.cityId)
+            req.resolve(orbitCache.get(key) || [])
+        })
+
+    } catch (e) {
+        console.error('Failed to fetch batch orbit items', e)
+        requests.forEach(req => req.reject(e))
+    }
 }
 
 const enqueueFetch = (cityId) => {
@@ -154,10 +169,14 @@ const enqueueFetch = (cityId) => {
             return
         }
 
-        if (!requestQueue.some(req => req.cityId === cityId)) {
-            requestQueue.push({ cityId, resolve, reject })
+        // Add to queue if not already there
+        if (!batchRequestQueue.some(req => req.cityId === cityId)) {
+            batchRequestQueue.push({ cityId, resolve, reject })
         }
-        processRequestQueue()
+
+        // Debounce the processing
+        clearTimeout(batchTimeout)
+        batchTimeout = setTimeout(processBatchRequest, 50) // 50ms debounce window
     })
 }
 
@@ -176,12 +195,14 @@ const hideOrbit = (immediate = false) => {
         orbitVisible.value = false
         orbitItems.value = []
         orbitLoading.value = false
+        orbitLocationName.value = ''
         return
     }
     orbitHideTimer = setTimeout(() => {
         orbitVisible.value = false
         orbitItems.value = []
         orbitLoading.value = false
+        orbitLocationName.value = ''
     }, 300)
 }
 
@@ -213,7 +234,7 @@ const prefetchNearby = (marker) => {
 }
 
 const showOrbitForMarker = async (marker) => {
-    console.log('Attempting to show orbit for marker:', marker)
+    //console.log('Attempting to show orbit for marker:', marker)
     if (!map.value?.leafletObject) {
         console.log('Map not ready, aborting.')
         return
@@ -224,15 +245,16 @@ const showOrbitForMarker = async (marker) => {
         return
     }
 
-    console.log(`Found cityId: ${cityId}. Fetching orbit items...`)
+    //console.log(`Found cityId: ${cityId}. Fetching orbit items...`)
 
     // position overlay at marker's container point
     const pt = map.value.leafletObject.latLngToContainerPoint(marker.position)
     orbitX.value = pt.x
     orbitY.value = pt.y
+    orbitLocationName.value = marker.label
     orbitVisible.value = true
     orbitLoading.value = true
-    console.log(`Set orbit state: visible=${orbitVisible.value}, loading=${orbitLoading.value}, x=${orbitX.value}, y=${orbitY.value}`)
+    //console.log(`Set orbit state: visible=${orbitVisible.value}, loading=${orbitLoading.value}, x=${orbitX.value}, y=${orbitY.value}`)
 
     const items = await fetchOrbitItems(cityId)
     orbitItems.value = items
@@ -701,6 +723,7 @@ onMounted(() => {
             :x="orbitX"
             :y="orbitY"
             :radius="orbitRadius"
+            :location-name="orbitLocationName"
             :data-type="dataType"
             @close="hideOrbit()"
             @enter="cancelHide()"

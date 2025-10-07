@@ -86,7 +86,7 @@ const routes = [
                         name: 'projects.breedersmap.breeder',
                         children: [
                             {
-                                path: '/projects/breedersmap/breeder',
+                                path: '/projects/breedersmap/breeder/:id?',
                                 component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapViewBreeder.vue'),
                                 name: 'breedersmap.breeder.view',
                             },
@@ -103,7 +103,7 @@ const routes = [
                         name: 'projects.breedersmap.commodity',
                         children: [
                             {
-                                path: '/projects/breedersmap/commodity',
+                                path: '/projects/breedersmap/commodity/:id?',
                                 component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapViewCommodity.vue'),
                                 name: 'breedersmap.commodity.view',
                             }

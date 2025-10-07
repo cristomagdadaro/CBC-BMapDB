@@ -6,6 +6,7 @@ const props = defineProps({
     x: {type: Number, required: true},
     y: {type: Number, required: true},
     radius: {type: Number, default: 80},
+    locationName: { type: String, default: '' },
     dataType: {type: String, default: 'commodities'},
     loading: {type: Boolean, default: false},
     visible: {type: Boolean, default: true},
@@ -61,6 +62,11 @@ const getImageSrc = (image) => {
                 <div v-if="loading"
                      class="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"/>
                 <div v-else class="w-2 h-2 rounded-full bg-blue-500"/>
+
+                <!-- Location Name -->
+                <div v-if="locationName" class="absolute top-full mt-2 w-max max-w-xs bg-gray-800 text-white text-xs rounded py-1 px-2 pointer-events-none">
+                    {{ locationName }}
+                </div>
 
                 <!-- orbiting icons container -->
                 <transition-group
