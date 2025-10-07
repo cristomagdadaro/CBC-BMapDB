@@ -1,228 +1,184 @@
-<script>
-import CaretDown from "@/Components/Icons/CaretDown.vue";
-import CustomDropdown from "@/Components/CustomDropdown/CustomDropdown.vue";
-import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
-import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
-import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
-import CrcmTable from "@/Components/CRCMDatatable/Components/CrcmTable.vue";
-import CrcmThead from "@/Components/CRCMDatatable/Components/CrcmThead.vue";
-import TheadRow from "@/Components/CRCMDatatable/Components/TheadRow.vue";
-import TH from "@/Components/CRCMDatatable/Components/TH.vue";
-import CrcmTbody from "@/Components/CRCMDatatable/Components/CrcmTbody.vue";
-import TbodyRow from "@/Components/CRCMDatatable/Components/TbodyRow.vue";
-import TD from "@/Components/CRCMDatatable/Components/TD.vue";
-import FilterIcon from "@/Components/Icons/FilterIcon.vue";
-import CollapsableMenu from "@/Components/Collapsable/CollapsableMenu/CollapsableMenu.vue";
-import BreedersMapOnboarding from "@/Pages/Projects/BreedersMap/presentation/components/OnboardingBM/BreedersMapOnboarding.vue";
-import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
-import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
-import DataFiltrationFields from "@/Pages/Projects/BreedersMap/presentation/components/map/components/DataFiltrationFields.vue";
-import BarGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/BarGraph.vue";
-import DoughnutGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/DoughnutGraph.vue";
-import LineGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/LineGraph.vue";
-import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
-
-export default {
-    name: "Summary",
-    components: {
-        LineGraph,
-        DoughnutGraph,
-        BarGraph,
-        DataFiltrationFields,
-        LoaderIcon,
-        TransitionContainer,
-        BreedersMapOnboarding,
-        CollapsableMenu,
-        FilterIcon,
-        TD,
-        TbodyRow,
-        CrcmTbody, TH, TheadRow, CrcmThead, CrcmTable, SearchBox, SearchBy, CustomDropdown, CaretDown},
-    props: {
-        tableList: {
-            type: Array,
-            required: true,
-        },
-    },
-    data() {
-        return {
-            filter: {
-                search: null,
-                is_exact: false,
-                filter: null,
-                table_name: 'commodities',
-                commodity: null,
-                geo_location_filter: null, // for municipal, city, province, region level
-            },
-
-            showListOfPlaces: false,
-            colorOpacity: 1,
-            listOfColors: [
-                'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(75, 192, 192, 0.5)',
-                'rgba(153, 102, 255, 0.5)',
-                'rgba(255, 159, 64, 0.5)',
-                'rgba(255, 99, 132, 0.5)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(75, 192, 192, 0.5)',
-                'rgba(153, 102, 255, 0.5)',
-                'rgba(255, 159, 64, 0.5)',
-                'rgba(255, 99, 132, 0.5)',
-            ],
-            apiResponseMixin: [],
-        }
-    },
-    watch: {
-        'colorOpacity': function (value) {
-            this.listOfColors = this.listOfColors.map(color => color.replace(/0.\d/, value));
-        },
-    },
-    computed: {
-        Commodity() {
-            return Commodity
-        },
-        visibleColumns() {
-            return this.tableModel.getCardColumns().filter(column => column.visible);
-        },
-        tableModel() {
-            if(this.filter.table_name === 'commodities')
-                return Commodity
-            else
-                return Breeder
-        },
-        barGraphData() {
-            return {
-                labels: this.apiResponseMixin.chart_data.map(item => item.label),
-                datasets: [
-                    {
-                        label: 'By Region',
-                        data: this.apiResponseMixin.chart_data.map(item => item.total),
-                        backgroundColor: this.listOfColors,
-                        borderColor: this.listOfColors.map(color => color.replace('0.2', this.colorOpacity)),
-                        borderWidth: 1,
-                    },
-                ]
-            }
-        },
-        doughnutGraphData() {
-            return {
-                labels: this.apiResponseMixin.chart_labels.map(item => item.label),
-                datasets: [
-                    {
-                        data: this.apiResponseMixin.chart_labels.map(item => item.total),
-                        backgroundColor: this.listOfColors,
-                        borderColor: this.listOfColors.map(color => color.replace('0.2', '1')),
-                        borderWidth: 1
-                    }
-                ]
-            }
-        },
-        lineGraphData() {
-            return {
-                labels: this.apiResponseMixin.linechart_data.labels,
-                datasets: this.apiResponseMixin.linechart_data.datasets
-            }
-        },
-    },
-    methods: {
-        getNestedValue(obj, path) {
-            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-        },
-        async updateFilters(param, value) {
-            this.filter[param] = value;
-        },
-    }
-}
-</script>
-
 <template>
-    <div class="flex flex-col gap-2">
-        <breeders-map-onboarding />
-        <div class="relative sm:p-4 p-1 ">
-            <data-filtration-fields :tables="tableList"
-                                    @dataRefreshed="apiResponseMixin = $event"
-                                    @updatedFilter="filter = $event"
-                                    :params="filter"
-            />
-            <div id="bm-data-charts" class="flex flex-col md:flex-row justify-evenly items-center my-5 gap-0.5 overflow-x-auto">
-                <div v-if="apiResponseMixin && apiResponseMixin.chart_data && !filter.search"
-                     class="flex justify-center"
-                     style="width: 50%; height: auto"
-                >
-                    <bar-graph :data="barGraphData" />
+    <div class="flex flex-col gap-6 p-3">
+        <!-- Overview cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="rounded-lg p-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white shadow">
+                <div class="text-sm opacity-80">Total Breeders</div>
+                <div class="text-3xl font-bold">{{ loading ? '—' : stat('breeders') }}</div>
+            </div>
+            <div class="rounded-lg p-4 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white shadow">
+                <div class="text-sm opacity-80">Total Commodities</div>
+                <div class="text-3xl font-bold">{{ loading ? '—' : stat('commodities') }}</div>
+            </div>
+            <div class="rounded-lg p-4 bg-gradient-to-br from-fuchsia-500 to-fuchsia-600 text-white shadow">
+                <div class="text-sm opacity-80">Regions Covered</div>
+                <div class="text-3xl font-bold">{{ loading ? '—' : stat('regions') }}</div>
+            </div>
+            <div class="rounded-lg p-4 bg-gradient-to-br from-amber-500 to-amber-600 text-white shadow">
+                <div class="text-sm opacity-80">Institutes</div>
+                <div class="text-3xl font-bold">{{ loading ? '—' : stat('institutes') }}</div>
+            </div>
+        </div>
+
+        <!-- Role-aware: My stats for breeders -->
+        <div v-if="!loading && myStats.isBreeder && myStats.stats" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="rounded-lg p-4 bg-white shadow border">
+                <div class="text-sm text-gray-500">My Commodities</div>
+                <div class="text-2xl font-semibold text-gray-800">{{ myStats.stats.myCommodities }}</div>
+            </div>
+            <div class="rounded-lg p-4 bg-white shadow border">
+                <div class="text-sm text-gray-500">Distinct Varieties</div>
+                <div class="text-2xl font-semibold text-gray-800">{{ myStats.stats.distinctVarieties }}</div>
+            </div>
+            <div class="rounded-lg p-4 bg-white shadow border">
+                <div class="text-sm text-gray-500">With Population Data</div>
+                <div class="text-2xl font-semibold text-gray-800">{{ myStats.stats.withPopulation }}</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 rounded-lg bg-white shadow p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-gray-800 font-semibold">Breeders by Region</h3>
+                    <span v-if="loading" class="text-sm text-gray-400">Loading…</span>
                 </div>
-                <div v-if="apiResponseMixin && apiResponseMixin.chart_labels && !filter.commodity"
-                     class="flex justify-center"
-                     style="width: 30%; height: auto"
-                >
-                    <doughnut-graph :data="doughnutGraphData" />
-                </div>
-                <div v-if="apiResponseMixin && apiResponseMixin.linechart_data && filter.commodity"
-                     class="flex justify-center"
-                     style="width: 50%; height: auto"
-                >
-                    <line-graph :data="lineGraphData" />
+                <div class="min-h-[260px]">
+                    <BarGraph v-if="!loading" :data="breedersByRegionChart"/>
+                    <div v-else class="w-full h-[260px] animate-pulse bg-gray-100 rounded"/>
                 </div>
             </div>
-            <div class="w-full flex flex-row gap-1 my-2">
-                <search-box
-                    id="bm-search-box"
-                    :value="filter.search"
-                    :options="{}"
-                    :label="filter.search ?? 'Select a place'"
-                    @searchString="updateFilters('search', $event)"
-                    @keydown.enter="updateFilters('search', $event)"
-                    @focusin="showListOfPlaces = true"
-                    class="w-full"></search-box>
-                <search-by id="bm-columnsfilter-dropdown"
-                           :value="filter.filter"
-                           :is-exact="filter.is_exact"
-                           :options="tableModel.getCardColumns().filter(item => item.visible).map(column => {
-                                return {
-                                    name: column.db_key,
-                                    label: column.title
-                                }
-                            })"
-                           @isExact="filter.is_exact = $event"
-                           @searchBy="filter.filter = $event"
-                />
+            <div class="rounded-lg bg-white shadow p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-gray-800 font-semibold">Commodities</h3>
+                    <span v-if="loading" class="text-sm text-gray-400">Loading…</span>
+                </div>
+                <div class="min-h-[260px]">
+                    <DoughnutGraph v-if="!loading" :data="commoditiesByNameChart"/>
+                    <div v-else class="w-full h-[260px] animate-pulse bg-gray-100 rounded"/>
+                </div>
             </div>
-            <div id="bm-data-table" v-if="apiResponseMixin && apiResponseMixin.raw_data" class="text-xs overflow-x-auto">
-                <crcm-table>
-                    <crcm-thead>
-                        <thead-row>
-                            <t-h
-                                v-for="column in tableModel.getCardColumns()"
-                                :visible="column.visible"
-                                :sortable="column.sortable"
-                                :key="column.key + column.title"
-                                :column="column.title"
-                            />
-                        </thead-row>
-                    </crcm-thead>
-                    <crcm-tbody class="max-h-[100vh] overflow-y-auto">
-                        <tbody-row v-if="apiResponseMixin && apiResponseMixin.raw_data.length" v-for="row_data in apiResponseMixin.raw_data">
-                            <t-d
-                                v-for="column in visibleColumns"
-                                :key="column.key + row_data[column.key]"
-                                :visible="column.visible"
-                                :class="column?.class"
-                            >{{
-                                    getNestedValue(row_data, column.key)
-                                }}</t-d>
-                        </tbody-row>
-                        <tbody-row v-else>
-                            <t-d class="text-center text-gray-500" colspan="8">No Data Found</t-d>
-                        </tbody-row>
-                    </crcm-tbody>
-                </crcm-table>
+        </div>
+
+        <!-- Recent activity -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="rounded-lg bg-white shadow p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-gray-800 font-semibold">Recent Breeders</h3>
+                    <span v-if="loadingRecent" class="text-sm text-gray-400">Loading…</span>
+                </div>
+                <div class="divide-y">
+                    <div v-if="!loadingRecent && (!recent.breeders || !recent.breeders.length)"
+                         class="text-sm text-gray-500 py-6 text-center">No recent breeders
+                    </div>
+                    <div v-else v-for="b in recent.breeders" :key="b.id" class="py-3 flex items-center justify-between">
+                        <div>
+                            <div class="font-medium text-gray-800">{{ b.name }}</div>
+                            <div class="text-xs text-gray-500">{{ b.institute || '—' }} <span
+                                v-if="b.region">• {{ b.region }}</span></div>
+                        </div>
+                        <div class="text-xs text-gray-400">{{ new Date(b.created_at).toLocaleDateString() }}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rounded-lg bg-white shadow p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-gray-800 font-semibold">Recent Commodities</h3>
+                    <span v-if="loadingRecent" class="text-sm text-gray-400">Loading…</span>
+                </div>
+                <div class="divide-y">
+                    <div v-if="!loadingRecent && (!recent.commodities || !recent.commodities.length)"
+                         class="text-sm text-gray-500 py-6 text-center">No recent commodities
+                    </div>
+                    <div v-else v-for="c in recent.commodities" :key="c.id"
+                         class="py-3 flex items-center justify-between">
+                        <div>
+                            <div class="font-medium text-gray-800">{{ c.name }}<span v-if="c.variety"
+                                                                                     class="text-gray-500"> — {{
+                                    c.variety
+                                }}</span></div>
+                            <div class="text-xs text-gray-500">{{ c.breeder || '—' }} <span
+                                v-if="c.institute">• {{ c.institute }}</span> <span v-if="c.region">• {{
+                                    c.region
+                                }}</span></div>
+                        </div>
+                        <div class="text-xs text-gray-400">{{ new Date(c.created_at).toLocaleDateString() }}</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
-<style scoped>
+<script setup>
+import {ref, computed, onMounted} from 'vue';
+import ApiService from '@/Modules/core/infrastructure/ApiService';
+import BarGraph from '@/Pages/Projects/BreedersMap/presentation/components/summary/components/BarGraph.vue';
+import DoughnutGraph from '@/Pages/Projects/BreedersMap/presentation/components/summary/components/DoughnutGraph.vue';
 
-</style>
+const loading = ref(true);
+const loadingRecent = ref(true);
+const overview = ref({totals: {}, charts: {breedersByRegion: [], commoditiesByName: []}});
+const recent = ref({breeders: [], commodities: []});
+const myStats = ref({isBreeder: false, stats: null});
+
+const fetchOverview = async () => {
+    const svc = new ApiService('/api/breeders-dashboard/overview');
+    const res = await svc.get();
+    overview.value = res?.data || {totals: {}, charts: {breedersByRegion: [], commoditiesByName: []}};
+};
+
+const fetchRecent = async () => {
+    const svc = new ApiService('/api/breeders-dashboard/recent');
+    const res = await svc.get();
+    recent.value = res?.data || {breeders: [], commodities: []};
+};
+
+const fetchMyStats = async () => {
+    const svc = new ApiService('/api/breeders-dashboard/my-stats');
+    const res = await svc.get();
+    myStats.value = res?.data || {isBreeder: false, stats: null};
+};
+
+onMounted(async () => {
+    try {
+        loading.value = true;
+        await Promise.all([fetchOverview(), fetchMyStats()]);
+    } finally {
+        loading.value = false;
+    }
+    try {
+        loadingRecent.value = true;
+        await fetchRecent();
+    } finally {
+        loadingRecent.value = false;
+    }
+});
+
+const stat = (key, def = 0) => overview.value?.totals?.[key] ?? def;
+
+const breedersByRegionChart = computed(() => {
+    const items = overview.value?.charts?.breedersByRegion || [];
+    return {
+        labels: items.map(i => i.label),
+        datasets: [{
+            label: 'Breeders by Region',
+            data: items.map(i => i.total),
+            backgroundColor: ['#3b82f6', '#60a5fa', '#93c5fd', '#bfdbfe', '#1d4ed8', '#2563eb', '#1e40af', '#38bdf8', '#06b6d4', '#34d399', '#fbbf24', '#fb7185'],
+            borderWidth: 1
+        }]
+    };
+});
+
+const commoditiesByNameChart = computed(() => {
+    const items = overview.value?.charts?.commoditiesByName || [];
+    return {
+        labels: items.map(i => i.label),
+        datasets: [{
+            data: items.map(i => i.total),
+            backgroundColor: ['#10b981', '#34d399', '#6ee7b7', '#a7f3d0', '#059669', '#047857', '#064e3b', '#f59e0b', '#fbbf24', '#fde68a', '#ef4444', '#fca5a5'],
+            borderWidth: 1
+        }]
+    };
+});
+</script>

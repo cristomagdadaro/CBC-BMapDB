@@ -4,7 +4,7 @@ import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vu
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Tab from "@/Components/Tab/Tab.vue";
-import Summary from "@/Pages/Projects/BreedersMap/presentation/components/summary/Summary.vue";
+import PublicSummary from "@/Pages/Projects/BreedersMap/presentation/components/summary/PublicSummary.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import InfoIcon from "@/Components/Icons/InfoIcon.vue";
@@ -28,7 +28,7 @@ export default {
         PageLayout,
         Commodity,
         Tab,
-        Summary,
+        Summary: PublicSummary,
         Link
     },
     data() {
@@ -111,7 +111,7 @@ export default {
                     <Map :table-list="tables" :model="Commodity" :params="$page.props.params"/>
                 </template>
                 <template #tab2>
-                    <Summary :table-list="tables"  />
+                    <Summary />
                 </template>
             </Tab>
         </public-page-section>

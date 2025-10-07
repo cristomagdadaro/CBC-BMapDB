@@ -3,12 +3,15 @@
     <app-layout>
         <Tab :tabs="tabs" v-if="$page.props.auth.user">
             <template v-slot:tab1>
-                <breeders-table />
+                <summary-comp />
             </template>
             <template v-slot:tab2>
-                <commodity-table />
+                <breeders-table />
             </template>
             <template v-slot:tab3>
+                <commodity-table />
+            </template>
+            <template v-slot:tab4>
                 <div class="flex flex-col gap-5 relative">
 
                     <MapExample />
@@ -16,12 +19,12 @@
 <!--                    <Map :table-list="tables" :model="Commodity"/>-->
                 </div>
             </template>
-            <template v-slot:tab4>
+            <template v-slot:tab5>
                 <div>
                     <under-develop />
                 </div>
             </template>
-            <template v-slot:tab5>
+            <template v-slot:tab6>
                 <bm-settings />
             </template>
         </Tab>
@@ -68,7 +71,7 @@ export default {
         Map: defineAsyncComponent({
             loader: async() => await import("@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue"),
         }),
-        Summary: defineAsyncComponent({
+        SummaryComp: defineAsyncComponent({
             loader: async() => await import("@/Pages/Projects/BreedersMap/presentation/components/summary/Summary.vue"),
         })
     },
@@ -77,30 +80,36 @@ export default {
           tabs: [
               {
                   name: "tab1",
-                  label: "Breeders",
+                  label: "Summary",
                   active: true,
-                  route: { name: 'projects.breedersmap.breeder' },
+                  route: { name: 'projects.breedersmap.summary' },
               },
               {
                   name: "tab2",
+                  label: "Breeders",
+                  active: false,
+                  route: { name: 'projects.breedersmap.breeder' },
+              },
+              {
+                  name: "tab3",
                   label: "Commodities",
                   active: false,
                   route: { name: 'projects.breedersmap.commodity' },
               },
               {
-                  name: "tab3",
+                  name: "tab4",
                   label: "Geo Map",
                   active: false,
                   route: { name: 'projects.breedersmap.geomap' },
               },
               {
-                  name: "tab4",
+                  name: "tab5",
                   label: "Gene Bank",
                   active: true,
                   route: { name: 'projects.breedersmap.summary' },
               },
               {
-                  name: "tab5",
+                  name: "tab6",
                   label: "Settings",
                   active: false,
                   route: { name: 'projects.breedersmap.settings' },
