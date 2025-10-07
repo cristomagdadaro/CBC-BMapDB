@@ -59,12 +59,50 @@ class SearchFilter extends AbstractFilter
 
         // Specific column filter
         if ($filter) {
+            // Handle dot notation (e.g., 'table.column')
             if (str_contains($filter, '.')) {
                 $filter = explode('.', $filter)[1];
             }
-            $operator = $isExact ? '=' : 'like';
-            $value = $isExact ? $search : "%{$search}%";
-            $query->where($filter, $operator, $value);
+
+            // Check if filter contains comma-separated column names (e.g., 'fname,mname,lname,suffix')
+            if (str_contains($filter, ',')) {
+                $filterColumns = array_map('trim', explode(',', $filter));
+
+                // If it's name columns, use CONCAT_WS for full name search
+                if ($this->isNameColumnsFilter($filterColumns)) {
+                    $query->where(function ($q) use ($search) {
+                        $q->whereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
+                    });
+                    return;
+                }
+
+                // Otherwise, search across the specified columns
+                $operator = $isExact ? '=' : 'like';
+                $value = $isExact ? $search : "%{$search}%";
+                $query->where(function ($q) use ($filterColumns, $operator, $value, $model) {
+                    $table = $model->getTable();
+                    foreach ($filterColumns as $column) {
+                        if (Schema::hasColumn($table, $column)) {
+                            $q->orWhere($column, $operator, $value);
+                        }
+                    }
+                });
+                return;
+            }
+
+            // Check if filter is a relationship name (method exists on model but not a column)
+            $table = $model->getTable();
+            if (!Schema::hasColumn($table, $filter) && method_exists($model, $filter)) {
+                // This is a relationship - skip main model search, will be handled by related search
+                return;
+            }
+
+            // Single column filter - only apply if column exists
+            if (Schema::hasColumn($table, $filter)) {
+                $operator = $isExact ? '=' : 'like';
+                $value = $isExact ? $search : "%{$search}%";
+                $query->where($filter, $operator, $value);
+            }
             return;
         }
 
@@ -165,6 +203,19 @@ class SearchFilter extends AbstractFilter
     private function hasNameColumns(Collection $columns): bool
     {
         return $columns->contains(self::COL_FNAME) && $columns->contains(self::COL_LNAME);
+    }
+
+    /**
+     * Check if the filter columns are name-related fields.
+     */
+    private function isNameColumnsFilter(array $columns): bool
+    {
+        $nameColumns = [self::COL_FNAME, self::COL_MNAME, self::COL_LNAME, self::COL_SUFFIX];
+        $intersection = array_intersect($columns, $nameColumns);
+
+        // If the filter contains fname and lname, treat it as a name search
+        return in_array(self::COL_FNAME, $intersection, true) &&
+               in_array(self::COL_LNAME, $intersection, true);
     }
 
     /**

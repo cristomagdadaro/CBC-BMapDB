@@ -17,7 +17,7 @@ export default class DtoBaseClass extends Object implements IBaseClass {
         // check if the instance has a fname, mname, etc. attribute
         if (this.hasOwnProperty('fname') && this.hasOwnProperty('mname') && this.hasOwnProperty('lname') && this.hasOwnProperty('suffix')){
             //@ts-ignore
-            return [this.fname, this.mname ? this.mname?.[0]+'.' : '', this.lname, this.suffix]
+            return [this.fname, this.mname, this.lname, this.suffix]
                 .filter(part => part)
                 .join(" ");
         }
