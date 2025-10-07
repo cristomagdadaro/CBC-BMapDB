@@ -24,7 +24,7 @@
             <h4 class="text-sm font-semibold text-gray-700 mb-3">User Roles Distribution</h4>
             <div class="space-y-2">
                 <div class="flex items-center justify-between">
-                    <span class="text-sm text-gray-600">Admins</span>
+                    <span class="text-sm text-gray-600">Administrator</span>
                     <div class="flex items-center">
                         <div class="w-32 bg-gray-200 rounded-full h-2 mr-2">
                             <div
@@ -69,6 +69,18 @@
                             ></div>
                         </div>
                         <span class="text-sm font-medium">{{ overview.researchers || 0 }}</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600">TWG Managers</span>
+                    <div class="flex items-center">
+                        <div class="w-32 bg-gray-200 rounded-full h-2 mr-2">
+                            <div
+                                class="bg-blue-500 h-2 rounded-full"
+                                :style="{width: getPercentage(overview.twgManagers, overview.totalUsers)}"
+                            ></div>
+                        </div>
+                        <span class="text-sm font-medium">{{ overview.twgManagers || 0 }}</span>
                     </div>
                 </div>
             </div>

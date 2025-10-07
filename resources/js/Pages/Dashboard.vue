@@ -46,7 +46,7 @@ onMounted(async () => {
     await fetchDashboardData();
 
     // Track user activity
-    trackActivity();
+    await trackActivity();
     setInterval(trackActivity, 60000); // Update every minute
 });
 
@@ -227,11 +227,12 @@ const refreshActivities = async () => {
                                             class="w-10 h-10 rounded-full mr-3"
                                         />
                                         <div>
-                                            <p class="font-medium text-gray-900">{{ recentUser.name }}</p>
+                                            <p class="font-medium text-gray-900 flex items-center gap-3">{{ recentUser.name }}</p>
                                             <p class="text-xs text-gray-500">{{ recentUser.role }}</p>
                                         </div>
                                     </div>
                                     <span class="text-xs text-gray-400">{{ new Date(recentUser.created_at).toLocaleDateString() }}</span>
+
                                 </div>
                             </div>
                         </div>
@@ -254,24 +255,6 @@ const refreshActivities = async () => {
                                 </div>
                             </template>
                         </dashboard-card>
-
-                        <dashboard-card class="bg-cbc-yellow text-dark" v-if="user.rolePermissionsList.length">
-                            <template v-slot:title>
-                                <div class="flex flex-col leading-[1]">
-                                    <span>Role permission</span>
-                                    <span class="text-[0.7rem]">Inherited permissions by your role</span>
-                                </div>
-                            </template>
-                            <template v-slot:body>
-                                <div class="flex flex-row gap-5 max-h-[15rem] overflow-hidden overflow-y-auto">
-                                    <ul class="italic list-disc list-inside">
-                                        <li v-for="permission in user.rolePermissionsList" :key="permission">
-                                            {{ permission.name }}
-                                        </li>
-                                    </ul>
-                                </div>
-                            </template>
-                        </dashboard-card>
                     </div>
 
                     <!-- Sidebar -->
@@ -284,36 +267,6 @@ const refreshActivities = async () => {
                             <online-users-widget :online-users="onlineUsers" />
                             <system-overview-widget :overview="userRoleDistribution" />
                         </template>
-
-                        <!-- Upcoming Features -->
-                        <dashboard-card class="bg-blue-600 text-white">
-                            <template v-slot:title>
-                                <div class="flex flex-col leading-[1]">
-                                    <span>Upcoming Features</span>
-                                    <span class="text-[0.7rem] text-gray-300">We are working hard to further improve the system</span>
-                                </div>
-                            </template>
-                            <template v-slot:body>
-                                <div class="flex flex-col gap-1">
-                                    <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
-                                        <p class="font-bold">Executive Dashboards</p>
-                                        <p class="text-sm">System can generate and publish comprehensive summary of information</p>
-                                    </div>
-                                    <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
-                                        <p class="font-bold">Application Programming Interface (API) Service</p>
-                                        <p class="text-sm">Provide real-time and secure data access to other systems</p>
-                                    </div>
-                                    <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
-                                        <p class="font-bold">Chat Room</p>
-                                        <p class="text-sm">Built-in messaging platform to allow users to interact and collaborate within PIN system</p>
-                                    </div>
-                                    <div class="text-cbc-brown bg-gray-100 px-3 py-2 rounded leading-tight">
-                                        <p class="font-bold">Data View Customization</p>
-                                        <p class="text-sm">Users can customize the view of data based on their preferences</p>
-                                    </div>
-                                </div>
-                            </template>
-                        </dashboard-card>
                     </div>
                 </div>
             </div>

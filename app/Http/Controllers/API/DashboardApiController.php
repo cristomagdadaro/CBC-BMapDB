@@ -90,10 +90,12 @@ class DashboardApiController extends Controller
 
         return response()->json([
             'totalUsers' => User::count(),
+            'activeUsers' => User::where('last_activity_at', '>=', now()->subDays(7))->count(),
             'admins' => User::role(Role::ADMIN->value)->count(),
             'breeders' => User::role(Role::BREEDER->value)->count(),
             'focalPersons' => User::role(Role::FOCAL_PERSON->value)->count(),
             'researchers' => User::role(Role::RESEARCHER->value)->count(),
+            'twgManagers' => User::role(Role::TWG_MANAGER->value)->count(),
         ]);
     }
 

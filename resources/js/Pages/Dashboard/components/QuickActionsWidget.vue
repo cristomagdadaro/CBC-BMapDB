@@ -38,42 +38,42 @@ const actions = [
         icon: 'fas fa-users-cog',
         bgColor: 'bg-red-500',
         route: '/administrator/users',
-        roles: ['admin']
+        roles: ['administrator']
     },
     {
         label: 'System Settings',
         icon: 'fas fa-cog',
         bgColor: 'bg-gray-600',
         route: '/administrator/settings',
-        roles: ['admin']
+        roles: ['administrator']
     },
     {
         label: 'View Profile',
         icon: 'fas fa-user',
         bgColor: 'bg-blue-500',
         route: '/user/profile',
-        roles: ['admin', 'breeder', 'focal person', 'researcher']
+        roles: ['administrator', 'breeder', 'focal person', 'researcher']
     },
     {
         label: 'Breeders Map',
         icon: 'fas fa-map-marked-alt',
         bgColor: 'bg-green-500',
         route: '/projects/breedersmap',
-        roles: ['admin', 'breeder', 'focal person', 'researcher']
+        roles: ['administrator', 'breeder', 'focal person', 'researcher']
     },
     {
         label: 'TWG Database',
         icon: 'fas fa-database',
         bgColor: 'bg-indigo-500',
         route: '/projects/twgdb',
-        roles: ['admin', 'breeder', 'focal person', 'researcher']
+        roles: ['administrator', 'breeder', 'focal person', 'researcher']
     },
     {
         label: 'Security',
         icon: 'fas fa-shield-alt',
         bgColor: 'bg-purple-500',
         route: '/user/profile',
-        roles: ['admin', 'breeder', 'focal person', 'researcher']
+        roles: ['administrator', 'breeder', 'focal person', 'researcher']
     }
 ];
 

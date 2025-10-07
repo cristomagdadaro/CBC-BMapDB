@@ -236,13 +236,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getProfilePhotoUrlAttribute()
     {
         $value = $this->profile_photo_path;
+        // If no custom photo, return a default avatar from public/img
         if (!$value) {
-            return null;
+            return asset('img/person-circle.svg');
         }
+        // If already a full URL, return as-is
         if (filter_var($value, FILTER_VALIDATE_URL)) {
             return $value;
         }
-
-        return asset('storage/' . $value);
+        // Normalize leading slashes to avoid double slashes in URL
+        $relativePath = ltrim($value, '/');
+        return asset('storage/' . $relativePath);
     }
 }
