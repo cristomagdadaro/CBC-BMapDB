@@ -32,7 +32,7 @@
                                 {{ activity.title }}
                             </p>
                             <p class="text-xs text-gray-600 mt-1">
-                                {{ activity.description }}
+                                {{ activity.institute }}
                             </p>
                             <div class="flex items-center mt-2 text-xs text-gray-500">
                                 <span v-if="activity.role" class="bg-gray-200 px-2 py-0.5 rounded">{{ activity.role }}</span>
@@ -67,6 +67,7 @@ const getActivityColor = (type) => {
     const colors = {
         user_registration: 'border-blue-500',
         user_activity: 'border-green-500',
+        commodity_creation: 'border-yellow-500',
         default: 'border-gray-500'
     };
     return colors[type] || colors.default;
@@ -76,6 +77,7 @@ const getIconBg = (type) => {
     const colors = {
         user_registration: 'bg-blue-500',
         user_activity: 'bg-green-500',
+        commodity_creation: 'bg-yellow-500',
         default: 'bg-gray-500'
     };
     return colors[type] || colors.default;
@@ -85,6 +87,7 @@ const getIcon = (type) => {
     const icons = {
         user_registration: 'fas fa-user-plus',
         user_activity: 'fas fa-user-check',
+        commodity_creation: 'fas fa-box-open',
         default: 'fas fa-circle'
     };
     return icons[type] || icons.default;

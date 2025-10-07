@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\PbMap\Scopes\CommodityApprovalScope;
 
 class Commodity extends BaseModel
 {
@@ -32,6 +33,7 @@ class Commodity extends BaseModel
         'geolocation',
         'regulations',
         'stress_resilience',
+        'approved_at',
     ];
 
     protected array $searchable = [
@@ -53,6 +55,7 @@ class Commodity extends BaseModel
         'commodities.created_at',
         'commodities.updated_at',
         'commodities.deleted_at',
+        'commodities.approved_at',
     ];
 
     protected $casts = [
@@ -61,6 +64,7 @@ class Commodity extends BaseModel
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
+        'approved_at' => 'datetime',
         'regulations' => 'array',
         'stress_resilience' => 'array',
     ];
@@ -75,6 +79,11 @@ class Commodity extends BaseModel
         'notFound' => 'Commodity not found.',
         'unknown' => 'Unknown error, action failed.',
     ];
+
+    protected static function booted(): void
+    {
+        static::addGlobalScope(new CommodityApprovalScope());
+    }
 
     public function user(): BelongsTo
     {

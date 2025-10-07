@@ -2,6 +2,7 @@
 import { BreedersMapPages } from "@/Pages/Projects/BreedersMap/components/components.js";
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
 import {Permission} from "@/Pages/constants.ts";
+import User from "@/Modules/core/domain/auth/User.js";
 
 export default {
     name: "BreedersTable",
@@ -27,12 +28,11 @@ export default {
             return this.$page.props.permissions.breedersmap.breeder[Permission.VIEW];
         },
         isAdmin() {
-            const roles = this.$page?.props?.auth?.user?.roles || [];
-            return roles.some(r => r.name === 'Administrator');
+            return (new User(this.$page?.props?.auth?.user)).isAdmin
         },
         isFocal() {
             const roles = this.$page?.props?.auth?.user?.roles || [];
-            return roles.some(r => r.name === 'Focal Person');
+            return (new User(this.$page?.props?.auth?.user)).getRole === 'Focal Person' || roles.includes('Focal Person');
         },
         currentUserAffiliationId() {
             return this.$page?.props?.auth?.user?.affiliated?.id || null;
@@ -41,7 +41,7 @@ export default {
     methods: {
         isSameInstituteBreeder(row) {
             const userAff = Number(this.currentUserAffiliationId);
-            const rowAff = Number(row?.affiliation ?? null);
+            const rowAff = Number(row?.affiliated?.id ?? null);
             return !!userAff && !!rowAff && userAff === rowAff;
         },
         rowCanUpdate(row) {

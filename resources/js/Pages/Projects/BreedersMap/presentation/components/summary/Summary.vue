@@ -7,7 +7,7 @@
     >
         <div class="flex flex-col gap-6">
             <!-- Overview cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <dashboard-summary-card
                     title="Total Breeders"
                     to="projects.breedersmap.breeder"
@@ -41,6 +41,16 @@
                     to="projects.breedersmap.geomap"
                     background-color="bg-gradient-to-br from-amber-500 to-amber-600"
                     :sum-value="loading ? '—' : stat('institutes')">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 16 16">
+                        <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022M6 8.694 1 10.36V15h5zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5z"/>
+                        <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M2 11h1v1H2zm2 0h1v1H4zm-2 2h1v1H2zm2 0h1v1H4zm4-4h1v1H8zm2 0h1v1h-1zm-2 2h1v1H8zm2 0h1v1h-1zm2-2h1v1h-1zm0 2h1v1h-1zM8 7h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zM8 5h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zm0-2h1v1h-1z"/>
+                    </svg>
+                </dashboard-summary-card>
+                <dashboard-summary-card
+                    title="Pending Commodities"
+                    to="projects.breedersmap.geomap"
+                    background-color="bg-gradient-to-br from-yellow-500 to-yellow-600"
+                    :sum-value="loading ? '—' : stat('pendingCommodities')">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 16 16">
                         <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022M6 8.694 1 10.36V15h5zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5z"/>
                         <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M2 11h1v1H2zm2 0h1v1H4zm-2 2h1v1H2zm2 0h1v1H4zm4-4h1v1H8zm2 0h1v1h-1zm-2 2h1v1H8zm2 0h1v1h-1zm2-2h1v1h-1zm0 2h1v1h-1zM8 7h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zM8 5h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zm0-2h1v1h-1z"/>

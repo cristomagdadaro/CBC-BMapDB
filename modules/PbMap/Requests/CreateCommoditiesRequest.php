@@ -24,7 +24,9 @@ class CreateCommoditiesRequest extends FormRequest
             ]);
 
         $this->merge([
-            'user_id'  => auth()->user()->id
+            'user_id'  => auth()->user()->id,
+            // Auto-approve if created by admin; otherwise keep pending (null)
+            'approved_at' => auth()->user()->isAdmin() ? now() : null,
         ]);
     }
 
@@ -77,6 +79,8 @@ class CreateCommoditiesRequest extends FormRequest
             'stress_resilience.*.type' => 'nullable|string',
             'stress_resilience.*.stress' => 'nullable|string',
             'stress_resilience.*.reaction' => 'nullable|string',
+
+            'approved_at' => 'nullable|date',
         ];
     }
 }

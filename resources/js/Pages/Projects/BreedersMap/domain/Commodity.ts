@@ -391,6 +391,14 @@ export default class Commodity extends DtoCommodity {
                 visible: true,
             },
             {
+                title: 'Approved',
+                key: 'approved_at',
+                db_key: 'approved_at',
+                sortable: true,
+                align: 'center',
+                visible: true,
+            },
+            {
                 title: 'Updated At',
                 key: 'updated_at',
                 db_key: 'updated_at',

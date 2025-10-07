@@ -13,6 +13,7 @@ use Modules\PbMap\Requests\CreateCommoditiesRequest;
 use Modules\PbMap\Requests\DeleteCommoditiesRequest;
 use Modules\PbMap\Requests\GetCommoditiesRequest;
 use Modules\PbMap\Requests\UpdateCommoditiesRequest;
+use Modules\PbMap\Requests\ApproveCommoditiesRequest;
 
 class CommodityController extends BaseController implements CommodityControllerInterface
 {
@@ -205,5 +206,11 @@ class CommodityController extends BaseController implements CommodityControllerI
             ];
         }
         return $this->sendResponse($formatted);
+    }
+
+    public function approve(ApproveCommoditiesRequest $request, int $id): JsonResponse
+    {
+        // Authorization is handled by the FormRequest
+        return $this->service->update($id, ['approved_at' => now()]);
     }
 }

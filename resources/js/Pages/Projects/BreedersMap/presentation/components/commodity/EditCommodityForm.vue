@@ -353,6 +353,9 @@ export default {
                     </div>
                 </template>
             </tab>
+            <base-button @click.prevent="addRegulation" classes="h-fit w-fit p-4 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white">
+                Approve
+            </base-button>
         </template>
     </base-edit-form>
 </template>

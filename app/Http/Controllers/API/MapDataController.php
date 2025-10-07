@@ -232,6 +232,7 @@ class MapDataController extends Controller
                     ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
                     ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
                     ->whereIn('loc_cities.id', $cityIds)
+                    ->whereNotNull('approved_at')
                     ->select([
                         'loc_cities.id as city_id',
                         'commodities.id',

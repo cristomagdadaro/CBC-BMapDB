@@ -16,12 +16,8 @@ class UpdateBreederRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if (auth()->user()->isAdmin()) {
-            return true; // Allow admins
-        }
-
-        if ($this && $this->user_id === auth()->id()) {
-            return true; // Allow owner
+        if (auth()->user()->isAdmin() || (auth()->user()->isFocalPerson()) || $this && $this->user_id === auth()->id()) {
+            return true; // Allow admins, Allow owner, and focal persons
         }
 
         abort(403, __('You are not authorized to update this breeder.'));

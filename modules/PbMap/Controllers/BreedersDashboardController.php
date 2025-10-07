@@ -79,6 +79,7 @@ class BreedersDashboardController extends Controller
             'totals' => [
                 'breeders' => $totalBreeders,
                 'commodities' => $totalCommodities,
+                'pendingCommodities' => (clone $commoditiesQ)->whereNull('commodities.approved_at')->count(),
                 'regions' => $regionsCount,
                 'institutes' => $institutesCount,
             ],

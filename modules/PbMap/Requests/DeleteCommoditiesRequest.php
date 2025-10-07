@@ -25,7 +25,7 @@ class DeleteCommoditiesRequest extends FormRequest
             return true; // Allow owner
         }
 
-        if (auth()->user()->isFocalPerson() && $model->breeder()->first()->user_id === auth()->id()) {
+        if (auth()->user()->isFocalPerson()) {
             return true; // Allow focal person
         }
 

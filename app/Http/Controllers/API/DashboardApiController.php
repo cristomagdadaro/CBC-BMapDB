@@ -107,6 +107,40 @@ class DashboardApiController extends Controller
     {
         $user = $request->user();
 
+        // Get recent users who created a commodity
+        $recentUserCom = DB::table('commodities')
+            ->join('users', 'commodities.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', DB::raw("(SELECT role_id FROM model_has_roles WHERE model_id = users.id LIMIT 1)"))
+            ->leftJoin('institutes', 'users.affiliation', '=', 'institutes.id')
+            ->select(
+                'users.id as user_id',
+                'users.fname',
+                'users.mname',
+                'users.lname',
+                'users.suffix',
+                'users.created_at as timestamp',
+                'institutes.name as institute',
+                'roles.name as role'
+            )
+            ->orderBy('commodities.created_at', 'desc')
+            ->limit(10)
+            ->get()
+            ->map(function ($record) {
+                $fullName = trim($record->fname . ' ' . $record->mname . ' ' . $record->lname . ' ' . $record->suffix);
+                return [
+                    'id' => $record->user_id,
+                    'type' => 'commodity_creation',
+                    'action' => 'created a commodity',
+                    'title' => $fullName,
+                    'description' => 'Created a new commodity',
+                    'user' => $fullName,
+                    'institute' => $record->institute,
+                    'role' => $record->role,
+                    'timestamp' => $record->timestamp,
+                    'module' => 'PBMap',
+                ];
+            });
+
         // Get recent user registrations
         $recentUsers = User::with('roles')
             ->latest('created_at')
@@ -120,6 +154,7 @@ class DashboardApiController extends Controller
                     'title' => $user->getFullName(),
                     'description' => 'New user registration',
                     'user' => $user->getFullName(),
+                    'institute' => $user->affiliated?->name,
                     'role' => $user->getRole(),
                     'timestamp' => $user->created_at,
                     'module' => 'System',
@@ -137,10 +172,11 @@ class DashboardApiController extends Controller
                 return [
                     'id' => $user->id,
                     'type' => 'user_activity',
-                    'action' => 'active',
+                    'action' => 'authenticated',
                     'title' => $user->getFullName(),
                     'description' => 'Recent activity',
                     'user' => $user->getFullName(),
+                    'institute' => $user->affiliated?->name,
                     'role' => $user->getRole(),
                     'timestamp' => $user->last_activity_at,
                     'module' => 'System',
@@ -151,6 +187,7 @@ class DashboardApiController extends Controller
         $activities = collect()
             ->merge($recentUsers)
             ->merge($recentLogins)
+            ->merge($recentUserCom)
             ->sortByDesc('timestamp')
             ->take(15)
             ->values()
