@@ -23,7 +23,7 @@ import BarGraph from "@/Pages/Projects/BreedersMap/presentation/components/summa
 import DoughnutGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/DoughnutGraph.vue";
 import LineGraph from "@/Pages/Projects/BreedersMap/presentation/components/summary/components/LineGraph.vue";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
-import DashboardShell from '@/Components/DashboardShell.vue';
+import DashboardShell from '@/Pages/Dashboard/components/DashboardShell.vue';
 
 export default {
     name: "PublicSummary",

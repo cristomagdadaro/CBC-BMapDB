@@ -140,8 +140,8 @@ import {ref, computed, onMounted} from 'vue';
 import ApiService from '@/Modules/core/infrastructure/ApiService';
 import BarGraph from '@/Pages/Projects/BreedersMap/presentation/components/summary/components/BarGraph.vue';
 import DoughnutGraph from '@/Pages/Projects/BreedersMap/presentation/components/summary/components/DoughnutGraph.vue';
-import DashboardShell from '@/Components/DashboardShell.vue';
-import DashboardSummaryCard from "@/Components/DashboardSummaryCard.vue";
+import DashboardShell from '@/Pages/Dashboard/components/DashboardShell.vue';
+import DashboardSummaryCard from "@/Pages/Dashboard/components/DashboardSummaryCard.vue";
 
 const loading = ref(true);
 const loadingRecent = ref(true);

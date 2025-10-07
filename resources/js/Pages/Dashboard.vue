@@ -1,21 +1,20 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
 import User from "@/Modules/core/domain/auth/User.ts";
-import WelcomeUserBanner from "@/Pages/Dashboard/components/WelcomeUserBanner.vue";
 import {usePage} from "@inertiajs/vue3";
 import Modal from "@/Components/Modal.vue";
 import {ref, onMounted} from "vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import Logo from "@/Components/Icons/Logo.vue";
-import DashboardCard from "@/Components/DashboardCard.vue";
+import DashboardCard from "@/Pages/Dashboard/components/DashboardCard.vue";
 import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue";
-import StatisticsCard from "@/Pages/Dashboard/components/StatisticsCard.vue";
 import OnlineUsersWidget from "@/Pages/Dashboard/components/OnlineUsersWidget.vue";
 import RecentActivitiesWidget from "@/Pages/Dashboard/components/RecentActivitiesWidget.vue";
 import SystemOverviewWidget from "@/Pages/Dashboard/components/SystemOverviewWidget.vue";
 import QuickActionsWidget from "@/Pages/Dashboard/components/QuickActionsWidget.vue";
 import DashboardService from '@/Services/DashboardService.js';
-import DashboardShell from '@/Components/DashboardShell.vue';
+import DashboardShell from '@/Pages/Dashboard/components/DashboardShell.vue';
+import DashboardSummaryCard from "@/Pages/Dashboard/components/DashboardSummaryCard.vue";
 
 const page = usePage();
 
@@ -166,32 +165,24 @@ const refreshActivities = async () => {
             <template v-if="!loading">
                 <!-- System Statistics Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <statistics-card
+                    <dashboard-summary-card
                         title="Total Users"
-                        :value="systemStats.totalUsers || 0"
-                        icon="fas fa-users"
-                        bg-color="from-blue-500 to-blue-600"
-                    />
-                    <statistics-card
+                        background-color="bg-gradient-to-br from-blue-500 to-blue-600"
+                        :sum-value="systemStats.totalUsers || 0" />
+                    <dashboard-summary-card
                         title="Active Users"
-                        :value="systemStats.activeUsers || 0"
-                        subtitle="Last 7 days"
-                        icon="fas fa-user-check"
-                        bg-color="from-green-500 to-green-600"
-                    />
-                    <statistics-card
+                        background-color="bg-gradient-to-br from-green-500 to-green-600"
+                        :sum-value="systemStats.activeUsers || 0"
+                        sub-value-label="Last 7 days"/>
+                    <dashboard-summary-card
                         title="Online Now"
-                        :value="systemStats.onlineUsers || 0"
-                        icon="fas fa-circle"
-                        bg-color="from-emerald-500 to-emerald-600"
-                    />
-                    <statistics-card
+                        background-color="bg-gradient-to-br from-emerald-500 to-emerald-600"
+                        :sum-value="systemStats.onlineUsers || 0" />
+                    <dashboard-summary-card
                         title="New Users"
-                        :value="systemStats.recentRegistrations || 0"
-                        subtitle="This month"
-                        icon="fas fa-user-plus"
-                        bg-color="from-purple-500 to-purple-600"
-                    />
+                        background-color="bg-gradient-to-br from-purple-500 to-purple-600"
+                        :sum-value="systemStats.recentRegistrations || 0"
+                        sub-value-label="This month"/>
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">

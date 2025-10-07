@@ -2,9 +2,9 @@
 import {ref, onMounted, nextTick} from 'vue';
 import {Chart, registerables} from 'chart.js';
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
-import DashboardShell from '@/Components/DashboardShell.vue';
+import DashboardShell from '@/Pages/Dashboard/components/DashboardShell.vue';
 import {useExport} from '@/composables/useExport';
-import DashboardSummaryCard from "@/Components/DashboardSummaryCard.vue";
+import DashboardSummaryCard from "@/Pages/Dashboard/components/DashboardSummaryCard.vue";
 
 // Register Chart.js components
 Chart.register(...registerables);
