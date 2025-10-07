@@ -128,7 +128,7 @@ const clearPhotoFileInput = () => {
                 <div>
                     <InputLabel for="affiliation" value="Affiliation" />
                     <select-search-field id="affiliation"
-                                         :api-link="route('api.institutes.index.public')"
+                                         :api-link="route('api.institutes.options.public')"
                                          v-model="form.affiliation"
                                          placeholder="School/Office/Agency"
                                          autocomplete="affiliation"/>

@@ -16,15 +16,15 @@ export default {
     },
     methods: {
         async getListOfApplications() {
-            const api = new ApiService(route('api.applications.index.public'));
+            const api = new ApiService(route('api.applications.options.public'));
             await api.get().then(response => {
-                this.applications = response.data;
+                this.applications = response?.data;
             });
         },
         async getListOfRoles() {
-            const api = new ApiService(route('api.roles.index.public'));
+            const api = new ApiService(route('api.roles.index'));
             await api.get().then(response => {
-                this.roles = response.data;
+                this.roles = response?.data;
                 this.filterRolesByApplication(); // Filter roles after fetching them
             });
         },

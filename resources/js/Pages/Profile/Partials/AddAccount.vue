@@ -97,7 +97,7 @@ export default {
             </div>
             <modal :show="showAddAccountModal" @close="showAddAccountModal = false"
                    :closeable="true"
-            >
+            >{{filteredRoles}}
                 <form @submit.prevent="submitForm" class="p-5 px-10 flex flex-col gap-5">
                     <div class="flex justify-between text-sm">
                         <label for="database" class="block font-medium text-gray-700">Request new access to</label>
