@@ -232,4 +232,17 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new FocalPersonInvitationToBreederEmail);
     }
+
+    public function getProfilePhotoUrlAttribute()
+    {
+        $value = $this->profile_photo_path;
+        if (!$value) {
+            return null;
+        }
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+
+        return asset('storage/' . $value);
+    }
 }

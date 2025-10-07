@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\ApplicationController;
-use App\Http\Controllers\API\InstituteController;
-use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvitationController;
@@ -15,8 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
-use Modules\PbMap\Controllers\BreederController;
-use Modules\PbMap\Controllers\CommodityController;
 use Modules\PbMap\Models\Breeder;
 use Modules\PbMap\Models\Commodity;
 use Modules\TwgDb\Controllers\TWGController;

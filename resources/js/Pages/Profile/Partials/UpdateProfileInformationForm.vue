@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { Link, useForm } from '@inertiajs/vue3';
+import {Link, router, useForm} from '@inertiajs/vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
 import FormSection from '@/Components/FormSection.vue';
 import InputError from '@/Components/InputError.vue';
@@ -49,6 +49,17 @@ const sendEmailVerification = () => {
 const selectNewPhoto = () => {
     photoInput.value.click();
 };
+
+const deletePhoto = () => {
+    router.delete(route('current-user-photo.destroy'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            photoPreview.value = null;
+            clearPhotoFileInput();
+        },
+    });
+};
+
 
 const updatePhotoPreview = () => {
     const photo = photoInput.value.files[0];
