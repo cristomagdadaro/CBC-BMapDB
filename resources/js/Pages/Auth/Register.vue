@@ -13,13 +13,11 @@ import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
-import RequestNewAccessMixin from "@/Pages/mixins/RequestNewAccessMixin";
 import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 export default {
     name: 'Register',
     components: {ParticlesBackground, AuthenticationCard, Head, Link, Checkbox, InputError, InputLabel, PrimaryButton, PageLayout, TextField, SelectField, ApiService, NewAccountProgressView, SelectSearchField, GreenWaves, PublicPageSection },
-    mixins: [RequestNewAccessMixin],
     beforeMount() {
         this.form = useForm({
             fname: '',

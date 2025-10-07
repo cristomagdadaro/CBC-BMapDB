@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Enums\Role;
+use App\Models\Application;
 use Closure;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -42,6 +43,8 @@ class AdminApprovedUser
                 if ($temp == 0) {
                     return Inertia::render('Auth/WaitForAdminApproval', [
                         'accountsPending' => $user->accountsPending,
+                        'applications' => Application::select('id as value', 'name as label')->where('status', '=', true)->get(),
+                        'roles' => \App\Models\Role::select('id as value', 'name as label')->where('name', '!=', Role::ADMIN->value)->get(),
                         'message' => 'You don\'t have any approved database access. As of the moment you can only manage your account details.'
                     ]);
                 } elseif ($temp >= 1 && $temp <= count($user->accounts)){
