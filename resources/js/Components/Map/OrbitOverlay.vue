@@ -28,7 +28,7 @@ const positions = computed(() => {
 })
 
 const toHref = (item) => {
-    if (props.dataType === 'breeders') return `/projects/breedersmap/breeders/${item.id}`
+    if (props.dataType === 'breeders') return `/projects/breedersmap/breeder/${item.id}`
     return `/projects/breedersmap/commodity/${item.id}`
 }
 

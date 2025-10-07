@@ -354,6 +354,9 @@ const initializeClustering = () => {
             // attach meta for cluster reverse lookup
             // @ts-ignore
             leafletMarker.myMeta = marker
+            // NEW: Assign the unique ID to the marker instance
+            // @ts-ignore
+            leafletMarker.uniqueId = marker.id
 
             leafletMarker.bindPopup(`
                 <div class="p-2 min-w-[200px]">
@@ -382,11 +385,11 @@ const initializeClustering = () => {
                 onMarkerClick(marker)
             })
             leafletMarker.on('mouseover', (e) => {
-                console.log('Marker mouseover event:', e)
+                //console.log('Marker mouseover event:', e)
                 showOrbitForMarker(marker)
             })
             leafletMarker.on('mouseout', () => {
-                console.log('Marker mouseout event.')
+                //console.log('Marker mouseout event.')
                 hideOrbit()
             })
 
@@ -438,8 +441,9 @@ const attachHoverEventsToClusterMarkers = () => {
             if (layer instanceof L.Marker && !layer.getPopup()) {
                 // already added above; keep as safety
                 layer.on('mouseover', () => {
-                    const latlng = layer.getLatLng()
-                    const marker = markers.value.find(m => m.position[0] === latlng.lat && m.position[1] === latlng.lng)
+                    // @ts-ignore
+                    const uniqueId = layer.uniqueId
+                    const marker = markers.value.find(m => m.id === uniqueId)
                     if (marker) showOrbitForMarker(marker)
                 })
                 layer.on('mouseout', () => hideOrbit())
@@ -506,7 +510,7 @@ const processMapData = () => {
     markers.value = props.mapData
         .filter(item => item.lat && item.lng && !isNaN(item.lat) && !isNaN(item.lng))
         .map((item, index) => ({
-            id: index,
+            id: `${props.dataType}-${item.id || index}`, // Create a more unique ID
             position: [parseFloat(item.lat), parseFloat(item.lng)],
             label: item.label || 'Unknown',
             total: item.total || 0,
