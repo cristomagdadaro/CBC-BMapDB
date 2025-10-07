@@ -25,7 +25,6 @@ const handleFiltersChanged = (filters) => {
 // Handle marker clicks on the map
 const handleMarkerClick = (marker) => {
     selectedMarker.value = marker
-    console.log('Marker clicked:', marker)
 
     // You can add custom logic here, like showing detailed information
     // or updating other parts of your application
@@ -33,7 +32,7 @@ const handleMarkerClick = (marker) => {
 
 // Handle map ready event
 const handleMapReady = (map) => {
-    console.log('Map is ready:', map)
+   // console.log('Map is ready:', map)
 }
 
 // Fit map to show all data points
@@ -94,6 +93,7 @@ onMounted(() => {
                     :showHeatmap="false"
                     :center="[12.8797, 121.7740]"
                     :zoom="6"
+                    :data-type="currentFilters.data_type || 'commodities'"
                     height="100%"
                     @marker-click="handleMarkerClick"
                     @map-ready="handleMapReady"

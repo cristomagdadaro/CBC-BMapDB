@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Services\MapDataFilterService;
@@ -87,8 +87,8 @@ class MapDataController extends Controller
         $filters['filter_by'] = $validated['filter_by'] ?? null;
         $filters['commodity'] = $validated['commodity'] ?? $validated['commodities'] ?? null;
         $filters['region'] = $validated['region'] ?? $validated['regions'] ?? null;
-        $filters['province'] = $validated['province'] ?? $validated['provinces'] ?? null;
-        $filters['city'] = $validated['city'] ?? $validated['cities'] ?? null;
+        $filters['province' ]= $validated['province'] ?? $validated['provinces'] ?? null;
+        $filters['city' ]= $validated['city'] ?? $validated['cities'] ?? null;
         $filters['institute'] = $validated['institute'] ?? null;
         $filters['breeder_type'] = $validated['breeder_type'] ?? null;
         $filters['institute_type'] = $validated['institute_type'] ?? null;
@@ -180,11 +180,15 @@ class MapDataController extends Controller
             'province' => 'nullable|string',
             'city' => 'nullable|string',
             'search' => 'nullable|string',
+            'group_by' => 'nullable|string|in:region,province,city,institute,breeder_type',
         ]);
 
         try {
             $dataType = $validated['data_type'];
             unset($validated['data_type']);
+
+            $groupBy = $validated['group_by'] ?? ($validated['filter_by'] ?? 'region');
+            unset($validated['group_by']);
 
             $distribution = $this->mapDataService->getGeographicDistribution($dataType, $groupBy, $validated);
 
@@ -198,6 +202,70 @@ class MapDataController extends Controller
                 'success' => false,
                 'message' => 'Failed to retrieve geographic distribution',
                 'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Return minimal items (id, image, label) for orbit overlay by city id.
+     */
+    public function getOrbitItems(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'data_type' => 'required|string|in:commodities,breeders',
+            'city_id' => 'required|integer',
+            'limit' => 'nullable|integer|min:1|max:24',
+        ]);
+
+        $type = $validated['data_type'];
+        $cityId = (int) $validated['city_id'];
+        $limit = (int) ($validated['limit'] ?? 12);
+
+        try {
+            if ($type === 'commodities') {
+                $rows = \DB::table('commodities')
+                    ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
+                    ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
+                    ->where('loc_cities.id', $cityId)
+                    ->select(['commodities.id', 'commodities.name as label', 'commodities.photo as photo'])
+                    ->orderBy('commodities.updated_at', 'desc')
+                    ->limit($limit)
+                    ->get();
+
+                $items = $rows->map(function ($r) {
+                    return [
+                        'id' => $r->id,
+                        'label' => $r->label,
+                        'image' => $r->photo ? asset($r->photo) : asset('img/logos/pin.webp'),
+                    ];
+                })->values();
+            } else { // breeders
+                $rows = \DB::table('breeders')
+                    ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
+                    ->where('loc_cities.id', $cityId)
+                    ->select(['breeders.id', \DB::raw("TRIM(CONCAT(breeders.fname,' ',IFNULL(breeders.mname,''),' ',breeders.lname,' ',IFNULL(breeders.suffix,''))) as label"), 'breeders.photo as photo'])
+                    ->orderBy('breeders.updated_at', 'desc')
+                    ->limit($limit)
+                    ->get();
+
+                $items = $rows->map(function ($r) {
+                    return [
+                        'id' => $r->id,
+                        'label' => $r->label,
+                        'image' => $r->photo ? asset($r->photo) : asset('img/logos/pin.webp'),
+                    ];
+                })->values();
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $items,
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to load orbit items',
+                'error' => $e->getMessage(),
             ], 500);
         }
     }

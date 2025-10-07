@@ -60,7 +60,6 @@ const mapComponent = ref(null)
 // Handle marker clicks
 const handleMarkerClick = (marker) => {
     selectedMarker.value = marker
-    console.log('Marker clicked:', marker)
 }
 
 // Handle map ready

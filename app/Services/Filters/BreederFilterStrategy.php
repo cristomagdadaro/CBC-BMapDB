@@ -169,7 +169,7 @@ class BreederFilterStrategy extends BaseFilterStrategy
     private function aggregateByCity(Builder $query): array
     {
         return $query
-            ->select(DB::raw('loc_cities.cityDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
+            ->select(DB::raw('loc_cities.id as city_id, loc_cities.cityDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->groupBy('loc_cities.id', 'loc_cities.cityDesc')
             ->orderByDesc('total')
             ->get()

@@ -49,10 +49,11 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
 
     // New Map Data API Routes - Cleaner and more maintainable
     Route::prefix('map-data')->group(function () {
-        Route::get('/', [App\Http\Controllers\Api\MapDataController::class, 'getMapData'])->name('api.map-data');
-        Route::get('/filter-options', [App\Http\Controllers\Api\MapDataController::class, 'getFilterOptions'])->name('api.map-data.filter.options');
-        Route::get('/summary', [App\Http\Controllers\Api\MapDataController::class, 'getSummary'])->name('api.map-data.summary');
-        Route::get('/geographic-distribution', [App\Http\Controllers\Api\MapDataController::class, 'getGeographicDistribution']);
+        Route::get('/', [App\Http\Controllers\API\MapDataController::class, 'getMapData'])->name('api.map-data');
+        Route::get('/filter-options', [App\Http\Controllers\API\MapDataController::class, 'getFilterOptions'])->name('api.map-data.filter.options');
+        Route::get('/summary', [App\Http\Controllers\API\MapDataController::class, 'getSummary'])->name('api.map-data.summary');
+        Route::get('/geographic-distribution', [App\Http\Controllers\API\MapDataController::class, 'getGeographicDistribution']);
+        Route::get('/orbit-items', [App\Http\Controllers\API\MapDataController::class, 'getOrbitItems'])->name('api.map-data.orbit-items');
     });
 
 });

@@ -18,6 +18,8 @@ import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
 import 'leaflet.markercluster'
 import 'leaflet.heat'
+import axios from 'axios'
+import OrbitOverlay from '@/Components/Map/OrbitOverlay.vue'
 
 const props = defineProps({
     mapData: {
@@ -47,6 +49,10 @@ const props = defineProps({
     defaultTileProvider: {
         type: String,
         default: 'CartoDB Voyager'
+    },
+    dataType: {
+        type: String,
+        default: 'commodities'
     }
 })
 
@@ -99,6 +105,340 @@ const getMarkerSize = (total, maxTotal) => {
     return Math.max(baseSize, Math.min(maxSize, baseSize + (intensity * (maxSize - baseSize))))
 }
 
+// Orbit overlay state and caching
+const orbitVisible = ref(false)
+const orbitLoading = ref(false)
+const orbitItems = ref([])
+const orbitX = ref(0)
+const orbitY = ref(0)
+const orbitRadius = ref(80)
+const orbitCache = new Map()
+let orbitHideTimer = null
+
+const cacheKey = (cityId) => `${props.dataType}:${cityId}`
+
+const cancelHide = () => {
+    if (orbitHideTimer) {
+        clearTimeout(orbitHideTimer)
+        orbitHideTimer = null
+    }
+}
+
+const hideOrbit = (immediate = false) => {
+    cancelHide()
+    if (immediate) {
+        orbitVisible.value = false
+        orbitItems.value = []
+        orbitLoading.value = false
+        return
+    }
+    orbitHideTimer = setTimeout(() => {
+        orbitVisible.value = false
+        orbitItems.value = []
+        orbitLoading.value = false
+    }, 150)
+}
+
+const fetchOrbitItems = async (cityId) => {
+    const key = cacheKey(cityId)
+    if (orbitCache.has(key)) return orbitCache.get(key)
+
+    try {
+        const { data } = await axios.get('/api/map-data/orbit-items', {
+            params: { data_type: props.dataType, city_id: cityId, limit: 12 }
+        })
+        const items = data?.data || data?.items || []
+        orbitCache.set(key, items)
+        return items
+    } catch (e) {
+        console.error('Failed to fetch orbit items', e)
+        return []
+    }
+}
+
+const prefetchNearby = (marker) => {
+    // Prefetch up to 4 nearest neighbors not cached yet
+    if (!map.value?.leafletObject) return
+    const cityId = marker.data?.city_id || marker.cityId || marker.data?.cityId
+    if (!cityId) return
+
+    const base = L.latLng(marker.position)
+    const candidates = markers.value
+        .filter(m => (m.data?.city_id || m.cityId || m.data?.cityId) && m !== marker)
+        .map(m => ({ m, d: base.distanceTo(L.latLng(m.position)) }))
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 4)
+        .map(x => x.m)
+
+    candidates.forEach(async (m) => {
+        const id = m.data?.city_id || m.cityId || m.data?.cityId
+        const key = cacheKey(id)
+        if (!orbitCache.has(key)) {
+            try { await fetchOrbitItems(id) } catch (_) { /* ignore */ }
+        }
+    })
+}
+
+const showOrbitForMarker = async (marker) => {
+    console.log('Attempting to show orbit for marker:', marker)
+    if (!map.value?.leafletObject) {
+        console.log('Map not ready, aborting.')
+        return
+    }
+    const cityId = marker.data?.city_id || marker.cityId || marker.data?.cityId
+    if (!cityId) {
+        console.warn('No cityId found for marker; cannot load orbit items.', marker.data)
+        return
+    }
+
+    console.log(`Found cityId: ${cityId}. Fetching orbit items...`)
+
+    // position overlay at marker's container point
+    const pt = map.value.leafletObject.latLngToContainerPoint(marker.position)
+    orbitX.value = pt.x
+    orbitY.value = pt.y
+    orbitVisible.value = true
+    orbitLoading.value = true
+    console.log(`Set orbit state: visible=${orbitVisible.value}, loading=${orbitLoading.value}, x=${orbitX.value}, y=${orbitY.value}`)
+
+    const items = await fetchOrbitItems(cityId)
+    orbitItems.value = items
+    orbitLoading.value = false
+    console.log(`Fetched ${items.length} items. Loading complete.`, items)
+
+
+    // Preload nearby for smoother next hovers
+    prefetchNearby(marker)
+}
+
+// Tile provider management functions
+const initializeTileProvider = () => {
+    // Set default tile provider based on prop
+    const defaultProvider = tileProviders.value.find(p => p.name === props.defaultTileProvider)
+    if (defaultProvider) {
+        setActiveTileProvider(defaultProvider.name)
+    } else {
+        // Fallback to first provider if default not found
+        setActiveTileProvider(tileProviders.value[0].name)
+    }
+}
+
+const setActiveTileProvider = (providerName) => {
+    // Set all providers to invisible
+    tileProviders.value.forEach(provider => {
+        provider.visible = false
+    })
+
+    // Set selected provider to visible
+    const selectedProvider = tileProviders.value.find(p => p.name === providerName)
+    if (selectedProvider) {
+        selectedProvider.visible = true
+        currentTileProvider.value = selectedProvider
+    }
+
+    // Close selector
+    showTileSelector.value = false
+}
+
+const toggleTileSelector = () => {
+    showTileSelector.value = !showTileSelector.value
+}
+
+// Clustering and heatmap management
+const initializeClustering = () => {
+    if (!map.value?.leafletObject) return
+
+    // Remove existing cluster group if it exists
+    if (markerClusterGroup.value) {
+        map.value.leafletObject.removeLayer(markerClusterGroup.value)
+    }
+
+    if (props.clustered && markers.value.length > 0) {
+        // Create marker cluster group with custom options
+        markerClusterGroup.value = L.markerClusterGroup({
+            chunkedLoading: true,
+            spiderfyOnMaxZoom: true,
+            showCoverageOnHover: false,
+            zoomToBoundsOnClick: true,
+            maxClusterRadius: 80,
+            iconCreateFunction: function(cluster) {
+                const count = cluster.getChildCount()
+                let size = 40
+                let className = 'marker-cluster-small'
+
+                if (count < 10) {
+                    size = 40
+                    className = 'marker-cluster-small'
+                } else if (count < 100) {
+                    size = 50
+                    className = 'marker-cluster-medium'
+                } else {
+                    size = 60
+                    className = 'marker-cluster-large'
+                }
+
+                return new L.DivIcon({
+                    html: `<div><span>${count}</span></div>`,
+                    className: `marker-cluster ${className}`,
+                    iconSize: new L.Point(size, size)
+                })
+            }
+        })
+
+        // Add markers to cluster group
+        markers.value.forEach(marker => {
+            const leafletMarker = L.marker(marker.position, {
+                icon: L.divIcon({
+                    html: `<div style="background-color: ${marker.color}; width: ${marker.size}px; height: ${marker.size}px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>`,
+                    className: 'custom-marker',
+                    iconSize: [marker.size, marker.size],
+                    iconAnchor: [marker.size/2, marker.size/2]
+                })
+            })
+
+            // attach meta for cluster reverse lookup
+            // @ts-ignore
+            leafletMarker.myMeta = marker
+
+            leafletMarker.bindPopup(`
+                <div class="p-2 min-w-[200px]">
+                    <h3 class="font-semibold text-gray-900 mb-2">${marker.label}</h3>
+                    <div class="space-y-1 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Total:</span>
+                            <span class="font-medium">${marker.total}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Location:</span>
+                            <span class="text-xs text-gray-500">
+                                ${marker.position[0].toFixed(4)}, ${marker.position[1].toFixed(4)}
+                            </span>
+                        </div>
+                    </div>
+                    ${marker.data.description ? `
+                        <div class="mt-2 pt-2 border-t border-gray-200">
+                            <p class="text-xs text-gray-600">${marker.data.description}</p>
+                        </div>
+                    ` : ''}
+                </div>
+            `)
+
+            leafletMarker.on('click', () => {
+                onMarkerClick(marker)
+            })
+            leafletMarker.on('mouseover', (e) => {
+                console.log('Marker mouseover event:', e)
+                showOrbitForMarker(marker)
+            })
+            leafletMarker.on('mouseout', () => {
+                console.log('Marker mouseout event.')
+                hideOrbit()
+            })
+
+            markerClusterGroup.value.addLayer(leafletMarker)
+        })
+
+        // Cluster hover: if all children in a cluster share the same cityId, show orbit at cluster center
+        markerClusterGroup.value.on('clustermouseover', (e) => {
+            console.log('Cluster mouseover event:', e)
+            try {
+                const children = e.layer.getAllChildMarkers?.() || []
+                const metas = children.map(ch => ch.myMeta).filter(Boolean)
+                const getId = (m) => m?.data?.city_id ?? m?.cityId ?? m?.data?.cityId
+                const ids = Array.from(new Set(metas.map(getId).filter(Boolean)))
+
+                console.log(`Cluster contains city IDs: [${ids.join(', ')}]`)
+
+                if (ids.length === 1) {
+                    const markerMeta = metas[0]
+                    // position at cluster center
+                    const ll = e.layer.getLatLng()
+                    const synthetic = { ...markerMeta, position: [ll.lat, ll.lng] }
+                    console.log('Cluster has single cityId. Showing orbit.')
+                    showOrbitForMarker(synthetic)
+                } else {
+                    console.log('Cluster has multiple or no cityIds. Not showing orbit.')
+                    // multiple cities - skip showing orbit; could add a hint if desired
+                }
+            } catch (err) {
+                console.error('Error in clustermouseover handler:', err)
+            }
+        })
+        markerClusterGroup.value.on('clustermouseout', () => {
+            console.log('Cluster mouseout event.')
+            hideOrbit()
+        })
+
+        map.value.leafletObject.addLayer(markerClusterGroup.value)
+
+        // ensure hover events are bound to child markers (safety)
+        attachHoverEventsToClusterMarkers()
+    }
+}
+
+const attachHoverEventsToClusterMarkers = () => {
+    if (!markerClusterGroup.value) return
+    try {
+        markerClusterGroup.value.eachLayer(layer => {
+            if (layer instanceof L.Marker && !layer.getPopup()) {
+                // already added above; keep as safety
+                layer.on('mouseover', () => {
+                    const latlng = layer.getLatLng()
+                    const marker = markers.value.find(m => m.position[0] === latlng.lat && m.position[1] === latlng.lng)
+                    if (marker) showOrbitForMarker(marker)
+                })
+                layer.on('mouseout', () => hideOrbit())
+            }
+        })
+    } catch (_) { /* noop */ }
+}
+
+const initializeHeatmap = () => {
+    if (!map.value?.leafletObject) return
+
+    // Remove existing heatmap if it exists
+    if (heatmapLayer.value) {
+        map.value.leafletObject.removeLayer(heatmapLayer.value)
+        heatmapLayer.value = null
+    }
+
+    if (props.showHeatmap && markers.value.length > 0) {
+        // Prepare heatmap data: [lat, lng, intensity]
+        const maxTotal = Math.max(...markers.value.map(m => m.total))
+        const heatmapData = markers.value.map(marker => [
+            marker.position[0], // lat
+            marker.position[1], // lng
+            marker.total / maxTotal // normalized intensity (0-1)
+        ])
+
+        heatmapLayer.value = L.heatLayer(heatmapData, {
+            radius: 25,
+            blur: 15,
+            maxZoom: 17,
+            gradient: {
+                0.0: '#3b82f6', // blue
+                0.2: '#10b981', // green
+                0.4: '#f59e0b', // yellow
+                0.6: '#f97316', // orange
+                0.8: '#ef4444', // red
+                1.0: '#dc2626'  // dark red
+            }
+        })
+
+        map.value.leafletObject.addLayer(heatmapLayer.value)
+    }
+}
+
+const updateMapLayers = () => {
+    nextTick(() => {
+        if (props.showHeatmap) {
+            initializeHeatmap()
+        } else {
+            initializeClustering()
+        }
+    })
+}
+
 // Process map data into markers
 const processMapData = () => {
     if (!props.mapData || props.mapData.length === 0) {
@@ -117,7 +457,8 @@ const processMapData = () => {
             total: item.total || 0,
             color: getMarkerColor(item.total || 0, maxTotal),
             size: getMarkerSize(item.total || 0, maxTotal),
-            data: item
+            data: item,
+            cityId: item.city_id || item.cityId || null,
         }))
 }
 
@@ -210,187 +551,31 @@ const createCustomIcon = (color, size) => {
     }
 }
 
-// Tile provider management functions
-const initializeTileProvider = () => {
-    // Set default tile provider based on prop
-    const defaultProvider = tileProviders.value.find(p => p.name === props.defaultTileProvider)
-    if (defaultProvider) {
-        setActiveTileProvider(defaultProvider.name)
-    } else {
-        // Fallback to first provider if default not found
-        setActiveTileProvider(tileProviders.value[0].name)
-    }
-}
-
-const setActiveTileProvider = (providerName) => {
-    // Set all providers to invisible
-    tileProviders.value.forEach(provider => {
-        provider.visible = false
-    })
-
-    // Set selected provider to visible
-    const selectedProvider = tileProviders.value.find(p => p.name === providerName)
-    if (selectedProvider) {
-        selectedProvider.visible = true
-        currentTileProvider.value = selectedProvider
-    }
-
-    // Close selector
-    showTileSelector.value = false
-}
-
-const toggleTileSelector = () => {
-    showTileSelector.value = !showTileSelector.value
-}
-
-// Clustering and heatmap management
-const initializeClustering = () => {
-    if (!map.value?.leafletObject) return
-
-    // Remove existing cluster group if it exists
-    if (markerClusterGroup.value) {
-        map.value.leafletObject.removeLayer(markerClusterGroup.value)
-    }
-
-    if (props.clustered && markers.value.length > 0) {
-        // Create marker cluster group with custom options
-        markerClusterGroup.value = L.markerClusterGroup({
-            chunkedLoading: true,
-            spiderfyOnMaxZoom: true,
-            showCoverageOnHover: false,
-            zoomToBoundsOnClick: true,
-            maxClusterRadius: 80,
-            iconCreateFunction: function(cluster) {
-                const count = cluster.getChildCount()
-                let size = 40
-                let className = 'marker-cluster-small'
-
-                if (count < 10) {
-                    size = 40
-                    className = 'marker-cluster-small'
-                } else if (count < 100) {
-                    size = 50
-                    className = 'marker-cluster-medium'
-                } else {
-                    size = 60
-                    className = 'marker-cluster-large'
-                }
-
-                return new L.DivIcon({
-                    html: `<div><span>${count}</span></div>`,
-                    className: `marker-cluster ${className}`,
-                    iconSize: new L.Point(size, size)
-                })
-            }
-        })
-
-        // Add markers to cluster group
-        markers.value.forEach(marker => {
-            const leafletMarker = L.marker(marker.position, {
-                icon: L.divIcon({
-                    html: `<div style="background-color: ${marker.color}; width: ${marker.size}px; height: ${marker.size}px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>`,
-                    className: 'custom-marker',
-                    iconSize: [marker.size, marker.size],
-                    iconAnchor: [marker.size/2, marker.size/2]
-                })
-            })
-
-            leafletMarker.bindPopup(`
-                <div class="p-2 min-w-[200px]">
-                    <h3 class="font-semibold text-gray-900 mb-2">${marker.label}</h3>
-                    <div class="space-y-1 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Total:</span>
-                            <span class="font-medium">${marker.total}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Location:</span>
-                            <span class="text-xs text-gray-500">
-                                ${marker.position[0].toFixed(4)}, ${marker.position[1].toFixed(4)}
-                            </span>
-                        </div>
-                    </div>
-                    ${marker.data.description ? `
-                        <div class="mt-2 pt-2 border-t border-gray-200">
-                            <p class="text-xs text-gray-600">${marker.data.description}</p>
-                        </div>
-                    ` : ''}
-                </div>
-            `)
-
-            leafletMarker.on('click', () => {
-                onMarkerClick(marker)
-            })
-
-            markerClusterGroup.value.addLayer(leafletMarker)
-        })
-
-        map.value.leafletObject.addLayer(markerClusterGroup.value)
-    }
-}
-
-const initializeHeatmap = () => {
-    if (!map.value?.leafletObject) return
-
-    // Remove existing heatmap if it exists
-    if (heatmapLayer.value) {
-        map.value.leafletObject.removeLayer(heatmapLayer.value)
-        heatmapLayer.value = null
-    }
-
-    if (props.showHeatmap && markers.value.length > 0) {
-        // Prepare heatmap data: [lat, lng, intensity]
-        const maxTotal = Math.max(...markers.value.map(m => m.total))
-        const heatmapData = markers.value.map(marker => [
-            marker.position[0], // lat
-            marker.position[1], // lng
-            marker.total / maxTotal // normalized intensity (0-1)
-        ])
-
-        heatmapLayer.value = L.heatLayer(heatmapData, {
-            radius: 25,
-            blur: 15,
-            maxZoom: 17,
-            gradient: {
-                0.0: '#3b82f6', // blue
-                0.2: '#10b981', // green
-                0.4: '#f59e0b', // yellow
-                0.6: '#f97316', // orange
-                0.8: '#ef4444', // red
-                1.0: '#dc2626'  // dark red
-            }
-        })
-
-        map.value.leafletObject.addLayer(heatmapLayer.value)
-    }
-}
-
-const updateMapLayers = () => {
-    nextTick(() => {
-        if (props.showHeatmap) {
-            initializeHeatmap()
-        } else {
-            initializeClustering()
-        }
-    })
-}
-
-// Watch for data changes
-watch(() => props.mapData, () => {
-    processMapData()
-    updateMapLayers()
-
-    // Fit map to new markers after processing
-    nextTick(() => {
-        if (markers.value.length > 0) {
-            fitMapToMarkers()
-        }
-    })
-}, { deep: true, immediate: true })
-
-// Watch for clustering and heatmap prop changes
+// Watch props
 watch([() => props.clustered, () => props.showHeatmap], () => {
     updateMapLayers()
+
+    // Ensure hover handlers are attached after cluster group rebuild
+    nextTick(() => attachHoverEventsToClusterMarkers())
+})
+
+watch(() => props.dataType, () => {
+    // Clear orbit and cache when switching data types
+    orbitVisible.value = false
+    orbitCache.clear()
+})
+
+watch(() => props.mapData, () => {
+    // When data changes (filters), rebuild markers and layers
+    processMapData()
+    updateMapLayers()
+}, { deep: true })
+
+// Hide overlay on map move/zoom
+watch(mapReady, () => {
+    if (map.value?.leafletObject) {
+        map.value.leafletObject.on('movestart zoomstart', () => hideOrbit(true))
+    }
 })
 
 // Expose methods
@@ -438,6 +623,8 @@ onMounted(() => {
                 :key="marker.id"
                 :lat-lng="marker.position"
                 @click="onMarkerClick(marker)"
+                @mouseover="showOrbitForMarker(marker)"
+                @mouseout="hideOrbit()"
             >
                 <!-- Custom Icon -->
                 <LIcon
@@ -472,6 +659,19 @@ onMounted(() => {
                 </LPopup>
             </LMarker>
         </LMap>
+
+        <!-- Orbit overlay on hover -->
+        <OrbitOverlay
+            :visible="orbitVisible"
+            :loading="orbitLoading"
+            :items="orbitItems"
+            :x="orbitX"
+            :y="orbitY"
+            :radius="orbitRadius"
+            :data-type="dataType"
+            @close="hideOrbit(true)"
+            @enter="cancelHide()"
+        />
 
         <!-- Map Controls Overlay -->
         <div class="absolute top-4 right-4 bg-white rounded-lg shadow-lg p-3 space-y-2 z-[1000]">

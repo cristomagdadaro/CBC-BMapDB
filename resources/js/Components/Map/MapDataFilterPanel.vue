@@ -174,7 +174,7 @@ const fetchMapData = async () => {
         })
 
         const response = await mapDataApi.value.get(cleanFilters)
-        console.log(response)
+
         if (response.status === 200 && response.data.success) {
             mapData.value = response.data.data || []
 
