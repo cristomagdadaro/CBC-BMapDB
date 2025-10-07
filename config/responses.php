@@ -50,5 +50,12 @@ return [
         'timeout' => 10000,
         'statusCode' => Response::HTTP_INTERNAL_SERVER_ERROR,
     ],
-
+    'not_found' => [
+        'message' => 'Resource not found',
+        'show' => true,
+        'title' => 'Not Found',
+        'type' => 'error',
+        'timeout' => 10000,
+        'statusCode' => Response::HTTP_NOT_FOUND,
+    ],
 ];
