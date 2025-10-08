@@ -8,6 +8,10 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/index.esm.js';
 import vue3GoogleLogin from 'vue3-google-login';
 import store from './store.js';
 import router from './router.js';
+import Notification from './Components/Modal/Notification/Notification.ts';
+
+// Expose Notification class globally so push notifications can use it
+window.NotificationClass = Notification;
 
 const appNameShort = import.meta.env.VITE_APP_NAME_SHORT;
 

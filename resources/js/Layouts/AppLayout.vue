@@ -12,6 +12,7 @@ import {CBCProjects} from "@/Pages/constants.ts";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import BellIcon from "@/Components/Icons/BellIcon.vue";
 import Notification from "@/Components/Modal/Notification/Notification.ts";
+import NotificationDropdown from "@/Components/Modal/Notification/NotificationDropdown.vue";
 import Footer from "@/Pages/Footer.vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";
@@ -24,6 +25,7 @@ export default {
     components: {
         SelectField,
         NotifBanner,
+        NotificationDropdown,
         SidebarLayout,
         Head,
         Link,
@@ -180,13 +182,14 @@ export default {
                                     </form>
                                 </template>
                             </Dropdown>
-                            <top-action-btn
-                                class="shadow-none hover:scale-105 active:scale-100"
-                                @click="new Notification('Test','This is a test notification '+ Notification.notifications.value.length, Array.from(['error', 'success', 'warning', 'failed'])[Math.floor(Math.random() * 4)], 5000, true)">
+
+                            <!-- Notification Dropdown -->
+                            <notification-dropdown>
                                 <template #icon>
-                                    <bell-icon class="h-auto sm:w-6 w-4" :class="Notification.notifications.value.length?'animate-wiggle':''" />
+                                    <bell-icon class="h-auto w-6" :class="Notification.notifications.value.length?'animate-wiggle':''" />
                                 </template>
-                            </top-action-btn>
+                            </notification-dropdown>
+
                             <FullscreenToggle />
                             <!-- Teams Dropdown -->
                             <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">

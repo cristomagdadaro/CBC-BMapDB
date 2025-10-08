@@ -92,6 +92,29 @@
             .then(() => beamsClient.addDeviceInterest('hello'))
             .then(() => console.log('Successfully registered and subscribed!'))
             .catch(console.error);
+
+        // Listen for push notifications and add them to the Notification system
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.addEventListener('message', (event) => {
+                console.log('Push notification received:', event.data);
+
+                if (event.data && event.data.notification) {
+                    const { title, body } = event.data.notification;
+
+                    // Dynamically import and use the Notification class
+                    // This will add the notification to both the banner and dropdown
+                    if (window.NotificationClass) {
+                        new window.NotificationClass({
+                            title: title || 'Notification',
+                            message: body || 'New notification received',
+                            type: 'success',
+                            timeout: 10000,
+                            show: true
+                        });
+                    }
+                }
+            });
+        }
     </script>
 </html>
 
