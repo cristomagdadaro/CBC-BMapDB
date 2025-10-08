@@ -76,9 +76,33 @@
                 applications: @json(config('system_variables.applications')),
             };
         </script>
+        <script src="https://js.pusher.com/beams/2.1.0/push-notifications-cdn.js"></script>
         <title>Plant Breeders and Innovators Network System | CBC PIN | Crop Biotechnology Center | PhilRice</title>
     </head>
     <body class="font-sans antialiased">
         @inertia
     </body>
+
+    <script>
+        const beamsClient = new PusherPushNotifications.Client({
+            instanceId: 'a2819254-58af-4d1f-a99b-72bfa4d2c0c1',
+        });
+
+        beamsClient.start()
+            .then(() => beamsClient.addDeviceInterest('hello'))
+            .then(() => console.log('Successfully registered and subscribed!'))
+            .catch(console.error);
+    </script>
 </html>
+
+
+{{-- Paste to CMD
+Invoke-RestMethod `
+-Uri "https://a2819254-58af-4d1f-a99b-72bfa4d2c0c1.pushnotifications.pusher.com/publish_api/v1/instances/a2819254-58af-4d1f-a99b-72bfa4d2c0c1/publishes" `
+-Method POST `
+-Headers @{
+"Content-Type" = "application/json"
+"Authorization" = "Bearer 35BE9D129473C9436642AFDF3CC60B309E11BFAA4ABF2DECA0840C72F4DD1D62"
+} `
+-Body '{"interests":["hello"],"web":{"notification":{"title":"Hello","body":"Hello, world!"}}}'
+--}}

@@ -9,6 +9,7 @@ use App\Repository\Filters\FilterPipeline;
 use App\Repository\Filters\AggregationFilter;
 use App\Repository\Filters\DateRangeFilter;
 use App\Repository\Filters\HavingFilter;
+use App\Services\PushNotificationService;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
  * - Enhanced performance through lazy loading and query optimization
  * - Standardized error handling and responses
  * - More flexible and extensible filtering
+ * - Push notifications for CRUD operations
  *
  * @version 2.0
  */
@@ -70,10 +72,21 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
      */
     private static ?FilterPipeline $defaultPipeline = null;
 
+    /**
+     * Push notification service
+     */
+    protected PushNotificationService $pushNotification;
+
+    /**
+     * Enable/disable push notifications for this repository
+     */
+    protected bool $enablePushNotifications = true;
+
     public function __construct(Model $model)
     {
         $this->model = $model;
         $this->filterPipeline = $this->createFilterPipeline();
+        $this->pushNotification = new PushNotificationService();
     }
 
     /**
@@ -101,6 +114,14 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     {
         try {
             $model = $this->model->create($data);
+
+            // Send push notification
+            if ($this->enablePushNotifications && auth()->check()) {
+                $resourceName = $this->getResourceName();
+                $userName = auth()->user()->name ?? 'A user';
+                $this->pushNotification->notifyCreated($resourceName, $userName);
+            }
+
             return $this->jsonResponse(self::RESPONSE_CREATED, $model);
         } catch (Exception $error) {
             return $this->sendError($error);
@@ -112,6 +133,14 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         try {
             $model = $this->model->findOrFail($id);
             $model->update($data);
+
+            // Send push notification
+            if ($this->enablePushNotifications && auth()->check()) {
+                $resourceName = $this->getResourceName();
+                $userName = auth()->user()->name ?? 'A user';
+                $this->pushNotification->notifyUpdated($resourceName, $userName);
+            }
+
             return $this->jsonResponse(self::RESPONSE_UPDATED, $model);
         } catch (Exception $error) {
             return $this->sendError($error);
@@ -123,6 +152,14 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         try {
             $model = $this->model->findOrFail($id);
             $model->delete();
+
+            // Send push notification
+            if ($this->enablePushNotifications && auth()->check()) {
+                $resourceName = $this->getResourceName();
+                $userName = auth()->user()->name ?? 'A user';
+                $this->pushNotification->notifyDeleted($resourceName, $userName);
+            }
+
             return $this->jsonResponse(self::RESPONSE_DELETED, $model);
         } catch (Exception $e) {
             return $this->sendError($e);
@@ -144,6 +181,16 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $deletedCount = $this->model->whereIn(self::COL_ID, $ids)->delete();
 
             if ($deletedCount > 0) {
+                // Send push notification for bulk delete
+                if ($this->enablePushNotifications && auth()->check()) {
+                    $resourceName = $this->getResourceName();
+                    $userName = auth()->user()->name ?? 'A user';
+                    $this->pushNotification->notifyCustom(
+                        "Multiple {$resourceName} Deleted",
+                        "{$userName} has deleted {$deletedCount} {$resourceName} records"
+                    );
+                }
+
                 return $this->jsonResponse(self::RESPONSE_DELETED, ['count' => $deletedCount]);
             }
 
@@ -431,4 +478,14 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         return $this;
     }
 
+    /**
+     * Get a human-readable resource name for notifications.
+     * Override this method in child repositories for custom names.
+     */
+    protected function getResourceName(): string
+    {
+        $className = class_basename($this->model);
+        // Convert from CamelCase to spaces (e.g., "UserAccount" -> "User Account")
+        return preg_replace('/(?<!^)([A-Z])/', ' $1', $className);
+    }
 }
