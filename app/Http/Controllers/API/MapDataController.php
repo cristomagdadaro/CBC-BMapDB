@@ -232,7 +232,9 @@ class MapDataController extends Controller
                     ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
                     ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
                     ->whereIn('loc_cities.id', $cityIds)
-                    ->whereNotNull('approved_at')
+                    ->when(!$request->user()->isAdmin(), function ($q) {
+                        $q->whereNotNull('commodities.approved_at');
+                    })
                     ->select([
                         'loc_cities.id as city_id',
                         'commodities.id',
@@ -240,6 +242,7 @@ class MapDataController extends Controller
                         'commodities.photo as photo',
                         \DB::raw('ROW_NUMBER() OVER (PARTITION BY loc_cities.id ORDER BY commodities.updated_at DESC) as rn')
                     ]);
+
             } else { // breeders
                 $query = \DB::table('breeders')
                     ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
