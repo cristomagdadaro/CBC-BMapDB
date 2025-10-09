@@ -147,11 +147,20 @@ export default {
                 </div>
             </public-page-section>
 <!--            <public-page-section class="flex items-center py-10">
-                <div class="relative flex flex-col">
-                    <model-viewer model-url="/img/3d/corn.glb"/>
-                    <label class="text-red-700 text-center text-xs">We will be adding more 3d images soon. Use Polycam or any mobile 3d object scanner app. Use iphones with LiDAR sensor.</label>
-                    <div class="w-full p-5 lg:m-2 rounded drop-shadow text-sm">
-                        <p class="text-justify"><span class="font-bold">Bt Corn </span> a genetically enhanced crop that has been engineered to produce a protein from the bacterium Bacillus thuringiensis (Bt). This protein is toxic to certain insect pests, such as the European corn borer, but harmless to humans, animals, and beneficial insects. By incorporating the Bt gene into the corn's DNA, the plant gains built-in resistance to specific pests, reducing the need for chemical insecticides. Bt corn has been widely adopted in agriculture due to its potential to increase crop yields, lower production costs, and reduce environmental impact. However, it has also sparked debates about its long-term effects on ecosystems, pest resistance, and food safety.</p>
+                <div class="w-full flex flex-col items-center justify-center">
+                    <div class="w-full max-w-3xl mx-auto bg-white/80 rounded-xl shadow-lg p-6 flex flex-col items-center">
+                        <h2 class="text-2xl font-bold text-cbc-olive-green mb-2 text-center">Interactive 3D Crop Model</h2>
+                        <p class="text-normal text-gray-700 mb-4 text-center max-w-xl">
+                            Explore a high-fidelity 3D scan of a real Bt Corn cob. Use your mouse or touch to rotate, zoom, and interact. Lighting, background, and more can be adjusted live using the controls at the top right of the viewer.
+                        </p>
+                        <div class="w-full flex justify-center">
+                            <ModelViewer
+                                model-url="/img/3d/corn.glb"
+                                :background-color="'#e6f7ef'"
+                                style="width:100%;max-width:600px;min-height:400px;height:60vh;"
+                            />
+                        </div>
+                        <label class="text-xs text-gray-500 mt-2 text-center">We will be adding more 3D images soon. Use Polycam or any mobile 3D object scanner app. iPhones with LiDAR sensor recommended.</label>
                     </div>
                 </div>
             </public-page-section>-->
