@@ -62,7 +62,12 @@ const props = defineProps({
     // Styling hooks
     centerExtraScale: {type: Number, default: 1.05},
     sideDiminish: {type: Number, default: 0.92},
-    // New: explicit sizing for cards
+    // New: responsive sizing
+    responsive: {type: Boolean, default: true},
+    aspectRatio: {type: [String, Number, null], default: '16/9'},
+    // Card base sizes (used as fallbacks / clamp bounds)
+    cardMinWidth: {type: String, default: '12rem'},
+    cardFluidWidth: {type: String, default: '30vw'},
     cardWidth: {type: String, default: '22rem'},
     cardHeight: {type: String, default: '14rem'},
 });
@@ -376,16 +381,27 @@ function getItemStyle(idx) {
     const transform = isVertical.value
         ? `translate3d(0, ${translatePrimary}%, ${translateZ}px) scale(${scale.toFixed(4)})`
         : `translate3d(${translatePrimary}%,0,${translateZ}px) scale(${scale.toFixed(4)})`;
-    return {
-        '--offset': offset,
-        'z-index': 400 - abs * 12,
-        transform,
-        opacity,
-        filter: `brightness(${brightness}) saturate(${saturation}) blur(${blur}px)`,
-        // Ensure cards have visible dimensions
-        width: isVertical.value ? '100%' : props.cardWidth,
-        height: props.cardHeight,
-    };
+
+  // Responsive sizing logic
+  const widthValue = isVertical.value
+    ? '100%'
+    : (props.responsive ? `clamp(${props.cardMinWidth}, ${props.cardFluidWidth}, ${props.cardWidth})` : props.cardWidth);
+
+  const style = {
+    '--offset': offset,
+    'z-index': 400 - abs * 12,
+    transform,
+    opacity,
+    filter: `brightness(${brightness}) saturate(${saturation}) blur(${blur}px)`,
+    width: widthValue,
+  };
+
+  if (props.responsive && props.aspectRatio) {
+    style.aspectRatio = String(props.aspectRatio);
+  } else {
+    style.height = props.cardHeight;
+  }
+  return style;
 }
 
 function goTo(key) {
@@ -445,7 +461,7 @@ defineExpose({next, prev, goTo, play, stop, pause, getCurrent: () => currentItem
 <template>
     <div
         ref="containerRef"
-        class="advanced-carousel relative select-none flex justify-center w-full perspective-1000 focus:outline-none overflow-hidden"
+        class="advanced-carousel relative select-none flex justify-center w-fit mx-auto sm:w-full perspective-1000 focus:outline-none overflow-hidden"
         role="listbox"
         :aria-activedescendant="currentKey ? sanitizeId(currentKey) : null"
         tabindex="0"
@@ -501,15 +517,12 @@ defineExpose({next, prev, goTo, play, stop, pause, getCurrent: () => currentItem
                     :style="getItemStyle(idx)"
                     :ref="el => setItemRef(getItemName(item), el)"
                 >
-                    <!-- Item-level loading overlay (non-interactive) -->
                     <div v-if="!isItemReady(item)"
                          class="absolute inset-0 z-30 flex items-center justify-center pointer-events-none">
                         <slot name="loading">
                             <div class="ac-spinner" aria-hidden="true"></div>
                         </slot>
                     </div>
-
-                    <!-- Visuals (image + content) -->
                     <div class="absolute inset-0">
                         <img
                             v-if="item[imageProp]"

@@ -205,8 +205,7 @@ function onChange(item) {
 <template>
     <div class="overflow-x-hidden overflow-y-hidden py-5">
         <h3 class="text-center text-subtitle">Priority Commodities</h3>
-        <p class="text-normal text-center text-dark-color">Currently, the center has identified {{ itemCount }} priority
-            commodities</p>
+        <p class="text-normal pb-5 text-center text-dark-color">Currently, the center has identified {{ itemCount }} priority commodities</p>
 
         <AdvancedCarousel
             :items="props.items"
@@ -230,25 +229,20 @@ function onChange(item) {
             :max-momentum-steps="4"
             :auto-advance-interval="2000"
             :interaction-idle-ms="3500"
+            aspect-ratio="3/4"
+            card-width="30rem"
+            card-min-width="30rem"
             aria-label="Priority commodities carousel"
             @change="onChange"
         >
             <template #item="{ item, isCenter }">
-                <div
-                    class="relative z-10 flex items-center justify-center h-full font-bold pointer-events-none drop-shadow-xl">
+                <div class="z-10 flex items-center justify-center h-full font-bold pointer-events-none drop-shadow-xl">
                     <span :class="isCenter ? 'text-xl sm:text-2xl' : 'text-base sm:text-xl opacity-70'">{{
                             item.name
                         }}</span>
-                    <span v-if="isCenter"
-                          class="text-white absolute bottom-3 right-3 text-[.60rem] sm:text-xs opacity-40 tracking-wide">Gemini</span>
                 </div>
             </template>
         </AdvancedCarousel>
-
-        <p class="text-xs text-gray-500 mt-2">Gemini Prompt: generate a close up image of a [commodity]. professional
-            photography style with depth of field view effect, do not apply vignetting. Using rule of third place the
-            Subject at the bottom left. Add multiple copies of the subject to make it look like abundant. Show the main
-            subject whole.</p>
 
         <div v-if="currentItem" class="flex hidden flex-col justify-center text-gray-900 text-normal"
              aria-live="polite">
