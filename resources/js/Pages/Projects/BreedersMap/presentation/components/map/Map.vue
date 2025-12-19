@@ -1,436 +1,129 @@
-<script>
-import {
-    LMap,
-    LTileLayer,
-    LMarker,
-    LCircleMarker,
-    LPopup,
-    LControlLayers,
-    LGeoJson,
-    LTooltip,
-    LControl,
-    LIcon,
-} from "@vue-leaflet/vue-leaflet";
-import 'leaflet/dist/leaflet.css';
-import { icon } from 'leaflet';
-import regions from "@/Pages/Projects/BreedersMap/components/geojsons/geoJson.js";
-import InfoSidebar from './components/MapSidebarV2.vue';
-import SearchBox from "@/Components/CRCMDatatable/Components/SearchBox.vue";
-import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
-import ExportIcon from "@/Components/Icons/ExportIcon.vue";
-import ShareIcon from "@/Components/Icons/ShareIcon.vue";
-import CloseIcon from "@/Components/Icons/CloseIcon.vue";
-import MapApiService from "@/Pages/Projects/BreedersMap/presentation/components/map/infrastructure/MapApiService.js";
-import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
-import SearchBy from "@/Components/CRCMDatatable/Components/SearchBy.vue";
-import {Permission} from "@/Pages/constants.ts";
-import ViewIcon from "@/Components/Icons/ViewIcon.vue";
-import FullscreenToggle from "@/Components/FullscreenToggle.vue";
-import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
-import BaseClass from "@/Modules/core/domain/base/BaseClass";
-import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
-import DataFiltrationFields
-    from "@/Pages/Projects/BreedersMap/presentation/components/map/components/DataFiltrationFields.vue";
-import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
-import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
-import { defineAsyncComponent } from 'vue';
-import axios from 'axios';
-import { route } from 'ziggy-js';
+<script setup>
+import { ref, onMounted } from 'vue'
+import MapDataFilterPanel from '@/Components/Map/MapDataFilterPanel.vue'
+import LeafletMap from '@/Components/Map/LeafletMap.vue'
 
-export default {
-    components: {
-        DataFiltrationFields,
-        TransitionContainer,
-        FullscreenToggle,
-        ViewIcon,
-        SearchBy,
-        LoaderIcon,
-        CloseIcon,
-        InfoSidebar,
-        SearchBox,
-        TopActionBtn,
-        ExportIcon,
-        ShareIcon,
-        LMap,
-        LTileLayer,
-        LMarker,
-        LCircleMarker,
-        LPopup,
-        LControlLayers,
-        LGeoJson,
-        LTooltip,
-        LControl,
-        LIcon,
-        DialogFormModal,
-        EditCommodityForm: defineAsyncComponent(() => import('@/Pages/Projects/BreedersMap/presentation/components/commodity/EditCommodityForm.vue')),
-        EditBreederForm: defineAsyncComponent(() => import('@/Pages/Projects/BreedersMap/presentation/components/breeders/EditBreederForm.vue')),
-    },
-    props: {
-        customPoint: {
-            type: Object,
-            required: false
-        },
-        offline: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-        tableList: {
-            type: Array,
-            required: false,
-            default: () => []
-        },
-        params: {
-            type: Object,
-            required: false,
-            default: () => ({
-                filter: null,
-                search: null,
-                is_exact: null
-            })
-        },
-        model: {
-            type: [BaseClass, Function],
-            required: false,
-        },
-    },
-    data() {
-        return {
-            dataFiltration: null,
-            processingRequest: false,
-            mapApi: null,
-            icon: icon({
-                iconUrl: "/img/logos/mappin.png",
-                iconSize: [30, 40],
-                iconAnchor: [15, 38],
-            }),
-            commodities: [],
-            isHovered: false,
-            tiles: null,
-            map: null,
-            placesSearched: [],
-            dataFiltrationUrl: null,
-            tileProviders: [
-                { name: 'CartoDB Voyager', visible: true, url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
-                { name: 'CartoDB VoyagerNoLabels', visible: false, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>', url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png' },
-                { name: 'CartoDB DarkMatter', visible: false, url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
-                { name: 'CartoDB DarkMatterNoLabels', visible: false, url: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' },
-                { name: 'Esri WorldGrayCanvas', visible: false, url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ' }
-            ],
-            // Edit/Delete modal state
-            showEditDialog: false,
-            editFormComponentName: null,
-            editData: null,
-            errorBag: null,
-            submitting: false,
-        };
-    },
-    computed: {
-        Breeder() {
-            return Breeder
-        },
-        currentModelEntry() {
-            if (!this.tableList || !this.tableList.length || !this.dataFiltrationUrl) {
-                return { model: this.model || Commodity, name: (this.model === Breeder ? 'breeder' : 'commodity') };
-            }
-            const ent = this.tableList.find(t => t.route === this.dataFiltrationUrl);
-            if (ent) {
-                return { model: ent.model, name: (ent.model === Breeder ? 'breeder' : 'commodity') };
-            }
-            return { model: this.model || Commodity, name: (this.model === Breeder ? 'breeder' : 'commodity') };
-        },
-        currentModel() {
-            return this.currentModelEntry.model;
-        },
-        currentModelName() {
-            return this.currentModelEntry.name;
-        },
-        newData() {
-            if (this.dataFiltration) {
-                this.placesSearched = this.dataFiltration.raw_data;
-                return this.placesSearched;
-            }
-            if (this.customPoint){
-                this.placesSearched = this.customPoint;
-                return this.customPoint;
-            }
-            return [];
-        },
-        Commodity() {
-            return Commodity;
-        },
-        Permission() {
-            return Permission;
-        },
-        sidebarVisible() {
-            return this.mapApi ? this.mapApi.sidebarVisible : false;
-        },
-        province() {
-            return regions;
-        },
-        mapOptions() {
-            return this.mapApi ? this.mapApi.mapOptions : {};
-        },
-        processing() {
-            return this.mapApi ? this.mapApi.processing : false;
-        },
-        dataPoints() {
-            return this.mapApi ? this.mapApi.getDataPoint() : [];
-        },
-        canView() {
-            return true;
-        },
-        editFormComponent() {
-            if (this.editFormComponentName === 'commodity') return 'EditCommodityForm';
-            if (this.editFormComponentName === 'breeder') return 'EditBreederForm';
-            return null;
-        }
-    },
-    created() {
-        this.initializeMap();
-    },
-    methods: {
-        async initializeMap() {
-            this.mapApi = new MapApiService(this.dataFiltrationUrl, this.currentModel);
-        },
-        async refreshData() {
-            await this.mapApi.refresh();
-            this.loadData();
-        },
-        async updateFilters(param, value) {
-            if (this.mapApi && this.mapApi.processing) return;
-            if (this.params.hasOwnProperty(param) && value)
-                this.params[param] = value;
-            await this.mapApi.updateParam(this.params);
-            this.loadData();
-            this.offlineSearch(value);
-        },
-        loadData() {
-            this.commodities = this.dataPoints && this.dataPoints.length ? this.dataPoints : this.customPoint;
-            if (this.commodities && this.commodities.length === 1) {
-                this.selectPoint(this.commodities[0]);
-            }
-        },
-        updateCenter(center) { this.mapApi.updateCenter(center); },
-        updateZoom(zoom) { this.mapApi.updateZoom(zoom); },
-        isPointSelected(point) { return this.mapApi.isPointSelected(point); },
-        deselectPoint() { this.mapApi.deselectPoint(); },
-        recenter() { this.mapApi.recenter(); },
-        isValidPoint(point) { return point && point.latitude && point.longitude; },
-        selectPoint(point) {
-            if (!this.$refs.map && !this.isValidPoint(point.location)) return;
-            this.mapApi.selectPoint(point);
-        },
-        determinePointColor(value) {
-            switch (value) {
-                case 'Rice': return '#005B41';
-                case 'Corn': return '#3B5998';
-                case 'Coconut': return '#FFA500';
-                case 'Banana': return '#FFD700';
-                case 'Coffee': return '#A52A2A';
-                case 'Cassava': return '#8B4513';
-                case 'Abaca': return '#FF0000';
-                case 'Rubber': return '#FF69B4';
-                default: return '#005B41';
-            }
-        },
-        offlineSearch(search) {
-            this.placesSearched = this.newData.filter((point) => {
-                return Object.keys(point).some((key) => {
-                    return String(point[key]).toLowerCase().includes(String(search || '').toLowerCase());
-                });
-            });
-        },
-        baseURL() {
-            return this.dataFiltrationUrl + `?filter_by_parent_column=${this.params.filter_by_parent_column}&filter_by_parent_id=${this.params.filter_by_parent_id}`;
-        },
-        getNestedValue(obj, path) { return path.split('.').reduce((acc, part) => acc && acc[part], obj); },
-        // Sidebar actions
-        async handleEdit({ point, modelName }) {
-            try {
-                const ModelClass = this.currentModel;
-                const instance = new ModelClass(point);
-                const showRoute = instance.showUri;
-                const res = await axios.get(route(showRoute, point.id), { params: { with: (ModelClass.appendWith || []).toString() } });
-                const full = res?.data?.data || point;
-                this.editData = full;
-                this.editFormComponentName = modelName;
-                this.showEditDialog = true;
-            } catch (e) {
-                console.error('Failed to load data for edit', e);
-            }
-        },
-        async handleDelete({ point }) {
-            const ModelClass = this.currentModel;
-            const instance = new ModelClass(point);
-            const destroyRoute = instance.destroyUri;
-            if (!window.confirm('Are you sure you want to delete this item?')) return;
-            try {
-                await axios.delete(route(destroyRoute, point.id));
-                this.mapApi.deselectPoint();
-                await this.refreshData();
-            } catch (e) {
-                console.error('Delete failed', e);
-            }
-        },
-        async submitEdit(form) {
-            try {
-                this.submitting = true;
-                const ModelClass = this.currentModel;
-                const instance = new ModelClass(this.editData || {});
-                const updateRoute = instance.updateUri;
-                await axios.put(route(updateRoute, this.editData.id), form);
-                this.showEditDialog = false;
-                this.editFormComponentName = null;
-                this.editData = null;
-                await this.refreshData();
-            } catch (e) {
-                this.errorBag = e?.response?.data?.errors || null;
-                console.error('Update failed', e);
-            } finally {
-                this.submitting = false;
-            }
-        },
-        closeEditDialog() {
-            this.showEditDialog = false;
-            this.editFormComponentName = null;
-            this.editData = null;
-            this.errorBag = null;
-        }
-    },
-    watch: {
-        customPoint: {
-            handler(newVal) {
-                if (newVal) {
-                    this.selectPoint(newVal);
-                }
-            },
-            deep: true
-        },
-        // When table (list) changes, update the model used for casting/relations
-        dataFiltrationUrl() {
-            if (this.mapApi) {
-                // Update model for relation casting on next fetch
-                this.mapApi.model = this.currentModel;
-            }
-        }
+const mapData = ref([])
+const mapMetadata = ref({})
+const currentFilters = ref({})
+const selectedMarker = ref(null)
+const mapComponent = ref(null)
+
+// Handle data updates from the filter panel
+const handleDataUpdated = (result) => {
+    mapData.value = result.data
+    mapMetadata.value = result.metadata
+    currentFilters.value = result.filters
+}
+
+// Handle filter changes
+const handleFiltersChanged = (filters) => {
+    currentFilters.value = filters
+    console.log('Filters changed:', filters)
+}
+
+// Handle marker clicks on the map
+const handleMarkerClick = (marker) => {
+    selectedMarker.value = marker
+
+    // You can add custom logic here, like showing detailed information
+    // or updating other parts of your application
+}
+
+// Handle map ready event
+const handleMapReady = (map) => {
+    // console.log('Map is ready:', map)
+}
+
+// Fit map to show all data points
+const fitMapToData = () => {
+    if (mapComponent.value) {
+        mapComponent.value.fitToMarkers()
     }
-};
+}
+
+onMounted(() => {
+    console.log('Enhanced map component ready')
+})
 </script>
 
 <template>
-    <div v-if="mapApi && canView" class="gap-1 justify-end hidden">
-        <top-action-btn @click="refreshData" class="bg-add text-normal py-2" title="Export data">
-            <template v-if="processing" #icon>
-                <loader-icon class="h-auto sm:w-6 w-4" />
-            </template>
-            <span>Refresh</span>
-        </top-action-btn>
-        <top-action-btn class="bg-add text-normal" title="Export data">
-            <template #icon>
-                <export-icon class="h-auto sm:w-6 w-4" />
-            </template>
-            <span>Export</span>
-        </top-action-btn>
-        <top-action-btn class="bg-yellow-400 text-gray-900 text-normal" title="Share to your network">
-            <template #icon>
-                <share-icon class="h-auto sm:w-4 w-4" />
-            </template>
-            <span>Share</span>
-        </top-action-btn>
-    </div>
-    <div v-if="mapApi && canView" class="flex flex-col max-h-fit gap-2 relative">
-        <div class="relative gap-2">
-            <template v-if="tableList && !offline">
-                <data-filtration-fields
-                    :tables="tableList"
-                    @tableChange="dataFiltrationUrl = $event"
-                    @dataRefreshed="dataFiltration = $event"
-                    @processingRequest="processingRequest"
-                    :params="params"
-                />
-            </template>
+    <div class="flex gap-5 h-screen bg-gray-50 pt-5 pl-5 pr-2">
+        <!-- Filter Panel -->
+        <div class="w-80 flex-shrink-0">
+            <MapDataFilterPanel
+                :initial-data-type="'commodities'"
+                @data-updated="handleDataUpdated"
+                @filters-changed="handleFiltersChanged"
+            />
         </div>
-        <div ref="mapContainer" id="bm-data-map" class="w-full flex gap-2 relative mt-1">
-            <l-map
-                ref="map"
-                :use-global-leaflet="true"
-                class="z-0 border rounded"
-                style="height: 100%; min-height: 800px;"
-                :zoom="mapApi.zoom"
-                :center="mapApi.center"
-                :maxZoom="mapApi.maxZoom"
-                :minZoom="mapApi.minZoom"
-                :max-bounds="[mapApi.maxBound.southwest, mapApi.maxBound.northeast]"
-                :options="mapOptions"
-                @update:zoom="updateZoom"
-                @update:center="updateCenter"
-            >
-                <l-control-layers position="topright" :collapsed="true" />
-                <l-geo-json
-                    v-for="region in province"
-                    :key="region.features[0].properties.ADM1_EN"
-                    :name="region.features[0].properties.ADM1_EN"
-                    layer-type="overlay"
-                    :geojson="region"
-                    :visible="false"
-                    pane="overlayPane"
+
+        <!-- Map Container -->
+        <div class="flex-1 flex flex-col gap-5">
+            <!-- Map Header -->
+            <div class="bg-white rounded-lg shadow-lg p-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-900">Geographic Distribution</h2>
+                        <p class="text-sm text-gray-600 mt-1">
+                            Showing {{ mapData.length }} locations
+                            <span v-if="currentFilters.data_type" class="ml-2">
+                                • {{ currentFilters.data_type }} <span v-if="currentFilters.filter_by">filtered by {{ currentFilters.filter_by }}</span>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button
+                            @click="fitMapToData"
+                            class="px-3 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                            :disabled="mapData.length === 0"
+                        >
+                            Fit to Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leaflet Map -->
+            <div class="flex-1 bg-white rounded-lg shadow-lg overflow-hidden">
+                <LeafletMap
+                    ref="mapComponent"
+                    :map-data="mapData"
+                    :clustered="false"
+                    :showHeatmap="false"
+                    :center="[12.8797, 121.7740]"
+                    :zoom="6"
+                    :data-type="currentFilters.data_type || 'commodities'"
+                    height="100%"
+                    @marker-click="handleMarkerClick"
+                    @map-ready="handleMapReady"
                 />
-                <l-tile-layer
-                    v-for="tileProvider in tileProviders"
-                    :key="tileProvider.name"
-                    :name="tileProvider.name"
-                    :visible="tileProvider.visible"
-                    :url="tileProvider.url"
-                    :attribution="tileProvider.attribution"
-                    layer-type="base"
-                />
-                <l-marker v-if="mapApi.markerLatLng" :lat-lng="mapApi.markerLatLng" ref="marker" :icon="icon" @click="mapApi.sidebarVisible = !mapApi.sidebarVisible" />
-                <template v-for="place in newData" :key="place.id" >
-                    <l-circle-marker
-                        v-if="isValidPoint(place.location)"
-                        :lat-lng="[place.location.latitude, place.location.longitude]"
-                        :opacity="1"
-                        :radius="5"
-                        :color="determinePointColor(place.name)"
-                        :weight="1"
-                        @click="selectPoint(place); mapApi.sidebarVisible = true;"
-                    >
-                        <l-tooltip :content="place.name" />
-                        <l-popup :options="{ minWidth:300, maxWidth:400, className:'popup-transition' }">
-                            <info-sidebar :model="currentModel" :model-name="currentModelName" :point="mapApi.selectedPlace" :visible="sidebarVisible" @edit="handleEdit" @delete="handleDelete" />
-                        </l-popup>
-                    </l-circle-marker>
-                </template>
-                <l-control>
-                    <div class="flex flex-col items-end">
-                        <div class="flex flex-row gap-2 justify-between w-fit items-center p-2">
-                            <top-action-btn @click="recenter" class="bg-add text-xs" title="Recenter Map">
-                                <span>Recenter</span>
-                            </top-action-btn>
-                            <top-action-btn v-if="mapApi.selectedPlace" @click="deselectPoint" class="bg-add text-xs" title="Deselect Point">
-                                <template #icon>
-                                    <close-icon class="h-auto sm:w-6 w-4" />
-                                </template>
-                                <span class="flex items-center justify-center">Deselect</span>
-                            </top-action-btn>
-                            <FullscreenToggle :element="$refs.mapContainer" />
+            </div>
+
+            <!-- Selected Marker Details -->
+            <div v-if="selectedMarker" class="hidden bg-white rounded-lg shadow-lg p-4">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Selected Location</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div>
+                        <div class="text-sm text-gray-600">Location</div>
+                        <div class="font-medium">{{ selectedMarker.label }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-600">Total Count</div>
+                        <div class="font-medium text-blue-600">{{ selectedMarker.total }}</div>
+                    </div>
+                    <div>
+                        <div class="text-sm text-gray-600">Coordinates</div>
+                        <div class="font-mono text-xs">
+                            {{ selectedMarker.position[0].toFixed(4) }}, {{ selectedMarker.position[1].toFixed(4) }}
                         </div>
                     </div>
-                </l-control>
-            </l-map>
+                    <div>
+                        <div class="text-sm text-gray-600">Data Type</div>
+                        <div class="font-medium capitalize">{{ currentFilters.data_type }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Edit dialog -->
-        <dialog-form-modal :show="showEditDialog" @close="closeEditDialog">
-            <component :is="editFormComponent" v-if="editFormComponent" :processing="submitting" :errors="errorBag" :data="editData" @submitForm="submitEdit" @close="closeEditDialog" :forceClose="false" />
-        </dialog-form-modal>
     </div>
 </template>
-<style scoped>
-.popup-transition-enter-active, .popup-transition-leave-active {
-    transition: opacity 0.5s;
-}
-.popup-transition-enter, .popup-transition-leave-to {
-    opacity: 0;
-}
-</style>

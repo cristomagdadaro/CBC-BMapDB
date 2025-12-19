@@ -12,19 +12,9 @@
                 <commodity-table />
             </template>
             <template v-slot:tab4>
-                <div class="flex flex-col gap-5 relative">
-
-                    <MapExample />
-
-<!--                    <Map :table-list="tables" :model="Commodity"/>-->
-                </div>
+                <Map :table-list="tables" :model="Commodity"/>
             </template>
             <template v-slot:tab5>
-                <div>
-                    <under-develop />
-                </div>
-            </template>
-            <template v-slot:tab6>
                 <bm-settings />
             </template>
         </Tab>
@@ -43,7 +33,6 @@ import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 import BmSettings from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmSettings.vue";
 import UnderDevelop from "@/Components/Modal/UnderDevelop.vue";
-import MapExample from "@/Components/Map/MapExample.vue";
 
 export default {
     computed: {
@@ -52,7 +41,6 @@ export default {
         }
     },
     components: {
-        MapExample,
         UnderDevelop,
         BmSettings,
         Head,
@@ -104,12 +92,6 @@ export default {
               },
               {
                   name: "tab5",
-                  label: "Gene Bank",
-                  active: true,
-                  route: { name: 'projects.breedersmap.summary' },
-              },
-              {
-                  name: "tab6",
                   label: "Settings",
                   active: false,
                   route: { name: 'projects.breedersmap.settings' },

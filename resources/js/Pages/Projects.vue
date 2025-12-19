@@ -54,9 +54,6 @@ export default {
     <Head title="Welcome"/>
     <page-layout>
         <green-waves/>
-        <GreenWaves base-stroke-width="1.5" base-opacity="0.05" halo-stroke-width="4" halo-opacity="0.25"
-                    pulse-stroke-width="2.5" dash-array1="300" dash-array2="200"
-                    duration-top="8s" duration-bottom="9s" blur-std-dev="5" />
         <div class="grid grid-cols-1 body-grid-rows w-full bg-transparent">
             <public-page-section onload="" class="flex items-center justify-center">
                 <template v-slot:custom-bg>

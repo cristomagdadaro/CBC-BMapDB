@@ -57,16 +57,6 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
        Route::post('/data-view/{table?}', 'store')->name('api.dataview.store');
        Route::put('/data-view/{table?}/{uuid?}', 'update')->name('api.dataview.update');
     });
-
-    // New Map Data API Routes - Cleaner and more maintainable
-    Route::prefix('map-data')->group(function () {
-        Route::get('/', [App\Http\Controllers\API\MapDataController::class, 'getMapData'])->name('api.map-data');
-        Route::get('/filter-options', [App\Http\Controllers\API\MapDataController::class, 'getFilterOptions'])->name('api.map-data.filter.options');
-        Route::get('/summary', [App\Http\Controllers\API\MapDataController::class, 'getSummary'])->name('api.map-data.summary');
-        Route::get('/geographic-distribution', [App\Http\Controllers\API\MapDataController::class, 'getGeographicDistribution']);
-        Route::get('/orbit-items', [App\Http\Controllers\API\MapDataController::class, 'getOrbitItems'])->name('api.map-data.orbit-items');
-    });
-
 });
 
 Route::middleware(['api'])->group(function() {

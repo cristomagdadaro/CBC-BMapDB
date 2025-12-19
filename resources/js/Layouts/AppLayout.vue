@@ -52,13 +52,6 @@ export default {
             user: new User(this.$page.props.auth.user),
         }
     },
-    mounted() {
-      /*CBCProjects.forEach((project) => {
-        project.show = this.hasPermission(project.permission);
-      });
-
-      console.log(CBCProjects);*/
-    },
     computed: {
         User() {
             return User;
@@ -478,6 +471,13 @@ export default {
                         </template>
                     </NavLink>
                 </template>
+                <NavLink class="text-white" href="/">
+                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                        <span class="sm:flex hidden whitespace-nowrap">
+                           Gene Bank
+                        </span>
+                    </div>
+                </NavLink>
             </template>
             <template #content>
                 <main>

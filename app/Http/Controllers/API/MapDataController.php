@@ -9,7 +9,7 @@ use Illuminate\Http\JsonResponse;
 
 /**
  * Simplified API controller for map data filtering
- * Uses the centralized MapDataFilterService for cleaner, more maintainable code
+ * Uses the centralized MapDataFilterService
  */
 class MapDataController extends Controller
 {
@@ -26,23 +26,23 @@ class MapDataController extends Controller
             'data_type' => 'required|string|in:commodities,breeders,institutes',
             'filter_by' => 'nullable|string|in:commodity,city,province,region,institute',
             'commodity' => 'nullable|string',
-            'commodities' => 'nullable|string', // Alternative naming
+            'commodities' => 'nullable|string',
             'institute' => 'nullable|string',
             'breeder_type' => 'nullable|string',
             'institute_type' => 'nullable|string',
             'region' => 'nullable|string',
-            'regions' => 'nullable|string', // Alternative naming
+            'regions' => 'nullable|string',
             'province' => 'nullable|string',
-            'provinces' => 'nullable|string', // Alternative naming
+            'provinces' => 'nullable|string',
             'city' => 'nullable|string|numeric',
-            'cities' => 'nullable|string|numeric', // Alternative naming (ID value)
+            'cities' => 'nullable|string|numeric',
             'search' => 'nullable|string',
         ]);
 
         try {
             $dataType = $validated['data_type'];
 
-            // Normalize filter parameters (handle both naming conventions)
+            // Normalize filter parameters
             $filters = $this->normalizeFilters($validated);
 
             // Validate filters
@@ -213,7 +213,7 @@ class MapDataController extends Controller
     {
         $validated = $request->validate([
             'data_type' => 'required|string|in:commodities,breeders',
-            'city_ids' => 'required|string', // Expect a comma-separated string of IDs
+            'city_ids' => 'required|string',
             'limit' => 'nullable|integer|min:1|max:24',
         ]);
 
