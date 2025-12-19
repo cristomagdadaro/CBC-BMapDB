@@ -36,7 +36,8 @@ trait BuildsTwgQueries
                     ->whereNull('institutes.deleted_at');
             })
             ->groupBy('institutes.name')
-            ->selectRaw('institutes.name as affiliation, COUNT(DISTINCT twg_expert.id) as experts, COUNT(DISTINCT twg_product.id) as products, COUNT(DISTINCT twg_project.id) as projects, COUNT(DISTINCT twg_service.id) as services');
+            ->selectRaw('institutes.name as affiliation, COUNT(DISTINCT twg_expert.id) as experts, COUNT(DISTINCT twg_product.id) as products, COUNT(DISTINCT twg_project.id) as projects, COUNT(DISTINCT twg_service.id) as services')
+            ->havingRaw('(COUNT(DISTINCT twg_expert.id) > 0) OR (COUNT(DISTINCT twg_product.id) > 0) OR (COUNT(DISTINCT twg_project.id) > 0) OR (COUNT(DISTINCT twg_service.id) > 0)');
     }
 }
 

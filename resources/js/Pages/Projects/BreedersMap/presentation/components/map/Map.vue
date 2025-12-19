@@ -48,8 +48,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex gap-5 h-screen bg-gray-50 pt-5 pl-5 pr-2">
-        <!-- Filter Panel -->
+    <div class="flex gap-5 h-full bg-gray-50 md:p-3 p-2">
+    <!-- Filter Panel -->
         <div class="w-80 flex-shrink-0">
             <MapDataFilterPanel
                 :initial-data-type="'commodities'"
@@ -59,7 +59,7 @@ onMounted(() => {
         </div>
 
         <!-- Map Container -->
-        <div class="flex-1 flex flex-col gap-5">
+        <div class="flex-1 flex flex-col gap-5 h-[calc(100vh-5rem)]">
             <!-- Map Header -->
             <div class="bg-white rounded-lg shadow-lg p-4">
                 <div class="flex items-center justify-between">

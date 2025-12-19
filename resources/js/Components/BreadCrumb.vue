@@ -1,5 +1,5 @@
 <template>
-    <nav v-if="crumbs" class="breadcrumb flex flex-row text-dark-color text-normal px-5 pt-3">
+    <nav v-if="crumbs" class="breadcrumb flex flex-row text-dark-color text-normal p-3 bg-transparent">
         <ul class="flex flex-row">
             <li v-if="crumbs.length === 1">
                 <Link :href="crumbs[0].to" class="hover:text-gray-100 text-gray-800 px-3 py-1 rounded bg-cbc-yellow shadow">Back</Link>

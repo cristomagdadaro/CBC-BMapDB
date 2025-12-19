@@ -106,7 +106,7 @@ export default {
         <div class="z-10 flex gap-1 select-none p-4 bg-white max-w-screen overflow-x-auto">
             <template v-for="(tab, idx) in tabs" :key="tab.name || idx">
                 <router-link
-                    v-if="!!tab.route"
+                    v-if="tab.route && tab.route.name"
                     @click="setActiveTab(tab, idx)"
                     class="py-2 px-3 rounded-md text-normal duration-300 active:scale-90"
                     :class="isActiveIdx(idx) ? 'bg-cbc-dark-green text-white scale-y-90 shadow-md' : 'bg-gray-300'"

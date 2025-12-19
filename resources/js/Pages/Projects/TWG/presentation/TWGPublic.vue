@@ -8,10 +8,12 @@ import TWGApiService from "@/Pages/Projects/TWG/infrastructure/TWGApiService.js"
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import {CBCProjectsPublic} from "../../../constants";
+import BreadCrumb from "@/Components/BreadCrumb.vue";
 
 export default {
     name: "TWGPublic",
     components: {
+        BreadCrumb,
         GreenWaves,
         PublicPageSection,
         PageLayout,
@@ -54,32 +56,36 @@ export default {
 
 <template>
     <Head title="Plant Breeders Map" />
-    <page-layout>
-        <green-waves />
-        <public-page-section :animation="false">
-            <div class="drop-shadow-md flex flex-col gap-5 shadow-lg bg-cbc-yellow mb-10 rounded-md sm:gap-1 sm:p-8 p-5 sm:text-left text-center">
-                <div class="text-cbc-brown">
-                    <img src="/img/logos/biotwg.png" alt="Biotech TWG Database Logo" class="mx-auto w-auto h-[8rem] drop-shadow-md"/>
-                    <p class="text-normal text-justify">
-                        For a more comprehensive view of the TWG data, please login or register to the system.
-                    </p>
+    <div class="border-gray-50 min-h-screen flex flex-col">
+        <bread-crumb />
+        <div class="flex flex-col gap-5 mb-10 sm:gap-1 sm:p-8 p-5 sm:text-left text-center">
+            <div class="text-cbc-brown">
+                <div class="flex items-center justify-center">
+                    <img src="/img/logos/biotwg.png" alt="Biotech TWG Database Logo" class="w-auto h-[5rem]"/>
+                    <h1 class="lg:mt-4 text-3xl font-semibold text-center sm:text-left leading-none">Biotech TWG Database</h1>
                 </div>
-                <div v-if="apiService" class="flex flex-col gap-3">
-                    <div v-if="apiService.request" class="flex gap-2 justify-start sm:mb-2 mb-1 pb-4 border-b">
-                        <search-by :value="apiService.request.getFilter"
-                                   :is-exact="apiService.request.getIsExact"
-                                   :options="[]"
-                                   @isExact="apiService.isExactFilter({ is_exact: $event })"
-                                   @searchBy=""/>
-                        <search-box />
-                    </div>
-                    <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2  grid-cols-1 justify-evenly gap-2">
-                        <TWGCard v-for="item in data" :data="item" />
-                    </div>
+                <p class="mt-2 text-normal text-justify">
+                    A curated, comprehensive list of biotechnology studies across the Philippines. Browse and search to discover projects, institutions, and experts contributing to the country’s biotech landscape.
+                </p>
+                <p class="mt-2 text-normal opacity-90 text-justify">
+                    For a more comprehensive view of the TWG data, please login or register.
+                </p>
+            </div>
+            <div v-if="apiService" class="flex flex-col gap-3">
+                <div v-if="apiService.request" class="flex hidden gap-2 justify-start sm:mb-2 mb-1 pb-4 border-b">
+                    <search-by :value="apiService.request.getFilter"
+                               :is-exact="apiService.request.getIsExact"
+                               :options="[]"
+                               @isExact="apiService.isExactFilter({ is_exact: $event })"
+                               @searchBy=""/>
+                    <search-box />
+                </div>
+                <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2  grid-cols-1 justify-evenly gap-2">
+                    <TWGCard v-for="item in data" :data="item" />
                 </div>
             </div>
-        </public-page-section>
-    </page-layout>
+        </div>
+    </div>
 </template>
 
 <style scoped>

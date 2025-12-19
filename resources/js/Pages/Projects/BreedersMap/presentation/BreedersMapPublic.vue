@@ -4,8 +4,10 @@ import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vu
 import PageLayout from "@/Layouts/PageLayout.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
+import BreadCrumb from "@/Components/BreadCrumb.vue";
 export default {
     components: {
+        BreadCrumb,
         PageLayout,
         Map,
         Head,
@@ -17,10 +19,8 @@ export default {
 
 <template>
     <Head title="Plant Breeders Map" />
-    <page-layout>
-        <green-waves />
-        <public-page-section :animation="false">
-            <Map />
-        </public-page-section>
-    </page-layout>
+    <div class="bg-gray-50 min-h-screen flex flex-col">
+        <bread-crumb />
+        <Map />
+    </div>
 </template>

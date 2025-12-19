@@ -232,7 +232,7 @@ class MapDataController extends Controller
                     ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
                     ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
                     ->whereIn('loc_cities.id', $cityIds)
-                    ->when(!$request->user()->isAdmin(), function ($q) {
+                    ->when(auth()->check() && !$request->user()->isAdmin(), function ($q) {
                         $q->whereNotNull('commodities.approved_at');
                     })
                     ->select([
@@ -256,7 +256,6 @@ class MapDataController extends Controller
                     ]);
             }
 
-            // Wrap the query to apply the limit per city
             $rankedRows = \DB::table(\DB::raw("({$query->toSql()}) as sub"))
                 ->mergeBindings($query)
                 ->where('rn', '<=', $limit)
