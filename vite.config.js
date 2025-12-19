@@ -11,7 +11,10 @@ export default defineConfig({
     },*/
     plugins: [
         laravel({
-            input: 'resources/js/app.js',
+            input: [
+                'resources/js/app.js',
+                'resources/css/app.css',
+            ],
             refresh: true,
         }),
         vue({
@@ -23,6 +26,10 @@ export default defineConfig({
             },
         }),
     ],
+    build: {
+        outDir: 'public/build',
+        emptyOutDir: true,
+    },
     test: {
         environment: 'jsdom',
         globals: true,
