@@ -59,10 +59,10 @@ export default {
                 <template v-slot:custom-bg>
                     <particles-background id="header-particles-js"/>
                 </template>
-                <div class="flex flex-col justify-center">
+                <div class="flex flex-col justify-center ">
                     <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
                         <div class="text-title leading-tight">
-                            <h1 class="sm:text-2xl text-lg font-light">Welcome to</h1>
+                            <h1 class="sm:text-2xl text-lg font-light uppercase">Welcome to</h1>
                             <div class="leading-tight text-title">
                                 <h1 class="whitespace-nowrap">
                                     <span class="text-cbc-olive-green drop-shadow">P</span>lant&nbsp;Breeders and
@@ -74,7 +74,7 @@ export default {
                             </div>
                         </div>
                         <h1 class="text-normal drop-shadow text-justify px-1">
-                            Empowering crop biotechnology research with innovation, one discovery at a time.
+                            Empowering crop biotechnology research with innovation, one discovery at a time
                         </h1>
                     </div>
                     <div class="flex flex-col sm:flex-row justify-between items-center border-t lg:gap-32 gap-5">

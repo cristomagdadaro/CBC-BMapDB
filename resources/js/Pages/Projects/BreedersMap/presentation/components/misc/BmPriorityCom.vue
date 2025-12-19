@@ -15,12 +15,30 @@ const props = defineProps({
                 route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rice&geo_location_filter=region&with=breeder,location,characteristics,additionalinfo'
             },
             {
+                name: 'Abaca',
+                image: '/img/commodities/p-abaca.webp',
+                data: {varieties: 12, research: 123, breeders: 23},
+                route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
+            },
+            {
+                name: 'Banana',
+                image: '/img/commodities/p-banana.webp',
+                data: {varieties: 12, research: 123, breeders: 23},
+                route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
+            },
+            {
                 name: 'Corn',
                 image: '/img/commodities/p-corn.webp',
                 data: {varieties: 54, research: 565, breeders: 122},
                 route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Corn&geo_location_filter=region'
             },
             {
+                name: 'Coconut',
+                image: '/img/commodities/p-coconut.webp',
+                data: {varieties: 12, research: 123, breeders: 23},
+                route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
+            },
+            /*{
                 name: 'Cotton',
                 image: '/img/commodities/p-cotton.webp',
                 data: {varieties: 12, research: 123, breeders: 23},
@@ -62,27 +80,10 @@ const props = defineProps({
                 data: {varieties: 12, research: 123, breeders: 23},
                 route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
             },
-            {
-                name: 'Abaca',
-                image: '/img/commodities/p-abaca.webp',
-                data: {varieties: 12, research: 123, breeders: 23},
-                route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
-            },
-            {
-                name: 'Banana',
-                image: '/img/commodities/p-banana.webp',
-                data: {varieties: 12, research: 123, breeders: 23},
-                route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
-            },
+
             {
                 name: 'Coffee',
                 image: '/img/commodities/p-coffee.webp',
-                data: {varieties: 12, research: 123, breeders: 23},
-                route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
-            },
-            {
-                name: 'Coconut',
-                image: '/img/commodities/p-coconut.webp',
                 data: {varieties: 12, research: 123, breeders: 23},
                 route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
             },
@@ -187,7 +188,7 @@ const props = defineProps({
                 image: '/img/commodities/p-garlic.webp',
                 data: {varieties: 12, research: 123, breeders: 23},
                 route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region'
-            },
+            },*/
         ]
     },
     autoAdvance: {type: Boolean, default: true},

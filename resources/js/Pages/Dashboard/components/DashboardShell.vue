@@ -1,7 +1,7 @@
 <template>
   <div class="w-full px-4 py-6 space-y-6 bg-gray-50 min-h-screen">
     <!-- Header with Actions -->
-    <div class="bg-white rounded-xl shadow-sm p-3 mb-3">
+    <div :class="{'hidden' : hideHeader}" class="bg-white rounded-xl shadow-sm p-3 mb-3">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <div>
           <h1 class="text-2xl font-bold text-gray-800 mb-2">{{ title }}</h1>
@@ -49,6 +49,7 @@ const props = defineProps<{
   title: string;
   isLoading?: boolean;
   lastUpdated?: string | null;
+    hideHeader?: boolean;
 }>();
 
 defineEmits<{
