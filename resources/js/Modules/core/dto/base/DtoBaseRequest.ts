@@ -12,6 +12,7 @@ export default class DtoBaseRequest implements IBaseRequest {
 
     filter_by_parent_id?: number;
     filter_by_parent_column?: string;
+    scope_by?: string;
 
     appendWith?: string[];
     appendCount?: string[];
@@ -28,6 +29,9 @@ export default class DtoBaseRequest implements IBaseRequest {
         is_exact: null,
         filter_by_parent_id: null,
         filter_by_parent_column: null,
+        filter_by_scopeby_user: false,
+        filter_by_scopeby_institute: false,
+        filter_by_scopeby_public: false,
     }) {
         this.page = params.page;
         this.per_page = params.per_page;
@@ -41,6 +45,7 @@ export default class DtoBaseRequest implements IBaseRequest {
 
         this.filter_by_parent_id = params.filter_by_parent_id;
         this.filter_by_parent_column = params.filter_by_parent_column;
+        this.scope_by = params.scope_by;
     }
 
     get getPerPage() {
@@ -69,6 +74,10 @@ export default class DtoBaseRequest implements IBaseRequest {
 
     get getFilter() {
         return this.filter;
+    }
+
+    get getScope() {
+        return this.scope_by;
     }
 
     updateParam(key : string, value : any) {

@@ -11,20 +11,17 @@ class LogApiRequests
 {
     public function handle(Request $request, Closure $next)
     {
-        // Proceed with the request and get the response
         $response = $next($request);
 
-        // Capture required data
-        $userId = Auth::id(); // Logged-in user ID
-        $userRole = Auth::user() ? Auth::user()->getRole() : null; // Logged-in user role
-        $ip_address = $request->ip(); // Client IP address
-        $method = $request->method(); // HTTP method
-        $url = $request->fullUrl(); // Full request URL
-        $model = $this->getModelFromUrl($url); // Extract model from URL
-        $data = $request->all(); // Request data
-        $modifiedId = $data['id'] ?? null; // Assume 'id' key for modified entity
+        $userId = Auth::id();
+        $userRole = Auth::user() ? Auth::user()->getRole() : null;
+        $ip_address = $request->ip();
+        $method = $request->method();
+        $url = $request->fullUrl();
+        $model = $this->getModelFromUrl($url);
+        $data = $request->all();
+        $modifiedId = $data['id'] ?? null;
 
-        // Save the log
         $log = new ApiRequestLog();
         $log->user_id = $userId;
         $log->user_role = $userRole;
@@ -44,8 +41,7 @@ class LogApiRequests
      */
     protected function getModelFromUrl(string $url): ?string
     {
-        // Assuming the URL contains the model as a resource (e.g., /api/posts/123)
         $segments = explode('/', parse_url($url, PHP_URL_PATH));
-        return $segments[2] ?? null; // Adjust index based on your API structure
+        return $segments[2] ?? null;
     }
 }

@@ -88,6 +88,7 @@ return [
         'commodity' => 'sometimes|string',
         'filter_by_parent_id' => 'sometimes|integer',
         'filter_by_parent_column' => 'sometimes|string',
+        'scope_by' => 'sometimes|string',
     ],
     'appendable_parameters' => [
         'with' => 'sometimes|string',

@@ -15,6 +15,7 @@
                     <per-page :value="dt.request.getPerPage" @changePerPage="dt.perPageFunc({ per_page: $event })" />
                     <search-by :value="dt.request.getFilter" :is-exact="dt.request.getIsExact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
                     <search-filter :value="dt.request.getSearch" @searchString="dt.searchFunc({ search: $event })" class="w-full" />
+                    <scope-filter :value="dt.request.getScope" @change-scope-filter="dt.scopeBy({'scope_by':  $event})" />
                 </div>
                 <action-container class="w-full">
                     <top-action-btn
@@ -162,7 +163,7 @@
                             >
                                 <!-- Cell No. -->
                                 <t-d class="text-normal text-gray-600 items-center">
-                                    <div class="flex gap-1">
+                                    <div class="flex gap-1 items-center">
                                         {{ meta_from + data.indexOf(row) }}
                                         <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" :disabled="!isRowDeletable(row)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
                                     </div>
@@ -345,6 +346,7 @@ import ToggleOffIcon from "@/Components/Icons/ToggleOffIcon.vue";
 import ToggleOnIcon from "@/Components/Icons/ToggleOnIcon.vue";
 import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
+import ScopeFilter from "@/Components/CRCMDatatable/Components/ScopeFilter.vue";
 </script>
 
 <script>

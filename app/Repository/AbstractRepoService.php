@@ -217,7 +217,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         $builder = $this->model->newQuery();
 
         // Apply role-based filtering
-        $builder = $this->applyRoleBasedFiltering($builder);
+        $builder = $this->applyRoleBasedFiltering($builder, $parameters);
 
         // Apply soft delete filter
         if ($isTrashed) {
@@ -314,7 +314,7 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
      * Apply ownership scoping based on the authenticated user.
      * This method now works with a query builder instead of the model directly.
      */
-    private function applyRoleBasedFiltering(Builder $builder): Builder
+    private function applyRoleBasedFiltering(Builder $builder, Collection $parameters): Builder
     {
         if (!auth()->check()) {
             return $builder;
@@ -324,12 +324,17 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
             $user = auth()->user();
             $model = $builder->getModel();
 
-            // Check if model uses OwnedByTrait scopes
-            if (method_exists($model, 'scopeOwnedByUser')) {
+            $scope = $parameters->get('scope_by', null);
+
+            if (in_array($scope, ['scopeOwnedPublic', 'public', 'all'], true)) {
+                return $builder;
+            }
+
+            if (method_exists($model, 'scopeOwnedByUser') && $scope === 'scopeOwnedByUser') {
                 $builder = $builder->ownedByUser($user);
             }
 
-            if (method_exists($model, 'scopeOwnedByAffiliation')) {
+            else if (method_exists($model, 'scopeOwnedByAffiliation') && $scope === 'scopeOwnedByAffiliation') {
                 $builder = $builder->ownedByAffiliation($user);
             }
         } catch (Exception $e) {

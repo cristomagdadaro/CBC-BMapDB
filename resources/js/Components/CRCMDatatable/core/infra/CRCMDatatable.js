@@ -139,11 +139,16 @@ export default class CRCMDatatable
     }
 
     async perPageFunc(params){
-        this.request.updateParam('per_page', params.per_page)
+        this.request.updateParam('per_page', params.per_page);
         if (this.response['meta'] && this.response['meta']['last_page'] === this.response['meta']['current_page'])
             // if the current page is the last page, set the page to the last page
             this.request.updateParam('page', this.response['meta']['last_page']);
 
+        await this.refresh();
+    }
+
+    async scopeBy(params) {
+        this.request.updateParam('scope_by', params.scope_by);
         await this.refresh();
     }
 
