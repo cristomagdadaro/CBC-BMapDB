@@ -98,10 +98,10 @@ export default {
 <template>
     <div class="flex flex-col gap-3 py-5">
         <h3 class="text-center text-subtitle">
-            Collaborators
+            Partners
         </h3>
         <ul class="text-normal grid grid-cols-6 items-center gap-1 sm:gap-2">
-           <template v-for="collaborator in collaborators" >
+           <template v-for="collaborator in collaborators" v-bind:key="collaborator.name" >
                <li v-if="collaborator.visible" class="drop-shadow-md">
                    <a :href="collaborator.link" target="_blank" >
                        <img :src="logo_dir + collaborator.logo" :alt="collaborator.name" />

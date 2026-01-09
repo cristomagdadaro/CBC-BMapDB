@@ -1,21 +1,23 @@
 <script>
 import PageLayout from "@/Layouts/PageLayout.vue";
-import {CBCProjectsPublic} from "@/Pages/constants.ts";
-import {Link, Head, usePage} from '@inertiajs/vue3';
+import { CBCProjectsPublic } from "@/Pages/constants.ts";
+import { Link, Head, usePage } from '@inertiajs/vue3';
 import PhilippineMapOutline from "@/Components/Icons/PhilippineMapOutline.vue";
-import BmCollaborators from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue";
-import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
-import ArrowLeft from "@/Components/Icons/ArrowLeft.vue";
-import ArrowRight from "@/Components/Icons/ArrowRight.vue";
-import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
-import GreenWaves from "@/Components/GreenWaves.vue";
-import BmDatabaseList from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmDatabaseList.vue";
-import BmPriorityCom from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue";
-import BmOverviewMap from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue";
-import TopLeaf from "@/Components/Top-Leaf.vue";
-import ModelViewer from "@/Components/3dViewer/3dModelViewer.vue";
-import ParticlesBackground from "@/Components/ParticlesBackground.vue";
-import AiChat from "@/Pages/OpenAi/AiChat/AiChat.vue";
+import { defineAsyncComponent, computed } from 'vue';
+// Lazy load heavy components
+const BmCollaborators = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue"));
+const TransitionContainer = defineAsyncComponent(() => import("@/Components/CustomDropdown/Components/TransitionContainer.vue"));
+const ArrowLeft = defineAsyncComponent(() => import("@/Components/Icons/ArrowLeft.vue"));
+const ArrowRight = defineAsyncComponent(() => import("@/Components/Icons/ArrowRight.vue"));
+const PublicPageSection = defineAsyncComponent(() => import("@/Layouts/components/PublicPageSection.vue"));
+const GreenWaves = defineAsyncComponent(() => import("@/Components/GreenWaves.vue"));
+const BmDatabaseList = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmDatabaseList.vue"));
+const BmPriorityCom = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue"));
+const BmOverviewMap = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue"));
+const TopLeaf = defineAsyncComponent(() => import("@/Components/Top-Leaf.vue"));
+const ModelViewer = defineAsyncComponent(() => import("@/Components/3dViewer/3dModelViewer.vue"));
+const ParticlesBackground = defineAsyncComponent(() => import("@/Components/ParticlesBackground.vue"));
+const AiChat = defineAsyncComponent(() => import("@/Pages/OpenAi/AiChat/AiChat.vue"));
 
 export default {
     components: {
@@ -38,14 +40,16 @@ export default {
         ModelViewer
     },
     setup() {
+        const page = usePage();
+        // Move expensive template expressions to computed
+        const pbmapProject = computed(() => CBCProjectsPublic[0] || Object.values(CBCProjectsPublic)[0]);
+        const biotwgProject = computed(() => CBCProjectsPublic[1] || Object.values(CBCProjectsPublic)[1]);
         return {
             CBCProjectsPublic,
+            page,
+            pbmapProject,
+            biotwgProject,
         };
-    },
-    data() {
-        return {
-            page: usePage(),
-        }
     },
 };
 </script>
@@ -78,9 +82,8 @@ export default {
                         </h1>
                     </div>
                     <div class="flex flex-col sm:flex-row justify-between items-center border-t lg:gap-32 gap-5">
-                        <Link v-for="project in CBCProjectsPublic" :href="route(project.route_public)"
-                              class="flex flex-col lg:flex-row justify-center gap-1 items-center w-1/2 whitespace-nowrap text-cbc-brown bg-transparent text-center p-10  hover:text-gray-100 hover:drop-shadow-lg active:scale-95 duration-200 uppercase text-subtitle">
-                            <img :src="project.logo" :alt="project.label" class="w-auto h-[5rem]"/>
+                        <Link v-for="project in CBCProjectsPublic" :key="project.label" :href="route(project.route_public)" class="flex flex-col lg:flex-row justify-center gap-1 items-center w-1/2 whitespace-nowrap text-cbc-brown bg-transparent text-center p-10  hover:text-gray-100 hover:drop-shadow-lg active:scale-95 duration-200 uppercase text-subtitle">
+                            <img :src="project.logo" :alt="project.label" class="w-auto h-[5rem]" loading="lazy" />
                             <label class="text-subtitle">{{ project.label }}</label>
                         </Link>
                     </div>
@@ -91,18 +94,15 @@ export default {
             </public-page-section>
             <public-page-section class="flex items-center">
                 <div class="grid grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 gap-2 md:gap-5">
-                    <Link class="flex justify-center md:justify-end drop-shadow-lg"
-                          :href="route(Object.values(CBCProjectsPublic)[0].route_public)">
-                        <img class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15rem]" src="/img/logos/pbmap.svg"
-                             alt="Plant Breeders Map Database Logo"/>
+                    <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(pbmapProject.route_public)">
+                        <img class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15rem]" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo" loading="lazy" />
                     </Link>
                     <div class="flex flex-col justify-center text-center md:text-left">
-                        <Link :href="route(Object.values(CBCProjectsPublic)[0].route_public)"
-                              class="text-subtitle text-dark-color">
-                            {{ Object.values(CBCProjectsPublic)[0].label }}
+                        <Link :href="route(pbmapProject.route_public)" class="text-subtitle text-dark-color">
+                            {{ pbmapProject.label }}
                         </Link>
                         <p class="text-normal text-dark-color text-justify">
-                            {{ Object.values(CBCProjectsPublic)[0].description }}
+                            {{ pbmapProject.description }}
                         </p>
                     </div>
                 </div>
@@ -112,13 +112,11 @@ export default {
             </public-page-section>
             <public-page-section class="flex items-center text-center">
                 <div class="flex flex-col gap-5 justify-between items-center">
-                    <Link class="flex justify-center md:justify-end drop-shadow-lg"
-                          :href="route(Object.values(CBCProjectsPublic)[1].route_public)">
-                        <img class="h-auto w-[12rem] sm:w-[17rem] lg:w-[25rem] max-w-[25rem]"
-                             src="/img/logos/biotwg.full.png" alt="Biotech TWG Database Logo"/>
+                    <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(biotwgProject.route_public)">
+                        <img class="h-auto w-[12rem] sm:w-[17rem] lg:w-[25rem] max-w-[25rem]" src="/img/logos/biotwg.full.png" alt="Biotech TWG Database Logo" loading="lazy" />
                     </Link>
                     <p class="text-normal text-dark-color">
-                        {{ Object.values(CBCProjectsPublic)[1].description }}
+                        {{ biotwgProject.description }}
                     </p>
                 </div>
             </public-page-section>
@@ -129,8 +127,8 @@ export default {
                 <template v-slot:custom-bg>
                     <div id="center-particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
                     <img src="/img/bg2.png"
-                         alt="DA-CBC Building"
-                         class="absolute top-0 left-0 w-full h-full z-[-1] brightness-50 object-cover object-top"/>
+                        alt="DA-CBC Building"
+                        class="absolute top-0 left-0 w-full h-full z-[-1] brightness-50 object-cover object-top" />
                 </template>
                 <p class="text-subtitle text-center text-light-color">
                     {{ $companyName }}
@@ -144,10 +142,8 @@ export default {
             </public-page-section>
             <public-page-section class="flex items-center text-center">
                 <div class="flex flex-col gap-5 justify-between items-center">
-                    <Link
-                        class="flex items-center h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15rem] drop-shadow-lg"
-                        :href="'/'">
-                        <img src="/img/logo-black.png" alt="DA-CBC Logo"/>
+                    <Link class="flex items-center h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15rem] drop-shadow-lg" :href="'/'">
+                        <img src="/img/logo-black.png" alt="DA-CBC Logo" loading="lazy" />
                     </Link>
                     <p class="text-normal text-dark-color">
                         This specialized online platform offers a centralized repository of essential information
@@ -157,23 +153,31 @@ export default {
                         field of crop biotechnology.
                     </p>
                     <Link class="flex items-center drop-shadow-lg" :href="'/'">
-                        <img src="/img/logos/pin.svg" class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] min-w-[40%]"
-                             alt="Plant Breeders Map Database Logo"/>
+                        <img src="/img/logos/pin.svg" class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] min-w-[40%]" alt="Plant Breeders Map Database Logo" loading="lazy" />
                     </Link>
                 </div>
             </public-page-section>
-            <!--            <public-page-section class="flex items-center py-10">
-                            <div class="relative flex flex-col">
-                                <model-viewer model-url="/img/3d/corn.glb"/>
-                                <label class="text-red-700 text-center text-xs">We will be adding more 3d images soon. Use Polycam or any mobile 3d object scanner app. Use iphones with LiDAR sensor.</label>
-                                <div class="w-full p-5 lg:m-2 rounded drop-shadow text-sm">
-                                    <p class="text-justify"><span class="font-bold">Bt Corn </span> a genetically enhanced crop that has been engineered to produce a protein from the bacterium Bacillus thuringiensis (Bt). This protein is toxic to certain insect pests, such as the European corn borer, but harmless to humans, animals, and beneficial insects. By incorporating the Bt gene into the corn's DNA, the plant gains built-in resistance to specific pests, reducing the need for chemical insecticides. Bt corn has been widely adopted in agriculture due to its potential to increase crop yields, lower production costs, and reduce environmental impact. However, it has also sparked debates about its long-term effects on ecosystems, pest resistance, and food safety.</p>
-                                </div>
-                            </div>
-                        </public-page-section>-->
-            <public-page-section class="flex items-center">
-                <ai-chat/>
-            </public-page-section>
+<!--            <public-page-section class="flex items-center py-10">
+                <div class="w-full flex flex-col items-center justify-center">
+                    <div class="w-full max-w-3xl mx-auto bg-white/80 rounded-xl shadow-lg p-6 flex flex-col items-center">
+                        <h2 class="text-2xl font-bold text-cbc-olive-green mb-2 text-center">Interactive 3D Crop Model</h2>
+                        <p class="text-normal text-gray-700 mb-4 text-center max-w-xl">
+                            Explore a high-fidelity 3D scan of a real Bt Corn cob. Use your mouse or touch to rotate, zoom, and interact. Lighting, background, and more can be adjusted live using the controls at the top right of the viewer.
+                        </p>
+                        <div class="w-full flex justify-center">
+                            <ModelViewer
+                                model-url="/img/3d/corn.glb"
+                                :background-color="'#e6f7ef'"
+                                style="width:100%;max-width:600px;min-height:400px;height:60vh;"
+                            />
+                        </div>
+                        <label class="text-xs text-gray-500 mt-2 text-center">We will be adding more 3D images soon. Use Polycam or any mobile 3D object scanner app. iPhones with LiDAR sensor recommended.</label>
+                    </div>
+                </div>
+            </public-page-section>-->
+          <!--   <public-page-section class="flex items-center">
+                <ai-chat />
+            </public-page-section> -->
             <public-page-section class="flex items-center py-10">
                 <template v-slot:custom-bg>
                     <particles-background id="foot-particles-js"/>

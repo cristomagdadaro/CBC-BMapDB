@@ -87,9 +87,32 @@ const showTileSelector = ref(false)
 const markers = ref([])
 const selectedMarker = ref(null)
 
+// Cache marker icons to avoid re-creating data URLs every render
+const iconCache = new Map()
+const raf = typeof requestAnimationFrame === 'function' ? requestAnimationFrame : (cb) => setTimeout(cb, 16)
+const caf = typeof cancelAnimationFrame === 'function' ? cancelAnimationFrame : clearTimeout
+const getCachedIcon = (color, size) => {
+    const key = `${color}-${size}`
+    if (!iconCache.has(key)) {
+        iconCache.set(key, createCustomIcon(color, size))
+    }
+    return iconCache.get(key)
+}
+
+// Debounce map layer rebuilds to prevent thrashing on rapid prop changes
+let layerUpdateHandle = null
+const scheduleLayerUpdate = () => {
+    if (layerUpdateHandle) caf(layerUpdateHandle)
+    layerUpdateHandle = raf(() => {
+        updateMapLayers()
+        layerUpdateHandle = null
+    })
+}
+
 // Generate marker colors based on data value
 const getMarkerColor = (total, maxTotal) => {
-    const intensity = total / maxTotal
+    const safeMax = Math.max(maxTotal, 1)
+    const intensity = total / safeMax
     if (intensity > 0.8) return '#dc2626' // red-600
     if (intensity > 0.6) return '#ea580c' // orange-600
     if (intensity > 0.4) return '#ca8a04' // yellow-600
@@ -99,7 +122,8 @@ const getMarkerColor = (total, maxTotal) => {
 
 // Get marker size based on data value
 const getMarkerSize = (total, maxTotal) => {
-    const intensity = total / maxTotal
+    const safeMax = Math.max(maxTotal, 1)
+    const intensity = total / safeMax
     const baseSize = 10
     const maxSize = 30
     return Math.max(baseSize, Math.min(maxSize, baseSize + (intensity * (maxSize - baseSize))))
@@ -234,9 +258,7 @@ const prefetchNearby = (marker) => {
 }
 
 const showOrbitForMarker = async (marker) => {
-    //console.log('Attempting to show orbit for marker:', marker)
     if (!map.value?.leafletObject) {
-        console.log('Map not ready, aborting.')
         return
     }
     const cityId = marker.data?.city_id || marker.cityId || marker.data?.cityId
@@ -245,8 +267,6 @@ const showOrbitForMarker = async (marker) => {
         return
     }
 
-    //console.log(`Found cityId: ${cityId}. Fetching orbit items...`)
-
     // position overlay at marker's container point
     const pt = map.value.leafletObject.latLngToContainerPoint(marker.position)
     orbitX.value = pt.x
@@ -254,13 +274,10 @@ const showOrbitForMarker = async (marker) => {
     orbitLocationName.value = marker.label
     orbitVisible.value = true
     orbitLoading.value = true
-    //console.log(`Set orbit state: visible=${orbitVisible.value}, loading=${orbitLoading.value}, x=${orbitX.value}, y=${orbitY.value}`)
 
     const items = await fetchOrbitItems(cityId)
     orbitItems.value = items
     orbitLoading.value = false
-    console.log(`Fetched ${items.length} items. Loading complete.`, items)
-
 
     // Preload nearby for smoother next hovers
     prefetchNearby(marker)
@@ -398,34 +415,24 @@ const initializeClustering = () => {
 
         // Cluster hover: if all children in a cluster share the same cityId, show orbit at cluster center
         markerClusterGroup.value.on('clustermouseover', (e) => {
-            console.log('Cluster mouseover event:', e)
             try {
                 const children = e.layer.getAllChildMarkers?.() || []
                 const metas = children.map(ch => ch.myMeta).filter(Boolean)
                 const getId = (m) => m?.data?.city_id ?? m?.cityId ?? m?.data?.cityId
                 const ids = Array.from(new Set(metas.map(getId).filter(Boolean)))
 
-                console.log(`Cluster contains city IDs: [${ids.join(', ')}]`)
-
                 if (ids.length === 1) {
                     const markerMeta = metas[0]
                     // position at cluster center
                     const ll = e.layer.getLatLng()
                     const synthetic = { ...markerMeta, position: [ll.lat, ll.lng] }
-                    console.log('Cluster has single cityId. Showing orbit.')
                     showOrbitForMarker(synthetic)
-                } else {
-                    console.log('Cluster has multiple or no cityIds. Not showing orbit.')
-                    // multiple cities - skip showing orbit; could add a hint if desired
                 }
             } catch (err) {
                 console.error('Error in clustermouseover handler:', err)
             }
         })
-        markerClusterGroup.value.on('clustermouseout', () => {
-            console.log('Cluster mouseout event.')
-            hideOrbit()
-        })
+        markerClusterGroup.value.on('clustermouseout', () => hideOrbit())
 
         map.value.leafletObject.addLayer(markerClusterGroup.value)
 
@@ -500,25 +507,39 @@ const updateMapLayers = () => {
 
 // Process map data into markers
 const processMapData = () => {
-    if (!props.mapData || props.mapData.length === 0) {
+    const incoming = Array.isArray(props.mapData) ? props.mapData : []
+
+    if (incoming.length === 0) {
         markers.value = []
         return
     }
 
-    const maxTotal = Math.max(...props.mapData.map(item => item.total || 0))
+    let maxTotal = 0
+    const processed = []
 
-    markers.value = props.mapData
-        .filter(item => item.lat && item.lng && !isNaN(item.lat) && !isNaN(item.lng))
-        .map((item, index) => ({
-            id: `${props.dataType}-${item.id || index}`, // Create a more unique ID
-            position: [parseFloat(item.lat), parseFloat(item.lng)],
+    incoming.forEach((item, index) => {
+        const lat = parseFloat(item.lat)
+        const lng = parseFloat(item.lng)
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) return
+
+        const total = Number(item.total) || 0
+        if (total > maxTotal) maxTotal = total
+
+        processed.push({
+            id: `${props.dataType}-${item.id || index}`,
+            position: [lat, lng],
             label: item.label || 'Unknown',
-            total: item.total || 0,
-            color: getMarkerColor(item.total || 0, maxTotal),
-            size: getMarkerSize(item.total || 0, maxTotal),
+            total,
             data: item,
             cityId: item.city_id || item.cityId || null,
-        }))
+        })
+    })
+
+    markers.value = processed.map((item) => ({
+        ...item,
+        color: getMarkerColor(item.total, maxTotal),
+        size: getMarkerSize(item.total, maxTotal),
+    }))
 }
 
 // Handle marker click
@@ -612,7 +633,7 @@ const createCustomIcon = (color, size) => {
 
 // Watch props
 watch([() => props.clustered, () => props.showHeatmap], () => {
-    updateMapLayers()
+    scheduleLayerUpdate()
 
     // Ensure hover handlers are attached after cluster group rebuild
     nextTick(() => attachHoverEventsToClusterMarkers())
@@ -627,7 +648,7 @@ watch(() => props.dataType, () => {
 watch(() => props.mapData, () => {
     // When data changes (filters), rebuild markers and layers
     processMapData()
-    updateMapLayers()
+    scheduleLayerUpdate()
 }, { deep: true })
 
 // Hide overlay on map move/zoom
@@ -676,47 +697,43 @@ onMounted(() => {
             />
 
             <!-- Markers - Only show when not clustering and not showing heatmap -->
-            <LMarker
-                v-if="!clustered && !showHeatmap"
-                v-for="marker in markers"
-                :key="marker.id"
-                :lat-lng="marker.position"
-                @click="onMarkerClick(marker)"
-                @mouseover="showOrbitForMarker(marker)"
-                @mouseout="hideOrbit()"
-            >
-                <!-- Custom Icon -->
-                <LIcon
-                    :icon-url="createCustomIcon(marker.color, marker.size).iconUrl"
-                    :icon-size="createCustomIcon(marker.color, marker.size).iconSize"
-                    :icon-anchor="createCustomIcon(marker.color, marker.size).iconAnchor"
-                    :popup-anchor="createCustomIcon(marker.color, marker.size).popupAnchor"
-                />
+                <template v-if="!clustered && !showHeatmap">
+                    <LMarker
+                        v-for="marker in markers"
+                        :key="marker.id"
+                        :lat-lng="marker.position"
+                        @click="onMarkerClick(marker)"
+                        @mouseover="showOrbitForMarker(marker)"
+                        @mouseout="hideOrbit()"
+                    >
+                        <!-- Custom Icon -->
+                        <LIcon v-bind="getCachedIcon(marker.color, marker.size)" />
 
-                <!-- Popup -->
-                <LPopup>
-                    <div class="p-2 min-w-[200px]">
-                        <h3 class="font-semibold text-gray-900 mb-2">{{ marker.label }}</h3>
-                        <div class="space-y-1 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Total:</span>
-                                <span class="font-medium">{{ marker.total }}</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Location:</span>
-                                <span class="text-xs text-gray-500">
-                                    {{ marker.position[0].toFixed(4) }}, {{ marker.position[1].toFixed(4) }}
-                                </span>
-                            </div>
-                        </div>
+                        <!-- Popup -->
+                        <LPopup>
+                            <div class="p-2 min-w-[200px]">
+                                <h3 class="font-semibold text-gray-900 mb-2">{{ marker.label }}</h3>
+                                <div class="space-y-1 text-sm">
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Total:</span>
+                                        <span class="font-medium">{{ marker.total }}</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-gray-600">Location:</span>
+                                        <span class="text-xs text-gray-500">
+                                            {{ marker.position[0].toFixed(4) }}, {{ marker.position[1].toFixed(4) }}
+                                        </span>
+                                    </div>
+                                </div>
 
-                        <!-- Additional data if available -->
-                        <div v-if="marker.data.description" class="mt-2 pt-2 border-t border-gray-200">
-                            <p class="text-xs text-gray-600">{{ marker.data.description }}</p>
-                        </div>
-                    </div>
-                </LPopup>
-            </LMarker>
+                                <!-- Additional data if available -->
+                                <div v-if="marker.data.description" class="mt-2 pt-2 border-t border-gray-200">
+                                    <p class="text-xs text-gray-600">{{ marker.data.description }}</p>
+                                </div>
+                            </div>
+                        </LPopup>
+                    </LMarker>
+                </template>
         </LMap>
 
         <!-- Orbit overlay on hover -->
