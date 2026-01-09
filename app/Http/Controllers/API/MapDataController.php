@@ -232,7 +232,7 @@ class MapDataController extends Controller
                     ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
                     ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
                     ->whereIn('loc_cities.id', $cityIds)
-                    ->when(auth()->check() && !$request->user()->isAdmin(), function ($q) {
+                    ->when(!auth()->check() || !$request->user()?->isAdmin(), function ($q) {
                         $q->whereNotNull('commodities.approved_at');
                     })
                     ->select([

@@ -3,6 +3,7 @@
 namespace App\Services\Filters;
 
 use Modules\PbMap\Models\Commodity;
+use Modules\PbMap\Scopes\CommodityApprovalScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +14,8 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 {
     public function buildBaseQuery(): Builder
     {
-        return Commodity::query()
+        // Bypass approval scope here to control visibility per request context
+        return Commodity::withoutGlobalScope(CommodityApprovalScope::class)
             ->select('commodities.*', 'loc_cities.latitude', 'loc_cities.longitude', 'loc_cities.regDesc', 'loc_cities.provDesc', 'loc_cities.cityDesc')
             ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
             ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
@@ -22,6 +24,11 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     public function applyFilters(Builder $query, array $filters): Builder
     {
+        // Public users: show only approved commodities
+        $query->when(!auth()->check(), function (Builder $q) {
+            $q->whereNotNull('commodities.approved_at');
+        });
+
         // Commodity name filter (supports both 'commodity' and 'commodities' keys)
         $commodityFilter = $filters['commodity'] ?? $filters['commodities'] ?? null;
         if (!empty($commodityFilter)) {
