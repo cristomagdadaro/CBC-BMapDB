@@ -11,4 +11,14 @@ class RoleRepo extends AbstractRepoService
     {
         parent::__construct($model);
     }
+
+    public function getRoleNameById(int $id): ?string
+    {
+        return $this->model->where('id', $id)->value('name');
+    }
+
+    public function getValidRoleIdsByIds(array $ids): array
+    {
+        return $this->model->whereIn('id', $ids)->pluck('id')->toArray();
+    }
 }

@@ -30,4 +30,14 @@ class PermissionRepo extends AbstractRepoService
             return 'other';
         });
     }
+
+    public function getValidPermissionIdsByIds(array $ids): array
+    {
+        return $this->model->whereIn('id', $ids)->pluck('id')->toArray();
+    }
+
+    public function getPermissionNamesByIds(array $ids): array
+    {
+        return $this->model->whereIn('id', $ids)->pluck('name')->toArray();
+    }
 }

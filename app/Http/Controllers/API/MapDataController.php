@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Repository\API\MapDataRepo;
 use App\Services\MapDataFilterService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +15,8 @@ use Illuminate\Http\JsonResponse;
 class MapDataController extends Controller
 {
     public function __construct(
-        private MapDataFilterService $mapDataService
+        private MapDataFilterService $mapDataService,
+        private MapDataRepo $mapDataRepo
     ) {}
 
     /**
@@ -226,50 +228,12 @@ class MapDataController extends Controller
         }
 
         try {
-            $query = null;
-            if ($type === 'commodities') {
-                $query = \DB::table('commodities')
-                    ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
-                    ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
-                    ->whereIn('loc_cities.id', $cityIds)
-                    ->when(!auth()->check() || !$request->user()?->isAdmin(), function ($q) {
-                        $q->whereNotNull('commodities.approved_at');
-                    })
-                    ->select([
-                        'loc_cities.id as city_id',
-                        'commodities.id',
-                        'commodities.name as label',
-                        'commodities.photo as photo',
-                        \DB::raw('ROW_NUMBER() OVER (PARTITION BY loc_cities.id ORDER BY commodities.updated_at DESC) as rn')
-                    ]);
-
-            } else { // breeders
-                $query = \DB::table('breeders')
-                    ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
-                    ->whereIn('loc_cities.id', $cityIds)
-                    ->select([
-                        'loc_cities.id as city_id',
-                        'breeders.id',
-                        \DB::raw("TRIM(CONCAT(breeders.fname,' ',IFNULL(breeders.mname,''),' ',breeders.lname,' ',IFNULL(breeders.suffix,''))) as label"),
-                        'breeders.photo as photo',
-                        \DB::raw('ROW_NUMBER() OVER (PARTITION BY loc_cities.id ORDER BY breeders.updated_at DESC) as rn')
-                    ]);
-            }
-
-            $rankedRows = \DB::table(\DB::raw("({$query->toSql()}) as sub"))
-                ->mergeBindings($query)
-                ->where('rn', '<=', $limit)
-                ->get();
-
-            $groupedData = $rankedRows->groupBy('city_id')->map(function ($rows) {
-                return $rows->map(function ($r) {
-                    return [
-                        'id' => $r->id,
-                        'label' => $r->label,
-                        'image' => $r->photo ? asset($r->photo) : asset('img/logos/pin.webp'),
-                    ];
-                });
-            });
+            $groupedData = $this->mapDataRepo->getOrbitItems(
+                $type,
+                $cityIds,
+                $limit,
+                auth()->check() && $request->user()?->isAdmin()
+            );
 
             return response()->json([
                 'success' => true,

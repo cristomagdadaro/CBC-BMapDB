@@ -11,4 +11,9 @@ class AccountsRepo extends AbstractRepoService
     {
         parent::__construct($model);
     }
+
+    public function deleteByUserId(int $userId): void
+    {
+        $this->model->where('user_id', $userId)->delete();
+    }
 }

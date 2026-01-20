@@ -8,19 +8,29 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\CreateAccountRequest;
 use App\Http\Requests\GetAccountForRequest;
 use App\Http\Requests\UpdateAccountRequest;
-use App\Models\Role;
-use App\Models\User;
 use App\Repository\API\AccountsRepo;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
+use App\Repository\API\PermissionRepo;
+use App\Repository\API\RoleRepo;
+use App\Repository\API\UserRepo;
 use Illuminate\Validation\ValidationException;
 
 class AccountController extends BaseController
 {
+    protected RoleRepo $roleRepo;
+    protected UserRepo $userRepo;
+    protected PermissionRepo $permissionRepo;
 
-    public function __construct(AccountsRepo $accountRepository)
+    public function __construct(
+        AccountsRepo $accountRepository,
+        RoleRepo $roleRepo,
+        UserRepo $userRepo,
+        PermissionRepo $permissionRepo
+    )
     {
         $this->service = $accountRepository;
+        $this->roleRepo = $roleRepo;
+        $this->userRepo = $userRepo;
+        $this->permissionRepo = $permissionRepo;
     }
 
     public function index(GetAccountForRequest $request)
@@ -35,10 +45,10 @@ class AccountController extends BaseController
 
     public function store(CreateAccountRequest $request)
     {
-        $role = Role::select('name')->where('id',$request->validated()['role'])->first();
-        if (!empty($role))
+        $roleName = $this->roleRepo->getRoleNameById((int) $request->validated()['role']);
+        if (!empty($roleName))
         {
-            auth()->user()->assignRole($role->name);
+            auth()->user()->assignRole($roleName);
             return parent::_store($request);
         }
         return $this->sendResponse(['request' => $request->toArray()]);
@@ -54,7 +64,7 @@ class AccountController extends BaseController
         $data = $this->service->update($id, $validatedData);
 
         // Retrieve the updated user and app
-        $user = User::find($validatedData['user_id']) ?? null;
+        $user = $this->userRepo->findUserById($validatedData['user_id']);
         $appId = $validatedData['app_id'] ?? null;
         $approvedAt = $validatedData['approved_at'] ?? null; // Get the approved_at value
         $permissionIds = $validatedData['permissions'] ?? [];
@@ -73,10 +83,9 @@ class AccountController extends BaseController
                 // Extract positive values from $permissionIds
                 $positivePermissionIds = array_filter($permissionIds, fn($id) => $id > 0);
 
-                $validPermissionIds = DB::table('permissions')
-                    ->whereIn('id', array_map('abs', $permissionIds))
-                    ->pluck('id')
-                    ->toArray();
+                $validPermissionIds = $this->permissionRepo->getValidPermissionIdsByIds(
+                    array_map('abs', $permissionIds)
+                );
 
                 if (count($validPermissionIds) !== count(array_map('abs', $permissionIds))) {
                     // Throw a validation exception if there are invalid permission IDs
@@ -87,10 +96,9 @@ class AccountController extends BaseController
 
                 // Revoke permissions specified as negative in request
                 if (!empty($negativePermissionIds)) {
-                    $permissionsToRevoke = DB::table('permissions')
-                        ->whereIn('id', array_map('abs', $negativePermissionIds))
-                        ->pluck('name')
-                        ->toArray();
+                    $permissionsToRevoke = $this->permissionRepo->getPermissionNamesByIds(
+                        array_map('abs', $negativePermissionIds)
+                    );
 
                     $user->revokePermissionTo($permissionsToRevoke);
                 }
@@ -109,10 +117,7 @@ class AccountController extends BaseController
                     $rolesToDetach = array_map('abs', $negativeRoles);
 
                     // Filter invalid role IDs before detaching them
-                    $validRoleIds = DB::table('roles')
-                        ->whereIn('id', $rolesToDetach)
-                        ->pluck('id')
-                        ->toArray();
+                    $validRoleIds = $this->roleRepo->getValidRoleIdsByIds($rolesToDetach);
 
                     $user->roles()->detach($validRoleIds);
                 }
@@ -139,10 +144,7 @@ class AccountController extends BaseController
         // The permissions request should be an array of permission IDs
         // e.g. ['1', '2', '3']
         // get the permissions name in the permission table
-        return DB::table('permissions')
-            ->whereIn('id', $ids)
-            ->pluck('name')
-            ->toArray();
+        return $this->permissionRepo->getPermissionNamesByIds($ids);
 
     }
 
