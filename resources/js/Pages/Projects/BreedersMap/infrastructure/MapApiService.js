@@ -1,8 +1,8 @@
-import {ref} from "vue";
+import { ref } from "vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
 import BaseRequest from "@/Modules/core/domain/base/BaseRequest";
 
-export default class MapApiService{
+export default class MapApiService {
     constructor(baseUrl, model = Object) {
         this.api = new ApiService(baseUrl);
 
@@ -10,7 +10,7 @@ export default class MapApiService{
         this.response = ref(null);
         const localParams = BaseRequest.getParamsLocal();
 
-        this.request = localParams? new BaseRequest(localParams) : new BaseRequest();
+        this.request = localParams ? new BaseRequest(localParams) : new BaseRequest();
         // Default Map Center
         this.PHCenter = [12.296167, 122.763835];
 
