@@ -14,23 +14,32 @@ class DeleteCommoditiesRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $user = auth()->user();
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->isAdmin()) {
+            return true; // Allow admins (including bulk deletes)
+        }
+
         $id = $this->route('id'); // Get the ID from route parameter
+        if (!$id) {
+            return false;
+        }
+
         $model = Commodity::find($id);
 
         if (!$model) {
             return false;
         }
 
-        if (auth()->user()->isAdmin()) {
-            return true; // Allow admins
-        }
-
-        if ($model && $model->user_id === auth()->id()) {
+        if ($model && $model->user_id === $user->id) {
             return true; // Allow owner
         }
 
-        if (auth()->user()->isFocalPerson()) {
-            $userAff = (int) (auth()->user()->affiliation ?? 0);
+        if ($user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
             $commodityAff = (int) ($model->relationLoaded('breeder') ? optional($model->breeder)->affiliation : $model->breeder()->value('affiliation'));
             return $userAff && $commodityAff && $userAff === $commodityAff;
         }
@@ -47,6 +56,8 @@ class DeleteCommoditiesRequest extends FormRequest
     {
         return [
             'id' => 'nullable|integer|exists:commodities,id',
+            'ids' => 'sometimes|array|min:1',
+            'ids.*' => 'integer|exists:commodities,id',
         ];
     }
 }

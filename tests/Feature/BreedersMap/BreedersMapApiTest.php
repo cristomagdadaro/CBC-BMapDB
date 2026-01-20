@@ -411,6 +411,16 @@ class BreedersMapApiTest extends TestCase
     {
         $commodity = $this->getCommodity();
 
+        $regulations = $commodity->regulations;
+        if (is_string($regulations)) {
+            $regulations = json_decode($regulations, true) ?: [];
+        }
+
+        $stressResilience = $commodity->stress_resilience;
+        if (is_string($stressResilience)) {
+            $stressResilience = json_decode($stressResilience, true) ?: [];
+        }
+
         $payload = [
             'name' => $commodity->name,
             'breeder_id' => $commodity->breeder_id,
@@ -420,8 +430,8 @@ class BreedersMapApiTest extends TestCase
             'description' => 'Updated description',
             'photo' => $commodity->photo,
             'geolocation' => $commodity->geolocation,
-            'regulations' => $commodity->regulations ?? [],
-            'stress_resilience' => $commodity->stress_resilience ?? [],
+            'regulations' => $regulations ?? [],
+            'stress_resilience' => $stressResilience ?? [],
         ];
 
         $response = $this->putJson('/api/commodities/' . $commodity->id, $payload);
@@ -464,7 +474,7 @@ class BreedersMapApiTest extends TestCase
         $commodity = Commodity::factory()->create();
         $response = $this->deleteJson('/api/commodities/' . $commodity->id);
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('commodities', [
+        $this->assertSoftDeleted('commodities', [
             'id' => $commodity->id,
         ]);
     }
@@ -480,8 +490,8 @@ class BreedersMapApiTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $this->assertDatabaseMissing('commodities', ['id' => $commodityOne->id]);
-        $this->assertDatabaseMissing('commodities', ['id' => $commodityTwo->id]);
+        $this->assertSoftDeleted('commodities', ['id' => $commodityOne->id]);
+        $this->assertSoftDeleted('commodities', ['id' => $commodityTwo->id]);
     }
 
     /** @test */
@@ -551,9 +561,9 @@ class BreedersMapApiTest extends TestCase
     {
         $this->withoutMiddleware();
         $this->getJson('/api/map-data?data_type=breeders')->assertStatus(200);
-        $this->getJson('/api/map-data/filter-options')->assertStatus(200);
+        $this->getJson('/api/map-data/filter-options?data_type=breeders')->assertStatus(200);
         $this->getJson('/api/map-data/summary?data_type=breeders')->assertStatus(200);
-        $this->getJson('/api/map-data/orbit-items?data_type=breeders')->assertStatus(200);
+        $this->getJson('/api/map-data/orbit-items?data_type=breeders&city_ids=' . $this->getCityId())->assertStatus(200);
     }
 
     /** @test */
