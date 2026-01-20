@@ -3,9 +3,9 @@
 namespace Modules\PbMap\Repositories;
 
 use App\Repository\AbstractRepoService;
-use Modules\PbMap\Filters\CommodityFilter;
 use Modules\PbMap\Models\Commodity;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 class CommodityRepo extends AbstractRepoService
 {
@@ -14,9 +14,9 @@ class CommodityRepo extends AbstractRepoService
         parent::__construct($model);
     }
 
-    public function applyFilters($model, CommodityFilter $filters) {
+    public function applyFilters($model, Collection|array $filters) {
         $builder = $model instanceof Builder ? $model : $model->newQuery();
-        $params = $filters->collect();
+        $params = $filters instanceof Collection ? $filters : collect($filters);
 
         if ($params->get('geo_location_filter') === 'institute') {
             $params = $params->put('geo_location_filter', 'affiliation');

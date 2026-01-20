@@ -54,7 +54,7 @@ Backend: Repository + Pipeline Alignment
      - Replace helper usage with pipeline parameters in `search()`.
      - Deprecate helper methods once parity is achieved.
 
-4) Module-specific filter DTOs drift from the parameter schema.
+4) Module-specific filter DTOs drift from the parameter schema. - ok na
    - Evidence:
      - [modules/PbMap/Filters/CommodityFilter.php](modules/PbMap/Filters/CommodityFilter.php)
    - Action:
