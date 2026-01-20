@@ -20,22 +20,10 @@ class PermissionController extends BaseController
 
     public function index()
     {
-        $permissions = Permission::all();
+        /** @var PermissionRepo $permissionRepo */
+        $permissionRepo = $this->service;
 
-        $permissions = $permissions->groupBy(function ($permission) {
-            if (str_contains($permission->name, 'create')) {
-                return 'create';
-            } elseif (str_contains($permission->name, 'read')) {
-                return 'read';
-            } elseif (str_contains($permission->name, 'delete')) {
-                return 'delete';
-            } elseif (str_contains($permission->name, 'update')) {
-                return 'update';
-            }
-            return 'other';
-        });
-
-        return new BaseCollection($permissions);
+        return new BaseCollection($permissionRepo->getGroupedPermissions());
     }
 
 

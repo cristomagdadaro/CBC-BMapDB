@@ -6,12 +6,6 @@ export default class AuthAccount extends DtoAccount
     {
         super(account);
 
-        this.indexUri = 'api.accounts.index';
-        this.showUri = 'api.accounts.show';
-        this.storeUri = 'api.accounts.store';
-        this.updateUri = 'api.accounts.update';
-        this.destroyUri = 'api.accounts.destroy';
-
         this.appendWith = ['user','application','role'];
         this.appendCount = ['application'];
     }

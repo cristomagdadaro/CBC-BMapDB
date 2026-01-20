@@ -11,4 +11,23 @@ class PermissionRepo extends AbstractRepoService
     {
         parent::__construct($model);
     }
+
+    public function getGroupedPermissions()
+    {
+        return $this->model->newQuery()->get()->groupBy(function ($permission) {
+            if (str_contains($permission->name, 'create')) {
+                return 'create';
+            }
+            if (str_contains($permission->name, 'read')) {
+                return 'read';
+            }
+            if (str_contains($permission->name, 'delete')) {
+                return 'delete';
+            }
+            if (str_contains($permission->name, 'update')) {
+                return 'update';
+            }
+            return 'other';
+        });
+    }
 }

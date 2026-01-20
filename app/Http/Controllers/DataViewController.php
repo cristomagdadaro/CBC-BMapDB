@@ -8,7 +8,6 @@ use App\Http\Requests\UpdateDataViewRequest;
 use App\Http\Resources\DataViewResource;
 use App\Repository\API\DataViewRepo;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\DB;
 
 class DataViewController extends BaseController
 {
@@ -19,15 +18,10 @@ class DataViewController extends BaseController
 
     public function index(GetDataViewsRequest $request, string $table = null): JsonResponse
     {
-        $result = DB::table('data_views')
-            ->select('user_account_id', 'model', 'visibility_guard', 'columns')
-            ->when($table, fn($query) => $query->where('model', $table)) // Filter if table is provided
-            ->get()
-            ->groupBy('user_account_id')
-            ->map(fn($models) =>
-                $models->groupBy('model')->map(fn($visibilityGuards) =>
-                $visibilityGuards->pluck('columns', 'visibility_guard')->toArray())->toArray())
-            ->toArray();
+        /** @var DataViewRepo $dataViewRepo */
+        $dataViewRepo = $this->service;
+
+        $result = $dataViewRepo->getGroupedDataViews($table);
 
         return $this->sendResponse($result);
     }

@@ -10,6 +10,7 @@ import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import BaseEditForm from "@/Components/Modal/BaseEditForm.vue";
 import AuthAccount from "@/Pages/Admin/domain/Account";
 import User from "../../../../Modules/core/domain/auth/User";
+import { AdminEndpoints } from "@/Pages/Admin/infrastructure/AdminEndpoints";
 
 export default {
     components: {BaseEditForm, SelectSearchField, CustomDropdown, BaseButton},
@@ -37,7 +38,7 @@ export default {
             });
         },
         getRoles() {
-            const service = new ApiService(route('api.roles.index'));
+            const service = new ApiService(route(AdminEndpoints.role.indexUri));
             service.get(new BaseRequest(), Role).then(response => {
                 this.roles = response.data;
             });

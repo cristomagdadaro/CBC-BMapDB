@@ -11,13 +11,6 @@ export default class AuthUser extends DtoUser
         //@ts-ignore
         this.accounts_count = user.accounts_count;
 
-        this.indexUri = 'api.administrator.index';
-        this.showUri = 'api.administrator.show';
-        this.storeUri = 'api.administrator.store';
-        this.updateUri = 'api.administrator.update';
-        this.destroyUri = 'api.administrator.destroy';
-        this.multiDestroyUri = 'api.administrator.destroy.multi';
-
         this.appendWith = ['roles','affiliated','accountFor'];
         this.appendCount = ['accounts'];
     }

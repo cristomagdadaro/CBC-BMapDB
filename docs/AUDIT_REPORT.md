@@ -133,7 +133,7 @@ Appendix: Key Files
   - [resources/js/Modules/core](resources/js/Modules/core)
 
 Rescan Findings (2026-01-20)
-1) Admin domain models still embed API endpoint routing.
+1) Admin domain models still embed API endpoint routing. - ok na
    - Evidence:
      - [resources/js/Pages/Admin/domain/Account.ts](resources/js/Pages/Admin/domain/Account.ts)
      - [resources/js/Pages/Admin/domain/Role.ts](resources/js/Pages/Admin/domain/Role.ts)
@@ -141,7 +141,7 @@ Rescan Findings (2026-01-20)
    - Action:
      - Move endpoint constants to a module infrastructure config (e.g., AdminEndpoints) and update consumers.
 
-2) Some backend controllers still use direct model/DB queries instead of repositories.
+2) Some backend controllers still use direct model/DB queries instead of repositories. - ok na
    - Evidence:
      - [app/Http/Controllers/API/DashboardApiController.php](app/Http/Controllers/API/DashboardApiController.php)
      - [app/Http/Controllers/DataViewController.php](app/Http/Controllers/DataViewController.php)

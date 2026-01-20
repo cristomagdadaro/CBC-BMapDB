@@ -1,14 +1,21 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin.js";
 import AuthAccount from "@/Pages/Admin/domain/Account";
+import { AdminEndpoints } from "@/Pages/Admin/infrastructure/AdminEndpoints";
 
 export default {
     mixins: [FormMixin],
     name: "CreateAccountForm",
+    computed: {
+        AdminEndpoints() {
+            return AdminEndpoints
+        }
+    },
     data() {
         return {
             model: AuthAccount
         };
+
     },
 }
 </script>
@@ -21,7 +28,7 @@ export default {
         <template v-slot:formFields>
             <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
                 <select-search-field :api-link="route('api.users.index')" :error="getError('user_id')" label="User" v-model="form.user_id" required />
-                <select-search-field :api-link="route('api.applications.index')" :error="getError('app_id')" label="App" v-model="form.app_id" required />
+                <select-search-field :api-link="route(AdminEndpoints.application.indexUri)" :error="getError('app_id')" label="App" v-model="form.app_id" required />
             </div>
         </template>
     </base-create-form>

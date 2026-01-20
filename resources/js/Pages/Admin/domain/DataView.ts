@@ -3,12 +3,6 @@ import DtoDataView from "@/Modules/core/dto/DtoDataView";
 export default class DataView extends DtoDataView {
     constructor(dto: DtoDataView) {
         super(dto);
-
-        this.indexUri = 'api.dataview.index';
-        this.showUri = 'api.dataview.show';
-       /* this.storeUri = 'api.dataview.store';
-        this.updateUri = 'api.dataview.update';
-        this.destroyUri = 'api.dataview.destroy';*/
     }
 
     static createForm() {
