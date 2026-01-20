@@ -3,7 +3,6 @@ import HeaderLayout from '@/Layouts/HeaderLayout.vue';
 import TabLink from '@/Components/Header/TabLink.vue';
 import Logo from '@/Components/Icons/Logo.vue';
 import {CBCProjectsPublic} from "@/Pages/constants.ts";
-import {usePage} from "@inertiajs/vue3";
 
 defineProps({
     canLogin: Boolean,

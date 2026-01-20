@@ -43,10 +43,6 @@ export default {
         },
         /* function that would determine if the current tab is active*/
     },
-    mounted() {
-        if(this.sublinks)
-            this.$refs.hoverDropdown.addEventListener('mouseover', this.toggleDropdown)
-    }
 };
 </script>
 <template>
@@ -54,13 +50,13 @@ export default {
         <Link v-if="!externalLink" :href="link" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></Link>
         <a v-else :href="link" target="_blank" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></a>
     </div>
-    <div v-else class="flex items-center hover:bg-cbc-yellow-green duration-400 ease-in-out">
-        <div @mouseleave="closeDropdown()">
+    <div v-else class="flex items-center hover:bg-cbc-yellow-green duration-400 ease-in-out" @mouseenter="showDropdown = true" @mouseleave="closeDropdown()">
+        <div>
             <!-- Full Screen Dropdown Overlay -->
             <div v-show="showDropdown" class="fixed w-full h-full top-0 left-0 z-[1]" @click="closeDropdown()"></div>
 
-            <div @click="toggleDropdown()" ref="hoverDropdown" class="z-[100]">
-                <Link @clic.prevent="null" :href="link" class="px-3 py-1 text-gray-100 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass">
+            <div @click="toggleDropdown()" class="z-[100]">
+                <Link @click.prevent="null" :href="link" class="px-3 py-1 text-gray-100 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass">
                     <slot name="trigger" />
                     <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
