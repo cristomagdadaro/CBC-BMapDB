@@ -6,12 +6,33 @@ use App\Repository\AbstractRepoService;
 use Modules\PbMap\Models\Commodity;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Http\JsonResponse;
 
 class CommodityRepo extends AbstractRepoService
 {
     public function __construct(Commodity $model)
     {
         parent::__construct($model);
+    }
+
+    public function create(array $data): JsonResponse
+    {
+        if (array_key_exists('photo', $data)) {
+            $data['photo'] = $this->storeCommodityPhoto($data['photo']);
+        }
+
+        return parent::create($data);
+    }
+
+    public function update(int $id, array $data): JsonResponse
+    {
+        if (array_key_exists('photo', $data)) {
+            $data['photo'] = $this->storeCommodityPhoto($data['photo']);
+        }
+
+        return parent::update($id, $data);
     }
 
     public function applyFilters($model, Collection|array $filters) {
@@ -148,5 +169,42 @@ class CommodityRepo extends AbstractRepoService
             ->get('institutes.name')
             ->sort()
             ->values();
+    }
+
+    private function storeCommodityPhoto(?string $photoData): ?string
+    {
+        if (!$photoData) {
+            return null;
+        }
+
+        if (filter_var($photoData, FILTER_VALIDATE_URL)) {
+            return $photoData;
+        }
+
+        $normalized = ltrim($photoData, '/');
+        if (str_starts_with($normalized, 'storage/')) {
+            return $normalized;
+        }
+
+        if (str_starts_with($normalized, 'data:image/')) {
+            if (!preg_match('/^data:image\/(\w+);base64,/', $normalized, $matches)) {
+                return null;
+            }
+
+            $extension = strtolower($matches[1] ?? 'jpg');
+            $base64 = substr($normalized, strpos($normalized, ',') + 1);
+            $binary = base64_decode($base64, true);
+
+            if ($binary === false) {
+                return null;
+            }
+
+            $filename = 'commodity-photos/' . Str::uuid() . '.' . $extension;
+            Storage::disk('public')->put($filename, $binary);
+
+            return 'storage/' . $filename;
+        }
+
+        return $normalized;
     }
 }

@@ -9,6 +9,8 @@ use App\Models\Application;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Modules\PbMap\Requests\CreateBreederRequest;
 
 class BreederCreationRepo
@@ -29,6 +31,14 @@ class BreederCreationRepo
                     'affiliation' => $data['affiliation'] ?? null,
                     'password' => bcrypt(DefaultPassword::Value->value),
                 ]);
+
+                $photoPaths = $this->storeBreederPhoto($data['photo'] ?? null);
+                if ($photoPaths) {
+                    $breederUser->update([
+                        'profile_photo_path' => $photoPaths['user'],
+                    ]);
+                    $data['photo'] = $photoPaths['breeder'];
+                }
 
                 $breederUser->assignRole(Role::BREEDER->value);
 
@@ -62,5 +72,54 @@ class BreederCreationRepo
 
             throw new \Exception('Breeder creation failed. Please try again later.');
         }
+    }
+
+    private function storeBreederPhoto(?string $photoData): ?array
+    {
+        if (!$photoData) {
+            return null;
+        }
+
+        if (filter_var($photoData, FILTER_VALIDATE_URL)) {
+            return [
+                'breeder' => $photoData,
+                'user' => $photoData,
+            ];
+        }
+
+        $normalized = ltrim($photoData, '/');
+        if (str_starts_with($normalized, 'storage/')) {
+            return [
+                'breeder' => $normalized,
+                'user' => preg_replace('#^storage/#', '', $normalized),
+            ];
+        }
+
+        if (str_starts_with($normalized, 'data:image/')) {
+            if (!preg_match('/^data:image\/(\w+);base64,/', $normalized, $matches)) {
+                return null;
+            }
+
+            $extension = strtolower($matches[1] ?? 'jpg');
+            $base64 = substr($normalized, strpos($normalized, ',') + 1);
+            $binary = base64_decode($base64, true);
+
+            if ($binary === false) {
+                return null;
+            }
+
+            $filename = 'profile-photos/breeders/' . Str::uuid() . '.' . $extension;
+            Storage::disk('public')->put($filename, $binary);
+
+            return [
+                'breeder' => 'storage/' . $filename,
+                'user' => $filename,
+            ];
+        }
+
+        return [
+            'breeder' => $normalized,
+            'user' => $normalized,
+        ];
     }
 }
