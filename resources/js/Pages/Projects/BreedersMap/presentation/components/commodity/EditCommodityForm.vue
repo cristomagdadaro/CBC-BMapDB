@@ -1,10 +1,35 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin";
 import CommodityFormMixin from "@/Pages/Projects/BreedersMap/infrastructure/CommodityFormMixin";
+import ApiService from "@/Modules/core/infrastructure/ApiService";
+import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
 
 export default {
     name: "EditCommodityForm",
     mixins: [FormMixin, CommodityFormMixin],
+    data() {
+        return {
+            approving: false,
+        };
+    },
+    methods: {
+        async approveCommodity() {
+            const id = this.form?.id ?? this.data?.id;
+            if (!id || this.approving) return;
+            this.approving = true;
+
+            try {
+                const svc = new ApiService(route(BreedersMapEndpoints.commodity.approveUri, id));
+                const res = await svc.put({});
+                const approvedAt = res?.data?.approved_at ?? null;
+                if (approvedAt && this.data) {
+                    this.data.approved_at = approvedAt;
+                }
+            } finally {
+                this.approving = false;
+            }
+        }
+    }
 };
 </script>
 <template>
@@ -57,7 +82,7 @@ export default {
                                             'Type',
                                             'Disease/Pest/Drought',
                                             'Reaction',
-                                        ]" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
+                                        ]" v-bind:key="item" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
                                             {{ item }}
                                         </p>
                                     </div>
@@ -353,8 +378,14 @@ export default {
                     </div>
                 </template>
             </tab>
-            <base-button @click.prevent="addRegulation" classes="h-fit w-fit p-4 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white">
-                Approve
+            <base-button
+                v-if="!data?.approved_at"
+                @click.prevent="approveCommodity"
+                :disabled="approving"
+                classes="h-fit w-fit p-4 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white"
+            >
+                <span v-if="approving">Approving...</span>
+                <span v-else>Approve</span>
             </base-button>
         </template>
     </base-edit-form>

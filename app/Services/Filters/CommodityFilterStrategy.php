@@ -206,8 +206,9 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     private function getCommodityOptions(): array
     {
-        return DB::table('commodities')
+        return Commodity::query()
             ->select('name as value', 'name as label')
+            ->whereNotNull('name')
             ->distinct()
             ->orderBy('name')
             ->get()

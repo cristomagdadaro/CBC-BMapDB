@@ -20,7 +20,7 @@ export const getImportTemplateDropdowns = (model) => {
                     })).data.data.map((item) => item.label)
                 ],
                 geolocation: [
-                    async () => (await axios.get(route('api.cities.index.public'), {
+                    async () => (await axios.get(route('api.cities.options.public'), {
                         params: { per_page: '*' }
                     })).data.data.map((item) => item.name)
                 ]
@@ -30,7 +30,7 @@ export const getImportTemplateDropdowns = (model) => {
                 breeder_type: BreederType.map(bt => bt.value),
                 educ_level: EducLevel.map(bt => bt.value),
                 geolocation: [
-                    async () => (await axios.get(route('api.cities.index.public'), {
+                    async () => (await axios.get(route('api.cities.options.public'), {
                         params: { per_page: '*' }
                     })).data.data.map((item) => item.name)
                 ]

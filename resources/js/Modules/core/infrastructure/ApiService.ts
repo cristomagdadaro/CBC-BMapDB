@@ -76,7 +76,8 @@ export default class ApiService implements IApiService
     {
         try {
             this._processing = true;
-            const response = await axios.get(route(this.baseUrl, id), {
+            const url = this.resolveUrl(id);
+            const response = await axios.get(url, {
                 params: {
                     ...params,
                     ...(model?.appendWith && Array.isArray(model.appendWith) ? {with: model.appendWith.toString()} : {}),
@@ -96,6 +97,27 @@ export default class ApiService implements IApiService
         } finally {
             this._processing = false;
         }
+    }
+
+    resolveUrl(id = null): string
+    {
+        if (!this.baseUrl) {
+            throw new Error('ApiService baseUrl is required');
+        }
+
+        const isAbsolute = /^https?:\/\//i.test(this.baseUrl) || this.baseUrl.startsWith('/');
+
+        if (isAbsolute) {
+            if (id === null || typeof id === 'undefined') {
+                return this.baseUrl;
+            }
+            const trimmed = this.baseUrl.endsWith('/') ? this.baseUrl.slice(0, -1) : this.baseUrl;
+            return `${trimmed}/${id}`;
+        }
+
+        return id === null || typeof id === 'undefined'
+            ? route(this.baseUrl)
+            : route(this.baseUrl, id);
     }
 
     async post(data)

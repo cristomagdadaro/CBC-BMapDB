@@ -3,6 +3,21 @@ import { ref, onMounted } from 'vue'
 import MapDataFilterPanel from '@/Components/Map/MapDataFilterPanel.vue'
 import LeafletMap from '@/Components/Map/LeafletMap.vue'
 
+const props = defineProps({
+    initialDataType: {
+        type: String,
+        default: 'commodities'
+    },
+    tableList: {
+        type: Array,
+        default: () => []
+    },
+    model: {
+        type: [Object, Function],
+        default: null
+    }
+})
+
 const mapData = ref([])
 const mapMetadata = ref({})
 const currentFilters = ref({})
@@ -52,7 +67,7 @@ onMounted(() => {
     <!-- Filter Panel -->
         <div class="w-80 flex-shrink-0">
             <MapDataFilterPanel
-                :initial-data-type="'commodities'"
+                :initial-data-type="props.initialDataType"
                 @data-updated="handleDataUpdated"
                 @filters-changed="handleFiltersChanged"
             />
@@ -93,7 +108,7 @@ onMounted(() => {
                     :showHeatmap="false"
                     :center="[12.8797, 121.7740]"
                     :zoom="6"
-                    :data-type="currentFilters.data_type || 'commodities'"
+                    :data-type="currentFilters.data_type || props.initialDataType"
                     height="100%"
                     @marker-click="handleMarkerClick"
                     @map-ready="handleMapReady"

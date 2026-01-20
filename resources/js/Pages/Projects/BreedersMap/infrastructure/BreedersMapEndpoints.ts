@@ -4,6 +4,8 @@ export const BreedersMapEndpoints = {
         showUri: 'api.commodities.show',
         storeUri: 'api.commodities.store',
         updateUri: 'api.commodities.update',
+        approveUri: 'api.commodities.approve',
+        disapproveUri: 'api.commodities.disapprove',
         destroyUri: 'api.commodities.destroy',
         multiDestroyUri: 'api.commodities.destroy.multi',
         summaryUri: 'api.commodities.summary',

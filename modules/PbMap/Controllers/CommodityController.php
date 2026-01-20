@@ -214,4 +214,10 @@ class CommodityController extends BaseController implements CommodityControllerI
         // Authorization is handled by the FormRequest
         return $this->service->update($id, ['approved_at' => now()]);
     }
+
+    public function disapprove(ApproveCommoditiesRequest $request, int $id): JsonResponse
+    {
+        // Authorization is handled by the FormRequest
+        return $this->service->update($id, ['approved_at' => null]);
+    }
 }

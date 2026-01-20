@@ -3,6 +3,11 @@ import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
 import { BreedersMapPages } from "@/Pages/Projects/BreedersMap/components/components.js";
 import {Permission} from "@/Pages/constants.ts";
 import User from "@/Modules/core/domain/auth/User.js";
+import ApiService from "@/Modules/core/infrastructure/ApiService";
+import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
+import { TopActionBtn } from "@/Components/CRCMDatatable/Components";
+import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
+import LikeIcon from "@/Components/Icons/LikeIcon.vue";
 
 export default {
     name: "CommodityTable",
@@ -88,14 +93,33 @@ export default {
             if (this.isAdmin) return true;
             if (this.isFocal && this.isSameInstituteCommodity(row)) return true;
             return this.isOwner(row);
+        },
+        canApprove(row) {
+            return !!row && !row.approved_at && this.rowCanUpdate(row);
+        },
+        canDisapprove(row) {
+            return !!row && !!row.approved_at && this.rowCanUpdate(row);
+        },
+        async approveCommodity(row) {
+            if (!this.canApprove(row)) return;
+            const svc = new ApiService(route(BreedersMapEndpoints.commodity.approveUri, row.id));
+            await svc.put({});
+            await this.$refs.datatable?.dt?.refresh();
+        },
+        async disapproveCommodity(row) {
+            if (!this.canDisapprove(row)) return;
+            const svc = new ApiService(route(BreedersMapEndpoints.commodity.disapproveUri, row.id));
+            await svc.put({});
+            await this.$refs.datatable?.dt?.refresh();
         }
     },
-    components: {CRCMDatatable}
+    components: {CRCMDatatable, TopActionBtn, CheckallIcon, LikeIcon}
 }
 </script>
 
 <template>
     <CRCMDatatable
+        ref="datatable"
         :base-url="baseUrl ?? BreedersMapPages.api.commodity.path"
         :base-model="BreedersMapPages?.api?.commodity?.model || ''"
         :add-form="BreedersMapPages?.api?.commodity?.create?.component || ''"
@@ -109,7 +133,32 @@ export default {
         :params="computedParams"
         :row-can-update="rowCanUpdate"
         :row-can-delete="rowCanDelete"
-    />
+    >
+        <template #rowActions="{ row }">
+            <top-action-btn
+                v-if="canApprove(row)"
+                class="bg-cbc-yellow-green"
+                title="Approve"
+                @click="approveCommodity(row)"
+            >
+                <template #icon>
+                    <like-icon class="h-auto sm:w-4 w-3 text-white" />
+                </template>
+                <template #iconText>Approve</template>
+            </top-action-btn>
+            <top-action-btn
+                v-if="canDisapprove(row)"
+                class="bg-delete"
+                title="Disapprove"
+                @click="disapproveCommodity(row)"
+            >
+                <template #icon>
+                    <like-icon class="h-auto sm:w-4 w-3 rotate-180 text-white" />
+                </template>
+                <template #iconText>Disapprove</template>
+            </top-action-btn>
+        </template>
+    </CRCMDatatable>
 </template>
 
 <style scoped>

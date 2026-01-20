@@ -7,6 +7,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Laravel\Fortify\Rules\Password;
 use Modules\PbMap\Enums\BreederType;
+use Modules\PbMap\Models\Breeder;
 
 class UpdateBreederRequest extends FormRequest
 {
@@ -16,8 +17,30 @@ class UpdateBreederRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if (auth()->user()->isAdmin() || (auth()->user()->isFocalPerson()) || $this && $this->user_id === auth()->id()) {
-            return true; // Allow admins, Allow owner, and focal persons
+        $user = auth()->user();
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->isAdmin()) {
+            return true; // Allow admins
+        }
+
+        $model = Breeder::find($this->id);
+        if (!$model) {
+            return false;
+        }
+
+        if ($model->user_id === $user->id) {
+            return true; // Allow owner
+        }
+
+        if ($user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $breederAff = (int) ($model->affiliation ?? 0);
+            if ($userAff && $breederAff && $userAff === $breederAff) {
+                return true;
+            }
         }
 
         abort(403, __('You are not authorized to update this breeder.'));

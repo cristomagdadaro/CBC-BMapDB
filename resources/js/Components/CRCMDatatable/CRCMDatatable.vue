@@ -158,6 +158,7 @@
                         <template v-else>
                             <tbody-row v-if="data.length && !dt.processing"
                                        v-for="row in data"
+                                       v-bind:key="row.id"
                                        :isSelected="dt.isSelected(row.id)"
                                        @contextmenu="showContextMenu($event, row)"
                             >
@@ -179,6 +180,7 @@
                                 <!-- Cell Actions -->
                                 <t-d class="items-center" v-if="showActionBtns">
                                     <div class="flex justify-center sm:gap-1 gap-0.5">
+                                        <slot name="rowActions" :row="row" :showIconText="showIconText" />
                                         <Link
                                             v-if="canView && viewForm && route().has(viewForm)"
                                             class="bg-view rounded p-0"
@@ -187,11 +189,12 @@
                                         >
                                             <top-action-btn
                                                 class="bg-view"
-                                                title="View">
+                                                title="View"
+                                                :showIconText="showIconText">
                                                 <template #icon>
                                                     <view-icon class="h-auto sm:w-4 w-3" />
                                                 </template>
-                                                <span v-show="showIconText">View</span>
+                                                <template #iconText>View</template>
                                             </top-action-btn>
                                         </Link>
 
@@ -199,25 +202,28 @@
                                             v-if="canUpdate && isRowUpdatable(row)"
                                             @click="showEditDialogFunc(row.id)"
                                             class="bg-edit"
-                                            title="Modify this row">
+                                            title="Modify this row"
+                                            :showIconText="showIconText">
                                             <template #icon>
                                                 <edit-icon class="h-auto sm:w-4 w-3" />
                                             </template>
-                                            <span v-show="showIconText">Edit</span>
+                                            <template #iconText>Edit</template>
                                         </top-action-btn>
                                         <top-action-btn
                                             v-if="canDelete && isRowDeletable(row)"
                                             @click="showDeleteDialogFunc(row.id)"
                                             class="bg-delete"
-                                            title="Delete this row">
+                                            title="Delete this row"
+                                            :showIconText="showIconText">
                                             <template #icon>
                                                 <delete-icon class="h-auto sm:w-4 w-3" />
                                             </template>
-                                            <span v-show="showIconText">Delete</span>
+                                            <template #iconText>Delete</template>
                                         </top-action-btn>
                                     </div>
                                     <context-menu ref="contextMenu" v-if="rowContextMenu">
                                         <div class="flex flex-col justify-center sm:gap-1 gap-0.5">
+                                            <slot name="rowActionsMenu" :row="rowContextMenu" />
                                             <Link
                                                 v-if="canView && viewForm && route().has(viewForm)"
                                                 title="View"
@@ -246,6 +252,7 @@
                                                 <delete-icon class="h-auto sm:w-5 w-4 p-0.5 text-delete" />
                                                 <span>Delete</span>
                                             </div>
+                                            
                                         </div>
                                     </context-menu>
                                 </t-d>
@@ -561,7 +568,12 @@ export default {
         async showEditDialogFunc(id) {
             this.showModal = true;
             this.showEditDialog = true;
-            this.toEditData = (await new ApiService(this.baseModel.showUri).show(id,{}, this.baseModel)).data;
+            const showUri = this.baseModel?.showUri || this.baseUrl;
+            if (!showUri) {
+                console.error('Missing show URI for edit dialog');
+                return;
+            }
+            this.toEditData = (await new ApiService(showUri).show(id, {}, this.baseModel)).data;
         },
         showDeleteSelectedDialogFunc() {
             this.showModal = true;

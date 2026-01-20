@@ -24,6 +24,7 @@ Route::middleware(['check.status.breedersmap', 'auth:sanctum'])->prefix('commodi
     Route::post('/', [CommodityController::class, 'store'])->name('api.commodities.store');
     Route::put('/{id}', [CommodityController::class, 'update'])->name('api.commodities.update');
     Route::put('/{id}/approve', [CommodityController::class, 'approve'])->name('api.commodities.approve');
+    Route::put('/{id}/disapprove', [CommodityController::class, 'disapprove'])->name('api.commodities.disapprove');
     Route::delete('/delete', [CommodityController::class, 'multiDestroy'])->name('api.commodities.destroy.multi');
     Route::delete('/{id}', [CommodityController::class, 'destroy'])->name('api.commodities.destroy');
 });

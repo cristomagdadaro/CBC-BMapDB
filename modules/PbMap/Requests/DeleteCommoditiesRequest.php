@@ -17,6 +17,10 @@ class DeleteCommoditiesRequest extends FormRequest
         $id = $this->route('id'); // Get the ID from route parameter
         $model = Commodity::find($id);
 
+        if (!$model) {
+            return false;
+        }
+
         if (auth()->user()->isAdmin()) {
             return true; // Allow admins
         }
@@ -26,7 +30,9 @@ class DeleteCommoditiesRequest extends FormRequest
         }
 
         if (auth()->user()->isFocalPerson()) {
-            return true; // Allow focal person
+            $userAff = (int) (auth()->user()->affiliation ?? 0);
+            $commodityAff = (int) ($model->relationLoaded('breeder') ? optional($model->breeder)->affiliation : $model->breeder()->value('affiliation'));
+            return $userAff && $commodityAff && $userAff === $commodityAff;
         }
 
         abort(403, __('You are not authorized to delete this commodity.'));

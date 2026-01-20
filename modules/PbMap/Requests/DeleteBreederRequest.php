@@ -17,12 +17,22 @@ class DeleteBreederRequest extends FormRequest
         $id = $this->route('id'); // Get the ID from route parameter
         $model = Breeder::find($id);
 
-        if (auth()->user()->isAdmin() || auth()->user()->isFocalPerson()) {
+        if (!$model) {
+            return false;
+        }
+
+        if (auth()->user()->isAdmin()) {
             return true; // Allow admins
         }
 
         if ($model && $model->user_id === auth()->id()) {
             return true; // Allow owner
+        }
+
+        if (auth()->user()->isFocalPerson()) {
+            $userAff = (int) (auth()->user()->affiliation ?? 0);
+            $breederAff = (int) ($model->affiliation ?? 0);
+            return $userAff && $breederAff && $userAff === $breederAff;
         }
 
         abort(403, __('You are not authorized to delete this breeder.'));
