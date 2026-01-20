@@ -131,3 +131,20 @@ Appendix: Key Files
 - Frontend DDD modules:
   - [resources/js/Pages/Projects](resources/js/Pages/Projects)
   - [resources/js/Modules/core](resources/js/Modules/core)
+
+Rescan Findings (2026-01-20)
+1) Admin domain models still embed API endpoint routing.
+   - Evidence:
+     - [resources/js/Pages/Admin/domain/Account.ts](resources/js/Pages/Admin/domain/Account.ts)
+     - [resources/js/Pages/Admin/domain/Role.ts](resources/js/Pages/Admin/domain/Role.ts)
+     - [resources/js/Pages/Admin/domain/User.ts](resources/js/Pages/Admin/domain/User.ts)
+   - Action:
+     - Move endpoint constants to a module infrastructure config (e.g., AdminEndpoints) and update consumers.
+
+2) Some backend controllers still use direct model/DB queries instead of repositories.
+   - Evidence:
+     - [app/Http/Controllers/API/DashboardApiController.php](app/Http/Controllers/API/DashboardApiController.php)
+     - [app/Http/Controllers/DataViewController.php](app/Http/Controllers/DataViewController.php)
+     - [app/Http/Controllers/API/PermissionController.php](app/Http/Controllers/API/PermissionController.php)
+   - Action:
+     - Introduce repository services for these controllers or document them as exceptions with rationale.
