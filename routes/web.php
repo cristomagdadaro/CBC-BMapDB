@@ -82,7 +82,6 @@ Route::get('/accept-breeder-role/{user}', [InvitationController::class, 'acceptB
 
 Route::prefix('/support-info')->group(function () {
     Route::get('/what-is-pin', [SupportInfoController::class, 'whatIsPIN'])->name('support.what-is-pin');
-    Route::get('/cbc-tour', [SupportInfoController::class, 'cbcTour'])->name('support.cbc-tour');
     Route::get('/terms-of-use', [SupportInfoController::class, 'termsOfUse'])->name('support.terms-of-use');
     //Route::get('/policy-notice', [SupportInfoController::class, 'policyNotice'])->name('support.policy-notice');
     Route::get('/privacy-policy', [SupportInfoController::class, 'privacyPolicy'])->name('support.privacy-policy');

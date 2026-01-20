@@ -11,7 +11,6 @@ defineProps({
 
 const supportLinks = [
     {name: 'What is PIN?', link: 'support.what-is-pin'},
-    {name: 'Virtual Tour', link: 'support.cbc-tour'},
     {name: 'Term of Use', link: 'support.terms-of-use'},
     /*{name: 'Policy Notice', link: 'support.policy-notice'},*/
     {name: 'Privacy Policy', link: 'support.privacy-policy'},

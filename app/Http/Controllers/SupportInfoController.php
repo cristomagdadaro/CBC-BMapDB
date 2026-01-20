@@ -12,11 +12,6 @@ class SupportInfoController extends Controller
         return Inertia::render('Support/AboutUs');
     }
 
-    public function cbcTour(): Response
-    {
-        return Inertia::render('Support/VisitUs');
-    }
-
     public function termsOfUse(): Response
     {
         return Inertia::render('Support/TermsOfUse');

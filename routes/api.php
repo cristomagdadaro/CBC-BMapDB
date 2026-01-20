@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardApiController;
-use App\Http\Controllers\CBCTourController;
 use App\Http\Controllers\DataViewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +58,3 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
     });
 });
 
-Route::middleware(['api'])->group(function() {
-    Route::get('/cbc360tour/visitor/counter', [CBCTourController::class, 'storeVisitor'])->name('cbc360tour.visitor.counter');
-});
