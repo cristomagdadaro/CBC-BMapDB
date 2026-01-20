@@ -9,6 +9,12 @@ use App\Repository\Filters\FilterPipeline;
 use App\Repository\Filters\AggregationFilter;
 use App\Repository\Filters\DateRangeFilter;
 use App\Repository\Filters\HavingFilter;
+use App\Repository\Filters\FilterContract;
+use App\Repository\Filters\GeoLocationFilter;
+use App\Repository\Filters\ParentFilter;
+use App\Repository\Filters\RelationshipFilter;
+use App\Repository\Filters\SearchFilter;
+use App\Repository\Filters\SortFilter;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -434,6 +440,58 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     {
         $this->filterPipeline = $pipeline;
         return $this;
+    }
+
+    /**
+     * Apply a single pipeline filter to a builder.
+     */
+    protected function applySingleFilter(Builder $query, FilterContract $filter, Collection $parameters): Builder
+    {
+        return $filter->shouldApply($parameters) ? $filter->apply($query, $parameters) : $query;
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applyParentFilter(Builder $query, Collection $parameters): Builder
+    {
+        return $this->applySingleFilter($query, new ParentFilter(), $parameters);
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applyGeoFilters(Builder $query, Collection $parameters): Builder
+    {
+        if ($parameters->get('geo_location_filter') === 'institute') {
+            $parameters = $parameters->put('geo_location_filter', 'affiliation');
+        }
+
+        return $this->applySingleFilter($query, new GeoLocationFilter(), $parameters);
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applySearchFilters(Builder $query, Collection $parameters): Builder
+    {
+        return $this->applySingleFilter($query, new SearchFilter(), $parameters);
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applySorting(Builder $query, Collection $parameters): Builder
+    {
+        return $this->applySingleFilter($query, new SortFilter(), $parameters);
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applyAppends(Builder $query, Collection $parameters): Builder
+    {
+        return $this->applySingleFilter($query, new RelationshipFilter(), $parameters);
     }
 
 }

@@ -4,6 +4,7 @@ namespace Modules\PbMap\Repositories;
 
 use App\Repository\AbstractRepoService;
 use Modules\PbMap\Models\Breeder;
+use Illuminate\Database\Eloquent\Builder;
 
 class BreederRepo extends AbstractRepoService
 {
@@ -13,23 +14,25 @@ class BreederRepo extends AbstractRepoService
     }
 
     public function applyFilters($model, $breeder, $geo_location_value = null, $geo_location_filter = null) {
-        $group_by = $this->determineLocFilterLevel($geo_location_filter);
+        $builder = $model instanceof Builder ? $model : $model->newQuery();
 
-        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation');
+        $filterType = $geo_location_filter === 'institute' ? 'affiliation' : $geo_location_filter;
 
-        $model = $model
-            ->when($breeder, function ($query) use ($breeder) {
-                return $query->where('name', $breeder);
-            });
+        $params = collect([
+            'geo_location_filter' => $filterType,
+            'geo_location_value' => $geo_location_value,
+        ]);
 
-        if ($geo_location_value) {
-            if ($geo_location_filter && $geo_location_filter !== 'institute')
-                $model = $model->where('loc_cities.' . $group_by, $geo_location_value);
-            else
-                $model = $model->where('affiliation.' . $group_by, $geo_location_value);
+        if ($breeder) {
+            $params = $params
+                ->put('search', $breeder)
+                ->put('filter', 'fname,mname,lname,suffix');
         }
 
-        return $model;
+        $builder = $this->applyGeoFilters($builder, $params);
+        $builder = $this->applySearchFilters($builder, $params);
+
+        return $builder;
     }
 
     public function getBreederLabels($model, $geo_location_value, $is_exact, $geo_location_filter)

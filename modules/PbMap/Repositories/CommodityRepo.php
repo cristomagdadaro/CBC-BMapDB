@@ -3,9 +3,9 @@
 namespace Modules\PbMap\Repositories;
 
 use App\Repository\AbstractRepoService;
-use Modules\PbMap\Controllers\CommodityFilters;
 use Modules\PbMap\Filters\CommodityFilter;
 use Modules\PbMap\Models\Commodity;
+use Illuminate\Database\Eloquent\Builder;
 
 class CommodityRepo extends AbstractRepoService
 {
@@ -15,39 +15,27 @@ class CommodityRepo extends AbstractRepoService
     }
 
     public function applyFilters($model, CommodityFilter $filters) {
-        $group_by = $this->determineLocFilterLevel($filters->geo_location_filter);
+        $builder = $model instanceof Builder ? $model : $model->newQuery();
+        $params = $filters->collect();
 
-        if ($filters->filter_by_parent_column && $filters->filter_by_parent_id) {
-            $model = $model->where($filters->filter_by_parent_column, $filters->filter_by_parent_id);
+        if ($params->get('geo_location_filter') === 'institute') {
+            $params = $params->put('geo_location_filter', 'affiliation');
         }
 
-        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')->join('users', 'users.id', '=', 'user_id');
-
-
-        if ($filters->search) {
-            $this->applySearch($model, $filters->search, $filters->filter, $filters->is_exact);
-
-            $appendWith = ['breeder', 'location'];
-            $this->applyAppends($model, $filters->collect());
-            foreach ($appendWith as $table) {
-                $relatedModel = $this->model->{$table}()->getModel();
-                $this->applyRelationSearch($model, $filters->search, $filters->filter, $filters->is_exact, $table, $relatedModel);
-            }
-
+        if ($params->get('search') && !$params->get('with')) {
+            $params = $params->put('with', 'breeder,location');
         }
 
-        $model = $model->when($filters->commodities, function ($query) use ($filters) {
-            return $query->where('name', $filters->commodities);
-        });
+        $builder = $this->applyParentFilter($builder, $params);
+        $builder = $this->applyGeoFilters($builder, $params);
+        $builder = $this->applyAppends($builder, $params);
+        $builder = $this->applySearchFilters($builder, $params);
 
-        if ($filters->geo_location_value) {
-            if ($group_by !== 'affiliation')
-                $model = $model->where('loc_cities.' . $group_by, $filters->geo_location_value);
-            else
-                $model = $model->where('institutes.id', $filters->geo_location_value);
+        if ($filters->commodities) {
+            $builder->where('commodities.name', $filters->commodities);
         }
 
-        return $model;
+        return $builder;
     }
 
     public function linechartData($model, $search = null, $is_exact = false, $group_by = 'name', $commodity = null) {

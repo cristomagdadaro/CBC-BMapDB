@@ -45,15 +45,17 @@ class MapDataFilterService
             throw new \InvalidArgumentException("Unsupported data type: {$dataType}");
         }
 
+        $normalizedFilters = $this->normalizeFilters($filters);
+
         $query = $strategy->buildBaseQuery();
-        $query = $strategy->applyFilters($query, $filters);
-        $aggregatedData = $strategy->aggregateData($query, $filters);
+        $query = $strategy->applyFilters($query, $normalizedFilters);
+        $aggregatedData = $strategy->aggregateData($query, $normalizedFilters);
 
         return [
             'sql' => $query->toSql(),
             'data' => $aggregatedData,
-            'metadata' => $this->generateMetadata($dataType, $filters),
-            'options' => $this->getFilterOptions($dataType, $filters),
+            'metadata' => $this->generateMetadata($dataType, $normalizedFilters),
+            'options' => $this->getFilterOptions($dataType, $normalizedFilters),
         ];
     }
 
@@ -82,8 +84,10 @@ class MapDataFilterService
             return [];
         }
 
+        $normalizedFilters = $this->normalizeFilters($filters);
+
         $query = $strategy->buildBaseQuery();
-        $query = $strategy->applyFilters($query, $filters);
+        $query = $strategy->applyFilters($query, $normalizedFilters);
 
         return $strategy->getSummaryStats($query);
     }
@@ -99,8 +103,10 @@ class MapDataFilterService
             return [];
         }
 
+        $normalizedFilters = $this->normalizeFilters($filters);
+
         $query = $strategy->buildBaseQuery();
-        $query = $strategy->applyFilters($query, $filters);
+        $query = $strategy->applyFilters($query, $normalizedFilters);
 
         return $strategy->getGeographicDistribution($query, $groupBy);
     }
@@ -137,6 +143,49 @@ class MapDataFilterService
             return ['valid' => false, 'errors' => ['Invalid data type']];
         }
 
-        return $strategy->validateFilters($filters);
+        $normalizedFilters = $this->normalizeFilters($filters);
+
+        return $strategy->validateFilters($normalizedFilters);
+    }
+
+    /**
+     * Normalize filter keys to align with standard backend schema.
+     */
+    private function normalizeFilters(array $filters): array
+    {
+        $normalized = $filters;
+
+        if (isset($normalized['regions']) && !isset($normalized['region'])) {
+            $normalized['region'] = $normalized['regions'];
+        }
+
+        if (isset($normalized['provinces']) && !isset($normalized['province'])) {
+            $normalized['province'] = $normalized['provinces'];
+        }
+
+        if (isset($normalized['cities']) && !isset($normalized['city'])) {
+            $normalized['city'] = $normalized['cities'];
+        }
+
+        if (isset($normalized['commodities']) && !isset($normalized['commodity'])) {
+            $normalized['commodity'] = $normalized['commodities'];
+        }
+
+        if (!empty($normalized['geo_location_filter']) && array_key_exists('geo_location_value', $normalized)) {
+            $keyMap = [
+                'region' => 'region',
+                'province' => 'province',
+                'city' => 'city',
+                'institute' => 'institute',
+                'affiliation' => 'institute',
+            ];
+
+            $filterKey = $normalized['geo_location_filter'];
+            if (isset($keyMap[$filterKey]) && $normalized['geo_location_value'] !== null) {
+                $normalized[$keyMap[$filterKey]] = $normalized['geo_location_value'];
+            }
+        }
+
+        return $normalized;
     }
 }
