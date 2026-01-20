@@ -1,20 +1,8 @@
 import DtoBreeder from "../dto/DtoBreeder";
-import {BreederType, EducLevel} from "@/Pages/constants";
-import axios from "axios";
-import {route} from "ziggy-js";
 
 export default class Breeder extends DtoBreeder{
     constructor(params : DtoBreeder) {
         super(params);
-        this.indexUri = 'api.breeders.index';
-        this.showUri = 'api.breeders.show';
-        this.storeUri = 'api.breeders.store';
-        this.updateUri = 'api.breeders.update';
-        this.destroyUri = 'api.breeders.destroy';
-        this.multiDestroyUri = 'api.breeders.destroy.multi';
-        this.summaryUri = 'api.breeders.summary';
-        this.dataViewUri =  'api.dataview.show';
-
         this.appendWith = ['affiliated','location','commodities'];
         this.appendCount = ['commodities'] ;
     }
@@ -46,18 +34,6 @@ export default class Breeder extends DtoBreeder{
     static importTemplateHeaders() {
         const exclude = ['id','user_id','remember_token','photo','password_confirmation'];
         return Object.keys(this.createForm()).filter(k => !exclude.includes(k));
-    }
-
-    static importTemplateDropdowns() {
-        return {
-            breeder_type: BreederType.map(bt => bt.value),
-            educ_level: EducLevel.map(bt => bt.value),
-            geolocation: [
-                async () => (await axios.get(route('api.cities.index.public'),{
-                    params: { per_page: '*' }
-                })).data.data.map((item: any) => item.name)
-            ]
-        };
     }
 
     static updateForm(oldValue: Partial<Breeder>)

@@ -4,6 +4,7 @@ import Product from "@/Pages/Projects/TWG/domain/Product.ts";
 import Service from "@/Pages/Projects/TWG/domain/Service.ts";
 
 import { defineAsyncComponent } from "vue";
+import { TWGEndpoints } from "@/Pages/Projects/TWG/infrastructure/TWGEndpoints";
 export const TWGPages = {
     api: {
         expert: {
@@ -40,7 +41,7 @@ export const TWGPages = {
             }
         },
         project: {
-            path: route(Project.indexUri),
+            path: route(TWGEndpoints.project.indexUri),
             name: 'Projects Model',
             model: Project,
             create:{
@@ -99,7 +100,7 @@ export const TWGPages = {
         },
     },
     index: {
-        path: route(Project.indexUri),
+        path: route(TWGEndpoints.project.indexUri),
         name: 'TWGIndex',
         component: defineAsyncComponent(
             () => import('@/Pages/Projects/TWG/presentation/TWGIndex.vue')

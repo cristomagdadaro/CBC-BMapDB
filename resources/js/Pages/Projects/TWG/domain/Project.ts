@@ -24,14 +24,6 @@ export default class Project extends BaseClass implements IProject{
     constructor(params: DtoProject) {
         super(params);
 
-        this.indexUri = 'api.twg.projects.index';
-        this.showUri = 'api.twg.projects.show';
-        this.storeUri = 'api.twg.projects.store';
-        this.updateUri = 'api.twg.projects.update';
-        this.destroyUri = 'api.twg.projects.destroy';
-        this.multiDestroyUri = 'api.twg.projects.destroy.multi';
-        this.summaryUri = 'api.twg.projects.summary';
-
         this.appendWith = ['affiliated','projectLeader'];
     }
 

@@ -60,14 +60,14 @@ Backend: Repository + Pipeline Alignment
    - Action:
      - Replace DTO-driven filtering with `Collection` parameters that map 1:1 to pipeline filters.
 
-5) Custom filtering trait overlaps with pipeline behavior.
+5) Custom filtering trait overlaps with pipeline behavior. - ok na
    - Evidence:
      - [app/Traits/VisualizeData.php](app/Traits/VisualizeData.php)
    - Action:
      - Consolidate filter logic into pipeline filters or document this trait as a visualization-specific exception.
 
 Frontend: DDD Alignment
-6) Domain layer depends on transport and routing details.
+6) Domain layer depends on transport and routing details. - ok na
    - Evidence:
      - [resources/js/Pages/Projects/BreedersMap/domain/Commodity.ts](resources/js/Pages/Projects/BreedersMap/domain/Commodity.ts) uses axios and route config.
      - [resources/js/Pages/Projects/TWG/domain/Project.ts](resources/js/Pages/Projects/TWG/domain/Project.ts) embeds API URIs and request concerns.

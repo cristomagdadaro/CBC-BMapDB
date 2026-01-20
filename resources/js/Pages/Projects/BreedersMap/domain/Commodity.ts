@@ -1,20 +1,9 @@
 import DtoCommodity from "../dto/DtoCommodity";
-import axios from "axios";
-import {route} from "ziggy-js";
-import DtoBreeder from "@/Pages/Projects/BreedersMap/dto/DtoBreeder";
 
 export default class Commodity extends DtoCommodity {
     constructor(params: DtoCommodity) {
         // @ts-ignore
         super(params);
-
-        this.indexUri = 'api.commodities.index';
-        this.showUri = 'api.commodities.show';
-        this.storeUri = 'api.commodities.store';
-        this.updateUri = 'api.commodities.update';
-        this.destroyUri = 'api.commodities.destroy';
-        this.multiDestroyUri = 'api.commodities.destroy.multi';
-        this.summaryUri = 'api.commodities.summary';
 
         this.appendWith = ['breeder', 'location', 'characteristics', 'additionalinfo'];
     }
@@ -22,28 +11,6 @@ export default class Commodity extends DtoCommodity {
     static importTemplateHeaders() {
         const exclude = ['user_id','photo'];
         return Object.keys(this.createForm()).filter(k => !exclude.includes(k));
-    }
-
-    static async importTemplateDropdowns() {
-        return {
-            breeder_id: [
-                async () => (await axios.get(route('api.breeders.index'),{
-                    params: { paginate: false}
-                }).then(res => {
-                    return res.data.data.map((item: any) => (new DtoBreeder(item)).id)
-                }))
-            ],
-            name: [
-                async () => (await axios.get(route('api.breedersmap.commodities.priority.public'),{
-                    params: { per_page: '*' }
-                })).data.data.map((item: any) => (item.label))
-            ],
-            geolocation: [
-                async () => (await axios.get(route('api.cities.index.public'), {
-                    params: { per_page: '*' }
-                })).data.data.map((item: any) => item.name)
-            ]
-        };
     }
 
     static getCreateFieldTitles() {

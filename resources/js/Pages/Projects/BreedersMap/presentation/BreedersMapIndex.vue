@@ -33,6 +33,7 @@ import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 import BmSettings from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmSettings.vue";
 import UnderDevelop from "@/Components/Modal/UnderDevelop.vue";
+import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
 
 export default {
     computed: {
@@ -98,8 +99,8 @@ export default {
               },
           ],
           tables: [
-              { label: 'Commodity', name: 'commodities', route: route(Commodity.summaryUri), model: Commodity },
-              { label: 'Breeders', name: 'breeders', route: route(Breeder.summaryUri), model: Breeder },
+              { label: 'Commodity', name: 'commodities', route: route(BreedersMapEndpoints.commodity.summaryUri), model: Commodity },
+              { label: 'Breeders', name: 'breeders', route: route(BreedersMapEndpoints.breeder.summaryUri), model: Breeder },
           ]
       }
     },

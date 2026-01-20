@@ -6,6 +6,7 @@ import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity.ts";
 import CommodityTable from "@/Pages/Projects/BreedersMap/presentation/components/commodity/CommodityTable.vue";
 import Tab from "@/Components/Tab/Tab.vue";
 import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue";
+import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
 
 export default {
     name: "BreedersMapViewBreeder",
@@ -35,7 +36,7 @@ export default {
                 },
             ],
             tables: [
-                { label: 'Commodity', name: 'commodities', route: route('api.commodities.summary', () => { return this.breeder.id ? this.breeder.id : null; }), model: Commodity },
+                { label: 'Commodity', name: 'commodities', route: route(BreedersMapEndpoints.commodity.summaryUri, () => { return this.breeder.id ? this.breeder.id : null; }), model: Commodity },
             ]
         }
     },
@@ -134,7 +135,7 @@ export default {
                 <h1 class="text-lg font-semibold uppercase select-none px-3 mt-5">Commodities</h1>
                 <Tab :tabs="tabs">
                     <template #tab1>
-                        <commodity-table :base-url="route(Commodity.indexUri)" :params="{ filter_by_parent_id: breederInstance.id,  filter_by_parent_column: 'breeder_id' }" />
+                        <commodity-table :base-url="route(BreedersMapEndpoints.commodity.indexUri)" :params="{ filter_by_parent_id: breederInstance.id,  filter_by_parent_column: 'breeder_id' }" />
                     </template>
                     <template #tab2>
                         <div class="p-2 relative">

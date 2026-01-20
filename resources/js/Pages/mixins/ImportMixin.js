@@ -5,6 +5,7 @@ import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import RadioField from "@/Components/Form/RadioField.vue";
 import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
 import FileField from "@/Components/Form/FileField.vue";
+import { getImportTemplateDropdowns } from "@/Pages/Projects/BreedersMap/infrastructure/ImportDropdownsService";
 
 
 export default {
@@ -24,7 +25,13 @@ export default {
         },
         dropdowns() {
             // Optional dropdown lists per column for Excel data validation
-            return this.model.importTemplateDropdowns();
+            if (!this.model) return {};
+
+            if (typeof this.model.importTemplateDropdowns === 'function') {
+                return this.model.importTemplateDropdowns();
+            }
+
+            return getImportTemplateDropdowns(this.model);
         },
         xlsxFileName() {
             // date_stamped filename
