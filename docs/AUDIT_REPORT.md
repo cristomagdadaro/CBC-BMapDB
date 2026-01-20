@@ -30,7 +30,7 @@ Current State Summary
 Findings and Required Actions
 
 Backend: Repository + Pipeline Alignment
-1) Multiple filtering systems are active (pipeline, repo-specific `applyFilters`, strategy service). -ok na
+1) Multiple filtering systems are active (pipeline, repo-specific `applyFilters`, strategy service). - ok na
    - Evidence:
      - [app/Repository/AbstractRepoService.php](app/Repository/AbstractRepoService.php)
      - [modules/PbMap/Repositories/CommodityRepo.php](modules/PbMap/Repositories/CommodityRepo.php)
@@ -40,14 +40,14 @@ Backend: Repository + Pipeline Alignment
      - Standardize on `FilterPipeline` for all repository queries.
      - Decide if map aggregation stays as a separate service; if yes, document it as an exception and align its inputs to the same parameter schema.
 
-2) Actions/controllers bypass the pipeline and build queries directly.
+2) Actions/controllers bypass the pipeline and build queries directly. - ok na
    - Evidence:
      - [modules/PbMap/Actions/GenerateBreederSummaryAction.php](modules/PbMap/Actions/GenerateBreederSummaryAction.php)
    - Action:
      - Move filtering into repository `search()` calls with pipeline parameters.
      - Keep actions as orchestration only (no joins or select raw logic).
 
-3) Legacy filter helpers still referenced, diverging from pipeline.
+3) Legacy filter helpers still referenced, diverging from pipeline. - ok na
    - Evidence:
      - [modules/PbMap/Actions/GenerateBreederSummaryAction.php](modules/PbMap/Actions/GenerateBreederSummaryAction.php) uses `applyGeoFilters`, `applySearchFilters`, `applySorting`.
    - Action:

@@ -26,16 +26,7 @@ class CommodityRepo extends AbstractRepoService
             $params = $params->put('with', 'breeder,location');
         }
 
-        $builder = $this->applyParentFilter($builder, $params);
-        $builder = $this->applyGeoFilters($builder, $params);
-        $builder = $this->applyAppends($builder, $params);
-        $builder = $this->applySearchFilters($builder, $params);
-
-        if ($filters->commodities) {
-            $builder->where('commodities.name', $filters->commodities);
-        }
-
-        return $builder;
+        return $this->getFilterPipeline()->apply($builder, $params);
     }
 
     public function linechartData($model, $search = null, $is_exact = false, $group_by = 'name', $commodity = null) {

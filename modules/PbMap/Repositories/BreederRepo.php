@@ -29,10 +29,7 @@ class BreederRepo extends AbstractRepoService
                 ->put('filter', 'fname,mname,lname,suffix');
         }
 
-        $builder = $this->applyGeoFilters($builder, $params);
-        $builder = $this->applySearchFilters($builder, $params);
-
-        return $builder;
+        return $this->getFilterPipeline()->apply($builder, $params);
     }
 
     public function getBreederLabels($model, $geo_location_value, $is_exact, $geo_location_filter)
