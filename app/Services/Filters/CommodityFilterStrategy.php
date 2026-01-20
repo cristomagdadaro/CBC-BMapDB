@@ -154,6 +154,8 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     private function aggregateByInstitute(Builder $query): array
     {
+        $query->getQuery()->columns = null;
+
         return $query
             ->selectRaw('institutes.name as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng')
             ->whereNotNull('institutes.name')
@@ -165,6 +167,8 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     private function aggregateByRegion(Builder $query): array
     {
+        $query->getQuery()->columns = null;
+
         return $query
             ->select(DB::raw('loc_cities.regDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->groupBy('loc_cities.regDesc')
@@ -175,6 +179,8 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     private function aggregateByProvince(Builder $query): array
     {
+        $query->getQuery()->columns = null;
+
         return $query
             ->select(DB::raw('loc_cities.provDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->groupBy('loc_cities.provDesc')
@@ -185,6 +191,8 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     private function aggregateByCity(Builder $query): array
     {
+        $query->getQuery()->columns = null;
+
         return $query
             ->select(DB::raw('loc_cities.id as city_id, loc_cities.cityDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->groupBy('loc_cities.id', 'loc_cities.cityDesc')
@@ -195,6 +203,8 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     private function aggregateByCommodity(Builder $query): array
     {
+        $query->getQuery()->columns = null;
+
         return $query
             ->select(DB::raw('loc_cities.cityDesc as label, COUNT(*) as total, AVG(loc_cities.latitude) as lat, AVG(loc_cities.longitude) as lng'))
             ->groupBy('loc_cities.id', 'loc_cities.cityDesc')

@@ -138,7 +138,7 @@ watch(
 </script>
 
 <template>
-    <div class="flex gap-5 h-full bg-gray-50 md:p-3 p-2">
+    <div class="flex gap-5 h-full md:p-3 p-2">
     <!-- Filter Panel -->
         <div v-if="!props.offline && !props.customPoint" class="w-80 flex-shrink-0">
             <MapDataFilterPanel
@@ -152,7 +152,7 @@ watch(
         <!-- Map Container -->
         <div class="flex-1 flex flex-col gap-5 h-[calc(100vh-5rem)]">
             <!-- Map Header -->
-            <div class="bg-white rounded-lg shadow-lg p-4">
+            <div class="bg-gray-100 rounded-lg p-4">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-xl font-semibold text-gray-900">Geographic Distribution</h2>

@@ -826,7 +826,7 @@ onMounted(() => {
 
         <!-- Legend -->
         <div v-if="markers.length > 0" class="absolute bottom-4 left-4 bg-white rounded-lg shadow-lg p-3 z-[1000]">
-            <div class="text-xs font-medium text-gray-900 mb-2">Legend</div>
+            <div class="text-xs font-medium text-gray-900 mb-2">Density Legend</div>
             <div class="space-y-1">
                 <div class="flex items-center gap-2">
                     <div class="w-3 h-3 rounded-full bg-red-600"></div>

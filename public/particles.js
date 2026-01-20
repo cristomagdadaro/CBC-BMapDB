@@ -1493,6 +1493,11 @@ window.particlesJS = function(tag_id, params){
   var pJS_tag = document.getElementById(tag_id),
       pJS_canvas_class = 'particles-js-canvas-el';
 
+  if(!pJS_tag){
+    console.warn('particlesJS: target element not found for id', tag_id);
+    return;
+  }
+
   // Abort if the target container does not exist
   if(!pJS_tag){
     console.warn('particlesJS: target element not found for id', tag_id);

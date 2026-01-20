@@ -18,6 +18,9 @@
         <testsuite name="BreedersMap">
             <directory>tests/Feature/BreedersMap</directory>
         </testsuite>
+        <testsuite name="MapData">
+            <directory>tests/Feature/MapData</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
