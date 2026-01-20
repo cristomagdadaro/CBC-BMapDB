@@ -105,7 +105,7 @@ export default {
             <div class="px-4 sm:px-6 py-3 lg:px-8 bg-cbc-dark-green">
                 <div class="flex justify-between items-center h-10">
                     <div class="flex gap-1 items-center">
-                        <img src="/img/logos/pin.webp" alt="PIN Logo" class="h-10 w-auto" />
+                        <img v-if="$page.props.auth.user.profile_photo_url" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name" class="rounded-full h-10 w-10 object-cover">
                         <div class="sm:flex hidden flex-col text-gray-50">
 
                             <div class="flex items-center gap-1 border-white border-b px-1">

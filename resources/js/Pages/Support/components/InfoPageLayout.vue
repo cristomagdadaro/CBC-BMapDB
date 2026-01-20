@@ -28,10 +28,10 @@ export default {
                     <info-page-links />
                 </div>
                 <div class="text-gray-900 bg-gray-50 flex flex-col w-full sm:gap-1 gap-3 sm:p-5 p-8 sm:text-left text-center drop-shadow-lg rounded-md">
-                    <p class="flex items-center gap-2 font-medium sm:text-3xl text-xl sm:leading-relaxed leading-tight">
+                    <p class="flex items-center gap-2 font-medium leading-tight">
                         <span>{{ title }}</span>
                     </p>
-                    <p class="leading-relaxed sm:text-left text-justify sm:text-lg text-sm">
+                    <p class="leading-relaxed sm:text-left text-justify">
                         <slot />
                     </p>
                 </div>

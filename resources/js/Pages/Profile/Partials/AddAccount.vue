@@ -33,7 +33,7 @@ export default {
             form: null,
             apiService: null,
             errors: null,
-            filteredRoles: null,
+            filteredRoles: [],
             selectedApplication: null,
             applicationRolesMap: {
                 "1": ['TWG Manager', 'Researcher'],
@@ -55,7 +55,8 @@ export default {
         },
         filterRolesByApplication() {
             const allowedRoles = this.applicationRolesMap[this.selectedApplication] || [];
-            this.filteredRoles = this.roles.filter(role =>
+            const roles = Array.isArray(this.roles) ? this.roles : [];
+            this.filteredRoles = roles.filter(role =>
                 allowedRoles.includes(role.label)
             );
         }

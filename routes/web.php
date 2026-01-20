@@ -85,9 +85,12 @@ Route::prefix('/support-info')->group(function () {
     Route::get('/terms-of-use', [SupportInfoController::class, 'termsOfUse'])->name('support.terms-of-use');
     //Route::get('/policy-notice', [SupportInfoController::class, 'policyNotice'])->name('support.policy-notice');
     Route::get('/privacy-policy', [SupportInfoController::class, 'privacyPolicy'])->name('support.privacy-policy');
+    Route::get('/data-privacy', [SupportInfoController::class, 'dataPrivacy'])->name('support.data-privacy');
     Route::get('/sitemap', [SupportInfoController::class, 'sitemap'])->name('support.sitemap');
-    Route::get('/developers', [SupportInfoController::class, 'developers'])->name('support.developers');
+    Route::get('/contributors', [SupportInfoController::class, 'contributors'])->name('support.contributors');
 });
+
+Route::get('/sitemap.xml', [SupportInfoController::class, 'sitemapXml'])->name('sitemap.xml');
 
 
 Route::prefix('/projects')->group(function () {

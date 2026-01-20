@@ -14,7 +14,7 @@ export default {
     <info-page-layout title="About Us">
         <div class="space-y-6 text-dark-color leading-5">
             <div>
-                <p class="text-lg font-bold">What is  {{ $appNameShort }}?</p>
+                <p class="font-bold">What is  {{ $appNameShort }}?</p>
                 <p>The  {{ $appName }}) System is an innovative online platform designed to serve as a centralized repository for crop biotechnology-related data. It aims to collect, store, and organize comprehensive information on various crops, including rice, corn, vegetables, and other agricultural products.</p>
             </div>
             <div>

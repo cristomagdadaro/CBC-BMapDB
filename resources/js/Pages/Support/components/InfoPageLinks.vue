@@ -11,7 +11,8 @@ export default {
                 {name: 'Terms of Use', route: 'support.terms-of-use'},
                 /*{name: 'Policy Notice', route: 'support.policy-notice'},*/
                 {name: 'Privacy Policy', route: 'support.privacy-policy'},
-                {name: 'Contributors', route: 'support.developers'},
+                {name: 'Data Privacy Notice', route: 'support.data-privacy'},
+                {name: 'Contributors', route: 'support.contributors'},
                 {name: 'Sitemap', route: 'support.sitemap'},
             ]
         }
@@ -20,7 +21,7 @@ export default {
 </script>
 
 <template>
-    <Link v-for="link in links" :key="link.name" :href="route(link.route)" :class="{ active: route().current(link.route) }" class="info-page-link sm:text-sm text-[0.8rem]">{{ link.name }}</Link>
+    <Link v-for="link in links" :key="link.name" :href="route(link.route)" :class="{ active: route().current(link.route) }" class="info-page-link">{{ link.name }}</Link>
 </template>
 
 <style scoped>

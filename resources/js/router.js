@@ -187,9 +187,14 @@ const routes = [
         name: 'support.privacy-policy',
     },
     {
-        path: '/support-info/developers',
-        component: async () => await import('@/Pages/Support/Developers.vue'),
-        name: 'support.developers',
+        path: '/support-info/data-privacy',
+        component: async () => await import('@/Pages/Support/DataPrivacy.vue'),
+        name: 'support.data-privacy',
+    },
+    {
+        path: '/support-info/contributors',
+        component: async () => await import('@/Pages/Support/Contributors.vue'),
+        name: 'support.contributors',
     },
     {
         path: '/support-info/sitemap',

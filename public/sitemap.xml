@@ -64,6 +64,13 @@
     </url>
 
     <url>
+        <loc>https://pin.philrice.gov.ph/support-info/data-privacy</loc>
+        <lastmod>2005-01-01</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
         <loc>https://pin.philrice.gov.ph/support-info/sitemap</loc>
         <lastmod>2005-01-01</lastmod>
         <changefreq>monthly</changefreq>
@@ -71,7 +78,7 @@
     </url>
 
     <url>
-        <loc>https://pin.philrice.gov.ph/support-info/developers</loc>
+        <loc>https://pin.philrice.gov.ph/support-info/contributors</loc>
         <lastmod>2005-01-01</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>

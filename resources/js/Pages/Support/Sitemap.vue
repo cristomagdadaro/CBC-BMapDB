@@ -36,8 +36,8 @@ export default {
 <template>
     <info-page-layout title="Sitemap">
         <div class="flex flex-col space-y-2">
-            <span v-for="routes in $page.props.urls">
-                <Link :href="routes.loc" class="text-gray-800 text-normal">{{ routes.name }}</Link>
+            <span v-for="routes in $page.props.urls" v-bind:key="routes.loc">
+                <Link :href="routes.loc" class="text-gray-800">{{ routes.name }}</Link>
             </span>
         </div>
         <textarea v-model="sitemap" readonly rows="15" cols="80" class="hidden"></textarea>
