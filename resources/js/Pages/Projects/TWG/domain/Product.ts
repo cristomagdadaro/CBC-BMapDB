@@ -21,14 +21,6 @@ export default class Product extends BaseClass implements IProduct{
     constructor(params: DtoProduct) {
         super(params);
 
-        this.indexUri = 'api.twg.products.index';
-        this.showUri = 'api.twg.products.show';
-        this.storeUri = 'api.twg.products.store';
-        this.updateUri = 'api.twg.products.update';
-        this.destroyUri = 'api.twg.products.destroy';
-        this.multiDestroyUri = 'api.twg.products.destroy.multi';
-        this.summaryUri = 'api.twg.products.summary';
-
         this.appendWith = ['affiliated'];
     }
 

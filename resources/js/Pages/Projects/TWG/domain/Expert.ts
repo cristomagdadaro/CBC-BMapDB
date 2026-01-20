@@ -23,14 +23,6 @@ export default class Expert extends BaseClass implements IExpert {
     constructor(params: DtoExpert) {
         super(params);
 
-        this.indexUri = 'api.twg.experts.index';
-        this.showUri = 'api.twg.experts.show';
-        this.storeUri = 'api.twg.experts.store';
-        this.updateUri = 'api.twg.experts.update';
-        this.destroyUri = 'api.twg.experts.destroy';
-        this.multiDestroyUri = 'api.twg.experts.destroy.multi';
-        this.summaryUri = 'api.twg.experts.summary';
-
         this.appendWith = ['affiliated'];
     }
 

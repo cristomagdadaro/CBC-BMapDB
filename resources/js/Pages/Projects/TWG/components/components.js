@@ -8,7 +8,7 @@ import { TWGEndpoints } from "@/Pages/Projects/TWG/infrastructure/TWGEndpoints";
 export const TWGPages = {
     api: {
         expert: {
-            path: route(Expert.indexUri),
+            path: route(TWGEndpoints.expert.indexUri),
             name: 'Experts Model',
             model: Expert,
             create:{
@@ -61,7 +61,7 @@ export const TWGPages = {
             }
         },
         product: {
-            path: route(Product.indexUri),
+            path: route(TWGEndpoints.product.indexUri),
             name: 'Products Model',
             model: Product,
             create:{
@@ -80,7 +80,7 @@ export const TWGPages = {
             }
         },
         service: {
-            path: route(Service.indexUri),
+            path: route(TWGEndpoints.service.indexUri),
             name: 'Services Model',
             model: Service,
             create:{

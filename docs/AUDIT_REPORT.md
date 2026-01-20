@@ -75,14 +75,14 @@ Frontend: DDD Alignment
      - Move API endpoints and transport to infrastructure services.
      - Keep domain classes pure and API-agnostic.
 
-7) Infrastructure code is nested under presentation.
+7) Infrastructure code is nested under presentation. - ok na
    - Evidence:
      - [resources/js/Pages/Projects/BreedersMap/presentation/components/map/infrastructure/MapApiService.js](resources/js/Pages/Projects/BreedersMap/presentation/components/map/infrastructure/MapApiService.js)
    - Action:
      - Relocate infrastructure services to the module’s infrastructure layer.
      - Keep presentation folders UI-only.
 
-8) Inconsistent module boundaries and pathing reduce standardization.
+8) Inconsistent module boundaries and pathing reduce standardization. - ok na
    - Evidence:
      - Mix of module-local and global core imports in [resources/js/Pages/Projects](resources/js/Pages/Projects) and [resources/js/Modules/core](resources/js/Modules/core).
    - Action:

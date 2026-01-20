@@ -23,14 +23,6 @@ export default class Service extends BaseClass implements IService{
     constructor(params : DtoService) {
         super(params);
 
-        this.indexUri = 'api.twg.services.index';
-        this.showUri = 'api.twg.services.show';
-        this.storeUri = 'api.twg.services.store';
-        this.updateUri = 'api.twg.services.update';
-        this.destroyUri = 'api.twg.services.destroy';
-        this.multiDestroyUri = 'api.twg.services.destroy.multi';
-        this.summaryUri = 'api.twg.services.summary';
-
         this.appendWith = ['affiliated', 'officerInCharge'];
     }
 
