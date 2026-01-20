@@ -30,6 +30,9 @@ export default {
         }
     },
     computed: {
+        BreedersMapEndpoints() {
+            return BreedersMapEndpoints
+        },
         BreedersMapPages() {
             return BreedersMapPages
         },

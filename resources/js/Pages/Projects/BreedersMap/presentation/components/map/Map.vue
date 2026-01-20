@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import MapDataFilterPanel from '@/Components/Map/MapDataFilterPanel.vue'
 import LeafletMap from '@/Components/Map/LeafletMap.vue'
 
@@ -8,6 +8,10 @@ const props = defineProps({
         type: String,
         default: 'commodities'
     },
+    initialFilters: {
+        type: Object,
+        default: () => ({})
+    },
     tableList: {
         type: Array,
         default: () => []
@@ -15,6 +19,14 @@ const props = defineProps({
     model: {
         type: [Object, Function],
         default: null
+    },
+    customPoint: {
+        type: [Array, Object, null],
+        default: null
+    },
+    offline: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -23,6 +35,45 @@ const mapMetadata = ref({})
 const currentFilters = ref({})
 const selectedMarker = ref(null)
 const mapComponent = ref(null)
+
+const normalizeCustomPoint = (input) => {
+    if (!input) return []
+    return Array.isArray(input) ? input : [input]
+}
+
+const buildMapDataFromCustomPoint = (items) => {
+    const groups = new Map()
+
+    items.forEach((item) => {
+        const location = item?.location || item?.coordinates || item?.geolocation || null
+        const lat = parseFloat(location?.latitude ?? location?.lat ?? location?.LatLng?.lat)
+        const lng = parseFloat(location?.longitude ?? location?.lng ?? location?.LatLng?.lng)
+
+        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
+            return
+        }
+
+        const cityId = location?.id ?? item?.city_id ?? item?.cityId ?? null
+        const key = cityId ?? `${lat},${lng}`
+        const label = location?.cityDesc || location?.city || item?.label || item?.name || 'Unknown'
+
+        if (!groups.has(key)) {
+            groups.set(key, {
+                id: key,
+                lat,
+                lng,
+                label,
+                total: 0,
+                city_id: cityId
+            })
+        }
+
+        const group = groups.get(key)
+        group.total += 1
+    })
+
+    return Array.from(groups.values())
+}
 
 // Handle data updates from the filter panel
 const handleDataUpdated = (result) => {
@@ -60,14 +111,39 @@ const fitMapToData = () => {
 onMounted(() => {
     console.log('Enhanced map component ready')
 })
+
+const applyCustomPoints = () => {
+    const items = normalizeCustomPoint(props.customPoint)
+    mapData.value = buildMapDataFromCustomPoint(items)
+    mapMetadata.value = {}
+    currentFilters.value = {
+        data_type: props.initialDataType,
+        ...props.initialFilters
+    }
+}
+
+if (props.offline || props.customPoint) {
+    applyCustomPoints()
+}
+
+watch(
+    () => props.customPoint,
+    () => {
+        if (props.offline || props.customPoint) {
+            applyCustomPoints()
+        }
+    },
+    { deep: true }
+)
 </script>
 
 <template>
     <div class="flex gap-5 h-full bg-gray-50 md:p-3 p-2">
     <!-- Filter Panel -->
-        <div class="w-80 flex-shrink-0">
+        <div v-if="!props.offline && !props.customPoint" class="w-80 flex-shrink-0">
             <MapDataFilterPanel
                 :initial-data-type="props.initialDataType"
+                :initial-filters="props.initialFilters"
                 @data-updated="handleDataUpdated"
                 @filters-changed="handleFiltersChanged"
             />
@@ -101,7 +177,7 @@ onMounted(() => {
 
             <!-- Leaflet Map -->
             <div class="flex-1 bg-white rounded-lg shadow-lg overflow-hidden">
-                <LeafletMap
+                    <LeafletMap
                     ref="mapComponent"
                     :map-data="mapData"
                     :clustered="false"

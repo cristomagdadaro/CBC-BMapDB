@@ -539,14 +539,16 @@ export default {
             event.preventDefault();
             this.rowContextMenu = row;
             this.$nextTick(() => {
-                if (this.$refs.contextMenu && typeof this.$refs.contextMenu.showMenu === 'function') {
+                const contextMenu = Array.isArray(this.$refs.contextMenu)
+                    ? this.$refs.contextMenu[0]
+                    : this.$refs.contextMenu;
+
+                if (contextMenu && typeof contextMenu.showMenu === 'function') {
                     try {
-                        this.$refs.contextMenu.showMenu(event);
+                        contextMenu.showMenu(event);
                     } catch (e) {
                         console.log('Error at the showContextMenu');
                     }
-                } else {
-                    console.error('ContextMenu ref is not defined or showMenu is not a function');
                 }
             });
         },

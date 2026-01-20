@@ -12,6 +12,11 @@ export default {
             approving: false,
         };
     },
+    computed: {
+        BreedersMapEndpoints() {
+            return BreedersMapEndpoints
+        }
+    },
     methods: {
         async approveCommodity() {
             const id = this.form?.id ?? this.data?.id;

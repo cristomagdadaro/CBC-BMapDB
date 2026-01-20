@@ -41,6 +41,9 @@ export default {
         }
     },
     computed: {
+        BreedersMapEndpoints() {
+            return BreedersMapEndpoints
+        },
         Breeder() {
             return Breeder
         },

@@ -39,6 +39,9 @@ export default {
     computed: {
         Commodity() {
             return Commodity
+        },
+        BreedersMapEndpoints() {
+            return BreedersMapEndpoints
         }
     },
     components: {
