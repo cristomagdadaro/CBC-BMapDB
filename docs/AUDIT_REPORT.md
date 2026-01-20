@@ -30,7 +30,7 @@ Current State Summary
 Findings and Required Actions
 
 Backend: Repository + Pipeline Alignment
-1) Multiple filtering systems are active (pipeline, repo-specific `applyFilters`, strategy service).
+1) Multiple filtering systems are active (pipeline, repo-specific `applyFilters`, strategy service). -ok na
    - Evidence:
      - [app/Repository/AbstractRepoService.php](app/Repository/AbstractRepoService.php)
      - [modules/PbMap/Repositories/CommodityRepo.php](modules/PbMap/Repositories/CommodityRepo.php)

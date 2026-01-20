@@ -60,6 +60,7 @@ class FilterPipeline
             ->addFilter(new RelationshipFilter())     // 2. Define relationships
             ->addFilter(new ParentFilter())           // 3. Parent filtering (most restrictive)
             ->addFilter(new GeoLocationFilter())      // 4. Geographic filtering (joins + filters)
+            ->addFilter(new CommodityNameFilter())    // 5. Commodity name filtering (commodities only)
             ->addFilter(new SearchFilter())           // 5. Text search
             ->addFilter(new GroupByFilter())          // 6. Aggregation grouping
             ->addFilter(new SortFilter());            // 7. Sort last (after all filtering)

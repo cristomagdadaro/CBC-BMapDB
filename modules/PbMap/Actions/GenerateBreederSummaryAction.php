@@ -28,27 +28,40 @@ class GenerateBreederSummaryAction
         $model = $this->breederRepo->model;
         $params = $this->getSummaryParams($request);
 
-        $builder = $model->newModelQuery();
+        $baseParams = collect([
+            'geo_location_filter' => $params['geo_location_filter'],
+            'geo_location_value' => $params['geo_location_value'],
+            'is_exact' => $params['is_exact'],
+            'paginate' => false,
+        ]);
 
-        $this->breederRepo->applyGeoFilters($builder, $request->collect());
-        $this->breederRepo->applySearchFilters($builder, $request->collect());
+        if ($params['breeder']) {
+            $baseParams = $baseParams
+                ->put('search', $params['breeder'])
+                ->put('filter', 'fname,mname,lname,suffix');
+        }
 
-        $builderA = (clone $builder);
-        $this->breederRepo->applyAppends($builderA, $request->collect());
-        $breeders = $builderA->select($model->getSearchable())->get();
+        $breeders = $this->breederRepo->search(
+            $baseParams->put('select', implode(',', $model->getSearchable())),
+            false
+        );
 
-        $chartDataParams = $request->collect()->put('select_raw', "{$params['group_by']} as label, count(*) as total")
+        $chartDataParams = $baseParams
+            ->put('select_raw', "{$params['group_by']} as label, count(*) as total")
             ->put('group_by', $params['group_by'])
             ->put('sort', 'total')
             ->put('order', 'desc');
 
-        $builderB = (clone $builder)->selectRaw("{$params['group_by']} as label, count(*) as total");
-        $this->breederRepo->applySorting($builderB, $chartDataParams);
-        $chart_data = $builderB->groupBy($params['group_by'])->get();
+        $chart_data = $this->breederRepo->search($chartDataParams, false);
 
-        $builderC = (clone $builder)->selectRaw('CONCAT(breeders.fname, breeders.mname, breeders.lname, breeders.suffix) as label, count(*) as total');
-        $this->breederRepo->applySorting($builderC, $chartDataParams);
-        $breeders_chart = $builderC->groupBy('label')->get();
+        $breeders_chart = $this->breederRepo->search(
+            $baseParams
+                ->put('select_raw', 'CONCAT(breeders.fname, breeders.mname, breeders.lname, breeders.suffix) as label, count(*) as total')
+                ->put('group_by', 'label')
+                ->put('sort', 'total')
+                ->put('order', 'desc'),
+            false
+        );
 
         return response()->json([
             'params' => $params,
@@ -67,20 +80,42 @@ class GenerateBreederSummaryAction
         $model = $this->breederRepo->model;
         $params = $this->getSummaryParams($request);
 
-        $breeders = $this->breederRepo->applyFilters($this->breederRepo->checkRole($model), $params['breeder'], $params['geo_location_value'], $params['geo_location_filter'])
-            ->select($model->getSearchable())
-            ->with(['location', 'commodities','affiliated'])
-            ->get();
-        $chart_data = $this->breederRepo->applyFilters($model, $params['breeder'], $params['geo_location_value'], $params['geo_location_filter'])
-            ->selectRaw("{$params['group_by']} as label, count(*) as total")
-            ->groupBy($params['group_by'])
-            ->orderBy('total', 'desc')
-            ->get();
-        $breeders_chart = $this->breederRepo->applyFilters($model, $params['breeder'], $params['geo_location_value'], $params['geo_location_filter'])
-            ->selectRaw('CONCAT(fname, mname, lname, suffix) as label, count(*) as total')
-            ->groupBy('label')
-            ->orderBy('total', 'desc')
-            ->get();
+        $baseParams = collect([
+            'geo_location_filter' => $params['geo_location_filter'],
+            'geo_location_value' => $params['geo_location_value'],
+            'is_exact' => $params['is_exact'],
+            'with' => 'location,commodities,affiliated',
+            'paginate' => false,
+        ]);
+
+        if ($params['breeder']) {
+            $baseParams = $baseParams
+                ->put('search', $params['breeder'])
+                ->put('filter', 'fname,mname,lname,suffix');
+        }
+
+        $breeders = $this->breederRepo->search(
+            $baseParams->put('select', implode(',', $model->getSearchable())),
+            false
+        );
+
+        $chart_data = $this->breederRepo->search(
+            $baseParams
+                ->put('select_raw', "{$params['group_by']} as label, count(*) as total")
+                ->put('group_by', $params['group_by'])
+                ->put('sort', 'total')
+                ->put('order', 'desc'),
+            false
+        );
+
+        $breeders_chart = $this->breederRepo->search(
+            $baseParams
+                ->put('select_raw', 'CONCAT(breeders.fname, breeders.mname, breeders.lname, breeders.suffix) as label, count(*) as total')
+                ->put('group_by', 'label')
+                ->put('sort', 'total')
+                ->put('order', 'desc'),
+            false
+        );
 
         return response()->json([
             'params' => $params,
