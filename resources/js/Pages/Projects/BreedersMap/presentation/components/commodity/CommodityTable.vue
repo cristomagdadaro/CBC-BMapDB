@@ -8,9 +8,16 @@ import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructur
 import { TopActionBtn } from "@/Components/CRCMDatatable/Components";
 import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 import LikeIcon from "@/Components/Icons/LikeIcon.vue";
+import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
 
 export default {
     name: "CommodityTable",
+    data() {
+        return {
+            approvingIds: [],
+            disapprovingIds: [],
+        };
+    },
     props: {
         baseUrl: {
             type: String,
@@ -100,20 +107,36 @@ export default {
         canDisapprove(row) {
             return !!row && !!row.approved_at && this.rowCanUpdate(row);
         },
+        isApproving(row) {
+            return !!row && this.approvingIds.includes(row.id);
+        },
+        isDisapproving(row) {
+            return !!row && this.disapprovingIds.includes(row.id);
+        },
         async approveCommodity(row) {
-            if (!this.canApprove(row)) return;
-            const svc = new ApiService(route(BreedersMapEndpoints.commodity.approveUri, row.id));
-            await svc.put({});
-            await this.$refs.datatable?.dt?.refresh();
+            if (!this.canApprove(row) || this.isApproving(row)) return;
+            this.approvingIds.push(row.id);
+            try {
+                const svc = new ApiService(route(BreedersMapEndpoints.commodity.approveUri, row.id));
+                await svc.put({});
+                await this.$refs.datatable?.dt?.refresh();
+            } finally {
+                this.approvingIds = this.approvingIds.filter(id => id !== row.id);
+            }
         },
         async disapproveCommodity(row) {
-            if (!this.canDisapprove(row)) return;
-            const svc = new ApiService(route(BreedersMapEndpoints.commodity.disapproveUri, row.id));
-            await svc.put({});
-            await this.$refs.datatable?.dt?.refresh();
+            if (!this.canDisapprove(row) || this.isDisapproving(row)) return;
+            this.disapprovingIds.push(row.id);
+            try {
+                const svc = new ApiService(route(BreedersMapEndpoints.commodity.disapproveUri, row.id));
+                await svc.put({});
+                await this.$refs.datatable?.dt?.refresh();
+            } finally {
+                this.disapprovingIds = this.disapprovingIds.filter(id => id !== row.id);
+            }
         }
     },
-    components: {CRCMDatatable, TopActionBtn, CheckallIcon, LikeIcon}
+    components: {CRCMDatatable, TopActionBtn, CheckallIcon, LikeIcon, LoaderIcon}
 }
 </script>
 
@@ -134,26 +157,32 @@ export default {
         :row-can-update="rowCanUpdate"
         :row-can-delete="rowCanDelete"
     >
-        <template #rowActions="{ row }">
+        <template #rowActions="{ row, showIconText }">
             <top-action-btn
                 v-if="canApprove(row)"
                 class="bg-cbc-yellow-green"
+                :class="isApproving(row) ? 'opacity-70 cursor-not-allowed' : ''"
                 title="Approve"
+                :show-icon-text="showIconText"
                 @click="approveCommodity(row)"
             >
                 <template #icon>
-                    <like-icon class="h-auto sm:w-4 w-3 text-white" />
+                    <loader-icon v-if="isApproving(row)" class="h-auto sm:w-4 w-3 animate-spin text-white" />
+                    <like-icon v-else class="h-auto sm:w-4 w-3 text-white" />
                 </template>
                 <template #iconText>Approve</template>
             </top-action-btn>
             <top-action-btn
                 v-if="canDisapprove(row)"
                 class="bg-delete"
+                :class="isDisapproving(row) ? 'opacity-70 cursor-not-allowed' : ''"
                 title="Disapprove"
+                :show-icon-text="showIconText"
                 @click="disapproveCommodity(row)"
             >
                 <template #icon>
-                    <like-icon class="h-auto sm:w-4 w-3 rotate-180 text-white" />
+                    <loader-icon v-if="isDisapproving(row)" class="h-auto sm:w-4 w-3 animate-spin text-white" />
+                    <like-icon v-else class="h-auto sm:w-4 w-3 rotate-180 text-white" />
                 </template>
                 <template #iconText>Disapprove</template>
             </top-action-btn>
