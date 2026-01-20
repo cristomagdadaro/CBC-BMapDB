@@ -83,7 +83,7 @@ return [
         'exact' => 'sometimes|string',
         'or' => 'sometimes|string',
         'geo_location_filter' => 'sometimes|string|in:region,province,city,institute',
-        'geo_location_value' => 'sometimes|string',
+        'geo_location_value' => 'sometimes|nullable|string',
         'is_exact' => 'sometimes|string|in:true,false,0,1',
         'commodity' => 'sometimes|string',
         'filter_by_parent_id' => 'sometimes|integer',

@@ -422,14 +422,14 @@ export default {
                 <NavLink class="text-white" :href="route('dashboard')" :active="route().current('dashboard')">
                     <div class="flex gap-1 select-none items-center sm:p-2 p-1">
                         <span class="sm:flex hidden whitespace-nowrap">
-                           Dashboard
+                        Dashboard
                         </span>
                     </div>
                 </NavLink>
                 <NavLink v-if="user.isAdmin" class="text-white" :href="route('administrator.index')" :active="route().current('administrator.index')">
                     <div class="flex gap-1 select-none items-center sm:p-2 p-1">
                         <span class="sm:flex hidden whitespace-nowrap">
-                           Administrator
+                        Administrator
                         </span>
                     </div>
                     <template #subLinks>
@@ -447,17 +447,18 @@ export default {
                                 label: 'Applications',
                             }
                         ]"
+                            v-bind:key="subLink.name"
                             :to="{ name: subLink.name }"
-                                     :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
+                                    :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
                             {{ subLink.label }}
                         </router-link>
                     </template>
                 </NavLink>
                 <template v-for="account in user.accounts" :key="account.application.id" >
                     <NavLink v-if="account.application.status === 'true'"
-                             class="text-white"
-                             :href="route(account.application.url)"
-                             :active="route().current(account.application.url)"
+                        class="text-white"
+                        :href="route(account.application.url)"
+                        :active="route().current(account.application.url)"
                     >
                         <div class="flex gap-1 select-none items-center sm:p-2 p-1">
                             <span class="sm:flex hidden whitespace-nowrap">
@@ -465,7 +466,7 @@ export default {
                             </span>
                         </div>
                         <template #subLinks>
-                            <router-link v-for="subLink in account.application.appTabs" :to="{ name: subLink.name }" :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
+                            <router-link v-for="subLink in account.application.appTabs" v-bind:key="subLink.name" :to="{ name: subLink.name }" :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
                                 {{ subLink.label }}
                             </router-link>
                         </template>
@@ -474,7 +475,7 @@ export default {
                 <NavLink class="text-white" href="/">
                     <div class="flex gap-1 select-none items-center sm:p-2 p-1">
                         <span class="sm:flex hidden whitespace-nowrap">
-                           Gene Bank
+                        Gene Bank
                         </span>
                     </div>
                 </NavLink>

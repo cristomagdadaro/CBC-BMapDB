@@ -34,6 +34,7 @@ class GeoLocationFilter extends AbstractFilter
 
     public function apply(Builder $query, Collection $parameters): Builder
     {
+        $this->joinedTables = [];
         $model = $query->getModel();
         $table = $model->getTable();
 

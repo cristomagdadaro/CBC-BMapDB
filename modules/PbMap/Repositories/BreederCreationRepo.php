@@ -4,6 +4,8 @@ namespace Modules\PbMap\Repositories;
 
 use App\Enums\DefaultPassword;
 use App\Enums\Role;
+use App\Enums\Applications as ApplicationsEnum;
+use App\Models\Application;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -30,8 +32,10 @@ class BreederCreationRepo
 
                 $breederUser->assignRole(Role::BREEDER->value);
 
+                $appId = Application::where('name', ApplicationsEnum::BREEDERS_MAP->value)->value('id');
+
                 $breederUser->accounts()->create([
-                    'app_id' => 2, // PbMap
+                    'app_id' => $appId,
                     'approved_at' => now(),
                 ]);
 

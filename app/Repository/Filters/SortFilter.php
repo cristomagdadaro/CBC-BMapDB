@@ -3,6 +3,7 @@
 namespace App\Repository\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Expression;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 
@@ -60,9 +61,13 @@ class SortFilter extends AbstractFilter
         // Check if it's in a SELECT RAW clause
         $selectedColumns = $query->getQuery()->columns;
         if ($selectedColumns) {
-            $selectedRaw = is_array($selectedColumns) ? $selectedColumns[0] : $selectedColumns;
-            if (is_string($selectedRaw) && str_contains($selectedRaw, $sortColumn)) {
-                return $sortColumn;
+            foreach ((array) $selectedColumns as $selectedRaw) {
+                if ($selectedRaw instanceof Expression) {
+                    $selectedRaw = $selectedRaw->getValue($query->getGrammar());
+                }
+                if (is_string($selectedRaw) && str_contains($selectedRaw, $sortColumn)) {
+                    return $sortColumn;
+                }
             }
         }
 

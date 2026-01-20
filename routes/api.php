@@ -33,13 +33,13 @@ Route::prefix('/auth')->group(function () {
     });
 });
 
-require_once 'components/PublicRoutes.php';
-require_once 'components/OpenAiRoutes.php';
+require 'components/PublicRoutes.php';
+require 'components/OpenAiRoutes.php';
 
 Route::middleware(['api','auth:sanctum','verified'])->group(function() {
-    require_once base_path('Modules/TwgDb/Routes/TWGDbRoutes.php');
-    require_once base_path('Modules/PbMap/Routes/BreedersMapRoutes.php');
-    require_once 'components/SystemRoutes.php';
+    require base_path('Modules/TwgDb/Routes/TWGDbRoutes.php');
+    require base_path('Modules/PbMap/Routes/BreedersMapRoutes.php');
+    require 'components/SystemRoutes.php';
 
     // Dashboard API Routes
     Route::prefix('dashboard')->controller(DashboardApiController::class)->group(function () {

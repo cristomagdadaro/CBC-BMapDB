@@ -33,7 +33,13 @@ abstract class BaseController extends Controller implements BaseControllerInterf
             $this->service->appendCount = explode(',', $count);
         }
 
-        return $this->sendResponse($this->service->find($id, $request->collect()));
+        $result = $this->service->find($id, $request->collect());
+
+        if ($result instanceof JsonResponse) {
+            return $result;
+        }
+
+        return $this->sendResponse($result);
     }
 
     public function _store($request): JsonResponse
