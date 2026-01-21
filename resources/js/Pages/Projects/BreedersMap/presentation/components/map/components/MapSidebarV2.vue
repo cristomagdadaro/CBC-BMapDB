@@ -19,13 +19,18 @@ export default {
             return { backgroundImage: `url('${this.instance.getProfilePhoto}')` };
         },
         // Role detection
-        isAdmin() {
+        roleNames() {
             const roles = this.$page?.props?.auth?.user?.roles || [];
-            return roles.some(r => r.name === 'Administrator');
+            return roles.map(role => role?.name ?? role).filter(Boolean);
+        },
+        isAdmin() {
+            return this.roleNames.includes('Administrator');
         },
         isFocal() {
-            const roles = this.$page?.props?.auth?.user?.roles || [];
-            return roles.some(r => r.name === 'Focal Person');
+            return this.roleNames.includes('Focal Person');
+        },
+        isBreederRole() {
+            return this.roleNames.includes('Breeder');
         },
         currentUserId() {
             return this.$page?.props?.auth?.user?.id || null;
@@ -64,13 +69,16 @@ export default {
         canUpdate() {
             if (!this.$page?.props?.auth?.user) return false;
             if (this.isAdmin) return true;
-            if (this.isCommodity) return (this.isFocal && this.sameInstituteCommodity) || this.ownsCommodity;
+            if (this.isCommodity) return (this.isFocal && this.sameInstituteCommodity) || (this.isBreederRole && this.ownsCommodity);
             if (this.isBreeder) return (this.isFocal && this.sameInstituteBreeder);
             return false;
         },
         canDelete() {
-            // Same logic as update; adjust here if different in future
-            return this.canUpdate;
+            if (!this.$page?.props?.auth?.user) return false;
+            if (this.isAdmin) return true;
+            if (this.isCommodity) return this.isFocal && this.sameInstituteCommodity;
+            if (this.isBreeder) return this.isFocal && this.sameInstituteBreeder;
+            return false;
         },
         viewRouteName() {
             if (this.isCommodity) return 'breedersmap.commodity.view';

@@ -1,8 +1,6 @@
 <script>
 import { BreedersMapPages } from "@/Pages/Projects/BreedersMap/components/components.js";
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
-import {Permission} from "@/Pages/constants.ts";
-import User from "@/Modules/core/domain/auth/User.js";
 
 export default {
     name: "BreedersTable",
@@ -10,29 +8,33 @@ export default {
         BreedersMapPages() {
             return BreedersMapPages
         },
-        Permission() {
-            return Permission;
-        },
         canCreate() {
-            return this.$page.props.permissions.breedersmap.breeder[Permission.CREATE];
+            return this.isAdmin || this.isFocal;
         },
         canUpdate() {
-            const hasPerm = this.$page.props.permissions.breedersmap.breeder[Permission.UPDATE];
-            return hasPerm || this.isAdmin || this.isFocal;
+            return this.isAdmin || this.isFocal;
         },
         canDelete() {
-            const hasPerm = this.$page.props.permissions.breedersmap.breeder[Permission.DELETE];
-            return hasPerm || this.isAdmin || this.isFocal;
+            return this.isAdmin || this.isFocal;
         },
         canView() {
-            return this.$page.props.permissions.breedersmap.breeder[Permission.VIEW];
+            return this.isAdmin || this.isFocal || this.isBreeder || this.isResearcher;
+        },
+        roleNames() {
+            const roles = this.$page?.props?.auth?.user?.roles || [];
+            return roles.map(role => role?.name ?? role).filter(Boolean);
         },
         isAdmin() {
-            return (new User(this.$page?.props?.auth?.user)).isAdmin
+            return this.roleNames.includes('Administrator');
         },
         isFocal() {
-            const roles = this.$page?.props?.auth?.user?.roles || [];
-            return (new User(this.$page?.props?.auth?.user)).getRole === 'Focal Person' || roles.includes('Focal Person');
+            return this.roleNames.includes('Focal Person');
+        },
+        isBreeder() {
+            return this.roleNames.includes('Breeder');
+        },
+        isResearcher() {
+            return this.roleNames.includes('Researcher');
         },
         currentUserAffiliationId() {
             return this.$page?.props?.auth?.user?.affiliated?.id || null;

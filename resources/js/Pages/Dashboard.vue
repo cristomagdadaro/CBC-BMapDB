@@ -19,6 +19,12 @@ import DashboardSummaryCard from "@/Pages/Dashboard/components/DashboardSummaryC
 const page = usePage();
 
 const user = new User(page.props.auth.user);
+const roleNames = (page.props?.auth?.user?.roles || []).map(role => role?.name ?? role).filter(Boolean);
+const isAdmin = roleNames.includes('Administrator');
+const isFocal = roleNames.includes('Focal Person');
+const isBreeder = roleNames.includes('Breeder');
+const isResearcher = roleNames.includes('Researcher');
+const isTwgManager = roleNames.includes('TWG Manager');
 const showNote = ref(true);
 const showtempPasswordAlert = ref(false);
 
@@ -193,12 +199,14 @@ const refreshActivities = async () => {
                         title="Pending Accounts Approval"
                         to="administrator.approved-accounts"
                         background-color="bg-gradient-to-br from-yellow-500 to-yellow-600"
-                        :sum-value="systemStats.totalNotApprovedAccounts || 0" />
+                        :sum-value="systemStats.totalNotApprovedAccounts || 0"
+                        v-if="isAdmin" />
                     <dashboard-summary-card
                         title="Remaining Unverified Accounts"
                         to="administrator.users"
                         background-color="bg-gradient-to-br from-orange-500 to-orange-600"
-                        :sum-value="systemStats.totalUnverifiedEmails || 0" />
+                        :sum-value="systemStats.totalUnverifiedEmails || 0"
+                        v-if="isAdmin" />
                 </div>
 
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">

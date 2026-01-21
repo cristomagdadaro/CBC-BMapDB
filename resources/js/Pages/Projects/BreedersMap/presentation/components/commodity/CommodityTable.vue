@@ -1,8 +1,6 @@
 <script>
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
 import { BreedersMapPages } from "@/Pages/Projects/BreedersMap/components/components.js";
-import {Permission} from "@/Pages/constants.ts";
-import User from "@/Modules/core/domain/auth/User.js";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
 import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
 import { TopActionBtn } from "@/Components/CRCMDatatable/Components";
@@ -36,36 +34,36 @@ export default {
         BreedersMapPages() {
             return BreedersMapPages
         },
-        Permission() {
-            return Permission;
-        },
         canCreate() {
-            return this.$page.props.permissions.breedersmap.commodity[Permission.CREATE];
+            return this.isAdmin || this.isFocal || this.isBreeder;
         },
         canUpdate() {
-            const hasPerm = this.$page.props.permissions.breedersmap.commodity[Permission.UPDATE];
-            return hasPerm || this.isAdmin || this.isFocal;
+            return this.isAdmin || this.isFocal || this.isBreeder;
         },
         canDelete() {
-            const hasPerm = this.$page.props.permissions.breedersmap.commodity[Permission.DELETE];
-            return hasPerm || this.isAdmin || this.isFocal;
+            return this.isAdmin || this.isFocal;
         },
         canView() {
-            return this.$page.props.permissions.breedersmap.commodity[Permission.VIEW];
+            return this.isAdmin || this.isFocal || this.isBreeder || this.isResearcher;
         },
         currentUserId() {
             return this.$page?.props?.auth?.user?.id || null;
         },
+        roleNames() {
+            const roles = this.$page?.props?.auth?.user?.roles || [];
+            return roles.map(role => role?.name ?? role).filter(Boolean);
+        },
         isAdmin() {
-            return (new User(this.$page?.props?.auth?.user)).isAdmin
+            return this.roleNames.includes('Administrator');
         },
         isFocal() {
-            const roles = this.$page?.props?.auth?.user?.roles || [];
-            return (new User(this.$page?.props?.auth?.user)).getRole === 'Focal Person' || roles.includes('Focal Person');
+            return this.roleNames.includes('Focal Person');
         },
         isBreeder() {
-            const roles = this.$page?.props?.auth?.user?.roles || [];
-            return roles.includes('Breeder') || roles.includes('Plant Breeder');
+            return this.roleNames.includes('Breeder');
+        },
+        isResearcher() {
+            return this.roleNames.includes('Researcher');
         },
         currentUserAffiliationId() {
             return this.$page?.props?.auth?.user?.affiliated?.id || null;

@@ -1,6 +1,6 @@
 <template>
     <DashboardShell
-        title="BreedersMap Database"
+        title="Breeders' Map Database"
         :isLoading="loading"
         :lastUpdated="lastUpdated"
         @refresh="refreshDashboard"
