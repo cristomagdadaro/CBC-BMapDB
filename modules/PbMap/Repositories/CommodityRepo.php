@@ -5,13 +5,36 @@ namespace Modules\PbMap\Repositories;
 use App\Repository\AbstractRepoService;
 use Modules\PbMap\Models\Commodity;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Http\JsonResponse;
 
 class CommodityRepo extends AbstractRepoService
 {
+    protected array $characteristicKeys = [
+        'weight',
+        'length',
+        'width',
+        'shape',
+        'skin_color',
+        'skin_texture',
+        'flesh_color',
+        'flesh_texture',
+        'flesh_flavor',
+        'aroma',
+        'root_flesh_color',
+        'root_cortex_color',
+        'root_skin_color',
+        'root_shape',
+        'tuber_flesh_color',
+        'tuber_cortex_color',
+        'tuber_skin_color',
+        'tuber_shape',
+    ];
+
     public function __construct(Commodity $model)
     {
         parent::__construct($model);
@@ -23,7 +46,13 @@ class CommodityRepo extends AbstractRepoService
             $data['photo'] = $this->storeCommodityPhoto($data['photo']);
         }
 
-        return parent::create($data);
+        [$commodityData, $characteristics] = $this->splitCharacteristics($data);
+
+        return DB::transaction(function () use ($commodityData, $characteristics) {
+            $model = $this->model->create($commodityData);
+            $this->saveCharacteristics($model, $characteristics);
+            return $this->jsonResponse(self::RESPONSE_CREATED, $model->load('characteristics'));
+        });
     }
 
     public function update(int $id, array $data): JsonResponse
@@ -32,7 +61,14 @@ class CommodityRepo extends AbstractRepoService
             $data['photo'] = $this->storeCommodityPhoto($data['photo']);
         }
 
-        return parent::update($id, $data);
+        [$commodityData, $characteristics] = $this->splitCharacteristics($data);
+
+        return DB::transaction(function () use ($id, $commodityData, $characteristics) {
+            $model = $this->model->findOrFail($id);
+            $model->update($commodityData);
+            $this->saveCharacteristics($model, $characteristics);
+            return $this->jsonResponse(self::RESPONSE_UPDATED, $model->load('characteristics'));
+        });
     }
 
     public function applyFilters($model, Collection|array $filters) {
@@ -206,5 +242,39 @@ class CommodityRepo extends AbstractRepoService
         }
 
         return $normalized;
+    }
+
+    private function splitCharacteristics(array $data): array
+    {
+        $characteristics = Arr::only($data, $this->characteristicKeys);
+        $commodityData = Arr::except($data, $this->characteristicKeys);
+
+        return [$commodityData, $this->normalizeCharacteristics($characteristics)];
+    }
+
+    private function normalizeCharacteristics(array $characteristics): array
+    {
+        $normalized = [];
+        foreach ($characteristics as $key => $value) {
+            if (is_string($value)) {
+                $value = trim($value);
+                $value = $value === '' ? null : $value;
+            }
+            $normalized[$key] = $value;
+        }
+
+        return $normalized;
+    }
+
+    private function saveCharacteristics(Commodity $model, array $characteristics): void
+    {
+        if (empty($characteristics)) {
+            return;
+        }
+
+        $model->characteristics()->updateOrCreate(
+            ['commodity_id' => $model->id],
+            $characteristics
+        );
     }
 }
