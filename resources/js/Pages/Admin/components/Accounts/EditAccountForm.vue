@@ -34,7 +34,7 @@ export default {
         getPermissions() {
             const service = new ApiService(route('api.permissions.index'));
             service.get(new BaseRequest()).then(response => {
-                this.permissions = response.data;
+                this.permissions = response?.data?.data ?? response?.data ?? [];
             });
         },
         getRoles() {

@@ -45,13 +45,15 @@ class AccountController extends BaseController
 
     public function store(CreateAccountRequest $request)
     {
-        $roleName = $this->roleRepo->getRoleNameById((int) $request->validated()['role']);
-        if (!empty($roleName))
-        {
-            auth()->user()->assignRole($roleName);
-            return parent::_store($request);
+        $roleId = $request->validated()['role'] ?? null;
+        if ($roleId) {
+            $roleName = $this->roleRepo->getRoleNameById((int) $roleId);
+            if (!empty($roleName)) {
+                auth()->user()->assignRole($roleName);
+            }
         }
-        return $this->sendResponse(['request' => $request->toArray()]);
+
+        return parent::_store($request);
     }
 
     /**

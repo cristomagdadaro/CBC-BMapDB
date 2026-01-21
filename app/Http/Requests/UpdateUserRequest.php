@@ -36,8 +36,16 @@ class UpdateUserRequest extends FormRequest
         ];
     }
 
+    protected function prepareForValidation(): void
+    {
+        if ($this->filled('password') === false) {
+            $this->request->remove('password');
+            $this->request->remove('password_confirmation');
+        }
+    }
+
     protected function passwordRules(): array
     {
-        return ['sometimes', 'string', new Password, 'confirmed'];
+        return ['nullable', 'string', new Password, 'confirmed'];
     }
 }
