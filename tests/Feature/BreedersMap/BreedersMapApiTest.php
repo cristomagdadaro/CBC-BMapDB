@@ -587,4 +587,123 @@ class BreedersMapApiTest extends TestCase
         $this->getJson('/api/breeders-dashboard/recent')->assertStatus(200);
         $this->getJson('/api/breeders-dashboard/my-stats')->assertStatus(200);
     }
+
+    /** @test */
+    public function dashboard_overview_supports_scope_filters(): void
+    {
+        $instituteId = $this->getInstituteId();
+        $otherInstituteId = $this->getDifferentInstituteId($instituteId);
+
+        $admin = $this->createUserWithRole(RoleEnum::ADMIN->value, $instituteId);
+        $this->actingAs($admin);
+
+        $this->getJson('/api/breeders-dashboard/overview?scope_by=all')
+            ->assertStatus(200)
+            ->assertJsonStructure(['totals', 'charts', 'scope']);
+
+        $this->getJson('/api/breeders-dashboard/overview?scope_by=public')
+            ->assertStatus(200)
+            ->assertJsonStructure(['totals', 'charts', 'scope']);
+
+        $this->getJson('/api/breeders-dashboard/overview?scope_by=institute&institute_id=' . $otherInstituteId)
+            ->assertStatus(200)
+            ->assertJsonStructure(['totals', 'charts', 'scope']);
+
+        $this->getJson('/api/breeders-dashboard/overview?scope_by=owned')
+            ->assertStatus(200)
+            ->assertJsonStructure(['totals', 'charts', 'scope']);
+    }
+
+    /** @test */
+    public function dashboard_overview_defaults_by_role(): void
+    {
+        $instituteId = $this->getInstituteId();
+
+        $breeder = $this->createUserWithRole(RoleEnum::BREEDER->value, $instituteId);
+        $this->actingAs($breeder);
+        $breederResponse = $this->getJson('/api/breeders-dashboard/overview');
+        $breederResponse->assertStatus(200);
+        $this->assertEquals('owned', $breederResponse->json('scope.scope_by'));
+
+        $focal = $this->createUserWithRole(RoleEnum::FOCAL_PERSON->value, $instituteId);
+        $this->actingAs($focal);
+        $focalResponse = $this->getJson('/api/breeders-dashboard/overview');
+        $focalResponse->assertStatus(200);
+        $this->assertEquals('institute', $focalResponse->json('scope.scope_by'));
+
+        $researcher = $this->createUserWithRole(RoleEnum::RESEARCHER->value, $instituteId);
+        $this->actingAs($researcher);
+        $researcherResponse = $this->getJson('/api/breeders-dashboard/overview');
+        $researcherResponse->assertStatus(200);
+        $this->assertEquals('public', $researcherResponse->json('scope.scope_by'));
+    }
+
+    /** @test */
+    public function dashboard_recent_supports_scope_filters(): void
+    {
+        $instituteId = $this->getInstituteId();
+        $admin = $this->createUserWithRole(RoleEnum::ADMIN->value, $instituteId);
+        $this->actingAs($admin);
+
+        $this->getJson('/api/breeders-dashboard/recent?scope_by=all')
+            ->assertStatus(200)
+            ->assertJsonStructure(['breeders', 'commodities']);
+
+        $this->getJson('/api/breeders-dashboard/recent?scope_by=public')
+            ->assertStatus(200)
+            ->assertJsonStructure(['breeders', 'commodities']);
+
+        $this->getJson('/api/breeders-dashboard/recent?scope_by=owned')
+            ->assertStatus(200)
+            ->assertJsonStructure(['breeders', 'commodities']);
+    }
+
+    /** @test */
+    public function dashboard_scope_rejects_invalid_values_and_falls_back(): void
+    {
+        $instituteId = $this->getInstituteId();
+
+        $breeder = $this->createUserWithRole(RoleEnum::BREEDER->value, $instituteId);
+        $this->actingAs($breeder);
+        $response = $this->getJson('/api/breeders-dashboard/overview?scope_by=invalid');
+        $response->assertStatus(200);
+        $this->assertEquals('owned', $response->json('scope.scope_by'));
+
+        $researcher = $this->createUserWithRole(RoleEnum::RESEARCHER->value, $instituteId);
+        $this->actingAs($researcher);
+        $response = $this->getJson('/api/breeders-dashboard/overview?scope_by=owned');
+        $response->assertStatus(200);
+        $this->assertEquals('public', $response->json('scope.scope_by'));
+    }
+
+    /** @test */
+    public function dashboard_scope_all_is_admin_only(): void
+    {
+        $instituteId = $this->getInstituteId();
+
+        $breeder = $this->createUserWithRole(RoleEnum::BREEDER->value, $instituteId);
+        $this->actingAs($breeder);
+        $response = $this->getJson('/api/breeders-dashboard/overview?scope_by=all');
+        $response->assertStatus(200);
+        $this->assertEquals('owned', $response->json('scope.scope_by'));
+
+        $focal = $this->createUserWithRole(RoleEnum::FOCAL_PERSON->value, $instituteId);
+        $this->actingAs($focal);
+        $response = $this->getJson('/api/breeders-dashboard/overview?scope_by=all');
+        $response->assertStatus(200);
+        $this->assertEquals('institute', $response->json('scope.scope_by'));
+    }
+
+    /** @test */
+    public function dashboard_institute_scope_defaults_to_user_affiliation_when_missing_id(): void
+    {
+        $instituteId = $this->getInstituteId();
+        $focal = $this->createUserWithRole(RoleEnum::FOCAL_PERSON->value, $instituteId);
+        $this->actingAs($focal);
+
+        $response = $this->getJson('/api/breeders-dashboard/overview?scope_by=institute');
+        $response->assertStatus(200);
+        $this->assertEquals('institute', $response->json('scope.scope_by'));
+        $this->assertEquals($instituteId, $response->json('scope.institute_id'));
+    }
 }

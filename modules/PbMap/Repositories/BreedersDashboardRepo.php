@@ -7,41 +7,112 @@ use Modules\PbMap\Models\Commodity;
 
 class BreedersDashboardRepo
 {
-    private function scopeByRole($builder, $user, string $entity = 'commodities')
+    private function normalizeScope($user, ?string $scope): string
     {
+        $scope = $scope ? strtolower(trim($scope)) : '';
+        $allowed = ['owned', 'institute', 'public', 'all'];
+        if (!in_array($scope, $allowed, true)) {
+            $scope = '';
+        }
+
         if (!$user) {
-            return $builder;
+            return 'public';
         }
 
         if ($user->isAdmin()) {
-            return $builder; // full access
+            return $scope !== '' ? $scope : 'all';
         }
 
-        if ($user->isBreeder()) {
-            return $builder->where($entity . '.user_id', $user->id);
+        if ($user->isResearcher()) {
+            return 'public';
         }
 
         if ($user->isFocalPerson()) {
-            if ($entity === 'commodities') {
-                return $builder
-                    ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
-                    ->where('breeders.affiliation', $user->affiliation);
+            $default = 'institute';
+            $allowedForRole = ['owned', 'institute', 'public'];
+            return in_array($scope, $allowedForRole, true) ? $scope : $default;
+        }
+
+        if ($user->isBreeder()) {
+            $default = 'owned';
+            $allowedForRole = ['owned', 'institute', 'public'];
+            return in_array($scope, $allowedForRole, true) ? $scope : $default;
+        }
+
+        return 'public';
+    }
+
+    private function resolveInstituteId($user, ?string $scope, ?int $instituteId): ?int
+    {
+        if ($scope !== 'institute') {
+            return null;
+        }
+
+        if ($instituteId) {
+            return $instituteId;
+        }
+
+        return $user?->affiliation ? (int) $user->affiliation : null;
+    }
+
+    private function applyScopeToBreeders($builder, $user, string $scope, ?int $instituteId)
+    {
+        if ($scope === 'owned' && $user) {
+            return $builder->where('breeders.user_id', $user->id);
+        }
+
+        if ($scope === 'institute' && $instituteId) {
+            return $builder->where('breeders.affiliation', $instituteId);
+        }
+
+        // public/all: no additional restriction for breeders
+        return $builder;
+    }
+
+    private function applyScopeToCommodities($builder, $user, string $scope, ?int $instituteId)
+    {
+        if ($scope === 'owned' && $user) {
+            return $builder->where('commodities.user_id', $user->id);
+        }
+
+        if ($scope === 'institute' && $instituteId) {
+            $builder = $builder
+                ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
+                ->where('breeders.affiliation', $instituteId);
+
+            // Non-admin/non-focal users should only see approved data
+            if (!$user || (!$user->isAdmin() && !$user->isFocalPerson())) {
+                $builder->whereNotNull('commodities.approved_at');
             }
-            if ($entity === 'breeders') {
-                return $builder->where('breeders.affiliation', $user->affiliation);
+
+            return $builder;
+        }
+
+        if ($scope === 'public') {
+            return $builder->whereNotNull('commodities.approved_at');
+        }
+
+        if ($scope === 'all') {
+            // Only admins can see all; others fallback to public
+            if ($user && $user->isAdmin()) {
+                return $builder;
             }
+            return $builder->whereNotNull('commodities.approved_at');
         }
 
         return $builder;
     }
 
-    public function overview($user): array
+    public function overview($user, ?string $scopeBy = null, ?int $instituteId = null): array
     {
+        $scope = $this->normalizeScope($user, $scopeBy);
+        $instituteId = $this->resolveInstituteId($user, $scope, $instituteId);
+
         $breedersQ = Breeder::query()->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation');
         $commoditiesQ = Commodity::query()->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation');
 
-        $breedersQ = $this->scopeByRole($breedersQ, $user, 'breeders');
-        $commoditiesQ = $this->scopeByRole($commoditiesQ, $user, 'commodities');
+        $breedersQ = $this->applyScopeToBreeders($breedersQ, $user, $scope, $instituteId);
+        $commoditiesQ = $this->applyScopeToCommodities($commoditiesQ, $user, $scope, $instituteId);
 
         $totalBreeders = (clone $breedersQ)->count('breeders.id');
         $totalCommodities = (clone $commoditiesQ)->count('commodities.id');
@@ -67,6 +138,10 @@ class BreedersDashboardRepo
             ->get();
 
         return [
+            'scope' => [
+                'scope_by' => $scope,
+                'institute_id' => $instituteId,
+            ],
             'totals' => [
                 'breeders' => $totalBreeders,
                 'commodities' => $totalCommodities,
@@ -81,14 +156,18 @@ class BreedersDashboardRepo
         ];
     }
 
-    public function recent($user): array
+    public function recent($user, ?string $scopeBy = null, ?int $instituteId = null): array
     {
-        $recentBreeders = $this->scopeByRole(
+        $scope = $this->normalizeScope($user, $scopeBy);
+        $instituteId = $this->resolveInstituteId($user, $scope, $instituteId);
+
+        $recentBreeders = $this->applyScopeToBreeders(
             Breeder::query()->with('affiliated')
                 ->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
                 ->select('breeders.*'),
             $user,
-            'breeders'
+            $scope,
+            $instituteId
         )
             ->latest('breeders.created_at')
             ->limit(8)
@@ -103,12 +182,13 @@ class BreedersDashboardRepo
                 ];
             });
 
-        $recentCommodities = $this->scopeByRole(
+        $recentCommodities = $this->applyScopeToCommodities(
             Commodity::query()->with(['breeder.affiliated'])
                 ->join('loc_cities', 'loc_cities.id', '=', 'commodities.geolocation')
                 ->select('commodities.*'),
             $user,
-            'commodities'
+            $scope,
+            $instituteId
         )
             ->latest('commodities.created_at')
             ->limit(8)

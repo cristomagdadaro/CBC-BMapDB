@@ -6,6 +6,24 @@
         @refresh="refreshDashboard"
     >
         <div class="flex flex-col gap-6">
+            <!-- Filters -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white rounded-xl shadow-sm p-3 mb-3">
+                <select-field
+                    label="Scope"
+                    :options="scopeOptions"
+                    v-model="scopeBy"
+                    :searchable="false"
+                    :clearable="false"
+                />
+                <select-search-field
+                    v-if="showInstitutePicker"
+                    label="Institute"
+                    :api-link="route('api.institutes.options.public')"
+                    v-model="instituteId"
+                />
+                <div v-else />
+            </div>
+
             <!-- Overview cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <dashboard-summary-card
@@ -50,7 +68,8 @@
                     title="Pending Commodities"
                     to="projects.breedersmap.geomap"
                     background-color="bg-gradient-to-br from-yellow-500 to-yellow-600"
-                    :sum-value="loading ? '—' : stat('pendingCommodities')">
+                    :sum-value="loading ? '—' : stat('pendingCommodities')"
+                    v-if="showPendingCommodities">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 16 16">
                         <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="0.5" d="M14.763.075A.5.5 0 0 1 15 .5v15a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5V14h-1v1.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V10a.5.5 0 0 1 .342-.474L6 7.64V4.5a.5.5 0 0 1 .276-.447l8-4a.5.5 0 0 1 .487.022M6 8.694 1 10.36V15h5zM7 15h2v-1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5V15h2V1.309l-7 3.5z"/>
                         <path  stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M2 11h1v1H2zm2 0h1v1H4zm-2 2h1v1H2zm2 0h1v1H4zm4-4h1v1H8zm2 0h1v1h-1zm-2 2h1v1H8zm2 0h1v1h-1zm2-2h1v1h-1zm0 2h1v1h-1zM8 7h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zM8 5h1v1H8zm2 0h1v1h-1zm2 0h1v1h-1zm0-2h1v1h-1z"/>
@@ -150,12 +169,15 @@
 </template>
 
 <script setup>
-import {ref, computed, onMounted} from 'vue';
+import {ref, computed, onMounted, watch} from 'vue';
 import ApiService from '@/Modules/core/infrastructure/ApiService';
 import BarGraph from '@/Pages/Projects/BreedersMap/presentation/components/summary/components/BarGraph.vue';
 import DoughnutGraph from '@/Pages/Projects/BreedersMap/presentation/components/summary/components/DoughnutGraph.vue';
 import DashboardShell from '@/Pages/Dashboard/components/DashboardShell.vue';
 import DashboardSummaryCard from "@/Pages/Dashboard/components/DashboardSummaryCard.vue";
+import SelectField from '@/Components/Form/SelectField.vue';
+import SelectSearchField from '@/Components/Form/SelectSearchField.vue';
+import {usePage} from '@inertiajs/vue3';
 
 const loading = ref(true);
 const loadingRecent = ref(true);
@@ -163,16 +185,54 @@ const overview = ref({totals: {}, charts: {breedersByRegion: [], commoditiesByNa
 const recent = ref({breeders: [], commodities: []});
 const myStats = ref({isBreeder: false, stats: null});
 const lastUpdated = ref(null);
+const page = usePage();
+const roleNames = (page.props?.auth?.user?.roles || []).map(role => role?.name ?? role).filter(Boolean);
+const isAdmin = roleNames.includes('Administrator');
+const isFocal = roleNames.includes('Focal Person');
+const isBreeder = roleNames.includes('Breeder');
+const isResearcher = roleNames.includes('Researcher');
+
+const scopeOptions = computed(() => {
+    const options = [
+        { label: 'Owned / Inputted Data', value: 'owned' },
+        { label: 'Institute Data', value: 'institute' },
+        { label: 'Public Data', value: 'public' },
+    ];
+    if (isAdmin) {
+        options.unshift({ label: 'All Data', value: 'all' });
+    }
+    if (isResearcher) {
+        return options.filter(opt => opt.value === 'public');
+    }
+    return options;
+});
+
+const defaultScope = computed(() => {
+    if (isAdmin) return 'all';
+    if (isFocal) return 'institute';
+    if (isBreeder) return 'owned';
+    return 'public';
+});
+
+const scopeBy = ref(defaultScope.value);
+const instituteId = ref(null);
+const showInstitutePicker = computed(() => scopeBy.value === 'institute');
+const showPendingCommodities = computed(() => isAdmin || isFocal);
+
+const getScopeParams = () => ({
+    scope_by: scopeBy.value,
+    institute_id: scopeBy.value === 'institute' ? instituteId.value : null,
+});
 
 const fetchOverview = async () => {
     const svc = new ApiService('/api/breeders-dashboard/overview');
-    const res = await svc.get();
+    const res = await svc.get(getScopeParams());
     overview.value = res?.data || {totals: {}, charts: {breedersByRegion: [], commoditiesByName: []}};
 };
 
 const fetchRecent = async () => {
     const svc = new ApiService('/api/breeders-dashboard/recent');
-    const res = await svc.get();
+    const res = await svc.get(getScopeParams());
     recent.value = res?.data || {breeders: [], commodities: []};
 };
 
@@ -199,6 +259,13 @@ const refreshDashboard = async () => {
 };
 
 onMounted(refreshDashboard);
+
+watch([scopeBy, instituteId], async ([newScope]) => {
+    if (newScope !== 'institute') {
+        instituteId.value = null;
+    }
+    await refreshDashboard();
+});
 
 const stat = (key, def = 0) => overview.value?.totals?.[key] ?? def;
 

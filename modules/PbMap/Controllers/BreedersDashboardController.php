@@ -14,12 +14,24 @@ class BreedersDashboardController extends Controller
 
     public function overview(Request $request)
     {
-        return response()->json($this->dashboardRepo->overview($request->user()));
+        return response()->json(
+            $this->dashboardRepo->overview(
+                $request->user(),
+                $request->input('scope_by'),
+                $request->input('institute_id')
+            )
+        );
     }
 
     public function recent(Request $request)
     {
-        return response()->json($this->dashboardRepo->recent($request->user()));
+        return response()->json(
+            $this->dashboardRepo->recent(
+                $request->user(),
+                $request->input('scope_by'),
+                $request->input('institute_id')
+            )
+        );
     }
 
     public function myStats(Request $request)
