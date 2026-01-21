@@ -23,7 +23,7 @@ class UpdateCommoditiesRequest extends FormRequest
             return true; // Allow admins
         }
 
-        $model = Commodity::find($this->id);
+        $model = Commodity::withoutGlobalScopes()->find($this->id);
         if (!$model) {
             return false;
         }
@@ -50,7 +50,7 @@ class UpdateCommoditiesRequest extends FormRequest
                 'institution' => auth()->user()->affiliation,
             ]);
 
-        $commodity = Commodity::find($this->id);
+        $commodity = Commodity::withoutGlobalScopes()->find($this->id);
 
         $this->merge([
             'user_id'  => auth()->user()->isAdmin()? ($commodity?->user_id) : auth()->user()->id

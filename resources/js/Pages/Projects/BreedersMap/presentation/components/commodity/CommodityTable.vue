@@ -63,12 +63,19 @@ export default {
             const roles = this.$page?.props?.auth?.user?.roles || [];
             return (new User(this.$page?.props?.auth?.user)).getRole === 'Focal Person' || roles.includes('Focal Person');
         },
+        isBreeder() {
+            const roles = this.$page?.props?.auth?.user?.roles || [];
+            return roles.includes('Breeder') || roles.includes('Plant Breeder');
+        },
         currentUserAffiliationId() {
             return this.$page?.props?.auth?.user?.affiliated?.id || null;
         },
         computedParams() {
             // Merge incoming params with default relation include for breeder
             const base = this.params || {};
+            if (!base.scope_by && this.isBreeder && !this.isAdmin && !this.isFocal) {
+                base.scope_by = 'scopeOwnedPublic';
+            }
             if (!base.with) {
                 return { ...base, with: 'breeder' };
             }
