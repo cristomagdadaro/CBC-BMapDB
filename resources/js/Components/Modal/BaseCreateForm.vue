@@ -17,6 +17,7 @@
             </div>
             <div class="flex flex-row justify-between gap-1 text-right">
                 <cancel-button @click="close">Cancel</cancel-button>
+                <slot name="additionalButtons" />
                 <button v-if="form" :disabled="processing" :class="{'cursor-progress opacity-50' : processing}" class="bg-add text-white px-4 py-2 flex item-center rounded-md hover:bg-red-600 active:bg-red-700 duration-200" type="submit">
                     <span v-if="processing">
                         Saving

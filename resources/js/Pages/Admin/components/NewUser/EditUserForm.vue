@@ -62,6 +62,7 @@ export default {
 <!--                <select-search-field required :api-link="route('api.applications.index')" :error="getError('account_for')" label="Account For" v-model="form.account_for" />-->
                 <text-field :error="getError('password')" label="New Password" v-model="form.password" />
                 <text-field :error="getError('password_confirmation')" label="Confirm Password" v-model="form.password_confirmation" />
+                <text-field :error="getError('password_confirmation')" label="Confirm Password" v-model="form.password_confirmation" />
             </div>
         </template>
     </base-edit-form>

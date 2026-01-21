@@ -50,6 +50,10 @@ class CommodityApprovalScope implements Scope
                            });
                     });
                 }
+                $q->orWhere(function (Builder $qq) use ($user) {
+                    $qq->whereNull('commodities.approved_at')
+                       ->where('commodities.user_id', (int) $user->id);
+                });
             }
         });
     }

@@ -47,7 +47,7 @@ export default {
         <template v-slot:formDescription>
                 Please complete all required fields. Breeders has their own user account, updating a breeder information doesn't directly reflect to its user account.
         </template>
-        <template v-slot:formFields> {{ form  }}
+        <template v-slot:formFields>
             <div class="grid grid-cols-1 gap-2">
                 <div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-1">
                     <text-field :show-clear="true" required :title="getTitle('fname')" :error="getError('fname')" label="First Name" v-model="form.fname" />

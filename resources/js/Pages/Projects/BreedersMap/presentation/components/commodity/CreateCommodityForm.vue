@@ -58,7 +58,7 @@ export default {
                                             'Type',
                                             'Stress Condition',
                                             'Reaction',
-                                        ]" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
+                                        ]" v-bind:key="item" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
                                             {{ item }}
                                         </p>
                                     </div>
@@ -294,7 +294,7 @@ export default {
                                             'Regulatory Body',
                                             'Cert./Reg. No.',
                                             'Date Issued',
-                                        ]" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
+                                        ]" v-bind:key="item" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
                                             {{ item }}
                                         </p>
                                     </div>

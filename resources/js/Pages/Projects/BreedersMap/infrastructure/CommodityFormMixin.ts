@@ -36,6 +36,14 @@ export default {
         },
     },
     methods: {
+        ensureRepeatables() {
+            if (!Array.isArray(this.form?.regulations) || this.form.regulations.length === 0) {
+                this.form.regulations = [{regulatory_body: null, registration_no: null, registration_date: null}];
+            }
+            if (!Array.isArray(this.form?.stress_resilience) || this.form.stress_resilience.length === 0) {
+                this.form.stress_resilience = [{type: null, stress: null, reaction: null}];
+            }
+        },
         getScientificName(selectedValueOrLabel) {
             const list = this.priorityComs?.data?.data || [];
             let match = null;
@@ -71,7 +79,7 @@ export default {
             if (!Array.isArray(this.form.stress_resilience)) {
                 this.form.stress_resilience = [];
             }
-            this.form.stress_resilience.push({type: null, stress: null, reaction: null});
+            this.form.stress_resilience.push({type: null, stress: null, stress_agent: null, reaction: null});
         },
         removeStressResilience(index) {
             if (Array.isArray(this.form.stress_resilience)) {
@@ -80,6 +88,12 @@ export default {
         },
     },
     watch: {
+        form: {
+            handler() {
+                this.ensureRepeatables();
+            },
+            deep: false,
+        },
         'form.name': {
             handler(newVal) {
                 if (!newVal) {
@@ -95,12 +109,7 @@ export default {
         if (this.$page?.props?.breeder) {
             this.form.breeder_id = this.$page.props.breeder.id;
         }
-        if (!Array.isArray(this.form?.regulations) || this.form.regulations.length === 0) {
-            this.form.regulations = [{regulatory_body: null, registration_no: null, registration_date: null}];
-        }
-        if (!Array.isArray(this.form?.stress_resilience) || this.form.stress_resilience.length === 0) {
-            this.form.stress_resilience = [{type: null, stress: null, reaction: null}];
-        }
+        this.ensureRepeatables();
         try {
             this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'));
         } catch (e) {

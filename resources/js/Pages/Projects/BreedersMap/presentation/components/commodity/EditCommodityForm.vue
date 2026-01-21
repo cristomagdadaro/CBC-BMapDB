@@ -103,18 +103,12 @@ export default {
                                     >
                                         <div class="flex gap-2 w-full items-center">
                                             <div class="grid grid-cols-3 gap-2 w-full">
-                                                <text-field
-                                                    :error="getError(`stress_resilience[${index}].type`)"
-                                                    v-model="stress_resilience.type"
-                                                />
-                                                <text-field
-                                                    :error="getError(`stress_resilience[${index}].stress`)"
-                                                    v-model="stress_resilience.stress"
-                                                />
-                                                <text-field
-                                                    :error="getError(`stress_resilience[${index}].reaction`)"
-                                                    v-model="stress_resilience.reaction"
-                                                />
+                                                <select-field :options="Object.keys(stress_resilience_options).map((item)=>{ return { label: item, value: item } })" :error="getError(`stress_resilience[${index}].type`)" v-model="stress_resilience.type" />
+                                                <div class="flex gap-1 w-full">
+                                                    <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.conditions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a type first', value: null }]" :error="getError(`stress_resilience[${index}].stress`)" v-model="stress_resilience.stress" class="w-full" />
+                                                    <text-field v-if="form?.stress_resilience[index]?.type === 'Biotic'" :error="getError(`stress_resilience[${index}].stress_agent`)" v-model="stress_resilience.stress_agent" placeholder="Stress agent" />
+                                                </div>
+                                                <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.reactions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a stress condition', value: null }]" :error="getError(`stress_resilience[${index}].reaction`)" v-model="stress_resilience.reaction" />
                                             </div>
 
                                             <!-- Remove Button (X) -->
@@ -383,11 +377,13 @@ export default {
                     </div>
                 </template>
             </tab>
+        </template>
+        <template v-slot:additionalButtons>
             <base-button
                 v-if="!data?.approved_at"
                 @click.prevent="approveCommodity"
                 :disabled="approving"
-                classes="h-fit w-fit p-4 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white"
+                classes="bg-cbc-yellow-green text-white px-4 py-2 rounded-md hover:bg-edit active:bg-edit duration-200"
             >
                 <span v-if="approving">Approving...</span>
                 <span v-else>Approve</span>

@@ -105,10 +105,10 @@ export default {
             return this.isOwner(row);
         },
         canApprove(row) {
-            return !!row && !row.approved_at && this.rowCanUpdate(row);
+            return !!row && !row.approved_at && (this.isAdmin || this.isFocal) && this.rowCanUpdate(row);
         },
         canDisapprove(row) {
-            return !!row && !!row.approved_at && this.rowCanUpdate(row);
+            return !!row && !!row.approved_at && (this.isAdmin || this.isFocal) && this.rowCanUpdate(row);
         },
         isApproving(row) {
             return !!row && this.approvingIds.includes(row.id);

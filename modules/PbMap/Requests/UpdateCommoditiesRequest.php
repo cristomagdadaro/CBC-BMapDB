@@ -105,6 +105,7 @@ class UpdateCommoditiesRequest extends FormRequest
             'stress_resilience' => 'nullable|array',
             'stress_resilience.*.type' => 'nullable|string',
             'stress_resilience.*.stress' => 'nullable|string',
+            'stress_resilience.*.stress_agent' => 'nullable|string',
             'stress_resilience.*.reaction' => 'nullable|string',
         ];
     }
