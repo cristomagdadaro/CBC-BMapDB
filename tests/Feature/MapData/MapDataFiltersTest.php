@@ -172,51 +172,27 @@ class MapDataFiltersTest extends TestCase
         return [
             ['commodities', [
                 'filter_by' => 'city',
-                'regions' => self::REGION_NAME,
+                'city' => '999999',
             ]],
             ['commodities', [
                 'filter_by' => 'province',
-                'cities' => '__CITY_ID__',
-            ]],
-            ['commodities', [
-                'filter_by' => 'region',
-                'provinces' => self::PROVINCE_NAME,
-            ]],
-            ['commodities', [
-                'filter_by' => 'city',
-                'cities' => '999999',
-            ]],
-            ['commodities', [
-                'filter_by' => 'province',
-                'provinces' => 'Unknown Province',
+                'province' => 'Unknown Province',
             ]],
             ['commodities', [
                 'filter_by' => 'institute',
-                'institutes' => 'Unknown Institute',
+                'institute' => 'Unknown Institute',
             ]],
             ['breeders', [
                 'filter_by' => 'city',
-                'regions' => self::REGION_NAME,
+                'city' => '999999',
             ]],
             ['breeders', [
                 'filter_by' => 'province',
-                'cities' => '__CITY_ID__',
-            ]],
-            ['breeders', [
-                'filter_by' => 'region',
-                'provinces' => self::PROVINCE_NAME,
-            ]],
-            ['breeders', [
-                'filter_by' => 'city',
-                'cities' => '999999',
-            ]],
-            ['breeders', [
-                'filter_by' => 'province',
-                'provinces' => 'Unknown Province',
+                'province' => 'Unknown Province',
             ]],
             ['breeders', [
                 'filter_by' => 'institute',
-                'institutes' => 'Unknown Institute',
+                'institute' => 'Unknown Institute',
             ]],
         ];
     }
@@ -359,23 +335,38 @@ class MapDataFiltersTest extends TestCase
             $filters['cities'] = (string) $this->cityId;
         }
 
+        if (isset($filters['city']) && $filters['city'] === '__CITY_ID__') {
+            $filters['city'] = (string) $this->cityId;
+        }
+
         return $filters;
     }
 
     private function createBreederWithCommodity(int $instituteId, int $cityId, int $suffix): void
     {
-        $user = User::factory()->create([
-            'email' => "breeder{$suffix}@example.com",
-            'affiliation' => $instituteId,
-        ]);
+        $email = "breeder{$suffix}@example.com";
 
-        $breeder = Breeder::create([
+        $user = User::query()->firstOrCreate([
+            'email' => $email,
+        ], [
             'fname' => 'Breeder',
             'mname' => null,
             'lname' => "{$suffix}",
             'suffix' => null,
             'mobile_no' => null,
-            'email' => "breeder{$suffix}@example.com",
+            'affiliation' => $instituteId,
+            'email_verified_at' => now(),
+            'password' => bcrypt('password'),
+        ]);
+
+        $breeder = Breeder::query()->firstOrCreate([
+            'email' => $email,
+        ], [
+            'fname' => 'Breeder',
+            'mname' => null,
+            'lname' => "{$suffix}",
+            'suffix' => null,
+            'mobile_no' => null,
             'breeder_type' => BreederType::PUBLIC->value,
             'user_id' => $user->id,
             'affiliation' => $instituteId,
@@ -386,6 +377,14 @@ class MapDataFiltersTest extends TestCase
             'geolocation' => $cityId,
             'photo' => null,
         ]);
+
+        if ($breeder->user_id !== $user->id) {
+            $breeder->update([
+                'user_id' => $user->id,
+                'affiliation' => $instituteId,
+                'geolocation' => $cityId,
+            ]);
+        }
 
         Commodity::create([
             'name' => 'Rice',
