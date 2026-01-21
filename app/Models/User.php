@@ -197,6 +197,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasRole(RoleEnum::RESEARCHER->value);
     }
 
+    public function isTwgManager(): bool
+    {
+        return $this->hasRole(RoleEnum::TWG_MANAGER->value);
+    }
+
     public function dataView(): HasMany
     {
         return $this->hasMany(DataView::class, 'user_account_id');

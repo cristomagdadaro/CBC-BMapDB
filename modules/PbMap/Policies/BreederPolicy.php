@@ -16,7 +16,10 @@ class BreederPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_BREEDER) || $user->isAdmin();
+        return $user->isAdmin()
+            || $user->isFocalPerson()
+            || $user->isBreeder()
+            || $user->isResearcher();
     }
 
     /**
@@ -24,7 +27,7 @@ class BreederPolicy
      */
     public function view(User $user, Breeder $breeder): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_BREEDER) || $user->isAdmin();
+        return $this->viewAny($user);
     }
 
     /**
@@ -32,7 +35,7 @@ class BreederPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::CREATE_BREEDER);
+        return $user->isAdmin() || $user->isFocalPerson();
     }
 
     /**
@@ -53,7 +56,7 @@ class BreederPolicy
             }
         }
 
-        return $user->hasPermissionTo(Permissions::UPDATE_BREEDER);
+        return false;
     }
 
     /**
@@ -74,7 +77,7 @@ class BreederPolicy
             }
         }
 
-        return $user->hasPermissionTo(Permissions::DELETE_BREEDER);
+        return false;
     }
 
     /**

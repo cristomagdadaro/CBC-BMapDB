@@ -14,7 +14,7 @@ class TWGServicePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_TWG_SERVICE) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**
@@ -22,7 +22,7 @@ class TWGServicePolicy
      */
     public function view(User $user, TWGService $tWGService): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_TWG_SERVICE) || $user->isAdmin();
+        return $this->viewAny($user);
     }
 
     /**
@@ -30,7 +30,7 @@ class TWGServicePolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::CREATE_TWG_SERVICE) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**
@@ -38,7 +38,7 @@ class TWGServicePolicy
      */
     public function update(User $user, TWGService $tWGService): bool
     {
-        return $user->hasPermissionTo(Permissions::UPDATE_TWG_SERVICE) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**
@@ -46,7 +46,7 @@ class TWGServicePolicy
      */
     public function delete(User $user, TWGService $tWGService): bool
     {
-        return $user->hasPermissionTo(Permissions::DELETE_TWG_SERVICE) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**

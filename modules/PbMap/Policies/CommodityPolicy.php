@@ -13,7 +13,10 @@ class CommodityPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_COMMODITY) || $user->isAdmin();
+        return $user->isAdmin()
+            || $user->isResearcher()
+            || $user->isBreeder()
+            || $user->isFocalPerson();
     }
 
     /**
@@ -21,7 +24,7 @@ class CommodityPolicy
      */
     public function view(User $user, Commodity $commodity): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_COMMODITY) || $user->isAdmin();
+        return $this->viewAny($user);
     }
 
     /**
@@ -29,7 +32,9 @@ class CommodityPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::CREATE_COMMODITY);
+        return $user->isAdmin()
+            || $user->isFocalPerson()
+            || $user->isBreeder();
     }
 
     /**
@@ -51,10 +56,6 @@ class CommodityPolicy
             }
         }
 
-        if (!$user->hasPermissionTo(Permissions::UPDATE_COMMODITY)) {
-            return false;
-        }
-
         // If the acting user is a breeder, restrict to own records
         if ($user->isBreeder()) {
             // Prefer direct user_id on the commodity; fallback to breeder relation's user_id
@@ -68,8 +69,7 @@ class CommodityPolicy
             return (int) $breederUserId === (int) $user->id;
         }
 
-        // For other roles with update permission, allow
-        return true;
+        return false;
     }
 
     /**
@@ -90,23 +90,7 @@ class CommodityPolicy
                 return true;
             }
         }
-
-        if (!$user->hasPermissionTo(Permissions::DELETE_COMMODITY)) {
-            return false;
-        }
-
-        if ($user->isBreeder()) {
-            $ownsDirectly = (int) $commodity->user_id === (int) $user->id;
-            if ($ownsDirectly) return true;
-
-            $breederUserId = $commodity->relationLoaded('breeder')
-                ? optional($commodity->breeder)->user_id
-                : $commodity->breeder()->value('user_id');
-
-            return (int) $breederUserId === (int) $user->id;
-        }
-
-        return true;
+        return false;
     }
 
     /**

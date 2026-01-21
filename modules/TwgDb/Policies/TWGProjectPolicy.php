@@ -14,7 +14,7 @@ class TWGProjectPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_TWG_PROJECT) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**
@@ -22,7 +22,7 @@ class TWGProjectPolicy
      */
     public function view(User $user, TWGProject $tWGProject): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_TWG_PROJECT) || $user->isAdmin();
+        return $this->viewAny($user);
     }
 
     /**
@@ -30,7 +30,7 @@ class TWGProjectPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::CREATE_TWG_PROJECT) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**
@@ -38,7 +38,7 @@ class TWGProjectPolicy
      */
     public function update(User $user, TWGProject $tWGProject): bool
     {
-        return $user->hasPermissionTo(Permissions::UPDATE_TWG_PROJECT) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**
@@ -46,7 +46,7 @@ class TWGProjectPolicy
      */
     public function delete(User $user, TWGProject $tWGProject): bool
     {
-        return $user->hasPermissionTo(Permissions::DELETE_TWG_PROJECT) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**
