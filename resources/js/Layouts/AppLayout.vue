@@ -12,6 +12,7 @@ import {CBCProjects} from "@/Pages/constants.ts";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import BellIcon from "@/Components/Icons/BellIcon.vue";
 import Notification from "@/Components/Modal/Notification/Notification.ts";
+import Modal from "@/Components/Modal.vue";
 import Footer from "@/Pages/Footer.vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";
@@ -19,6 +20,7 @@ import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import User from "@/Modules/core/domain/auth/User";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
+import TD from '@/Components/CRCMDatatable/Components/TD.vue';
 
 export default {
     components: {
@@ -38,6 +40,8 @@ export default {
         BellIcon,
         Footer,
         Hamburger,
+        Modal,
+        TD   
     },
     props: {
         title: {
@@ -50,6 +54,14 @@ export default {
             showSidebar: true,
             CBCProjects,
             user: new User(this.$page.props.auth.user),
+            showHistoryModal: false,
+            historyItems: [],
+            historyMeta: null,
+            historyLoading: false,
+            historyError: null,
+            historyPage: 1,
+            historyHasMore: true,
+            historyScrollThreshold: 120,
         }
     },
     computed: {
@@ -90,6 +102,99 @@ export default {
             logout,
             requestNewApplicationAccess,
         }
+    },
+    methods: {
+        async loadHistory(page = 1, append = false) {
+            this.historyLoading = true;
+            this.historyError = null;
+            try {
+                const svc = new ApiService('/api/activity-logs');
+                const response = await svc.get({ per_page: 15, page, mine: true });
+                if (response?.data?.data) {
+                    const items = response.data.data || [];
+                    this.historyItems = append ? [...this.historyItems, ...items] : items;
+                    this.historyMeta = response.data.meta || null;
+                    this.historyPage = this.historyMeta?.current_page || page;
+                    this.historyHasMore = this.historyMeta
+                        ? this.historyMeta.current_page < this.historyMeta.last_page
+                        : items.length > 0;
+                } else {
+                    this.historyItems = [];
+                    this.historyMeta = null;
+                    this.historyHasMore = false;
+                }
+            } catch (error) {
+                this.historyError = 'Failed to load activity history.';
+                Notification.pushNotification({
+                    title: 'History',
+                    message: 'Failed to load activity history.',
+                    type: 'failed',
+                    timeout: 8000,
+                    show: true
+                });
+            } finally {
+                this.historyLoading = false;
+            }
+        },
+        openHistory() {
+            this.showHistoryModal = true;
+            this.historyPage = 1;
+            this.historyHasMore = true;
+            this.loadHistory(1, false);
+        },
+                async onHistoryScroll(event) {
+                    if (this.historyLoading || !this.historyHasMore) return;
+                    const target = event?.target;
+                    if (!target) return;
+
+                    const distanceToBottom = target.scrollHeight - target.scrollTop - target.clientHeight;
+                    if (distanceToBottom <= this.historyScrollThreshold) {
+                        const nextPage = (this.historyPage || 1) + 1;
+                        await this.loadHistory(nextPage, true);
+                    }
+                },
+        closeHistory() {
+            this.showHistoryModal = false;
+        },
+        formatAction(method) {
+            switch ((method || '').toUpperCase()) {
+                case 'POST':
+                    return 'Created';
+                case 'PUT':
+                case 'PATCH':
+                    return 'Updated';
+                case 'DELETE':
+                    return 'Deleted';
+                default:
+                    return method || 'Action';
+            }
+        },
+        formatModel(model) {
+            if (!model) return 'Unknown Item';
+            return String(model)
+                .replace(/[-_]/g, ' ')
+                .replace(/\b\w/g, l => l.toUpperCase());
+        },
+        formatTarget(item) {
+            return item?.modified_id ? `#${item.modified_id}` : '-';
+        },
+        formatActor(item) {
+            return item?.user_role ? `${item.user_role}` : 'You';
+        },
+        formatWhen(value) {
+            if (!value) return '-';
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return value;
+            return date.toLocaleString();
+        },
+        formatDescription(item) {
+            if (item?.description) return item.description;
+            const action = this.formatAction(item?.method).toLowerCase();
+            const model = this.formatModel(item?.model);
+            const target = item?.modified_id ? `#${item.modified_id}` : '';
+            const actor = item?.user_role ? item.user_role : 'You';
+            return `${actor} ${action} ${model}${target ? ' ' + target : ''}`.trim();
+        },
     }
 }
 </script>
@@ -173,7 +278,9 @@ export default {
                             </Dropdown>
                             <top-action-btn
                                 class="shadow-none hover:scale-105 active:scale-100"
-                                @click="new Notification('Test','This is a test notification '+ Notification.notifications.value.length, Array.from(['error', 'success', 'warning', 'failed'])[Math.floor(Math.random() * 4)], 5000, true)">
+                                @click="openHistory"
+                                title="View activity history"
+                            >
                                 <template #icon>
                                     <bell-icon class="h-auto sm:w-6 w-4" :class="Notification.notifications.value.length?'animate-wiggle':''" />
                                 </template>
@@ -484,5 +591,45 @@ export default {
                 </main>
             </template>
         </sidebar-layout>
+
+        <Modal :show="showHistoryModal" maxWidth="2xl" @close="closeHistory">
+            <div class="p-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold">Activity History</h2>
+                    <button class="text-sm text-gray-500 hover:text-gray-700" @click="closeHistory">Close</button>
+                </div>
+
+                <div class="mt-4">
+                    <div v-if="historyError" class="text-sm text-red-600">{{ historyError }}</div>
+                    <div v-else class="max-h-[60vh] overflow-y-auto border rounded" @scroll.passive="onHistoryScroll">
+                        <table class="min-w-full text-xs">
+                            <thead class="bg-gray-50 text-gray-600">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">When</th>
+                                    <th class="px-3 py-2 text-left">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in historyItems" :key="item.id" class="border-t">
+                                    <td class="px-3 py-2">{{ formatWhen(item.created_at) }}</td>
+                                    <td class="px-3 py-2">{{ formatDescription(item) }}</td>
+                                </tr>
+                                <tr v-if="historyLoading" class="text-gray-600 border-t">
+                                    <td colspan="6" class="px-3 py-2 text-center">
+                                        Loading...
+                                    </td>
+                                </tr>
+                                <tr v-else-if="!historyItems.length && !historyLoading" class="text-sm text-gray-600">
+                                    <td colspan="6" class="px-3 py-2 text-center">
+                                        No activity yet
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </Modal>
     </div>
 </template>

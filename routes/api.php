@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardApiController;
+use App\Http\Controllers\API\ActivityLogController;
 use App\Http\Controllers\DataViewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,8 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
         Route::get('/system-activities', 'getSystemActivities')->name('api.dashboard.system-activities');
         Route::post('/activity', 'updateActivity')->name('api.dashboard.activity');
     });
+
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('api.activity-logs.index');
 
     Route::controller(DataViewController::class)->group(function () {
        Route::get('/data-view', 'index')->name('api.dataview.index');
