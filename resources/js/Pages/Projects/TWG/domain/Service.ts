@@ -1,29 +1,21 @@
 import DtoService from "../dto/DtoService";
-import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
-import IService from "../interface/IService";
-import IExpert from "../interface/IExpert";
-import IInstitute from "@/Modules/core/interface/auth/IInstitute";
 
-export default class Service extends BaseClass implements IService{
-    id: number;
-    user_id: number;
-    type: string;
-    purpose: string;
-    direct_beneficiaries: string;
-    indirect_beneficiaries: string;
-    cost: number;
-    institution: number;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
-
-    officer_in_charge: string;
-    affiliated: IInstitute;
-
+export default class Service extends DtoService {
     constructor(params : DtoService) {
         super(params);
-        console.log(params);
         this.appendWith = ['affiliated', 'officerInCharge'];
+    }
+
+    get officer_in_charge_display() {
+        if (!this.officer_in_charge) {
+            return null;
+        }
+
+        if (typeof this.officer_in_charge === 'string') {
+            return this.officer_in_charge;
+        }
+
+        return this.officer_in_charge?.name ?? null;
     }
 
     static createForm() {
@@ -42,13 +34,16 @@ export default class Service extends BaseClass implements IService{
     }
 
     static updateForm(oldValue: Partial<Service>) {
+        const officerInCharge = oldValue.officer_in_charge;
         return {
             id: oldValue.id ?? null,
             type: oldValue.type ?? null,
             purpose: oldValue.purpose ?? null,
             direct_beneficiaries: oldValue.direct_beneficiaries ?? null,
             indirect_beneficiaries: oldValue.indirect_beneficiaries ?? null,
-            officer_in_charge: oldValue.officer_in_charge?.id ?? null,
+            officer_in_charge: typeof officerInCharge === 'object'
+                ? officerInCharge?.id ?? null
+                : officerInCharge ?? null,
             cost: oldValue.cost ?? null,
             created_at: oldValue.created_at ?? null,
             updated_at: oldValue.updated_at ?? null,
@@ -109,7 +104,7 @@ export default class Service extends BaseClass implements IService{
             },
             {
                 title: 'Officer In Charge',
-                key: 'officer_in_charge',
+                key: 'officer_in_charge_display',
                 db_key: 'officer_in_charge',
                 align: 'center',
                 sortable: true,

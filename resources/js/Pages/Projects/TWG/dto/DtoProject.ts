@@ -36,7 +36,12 @@ export default class DtoProject extends BaseClass implements IProject {
         this.updated_at = project.updated_at;
         this.deleted_at = project.deleted_at;
         this.institution = project.institution;
-        this.project_leader = new DtoExpert(project?.project_leader);
-        this.affiliated = new DtoInstitute(project?.affiliated);
+        if (project?.project_leader) {
+            this.project_leader = new DtoExpert(project.project_leader);
+        }
+
+        if (project?.affiliated) {
+            this.affiliated = new DtoInstitute(project.affiliated);
+        }
     }
 }

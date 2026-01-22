@@ -1,23 +1,6 @@
 import DtoProduct from "../dto/DtoProduct";
-import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
-import IProduct from "../interface/IProduct";
-import IExpert from "../interface/IExpert";
-import IInstitute from "@/Modules/core/interface/auth/IInstitute";
 
-export default class Product extends BaseClass implements IProduct{
-    id: number;
-    user_id: number;
-    name: string;
-    brand: string;
-    purpose: string;
-    cost: number;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
-    institution: number;
-
-    affiliated: IInstitute;
-
+export default class Product extends DtoProduct {
     constructor(params: DtoProduct) {
         super(params);
 
