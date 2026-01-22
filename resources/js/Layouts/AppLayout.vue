@@ -104,28 +104,26 @@ export default {
             <!-- Primary Navigation Menu -->
             <div class="px-4 sm:px-6 py-3 lg:px-8 bg-cbc-dark-green">
                 <div class="flex justify-between items-center h-10">
-                    <div class="flex gap-1 items-center">
+                    <div id="user-details" class="flex gap-1 items-center relative group">
                         <img v-if="$page.props.auth.user.profile_photo_url" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name" class="rounded-full h-10 w-10 object-cover">
                         <div class="sm:flex hidden flex-col text-gray-50">
-
-                            <div class="flex items-center gap-1 border-white border-b px-1">
-                                <span class="leading-tight text-normal uppercase">
+                            <div class="flex flex-col items-left px-1 leading-none">
+                                <span class="leading-none text-normal uppercase font-semibold">
                                     {{ user.getFullName }}
                                 </span>
-                                    <span class="leading-tight border-white border-l pl-1">
-                                    {{ user.affiliation }}
+                                <span class="leading-none border-white text-xs">
+                                    {{ user.getRole }}
                                 </span>
                             </div>
-                            <div class="flex items-center gap-1 text-sm px-1">
-                                <span class="leading-tight border-white border-r pr-1">
-                                    ID: {{ user.id }}
-                                </span>
-                                    <span class="leading-tight border-white border-r pr-1">
-                                {{ user.getRole }}
-                                </span>
-                                    <span class="leading-tight">
-                                    {{ user.email }}
-                                </span>
+                        </div>
+                        <div
+                            class="absolute left-0 top-full mt-2 hidden group-hover:block bg-white text-gray-700 shadow-lg rounded-md p-3 text-xs z-50 min-w-[16rem]"
+                        >
+                            <div class="font-medium text-gray-900 mb-1">{{ user.getFullName }}</div>
+                            <div class="text-gray-600 mb-2">{{ user.affiliation }}</div>
+                            <div class="flex flex-col gap-1">
+                                <div><span class="text-gray-500">Role:</span> {{ user.getRole }}</div>
+                                <div><span class="text-gray-500">Email:</span> {{ user.email }}</div>
                             </div>
                         </div>
                     </div>

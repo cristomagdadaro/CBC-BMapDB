@@ -1,6 +1,7 @@
 <script>
 import { BreedersMapPages } from "@/Pages/Projects/BreedersMap/components/components.js";
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
+import ApiService from "@/Modules/core/infrastructure/ApiService";
 
 export default {
     name: "BreedersTable",

@@ -80,6 +80,10 @@ Route::get('/accept-breeder-role/{user}', [InvitationController::class, 'acceptB
     ->name('accept.breeder.role')
     ->middleware('signed'); // Ensure the URL is signed
 
+Route::post('/accept-breeder-role/{user}/regenerate', [InvitationController::class, 'regenerateBreederInvite'])
+    ->name('accept.breeder.role.regenerate')
+    ->middleware('auth');
+
 Route::prefix('/support-info')->group(function () {
     Route::get('/what-is-pin', [SupportInfoController::class, 'whatIsPIN'])->name('support.what-is-pin');
     Route::get('/terms-of-use', [SupportInfoController::class, 'termsOfUse'])->name('support.terms-of-use');
