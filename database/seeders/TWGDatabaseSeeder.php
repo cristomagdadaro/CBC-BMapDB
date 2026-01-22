@@ -51,6 +51,156 @@ class TWGDatabaseSeeder extends Seeder
             TWGExpertSeeder::class,
             TWGProjectSeeder::class,
             TWGProductSeeder::class,
+            ],
+            [
+                'institution' => InstituteList::PCA->value,
+                'name' => 'Division Chief',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::PCA->value,
+                'name' => 'Department Manager',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::PRRI->value,
+                'name' => 'Honey Fe G. Boje',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOII->value,
+                'name' => 'Engr. Rolando D. Pedro ACC III/DA-CVRC Manager',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOII->value,
+                'name' => 'Minda Flor M. Aquino',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOIVA->value,
+                'name' => 'Nora L. Talain',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOIVA->value,
+                'name' => 'Felix Joselito Noceda',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOIVA->value,
+                'name' => 'Virgilia D. Arellano',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOIVA->value,
+                'name' => 'Ma. Cecille Manzanilla',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOVI->value,
+                'name' => 'Primitiva B. Malaga',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOVI->value,
+                'name' => 'Nora T. Garpa',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOX->value,
+                'name' => 'Lorena V. Duna',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOX->value,
+                'name' => 'Carmelito R. Lapoot',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOX->value,
+                'name' => 'Milamar Aragua',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
+            ],
+            [
+                'institution' => InstituteList::RFOX->value,
+                'name' => 'Wendelyn Toraja',
+                'position' => 'NA',
+                'educ_level' => "Doctoral",
+                'expertise' => "Plant Breeding",
+                'research_interest' => "Plant Breeding",
+                'mobile' => null,
+                'email' => null
             TWGServiceSeeder::class,
         ]);*/
 
@@ -910,7 +1060,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'Detection of GM material in agricultural crops',
                 'direct_beneficiaries' => 'Technology developers',
                 'indirect_beneficiaries' => 'Consumers',
-                'officer_in_charge' => $this->getLeader('Geronima P. Eusebio'),
+                'officer_in_charge' => $this->getLeader('Geronima Eusebio'),
                 'cost' => '5,600 per sample',
             ],
             [
@@ -990,7 +1140,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate farmers IPs and stakeholders to increase production and income.',
                 'direct_beneficiaries' => 'Upland farmers',
                 'indirect_beneficiaries' => 'Consumers and Entrepreneurs',
-                'officer_in_charge' => $this->getLeader('Veronica P. Mangune'),
+                'officer_in_charge' => $this->getLeader('Veronica Mangune'),
                 'cost' => 'Free of charge',
             ],
             [
@@ -1010,7 +1160,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate farmers and stakeholders to increase production and income.',
                 'direct_beneficiaries' => 'Rice farmers',
                 'indirect_beneficiaries' => 'Consumers',
-                'officer_in_charge' => $this->getLeader('Felix Joselito Noceda, Agricultural Center Chief III'),
+                'officer_in_charge' => $this->getLeader('Felix Joselito Noceda'),
                 'cost' => 'Free of charge',
             ],
             [
@@ -1020,7 +1170,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate farmers and other stakeholders on the technology',
                 'direct_beneficiaries' => 'Farmers, LGUs, private clienteles, students',
                 'indirect_beneficiaries' => 'Consumers, manufacturers, processors',
-                'officer_in_charge' => $this->getLeader('Virgilia D. Arellano; Wilmer S. Faylon'),
+                'officer_in_charge' => $this->getLeader('Virgilia D. Arellano'),
                 'cost' => 'Free of charge',
             ],
             [
@@ -1040,7 +1190,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To diagnose plant insect pests and diseases and provide control management through symptomatology, microscopy and LAMP technology for rice viral detection',
                 'direct_beneficiaries' => 'Farmer partners, LGUs',
                 'indirect_beneficiaries' => 'Consumers, Policy Makers',
-                'officer_in_charge' => $this->getLeader('RYAN V. RASGO, Chief of Regional Crop Protection Center 6'),
+                'officer_in_charge' => $this->getLeader('Ryan V. Rasgo'),
                 'cost' => 'N/A',
             ],
             [
@@ -1050,7 +1200,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To produce biological control agents as part of the control measures for major diseases and insect pests',
                 'direct_beneficiaries' => 'Farmer partners, LGUs',
                 'indirect_beneficiaries' => 'Consumers, Policy Makers',
-                'officer_in_charge' => $this->getLeader('RYAN V. RASGO, Chief of Regional Crop Protection Center 6'),
+                'officer_in_charge' => $this->getLeader('Ryan V. Rasgo'),
                 'cost' => 'N/A',
             ],
             [
@@ -1060,7 +1210,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate stakeholders on Batuan propagations and processing',
                 'direct_beneficiaries' => 'Indigenous Farmers',
                 'indirect_beneficiaries' => 'Consumers and Entrepreneurs',
-                'officer_in_charge' => $this->getLeader('Primitiva B. Malaga - Agricultural Center Chief III & Nora T. Garpa - SRS II'),
+                'officer_in_charge' => $this->getLeader('Primitiva B. Malaga'),
                 'cost' => null,
             ],
             [
@@ -1070,7 +1220,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'For mass production of disease-free potato planting materials through in-vitro production',
                 'direct_beneficiaries' => 'Farmer associations, Individual farmers',
                 'indirect_beneficiaries' => 'Research institutions, other interested clients',
-                'officer_in_charge' => $this->getLeader('Lorena V. Duna - Chief, Research Division; Carmelito R. Lapoot - Chief, NMACLRC Station; Project Leaders: Milamar Aragua, Wendelyn Toraja, Eleazer Jumalon'),
+                'officer_in_charge' => $this->getLeader('Lorena V. Duna'),
                 'cost' => '4 Million',
             ],
         ];
