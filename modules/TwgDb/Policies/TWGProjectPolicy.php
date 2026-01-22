@@ -38,7 +38,17 @@ class TWGProjectPolicy
      */
     public function update(User $user, TWGProject $tWGProject): bool
     {
-        return $user->isAdmin() || $user->isTwgManager();
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        if ($user->isTwgManager()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $modelAff = (int) ($tWGProject->institution ?? 0);
+            return $userAff && $modelAff && $userAff === $modelAff;
+        }
+
+        return false;
     }
 
     /**
@@ -46,7 +56,7 @@ class TWGProjectPolicy
      */
     public function delete(User $user, TWGProject $tWGProject): bool
     {
-        return $user->isAdmin() || $user->isTwgManager();
+        return $this->update($user, $tWGProject);
     }
 
     /**

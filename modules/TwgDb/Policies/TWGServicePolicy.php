@@ -38,7 +38,17 @@ class TWGServicePolicy
      */
     public function update(User $user, TWGService $tWGService): bool
     {
-        return $user->isAdmin() || $user->isTwgManager();
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        if ($user->isTwgManager()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $modelAff = (int) ($tWGService->institution ?? 0);
+            return $userAff && $modelAff && $userAff === $modelAff;
+        }
+
+        return false;
     }
 
     /**
@@ -46,7 +56,7 @@ class TWGServicePolicy
      */
     public function delete(User $user, TWGService $tWGService): bool
     {
-        return $user->isAdmin() || $user->isTwgManager();
+        return $this->update($user, $tWGService);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Modules\TwgDb\Controllers;
 
 use App\Http\Controllers\BaseController;
+use Modules\TwgDb\Models\TWGProject;
 use Modules\TwgDb\Repositories\TWGProjectRepo;
 use Modules\TwgDb\Requests\CreateTWGProjectRequest;
 use Modules\TwgDb\Requests\DeleteTWGProjectRequest;
@@ -38,6 +39,13 @@ class TWGProjectController extends BaseController
 
     public function destroy(int $id)
     {
+        $user = auth()->user();
+        $model = TWGProject::findOrFail($id);
+
+        if (!$user || (!$user->isAdmin() && (!$user->isTwgManager() || (int) $user->affiliation !== (int) $model->institution))) {
+            abort(403, __('You are not authorized to delete this project.'));
+        }
+
         return parent::_destroy($id);
     }
 

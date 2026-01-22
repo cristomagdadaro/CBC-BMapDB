@@ -30,6 +30,26 @@ export default {
         canView() {
             return this.isAdmin || this.isTwgManager;
         },
+        currentUserAffiliationId() {
+            return this.$page?.props?.auth?.user?.affiliated?.id || null;
+        }
+    },
+    methods: {
+        isSameInstitute(row) {
+            const userAff = Number(this.currentUserAffiliationId);
+            const rowAff = Number(row?.affiliated?.id ?? row?.institution ?? null);
+            return !!userAff && !!rowAff && userAff === rowAff;
+        },
+        rowCanUpdate(row) {
+            if (this.isAdmin) return true;
+            if (this.isTwgManager && this.isSameInstitute(row)) return true;
+            return false;
+        },
+        rowCanDelete(row) {
+            if (this.isAdmin) return true;
+            if (this.isTwgManager && this.isSameInstitute(row)) return true;
+            return false;
+        }
     },
     components: {CRCMDatatable}
 }
@@ -45,6 +65,8 @@ export default {
         :can-update="canUpdate"
         :can-delete="canDelete"
         :can-view="canView"
+        :row-can-update="rowCanUpdate"
+        :row-can-delete="rowCanDelete"
     />
 </template>
 

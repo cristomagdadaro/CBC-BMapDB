@@ -4,6 +4,7 @@ namespace Modules\TwgDb\Controllers;
 
 use App\Http\Controllers\BaseController;
 use Modules\TwgDb\Repositories\TWGServiceRepo;
+use Modules\TwgDb\Models\TWGService;
 use Modules\TwgDb\Requests\CreateTWGServiceRequest;
 use Modules\TwgDb\Requests\DeleteTWGServiceRequest;
 use Modules\TwgDb\Requests\GetTWGServiceRequest;
@@ -38,6 +39,13 @@ class TWGServiceController extends BaseController
 
     public function destroy(int $id)
     {
+        $user = auth()->user();
+        $model = TWGService::findOrFail($id);
+
+        if (!$user || (!$user->isAdmin() && (!$user->isTwgManager() || (int) $user->affiliation !== (int) $model->institution))) {
+            abort(403, __('You are not authorized to delete this service.'));
+        }
+
         return parent::_destroy($id);
     }
 
