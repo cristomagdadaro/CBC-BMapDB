@@ -10,6 +10,7 @@ use Modules\PbMap\Controllers\CommodityController;
 
 
 /* Public Api - Selection Options */
+Route::get('/institutes', [InstituteController::class, 'index'])->name('api.institutes.index.public');
 Route::get('/institutes/options', [InstituteController::class, 'options'])->name('api.institutes.options.public');
 Route::get('/applications/options', [ApplicationController::class, 'options'])->name('api.applications.options.public');
 Route::get('/cities', [CityProvRegController::class, 'cityOptions'])->name('api.cities.options.public');
