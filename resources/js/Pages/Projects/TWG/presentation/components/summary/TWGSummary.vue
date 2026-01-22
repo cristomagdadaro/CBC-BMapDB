@@ -66,15 +66,17 @@ const getSummary = async () => {
         const axios = new ApiService(route('api.twg.summary'));
         const response = await axios.get();
 
-        console.log('Dashboard data:', response.data);
+        console.log('Dashboard data:', response?.data);
 
-        totalProjects.value = response.data.data.totalProjects || 0;
-        totalExperts.value = response.data.data.totalExperts || 0;
-        totalServices.value = response.data.data.totalServices || 0;
-        totalProducts.value = response.data.data.totalProducts || 0;
-        totalOnGoingProjects.value = response.data.data.totalOnGoingProjects || {};
-        topExperts.value = response.data.data.topExperts || {};
-        typeServices.value = response.data.data.typeServices || {};
+        const summary = response?.data?.data || {};
+
+        totalProjects.value = summary.totalProjects || 0;
+        totalExperts.value = summary.totalExperts || 0;
+        totalServices.value = summary.totalServices || 0;
+        totalProducts.value = summary.totalProducts || 0;
+        totalOnGoingProjects.value = summary.totalOnGoingProjects || {};
+        topExperts.value = summary.topExperts || {};
+        typeServices.value = summary.typeServices || {};
 
         // Calculate advanced metrics
         expertUtilization.value = totalExperts.value

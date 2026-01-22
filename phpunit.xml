@@ -21,6 +21,9 @@
         <testsuite name="MapData">
             <directory>tests/Feature/MapData</directory>
         </testsuite>
+        <testsuite name="TWG">
+            <directory>tests/Feature/TWG</directory>
+        </testsuite>
     </testsuites>
     <source>
         <include>
