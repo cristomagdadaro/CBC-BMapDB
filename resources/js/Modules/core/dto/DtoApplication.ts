@@ -10,14 +10,14 @@ export default class DtoApplication extends BaseClass implements IApplication {
     url: string = null;
 
     constructor(dto: IApplication) {
-        super();
+        super(dto);
         this.table = 'applications';
-        this.id = dto.id;
-        this.name = dto.name;
-        this.description = dto.description;
-        this.url = dto.url;
-        this.icon = dto.icon;
-        this.status = dto.status;
+        this.id = dto?.id;
+        this.name = dto?.name;
+        this.description = dto?.description;
+        this.url = dto?.url;
+        this.icon = dto?.icon;
+        this.status = dto?.status;
     }
 
     get appTabs() {

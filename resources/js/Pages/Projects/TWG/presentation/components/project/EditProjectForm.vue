@@ -45,7 +45,7 @@ export default {
                     <text-field required :error="getError('duration')" label="Duration" v-model="form.duration" />
                     <select-field required :error="getError('status')" label="Status" v-model="form.status" :options="ProjectStatus" />
                 </div>
-                <select-search-field v-if="isAdmin()" required :api-link="route('api.institutes.index.public')"  :error="getError('institution')" label="Institution / Agency" v-model="form.institution" />
+                <select-search-field v-if="isAdmin()" required :api-link="route('api.institutes.options.public')"  :error="getError('institution')" label="Institution / Agency" v-model="form.institution" />
             </div>
         </template>
     </base-edit-form>

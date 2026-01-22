@@ -14,12 +14,12 @@ export default class DtoInstitute extends BaseClass implements IInstitute {
     constructor(dto: IInstitute) {
         super();
         this.table = 'institute';
-        this.id = dto.id;
-        this.name = dto.name;
-        this.inst_type = dto.inst_type;
-        this.website = dto.website;
-        this.email = dto.email;
-        this.phone = dto.phone;
+        this.id = dto?.id;
+        this.name = dto?.name;
+        this.inst_type = dto?.inst_type;
+        this.website = dto?.website;
+        this.email = dto?.email;
+        this.phone = dto?.phone;
 
         if (dto.location)
             this.location = new DtoCity(dto['city']);

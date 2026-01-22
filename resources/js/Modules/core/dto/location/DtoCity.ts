@@ -12,12 +12,12 @@ export default class DtoCity extends BaseClass implements ICity {
     longitude: string = null;
 
     constructor(dto: ICity) {
-        super();
+        super(dto);
         this.table = 'cities';
-        this.id = dto.id;
-        this.cityDesc = dto.cityDesc;
-        this.latitude = dto.latitude;
-        this.longitude = dto.longitude
+        this.id = dto?.id;
+        this.cityDesc = dto?.cityDesc;
+        this.latitude = dto?.latitude;
+        this.longitude = dto?.longitude
 
         if (dto.provDesc)
             // @ts-ignore

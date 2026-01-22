@@ -7,10 +7,10 @@ export default class DtoPermission extends BaseClass implements IPermission {
     guard_name: string;
 
     constructor(dto: IPermission) {
-        super();
+        super(dto);
         this.table = 'permissions';
-        this.id = dto.id;
-        this.name = dto.name;
-        this.guard_name = dto.guard_name;
+        this.id = dto?.id;
+        this.name = dto?.name;
+        this.guard_name = dto?.guard_name;
     }
 }

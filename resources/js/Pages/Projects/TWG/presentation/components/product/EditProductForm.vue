@@ -38,7 +38,7 @@ export default {
                     <text-field :error="getError('cost')" label="Cost" v-model="form.cost" />
                 </div>
                 <text-field type-input="longtext" required :error="getError('purpose')" label="Purpose" v-model="form.purpose" />
-                <select-search-field v-if="isAdmin()" required :api-link="route('api.institutes.index.public')"  :error="getError('institution')" label="Institution / Agency" v-model="form.institution" />
+                <select-search-field v-if="isAdmin()" required :api-link="route('api.institutes.options.public')"  :error="getError('institution')" label="Institution / Agency" v-model="form.institution" />
             </div>
         </template>
     </base-edit-form>
