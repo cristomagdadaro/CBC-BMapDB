@@ -19,8 +19,8 @@ class CitySeeder extends Seeder
                 break;*/
 
             $cityDesc = trim((string) $city['cityDesc']);
-            $provDesc = $this->normalizeProvince((string) $city['provDesc']);
-            $regDesc = $this->normalizeRegion((string) $city['regDesc']);
+            $provDesc = trim((string) $city['provDesc']);
+            $regDesc = trim((string) $city['regDesc']);
 
             City::updateOrCreate(
                 [
@@ -34,29 +34,5 @@ class CitySeeder extends Seeder
                 ]
             );
         }
-    }
-
-    private function normalizeRegion(string $region): string
-    {
-        $normalized = strtoupper(trim($region));
-
-        $map = [
-            'REGION XIV' => 'CAR',
-        ];
-
-        return $map[$normalized] ?? $normalized;
-    }
-
-    private function normalizeProvince(string $province): string
-    {
-        $normalized = trim($province);
-        $key = strtolower($normalized);
-
-        $map = [
-            'cotabato' => 'Maguindanao',
-            'davao de oro' => 'Compostela Valley',
-        ];
-
-        return $map[$key] ?? $normalized;
     }
 }

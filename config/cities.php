@@ -101,7 +101,7 @@ return array(
         'id' => 13,
         'cityDesc' => 'Aguinaldo',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.783,
         'longitude' => 121.317
     ),
@@ -148,7 +148,7 @@ return array(
     array(
         'id' => 19,
         'cityDesc' => 'Alamada',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.333,
         'longitude' => 124.567
@@ -260,7 +260,7 @@ return array(
     array(
         'id' => 33,
         'cityDesc' => 'Aleosan',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.15,
         'longitude' => 124.583
@@ -285,7 +285,7 @@ return array(
         'id' => 36,
         'cityDesc' => 'Alfonso Lista',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.9,
         'longitude' => 121.517
     ),
@@ -436,7 +436,7 @@ return array(
     array(
         'id' => 55,
         'cityDesc' => 'Ampatuan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.867,
         'longitude' => 124.467
@@ -540,7 +540,7 @@ return array(
     array(
         'id' => 68,
         'cityDesc' => 'Antipas',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.25,
         'longitude' => 125.05
@@ -580,7 +580,7 @@ return array(
     array(
         'id' => 73,
         'cityDesc' => 'Arakan',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.35,
         'longitude' => 125.133
@@ -645,7 +645,7 @@ return array(
         'id' => 81,
         'cityDesc' => 'Asipulo',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.6,
         'longitude' => 121.05
     ),
@@ -677,7 +677,7 @@ return array(
         'id' => 85,
         'cityDesc' => 'Atok',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.58333,
         'longitude' => 120.7
     ),
@@ -731,7 +731,7 @@ return array(
     ),
     array(
         'id' => 92,
-        'cityDesc' => 'BaRegion XIVra',
+        'cityDesc' => 'Bara',
         'provDesc' => 'Ilocos Norte',
         'regDesc' => 'REGION I',
         'latitude' => 18.25,
@@ -901,7 +901,7 @@ return array(
         'id' => 113,
         'cityDesc' => 'Baguio City',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.42,
         'longitude' => 120.6
     ),
@@ -933,7 +933,7 @@ return array(
         'id' => 117,
         'cityDesc' => 'Bakun',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.7922,
         'longitude' => 120.6653
     ),
@@ -1029,7 +1029,7 @@ return array(
         'id' => 129,
         'cityDesc' => 'Balbalan',
         'provDesc' => 'Kalinga',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.45,
         'longitude' => 121.15
     ),
@@ -1181,7 +1181,7 @@ return array(
         'id' => 148,
         'cityDesc' => 'Banaue',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.91889,
         'longitude' => 121.05889
     ),
@@ -1212,7 +1212,7 @@ return array(
     array(
         'id' => 152,
         'cityDesc' => 'Banga',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.3,
         'longitude' => 124.783
@@ -1229,7 +1229,7 @@ return array(
         'id' => 154,
         'cityDesc' => 'Bangued',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.6,
         'longitude' => 120.617
     ),
@@ -1260,7 +1260,7 @@ return array(
     array(
         'id' => 158,
         'cityDesc' => 'Banisilan',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.5,
         'longitude' => 124.7
@@ -1356,7 +1356,7 @@ return array(
     array(
         'id' => 170,
         'cityDesc' => 'Barira',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Norte',
         'regDesc' => 'BARMM',
         'latitude' => 7.483,
         'longitude' => 124.3
@@ -1365,7 +1365,7 @@ return array(
         'id' => 171,
         'cityDesc' => 'Barlig',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.083,
         'longitude' => 121.15
     ),
@@ -1557,7 +1557,7 @@ return array(
         'id' => 195,
         'cityDesc' => 'Bauko',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.983,
         'longitude' => 120.867
     ),
@@ -1669,7 +1669,7 @@ return array(
         'id' => 209,
         'cityDesc' => 'Besao',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.1,
         'longitude' => 120.817
     ),
@@ -1821,7 +1821,7 @@ return array(
         'id' => 228,
         'cityDesc' => 'Bokod',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.5,
         'longitude' => 120.833
     ),
@@ -1837,7 +1837,7 @@ return array(
         'id' => 230,
         'cityDesc' => 'Boliney',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.4,
         'longitude' => 120.8
     ),
@@ -1893,7 +1893,7 @@ return array(
         'id' => 237,
         'cityDesc' => 'Bontoc',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.08722,
         'longitude' => 120.97556
     ),
@@ -1973,7 +1973,7 @@ return array(
         'id' => 247,
         'cityDesc' => 'Bucay',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.533,
         'longitude' => 120.717
     ),
@@ -1981,7 +1981,7 @@ return array(
         'id' => 248,
         'cityDesc' => 'Bucloc',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.45,
         'longitude' => 120.85
     ),
@@ -2053,7 +2053,7 @@ return array(
         'id' => 257,
         'cityDesc' => 'Buguias',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.72306,
         'longitude' => 120.82806
     ),
@@ -2100,7 +2100,7 @@ return array(
     array(
         'id' => 263,
         'cityDesc' => 'Buldon',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Norte',
         'regDesc' => 'BARMM',
         'latitude' => 7.517,
         'longitude' => 124.367
@@ -2108,7 +2108,7 @@ return array(
     array(
         'id' => 264,
         'cityDesc' => 'Buluan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.86667,
         'longitude' => 124.75
@@ -2453,7 +2453,7 @@ return array(
         'id' => 307,
         'cityDesc' => 'Calanasan',
         'provDesc' => 'Apayao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 18.25,
         'longitude' => 121.033
     ),
@@ -2755,7 +2755,7 @@ return array(
     ),
     array(
         'id' => 345,
-        'cityDesc' => 'Region XIVaga',
+        'cityDesc' => 'Caraga',
         'provDesc' => 'Davao Oriental',
         'regDesc' => 'REGION XI',
         'latitude' => 7.333,
@@ -2763,7 +2763,7 @@ return array(
     ),
     array(
         'id' => 346,
-        'cityDesc' => 'Region XIVamoan',
+        'cityDesc' => 'Caramoan',
         'provDesc' => 'Camarines Sur',
         'regDesc' => 'REGION V',
         'latitude' => 13.767,
@@ -2771,7 +2771,7 @@ return array(
     ),
     array(
         'id' => 347,
-        'cityDesc' => 'Region XIVamoran',
+        'cityDesc' => 'Caramoan',
         'provDesc' => 'Catanduanes',
         'regDesc' => 'REGION V',
         'latitude' => 13.983,
@@ -2779,7 +2779,7 @@ return array(
     ),
     array(
         'id' => 348,
-        'cityDesc' => 'Region XIVasi',
+        'cityDesc' => 'Carasi',
         'provDesc' => 'Ilocos Norte',
         'regDesc' => 'REGION I',
         'latitude' => 18.2,
@@ -2787,7 +2787,7 @@ return array(
     ),
     array(
         'id' => 349,
-        'cityDesc' => 'Region XIVRegion XIV City',
+        'cityDesc' => 'Car City',
         'provDesc' => 'Cebu',
         'regDesc' => 'REGION VII',
         'latitude' => 10.1,
@@ -2795,7 +2795,7 @@ return array(
     ),
     array(
         'id' => 350,
-        'cityDesc' => 'Region XIVdona',
+        'cityDesc' => 'Cardona',
         'provDesc' => 'Rizal',
         'regDesc' => 'REGION IV-A',
         'latitude' => 14.48611,
@@ -2803,7 +2803,7 @@ return array(
     ),
     array(
         'id' => 351,
-        'cityDesc' => 'Region XIVigara',
+        'cityDesc' => 'Carigara',
         'provDesc' => 'Leyte',
         'regDesc' => 'REGION VIII',
         'latitude' => 11.3,
@@ -2811,7 +2811,7 @@ return array(
     ),
     array(
         'id' => 352,
-        'cityDesc' => 'Region XIVles',
+        'cityDesc' => 'Carles',
         'provDesc' => 'Iloilo',
         'regDesc' => 'REGION VI',
         'latitude' => 11.567,
@@ -2819,7 +2819,7 @@ return array(
     ),
     array(
         'id' => 353,
-        'cityDesc' => 'Region XIVmen',
+        'cityDesc' => 'Carmen',
         'provDesc' => 'Agusan del Norte',
         'regDesc' => 'REGION XIII',
         'latitude' => 8.983,
@@ -2827,7 +2827,7 @@ return array(
     ),
     array(
         'id' => 354,
-        'cityDesc' => 'Region XIVmen',
+        'cityDesc' => 'Carmen',
         'provDesc' => 'Bohol',
         'regDesc' => 'REGION VII',
         'latitude' => 9.82,
@@ -2835,7 +2835,7 @@ return array(
     ),
     array(
         'id' => 355,
-        'cityDesc' => 'Region XIVmen',
+        'cityDesc' => 'Carmen',
         'provDesc' => 'Cebu',
         'regDesc' => 'REGION VII',
         'latitude' => 10.58,
@@ -2843,15 +2843,15 @@ return array(
     ),
     array(
         'id' => 356,
-        'cityDesc' => 'Region XIVmen',
-        'provDesc' => 'North Cotabato',
+        'cityDesc' => 'Carmen',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.2,
         'longitude' => 124.783
     ),
     array(
         'id' => 357,
-        'cityDesc' => 'Region XIVmen',
+        'cityDesc' => 'Carmen',
         'provDesc' => 'Davao del Norte',
         'regDesc' => 'REGION XI',
         'latitude' => 7.36056,
@@ -2859,7 +2859,7 @@ return array(
     ),
     array(
         'id' => 358,
-        'cityDesc' => 'Region XIVmen',
+        'cityDesc' => 'Carmen',
         'provDesc' => 'Surigao del Sur',
         'regDesc' => 'REGION XIII',
         'latitude' => 9.217,
@@ -2867,7 +2867,7 @@ return array(
     ),
     array(
         'id' => 359,
-        'cityDesc' => 'Region XIVmona',
+        'cityDesc' => 'Carmona',
         'provDesc' => 'Cavite',
         'regDesc' => 'REGION IV-A',
         'latitude' => 14.317,
@@ -2875,7 +2875,7 @@ return array(
     ),
     array(
         'id' => 360,
-        'cityDesc' => 'Region XIVranglan',
+        'cityDesc' => 'Carranglan',
         'provDesc' => 'Nueva Ecija',
         'regDesc' => 'REGION III',
         'latitude' => 15.967,
@@ -2883,7 +2883,7 @@ return array(
     ),
     array(
         'id' => 361,
-        'cityDesc' => 'Region XIVrascal',
+        'cityDesc' => 'Carrascal',
         'provDesc' => 'Surigao del Sur',
         'regDesc' => 'REGION XIII',
         'latitude' => 9.367,
@@ -3124,7 +3124,7 @@ return array(
     array(
         'id' => 391,
         'cityDesc' => 'Compostela',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.667,
         'longitude' => 126.083
@@ -3165,7 +3165,7 @@ return array(
         'id' => 396,
         'cityDesc' => 'Conner',
         'provDesc' => 'Apayao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.8,
         'longitude' => 121.333
     ),
@@ -3341,7 +3341,7 @@ return array(
         'id' => 418,
         'cityDesc' => 'Daguioman',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.45,
         'longitude' => 120.917
     ),
@@ -3397,7 +3397,7 @@ return array(
         'id' => 425,
         'cityDesc' => 'Danglas',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.7,
         'longitude' => 120.65
     ),
@@ -3460,7 +3460,7 @@ return array(
     array(
         'id' => 433,
         'cityDesc' => 'Datu Abdullah Sangki',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.751722,
         'longitude' => 124.491861
@@ -3468,7 +3468,7 @@ return array(
     array(
         'id' => 434,
         'cityDesc' => 'Datu Anggal Midtimbang',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.93333,
         'longitude' => 124.33333
@@ -3476,7 +3476,7 @@ return array(
     array(
         'id' => 435,
         'cityDesc' => 'Datu Blah T. Sinsuat',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.92278,
         'longitude' => 123.96833
@@ -3484,7 +3484,7 @@ return array(
     array(
         'id' => 436,
         'cityDesc' => 'Datu Hoffer Ampatuan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.8666694,
         'longitude' => 124.45
@@ -3492,7 +3492,7 @@ return array(
     array(
         'id' => 437,
         'cityDesc' => 'Datu Montawal',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 7.1,
         'longitude' => 124.76667
@@ -3500,7 +3500,7 @@ return array(
     array(
         'id' => 438,
         'cityDesc' => 'Datu Odin Sinsuat',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Norte',
         'regDesc' => 'BARMM',
         'latitude' => 7.18889,
         'longitude' => 124.18389
@@ -3508,7 +3508,7 @@ return array(
     array(
         'id' => 439,
         'cityDesc' => 'Datu Paglas',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.76694,
         'longitude' => 124.85
@@ -3516,7 +3516,7 @@ return array(
     array(
         'id' => 440,
         'cityDesc' => 'Datu Piang',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 7.03333,
         'longitude' => 124.5
@@ -3524,7 +3524,7 @@ return array(
     array(
         'id' => 441,
         'cityDesc' => 'Datu Salibo',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 7.0166694,
         'longitude' => 124.5
@@ -3532,7 +3532,7 @@ return array(
     array(
         'id' => 442,
         'cityDesc' => 'Datu Saudi-Ampatuan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.95722,
         'longitude' => 124.44444
@@ -3540,7 +3540,7 @@ return array(
     array(
         'id' => 443,
         'cityDesc' => 'Datu Unsay',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.92083,
         'longitude' => 124.45333
@@ -3571,7 +3571,7 @@ return array(
     ),
     array(
         'id' => 447,
-        'cityDesc' => 'del Region XIVmen',
+        'cityDesc' => 'del Carmen',
         'provDesc' => 'Dinagat Islands',
         'regDesc' => 'REGION XIII',
         'latitude' => 9.867,
@@ -3765,7 +3765,7 @@ return array(
         'id' => 471,
         'cityDesc' => 'Dolores',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.64667,
         'longitude' => 120.71083
     ),
@@ -3787,7 +3787,7 @@ return array(
     ),
     array(
         'id' => 474,
-        'cityDesc' => 'Don Region XIVlos',
+        'cityDesc' => 'Don Carlos',
         'provDesc' => 'Bukidnon',
         'regDesc' => 'REGION X',
         'latitude' => 7.683,
@@ -4037,7 +4037,7 @@ return array(
         'id' => 505,
         'cityDesc' => 'Flora',
         'provDesc' => 'Apayao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 18.117,
         'longitude' => 121.4
     ),
@@ -4171,7 +4171,7 @@ return array(
     ),
     array(
         'id' => 522,
-        'cityDesc' => 'General MaRegion XIVthur',
+        'cityDesc' => 'General Macarthur',
         'provDesc' => 'Eastern Samar',
         'regDesc' => 'REGION VIII',
         'latitude' => 11.25,
@@ -4204,7 +4204,7 @@ return array(
     array(
         'id' => 526,
         'cityDesc' => 'General Salipada K. Pendatun',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.79694,
         'longitude' => 124.7025
@@ -4212,7 +4212,7 @@ return array(
     array(
         'id' => 527,
         'cityDesc' => 'General Santos City',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.12,
         'longitude' => 125.17
@@ -4420,7 +4420,7 @@ return array(
     array(
         'id' => 553,
         'cityDesc' => 'Guindulungan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.96583,
         'longitude' => 124.34806
@@ -4581,7 +4581,7 @@ return array(
         'id' => 573,
         'cityDesc' => 'Hingyon',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.833,
         'longitude' => 121.117
     ),
@@ -4621,7 +4621,7 @@ return array(
         'id' => 578,
         'cityDesc' => 'Hungduan',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.833,
         'longitude' => 121
     ),
@@ -4853,7 +4853,7 @@ return array(
         'id' => 607,
         'cityDesc' => 'Itogon',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.367,
         'longitude' => 120.683
     ),
@@ -5068,7 +5068,7 @@ return array(
     array(
         'id' => 634,
         'cityDesc' => 'Kabacan',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.117,
         'longitude' => 124.817
@@ -5093,7 +5093,7 @@ return array(
         'id' => 637,
         'cityDesc' => 'Kabayan',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.617,
         'longitude' => 120.85
     ),
@@ -5101,14 +5101,14 @@ return array(
         'id' => 638,
         'cityDesc' => 'Kabugao',
         'provDesc' => 'Apayao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 18.017,
         'longitude' => 121.183
     ),
     array(
         'id' => 639,
         'cityDesc' => 'Kabuntalan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Norte',
         'regDesc' => 'BARMM',
         'latitude' => 7.11667,
         'longitude' => 124.38333
@@ -5205,7 +5205,7 @@ return array(
         'id' => 651,
         'cityDesc' => 'Kapangan',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.583,
         'longitude' => 120.6
     ),
@@ -5285,7 +5285,7 @@ return array(
         'id' => 661,
         'cityDesc' => 'Kiangan',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.783,
         'longitude' => 121.083
     ),
@@ -5309,14 +5309,14 @@ return array(
         'id' => 664,
         'cityDesc' => 'Kibungan',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.7,
         'longitude' => 120.667
     ),
     array(
         'id' => 665,
         'cityDesc' => 'Kidapawan City',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.017,
         'longitude' => 125.083
@@ -5356,7 +5356,7 @@ return array(
     array(
         'id' => 670,
         'cityDesc' => 'Koronadal City',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.5,
         'longitude' => 124.85
@@ -5371,7 +5371,7 @@ return array(
     ),
     array(
         'id' => 672,
-        'cityDesc' => 'La Region XIVlota City',
+        'cityDesc' => 'La Carlota City',
         'provDesc' => 'Negros Occidental',
         'regDesc' => 'REGION VI',
         'latitude' => 10.4118,
@@ -5405,7 +5405,7 @@ return array(
         'id' => 676,
         'cityDesc' => 'La Paz',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.70556,
         'longitude' => 120.69306
     ),
@@ -5437,14 +5437,14 @@ return array(
         'id' => 680,
         'cityDesc' => 'La Trinidad',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.45,
         'longitude' => 120.567
     ),
     array(
         'id' => 681,
         'cityDesc' => 'Laak',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.833,
         'longitude' => 125.817
@@ -5485,7 +5485,7 @@ return array(
         'id' => 686,
         'cityDesc' => 'Lacub',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.667,
         'longitude' => 120.95
     ),
@@ -5493,7 +5493,7 @@ return array(
         'id' => 687,
         'cityDesc' => 'Lagangilang',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.617,
         'longitude' => 120.783
     ),
@@ -5501,7 +5501,7 @@ return array(
         'id' => 688,
         'cityDesc' => 'Lagawe',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.817,
         'longitude' => 121.1
     ),
@@ -5509,7 +5509,7 @@ return array(
         'id' => 689,
         'cityDesc' => 'Lagayan',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.717,
         'longitude' => 120.7
     ),
@@ -5540,7 +5540,7 @@ return array(
     array(
         'id' => 693,
         'cityDesc' => 'Lake Sebu',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.217,
         'longitude' => 124.7
@@ -5597,7 +5597,7 @@ return array(
         'id' => 700,
         'cityDesc' => 'Lamut',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.65,
         'longitude' => 121.225
     ),
@@ -5605,7 +5605,7 @@ return array(
         'id' => 701,
         'cityDesc' => 'Langiden',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.583,
         'longitude' => 120.567
     ),
@@ -5924,7 +5924,7 @@ return array(
     array(
         'id' => 741,
         'cityDesc' => 'Libungan',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.25,
         'longitude' => 124.517
@@ -5941,7 +5941,7 @@ return array(
         'id' => 743,
         'cityDesc' => 'Licuan-Baay',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.62694,
         'longitude' => 120.83222
     ),
@@ -6181,7 +6181,7 @@ return array(
         'id' => 773,
         'cityDesc' => 'Luba',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.34917,
         'longitude' => 120.69111
     ),
@@ -6205,7 +6205,7 @@ return array(
         'id' => 776,
         'cityDesc' => 'Lubuagan',
         'provDesc' => 'Kalinga',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.35,
         'longitude' => 121.183
     ),
@@ -6293,7 +6293,7 @@ return array(
         'id' => 787,
         'cityDesc' => 'Luna',
         'provDesc' => 'Apayao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 18.32583,
         'longitude' => 121.35361
     ),
@@ -6420,7 +6420,7 @@ return array(
     array(
         'id' => 803,
         'cityDesc' => 'Mabini',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.3,
         'longitude' => 125.85
@@ -6467,7 +6467,7 @@ return array(
     ),
     array(
         'id' => 809,
-        'cityDesc' => 'MaRegion XIVthur',
+        'cityDesc' => 'Macarthur',
         'provDesc' => 'Leyte',
         'regDesc' => 'REGION VIII',
         'latitude' => 10.85,
@@ -6476,7 +6476,7 @@ return array(
     array(
         'id' => 810,
         'cityDesc' => 'Maco',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.367,
         'longitude' => 125.85
@@ -6604,7 +6604,7 @@ return array(
     array(
         'id' => 826,
         'cityDesc' => 'Magpet',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.1,
         'longitude' => 125.117
@@ -6756,7 +6756,7 @@ return array(
     array(
         'id' => 845,
         'cityDesc' => 'Makilala',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.967,
         'longitude' => 125.083
@@ -6837,7 +6837,7 @@ return array(
         'id' => 855,
         'cityDesc' => 'Malibcong',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.567,
         'longitude' => 120.983
     ),
@@ -6940,7 +6940,7 @@ return array(
     array(
         'id' => 868,
         'cityDesc' => 'Mamasapano',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.97194,
         'longitude' => 124.48111
@@ -6973,7 +6973,7 @@ return array(
         'id' => 872,
         'cityDesc' => 'Manabo',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.467,
         'longitude' => 120.7
     ),
@@ -7044,7 +7044,7 @@ return array(
     array(
         'id' => 881,
         'cityDesc' => 'Mangudadatu',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.6875,
         'longitude' => 124.825
@@ -7077,7 +7077,7 @@ return array(
         'id' => 885,
         'cityDesc' => 'Mankayan',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.867,
         'longitude' => 120.783
     ),
@@ -7156,7 +7156,7 @@ return array(
     array(
         'id' => 895,
         'cityDesc' => 'Maragusan',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.5,
         'longitude' => 126
@@ -7332,7 +7332,7 @@ return array(
     array(
         'id' => 917,
         'cityDesc' => 'Matalam',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.083,
         'longitude' => 124.9
@@ -7356,7 +7356,7 @@ return array(
     array(
         'id' => 920,
         'cityDesc' => 'Matanog',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Norte',
         'regDesc' => 'BARMM',
         'latitude' => 7.467,
         'longitude' => 124.25
@@ -7404,7 +7404,7 @@ return array(
     array(
         'id' => 926,
         'cityDesc' => 'Mawab',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.5,
         'longitude' => 125.933
@@ -7437,7 +7437,7 @@ return array(
         'id' => 930,
         'cityDesc' => 'Mayoyao',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.967,
         'longitude' => 121.217
     ),
@@ -7524,7 +7524,7 @@ return array(
     array(
         'id' => 941,
         'cityDesc' => 'Midsayap',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.1917,
         'longitude' => 124.533
@@ -7580,7 +7580,7 @@ return array(
     array(
         'id' => 948,
         'cityDesc' => 'Mlang',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.9382,
         'longitude' => 124.9066
@@ -7644,7 +7644,7 @@ return array(
     array(
         'id' => 956,
         'cityDesc' => 'Monkayo',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.817,
         'longitude' => 126.05
@@ -7660,7 +7660,7 @@ return array(
     array(
         'id' => 958,
         'cityDesc' => 'Montevista',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.7,
         'longitude' => 125.983
@@ -7764,7 +7764,7 @@ return array(
     array(
         'id' => 971,
         'cityDesc' => 'Nabunturan',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.6,
         'longitude' => 125.967
@@ -7803,7 +7803,7 @@ return array(
     ),
     array(
         'id' => 976,
-        'cityDesc' => 'NagRegion XIVlan',
+        'cityDesc' => 'Naglan',
         'provDesc' => 'Laguna',
         'regDesc' => 'REGION IV-A',
         'latitude' => 14.133,
@@ -7893,7 +7893,7 @@ return array(
         'id' => 987,
         'cityDesc' => 'Natonin',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.1,
         'longitude' => 121.283
     ),
@@ -7924,7 +7924,7 @@ return array(
     array(
         'id' => 991,
         'cityDesc' => 'New Bataan',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.533,
         'longitude' => 126.133
@@ -7956,7 +7956,7 @@ return array(
     array(
         'id' => 995,
         'cityDesc' => 'Norala',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.55,
         'longitude' => 124.667
@@ -7964,7 +7964,7 @@ return array(
     array(
         'id' => 996,
         'cityDesc' => 'Northern Kabuntalan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Norte',
         'regDesc' => 'BARMM',
         'latitude' => 7.13333,
         'longitude' => 124.46667
@@ -8204,7 +8204,7 @@ return array(
     array(
         'id' => 1026,
         'cityDesc' => 'Pagalungan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 7.057,
         'longitude' => 124.701
@@ -8228,7 +8228,7 @@ return array(
     array(
         'id' => 1029,
         'cityDesc' => 'Paglat',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.7,
         'longitude' => 124.78333
@@ -8396,7 +8396,7 @@ return array(
     array(
         'id' => 1050,
         'cityDesc' => 'Pandag',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.78333,
         'longitude' => 124.8
@@ -8532,7 +8532,7 @@ return array(
     array(
         'id' => 1067,
         'cityDesc' => 'Pantukan',
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI',
         'latitude' => 7.15,
         'longitude' => 125.95
@@ -8581,7 +8581,7 @@ return array(
         'id' => 1073,
         'cityDesc' => 'Paracelis',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.267,
         'longitude' => 121.467
     ),
@@ -8596,7 +8596,7 @@ return array(
     array(
         'id' => 1075,
         'cityDesc' => 'Parang',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Norte',
         'regDesc' => 'BARMM',
         'latitude' => 7.33333,
         'longitude' => 124.31667
@@ -8637,7 +8637,7 @@ return array(
         'id' => 1080,
         'cityDesc' => 'Pasil',
         'provDesc' => 'Kalinga',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.383,
         'longitude' => 121.15
     ),
@@ -8741,7 +8741,7 @@ return array(
         'id' => 1093,
         'cityDesc' => 'Peñarrubia',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.567,
         'longitude' => 120.65
     ),
@@ -8797,14 +8797,14 @@ return array(
         'id' => 1100,
         'cityDesc' => 'Pidigan',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.567,
         'longitude' => 120.583
     ),
     array(
         'id' => 1101,
         'cityDesc' => 'Pigkawayan',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.283,
         'longitude' => 124.433
@@ -8812,7 +8812,7 @@ return array(
     array(
         'id' => 1102,
         'cityDesc' => 'Pikit',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.05,
         'longitude' => 124.667
@@ -8829,7 +8829,7 @@ return array(
         'id' => 1104,
         'cityDesc' => 'Pilar',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.4175,
         'longitude' => 120.59417
     ),
@@ -8941,7 +8941,7 @@ return array(
         'id' => 1118,
         'cityDesc' => 'Pinukpuk',
         'provDesc' => 'Kalinga',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.6,
         'longitude' => 121.367
     ),
@@ -9052,7 +9052,7 @@ return array(
     array(
         'id' => 1132,
         'cityDesc' => 'Polomolok',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.217,
         'longitude' => 125.067
@@ -9131,7 +9131,7 @@ return array(
     ),
     array(
         'id' => 1142,
-        'cityDesc' => 'President Region XIVlos P. Garcia',
+        'cityDesc' => 'President Carlos P. Garcia',
         'provDesc' => 'Bohol',
         'regDesc' => 'REGION VII',
         'latitude' => 10.12,
@@ -9164,7 +9164,7 @@ return array(
     array(
         'id' => 1146,
         'cityDesc' => 'President Roxas',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 7.15,
         'longitude' => 125.05
@@ -9197,7 +9197,7 @@ return array(
         'id' => 1150,
         'cityDesc' => 'Pudtol',
         'provDesc' => 'Apayao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 18.15,
         'longitude' => 121.283
     ),
@@ -9340,7 +9340,7 @@ return array(
     array(
         'id' => 1168,
         'cityDesc' => 'Rajah Buayan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.91083,
         'longitude' => 124.55083
@@ -9413,7 +9413,7 @@ return array(
         'id' => 1177,
         'cityDesc' => 'Rizal',
         'provDesc' => 'Kalinga',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.5,
         'longitude' => 121.6
     ),
@@ -9573,7 +9573,7 @@ return array(
         'id' => 1197,
         'cityDesc' => 'Sabangan',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.95,
         'longitude' => 120.917
     ),
@@ -9581,7 +9581,7 @@ return array(
         'id' => 1198,
         'cityDesc' => 'Sablan',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.517,
         'longitude' => 120.517
     ),
@@ -9605,7 +9605,7 @@ return array(
         'id' => 1201,
         'cityDesc' => 'Sadanga',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.167,
         'longitude' => 121.033
     ),
@@ -9621,7 +9621,7 @@ return array(
         'id' => 1203,
         'cityDesc' => 'Sagada',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.083,
         'longitude' => 120.9
     ),
@@ -9701,7 +9701,7 @@ return array(
         'id' => 1213,
         'cityDesc' => 'Sallapadan',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.467,
         'longitude' => 120.767
     ),
@@ -9843,7 +9843,7 @@ return array(
     ),
     array(
         'id' => 1231,
-        'cityDesc' => 'San Region XIVlos City',
+        'cityDesc' => 'San Carlos City',
         'provDesc' => 'Negros Occidental',
         'regDesc' => 'REGION VI',
         'latitude' => 10.42,
@@ -9851,7 +9851,7 @@ return array(
     ),
     array(
         'id' => 1232,
-        'cityDesc' => 'San Region XIVlos City',
+        'cityDesc' => 'San Carlos City',
         'provDesc' => 'Pangasinan',
         'regDesc' => 'REGION I',
         'latitude' => 15.92806,
@@ -10045,7 +10045,7 @@ return array(
         'id' => 1256,
         'cityDesc' => 'San Isidro',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.467,
         'longitude' => 120.6
     ),
@@ -10245,7 +10245,7 @@ return array(
         'id' => 1281,
         'cityDesc' => 'San Juan',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.717,
         'longitude' => 120.75
     ),
@@ -10563,7 +10563,7 @@ return array(
     ),
     array(
         'id' => 1321,
-        'cityDesc' => 'San PoliRegion XIVpo',
+        'cityDesc' => 'San Policarpo',
         'provDesc' => 'Eastern Samar',
         'regDesc' => 'REGION VIII',
         'latitude' => 12.183,
@@ -10573,7 +10573,7 @@ return array(
         'id' => 1322,
         'cityDesc' => 'San Quintin',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.54306,
         'longitude' => 120.51917
     ),
@@ -10619,7 +10619,7 @@ return array(
     ),
     array(
         'id' => 1328,
-        'cityDesc' => 'San RiRegion XIVdo',
+        'cityDesc' => 'San Ricardo',
         'provDesc' => 'Southern Leyte',
         'regDesc' => 'REGION VIII',
         'latitude' => 9.917,
@@ -10877,7 +10877,7 @@ return array(
         'id' => 1360,
         'cityDesc' => 'Santa Marcela',
         'provDesc' => 'Apayao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 18.283,
         'longitude' => 121.433
     ),
@@ -11084,7 +11084,7 @@ return array(
     array(
         'id' => 1386,
         'cityDesc' => 'Santo Niño',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.433,
         'longitude' => 124.683
@@ -11260,7 +11260,7 @@ return array(
     array(
         'id' => 1408,
         'cityDesc' => 'Shariff Aguak',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.86472,
         'longitude' => 124.44167
@@ -11268,7 +11268,7 @@ return array(
     array(
         'id' => 1409,
         'cityDesc' => 'Shariff Saydona Mustapha',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.9666694,
         'longitude' => 124.5
@@ -11644,7 +11644,7 @@ return array(
     array(
         'id' => 1456,
         'cityDesc' => 'South Upi',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.8548444,
         'longitude' => 124.1443028
@@ -11716,15 +11716,15 @@ return array(
     array(
         'id' => 1465,
         'cityDesc' => 'Sultan Kudarat',
-        'provDesc' => 'Maguindanao',
-        'regDesc' => 'BARMM',
+        'provDesc' => 'Sultan Kudarat',
+        'regDesc' => 'Region XII',
         'latitude' => 7.233,
         'longitude' => 124.25
     ),
     array(
         'id' => 1466,
         'cityDesc' => 'Sultan Mastura',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Norte',
         'regDesc' => 'BARMM',
         'latitude' => 7.283,
         'longitude' => 124.3
@@ -11740,7 +11740,7 @@ return array(
     array(
         'id' => 1468,
         'cityDesc' => 'Sultan sa Barongis',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.8,
         'longitude' => 124.63333
@@ -11764,7 +11764,7 @@ return array(
     array(
         'id' => 1471,
         'cityDesc' => 'Surallah',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.367,
         'longitude' => 124.733
@@ -11853,7 +11853,7 @@ return array(
         'id' => 1482,
         'cityDesc' => 'Tabuk',
         'provDesc' => 'Kalinga',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.45,
         'longitude' => 121.45833
     ),
@@ -11877,7 +11877,7 @@ return array(
         'id' => 1485,
         'cityDesc' => 'Tadian',
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17,
         'longitude' => 120.817
     ),
@@ -12036,7 +12036,7 @@ return array(
     array(
         'id' => 1505,
         'cityDesc' => 'Talayan',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.96667,
         'longitude' => 124.41667
@@ -12100,7 +12100,7 @@ return array(
     array(
         'id' => 1513,
         'cityDesc' => 'Talitay',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM',
         'latitude' => 6.99667,
         'longitude' => 124.70528
@@ -12132,7 +12132,7 @@ return array(
     array(
         'id' => 1517,
         'cityDesc' => 'Tampakan',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.45,
         'longitude' => 124.933
@@ -12228,7 +12228,7 @@ return array(
     array(
         'id' => 1529,
         'cityDesc' => 'Tantangan',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.617,
         'longitude' => 124.75
@@ -12237,7 +12237,7 @@ return array(
         'id' => 1530,
         'cityDesc' => 'Tanudan',
         'provDesc' => 'Kalinga',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.3,
         'longitude' => 121.233
     ),
@@ -12349,14 +12349,14 @@ return array(
         'id' => 1544,
         'cityDesc' => 'Tayum',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.617,
         'longitude' => 120.65
     ),
     array(
         'id' => 1545,
         'cityDesc' => 'Tboli',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.1468,
         'longitude' => 124.9066
@@ -12429,7 +12429,7 @@ return array(
         'id' => 1554,
         'cityDesc' => 'Tineg',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.767,
         'longitude' => 120.933
     ),
@@ -12437,7 +12437,7 @@ return array(
         'id' => 1555,
         'cityDesc' => 'Tinglayan',
         'provDesc' => 'Kalinga',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.283,
         'longitude' => 121.167
     ),
@@ -12453,7 +12453,7 @@ return array(
         'id' => 1557,
         'cityDesc' => 'Tinoc',
         'provDesc' => 'Ifugao',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.7,
         'longitude' => 120.9
     ),
@@ -12565,7 +12565,7 @@ return array(
         'id' => 1571,
         'cityDesc' => 'Tuba',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.317,
         'longitude' => 120.55
     ),
@@ -12613,7 +12613,7 @@ return array(
         'id' => 1577,
         'cityDesc' => 'Tublay',
         'provDesc' => 'Benguet',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 16.517,
         'longitude' => 120.617
     ),
@@ -12621,7 +12621,7 @@ return array(
         'id' => 1578,
         'cityDesc' => 'Tubo',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.167,
         'longitude' => 120.717
     ),
@@ -12708,7 +12708,7 @@ return array(
     array(
         'id' => 1589,
         'cityDesc' => 'Tulunan',
-        'provDesc' => 'North Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.833,
         'longitude' => 124.883
@@ -12740,7 +12740,7 @@ return array(
     array(
         'id' => 1593,
         'cityDesc' => 'Tupi',
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII',
         'latitude' => 6.333,
         'longitude' => 124.95
@@ -12796,7 +12796,7 @@ return array(
     array(
         'id' => 1600,
         'cityDesc' => 'Upi',
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Norte',
         'regDesc' => 'BARMM',
         'latitude' => 7.02889,
         'longitude' => 124.165
@@ -12997,7 +12997,7 @@ return array(
         'id' => 1625,
         'cityDesc' => 'Villaviciosa',
         'provDesc' => 'Abra',
-        'regDesc' => 'Region XIV',
+        'regDesc' => 'CAR',
         'latitude' => 17.433,
         'longitude' => 120.633
     ),
@@ -13085,7 +13085,7 @@ return array(
         'id' => 1636,
         'cityDesc' => 'Jaro',
         'provDesc' => 'Iloilo ',
-        'regDesc' => 'Region VI',
+        'regDesc' => 'REGION VI',
         'latitude' => 11.633,
         'longitude' => 124.85
     ),

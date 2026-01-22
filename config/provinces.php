@@ -4,7 +4,7 @@ return array(
     array(
         'id' => 1,
         'provDesc' => 'Abra',
-        'regDesc' => 'REGION XIV'
+        'regDesc' => 'CAR'
     ),
     array(
         'id' => 2,
@@ -34,7 +34,7 @@ return array(
     array(
         'id' => 7,
         'provDesc' => 'Apayao',
-        'regDesc' => 'REGION XIV'
+        'regDesc' => 'CAR'
     ),
     array(
         'id' => 8,
@@ -64,7 +64,7 @@ return array(
     array(
         'id' => 13,
         'provDesc' => 'Benguet',
-        'regDesc' => 'REGION XIV'
+        'regDesc' => 'CAR'
     ),
     array(
         'id' => 14,
@@ -128,7 +128,7 @@ return array(
     ),
     array(
         'id' => 26,
-        'provDesc' => 'Compostela Valley',
+        'provDesc' => 'Davao de Oro',
         'regDesc' => 'REGION XI'
     ),
     array(
@@ -149,7 +149,7 @@ return array(
     array(
         'id' => 30,
         'provDesc' => 'Dinagat Islands',
-        'regDesc' => 'REGION VIII'
+        'regDesc' => 'REGION XIII'
     ),
     array(
         'id' => 31,
@@ -164,7 +164,7 @@ return array(
     array(
         'id' => 33,
         'provDesc' => 'Ifugao',
-        'regDesc' => 'REGION XIV'
+        'regDesc' => 'CAR'
     ),
     array(
         'id' => 34,
@@ -189,7 +189,7 @@ return array(
     array(
         'id' => 38,
         'provDesc' => 'Kalinga',
-        'regDesc' => 'REGION XIV'
+        'regDesc' => 'CAR'
     ),
     array(
         'id' => 39,
@@ -218,7 +218,7 @@ return array(
     ),
     array(
         'id' => 44,
-        'provDesc' => 'Maguindanao',
+        'provDesc' => 'Maguindanao del Sur',
         'regDesc' => 'BARMM'
     ),
     array(
@@ -249,7 +249,7 @@ return array(
     array(
         'id' => 50,
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'REGION XIV'
+        'regDesc' => 'CAR'
     ),
     array(
         'id' => 51,
@@ -263,8 +263,8 @@ return array(
     ),
     array(
         'id' => 53,
-        'provDesc' => 'North Cotabato',
-        'regDesc' => 'REGION XII'
+        'provDesc' => 'Davao del Sur',
+        'regDesc' => 'REGION XI'
     ),
     array(
         'id' => 54,
@@ -348,7 +348,7 @@ return array(
     ),
     array(
         'id' => 70,
-        'provDesc' => 'South Cotabato',
+        'provDesc' => 'Cotabato',
         'regDesc' => 'REGION XII'
     ),
     array(
@@ -400,5 +400,15 @@ return array(
         'id' => 80,
         'provDesc' => 'Zamboanga Sibugay',
         'regDesc' => 'REGION IX'
+    ),
+    array(
+        'id' => 81,
+        'provDesc' => 'Maguindanao del Norte',
+        'regDesc' => 'BARMM'
+    ),
+    array(
+        'id' => 82,
+        'provDesc' => 'Surigao del Norte',
+        'regDesc' => 'REGION XIII'
     )
 );
