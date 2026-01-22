@@ -5,8 +5,19 @@ export default class DtoBaseClass extends Object implements IBaseClass {
 
     constructor(dto = {}) {
         super();
-        //@ts-ignore
-        Object.assign(this, dto);
+        const proto = Object.getPrototypeOf(this);
+        Object.entries(dto || {}).forEach(([key, value]) => {
+            const descriptor = Object.getOwnPropertyDescriptor(proto, key);
+            if (descriptor?.get && !descriptor?.set) {
+                return;
+            }
+            try {
+                // @ts-ignore
+                this[key] = value;
+            } catch (error) {
+                // Ignore read-only assignments
+            }
+        });
     }
 
     get tableName() {

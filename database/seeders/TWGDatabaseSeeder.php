@@ -910,7 +910,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'Detection of GM material in agricultural crops',
                 'direct_beneficiaries' => 'Technology developers',
                 'indirect_beneficiaries' => 'Consumers',
-                'officer_in_charge' => 'Geronima P. Eusebio',
+                'officer_in_charge' => $this->getLeader('Geronima P. Eusebio'),
                 'cost' => '5,600 per sample',
             ],
             [
@@ -920,7 +920,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To disseminate biological control agents to coconut farms affected by coconut rhinoceros beetle, etc.',
                 'direct_beneficiaries' => 'Farmers',
                 'indirect_beneficiaries' => 'Researchers',
-                'officer_in_charge' => 'Division Chief',
+                'officer_in_charge' => $this->getLeader('Division Chief'),
                 'cost' => 'none',
             ],
             [
@@ -930,7 +930,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => '',
                 'direct_beneficiaries' => 'Farmers',
                 'indirect_beneficiaries' => null,
-                'officer_in_charge' => 'Department Manager',
+                'officer_in_charge' => $this->getLeader('Department Manager'),
                 'cost' => '500/seedlings',
             ],
             [
@@ -940,7 +940,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'Source of parental materials for rubber breeding and propagation of high-quality planting materials',
                 'direct_beneficiaries' => 'Breeders, researchers and farmers',
                 'indirect_beneficiaries' => $this->getInstituteId(InstituteList::RFOX->value),
-                'officer_in_charge' => 'Honey Fe G. Boje',
+                'officer_in_charge' => $this->getLeader('Honey Fe G. Boje'),
                 'cost' => '500,000',
             ],
             [
@@ -950,7 +950,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'Available markers that can be used for screening clones for disease resistance, yield and authenticity',
                 'direct_beneficiaries' => 'Breeders and researchers',
                 'indirect_beneficiaries' => 'Farmers',
-                'officer_in_charge' => 'Honey Fe G. Boje',
+                'officer_in_charge' => $this->getLeader('Honey Fe G. Boje'),
                 'cost' => '420,000',
             ],
             [
@@ -960,7 +960,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'Source of certified seeds for commercial production',
                 'direct_beneficiaries' => 'Corn farmers, traders and processors',
                 'indirect_beneficiaries' => null,
-                'officer_in_charge' => 'Engr. Rolando D. Pedro ACC III/DA-CVRC Manager',
+                'officer_in_charge' => $this->getLeader('Engr. Rolando D. Pedro ACC III/DA-CVRC Manager'),
                 'cost' => '5 Million',
             ],
             [
@@ -970,7 +970,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'Source of certified seeds for commercial production',
                 'direct_beneficiaries' => 'Corn farmers, traders and processors',
                 'indirect_beneficiaries' => null,
-                'officer_in_charge' => 'Engr. Rolando D. Pedro ACC III/DA-CVRC Manager',
+                'officer_in_charge' => $this->getLeader('Engr. Rolando D. Pedro ACC III/DA-CVRC Manager'),
                 'cost' => '1.7 Million',
             ],
             [
@@ -980,7 +980,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'Confirmatory Test, Early detection, Basis in the conduct of researches and Proper management recommendation to farmers (Food security)',
                 'direct_beneficiaries' => 'Farmers',
                 'indirect_beneficiaries' => 'Consumers',
-                'officer_in_charge' => 'Minda Flor M. Aquino',
+                'officer_in_charge' => $this->getLeader('Minda Flor M. Aquino'),
                 'cost' => 'Free for farmers, Discounted for others',
             ],
             [
@@ -990,7 +990,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate farmers IPs and stakeholders to increase production and income.',
                 'direct_beneficiaries' => 'Upland farmers',
                 'indirect_beneficiaries' => 'Consumers and Entrepreneurs',
-                'officer_in_charge' => 'Veronica P. Mangune',
+                'officer_in_charge' => $this->getLeader('Veronica P. Mangune'),
                 'cost' => 'Free of charge',
             ],
             [
@@ -1000,7 +1000,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate farmers and other stakeholders on the technology',
                 'direct_beneficiaries' => 'Farmers, LGUs, private clienteles, students',
                 'indirect_beneficiaries' => 'Consumers',
-                'officer_in_charge' => 'Nora L. Talain',
+                'officer_in_charge' => $this->getLeader('Nora L. Talain'),
                 'cost' => 'Free of charge',
             ],
             [
@@ -1010,7 +1010,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate farmers and stakeholders to increase production and income.',
                 'direct_beneficiaries' => 'Rice farmers',
                 'indirect_beneficiaries' => 'Consumers',
-                'officer_in_charge' => 'Felix Joselito Noceda, Agricultural Center Chief III',
+                'officer_in_charge' => $this->getLeader('Felix Joselito Noceda, Agricultural Center Chief III'),
                 'cost' => 'Free of charge',
             ],
             [
@@ -1020,7 +1020,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate farmers and other stakeholders on the technology',
                 'direct_beneficiaries' => 'Farmers, LGUs, private clienteles, students',
                 'indirect_beneficiaries' => 'Consumers, manufacturers, processors',
-                'officer_in_charge' => 'Virgilia D. Arellano; Wilmer S. Faylon',
+                'officer_in_charge' => $this->getLeader('Virgilia D. Arellano; Wilmer S. Faylon'),
                 'cost' => 'Free of charge',
             ],
             [
@@ -1030,7 +1030,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate farmers and other stakeholders on the technology',
                 'direct_beneficiaries' => 'Farmers, LGUs, private clienteles, students',
                 'indirect_beneficiaries' => 'Consumers, manufacturers, processors',
-                'officer_in_charge' => 'Ma. Cecille Manzanilla',
+                'officer_in_charge' => $this->getLeader('Ma. Cecille Manzanilla'),
                 'cost' => 'Free of charge',
             ],
             [
@@ -1040,7 +1040,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To diagnose plant insect pests and diseases and provide control management through symptomatology, microscopy and LAMP technology for rice viral detection',
                 'direct_beneficiaries' => 'Farmer partners, LGUs',
                 'indirect_beneficiaries' => 'Consumers, Policy Makers',
-                'officer_in_charge' => 'RYAN V. RASGO, Chief of Regional Crop Protection Center 6',
+                'officer_in_charge' => $this->getLeader('RYAN V. RASGO, Chief of Regional Crop Protection Center 6'),
                 'cost' => 'N/A',
             ],
             [
@@ -1050,7 +1050,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To produce biological control agents as part of the control measures for major diseases and insect pests',
                 'direct_beneficiaries' => 'Farmer partners, LGUs',
                 'indirect_beneficiaries' => 'Consumers, Policy Makers',
-                'officer_in_charge' => 'RYAN V. RASGO, Chief of Regional Crop Protection Center 6',
+                'officer_in_charge' => $this->getLeader('RYAN V. RASGO, Chief of Regional Crop Protection Center 6'),
                 'cost' => 'N/A',
             ],
             [
@@ -1060,7 +1060,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'To capacitate stakeholders on Batuan propagations and processing',
                 'direct_beneficiaries' => 'Indigenous Farmers',
                 'indirect_beneficiaries' => 'Consumers and Entrepreneurs',
-                'officer_in_charge' => 'Primitiva B. Malaga - Agricultural Center Chief III & Nora T. Garpa - SRS II',
+                'officer_in_charge' => $this->getLeader('Primitiva B. Malaga - Agricultural Center Chief III & Nora T. Garpa - SRS II'),
                 'cost' => null,
             ],
             [
@@ -1070,7 +1070,7 @@ class TWGDatabaseSeeder extends Seeder
                 'purpose' => 'For mass production of disease-free potato planting materials through in-vitro production',
                 'direct_beneficiaries' => 'Farmer associations, Individual farmers',
                 'indirect_beneficiaries' => 'Research institutions, other interested clients',
-                'officer_in_charge' => 'Lorena V. Duna - Chief, Research Division; Carmelito R. Lapoot - Chief, NMACLRC Station; Project Leaders: Milamar Aragua, Wendelyn Toraja, Eleazer Jumalon',
+                'officer_in_charge' => $this->getLeader('Lorena V. Duna - Chief, Research Division; Carmelito R. Lapoot - Chief, NMACLRC Station; Project Leaders: Milamar Aragua, Wendelyn Toraja, Eleazer Jumalon'),
                 'cost' => '4 Million',
             ],
         ];
@@ -1110,9 +1110,39 @@ class TWGDatabaseSeeder extends Seeder
 
     private function getLeader($name)
     {
+        if (!$name) {
+            return null;
+        }
+
         $model = TWGExpert::where('name', $name)->first();
-        if ($model)
+        if ($model) {
             return $model->id;
+        }
+
+        $candidates = preg_split('/[;&]/', $name);
+
+        foreach ($candidates as $candidate) {
+            $candidate = trim($candidate);
+            if (!$candidate) {
+                continue;
+            }
+
+            $simplified = preg_split('/,|\s-\s/', $candidate)[0] ?? $candidate;
+            $simplified = trim($simplified);
+
+            if ($simplified) {
+                $model = TWGExpert::where('name', $simplified)->first();
+                if ($model) {
+                    return $model->id;
+                }
+
+                $model = TWGExpert::where('name', 'like', $simplified . '%')->first();
+                if ($model) {
+                    return $model->id;
+                }
+            }
+        }
+
         return null;
     }
 }

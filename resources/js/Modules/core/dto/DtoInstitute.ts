@@ -21,8 +21,9 @@ export default class DtoInstitute extends BaseClass implements IInstitute {
         this.email = dto?.email;
         this.phone = dto?.phone;
 
-        if (dto.location)
-            this.location = new DtoCity(dto['city']);
+        if (dto?.location) {
+            this.location = new DtoCity(dto.location);
+        }
     }
 
     get getInstituteName()
@@ -31,14 +32,14 @@ export default class DtoInstitute extends BaseClass implements IInstitute {
     }
 
     get city() {
-        return this.location.city;
+        return this.location?.city;
     }
 
     get province() {
-        return this.location.province;
+        return this.location?.province;
     }
 
     get region() {
-        return this.location.region;
+        return this.location?.region;
     }
 }
