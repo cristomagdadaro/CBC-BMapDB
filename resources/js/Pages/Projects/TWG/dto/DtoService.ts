@@ -18,7 +18,7 @@ export default class DtoService extends BaseClass implements IService {
     updated_at: string;
     deleted_at: string;
 
-    officer_in_charge: IExpert;
+    officer_in_charge: string;
     affiliated: IInstitute;
 
     constructor(service: IService) {
@@ -35,7 +35,7 @@ export default class DtoService extends BaseClass implements IService {
         this.deleted_at = service.deleted_at;
         this.institution = service.institution;
 
-        this.officer_in_charge = new DtoExpert(service?.officer_in_charge);
+        this.officer_in_charge = service?.officer_in_charge;
         this.affiliated = new DtoInstitute(service?.affiliated);
     }
 }

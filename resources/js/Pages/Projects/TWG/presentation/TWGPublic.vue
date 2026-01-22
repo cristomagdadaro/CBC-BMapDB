@@ -53,9 +53,6 @@ export default {
                 return this.apiService.response.data;
             return [];
         },
-        affiliation() {
-            return this.data.affiliation;
-        },
         loading() {
             return this.apiService ? this.apiService?.api?.processing : true;
         }

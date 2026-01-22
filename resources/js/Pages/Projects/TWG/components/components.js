@@ -34,7 +34,7 @@ export const TWGPages = {
             },
             import: {
                 path: 'twg.expert.import',
-                name: 'ImportCommodities',
+                name: 'ImportExperts',
                 component: defineAsyncComponent(
                     () => import('@/Pages/Projects/TWG/presentation/components/expert/ImportExperts.vue')
                 ),

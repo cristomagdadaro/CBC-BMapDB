@@ -26,7 +26,6 @@ export default class Product extends BaseClass implements IProduct{
 
     static createForm() {
         return {
-            twg_expert_id: null,
             name: null,
             brand: null,
             purpose: null,
@@ -34,7 +33,6 @@ export default class Product extends BaseClass implements IProduct{
             created_at: null,
             updated_at: null,
             deleted_at: null,
-            expert: null,
             institution: null,
         }
     }
@@ -70,14 +68,6 @@ export default class Product extends BaseClass implements IProduct{
                 align: 'center',
                 sortable: true,
                 visible: true,
-            },
-            {
-                title: 'Expert ID',
-                key: 'twg_expert_id',
-                db_key: 'twg_expert_id',
-                align: 'center',
-                sortable: true,
-                visible: false,
             },
             {
                 title: 'Name',

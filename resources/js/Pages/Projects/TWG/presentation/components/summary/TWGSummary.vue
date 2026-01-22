@@ -77,11 +77,18 @@ const getSummary = async () => {
         typeServices.value = response.data.data.typeServices || {};
 
         // Calculate advanced metrics
-        expertUtilization.value = (totalProjects.value / totalExperts.value).toFixed(1);
+        expertUtilization.value = totalExperts.value
+            ? (totalProjects.value / totalExperts.value).toFixed(1)
+            : 0;
         activeProjectsCount.value = totalOnGoingProjects.value['Active'] || 0;
         completedProjectsCount.value = totalOnGoingProjects.value['Completed'] || 0;
-        mostPopularService.value = Object.keys(typeServices.value).reduce((a, b) => typeServices.value[a] > typeServices.value[b] ? a : b, '');
-        completionRate.value = ((completedProjectsCount.value / totalProjects.value) * 100).toFixed(1);
+        const serviceKeys = Object.keys(typeServices.value || {});
+        mostPopularService.value = serviceKeys.length
+            ? serviceKeys.reduce((a, b) => typeServices.value[a] > typeServices.value[b] ? a : b)
+            : '';
+        completionRate.value = totalProjects.value
+            ? ((completedProjectsCount.value / totalProjects.value) * 100).toFixed(1)
+            : 0;
 
         // Update last updated time
         lastUpdated.value = new Date().toISOString();

@@ -15,6 +15,15 @@ class UpdateTWGServiceRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if (!auth()->user()->isAdmin()) {
+            $this->merge([
+                'institution' => auth()->user()->affiliation,
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

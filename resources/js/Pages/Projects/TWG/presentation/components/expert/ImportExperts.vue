@@ -5,7 +5,7 @@
         </template>
         <template v-slot:formDescription>
             <div class="text-md text-gray-600">
-                Please download the CSV template file and fill it with the commodities you want to import.
+                Please download the CSV template file and fill it with the experts you want to import.
                 <br />
                 <p class="italic font-medium text-sm text-red-600">
                     Caution: It's important to follow the template structure to avoid errors.
@@ -66,16 +66,14 @@
 
 <script>
 import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
-import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
-import RadioField from "@/Components/Form/RadioField.vue";
 import BaseButton from "@/Components/CRCMDatatable/Components/BaseButton.vue";
 import FileField from "@/Components/Form/FileField.vue";
 import Papa from "papaparse";
 import Expert from "@/Pages/Projects/TWG/domain/Expert";
 
 export default {
-    name: "ImportCommodities",
-    components: { FileField, BaseButton, RadioField, SelectSearchField, BaseCreateForm },
+    name: "ImportExperts",
+    components: { FileField, BaseButton, BaseCreateForm },
     props: {
         errors: {
             type: Object,

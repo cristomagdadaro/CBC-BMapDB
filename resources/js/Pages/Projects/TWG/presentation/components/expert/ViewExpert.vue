@@ -1,10 +1,7 @@
 <script>
 import { Head } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
-import CommodityTable from "@/Pages/Projects/BreedersMap/presentation/components/commodity/CommodityTable.vue";
 import Tab from "@/Components/Tab/Tab.vue";
-import Map from "@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue";
-import Expert from "@/Pages/Projects/TWG/domain/Expert";
 
 export default {
     name: "ViewExpert",
@@ -15,15 +12,8 @@ export default {
             default: null
         }
     },
-    computed: {
-        Expert() {
-            return Expert
-        }
-    },
     data() {
         return {
-            data: null,
-            axiosInstance: null,
             tabs: [
                 {
                     name: "tab1",
@@ -44,7 +34,7 @@ export default {
             ],
         }
     },
-    components: {Map, Tab, CommodityTable, AppLayout, Head },
+    components: { Tab, AppLayout, Head },
 }
 </script>
 

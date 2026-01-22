@@ -27,9 +27,6 @@ import {Head} from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import {defineAsyncComponent} from "vue";
 import Tab from "@/Components/Tab/Tab.vue";
-import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
-
-const isWideDisplay = true;
 export default {
     computed: {
         TWGPages() {
@@ -54,8 +51,7 @@ export default {
         ),
         Head,
         AppLayout,
-        Tab,
-        CRCMDatatable
+        Tab
     },
     data() {
         return {
@@ -91,7 +87,6 @@ export default {
                     route: { name: 'projects.twg.services' },
                 },
             ],
-            isWideDisplay: isWideDisplay,
         };
     },
     methods: {

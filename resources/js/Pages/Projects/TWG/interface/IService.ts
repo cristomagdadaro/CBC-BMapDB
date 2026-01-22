@@ -14,6 +14,6 @@ export default interface IService {
     updated_at: string;
     deleted_at: string;
 
-    officer_in_charge: IExpert;
+    officer_in_charge: string;
     affiliated: IInstitute;
 }

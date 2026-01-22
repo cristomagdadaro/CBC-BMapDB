@@ -17,18 +17,17 @@ export default class Service extends BaseClass implements IService{
     updated_at: string;
     deleted_at: string;
 
-    officer_in_charge: IExpert;
+    officer_in_charge: string;
     affiliated: IInstitute;
 
     constructor(params : DtoService) {
         super(params);
-
+        console.log(params);
         this.appendWith = ['affiliated', 'officerInCharge'];
     }
 
     static createForm() {
         return {
-            twg_expert_id: null,
             type: null,
             purpose: null,
             direct_beneficiaries: null,
@@ -38,7 +37,6 @@ export default class Service extends BaseClass implements IService{
             created_at: null,
             updated_at: null,
             deleted_at: null,
-            expert: null,
             institution: null,
         }
     }
@@ -54,8 +52,7 @@ export default class Service extends BaseClass implements IService{
             cost: oldValue.cost ?? null,
             created_at: oldValue.created_at ?? null,
             updated_at: oldValue.updated_at ?? null,
-            deleted_at: oldValue.created_at ?? null,
-            expert: oldValue.updated_at ?? null,
+            deleted_at: oldValue.deleted_at ?? null,
             institution: oldValue.institution ?? null,
         }
     }
@@ -112,7 +109,7 @@ export default class Service extends BaseClass implements IService{
             },
             {
                 title: 'Officer In Charge',
-                key: 'officer_in_charge.name',
+                key: 'officer_in_charge',
                 db_key: 'officer_in_charge',
                 align: 'center',
                 sortable: true,

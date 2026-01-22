@@ -28,8 +28,8 @@ export default {
             <div class="flex flex-col gap-1">
                 <select-search-field required :api-link="route('api.twg.experts.index')"  :error="getError('officer_in_charge')" label="Officer In-charge" v-model="form.officer_in_charge" />
                 <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-1">
-                    <text-field required :error="getError('name')" label="Type of service" v-model="form.type" />
-                    <text-field :error="getError('purpose')" label="Direct Beneficiaries" v-model="form.direct_beneficiaries" />
+                    <text-field required :error="getError('type')" label="Type of service" v-model="form.type" />
+                    <text-field :error="getError('direct_beneficiaries')" label="Direct Beneficiaries" v-model="form.direct_beneficiaries" />
                     <text-field :error="getError('indirect_beneficiaries')" label="Indirect Beneficiaries" v-model="form.indirect_beneficiaries" />
                     <text-field required :error="getError('cost')" label="Cost" v-model="form.cost" />
                 </div>
