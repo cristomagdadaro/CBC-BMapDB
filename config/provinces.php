@@ -4,7 +4,7 @@ return array(
     array(
         'id' => 1,
         'provDesc' => 'Abra',
-        'regDesc' => 'CAR'
+        'regDesc' => 'REGION XIV'
     ),
     array(
         'id' => 2,
@@ -34,7 +34,7 @@ return array(
     array(
         'id' => 7,
         'provDesc' => 'Apayao',
-        'regDesc' => 'CAR'
+        'regDesc' => 'REGION XIV'
     ),
     array(
         'id' => 8,
@@ -64,7 +64,7 @@ return array(
     array(
         'id' => 13,
         'provDesc' => 'Benguet',
-        'regDesc' => 'CAR'
+        'regDesc' => 'REGION XIV'
     ),
     array(
         'id' => 14,
@@ -164,7 +164,7 @@ return array(
     array(
         'id' => 33,
         'provDesc' => 'Ifugao',
-        'regDesc' => 'CAR'
+        'regDesc' => 'REGION XIV'
     ),
     array(
         'id' => 34,
@@ -189,7 +189,7 @@ return array(
     array(
         'id' => 38,
         'provDesc' => 'Kalinga',
-        'regDesc' => 'CAR'
+        'regDesc' => 'REGION XIV'
     ),
     array(
         'id' => 39,
@@ -249,7 +249,7 @@ return array(
     array(
         'id' => 50,
         'provDesc' => 'Mountain Province',
-        'regDesc' => 'CAR'
+        'regDesc' => 'REGION XIV'
     ),
     array(
         'id' => 51,

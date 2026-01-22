@@ -7,7 +7,7 @@ return array(
     ),
     array(
         'id' => 2,
-        'regDesc' => 'CAR',
+        'regDesc' => 'REGION XIV',
         'regDescLong' => 'Cordillera Administrative Region'
     ),
     array(

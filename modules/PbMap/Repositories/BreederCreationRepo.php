@@ -42,7 +42,15 @@ class BreederCreationRepo
 
                 $breederUser->assignRole(Role::BREEDER->value);
 
-                $appId = Application::where('name', ApplicationsEnum::BREEDERS_MAP->value)->value('id');
+                $app = Application::firstOrCreate([
+                    'name' => ApplicationsEnum::BREEDERS_MAP->value,
+                ], [
+                    'description' => ApplicationsEnum::BREEDERS_MAP_DESC->value,
+                    'url' => ApplicationsEnum::BREEDERS_MAP_ROUTE->value,
+                    'icon' => ApplicationsEnum::BREEDERS_MAP_LOGO->value,
+                    'status' => true,
+                ]);
+                $appId = $app->id;
 
                 $breederUser->accounts()->create([
                     'app_id' => $appId,
@@ -50,14 +58,22 @@ class BreederCreationRepo
                 ]);
 
                 if (!$breederUser->hasVerifiedEmail()) {
-                    $breederUser->sendEmailVerificationViaFocalPersonNotification();
+                    try {
+                        $breederUser->sendEmailVerificationViaFocalPersonNotification();
+                    } catch (\Throwable $mailError) {
+                        Log::warning('Breeder verification email failed to send', [
+                            'user_id' => $breederUser->id,
+                            'error' => $mailError->getMessage(),
+                        ]);
+                    }
                 }
 
                 $breederData = array_merge($data, ['user_id' => $breederUser->id]);
 
                 // Only override user_id if the current user is NOT an admin
-                if (!auth()->user()->isAdmin()) {
-                    $breederData['user_id'] = auth()->id();
+                $actor = auth()->user();
+                if ($actor && !$actor->isAdmin()) {
+                    $breederData['user_id'] = $actor->id;
                 }
 
                 return $breederData;

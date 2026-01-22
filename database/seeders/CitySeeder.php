@@ -13,23 +13,50 @@ class CitySeeder extends Seeder
      */
     public function run(): void
     {
-        $temp = 0;
         $ph_cities =  config('cities');
         foreach ($ph_cities as $city) {
             /*if ($temp >= 300)
                 break;*/
 
-            City::factory()->create(
+            $cityDesc = trim((string) $city['cityDesc']);
+            $provDesc = $this->normalizeProvince((string) $city['provDesc']);
+            $regDesc = $this->normalizeRegion((string) $city['regDesc']);
+
+            City::updateOrCreate(
+                [
+                    'cityDesc' => $cityDesc,
+                    'provDesc' => $provDesc,
+                    'regDesc' => $regDesc,
+                ],
                 [
                     'latitude' => trim($city['latitude']),
                     'longitude' => trim($city['longitude']),
-                    'cityDesc' => $city['cityDesc'],
-                    'regDesc' => $city['regDesc'],
-                    'provDesc' => $city['provDesc'],
                 ]
             );
-
-            //$temp++;
         }
+    }
+
+    private function normalizeRegion(string $region): string
+    {
+        $normalized = strtoupper(trim($region));
+
+        $map = [
+            'REGION XIV' => 'CAR',
+        ];
+
+        return $map[$normalized] ?? $normalized;
+    }
+
+    private function normalizeProvince(string $province): string
+    {
+        $normalized = trim($province);
+        $key = strtolower($normalized);
+
+        $map = [
+            'cotabato' => 'Maguindanao',
+            'davao de oro' => 'Compostela Valley',
+        ];
+
+        return $map[$key] ?? $normalized;
     }
 }
