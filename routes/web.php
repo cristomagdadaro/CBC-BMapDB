@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Modules\PbMap\Models\Breeder;
@@ -33,7 +34,7 @@ Route::get('/', function () {
     Route::get('/forms/event/0504', function () {
         return redirect()->away('https://dacbc.philrice.gov.ph');
     });
-    
+
     $data = Breeder::join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
         ->selectRaw('loc_cities.provDesc as label, COUNT(*) as total')
         ->groupBy('loc_cities.provDesc')
