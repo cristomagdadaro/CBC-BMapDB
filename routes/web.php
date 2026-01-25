@@ -31,7 +31,7 @@ use Modules\TwgDb\Models\TWGExpert;
 
 // temporary: delete this after RCBS 2026
 Route::get('/forms/event/0504', function () {
-    return redirect()->away('https://dacbc.philrice.gov.ph');
+    return redirect()->away('https://dacbc.philrice.gov.ph/forms/event/0504');
 })->name('external.dacbc.event0504');
 
 Route::get('/', function () {
