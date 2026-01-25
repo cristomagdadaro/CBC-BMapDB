@@ -29,11 +29,12 @@ use Modules\TwgDb\Models\TWGExpert;
 |
 */
 
+// temporary: delete this after RCBS 2026
+Route::get('/forms/event/0504', function () {
+    return redirect()->away('https://dacbc.philrice.gov.ph');
+})->name('external.dacbc.event0504');
+
 Route::get('/', function () {
-    // temporary: delete this after RCBS 2026
-    Route::get('/forms/event/0504', function () {
-        return redirect()->away('https://dacbc.philrice.gov.ph');
-    });
 
     $data = Breeder::join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
         ->selectRaw('loc_cities.provDesc as label, COUNT(*) as total')
