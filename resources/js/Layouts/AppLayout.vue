@@ -525,14 +525,14 @@ export default {
         <sidebar-layout>
             <template #options>
                 <NavLink class="text-white" :href="route('dashboard')" :active="route().current('dashboard')">
-                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                    <div class="flex gap-1  items-center sm:p-2 p-1">
                         <span class="sm:flex hidden whitespace-nowrap">
                         Dashboard
                         </span>
                     </div>
                 </NavLink>
                 <NavLink v-if="user.isAdmin" class="text-white" :href="route('administrator.index')" :active="route().current('administrator.index')">
-                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                    <div class="flex gap-1  items-center sm:p-2 p-1">
                         <span class="sm:flex hidden whitespace-nowrap">
                         Administrator
                         </span>
@@ -565,7 +565,7 @@ export default {
                         :href="route(account.application.url)"
                         :active="route().current(account.application.url)"
                     >
-                        <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                        <div class="flex gap-1  items-center sm:p-2 p-1">
                             <span class="sm:flex hidden whitespace-nowrap">
                             {{ account.application.name }}
                             </span>
@@ -578,7 +578,7 @@ export default {
                     </NavLink>
                 </template>
                 <NavLink class="text-white" href="/">
-                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                    <div class="flex gap-1  items-center sm:p-2 p-1">
                         <span class="sm:flex hidden whitespace-nowrap">
                         Gene Bank
                         </span>

@@ -43,38 +43,38 @@ export default {
     <app-layout>
         <div class="min-h-screen bg-transparent min-w-full m-2 p-2">
             <div v-if="expert" class="flex flex-col">
-                <h1 class="text-lg font-semibold uppercase select-none px-3 pb-2 mx-2">Expert Information</h1>
+                <h1 class="text-lg font-semibold uppercase  px-3 pb-2 mx-2">Expert Information</h1>
                 <div class="border p-3 rounded-lg bg-white mx-2 grid sm:grid-cols-2 grid-cols-1">
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Expert ID: </h2>
+                        <h2 class="h2 font-semibold ">Expert ID: </h2>
                         <p>{{ expert.id }}</p>
                     </div>
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Expert: </h2>
+                        <h2 class="h2 font-semibold ">Expert: </h2>
                         <p>{{ expert.name }}</p>
                     </div>
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Position: </h2>
+                        <h2 class="h2 font-semibold ">Position: </h2>
                         <p>{{ expert.position }}</p>
                     </div>
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none whitespace-nowrap">Education Attainment: </h2>
+                        <h2 class="h2 font-semibold  whitespace-nowrap">Education Attainment: </h2>
                         <p>{{ expert.educ_level }}</p>
                     </div>
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Expertise: </h2>
+                        <h2 class="h2 font-semibold ">Expertise: </h2>
                         <p>{{ expert.expertise }}</p>
                     </div>
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Research Interest: </h2>
+                        <h2 class="h2 font-semibold ">Research Interest: </h2>
                         <p>{{ expert.research_interest }}</p>
                     </div>
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Mobile No.: </h2>
+                        <h2 class="h2 font-semibold ">Mobile No.: </h2>
                         <p>{{ expert.mobile }}</p>
                     </div>
                     <div class="flex gap-1">
-                        <h2 class="h2 font-semibold select-none">Email: </h2>
+                        <h2 class="h2 font-semibold ">Email: </h2>
                         <p>{{ expert.email }}</p>
                     </div>
                 </div>

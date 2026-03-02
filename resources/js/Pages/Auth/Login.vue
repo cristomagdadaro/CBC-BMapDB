@@ -39,7 +39,7 @@ const handleGoogleSignIn = () => {
     <page-layout>
         <green-waves />
         <particles-background />
-        <div class="grid grid-cols-1 w-full bg-transparent select-none">
+        <div class="grid grid-cols-1 w-full bg-transparent ">
             <public-page-section class="flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-4xl mx-auto">
                     <div class="relative grid sm:grid-cols-2 grid-rows-1 items-center">

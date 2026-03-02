@@ -9,7 +9,7 @@ const approval = route().current('dashboard');
 </script>
 
 <template>
-    <div class="select-none mb-5 text-sm items-center flex gap-1 drop-shadow-md justify-between overflow-x-hidden">
+    <div class=" mb-5 text-sm items-center flex gap-1 drop-shadow-md justify-between overflow-x-hidden">
         <div :class="{'animate-pulse': register }"
              class="items-center shadow-2xl whitespace-nowrap flex gap-1 rounded-full bg-cbc-dark-green text-white sm:p-3 px-3 py-1">
             <span class="flex">Step 1: <span class="hidden md:block">Registration</span></span>

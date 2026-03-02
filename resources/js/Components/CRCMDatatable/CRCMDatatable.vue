@@ -123,7 +123,7 @@
                 leave-active-class="transition ease-in duration-200"
                 leave-from-class="transform opacity-100"
                 leave-to-class="transform opacity-0">
-                <div v-show="dt.processing" class="select-none flex justify-center w-full h-full absolute items-center gap-1 z-40 rounded bg-gray-700 text-gray-100">
+                <div v-show="dt.processing" class=" flex justify-center w-full h-full absolute items-center gap-1 z-40 rounded bg-gray-700 text-gray-100">
                     <loader-icon class="h-5 w-5" />
                     Processing, please wait...
                 </div>

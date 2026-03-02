@@ -393,7 +393,7 @@ defineExpose({
                             v-for="(option, index) in filteredOptions"
                             :key="option.value"
                             :data-option-index="index"
-                            class="cursor-pointer select-none relative px-3 py-2 transition-colors duration-150"
+                            class="cursor-pointer  relative px-3 py-2 transition-colors duration-150"
                             :class="{
                                 'bg-indigo-100 text-indigo-900': selectedOption?.value === option.value,
                                 'bg-gray-100': highlightedIndex === index && selectedOption?.value !== option.value,

@@ -135,14 +135,14 @@ export default {
                        </span>
                     </div>
                 </div>
-                <h1 class="text-lg font-semibold uppercase select-none px-3 mt-5">Commodities</h1>
+                <h1 class="text-lg font-semibold uppercase  px-3 mt-5">Commodities</h1>
                 <Tab :tabs="tabs">
                     <template #tab1>
                         <commodity-table :base-url="route(BreedersMapEndpoints.commodity.indexUri)" :params="{ filter_by_parent_id: breederInstance.id,  filter_by_parent_column: 'breeder_id' }" />
                     </template>
                     <template #tab2>
                         <div class="p-2 relative">
-                            <h1 class="h1 text-center font-semibold uppercase select-none">Commodities Geographical Map</h1>
+                            <h1 class="h1 text-center font-semibold uppercase ">Commodities Geographical Map</h1>
                             <Map :table-list="tables" :model="Commodity" offline :custom-point="breederInstance.commodities" />
                         </div>
                     </template>

@@ -206,7 +206,7 @@ export default {
                 <div class="flex flex-col gap-1">
                     <template v-for="action in permissions">
                         <ul class="grid sm:grid-cols-3 grid-cols-2 m-1 p-2 rounded bg-gray-200">
-                            <li v-for="permission in action" :key="permission.id" class="flex items-center gap-1 select-none" >
+                            <li v-for="permission in action" :key="permission.id" class="flex items-center gap-1 " >
                                 <input type="checkbox" :disabled="!checkUserPermission(permission.id) && checkPermission(permission.id)" :checked="checkPermission(permission.id)" :value="permission.id" @change="checkBoxPermissionChange($event, permission.id)" class="rounded-full disabled:opacity-25 disabled:cursor-not-allowed" />
                                 {{ permission.name }}
                             </li>

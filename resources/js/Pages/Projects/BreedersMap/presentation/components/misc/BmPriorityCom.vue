@@ -205,9 +205,7 @@ function onChange(item) {
 
 <template>
     <div class="overflow-x-hidden overflow-y-hidden py-5">
-        <h3 class="text-center text-subtitle">Priority Commodities</h3>
-        <p class="text-normal pb-5 text-center text-dark-color">Currently, the center has identified {{ itemCount }} priority commodities</p>
-
+        <h3 class="text-center text-subtitle my-5">{{ itemCount }} Priority Commodities</h3>
         <AdvancedCarousel
             :items="props.items"
             :auto-advance="autoAdvance"

@@ -461,7 +461,7 @@ defineExpose({next, prev, goTo, play, stop, pause, getCurrent: () => currentItem
 <template>
     <div
         ref="containerRef"
-        class="advanced-carousel relative select-none flex justify-center w-fit mx-auto sm:w-full perspective-1000 focus:outline-none overflow-hidden"
+        class="advanced-carousel relative  flex justify-center w-fit mx-auto sm:w-full perspective-1000 focus:outline-none overflow-hidden"
         role="listbox"
         :aria-activedescendant="currentKey ? sanitizeId(currentKey) : null"
         tabindex="0"
@@ -478,7 +478,7 @@ defineExpose({next, prev, goTo, play, stop, pause, getCurrent: () => currentItem
         @focusin="onFocusIn" @focusout="onFocusOut"
     >
         <!-- Arrows -->
-        <div v-if="showArrows" class="absolute inset-0 pointer-events-none"
+        <div v-if="showArrows" class="absolute inset-0 pointer-events-none z-[999]"
              :class="{ 'opacity-0 hover:opacity-100 transition-opacity': arrowOnHoverOnly }">
             <div v-if="!isVertical" class="flex h-full justify-between items-center px-1 sm:px-2">
                 <div class="pointer-events-auto">
@@ -503,11 +503,11 @@ defineExpose({next, prev, goTo, play, stop, pause, getCurrent: () => currentItem
         <!-- Items or global loading -->
         <template v-if="itemCount > 0">
             <div
-                :class="['flex gap-0 items-stretch will-change-transform relative overflow-hidden', isVertical ? 'flex-col justify-center' : 'flex-row']">
+                :class="['flex gap-4 sm:gap-6 px-2 sm:px-4 py-4 items-stretch will-change-transform relative overflow-hidden', isVertical ? 'flex-col justify-center' : 'flex-row']">
                 <div
                     v-for="(item, idx) in visibleItems"
                     :key="getItemName(item)"
-                    class="ac-card relative bg-neutral-800 text-white"
+                    class="ac-card relative bg-neutral-800/70 text-white rounded-2xl ring-1 ring-white/10 shadow-2xl"
                     :class="{ 'ring-2 ring-white/30': getItemName(item) === currentKey }"
                     :id="sanitizeId(item)"
                     role="option"
@@ -529,13 +529,13 @@ defineExpose({next, prev, goTo, play, stop, pause, getCurrent: () => currentItem
                             :src="getImageSrc(item)"
                             :alt="getItemName(item)"
                             loading="lazy"
-                            class="absolute inset-0 w-full h-full object-cover rounded transition-opacity duration-500 ease-out"
+                            class="absolute inset-0 w-full h-full object-cover rounded-[inherit] transition-opacity duration-500 ease-out"
                             :class="{'opacity-0': observeImages && !loaded.has(getItemName(item)), 'opacity-100': !observeImages || loaded.has(getItemName(item))}"
                             @load="onImgLoad(getItemName(item), $event)"
                             @error="onImgError(getItemName(item))"
                         />
                         <div
-                            class="relative z-10 flex items-center justify-center h-full font-semibold pointer-events-none select-none drop-shadow-md p-2">
+                            class="relative z-10 flex items-center justify-center h-full font-semibold pointer-events-none  drop-shadow-md p-2">
                             <slot name="item" :item="item" :isCenter="idx === centerIndex" :index="idx"
                                   :offset="idx - centerIndex" :centerIndex="centerIndex">
                                 <span class="text-sm sm:text-lg"
@@ -586,10 +586,11 @@ defineExpose({next, prev, goTo, play, stop, pause, getCurrent: () => currentItem
     --anim-dur: 560ms;
     position: relative;
     overflow: hidden;
-    border-radius: .75rem;
-    box-shadow: 0 4px 14px -2px rgba(0, 0, 0, .45);
+    border-radius: 1.25rem;
+    box-shadow: 0 4px 18px -4px rgba(0, 0, 0, .55);
     will-change: transform, opacity, filter;
     min-width: 9rem;
+    margin: 0.25rem;
 }
 
 .ac-card[aria-selected="true"] {

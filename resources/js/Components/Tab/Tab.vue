@@ -103,7 +103,7 @@ export default {
 
 <template>
     <div v-if="tabs && tabs.length" class="flex flex-col bg-transparent rounded-lg overflow-hidden">
-        <div class="z-10 flex gap-1 select-none p-4 bg-white max-w-screen overflow-x-auto">
+        <div class="z-10 flex gap-1  p-4 bg-white max-w-screen overflow-x-auto">
             <template v-for="(tab, idx) in tabs" :key="tab.name || idx">
                 <router-link
                     v-if="tab.route && tab.route.name"

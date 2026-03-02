@@ -45,7 +45,7 @@ var pJS = function(tag_id, params){
         }
       },
       opacity: {
-        value: 0.6,
+        value: 1,
         random: true,
         anim: {
           enable: false,
