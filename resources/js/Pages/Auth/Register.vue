@@ -62,11 +62,11 @@ export default {
             <public-page-section class="flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
                 <new-account-progress-view />
-                <div class="border-b pb-1 mb-2">
-                    <h1 class="font-medium text-lg">Registration Form</h1>
+                <div class="border-b border-gray-200 pb-2 mb-3">
+                    <h1 class="font-bold text-2xl sm:text-3xl text-gray-900 font-display">Registration Form</h1>
                     <p class="text-sm text-gray-600">Fill in all the required(<span class="text-red-600">*</span>) fields.</p>
                 </div>
-                <form @submit.prevent="submit" class="flex flex-col gap-2">
+                <form @submit.prevent="submit" class="flex flex-col gap-2 bg-pin-gray rounded-xl border border-gray-200 p-4 sm:p-5">
                     <div class="grid sm:grid-cols-2 grid-cols-1 gap-2">
                         <SelectField v-if="applications" id="account_for" label="Account For" v-model="selectedApplication" type="text" required autofocus autocomplete="name" :error="form?.errors.account_for" :options="applications" />
                         <SelectField v-if="roles" id="role" label="Access Level" :disabled="!selectedApplication" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form?.errors.role" :options="filteredRoles" />
@@ -92,7 +92,7 @@ export default {
                                 <Checkbox id="terms" v-model:checked="form.terms" name="terms" required />
 
                                 <div class="ml-2">
-                                    I agree to the <a target="_blank" :href="route('support.terms-of-use')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Terms of Service</a> and <a target="_blank" :href="route('support.privacy-policy')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Privacy Policy</a>
+                                    I agree to the <Link :href="route('support.terms-of-use')" class="underline text-sm text-pin-green hover:text-pin-green-dark rounded-md focus-ring">Terms of Service</Link> and <Link :href="route('support.privacy-policy')" class="underline text-sm text-pin-green hover:text-pin-green-dark rounded-md focus-ring">Privacy Policy</Link>
                                 </div>
                             </div>
                             <InputError class="mt-2" :message="form?.errors.terms" />
@@ -100,7 +100,7 @@ export default {
                     </div>
 
                     <div class="flex items-center justify-between mt-4">
-                        <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <Link :href="route('login')" class="underline text-sm text-pin-green hover:text-pin-green-dark rounded-md focus-ring">
                             Already registered?
                         </Link>
 

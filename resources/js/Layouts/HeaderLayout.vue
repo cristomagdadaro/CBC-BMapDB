@@ -50,11 +50,11 @@ export default {
                     class="flex items-center gap-3 group focus-ring rounded-lg"
                 >
                     <slot name="icon"></slot>
-                    <div class="hidden sm:block">
-                        <p :class="['text-xs font-medium transition-colors', isScrolled ? 'text-gray-500' : 'text-white/80']">
+                    <div class="hidden sm:block leading-tight">
+                        <p :class="['text-xs font-medium transition-colors uppercase font-display', isScrolled ? 'text-gray-500' : 'text-white/80']">
                             <slot name="subtitle"></slot>
                         </p>
-                        <p :class="['text-sm font-bold font-display transition-colors', isScrolled ? 'text-pin-green' : 'text-white']">
+                        <p :class="['text-lg font-bold font-display transition-colors', isScrolled ? 'text-pin-green' : 'text-white']">
                             <slot name="title"></slot>
                         </p>
                     </div>

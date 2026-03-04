@@ -18,18 +18,18 @@ import ParticlesBackground from "@/Components/ParticlesBackground.vue";
             <public-page-section class="flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-4xl mx-auto">
                     <new-account-progress-view />
-                    <h2 class="font-semibold text-2xl text-center text-gray-800">Please Wait for Admin Approval</h2>
+                    <h2 class="font-semibold text-2xl sm:text-3xl text-center text-gray-900 font-display">Please Wait for Admin Approval</h2>
                     <div class="mb-3 text-center pt-5">
                         <p class="text-md text-gray-600">{{ $page.props.message }}</p>
                     </div>
 
-                    <add-account class="border rounded-lg border-gray-200 p-5" />
+                    <add-account class="border rounded-xl border-gray-200 p-5 bg-pin-gray" />
 
                     <div class="mt-4 flex items-center justify-end">
-                        <div>
+                        <div class="flex items-center gap-3">
                             <Link
                                 :href="route('profile.show')"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                class="text-sm text-pin-green hover:underline rounded-md focus-ring"
                             >
                                 Edit Profile</Link>
 
@@ -37,7 +37,7 @@ import ParticlesBackground from "@/Components/ParticlesBackground.vue";
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
-                                class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ml-2"
+                                class="text-sm text-pin-green hover:underline rounded-md focus-ring"
                             >
                                 Log Out
                             </Link>

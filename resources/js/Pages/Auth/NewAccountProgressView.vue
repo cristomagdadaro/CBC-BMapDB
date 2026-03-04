@@ -9,19 +9,19 @@ const approval = route().current('dashboard');
 </script>
 
 <template>
-    <div class=" mb-5 text-sm items-center flex gap-1 drop-shadow-md justify-between overflow-x-hidden">
+    <div class="mb-5 text-sm items-center flex gap-2 justify-between overflow-x-auto">
         <div :class="{'animate-pulse': register }"
-             class="items-center shadow-2xl whitespace-nowrap flex gap-1 rounded-full bg-cbc-dark-green text-white sm:p-3 px-3 py-1">
+             class="items-center whitespace-nowrap flex gap-1.5 rounded-full bg-pin-green text-white sm:px-4 sm:py-2.5 px-3 py-1.5 shadow-sm">
             <span class="flex">Step 1: <span class="hidden md:block">Registration</span></span>
-            <checkall-icon v-if="verify || approval" class="w-6 h-6" />
+            <checkall-icon v-if="verify || approval" class="w-5 h-5" />
         </div>
         <div :class="{'animate-pulse': verify, 'opacity-25': register}"
-             class="items-center shadow-2xl whitespace-nowrap flex gap-1 rounded-full bg-cbc-dark-green text-white sm:p-3 px-3 py-1">
+             class="items-center whitespace-nowrap flex gap-1.5 rounded-full bg-pin-green text-white sm:px-4 sm:py-2.5 px-3 py-1.5 shadow-sm">
             <span class="flex">Step 2: <span class="hidden md:block">Email Verification</span></span>
-            <checkall-icon v-if="approval" class="w-6 h-6" />
+            <checkall-icon v-if="approval" class="w-5 h-5" />
         </div>
         <div :class="{'animate-pulse': approval, 'opacity-25': verify || register}"
-             class="items-center whitespace-nowrap flex gap-1 shadow-2xl rounded-full bg-cbc-dark-green text-white sm:p-3 px-3 py-1">
+             class="items-center whitespace-nowrap flex gap-1.5 rounded-full bg-pin-green text-white sm:px-4 sm:py-2.5 px-3 py-1.5 shadow-sm">
             <span class="flex">Step 3: <span class="hidden md:block">Admin Approval</span></span>
         </div>
     </div>

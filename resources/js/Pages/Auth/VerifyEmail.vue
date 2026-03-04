@@ -7,7 +7,6 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import PageLayout from "@/Layouts/PageLayout.vue";
 import GreenWaves from "@/Components/GreenWaves.vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
-import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
@@ -36,7 +35,10 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                         <AuthenticationCardLogo />
                     </template>
                     <new-account-progress-view />
-                    <div class="mb-4 text-lg text-gray-600 font-bold">
+                    <h1 class="mb-2 text-2xl sm:text-3xl font-bold text-gray-900 font-display">
+                        Verify Your Email
+                    </h1>
+                    <div class="mb-4 text-lg text-gray-700 font-semibold">
                         You only have limited access. Please verify your email address to continue.
                     </div>
                     <div class="mb-4 text-sm text-gray-600">
@@ -46,21 +48,21 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 <!--                    <div class="mb-4 text-sm text-gray-600">
                         Note: After you have verified your email address, you will have to wait for the administrator to approve your account. This might take a some time, please be patient.
                     </div>-->
-                    <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-cbc-dark-green">
+                    <div v-if="verificationLinkSent" class="mb-4 font-medium text-sm text-pin-green bg-pin-green-light/60 border border-pin-green/20 rounded-lg p-3">
                         A new verification link has been sent to the email address you provided in your profile
                         settings.
                     </div>
 
                     <form @submit.prevent="submit">
-                        <div class="mt-4 flex flex-wrap items-center justify-between gap-0.5">
-                            <PrimaryButton :class="{ 'opacity-25': form.processing }" class="w-full rounded-b-none" :disabled="form.processing">
+                        <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
+                            <PrimaryButton :class="{ 'opacity-25': form.processing }" class="w-full" :disabled="form.processing">
                                 Resend Verification Email
                             </PrimaryButton>
 
-                            <div class="flex items-center gap-0.5 w-full">
+                            <div class="flex items-center gap-2 w-full">
                                 <Link
                                     :href="route('profile.show')"
-                                    class="inline-flex items-center w-full justify-center px-4 py-2 whitespace-nowrap bg-gray-800 border border-transparent rounded-bl-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                    class="inline-flex items-center w-full justify-center px-4 py-2 whitespace-nowrap bg-white border border-pin-green rounded-lg font-semibold text-xs text-pin-green uppercase tracking-widest hover:bg-pin-green-light focus-ring transition-colors duration-300"
                                 >
                                     Edit Profile</Link>
 
@@ -68,7 +70,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
                                     :href="route('logout')"
                                     method="post"
                                     as="button"
-                                    class="inline-flex items-center w-full justify-center px-4 py-2 whitespace-nowrap bg-gray-800 border border-transparent rounded-br-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                    class="inline-flex items-center w-full justify-center px-4 py-2 whitespace-nowrap bg-pin-green border border-pin-green rounded-lg font-semibold text-xs text-white uppercase tracking-widest hover:bg-pin-green-dark focus-ring transition-colors duration-300"
                                 >
                                     Log Out
                                 </Link>

@@ -1,6 +1,4 @@
 <script setup>
-
-import Footer from "@/Pages/Footer.vue";
 const props = defineProps({
     isWideDisplay: {
         type: Boolean,
@@ -21,6 +19,5 @@ const props = defineProps({
                 <slot />
             </div>
         </div>
-        <Footer />
     </div>
 </template>

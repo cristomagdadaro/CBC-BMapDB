@@ -40,14 +40,16 @@ const submit = () => {
                 <AuthenticationCardLogo />
             </template>
 
-            <form @submit.prevent="submit">
+            <h1 class="text-2xl sm:text-3xl font-bold font-display text-gray-900 mb-4">Reset Password</h1>
+
+            <form @submit.prevent="submit" class="bg-pin-gray rounded-xl p-5 border border-gray-200">
                 <div>
                     <InputLabel for="email" value="Email" />
                     <TextInput
                         id="email"
                         v-model="form.email"
                         type="email"
-                        class="mt-1 block w-full"
+                        class="mt-1 block w-full rounded-lg border-gray-200 focus:border-pin-green focus:ring-pin-green/20"
                         required
                         autofocus
                         autocomplete="username"
@@ -61,7 +63,7 @@ const submit = () => {
                         id="password"
                         v-model="form.password"
                         type="password"
-                        class="mt-1 block w-full"
+                        class="mt-1 block w-full rounded-lg border-gray-200 focus:border-pin-green focus:ring-pin-green/20"
                         required
                         autocomplete="new-password"
                     />
@@ -74,7 +76,7 @@ const submit = () => {
                         id="password_confirmation"
                         v-model="form.password_confirmation"
                         type="password"
-                        class="mt-1 block w-full"
+                        class="mt-1 block w-full rounded-lg border-gray-200 focus:border-pin-green focus:ring-pin-green/20"
                         required
                         autocomplete="new-password"
                     />

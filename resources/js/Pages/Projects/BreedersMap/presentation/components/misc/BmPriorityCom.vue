@@ -1,8 +1,7 @@
 <script setup>
 import {ref, computed, defineProps} from 'vue';
 import AdvancedCarousel from '@/Components/Carousel/AdvancedCarousel.vue';
-import ArrowLeft from '@/Components/Icons/ArrowLeft.vue';
-import ArrowRight from '@/Components/Icons/ArrowRight.vue';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps({
     items: {
@@ -197,6 +196,7 @@ const props = defineProps({
 
 const itemCount = computed(() => props.items.length);
 const currentItem = ref(null);
+const activeItem = computed(() => currentItem.value || props.items[0] || null);
 
 function onChange(item) {
     currentItem.value = item;
@@ -204,55 +204,82 @@ function onChange(item) {
 </script>
 
 <template>
-    <div class="overflow-x-hidden overflow-y-hidden py-5">
-        <h3 class="text-center text-subtitle my-5">{{ itemCount }} Priority Commodities</h3>
+    <section class="py-6 lg:py-8" aria-labelledby="priority-commodities-heading">
+        <div class="text-center mb-8 lg:mb-10">
+            <span class="badge-primary mb-4 inline-flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V3m0 3a5 5 0 015 5m-5-5a5 5 0 00-5 5m5 7v3m0-3a5 5 0 01-5-5m5 5a5 5 0 005-5"/></svg>
+                Featured Crops
+            </span>
+            <h2 id="priority-commodities-heading" class="text-3xl sm:text-4xl font-bold text-gray-900 font-display">{{ itemCount }} Priority Commodities</h2>
+            <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Browse highlighted commodities with key breeding, variety, and publication insights.</p>
+        </div>
+
+        <div class="overflow-x-hidden overflow-y-hidden">
         <AdvancedCarousel
             :items="props.items"
             :auto-advance="autoAdvance"
             :vertical-breakpoint="verticalBreakpoint"
             :max-display="5"
-            :center-scale="1.30"
+            :center-scale="1.20"
             :scale-falloff="0.35"
-            :min-scale="0.45"
+            :min-scale="0.55"
             :depth-step="60"
             :max-depth="220"
             :x-spread="14"
             :y-spread="18"
-            :opacity-falloff="0.5"
-            :min-opacity="0.15"
+            :opacity-falloff="0.4"
+            :min-opacity="0.25"
             :enable-blur="true"
             :blur-step="2"
             :max-blur="4"
             :swipe-threshold="30"
             :multiple-step-distance="80"
             :max-momentum-steps="4"
-            :auto-advance-interval="2000"
+            :auto-advance-interval="2500"
             :interaction-idle-ms="3500"
             aspect-ratio="3/4"
-            card-width="30rem"
-            card-min-width="30rem"
+            card-width="26rem"
+            card-min-width="20rem"
             aria-label="Priority commodities carousel"
             @change="onChange"
         >
             <template #item="{ item, isCenter }">
-                <div class="z-10 flex items-center justify-center h-full font-bold pointer-events-none drop-shadow-xl">
-                    <span :class="isCenter ? 'text-xl sm:text-2xl' : 'text-base sm:text-xl opacity-70'">{{
-                            item.name
-                        }}</span>
+                <div class="z-10 flex flex-col justify-end h-full p-6 pointer-events-none drop-shadow-xl">
+                    <span :class="[
+                        'font-bold text-white font-display leading-none',
+                        isCenter ? 'text-2xl sm:text-3xl' : 'text-lg sm:text-xl opacity-80'
+                    ]">
+                        {{ item.name }}
+                    </span>
                 </div>
             </template>
         </AdvancedCarousel>
-
-        <div v-if="currentItem" class="flex hidden flex-col justify-center text-gray-900 text-normal"
-             aria-live="polite">
-            <div class="flex gap-2 justify-center"><span
-                class="font-bold">Breeders</span><span>{{ currentItem.data.breeders }}</span></div>
-            <div class="flex gap-2 justify-center"><span
-                class="font-bold">Varieties</span><span>{{ currentItem.data.varieties }}</span></div>
-            <div class="flex gap-2 justify-center"><span
-                class="font-bold">Publications</span><span>{{ currentItem.data.research }}</span></div>
         </div>
-    </div>
+
+        <div v-if="activeItem" class="mt-8 bg-white rounded-xl shadow-sm p-5 sm:p-6" aria-live="polite">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+                <h3 class="text-xl font-semibold text-gray-900">{{ activeItem.name }}</h3>
+                <Link :href="activeItem.route" class="btn-secondary text-sm py-2 px-4 inline-flex items-center justify-center">
+                    View commodity data
+                </Link>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 sm:gap-4">
+                <div class="bg-pin-gray rounded-lg p-3 text-center">
+                    <div class="text-xl sm:text-2xl font-bold text-pin-green font-display">{{ activeItem.data.breeders }}</div>
+                    <div class="text-xs sm:text-sm text-gray-600 mt-1">Breeders</div>
+                </div>
+                <div class="bg-pin-gray rounded-lg p-3 text-center">
+                    <div class="text-xl sm:text-2xl font-bold text-pin-green font-display">{{ activeItem.data.varieties }}</div>
+                    <div class="text-xs sm:text-sm text-gray-600 mt-1">Varieties</div>
+                </div>
+                <div class="bg-pin-gray rounded-lg p-3 text-center">
+                    <div class="text-xl sm:text-2xl font-bold text-pin-green font-display">{{ activeItem.data.research }}</div>
+                    <div class="text-xs sm:text-sm text-gray-600 mt-1">Publications</div>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
 
 <style scoped>

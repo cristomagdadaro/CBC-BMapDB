@@ -13,7 +13,6 @@ import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue
 import BellIcon from "@/Components/Icons/BellIcon.vue";
 import Notification from "@/Components/Modal/Notification/Notification.ts";
 import Modal from "@/Components/Modal.vue";
-import Footer from "@/Pages/Footer.vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";
 import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
@@ -38,7 +37,6 @@ export default {
         FullscreenToggle,
         TopActionBtn,
         BellIcon,
-        Footer,
         Hamburger,
         Modal,
         TD   

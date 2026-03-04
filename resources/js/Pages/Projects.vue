@@ -5,7 +5,6 @@ import { Link, Head, usePage } from '@inertiajs/vue3';
 import { defineAsyncComponent, computed, ref, onMounted } from 'vue';
 // Lazy load heavy components
 const BmCollaborators = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue"));
-const BmDatabaseList = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmDatabaseList.vue"));
 const BmPriorityCom = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue"));
 const BmOverviewMap = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue"));
 const ParticlesBackground = defineAsyncComponent(() => import("@/Components/ParticlesBackground.vue"));
@@ -17,7 +16,6 @@ export default {
         ParticlesBackground,
         BmOverviewMap,
         BmPriorityCom,
-        BmDatabaseList,
         BmCollaborators,
         PageLayout,
         Link,
@@ -40,8 +38,6 @@ export default {
             { question: 'How can I contribute data to PIN?', answer: 'To contribute data, you need to register for an account and request contributor access. Our team will review your application and provide guidelines for data submission. We welcome contributions from recognized research institutions and breeding programs.', open: false },
             { question: 'What support is available for new users?', answer: 'We offer comprehensive user guides, video tutorials, and a dedicated support team to help you get started. You can also reach out through our contact form or attend our regular training webinars.', open: false },
         ]);
-
-        const partners = ['DA-CBC', 'PhilRice', 'DOST', 'DA-BAR', 'UPLB', 'CLSU', 'BSU', 'VSU', 'IRRI', 'SEARCA', 'PCAARRD', 'BPI', 'NSQC', 'DA-RFOs', 'SCUs'];
 
         const features = [
             { title: 'Centralized Data', description: 'Access comprehensive agricultural data from multiple sources in one platform.', icon: 'database' },
@@ -73,7 +69,6 @@ export default {
             biotwgProject,
             isHeroVisible,
             faqItems,
-            partners,
             features,
             databaseCards,
             heroStats,
@@ -88,7 +83,7 @@ export default {
     <page-layout>
         <!-- Hero Section -->
         <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-            <div class="absolute inset-0 z-0">
+            <div id="header-main-first" class="absolute inset-0 z-0">
                 <particles-background id="header-particles-js"/>
                 <div class="absolute inset-0 bg-gradient-to-b from-cbc-dark-green/80 via-cbc-dark-green/50 to-cbc-dark-green/90"></div>
             </div>
@@ -266,51 +261,11 @@ export default {
             </div>
         </section>
 
-        <!-- Database List -->
-        <section class="py-20 lg:py-32 bg-pin-gray">
-            <div class="section-padding"><div class="container-custom"><bm-database-list/></div></div>
-        </section>
-
-        <!-- PIN Description -->
-        <section class="py-20 lg:py-32 bg-white">
+        <!-- Partners -->
+        <section class="py-16 bg-white">
             <div class="section-padding">
-                <div class="container-custom text-center">
-                    <div class="flex flex-col gap-6 justify-between items-center max-w-3xl mx-auto">
-                        <Link class="flex items-center h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15rem] drop-shadow-lg hover:-translate-y-1 transition-transform" :href="'/'">
-                            <img src="/img/logo-black.png" alt="DA-CBC Logo" loading="lazy"/>
-                        </Link>
-                        <p class="text-gray-600 text-lg leading-relaxed">
-                            This specialized online platform offers a centralized repository of essential information meticulously curated to support your crop biotechnology research endeavors. Within this digital resource, you will find a comprehensive collection of data, tools, and resources designed to facilitate your scientific investigations, accelerate discoveries, and drive innovation in the field of crop biotechnology.
-                        </p>
-                        <Link class="flex items-center drop-shadow-lg hover:-translate-y-1 transition-transform" :href="'/'">
-                            <img src="/img/logos/pin.svg" class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] min-w-[40%]" alt="PIN Logo" loading="lazy"/>
-                        </Link>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Partners Marquee -->
-        <section class="py-16 bg-white overflow-hidden">
-            <div class="section-padding mb-8">
-                <div class="container-custom text-center">
-                    <h2 class="text-2xl font-bold text-gray-900 font-display">Our Partners</h2>
-                    <p class="text-gray-600 mt-2">Collaborating with leading institutions across the Philippines</p>
-                </div>
-            </div>
-            <div class="relative">
-                <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
-                <div class="flex animate-marquee hover:[animation-play-state:paused]">
-                    <div v-for="(partner, idx) in [...partners, ...partners]" :key="idx"
-                         class="flex-shrink-0 mx-4 px-6 py-3 bg-pin-gray rounded-xl hover:bg-pin-green-light transition-colors cursor-pointer group">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-pin-green/10 rounded-lg flex items-center justify-center group-hover:bg-pin-green transition-colors">
-                                <svg class="w-5 h-5 text-pin-green group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                            </div>
-                            <span class="font-semibold text-gray-700 group-hover:text-pin-green transition-colors whitespace-nowrap">{{ partner }}</span>
-                        </div>
-                    </div>
+                <div class="container-custom">
+                    <bm-collaborators />
                 </div>
             </div>
         </section>
@@ -390,12 +345,6 @@ export default {
             <div class="section-padding"><div class="container-custom"><ai-chat/></div></div>
         </section>
 
-        <!-- Collaborators -->
-        <section class="relative py-20 lg:py-32">
-            <particles-background id="foot-particles-js"/>
-            <div class="relative z-10 section-padding"><div class="container-custom"><bm-collaborators/></div></div>
-        </section>
-
         <!-- Footer -->
         <footer class="bg-gray-900 text-white">
             <div class="section-padding py-16">
@@ -403,7 +352,7 @@ export default {
                     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
                         <div class="sm:col-span-2 lg:col-span-1">
                             <Link href="/" class="flex items-center gap-3 mb-6">
-                                <div class="w-10 h-10 bg-pin-green rounded-lg flex items-center justify-center">
+                                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
                                     <img src="/img/logos/pin.svg" alt="PIN" class="w-6 h-6"/>
                                 </div>
                                 <div>
