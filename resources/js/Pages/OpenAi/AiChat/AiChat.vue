@@ -63,7 +63,7 @@ export default {
         <button
             type="button"
             @click="toggleChat"
-            class="w-14 h-14 rounded-full bg-pin-green text-white shadow-lg hover:bg-pin-green-dark hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center focus-ring"
+            class="w-14 h-14 rounded-full bg-cbc-yellow-green text-white shadow-lg hover:bg-cbc-yellow hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center focus-ring"
             aria-label="Toggle AI chatbot"
         >
             <span v-if="!isOpen" class="text-xl leading-none">💬</span>
@@ -80,7 +80,7 @@ export default {
         >
             <div
                 v-if="isOpen"
-                class="absolute bottom-16 right-0 w-[22rem] sm:w-[24rem] h-[30rem] bg-white rounded-2xl shadow-2xl border border-gray-200 overflow-hidden flex flex-col"
+                class="absolute bottom-16 right-0 w-[22rem] sm:w-[24rem] h-[30rem] bg-white rounded-2xl shadow-2xl border-2 border-pin-lime overflow-hidden flex flex-col"
             >
                 <div class="bg-pin-green text-white px-4 py-3 flex items-center justify-between">
                     <div class="leading-tight">

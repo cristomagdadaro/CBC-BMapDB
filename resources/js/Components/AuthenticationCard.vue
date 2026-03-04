@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col justify-center items-center w-fit bg-transparent">
-        <div class="w-full p-7 relative w-fit sm:rounded-lg bg-cbc-yellow shadow-2xl border-0 border-gray-100">
+        <div class="w-fit p-7 relative sm:rounded-lg rounded-xl text-white shadow-2xl backdrop-blur-sm bg-white/10 transition-all duration-500">
             <slot />
         </div>
     </div>

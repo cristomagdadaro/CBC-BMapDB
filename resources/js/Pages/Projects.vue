@@ -2,18 +2,18 @@
 import PageLayout from "@/Layouts/PageLayout.vue";
 import { CBCProjectsPublic } from "@/Pages/constants.ts";
 import { Link, Head, usePage } from '@inertiajs/vue3';
-import { defineAsyncComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { defineAsyncComponent, computed, ref, onMounted } from 'vue';
 // Lazy load heavy components
+const HeroImageParticlesBackground = defineAsyncComponent(() => import("@/Components/HeroImageParticlesBackground.vue"));
 const BmCollaborators = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue"));
 const BmPriorityCom = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue"));
 const BmOverviewMap = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue"));
-const ParticlesBackground = defineAsyncComponent(() => import("@/Components/ParticlesBackground.vue"));
 const AiChat = defineAsyncComponent(() => import("@/Pages/OpenAi/AiChat/AiChat.vue"));
 
 export default {
     components: {
         AiChat,
-        ParticlesBackground,
+        HeroImageParticlesBackground,
         BmOverviewMap,
         BmPriorityCom,
         BmCollaborators,
@@ -38,23 +38,9 @@ export default {
                 : defaultHeroBackgroundImages
         );
         const collaboratorsList = ref([]);
-        const heroBackgroundIndex = ref(0);
-        let heroBackgroundTimer = null;
 
         onMounted(() => {
             setTimeout(() => { isHeroVisible.value = true; }, 100);
-
-            if (heroBackgroundImages.value.length > 1) {
-                heroBackgroundTimer = setInterval(() => {
-                    heroBackgroundIndex.value = (heroBackgroundIndex.value + 1) % heroBackgroundImages.value.length;
-                }, 10000);
-            }
-        });
-
-        onBeforeUnmount(() => {
-            if (heroBackgroundTimer) {
-                clearInterval(heroBackgroundTimer);
-            }
         });
 
         const faqItems = ref([
@@ -132,7 +118,6 @@ export default {
             biotwgProject,
             isHeroVisible,
             heroBackgroundImages,
-            heroBackgroundIndex,
             faqItems,
             features,
             databaseCards,
@@ -149,23 +134,11 @@ export default {
     <page-layout>
         <!-- Hero Section -->
         <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-            <div id="header-main-first" class="absolute inset-0 z-0">
-                <div class="absolute inset-0 z-0" aria-hidden="true">
-                    <img
-                        v-for="(imagePath, index) in heroBackgroundImages"
-                        :key="imagePath"
-                        :src="imagePath"
-                        :alt="`PIN carousel background ${index + 1}`"
-                        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
-                        :class="index === heroBackgroundIndex ? 'opacity-100' : 'opacity-0'"
-                        :loading="index === 0 ? 'eager' : 'lazy'"
-                    />
-                </div>
-                <div class="absolute inset-0 z-10 bg-gradient-to-b from-cbc-dark-green/80 via-cbc-dark-green/50 to-cbc-dark-green/90 bg-opacity-60"></div>
-                <div class="absolute inset-0 z-20 pointer-events-none opacity-80">
-                    <particles-background id="header-particles-js"/>
-                </div>
-            </div>
+            <hero-image-particles-background
+                id="header-main-first"
+                :images="heroBackgroundImages"
+                particles-id="header-particles-js"
+            />
             <div class="relative z-20 section-padding pt-32 pb-20">
                 <div class="container-custom text-center">
                     <div :class="['inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white/90 text-sm font-medium mb-8 transition-all duration-700', isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4']">

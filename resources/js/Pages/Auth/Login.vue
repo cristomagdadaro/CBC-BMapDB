@@ -5,10 +5,9 @@ import Checkbox from '@/Components/Checkbox.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import PageLayout from '@/Layouts/PageLayout.vue';
 import TextField from "@/Components/Form/TextField.vue";
-import GreenWaves from "@/Components/GreenWaves.vue";
+import HeroImageParticlesBackground from "@/Components/HeroImageParticlesBackground.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue";
-import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 defineProps({
     canResetPassword: Boolean,
     status: String,
@@ -37,10 +36,9 @@ const handleGoogleSignIn = () => {
 <template>
     <Head title="Log in" />
     <page-layout>
-        <green-waves />
-        <particles-background />
-        <div class="grid grid-cols-1 w-full bg-transparent ">
-            <public-page-section class="flex items-center justify-center">
+        <div class="relative grid grid-cols-1 w-full bg-transparent min-h-screen">
+            <hero-image-particles-background class="absolute inset-0" particles-id="login-particles-js" />
+            <public-page-section class="relative z-10 flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-4xl mx-auto">
                     <div class="relative grid sm:grid-cols-2 grid-rows-1 items-center">
                         <div>
@@ -49,10 +47,10 @@ const handleGoogleSignIn = () => {
                                     <div class="bg-pin-green-light h-full rounded-xl p-3">
                                         <authentication-card-logo class="drop-shadow" />
                                     </div>
-                                    <div class="font-bold lg:text-3xl md:text-2xl text-xl leading-[1.2rem] lg:leading-[1.8rem] sm:text-left text-center">
-                                        <span class="text-pin-green">P</span>lant&nbsp;Breeders&nbsp;&
-                                        <span class="text-pin-green">I</span>nnovators
-                                        <span class="text-pin-green">N</span>etwork&nbsp;System
+                                    <div class="font-bold lg:text-3xl md:text-2xl text-xl leading-[1.2rem] lg:leading-[1.8rem] sm:text-left text-center text-white">
+                                        <span class="text-pin-lime">P</span>lant&nbsp;Breeders&nbsp;&
+                                        <span class="text-pin-lime">I</span>nnovators
+                                        <span class="text-pin-lime">N</span>etwork&nbsp;System
                                     </div>
                                 </div>
                                 <div v-if="status" class="m-2 font-medium text-sm text-center">
@@ -63,7 +61,7 @@ const handleGoogleSignIn = () => {
                                 {{ $appVersion }}
                             </span>
                         </div>
-                        <div class="flex flex-col gap-2 bg-white sm:p-4 sm:px-5 p-4 shadow-sm rounded-xl border border-gray-200 sm:min-w-[15rem] min-w-full">
+                        <div class="flex flex-col gap-2 bg-white hover:bg-cbc-yellow duration-500 sm:p-6 p-4 shadow-sm rounded-xl sm:min-w-[15rem] min-w-full">
                             <form @submit.prevent="submit">
                                 <text-field
                                     id="email"

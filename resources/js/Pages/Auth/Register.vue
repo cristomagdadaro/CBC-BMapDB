@@ -11,13 +11,12 @@ import SelectField from "@/Components/Form/SelectField.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
-import GreenWaves from "@/Components/GreenWaves.vue";
+import HeroImageParticlesBackground from "@/Components/HeroImageParticlesBackground.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
-import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 export default {
     name: 'Register',
-    components: {ParticlesBackground, AuthenticationCard, Head, Link, Checkbox, InputError, InputLabel, PrimaryButton, PageLayout, TextField, SelectField, ApiService, NewAccountProgressView, SelectSearchField, GreenWaves, PublicPageSection },
+    components: {ParticlesBackground, AuthenticationCard, Head, Link, Checkbox, InputError, InputLabel, PrimaryButton, PageLayout, TextField, SelectField, ApiService, NewAccountProgressView, SelectSearchField, PublicPageSection, HeroImageParticlesBackground },
     beforeMount() {
         this.form = useForm({
             fname: '',
@@ -56,8 +55,7 @@ export default {
 <template>
     <Head title="Register" />
     <page-layout>
-        <green-waves />
-        <particles-background />
+        <hero-image-particles-background class="absolute inset-0" particles-id="login-particles-js" />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">

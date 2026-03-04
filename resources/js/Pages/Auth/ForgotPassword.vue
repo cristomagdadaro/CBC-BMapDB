@@ -7,9 +7,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PageLayout from "@/Layouts/PageLayout.vue";
-import GreenWaves from "@/Components/GreenWaves.vue";
+import HeroImageParticlesBackground from "@/Components/HeroImageParticlesBackground.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
-import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 defineProps({
     status: String,
@@ -27,8 +26,7 @@ const submit = () => {
 <template>
     <Head title="Forgot Password" />
     <PageLayout :is-wide-display="true">
-        <green-waves />
-        <particles-background />
+        <hero-image-particles-background class="absolute inset-0" particles-id="login-particles-js" />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">

@@ -5,7 +5,7 @@ import AuthenticationCard from '@/Components/AuthenticationCard.vue';
 import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import PageLayout from "@/Layouts/PageLayout.vue";
-import GreenWaves from "@/Components/GreenWaves.vue";
+import HeroImageParticlesBackground from "@/Components/HeroImageParticlesBackground.vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import ParticlesBackground from "@/Components/ParticlesBackground.vue";
@@ -26,8 +26,7 @@ const verificationLinkSent = computed(() => props.status === 'verification-link-
 <template>
     <Head title="Email Verification" />
     <page-layout>
-        <green-waves />
-        <particles-background />
+        <hero-image-particles-background class="absolute inset-0" particles-id="login-particles-js" />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">

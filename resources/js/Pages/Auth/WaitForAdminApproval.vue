@@ -2,18 +2,16 @@
 import PageLayout from "@/Layouts/PageLayout.vue";
 import {Head, Link} from "@inertiajs/vue3";
 import AuthenticationCard from "@/Components/AuthenticationCard.vue";
-import GreenWaves from "@/Components/GreenWaves.vue";
+import HeroImageParticlesBackground from "@/Components/HeroImageParticlesBackground.vue";
 import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
 import AddAccount from "@/Pages/Profile/Partials/AddAccount.vue";
-import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 </script>
 
 <template>
     <Head title="Wait for Admin Approval" />
     <page-layout>
-        <green-waves />
-        <particles-background />
+        <hero-image-particles-background class="absolute inset-0" particles-id="login-particles-js" />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-4xl mx-auto">
