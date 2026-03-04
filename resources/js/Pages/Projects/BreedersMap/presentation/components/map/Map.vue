@@ -152,21 +152,21 @@ watch(
         <!-- Map Container -->
         <div class="flex-1 flex flex-col gap-5 h-[calc(100vh-5rem)]">
             <!-- Map Header -->
-            <div class="bg-gray-100 rounded-lg p-4">
+            <div class="bg-white rounded-xl p-4 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-xl font-semibold text-gray-900">Geographic Distribution</h2>
-                        <p class="text-sm text-gray-600 mt-1">
-                            Showing {{ mapData.length }} locations
+                        <h2 class="text-lg font-semibold text-gray-900 font-display">Geographic Distribution</h2>
+                        <p class="text-sm text-gray-500 mt-1">
+                            Showing <span class="font-medium text-pin-green">{{ mapData.length }}</span> locations
                             <span v-if="currentFilters.data_type" class="ml-2">
-                                • {{ currentFilters.data_type }} <span v-if="currentFilters.filter_by">filtered by {{ currentFilters.filter_by }}</span>
+                                • <span class="badge">{{ currentFilters.data_type }}</span> <span v-if="currentFilters.filter_by">filtered by <span class="badge">{{ currentFilters.filter_by }}</span></span>
                             </span>
                         </p>
                     </div>
                     <div class="flex items-center gap-2">
                         <button
                             @click="fitMapToData"
-                            class="px-3 py-2 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                            class="btn-primary text-sm px-4 py-2"
                             :disabled="mapData.length === 0"
                         >
                             Fit to Data
@@ -176,7 +176,7 @@ watch(
             </div>
 
             <!-- Leaflet Map -->
-            <div class="flex-1 bg-white rounded-lg shadow-lg overflow-hidden">
+            <div class="flex-1 bg-white rounded-xl shadow-card overflow-hidden">
                     <LeafletMap
                     ref="mapComponent"
                     :map-data="mapData"

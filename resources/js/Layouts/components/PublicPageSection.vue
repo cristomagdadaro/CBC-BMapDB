@@ -2,26 +2,31 @@
 export default {
     name: "PublicPageSection",
     props: {
-        animation:{
+        animation: {
             type: Boolean,
             default: true
+        },
+        fullHeight: {
+            type: Boolean,
+            default: true
+        },
+        bgClass: {
+            type: String,
+            default: ''
         }
     },
     mounted() {
-        if (this.animation){
+        if (this.animation) {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('slide-up');
-                        entry.target.classList.remove('slide-down');
-                    } else {
-                        entry.target.classList.add('slide-down');
-                        entry.target.classList.remove('slide-up');
+                        entry.target.classList.add('fade-up-visible');
+                        entry.target.classList.remove('fade-up-hidden');
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-            document.querySelectorAll('.public-page-section').forEach(section => {
+            this.$el.querySelectorAll('.public-page-section').forEach(section => {
                 observer.observe(section);
             });
         }
@@ -30,31 +35,33 @@ export default {
 </script>
 
 <template>
-    <div class="relative min-h-screen">
+    <div :class="['relative', fullHeight ? 'min-h-screen' : '', bgClass]">
         <slot name="custom-bg" />
-        <div v-if="animation" class="public-page-section resp-container lg:py-8 md:py-6 sm:py-4 py-2 w-full">
-            <slot />
+        <div v-if="animation" class="public-page-section fade-up-hidden section-padding py-12 lg:py-20 w-full">
+            <div class="container-custom">
+                <slot />
+            </div>
         </div>
-        <div v-else class="resp-container">
-            <slot />
+        <div v-else class="section-padding py-12 lg:py-20">
+            <div class="container-custom">
+                <slot />
+            </div>
         </div>
     </div>
 </template>
 
 <style scoped>
 .public-page-section {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1.5s ease-out, transform 2s ease-out;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
-.public-page-section.slide-up {
+.fade-up-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.fade-up-visible {
     opacity: 1;
     transform: translateY(0);
-}
-
-.public-page-section.slide-down {
-    opacity: 0;
-    transform: translateY(20px);
 }
 </style>

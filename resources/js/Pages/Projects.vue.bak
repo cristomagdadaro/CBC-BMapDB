@@ -1,0 +1,217 @@
+<script>
+import PageLayout from "@/Layouts/PageLayout.vue";
+import { CBCProjectsPublic } from "@/Pages/constants.ts";
+import { Link, Head, usePage } from '@inertiajs/vue3';
+import PhilippineMapOutline from "@/Components/Icons/PhilippineMapOutline.vue";
+import { defineAsyncComponent, computed } from 'vue';
+// Lazy load heavy components
+const BmCollaborators = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue"));
+const TransitionContainer = defineAsyncComponent(() => import("@/Components/CustomDropdown/Components/TransitionContainer.vue"));
+const ArrowLeft = defineAsyncComponent(() => import("@/Components/Icons/ArrowLeft.vue"));
+const ArrowRight = defineAsyncComponent(() => import("@/Components/Icons/ArrowRight.vue"));
+const PublicPageSection = defineAsyncComponent(() => import("@/Layouts/components/PublicPageSection.vue"));
+const GreenWaves = defineAsyncComponent(() => import("@/Components/GreenWaves.vue"));
+const BmDatabaseList = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmDatabaseList.vue"));
+const BmPriorityCom = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue"));
+const BmOverviewMap = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue"));
+const TopLeaf = defineAsyncComponent(() => import("@/Components/Top-Leaf.vue"));
+const ModelViewer = defineAsyncComponent(() => import("@/Components/3dViewer/3dModelViewer.vue"));
+const ParticlesBackground = defineAsyncComponent(() => import("@/Components/ParticlesBackground.vue"));
+const AiChat = defineAsyncComponent(() => import("@/Pages/OpenAi/AiChat/AiChat.vue"));
+
+export default {
+    components: {
+        AiChat,
+        ParticlesBackground,
+        TopLeaf,
+        BmOverviewMap,
+        BmPriorityCom,
+        BmDatabaseList,
+        GreenWaves,
+        PublicPageSection,
+        ArrowRight,
+        ArrowLeft,
+        TransitionContainer,
+        BmCollaborators,
+        PageLayout,
+        Link,
+        Head,
+        PhilippineMapOutline,
+        ModelViewer
+    },
+    setup() {
+        const page = usePage();
+        // Move expensive template expressions to computed
+        const pbmapProject = computed(() => CBCProjectsPublic[0] || Object.values(CBCProjectsPublic)[0]);
+        const biotwgProject = computed(() => CBCProjectsPublic[1] || Object.values(CBCProjectsPublic)[1]);
+        return {
+            CBCProjectsPublic,
+            page,
+            pbmapProject,
+            biotwgProject,
+        };
+    },
+};
+</script>
+
+<template>
+    <Head title="Welcome"/>
+    <page-layout>
+        <green-waves/>
+        <div class="grid grid-cols-1 body-grid-rows w-full bg-transparent">
+            <public-page-section onload="" class="flex items-center justify-center">
+                <template v-slot:custom-bg>
+                    <particles-background id="header-particles-js"/>
+                </template>
+                <div class="flex flex-col justify-center ">
+                    <div class="text-cbc-brown flex flex-col gap-3 sm:p-5 p-8 text-left drop-shadow-lg rounded-md">
+                        <div class="text-title leading-tight">
+                            <h1 class="sm:text-2xl text-lg font-light uppercase">Welcome to</h1>
+                            <div class="leading-tight text-title">
+                                <h1 class="whitespace-nowrap">
+                                    <span class="text-cbc-olive-green drop-shadow">P</span>lant&nbsp;Breeders and
+                                </h1>
+                                <h1>
+                                    <span class="text-cbc-olive-green drop-shadow">I</span>nnovators
+                                    <span class="text-cbc-olive-green drop-shadow">N</span>etwork
+                                </h1>
+                            </div>
+                        </div>
+                        <h1 class="text-normal drop-shadow text-justify px-1">
+                            Empowering crop biotechnology research with innovation, one discovery at a time
+                        </h1>
+                    </div>
+                    <div class="flex flex-col sm:flex-row justify-between items-center border-t lg:gap-32 gap-5">
+                        <Link v-for="project in CBCProjectsPublic" :key="project.label" :href="route(project.route_public)" class="flex flex-col lg:flex-row justify-center gap-1 items-center w-1/2 whitespace-nowrap text-cbc-brown bg-transparent text-center p-10  hover:text-gray-100 hover:drop-shadow-lg active:scale-95 duration-200 uppercase text-subtitle">
+                            <img :src="project.logo" :alt="project.label" class="w-auto h-[5rem]" loading="lazy" />
+                            <label class="text-subtitle">{{ project.label }}</label>
+                        </Link>
+                    </div>
+                </div>
+            </public-page-section>
+            <public-page-section class="flex items-center py-10">
+                <bm-overview-map/>
+            </public-page-section>
+            <public-page-section class="flex items-center">
+                <div class="grid grid-rows-2 grid-cols-1 md:grid-rows-1 md:grid-cols-2 gap-2 md:gap-5">
+                    <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(pbmapProject.route_public)">
+                        <img class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15rem]" src="/img/logos/pbmap.svg" alt="Plant Breeders Map Database Logo" loading="lazy" />
+                    </Link>
+                    <div class="flex flex-col justify-center text-center md:text-left">
+                        <Link :href="route(pbmapProject.route_public)" class="text-subtitle text-dark-color">
+                            {{ pbmapProject.label }}
+                        </Link>
+                        <p class="text-normal text-dark-color text-justify">
+                            {{ pbmapProject.description }}
+                        </p>
+                    </div>
+                </div>
+            </public-page-section>
+            <public-page-section class="flex items-center py-10">
+                <bm-priority-com/>
+            </public-page-section>
+            <public-page-section class="flex items-center text-center">
+                <div class="flex flex-col gap-5 justify-between items-center">
+                    <Link class="flex justify-center md:justify-end drop-shadow-lg" :href="route(biotwgProject.route_public)">
+                        <img class="h-auto w-[12rem] sm:w-[17rem] lg:w-[25rem] max-w-[25rem]" src="/img/logos/biotwg.full.png" alt="Biotech TWG Database Logo" loading="lazy" />
+                    </Link>
+                    <p class="text-normal text-dark-color">
+                        {{ biotwgProject.description }}
+                    </p>
+                </div>
+            </public-page-section>
+            <public-page-section class="flex items-center">
+                <bm-database-list/>
+            </public-page-section>
+            <public-page-section class="flex items-center">
+                <template v-slot:custom-bg>
+                    <div id="center-particles-js" class="absolute top-0 left-0 w-full h-full -z-[999]"></div>
+                    <img src="/img/bg2.png"
+                        alt="DA-CBC Building"
+                        class="absolute top-0 left-0 w-full h-full z-[-1] brightness-50 object-cover object-top" />
+                </template>
+                <p class="text-subtitle text-center text-light-color">
+                    {{ $companyName }}
+                </p>
+                <p class="text-normal text-center text-light-color">
+                    The center is a premier hub for innovation and research in agricultural biotechnology. Dedicated to
+                    advancing crop productivity and sustainability, the center provides cutting-edge solutions,
+                    resources, and technologies to support farmers, researchers, and stakeholders in addressing the
+                    challenges of food security and agricultural development.
+                </p>
+            </public-page-section>
+            <public-page-section class="flex items-center text-center">
+                <div class="flex flex-col gap-5 justify-between items-center">
+                    <Link class="flex items-center h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] max-w-[15rem] drop-shadow-lg" :href="'/'">
+                        <img src="/img/logo-black.png" alt="DA-CBC Logo" loading="lazy" />
+                    </Link>
+                    <p class="text-normal text-dark-color">
+                        This specialized online platform offers a centralized repository of essential information
+                        meticulously curated to support your crop biotechnology research endeavors. Within this digital
+                        resource, you will find a comprehensive collection of data, tools, and resources designed to
+                        facilitate your scientific investigations, accelerate discoveries, and drive innovation in the
+                        field of crop biotechnology.
+                    </p>
+                    <Link class="flex items-center drop-shadow-lg" :href="'/'">
+                        <img src="/img/logos/pin.svg" class="h-auto w-[8rem] sm:w-[12rem] lg:w-[15rem] min-w-[40%]" alt="Plant Breeders Map Database Logo" loading="lazy" />
+                    </Link>
+                </div>
+            </public-page-section>
+<!--            <public-page-section class="flex items-center py-10">
+                <div class="w-full flex flex-col items-center justify-center">
+                    <div class="w-full max-w-3xl mx-auto bg-white/80 rounded-xl shadow-lg p-6 flex flex-col items-center">
+                        <h2 class="text-2xl font-bold text-cbc-olive-green mb-2 text-center">Interactive 3D Crop Model</h2>
+                        <p class="text-normal text-gray-700 mb-4 text-center max-w-xl">
+                            Explore a high-fidelity 3D scan of a real Bt Corn cob. Use your mouse or touch to rotate, zoom, and interact. Lighting, background, and more can be adjusted live using the controls at the top right of the viewer.
+                        </p>
+                        <div class="w-full flex justify-center">
+                            <ModelViewer
+                                model-url="/img/3d/corn.glb"
+                                :background-color="'#e6f7ef'"
+                                style="width:100%;max-width:600px;min-height:400px;height:60vh;"
+                            />
+                        </div>
+                        <label class="text-xs text-gray-500 mt-2 text-center">We will be adding more 3D images soon. Use Polycam or any mobile 3D object scanner app. iPhones with LiDAR sensor recommended.</label>
+                    </div>
+                </div>
+            </public-page-section>-->
+          <!--   <public-page-section class="flex items-center">
+                <ai-chat />
+            </public-page-section> -->
+            <public-page-section class="flex items-center py-10">
+                <template v-slot:custom-bg>
+                    <particles-background id="foot-particles-js"/>
+                </template>
+                <bm-collaborators/>
+            </public-page-section>
+        </div>
+    </page-layout>
+</template>
+
+<style scoped>
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.flex-row::-webkit-scrollbar {
+    display: none;
+}
+
+.flex-row {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.body-grid-rows {
+    grid-template-rows:repeat(9, minmax(0, 1fr))
+}
+
+.body-grid-rows > *:nth-child(even) {
+    @apply bg-gray-200;
+}
+</style>
