@@ -1,6 +1,14 @@
 <script>
 export default {
     name: "BmCollaborators",
+    computed: {
+        visibleCollaborators() {
+            return this.collaborators.filter(collaborator => collaborator.visible);
+        },
+        marqueeCollaborators() {
+            return [...this.visibleCollaborators, ...this.visibleCollaborators];
+        }
+    },
     data() {
         return {
             logo_dir: "/img/collaborators/",
@@ -106,20 +114,27 @@ export default {
             <p class="text-gray-600 mt-2">Trusted collaborators helping advance crop biotechnology in the Philippines.</p>
         </div>
 
-        <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-6">
-            <template v-for="collaborator in collaborators" :key="collaborator.name">
-                <li v-if="collaborator.visible" class="bg-white rounded-xl shadow-sm hover:shadow-card transition-all duration-300 hover:-translate-y-1 p-4 lg:p-5">
-                    <a :href="collaborator.link" target="_blank" rel="noopener noreferrer" class="w-full h-full flex items-center justify-center focus-ring rounded-lg">
+        <div class="relative overflow-hidden" aria-label="Collaborators carousel">
+            <div class="absolute left-0 top-0 bottom-0 w-24 sm:w-32 bg-gradient-to-r from-white to-transparent z-10" aria-hidden="true" />
+            <div class="absolute right-0 top-0 bottom-0 w-24 sm:w-32 bg-gradient-to-l from-white to-transparent z-10" aria-hidden="true" />
+
+            <div class="flex w-max animate-marquee hover:[animation-play-state:paused]">
+                <div
+                    v-for="(collaborator, index) in marqueeCollaborators"
+                    :key="`${collaborator.name}-${index}`"
+                    class="flex-shrink-0 mx-2 sm:mx-3 lg:mx-4 bg-white rounded-xl shadow-sm hover:shadow-card transition-all duration-300 hover:-translate-y-1 p-4 lg:p-5"
+                >
+                    <a :href="collaborator.link" target="_blank" rel="noopener noreferrer" class="w-36 sm:w-40 lg:w-44 h-16 sm:h-20 lg:h-24 flex items-center justify-center focus-ring rounded-lg">
                         <img
                             :src="logo_dir + collaborator.logo"
                             :alt="collaborator.name"
-                            class="w-full max-w-[8rem] sm:max-w-[9rem] lg:max-w-[10rem] h-16 sm:h-20 lg:h-24 object-contain"
+                            class="w-full h-full object-contain"
                             loading="lazy"
                         />
                     </a>
-                </li>
-            </template>
-        </ul>
+                </div>
+            </div>
+        </div>
     </section>
 </template>
 

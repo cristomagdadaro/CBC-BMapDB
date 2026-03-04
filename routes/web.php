@@ -3,15 +3,14 @@
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\ProjectsPublicController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
 use App\Mail\UserInvitationEmail;
 use App\Models\User;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Modules\PbMap\Models\Breeder;
 use Modules\PbMap\Models\Commodity;
@@ -34,31 +33,7 @@ Route::get('/forms/event/0504', function () {
     return redirect()->away('https://dacbc.philrice.gov.ph/forms/event/0504');
 })->name('external.dacbc.event0504');
 
-Route::get('/', function () {
-
-    $data = Breeder::join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
-        ->selectRaw('loc_cities.provDesc as label, COUNT(*) as total')
-        ->groupBy('loc_cities.provDesc')
-        ->orderByDesc('total')
-        ->get();
-
-    $formattedData = $data->map(function ($item) {
-        return [
-            'id' => Str::slug($item->label),
-            'key' => Str::slug($item->label),
-            'province' => $item->label,
-            'data' => $item->total,
-        ];
-    });
-
-    return Inertia::render('Projects', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'breedersmap_overview' => $formattedData,
-    ]);
-});
+Route::get('/', [ProjectsPublicController::class, 'home']);
 
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback'); // This must be GET, not POST
@@ -105,9 +80,7 @@ Route::get('/sitemap.xml', [SupportInfoController::class, 'sitemapXml'])->name('
 
 
 Route::prefix('/projects')->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('Projects');
-    })->name('projects');
+    Route::get('/', [ProjectsPublicController::class, 'index'])->name('projects');
 
     Route::get('/twg-db', function (){
         return Inertia::render('Projects/TWG/presentation/TWGPublic', [

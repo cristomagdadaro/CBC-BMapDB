@@ -2,7 +2,7 @@
 import PageLayout from "@/Layouts/PageLayout.vue";
 import { CBCProjectsPublic } from "@/Pages/constants.ts";
 import { Link, Head, usePage } from '@inertiajs/vue3';
-import { defineAsyncComponent, computed, ref, onMounted } from 'vue';
+import { defineAsyncComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 // Lazy load heavy components
 const BmCollaborators = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue"));
 const BmPriorityCom = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue"));
@@ -26,9 +26,34 @@ export default {
         const pbmapProject = computed(() => CBCProjectsPublic[0] || Object.values(CBCProjectsPublic)[0]);
         const biotwgProject = computed(() => CBCProjectsPublic[1] || Object.values(CBCProjectsPublic)[1]);
         const isHeroVisible = ref(false);
+        const defaultHeroBackgroundImages = [
+            '/img/carousel/image-1.jpg',
+            '/img/carousel/image-2.jpg',
+            '/img/carousel/image-3.jpg',
+            '/img/carousel/image-4.jpg',
+        ];
+        const heroBackgroundImages = ref(
+            Array.isArray(page.props.heroBackgroundImages) && page.props.heroBackgroundImages.length
+                ? page.props.heroBackgroundImages
+                : defaultHeroBackgroundImages
+        );
+        const heroBackgroundIndex = ref(0);
+        let heroBackgroundTimer = null;
 
         onMounted(() => {
             setTimeout(() => { isHeroVisible.value = true; }, 100);
+
+            if (heroBackgroundImages.value.length > 1) {
+                heroBackgroundTimer = setInterval(() => {
+                    heroBackgroundIndex.value = (heroBackgroundIndex.value + 1) % heroBackgroundImages.value.length;
+                }, 10000);
+            }
+        });
+
+        onBeforeUnmount(() => {
+            if (heroBackgroundTimer) {
+                clearInterval(heroBackgroundTimer);
+            }
         });
 
         const faqItems = ref([
@@ -68,6 +93,8 @@ export default {
             pbmapProject,
             biotwgProject,
             isHeroVisible,
+            heroBackgroundImages,
+            heroBackgroundIndex,
             faqItems,
             features,
             databaseCards,
@@ -84,12 +111,21 @@ export default {
         <!-- Hero Section -->
         <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
             <div id="header-main-first" class="absolute inset-0 z-0">
-                <particles-background id="header-particles-js"/>
-                <div class="absolute inset-0 bg-gradient-to-b from-cbc-dark-green/80 via-cbc-dark-green/50 to-cbc-dark-green/90"></div>
-            </div>
-            <div class="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-                <div v-for="i in 6" :key="i" class="absolute w-2 h-2 bg-white/20 rounded-full animate-float"
-                     :style="{ left: (15 + i * 15) + '%', top: (20 + (i % 3) * 25) + '%', animationDelay: (i * 0.5) + 's' }"></div>
+                <div class="absolute inset-0 z-0" aria-hidden="true">
+                    <img
+                        v-for="(imagePath, index) in heroBackgroundImages"
+                        :key="imagePath"
+                        :src="imagePath"
+                        :alt="`PIN carousel background ${index + 1}`"
+                        class="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000"
+                        :class="index === heroBackgroundIndex ? 'opacity-100' : 'opacity-0'"
+                        :loading="index === 0 ? 'eager' : 'lazy'"
+                    />
+                </div>
+                <div class="absolute inset-0 z-10 bg-gradient-to-b from-cbc-dark-green/80 via-cbc-dark-green/50 to-cbc-dark-green/90 bg-opacity-60"></div>
+                <div class="absolute inset-0 z-20 pointer-events-none opacity-80">
+                    <particles-background id="header-particles-js"/>
+                </div>
             </div>
             <div class="relative z-20 section-padding pt-32 pb-20">
                 <div class="container-custom text-center">
@@ -102,8 +138,8 @@ export default {
                         <span class="block text-pin-lime">Innovators Network</span>
                     </h1>
                     <p :class="['text-lg sm:text-xl text-white/80 max-w-2xl mx-auto mb-10 transition-all duration-700 delay-200', isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8']">
-                        Empowering crop biotechnology research with innovation, one discovery at a time.
                         Access comprehensive data, connect with researchers, and drive agricultural advancement.
+                        Empowering crop biotechnology research with innovation, one discovery at a time.
                     </p>
                     <div :class="['flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300', isHeroVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8']">
                         <Link v-if="pbmapProject" :href="route(pbmapProject.route_public)"
@@ -341,10 +377,8 @@ export default {
         </section>
 
         <!-- AI Chat -->
-        <section class="py-20 lg:py-32 bg-white">
-            <div class="section-padding"><div class="container-custom"><ai-chat/></div></div>
-        </section>
-
+        <ai-chat/>
+        
         <!-- Footer -->
         <footer class="bg-gray-900 text-white">
             <div class="section-padding py-16">

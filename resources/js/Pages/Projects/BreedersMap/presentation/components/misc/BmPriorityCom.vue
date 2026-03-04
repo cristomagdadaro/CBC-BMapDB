@@ -256,7 +256,7 @@ function onChange(item) {
         </AdvancedCarousel>
         </div>
 
-        <div v-if="activeItem" class="mt-8 bg-white rounded-xl shadow-sm p-5 sm:p-6" aria-live="polite">
+        <div v-if="activeItem" class="mt-8 bg-white rounded-xl shadow-sm p-5 sm:p-6 hidden" aria-live="polite">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                 <h3 class="text-xl font-semibold text-gray-900">{{ activeItem.name }}</h3>
                 <Link :href="activeItem.route" class="btn-secondary text-sm py-2 px-4 inline-flex items-center justify-center">
