@@ -9,6 +9,10 @@ export default {
             return [...this.visibleCollaborators, ...this.visibleCollaborators];
         }
     },
+    emits: ['collaboratorsListReady'],
+    mounted() {
+        this.$emit('collaboratorsListReady', this.collaborators);
+    },
     data() {
         return {
             logo_dir: "/img/collaborators/",

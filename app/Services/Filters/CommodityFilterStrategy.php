@@ -12,10 +12,12 @@ use Illuminate\Support\Facades\DB;
  */
 class CommodityFilterStrategy extends BaseFilterStrategy
 {
+    private ?bool $hasApprovedCommodities = null;
+
     public function buildBaseQuery(): Builder
     {
         // Bypass approval scope here to control visibility per request context
-        return Commodity::withoutGlobalScope(CommodityApprovalScope::class)
+        return Commodity::query()->withoutGlobalScope(CommodityApprovalScope::class)
             ->select('commodities.*', 'loc_cities.latitude', 'loc_cities.longitude', 'loc_cities.regDesc', 'loc_cities.provDesc', 'loc_cities.cityDesc')
             ->join('breeders', 'commodities.breeder_id', '=', 'breeders.id')
             ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
@@ -25,7 +27,7 @@ class CommodityFilterStrategy extends BaseFilterStrategy
     public function applyFilters(Builder $query, array $filters): Builder
     {
         // Public users: show only approved commodities
-        $query->when(!auth()->check(), function (Builder $q) {
+        $query->when(!auth()->check() && $this->shouldRestrictPublicToApproved(), function (Builder $q) {
             $q->whereNotNull('commodities.approved_at');
         });
 
@@ -216,13 +218,41 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
     private function getCommodityOptions(): array
     {
-        return Commodity::query()
+        $query = Commodity::withoutGlobalScope(CommodityApprovalScope::class)
             ->select('name as value', 'name as label')
-            ->whereNotNull('name')
+            ->whereNotNull('name');
+
+        if ($this->shouldRestrictPublicToApproved()) {
+            $query->whereNotNull('approved_at');
+        }
+
+        return $query
             ->distinct()
             ->orderBy('name')
             ->get()
             ->toArray();
+    }
+
+    private function datasetHasApprovedCommodities(): bool
+    {
+        if ($this->hasApprovedCommodities !== null) {
+            return $this->hasApprovedCommodities;
+        }
+
+        $this->hasApprovedCommodities = Commodity::withoutGlobalScope(CommodityApprovalScope::class)
+            ->whereNotNull('approved_at')
+            ->exists();
+
+        return $this->hasApprovedCommodities;
+    }
+
+    private function shouldRestrictPublicToApproved(): bool
+    {
+        if (config('system_variables.strict_public_commodity_approval', false)) {
+            return true;
+        }
+
+        return $this->datasetHasApprovedCommodities();
     }
 
     private function getInstituteOptions(): array
@@ -257,7 +287,7 @@ class CommodityFilterStrategy extends BaseFilterStrategy
 
         // Regions with breeders, commodities, or institutes
         $regions = collect(
-            \DB::select(<<<SQL
+            DB::select(<<<SQL
                 SELECT DISTINCT regDesc as value, regDesc as label FROM loc_cities
                 WHERE regDesc IS NOT NULL AND id IN (SELECT geolocation FROM breeders)
                 UNION
@@ -280,7 +310,7 @@ class CommodityFilterStrategy extends BaseFilterStrategy
             $provinceWhere = "AND regDesc = '" . str_replace("'", "''", $region) . "'";
         }
         $provinces = collect(
-            \DB::select(<<<SQL
+            DB::select(<<<SQL
                 SELECT DISTINCT provDesc as value, provDesc as label FROM loc_cities
                 WHERE provDesc IS NOT NULL $provinceWhere AND id IN (SELECT geolocation FROM breeders)
                 UNION
@@ -306,7 +336,7 @@ class CommodityFilterStrategy extends BaseFilterStrategy
             $cityWhere .= " AND regDesc = '" . str_replace("'", "''", $region) . "'";
         }
         $cities = collect(
-            \DB::select(<<<SQL
+            DB::select(<<<SQL
                 SELECT DISTINCT id as value, cityDesc as label FROM loc_cities
                 WHERE cityDesc IS NOT NULL $cityWhere AND id IN (SELECT geolocation FROM breeders)
                 UNION

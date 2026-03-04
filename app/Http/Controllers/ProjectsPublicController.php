@@ -10,19 +10,43 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
+use Modules\PbMap\Models\Commodity;
 use Modules\PbMap\Models\Breeder;
+use Modules\PbMap\Scopes\CommodityApprovalScope;
+use Modules\TwgDb\Models\TWGExpert;
+use Modules\TwgDb\Models\TWGProduct;
+use Modules\TwgDb\Models\TWGProject;
+use Modules\TwgDb\Models\TWGService;
 
 class ProjectsPublicController extends Controller
 {
     public function home(Request $request): Response
     {
-        $data = Breeder::join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
+        return Inertia::render('Projects', array_merge([
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            'heroBackgroundImages' => $this->resolveHeroCarouselImages($request),
+        ], $this->buildProjectsOverviewPayload()));
+    }
+
+    public function index(Request $request): Response
+    {
+        return Inertia::render('Projects', array_merge([
+            'heroBackgroundImages' => $this->resolveHeroCarouselImages($request),
+        ], $this->buildProjectsOverviewPayload()));
+    }
+
+    private function buildProjectsOverviewPayload(): array
+    {
+        $breedersByProvince = Breeder::join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
             ->selectRaw('loc_cities.provDesc as label, COUNT(*) as total')
             ->groupBy('loc_cities.provDesc')
             ->orderByDesc('total')
             ->get();
 
-        $formattedData = $data->map(function ($item) {
+        $breedersMapOverview = $breedersByProvince->map(function ($item) {
             return [
                 'id' => Str::slug($item->label),
                 'key' => Str::slug($item->label),
@@ -31,21 +55,26 @@ class ProjectsPublicController extends Controller
             ];
         });
 
-        return Inertia::render('Projects', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-            'breedersmap_overview' => $formattedData,
-            'heroBackgroundImages' => $this->resolveHeroCarouselImages($request),
-        ]);
-    }
+        $instituteCount = Breeder::whereNotNull('affiliation')->distinct('affiliation')->count('affiliation');
+        $commodityCount = Commodity::withoutGlobalScope(CommodityApprovalScope::class)->count();
+        $breederCount = Breeder::count();
+        $expertCount = TWGExpert::count();
+        $projectCount = TWGProject::count();
+        $serviceCount = TWGService::count();
+        $productCount = TWGProduct::count();
 
-    public function index(Request $request): Response
-    {
-        return Inertia::render('Projects', [
-            'heroBackgroundImages' => $this->resolveHeroCarouselImages($request),
-        ]);
+        return [
+            'breedersmap_overview' => $breedersMapOverview,
+            'statsOverview' => [
+                'institutes' => $instituteCount,
+                'commodities' => $commodityCount,
+                'breeders' => $breederCount,
+                'experts' => $expertCount,
+                'projects' => $projectCount,
+                'services' => $serviceCount,
+                'products' => $productCount,
+            ],
+        ];
     }
 
     private function resolveHeroCarouselImages(Request $request): array

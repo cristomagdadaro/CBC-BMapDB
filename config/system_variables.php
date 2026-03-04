@@ -5,6 +5,8 @@ use App\Enums\DataViews;
 use App\Enums\Role;
 
 return [
+    'strict_public_commodity_approval' => env('STRICT_PUBLIC_COMMODITY_APPROVAL', false),
+
     'applications' => [
         Applications::TWG_DATABASE->name => [
             'name' => Applications::TWG_DATABASE->value,

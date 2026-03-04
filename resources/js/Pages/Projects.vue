@@ -37,6 +37,7 @@ export default {
                 ? page.props.heroBackgroundImages
                 : defaultHeroBackgroundImages
         );
+        const collaboratorsList = ref([]);
         const heroBackgroundIndex = ref(0);
         let heroBackgroundTimer = null;
 
@@ -73,17 +74,54 @@ export default {
             { title: 'Documentation', description: 'Access research papers, reports, and technical documents.', icon: 'file' },
         ];
 
-        const databaseCards = [
-            { stats: [{ label: 'Institutes', value: '70+' }, { label: 'Commodities', value: '25+' }, { label: 'Provinces', value: '45+' }], tags: ['Geographic Data', 'Institutes', 'Commodities'] },
-            { stats: [{ label: 'Projects', value: '120+' }, { label: 'TWGs', value: '15' }, { label: 'Researchers', value: '300+' }], tags: ['Projects', 'Research', 'Collaboration'] },
-        ];
+        const formatCount = (value, fallback) => {
+            const numericValue = Number(value);
+            return Number.isFinite(numericValue) ? numericValue.toLocaleString() : fallback;
+        };
 
-        const heroStats = [
-            { value: '70+', label: 'Partner Institutes' },
-            { value: '25+', label: 'Commodities' },
-            { value: '120+', label: 'Research Projects' },
-            { value: '300+', label: 'Researchers' },
-        ];
+        const statsOverview = computed(() => page.props.statsOverview ?? {});
+        const collaboratorInstituteCount = computed(() =>
+            collaboratorsList.value.filter((collaborator) => collaborator?.visible !== false).length
+        );
+
+        const databaseCards = computed(() => [
+            {
+                stats: [
+                    { label: 'Institutes', value: formatCount(statsOverview.value.institutes, '70+') },
+                    { label: 'Commodities', value: formatCount(statsOverview.value.commodities, '25+') },
+                    { label: 'Breeders', value: formatCount(statsOverview.value.breeders, '0') },
+                ],
+                tags: ['Geographic Data', 'Institutes', 'Commodities'],
+            },
+            {
+                stats: [
+                    { label: 'Experts', value: formatCount(statsOverview.value.experts, '0') },
+                    { label: 'Projects', value: formatCount(statsOverview.value.projects, '0') },
+                    { label: 'Services', value: formatCount(statsOverview.value.services, '0') },
+                    { label: 'Products', value: formatCount(statsOverview.value.products, '0') },
+                ],
+                tags: ['Experts', 'Projects', 'Services', 'Products'],
+            },
+        ]);
+
+        const heroStats = computed(() => [
+            {
+                value: formatCount(
+                    collaboratorInstituteCount.value > 0
+                        ? collaboratorInstituteCount.value
+                        : statsOverview.value.institutes,
+                    '70+'
+                ),
+                label: 'Partner Institutes'
+            },
+            { value: formatCount(statsOverview.value.commodities, '25+'), label: 'Commodities' },
+            { value: formatCount(statsOverview.value.breeders, '0'), label: 'Breeders' },
+            { value: formatCount(statsOverview.value.experts, '0'), label: 'Experts' },
+        ]);
+
+        const onCollaboratorsListReady = (list) => {
+            collaboratorsList.value = Array.isArray(list) ? list : [];
+        };
 
         const toggleFaq = (index) => { faqItems.value[index].open = !faqItems.value[index].open; };
 
@@ -99,6 +137,7 @@ export default {
             features,
             databaseCards,
             heroStats,
+            onCollaboratorsListReady,
             toggleFaq,
         };
     },
@@ -301,7 +340,7 @@ export default {
         <section class="py-16 bg-white">
             <div class="section-padding">
                 <div class="container-custom">
-                    <bm-collaborators />
+                    <bm-collaborators @collaboratorsListReady="onCollaboratorsListReady" />
                 </div>
             </div>
         </section>
