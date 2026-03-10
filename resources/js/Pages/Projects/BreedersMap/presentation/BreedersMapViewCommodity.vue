@@ -89,7 +89,7 @@ export default {
             </crcm-tbody>
         </crcm-table>
 
-        <!--                <h1 class="h1 text-center font-semibold uppercase select-none">Commodity Geo Location</h1>
+        <!--                <h1 class="h1 text-center font-semibold uppercase ">Commodity Geo Location</h1>
         <Map v-if="commodity" :customPoint="commodity" />-->
     </div>
     </app-layout>

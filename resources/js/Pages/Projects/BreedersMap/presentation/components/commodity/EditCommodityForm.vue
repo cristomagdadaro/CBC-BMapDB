@@ -1,89 +1,39 @@
 <script>
 import FormMixin from "@/Pages/mixins/FormMixin";
-import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
-import Tab from "@/Components/Tab/Tab.vue";
-import DateField from "@/Components/Form/DateField.vue";
-import FileField from "@/Components/Form/FileField.vue";
-import {BaseButton} from "@/Components/CRCMDatatable/Components/index.js";
-import AddIcon from "@/Components/Icons/AddIcon.vue";
+import CommodityFormMixin from "@/Pages/Projects/BreedersMap/infrastructure/CommodityFormMixin";
+import ApiService from "@/Modules/core/infrastructure/ApiService";
+import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
 
 export default {
-    components: {AddIcon, BaseButton, FileField, DateField, Tab},
-    mixins: [FormMixin],
+    name: "EditCommodityForm",
+    mixins: [FormMixin, CommodityFormMixin],
     data() {
         return {
-            model: Commodity,
-            tabs: [
-                {
-                    name: "tab2",
-                    label: "Basic Information",
-                    active: true,
-                    route: null,
-                },
-                {
-                    name: "tab1",
-                    label: "Characteristics",
-                    active: false,
-                    route: null,
-                },
-                {
-                    name: "tab3",
-                    label: "Additional Information",
-                    active: false,
-                    route: null,
-                },
-            ],
-            priorityComs: [],
+            approving: false,
         };
-    },
-    methods: {
-        getScientificName(comms) {
-            this.form.scientific_name = this.priorityComs?.data?.find(item => item.label === comms)?.sName;
-        },
-        addRegulation() {
-            this.form.regulations.push({
-                regulatory_body: '',
-                registration_no: '',
-                registration_date: ''
-            })
-        },
-        removeRegulation(index) {
-            this.form.regulations.splice(index, 1)
-        },
-        addStressResilience() {
-            this.form.stress_resilience.push({
-                type: null,
-                stress: null,
-                reaction: null
-            })
-        },
-        removeStressResilience(index) {
-            this.form.stress_resilience.splice(index, 1)
-        }
     },
     computed: {
-        isInitialzedBreeeder(){
-            return this.$page.props?.breeder?.id;
+        BreedersMapEndpoints() {
+            return BreedersMapEndpoints
         }
     },
-    watch: {
-        'form.name' (newVal){
-            this.getScientificName(newVal);
+    methods: {
+        async approveCommodity() {
+            const id = this.form?.id ?? this.data?.id;
+            if (!id || this.approving) return;
+            this.approving = true;
+
+            try {
+                const svc = new ApiService(route(BreedersMapEndpoints.commodity.approveUri, id));
+                const res = await svc.put({});
+                const approvedAt = res?.data?.approved_at ?? null;
+                if (approvedAt && this.data) {
+                    this.data.approved_at = approvedAt;
+                }
+            } finally {
+                this.approving = false;
+            }
         }
-    },
-    async mounted() {
-        if (this.$page.props.breeder)
-            this.form.breeder_id = this.$page.props.breeder.id;
-
-        this.priorityComs = await this.getCustomSelectionOptions(route('api.breedersmap.commodities.priority.public'));
-         if (this.form.name)
-            this.getScientificName(this.form.name);
-
-        this.form = {
-            ...this.form,
-            regulations: [{regulatory_body: null, registration_no: null, registration_date: null}],
-            stress_resilience: [{type: null, stress: null, reaction: null}],
-        };
     }
 };
 </script>
@@ -111,13 +61,12 @@ export default {
                     </label>
                     <div class="flex flex-col gap-8">
                         <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                            <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data" />
-                            <text-field required disabled :show-clear="false" :error="getError('scientific_name')" label="Scientific Name" v-model="form.scientific_name" />
+                            <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data?.data"  />
                             <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
                             <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Variety/Accession No./Germplasm Index" v-model="form.accession" />
                             <text-field required :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
                         </div>
-                        <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.index.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
+                        <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.options.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                         <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Other Unique Traits" v-model="form.description" />
                         <file-field :error="getError('photo')" :title="getTitle('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
                     </div>
@@ -138,7 +87,7 @@ export default {
                                             'Type',
                                             'Disease/Pest/Drought',
                                             'Reaction',
-                                        ]" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
+                                        ]" v-bind:key="item" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
                                             {{ item }}
                                         </p>
                                     </div>
@@ -154,18 +103,12 @@ export default {
                                     >
                                         <div class="flex gap-2 w-full items-center">
                                             <div class="grid grid-cols-3 gap-2 w-full">
-                                                <text-field
-                                                    :error="getError(`stress_resilience[${index}].type`)"
-                                                    v-model="stress_resilience.type"
-                                                />
-                                                <text-field
-                                                    :error="getError(`stress_resilience[${index}].stress`)"
-                                                    v-model="stress_resilience.stress"
-                                                />
-                                                <text-field
-                                                    :error="getError(`stress_resilience[${index}].reaction`)"
-                                                    v-model="stress_resilience.reaction"
-                                                />
+                                                <select-field :options="Object.keys(stress_resilience_options).map((item)=>{ return { label: item, value: item } })" :error="getError(`stress_resilience[${index}].type`)" v-model="stress_resilience.type" />
+                                                <div class="flex gap-1 w-full">
+                                                    <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.conditions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a type first', value: null }]" :error="getError(`stress_resilience[${index}].stress`)" v-model="stress_resilience.stress" class="w-full" />
+                                                    <text-field v-if="form?.stress_resilience[index]?.type === 'Biotic'" :error="getError(`stress_resilience[${index}].stress_agent`)" v-model="stress_resilience.stress_agent" placeholder="Stress agent" />
+                                                </div>
+                                                <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.reactions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a stress condition', value: null }]" :error="getError(`stress_resilience[${index}].reaction`)" v-model="stress_resilience.reaction" />
                                             </div>
 
                                             <!-- Remove Button (X) -->
@@ -380,7 +323,7 @@ export default {
                                             'Regulatory Body',
                                             'Cert./Reg. No.',
                                             'Date Issued/Approved',
-                                        ]" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
+                                        ]" v-bind:key="item" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
                                             {{ item }}
                                         </p>
                                     </div>
@@ -434,6 +377,17 @@ export default {
                     </div>
                 </template>
             </tab>
+        </template>
+        <template v-slot:additionalButtons>
+            <base-button
+                v-if="!data?.approved_at"
+                @click.prevent="approveCommodity"
+                :disabled="approving"
+                classes="bg-cbc-yellow-green text-white px-4 py-2 rounded-md hover:bg-edit active:bg-edit duration-200"
+            >
+                <span v-if="approving">Approving...</span>
+                <span v-else>Approve</span>
+            </base-button>
         </template>
     </base-edit-form>
 </template>

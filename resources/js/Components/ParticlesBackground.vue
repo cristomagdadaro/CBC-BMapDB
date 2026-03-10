@@ -28,9 +28,16 @@ export default {
             }
         },
         setupParticles() {
-            if (this.particlesConfig) {
-                particlesJS(this.id, this.particlesConfig);
+            if (!this.particlesConfig) {
+                return;
             }
+
+            const container = document.getElementById(this.id);
+            if (!container) {
+                return;
+            }
+
+            particlesJS(this.id, this.particlesConfig);
         }
     }
 };

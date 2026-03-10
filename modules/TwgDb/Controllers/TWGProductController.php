@@ -3,6 +3,7 @@
 namespace Modules\TwgDb\Controllers;
 
 use App\Http\Controllers\BaseController;
+use Modules\TwgDb\Models\TWGProduct;
 use Modules\TwgDb\Repositories\TWGProductRepo;
 use Modules\TwgDb\Requests\CreateTWGProductRequest;
 use Modules\TwgDb\Requests\DeleteTWGProductRequest;
@@ -38,6 +39,13 @@ class TWGProductController extends BaseController
 
     public function destroy(int $id)
     {
+        $user = auth()->user();
+        $model = TWGProduct::findOrFail($id);
+
+        if (!$user || (!$user->isAdmin() && (!$user->isTwgManager() || (int) $user->affiliation !== (int) $model->institution))) {
+            abort(403, __('You are not authorized to delete this product.'));
+        }
+
         return parent::_destroy($id);
     }
 

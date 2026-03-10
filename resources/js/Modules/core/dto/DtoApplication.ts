@@ -10,14 +10,14 @@ export default class DtoApplication extends BaseClass implements IApplication {
     url: string = null;
 
     constructor(dto: IApplication) {
-        super();
+        super(dto);
         this.table = 'applications';
-        this.id = dto.id;
-        this.name = dto.name;
-        this.description = dto.description;
-        this.url = dto.url;
-        this.icon = dto.icon;
-        this.status = dto.status;
+        this.id = dto?.id;
+        this.name = dto?.name;
+        this.description = dto?.description;
+        this.url = dto?.url;
+        this.icon = dto?.icon;
+        this.status = dto?.status;
     }
 
     get appTabs() {
@@ -25,6 +25,10 @@ export default class DtoApplication extends BaseClass implements IApplication {
             // @ts-ignore
             case window.AppConfig.applications['BREEDERS_MAP'].name:
                 return [
+                    {
+                        name: 'projects.breedersmap.summary',
+                        label: 'Summary',
+                    },
                     {
                         name: 'projects.breedersmap.breeder',
                         label: 'Breeders',

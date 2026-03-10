@@ -1,5 +1,5 @@
 <template>
-    <footer class="bottom-0 w-full min-h-fit select-none bg-cbc-footer">
+    <footer class="bottom-0 w-full min-h-fit  bg-cbc-footer">
         <div class="relative flex flex-col">
             <div class="resp-container">
                 <slot name="phRepublic" />

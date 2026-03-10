@@ -35,7 +35,7 @@ class CreateAccountRequest extends FormRequest
                 'exists:applications,id',
             ],
             'role' => [
-                'required',
+                'nullable',
                 'integer',
                 'exists:roles,id',
             ],

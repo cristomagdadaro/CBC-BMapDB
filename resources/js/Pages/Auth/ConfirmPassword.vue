@@ -33,11 +33,12 @@ const submit = () => {
             <AuthenticationCardLogo />
         </template>
 
-        <div class="mb-4 text-sm text-gray-600">
+        <h1 class="text-2xl sm:text-3xl font-bold font-display text-gray-900 mb-2">Secure Area</h1>
+        <div class="mb-4 text-sm text-gray-600 leading-relaxed">
             This is a secure area of the application. Please confirm your password before continuing.
         </div>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="bg-pin-gray rounded-xl p-5 border border-gray-200">
             <div>
                 <InputLabel for="password" value="Password" />
                 <TextInput
@@ -45,7 +46,7 @@ const submit = () => {
                     ref="passwordInput"
                     v-model="form.password"
                     type="password"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full rounded-lg border-gray-200 focus:border-pin-green focus:ring-pin-green/20"
                     required
                     autocomplete="current-password"
                     autofocus

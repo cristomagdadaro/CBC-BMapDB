@@ -14,19 +14,34 @@ class DeleteCommoditiesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $id = $this->route('id'); // Get the ID from route parameter
-        $model = Commodity::find($id);
-
-        if (auth()->user()->isAdmin()) {
-            return true; // Allow admins
+        $user = auth()->user();
+        if (!$user) {
+            return false;
         }
 
-        if ($model && $model->user_id === auth()->id()) {
+        if ($user->isAdmin()) {
+            return true; // Allow admins (including bulk deletes)
+        }
+
+        $id = $this->route('id'); // Get the ID from route parameter
+        if (!$id) {
+            return false;
+        }
+
+        $model = Commodity::find($id);
+
+        if (!$model) {
+            return false;
+        }
+
+        if ($model && $model->user_id === $user->id) {
             return true; // Allow owner
         }
 
-        if (auth()->user()->isFocalPerson() && $model->breeder()->first()->user_id === auth()->id()) {
-            return true; // Allow focal person
+        if ($user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $commodityAff = (int) ($model->relationLoaded('breeder') ? optional($model->breeder)->affiliation : $model->breeder()->value('affiliation'));
+            return $userAff && $commodityAff && $userAff === $commodityAff;
         }
 
         abort(403, __('You are not authorized to delete this commodity.'));
@@ -41,6 +56,8 @@ class DeleteCommoditiesRequest extends FormRequest
     {
         return [
             'id' => 'nullable|integer|exists:commodities,id',
+            'ids' => 'sometimes|array|min:1',
+            'ids.*' => 'integer|exists:commodities,id',
         ];
     }
 }

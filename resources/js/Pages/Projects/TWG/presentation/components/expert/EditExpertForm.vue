@@ -41,7 +41,7 @@ export default {
                 </div>
                 <text-field required :error="getError('expertise')" label="Expertise" v-model="form.expertise" />
                 <text-field required :error="getError('research_interest')" label="Research Interest" v-model="form.research_interest" />
-                <select-search-field v-if="isAdmin()" required :api-link="route('api.institutes.index.public')"  :error="getError('institution')" label="Institution / Agency" v-model="form.institution" />
+                <select-search-field v-if="isAdmin()" required :api-link="route('api.institutes.options.public')"  :error="getError('institution')" label="Institution / Agency" v-model="form.institution" />
             </div>
         </template>
     </base-edit-form>

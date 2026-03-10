@@ -1,33 +1,72 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" prefix="og: http://ogp.me/ns#">
     <head>
         <meta charset="utf-8">
+        <!-- Canonical & Robots -->
+        <link rel="canonical" href="{{ url()->current() }}" />
+        <meta name="robots" content="index,follow" />
         <meta
             name="keywords"
-            content="DA-Crop Biotechnology Center, DA-CBC, PIN, CBC PIN, Plant Breeders and Innovators Network, Philippine Rice Research Institute, PhilRice, DA-BPO, Biotechnology Program Office, Biotech Program Office, Crop Biotechnology, Plant Breeders, Breeder, Plant Breeders Map, Biotech TWG, Biotech"
+            content="DA-Crop Biotechnology Center, DA-CBC, PIN, CBC PIN, Plant Breeders, Innovators, Network, Philippine, Rice, Research, Institute, PhilRice, DA-BPO, Biotechnology, Program Office, Biotech Program Office, Crop, Biotechnology, Plant Breeders, Breeder, Plant Breeders Map, Biotech TWG, Biotech"
         />
         <meta name="author" content="Department of Agriculture - Crop Biotechnology Center" />
         <meta
             name="description"
             content="A centralized and user-friendly database system that provides comprehensive access to crop biotechnology information in the Philippines. This platform enables researchers, policymakers, and the public to explore data on crop varieties, genetic modifications, research projects, and related approvals, fostering innovation and informed decision-making in agricultural biotechnology."
         />
-		
-		<meta property="og:title" content="Plant Breeders and Innovators Network System">
-		<meta property="og:description" content="A centralized and user-friendly database system that provides comprehensive access to crop biotechnology information in the Philippines. This platform enables researchers, policymakers, and the public to explore data on crop varieties, genetic modifications, research projects, and related approvals, fostering innovation and informed decision-making in agricultural biotechnology."
-        />
-		<meta property="og:image" content="{{ asset('img/logos/pin.webp') }}">
-		<meta property="og:url" content="{{ url()->current() }}">
-		<meta property="og:type" content="website">
-		<meta property="og:site_name" content="Plant Breeders and Innovators Network System">
-		<meta property="og:image:width" content="1200">
-		<meta property="og:image:height" content="630">
-
+        <!-- Primary Open Graph -->
+        <meta property="og:title" content="Plant Breeders and Innovators Network System">
+        <meta property="og:description" content="A centralized and user-friendly database system that provides comprehensive access to crop biotechnology information in the Philippines. This platform enables researchers, policymakers, and the public to explore data on crop varieties, genetic modifications, research projects, and related approvals, fostering innovation and informed decision-making in agricultural biotechnology." />
+        <!-- First (preferred) image: JPG (ensure large 1200x630 min) -->
+        <meta property="og:image" content="{{ secure_asset('img/pin-layout.jpg') }}" />
+        <meta property="og:image:secure_url" content="{{ secure_asset('img/pin-layout.jpg') }}" />
+        <meta property="og:image:type" content="image/jpeg" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="Plant Breeders and Innovators Network System Logo" />
+        <!-- Secondary image (WebP) - FB will fall back if unsupported -->
+        <meta property="og:image" content="{{ secure_asset('img/logos/pin.webp') }}" />
+        <meta property="og:image:type" content="image/webp" />
+        <meta name="rights" content="DA-Crop Biotechnology Center">
+        <meta property="og:url" content="{{ url()->current() }}" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Plant Breeders and Innovators Network System" />
+        <meta property="og:locale" content="en_PH" />
+        <meta property="og:locale:alternate" content="en_US" />
+        <meta property="og:updated_time" content="{{ now()->toIso8601String() }}" />
+        <!-- Optional: supply fb:app_id if you have one -->
+        <meta property="fb:app_id" content="107769301990066" />
+        <meta property="fb:pages" content="107769301990066" />
 
         <meta name="google-site-verification" content="ZrD_iUGZg325WPHfCGqb7gySTuljzzaFlh1Zq3UdkJk" />
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="google-signin-client_id" content="605043117472-0nk2ffvrtcrgu7122k1jghtn9a7f4duo.apps.googleusercontent.com">
-        <title inertia>{{ config('app.name', 'PIN System') }} - Department of Agriculture Crop Biotechnology Center</title>
-        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+        <!-- Twitter Card for Social Sharing -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Plant Breeders and Innovators Network System" />
+        <meta name="twitter:description" content="A centralized and user-friendly database system that provides comprehensive access to crop biotechnology information in the Philippines. This platform enables researchers, policymakers, and the public to explore data on crop varieties, genetic modifications, research projects, and related approvals, fostering innovation and informed decision-making in agricultural biotechnology." />
+        <meta name="twitter:image" content="{{ secure_asset('img/pin-layout.jpg') }}" />
+        <meta name="twitter:image:alt" content="Plant Breeders and Innovators Network System Logo" />
+        <meta name="twitter:site" content="@PhilRice" />
+
+        <!-- JSON-LD Structured Data for Sitelinks and SEO -->
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Plant Breeders and Innovators Network System",
+          "url": "{{ url('/') }}",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ url('/') }}/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "image": "{{ secure_asset('img/logos/pin.webp') }}",
+          "description": "A centralized and user-friendly database system that provides comprehensive access to crop biotechnology information in the Philippines."
+        }
+        </script>
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -38,7 +77,6 @@
         <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
                 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
                 crossorigin=""></script>
-        {{-- Leaflet Interactive Map Library --}}
         <!-- Scripts -->
 
         @routes
@@ -50,6 +88,7 @@
                 applications: @json(config('system_variables.applications')),
             };
         </script>
+        <title>Plant Breeders and Innovators Network System | CBC PIN | Crop Biotechnology Center | PhilRice</title>
     </head>
     <body class="font-sans antialiased">
         @inertia

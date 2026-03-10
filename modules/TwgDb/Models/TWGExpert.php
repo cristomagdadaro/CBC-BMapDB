@@ -5,6 +5,7 @@ namespace Modules\TwgDb\Models;
 use App\Models\BaseModel;
 use App\Models\Institute;
 use App\Models\User;
+use App\Traits\OwnedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TWGExpert extends BaseModel
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, OwnedByTrait;
 
     protected $table = 'twg_expert';
 

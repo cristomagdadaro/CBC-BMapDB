@@ -1,0 +1,38 @@
+export const TWGEndpoints = {
+    expert: {
+        indexUri: 'api.twg.experts.index',
+        showUri: 'api.twg.experts.show',
+        storeUri: 'api.twg.experts.store',
+        updateUri: 'api.twg.experts.update',
+        destroyUri: 'api.twg.experts.destroy',
+        multiDestroyUri: 'api.twg.experts.destroy.multi',
+        summaryUri: 'api.twg.experts.summary',
+    },
+    project: {
+        indexUri: 'api.twg.projects.index',
+        showUri: 'api.twg.projects.show',
+        storeUri: 'api.twg.projects.store',
+        updateUri: 'api.twg.projects.update',
+        destroyUri: 'api.twg.projects.destroy',
+        multiDestroyUri: 'api.twg.projects.destroy.multi',
+        summaryUri: 'api.twg.projects.summary',
+    },
+    product: {
+        indexUri: 'api.twg.products.index',
+        showUri: 'api.twg.products.show',
+        storeUri: 'api.twg.products.store',
+        updateUri: 'api.twg.products.update',
+        destroyUri: 'api.twg.products.destroy',
+        multiDestroyUri: 'api.twg.products.destroy.multi',
+        summaryUri: 'api.twg.products.summary',
+    },
+    service: {
+        indexUri: 'api.twg.services.index',
+        showUri: 'api.twg.services.show',
+        storeUri: 'api.twg.services.store',
+        updateUri: 'api.twg.services.update',
+        destroyUri: 'api.twg.services.destroy',
+        multiDestroyUri: 'api.twg.services.destroy.multi',
+        summaryUri: 'api.twg.services.summary',
+    },
+};

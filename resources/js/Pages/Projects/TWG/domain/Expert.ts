@@ -1,35 +1,8 @@
-import IExpert from "../interface/IExpert";
-import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
 import DtoExpert from "../dto/DtoExpert";
-import IInstitute from "@/Modules/core/interface/auth/IInstitute";
 
-export default class Expert extends BaseClass implements IExpert {
-    id: number;
-    user_id: number;
-    name: string;
-    position: string;
-    educ_level: string;
-    expertise: string;
-    institution: number;
-    research_interest: string;
-    mobile: string;
-    email: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
-
-    affiliated: IInstitute;
-
+export default class Expert extends DtoExpert {
     constructor(params: DtoExpert) {
         super(params);
-
-        this.indexUri = 'api.twg.experts.index';
-        this.showUri = 'api.twg.experts.show';
-        this.storeUri = 'api.twg.experts.store';
-        this.updateUri = 'api.twg.experts.update';
-        this.destroyUri = 'api.twg.experts.destroy';
-        this.multiDestroyUri = 'api.twg.experts.destroy.multi';
-        this.summaryUri = 'api.twg.experts.summary';
 
         this.appendWith = ['affiliated'];
     }

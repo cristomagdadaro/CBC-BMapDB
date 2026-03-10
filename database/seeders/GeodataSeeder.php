@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Breeder;
 use App\Models\Geodata;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Modules\PbMap\Models\Breeder;
 
 class GeodataSeeder extends Seeder
 {

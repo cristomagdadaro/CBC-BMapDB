@@ -100,14 +100,14 @@ export default {
                 <div v-if="api"
                      class="fixed mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-md bg-white p-2 max-h-52 max-w-[20rem] overflow-x-auto z-50"
                 >
-                    <div v-show="filteredOptions.length !== 1" class="text-xs text-gray-200 pb-1 mb-1 select-none border-b border-gray-100">
+                    <div v-show="filteredOptions.length !== 1" class="text-xs text-gray-200 pb-1 mb-1  border-b border-gray-100">
                         <p v-if="api.processing">fetching more options</p>
                         <p v-else>Choose an option</p>
                     </div>
-                    <div v-if="filteredOptions.length" v-for="option in filteredOptions" :key="option.value" @click="selectOption(option)" class="whitespace-nowrap hover:bg-gray-200 px-2 py-0.5 select-none rounded-sm overflow-ellipsis overflow-x-hidden">{{ option.label }}</div>
+                    <div v-if="filteredOptions.length" v-for="option in filteredOptions" :key="option.value" @click="selectOption(option)" class="whitespace-nowrap hover:bg-gray-200 px-2 py-0.5  rounded-sm overflow-ellipsis overflow-x-hidden">{{ option.label }}</div>
                     <div v-else-if="displayedInput">Not found</div>
                     <div v-else>Type a word</div>
-                    <div v-if="api.processing" class="text-center text-gray-300 whitespace-nowrap select-none">
+                    <div v-if="api.processing" class="text-center text-gray-300 whitespace-nowrap ">
                         fetching options...
                     </div>
                 </div>

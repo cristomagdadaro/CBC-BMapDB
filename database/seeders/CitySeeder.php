@@ -13,23 +13,26 @@ class CitySeeder extends Seeder
      */
     public function run(): void
     {
-        $temp = 0;
         $ph_cities =  config('cities');
         foreach ($ph_cities as $city) {
             /*if ($temp >= 300)
                 break;*/
 
-            City::factory()->create(
+            $cityDesc = trim((string) $city['cityDesc']);
+            $provDesc = trim((string) $city['provDesc']);
+            $regDesc = trim((string) $city['regDesc']);
+
+            City::updateOrCreate(
+                [
+                    'cityDesc' => $cityDesc,
+                    'provDesc' => $provDesc,
+                    'regDesc' => $regDesc,
+                ],
                 [
                     'latitude' => trim($city['latitude']),
                     'longitude' => trim($city['longitude']),
-                    'cityDesc' => $city['cityDesc'],
-                    'regDesc' => $city['regDesc'],
-                    'provDesc' => $city['provDesc'],
                 ]
             );
-
-            //$temp++;
         }
     }
 }

@@ -4,16 +4,23 @@ namespace App\Http\Controllers\Auth;
 
 use App\Enums\Role;
 use App\Http\Controllers\Controller;
+use App\Repository\API\UserRepo;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
 class GoogleController extends Controller
 {
+    protected UserRepo $userRepo;
+
+    public function __construct(UserRepo $userRepo)
+    {
+        $this->userRepo = $userRepo;
+    }
+
     public function redirectToGoogle(): RedirectResponse|\Illuminate\Http\RedirectResponse
     {
         return Socialite::driver('google')
@@ -26,7 +33,7 @@ class GoogleController extends Controller
     {
         try {
             $googleUser = Socialite::driver('google')->stateless()->user();
-            $existingUser = User::where('email', $googleUser->getEmail())->first();
+            $existingUser = $this->userRepo->findByEmail($googleUser->getEmail());
 
             // Check if the email exists but was NOT registered with Google
             if ($existingUser && is_null($existingUser->google_id)) {
@@ -40,7 +47,7 @@ class GoogleController extends Controller
                 Auth::login($existingUser);
             } else {
                 // Otherwise, create a new user
-                $user = User::create([
+                $user = $this->userRepo->createUser([
                     'fname' => $googleUser->user['given_name'],
                     'lname' => $googleUser->user['family_name'],
                     'email' => $googleUser->getEmail(),

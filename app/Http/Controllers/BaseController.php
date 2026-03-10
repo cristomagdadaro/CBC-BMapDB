@@ -14,31 +14,32 @@ abstract class BaseController extends Controller implements BaseControllerInterf
 
     public function _index($request): BaseCollection
     {
-        // to refactor, don't check gates when logged out
-        if (auth()->check()) {
-            $this->authorize('view', $this->service->model);
-        }
-
+        $this->authorize('view', $this->service->model);
         $data = $this->service->search(new Collection($request->validated()));
         return new BaseCollection($data);
     }
 
     public function _show($request, int $id): JsonResponse
     {
-        // to refactor, don't check gates when logged out
-        if (auth()->check()) {
-            $this->authorize('view', $this->service->model);
+        $this->authorize('view', $this->service->model);
+
+        $with = $request->input('with');
+        $count = $request->input('count');
+
+        if ($with) {
+            $this->service->appendWith = explode(',', $with);
+        }
+        if ($count) {
+            $this->service->appendCount = explode(',', $count);
         }
 
-        $with = $request->toArray()['with'] ?? null;
-        $count = $request->toArray()['count'] ?? null;
+        $result = $this->service->find($id, $request->collect());
 
-        if ($with)
-            $this->service->appendWith = explode(',',$with);
-        if ($count)
-            $this->service->appendCount = explode(',',$count);
+        if ($result instanceof JsonResponse) {
+            return $result;
+        }
 
-        return $this->sendResponse($this->service->find($id, $request->collect()));
+        return $this->sendResponse($result);
     }
 
     public function _store($request): JsonResponse
@@ -81,5 +82,11 @@ abstract class BaseController extends Controller implements BaseControllerInterf
         }
 
         return $request;
+    }
+
+    public function _selection($request): BaseCollection
+    {
+        $this->authorize('viewAny', $this->service->model);
+        return $this->_index($request);
     }
 }

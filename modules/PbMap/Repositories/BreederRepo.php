@@ -4,6 +4,10 @@ namespace Modules\PbMap\Repositories;
 
 use App\Repository\AbstractRepoService;
 use Modules\PbMap\Models\Breeder;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BreederRepo extends AbstractRepoService
 {
@@ -12,24 +16,41 @@ class BreederRepo extends AbstractRepoService
         parent::__construct($model);
     }
 
-    public function applyFilters($model, $breeder, $geo_location_value = null, $geo_location_filter = null) {
-        $group_by = $this->determineLocFilterLevel($geo_location_filter);
-
-        $model = $model->join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation');
-
-        $model = $model
-            ->when($breeder, function ($query) use ($breeder) {
-                return $query->where('name', $breeder);
-            });
-
-        if ($geo_location_value) {
-            if ($geo_location_filter && $geo_location_filter !== 'institute')
-                $model = $model->where('loc_cities.' . $group_by, $geo_location_value);
-            else
-                $model = $model->where('affiliation.' . $group_by, $geo_location_value);
+    public function create(array $data): JsonResponse
+    {
+        if (array_key_exists('photo', $data)) {
+            $data['photo'] = $this->storeBreederPhoto($data['photo']);
         }
 
-        return $model;
+        return parent::create($data);
+    }
+
+    public function update(int $id, array $data): JsonResponse
+    {
+        if (array_key_exists('photo', $data)) {
+            $data['photo'] = $this->storeBreederPhoto($data['photo']);
+        }
+
+        return parent::update($id, $data);
+    }
+
+    public function applyFilters($model, $breeder, $geo_location_value = null, $geo_location_filter = null) {
+        $builder = $model instanceof Builder ? $model : $model->newQuery();
+
+        $filterType = $geo_location_filter === 'institute' ? 'affiliation' : $geo_location_filter;
+
+        $params = collect([
+            'geo_location_filter' => $filterType,
+            'geo_location_value' => $geo_location_value,
+        ]);
+
+        if ($breeder) {
+            $params = $params
+                ->put('search', $breeder)
+                ->put('filter', 'fname,mname,lname,suffix');
+        }
+
+        return $this->getFilterPipeline()->apply($builder, $params);
     }
 
     public function getBreederLabels($model, $geo_location_value, $is_exact, $geo_location_filter)
@@ -138,5 +159,42 @@ class BreederRepo extends AbstractRepoService
             ->get('institutes.name')
             ->sort()
             ->values();
+    }
+
+    private function storeBreederPhoto(?string $photoData): ?string
+    {
+        if (!$photoData) {
+            return null;
+        }
+
+        if (filter_var($photoData, FILTER_VALIDATE_URL)) {
+            return $photoData;
+        }
+
+        $normalized = ltrim($photoData, '/');
+        if (str_starts_with($normalized, 'storage/')) {
+            return $normalized;
+        }
+
+        if (str_starts_with($normalized, 'data:image/')) {
+            if (!preg_match('/^data:image\/(\w+);base64,/', $normalized, $matches)) {
+                return null;
+            }
+
+            $extension = strtolower($matches[1] ?? 'jpg');
+            $base64 = substr($normalized, strpos($normalized, ',') + 1);
+            $binary = base64_decode($base64, true);
+
+            if ($binary === false) {
+                return null;
+            }
+
+            $filename = 'profile-photos/breeders/' . Str::uuid() . '.' . $extension;
+            Storage::disk('public')->put($filename, $binary);
+
+            return 'storage/' . $filename;
+        }
+
+        return $normalized;
     }
 }

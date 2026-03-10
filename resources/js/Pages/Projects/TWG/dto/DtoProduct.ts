@@ -30,6 +30,8 @@ export default class DtoProduct extends BaseClass implements IProduct {
         this.deleted_at = product.deleted_at;
         this.institution = product.institution;
 
-        this.affiliated = new DtoInstitute(product?.affiliated);
+        if (product?.affiliated) {
+            this.affiliated = new DtoInstitute(product.affiliated);
+        }
     }
 }

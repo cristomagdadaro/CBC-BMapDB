@@ -1,42 +1,25 @@
 import DtoService from "../dto/DtoService";
-import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
-import IService from "../interface/IService";
-import IExpert from "../interface/IExpert";
-import IInstitute from "@/Modules/core/interface/auth/IInstitute";
 
-export default class Service extends BaseClass implements IService{
-    id: number;
-    user_id: number;
-    type: string;
-    purpose: string;
-    direct_beneficiaries: string;
-    indirect_beneficiaries: string;
-    cost: number;
-    institution: number;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
-
-    officer_in_charge: IExpert;
-    affiliated: IInstitute;
-
+export default class Service extends DtoService {
     constructor(params : DtoService) {
         super(params);
-
-        this.indexUri = 'api.twg.services.index';
-        this.showUri = 'api.twg.services.show';
-        this.storeUri = 'api.twg.services.store';
-        this.updateUri = 'api.twg.services.update';
-        this.destroyUri = 'api.twg.services.destroy';
-        this.multiDestroyUri = 'api.twg.services.destroy.multi';
-        this.summaryUri = 'api.twg.services.summary';
-
         this.appendWith = ['affiliated', 'officerInCharge'];
+    }
+
+    get officer_in_charge_display() {
+        if (!this.officer_in_charge) {
+            return null;
+        }
+
+        if (typeof this.officer_in_charge === 'string') {
+            return this.officer_in_charge;
+        }
+
+        return this.officer_in_charge?.name ?? null;
     }
 
     static createForm() {
         return {
-            twg_expert_id: null,
             type: null,
             purpose: null,
             direct_beneficiaries: null,
@@ -46,24 +29,25 @@ export default class Service extends BaseClass implements IService{
             created_at: null,
             updated_at: null,
             deleted_at: null,
-            expert: null,
             institution: null,
         }
     }
 
     static updateForm(oldValue: Partial<Service>) {
+        const officerInCharge = oldValue.officer_in_charge;
         return {
             id: oldValue.id ?? null,
             type: oldValue.type ?? null,
             purpose: oldValue.purpose ?? null,
             direct_beneficiaries: oldValue.direct_beneficiaries ?? null,
             indirect_beneficiaries: oldValue.indirect_beneficiaries ?? null,
-            officer_in_charge: oldValue.officer_in_charge?.id ?? null,
+            officer_in_charge: typeof officerInCharge === 'object'
+                ? officerInCharge?.id ?? null
+                : officerInCharge ?? null,
             cost: oldValue.cost ?? null,
             created_at: oldValue.created_at ?? null,
             updated_at: oldValue.updated_at ?? null,
-            deleted_at: oldValue.created_at ?? null,
-            expert: oldValue.updated_at ?? null,
+            deleted_at: oldValue.deleted_at ?? null,
             institution: oldValue.institution ?? null,
         }
     }
@@ -120,7 +104,7 @@ export default class Service extends BaseClass implements IService{
             },
             {
                 title: 'Officer In Charge',
-                key: 'officer_in_charge.name',
+                key: 'officer_in_charge_display',
                 db_key: 'officer_in_charge',
                 align: 'center',
                 sortable: true,

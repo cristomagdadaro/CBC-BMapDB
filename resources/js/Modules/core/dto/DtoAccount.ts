@@ -15,13 +15,13 @@ export default class DtoAccount extends BaseClass implements IAccount {
     user: IUser = null;
 
     constructor(dto: IAccount) {
-        super();
+        super(dto);
         this.table = 'accounts';
-        this.id = dto.id;
-        this.user_id = dto.user_id;
-        this.app_id = dto.app_id;
-        this.approved_at = dto.approved_at;
-        this.created_at = dto.created_at;
+        this.id = dto?.id;
+        this.user_id = dto?.user_id;
+        this.app_id = dto?.app_id;
+        this.approved_at = dto?.approved_at;
+        this.created_at = dto?.created_at;
 
         if (dto.application)
             this.application = new DtoApplication(dto.application);

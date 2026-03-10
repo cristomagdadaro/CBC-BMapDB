@@ -1,6 +1,18 @@
 <script>
 export default {
     name: "BmCollaborators",
+    computed: {
+        visibleCollaborators() {
+            return this.collaborators.filter(collaborator => collaborator.visible);
+        },
+        marqueeCollaborators() {
+            return [...this.visibleCollaborators, ...this.visibleCollaborators];
+        }
+    },
+    emits: ['collaboratorsListReady'],
+    mounted() {
+        this.$emit('collaboratorsListReady', this.collaborators);
+    },
     data() {
         return {
             logo_dir: "/img/collaborators/",
@@ -96,20 +108,38 @@ export default {
 </script>
 
 <template>
-    <div class="flex flex-col gap-3 py-5">
-        <h3 class="text-center text-subtitle">
-            Collaborators
-        </h3>
-        <ul class="text-normal grid grid-cols-6 items-center gap-1 sm:gap-2">
-           <template v-for="collaborator in collaborators" >
-               <li v-if="collaborator.visible" class="drop-shadow-md">
-                   <a :href="collaborator.link" target="_blank" >
-                       <img :src="logo_dir + collaborator.logo" :alt="collaborator.name" />
-                   </a>
-               </li>
-           </template>
-        </ul>
-    </div>
+    <section class="py-8 lg:py-10" aria-labelledby="partners-heading">
+        <div class="text-center mb-8 lg:mb-10">
+            <span class="badge-primary mb-4 inline-flex items-center gap-1">
+                <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                Our Partners
+            </span>
+            <h2 id="partners-heading" class="text-2xl sm:text-3xl font-bold text-gray-900 font-display">Collaborating with Leading Institutions</h2>
+            <p class="text-gray-600 mt-2">Trusted collaborators helping advance crop biotechnology in the Philippines.</p>
+        </div>
+
+        <div class="relative overflow-hidden" aria-label="Collaborators carousel">
+            <div class="absolute left-0 top-0 bottom-0 w-24 sm:w-32 bg-gradient-to-r from-white to-transparent z-10" aria-hidden="true" />
+            <div class="absolute right-0 top-0 bottom-0 w-24 sm:w-32 bg-gradient-to-l from-white to-transparent z-10" aria-hidden="true" />
+
+            <div class="flex w-max animate-marquee hover:[animation-play-state:paused]">
+                <div
+                    v-for="(collaborator, index) in marqueeCollaborators"
+                    :key="`${collaborator.name}-${index}`"
+                    class="flex-shrink-0 mx-2 sm:mx-3 lg:mx-4 bg-white rounded-xl shadow-sm hover:shadow-card transition-all duration-300 hover:-translate-y-1 p-4 lg:p-5"
+                >
+                    <a :href="collaborator.link" target="_blank" rel="noopener noreferrer" class="w-36 sm:w-40 lg:w-44 h-16 sm:h-20 lg:h-24 flex items-center justify-center focus-ring rounded-lg">
+                        <img
+                            :src="logo_dir + collaborator.logo"
+                            :alt="collaborator.name"
+                            class="w-full h-full object-contain"
+                            loading="lazy"
+                        />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 </template>
 
 <style scoped>

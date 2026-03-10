@@ -15,6 +15,7 @@
                     <per-page :value="dt.request.getPerPage" @changePerPage="dt.perPageFunc({ per_page: $event })" />
                     <search-by :value="dt.request.getFilter" :is-exact="dt.request.getIsExact" :options="dt.columns" @isExact="dt.isExactFilter({ is_exact: $event })" @searchBy="dt.filterByColumn({ column: $event })" />
                     <search-filter :value="dt.request.getSearch" @searchString="dt.searchFunc({ search: $event })" class="w-full" />
+                    <scope-filter :value="dt.request.getScope" @change-scope-filter="dt.scopeBy({'scope_by':  $event})" />
                 </div>
                 <action-container class="w-full">
                     <top-action-btn
@@ -122,7 +123,7 @@
                 leave-active-class="transition ease-in duration-200"
                 leave-from-class="transform opacity-100"
                 leave-to-class="transform opacity-0">
-                <div v-show="dt.processing" class="select-none flex justify-center w-full h-full absolute items-center gap-1 z-40 rounded bg-gray-700 text-gray-100">
+                <div v-show="dt.processing" class=" flex justify-center w-full h-full absolute items-center gap-1 z-40 rounded bg-gray-700 text-gray-100">
                     <loader-icon class="h-5 w-5" />
                     Processing, please wait...
                 </div>
@@ -157,14 +158,15 @@
                         <template v-else>
                             <tbody-row v-if="data.length && !dt.processing"
                                        v-for="row in data"
+                                       v-bind:key="row.id"
                                        :isSelected="dt.isSelected(row.id)"
                                        @contextmenu="showContextMenu($event, row)"
                             >
                                 <!-- Cell No. -->
                                 <t-d class="text-normal text-gray-600 items-center">
-                                    <div class="flex gap-1">
+                                    <div class="flex gap-1 items-center">
                                         {{ meta_from + data.indexOf(row) }}
-                                        <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
+                                        <input @click="dt.addSelected(row.id)" :checked="dt.isSelected(row.id)" :disabled="!isRowDeletable(row)" type="checkbox" class="rounded focus:ring-transparent active:ring-transparent"/>
                                     </div>
                                 </t-d>
                                 <!-- Cell Data -->
@@ -178,6 +180,7 @@
                                 <!-- Cell Actions -->
                                 <t-d class="items-center" v-if="showActionBtns">
                                     <div class="flex justify-center sm:gap-1 gap-0.5">
+                                        <slot name="rowActions" :row="row" :showIconText="showIconText" />
                                         <Link
                                             v-if="canView && viewForm && route().has(viewForm)"
                                             class="bg-view rounded p-0"
@@ -186,37 +189,41 @@
                                         >
                                             <top-action-btn
                                                 class="bg-view"
-                                                title="View">
+                                                title="View"
+                                                :showIconText="showIconText">
                                                 <template #icon>
                                                     <view-icon class="h-auto sm:w-4 w-3" />
                                                 </template>
-                                                <span v-show="showIconText">View</span>
+                                                <template #iconText>View</template>
                                             </top-action-btn>
                                         </Link>
 
                                         <top-action-btn
-                                            v-if="canUpdate"
+                                            v-if="canUpdate && isRowUpdatable(row)"
                                             @click="showEditDialogFunc(row.id)"
                                             class="bg-edit"
-                                            title="Modify this row">
+                                            title="Modify this row"
+                                            :showIconText="showIconText">
                                             <template #icon>
                                                 <edit-icon class="h-auto sm:w-4 w-3" />
                                             </template>
-                                            <span v-show="showIconText">Edit</span>
+                                            <template #iconText>Edit</template>
                                         </top-action-btn>
                                         <top-action-btn
-                                            v-if="canDelete"
+                                            v-if="canDelete && isRowDeletable(row)"
                                             @click="showDeleteDialogFunc(row.id)"
                                             class="bg-delete"
-                                            title="Delete this row">
+                                            title="Delete this row"
+                                            :showIconText="showIconText">
                                             <template #icon>
                                                 <delete-icon class="h-auto sm:w-4 w-3" />
                                             </template>
-                                            <span v-show="showIconText">Delete</span>
+                                            <template #iconText>Delete</template>
                                         </top-action-btn>
                                     </div>
                                     <context-menu ref="contextMenu" v-if="rowContextMenu">
                                         <div class="flex flex-col justify-center sm:gap-1 gap-0.5">
+                                            <slot name="rowActionsMenu" :row="rowContextMenu" />
                                             <Link
                                                 v-if="canView && viewForm && route().has(viewForm)"
                                                 title="View"
@@ -228,7 +235,7 @@
                                             </Link>
 
                                             <button
-                                                v-if="canUpdate"
+                                                v-if="canUpdate && isRowUpdatable(rowContextMenu)"
                                                 @click="showEditDialogFunc(rowContextMenu.id)"
                                                 title="Modify this row"
                                                 class="flex gap-1 p-1 items-center hover:bg-gray-200"
@@ -237,7 +244,7 @@
                                                 <span>Update</span>
                                             </button>
                                             <div
-                                                v-if="canDelete"
+                                                v-if="canDelete && isRowDeletable(rowContextMenu)"
                                                 @click="showDeleteDialogFunc(rowContextMenu.id)"
                                                 title="Delete this row"
                                                 class="flex gap-1 p-1 items-center hover:bg-gray-200 cursor-pointer"
@@ -245,6 +252,7 @@
                                                 <delete-icon class="h-auto sm:w-5 w-4 p-0.5 text-delete" />
                                                 <span>Delete</span>
                                             </div>
+                                            
                                         </div>
                                     </context-menu>
                                 </t-d>
@@ -345,6 +353,7 @@ import ToggleOffIcon from "@/Components/Icons/ToggleOffIcon.vue";
 import ToggleOnIcon from "@/Components/Icons/ToggleOnIcon.vue";
 import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
 import ViewIcon from "@/Components/Icons/ViewIcon.vue";
+import ScopeFilter from "@/Components/CRCMDatatable/Components/ScopeFilter.vue";
 </script>
 
 <script>
@@ -420,6 +429,17 @@ export default {
             type: Boolean,
             required: false,
             default: false,
+        },
+        // New: optional per-row permission hooks
+        rowCanUpdate: {
+            type: Function,
+            required: false,
+            default: null,
+        },
+        rowCanDelete: {
+            type: Function,
+            required: false,
+            default: null,
         },
     },
     data() {
@@ -519,14 +539,16 @@ export default {
             event.preventDefault();
             this.rowContextMenu = row;
             this.$nextTick(() => {
-                if (this.$refs.contextMenu && typeof this.$refs.contextMenu.showMenu === 'function') {
+                const contextMenu = Array.isArray(this.$refs.contextMenu)
+                    ? this.$refs.contextMenu[0]
+                    : this.$refs.contextMenu;
+
+                if (contextMenu && typeof contextMenu.showMenu === 'function') {
                     try {
-                        this.$refs.contextMenu.showMenu(event);
+                        contextMenu.showMenu(event);
                     } catch (e) {
                         console.log('Error at the showContextMenu');
                     }
-                } else {
-                    console.error('ContextMenu ref is not defined or showMenu is not a function');
                 }
             });
         },
@@ -548,7 +570,12 @@ export default {
         async showEditDialogFunc(id) {
             this.showModal = true;
             this.showEditDialog = true;
-            this.toEditData = (await new ApiService(this.baseModel.showUri).show(id,{}, this.baseModel)).data;
+            const showUri = this.baseModel?.showUri || this.baseUrl;
+            if (!showUri) {
+                console.error('Missing show URI for edit dialog');
+                return;
+            }
+            this.toEditData = (await new ApiService(showUri).show(id, {}, this.baseModel)).data;
         },
         showDeleteSelectedDialogFunc() {
             this.showModal = true;
@@ -602,8 +629,13 @@ export default {
             } else {
                 return this.dt.sortFunc({ sort: column.key });
             }
-        }
-
+        },
+        isRowUpdatable(row) {
+            return this.rowCanUpdate ? !!this.rowCanUpdate(row) : true;
+        },
+        isRowDeletable(row) {
+            return this.rowCanDelete ? !!this.rowCanDelete(row) : true;
+        },
     },
     async mounted() {
         if (this.baseUrl){
@@ -618,3 +650,6 @@ export default {
 };
 </script>
 
+<style scoped>
+/* ...existing code... */
+</style>

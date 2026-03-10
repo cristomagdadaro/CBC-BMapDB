@@ -5,15 +5,12 @@ export default class Commodity extends DtoCommodity {
         // @ts-ignore
         super(params);
 
-        this.indexUri = 'api.commodities.index';
-        this.showUri = 'api.commodities.show';
-        this.storeUri = 'api.commodities.store';
-        this.updateUri = 'api.commodities.update';
-        this.destroyUri = 'api.commodities.destroy';
-        this.multiDestroyUri = 'api.commodities.destroy.multi';
-        this.summaryUri = 'api.commodities.summary';
-
         this.appendWith = ['breeder', 'location', 'characteristics', 'additionalinfo'];
+    }
+
+    static importTemplateHeaders() {
+        const exclude = ['user_id','photo'];
+        return Object.keys(this.createForm()).filter(k => !exclude.includes(k));
     }
 
     static getCreateFieldTitles() {
@@ -283,7 +280,7 @@ export default class Commodity extends DtoCommodity {
                 title: 'ID',
                 key: 'id',
                 db_key: 'id',
-                sortable: true,
+                sortable: false,
                 align: 'center',
                 visible: false,
             },
@@ -292,7 +289,7 @@ export default class Commodity extends DtoCommodity {
                 key: 'user_id',
                 db_key: 'user_id',
                 align: 'center',
-                sortable: true,
+                sortable: false,
                 visible: false,
             },
             {
@@ -356,6 +353,14 @@ export default class Commodity extends DtoCommodity {
                 title: 'Location',
                 key: 'location.getFullAddress',
                 db_key: 'location',
+                sortable: true,
+                align: 'center',
+                visible: true,
+            },
+            {
+                title: 'Approved',
+                key: 'approved_at',
+                db_key: 'approved_at',
                 sortable: true,
                 align: 'center',
                 visible: true,

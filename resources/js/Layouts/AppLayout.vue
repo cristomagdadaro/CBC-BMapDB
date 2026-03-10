@@ -12,13 +12,14 @@ import {CBCProjects} from "@/Pages/constants.ts";
 import TopActionBtn from "@/Components/CRCMDatatable/Components/TopActionBtn.vue";
 import BellIcon from "@/Components/Icons/BellIcon.vue";
 import Notification from "@/Components/Modal/Notification/Notification.ts";
-import Footer from "@/Pages/Footer.vue";
+import Modal from "@/Components/Modal.vue";
 import Hamburger from "@/Components/Icons/Hamburger.vue";
 import SidebarLayout from "@/Layouts/SidebarLayout.vue";
 import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import User from "@/Modules/core/domain/auth/User";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
+import TD from '@/Components/CRCMDatatable/Components/TD.vue';
 
 export default {
     components: {
@@ -36,8 +37,9 @@ export default {
         FullscreenToggle,
         TopActionBtn,
         BellIcon,
-        Footer,
         Hamburger,
+        Modal,
+        TD   
     },
     props: {
         title: {
@@ -50,14 +52,15 @@ export default {
             showSidebar: true,
             CBCProjects,
             user: new User(this.$page.props.auth.user),
+            showHistoryModal: false,
+            historyItems: [],
+            historyMeta: null,
+            historyLoading: false,
+            historyError: null,
+            historyPage: 1,
+            historyHasMore: true,
+            historyScrollThreshold: 120,
         }
-    },
-    mounted() {
-      /*CBCProjects.forEach((project) => {
-        project.show = this.hasPermission(project.permission);
-      });
-
-      console.log(CBCProjects);*/
     },
     computed: {
         User() {
@@ -97,6 +100,99 @@ export default {
             logout,
             requestNewApplicationAccess,
         }
+    },
+    methods: {
+        async loadHistory(page = 1, append = false) {
+            this.historyLoading = true;
+            this.historyError = null;
+            try {
+                const svc = new ApiService('/api/activity-logs');
+                const response = await svc.get({ per_page: 15, page, mine: true });
+                if (response?.data?.data) {
+                    const items = response.data.data || [];
+                    this.historyItems = append ? [...this.historyItems, ...items] : items;
+                    this.historyMeta = response.data.meta || null;
+                    this.historyPage = this.historyMeta?.current_page || page;
+                    this.historyHasMore = this.historyMeta
+                        ? this.historyMeta.current_page < this.historyMeta.last_page
+                        : items.length > 0;
+                } else {
+                    this.historyItems = [];
+                    this.historyMeta = null;
+                    this.historyHasMore = false;
+                }
+            } catch (error) {
+                this.historyError = 'Failed to load activity history.';
+                Notification.pushNotification({
+                    title: 'History',
+                    message: 'Failed to load activity history.',
+                    type: 'failed',
+                    timeout: 8000,
+                    show: true
+                });
+            } finally {
+                this.historyLoading = false;
+            }
+        },
+        openHistory() {
+            this.showHistoryModal = true;
+            this.historyPage = 1;
+            this.historyHasMore = true;
+            this.loadHistory(1, false);
+        },
+                async onHistoryScroll(event) {
+                    if (this.historyLoading || !this.historyHasMore) return;
+                    const target = event?.target;
+                    if (!target) return;
+
+                    const distanceToBottom = target.scrollHeight - target.scrollTop - target.clientHeight;
+                    if (distanceToBottom <= this.historyScrollThreshold) {
+                        const nextPage = (this.historyPage || 1) + 1;
+                        await this.loadHistory(nextPage, true);
+                    }
+                },
+        closeHistory() {
+            this.showHistoryModal = false;
+        },
+        formatAction(method) {
+            switch ((method || '').toUpperCase()) {
+                case 'POST':
+                    return 'Created';
+                case 'PUT':
+                case 'PATCH':
+                    return 'Updated';
+                case 'DELETE':
+                    return 'Deleted';
+                default:
+                    return method || 'Action';
+            }
+        },
+        formatModel(model) {
+            if (!model) return 'Unknown Item';
+            return String(model)
+                .replace(/[-_]/g, ' ')
+                .replace(/\b\w/g, l => l.toUpperCase());
+        },
+        formatTarget(item) {
+            return item?.modified_id ? `#${item.modified_id}` : '-';
+        },
+        formatActor(item) {
+            return item?.user_role ? `${item.user_role}` : 'You';
+        },
+        formatWhen(value) {
+            if (!value) return '-';
+            const date = new Date(value);
+            if (Number.isNaN(date.getTime())) return value;
+            return date.toLocaleString();
+        },
+        formatDescription(item) {
+            if (item?.description) return item.description;
+            const action = this.formatAction(item?.method).toLowerCase();
+            const model = this.formatModel(item?.model);
+            const target = item?.modified_id ? `#${item.modified_id}` : '';
+            const actor = item?.user_role ? item.user_role : 'You';
+            return `${actor} ${action} ${model}${target ? ' ' + target : ''}`.trim();
+        },
     }
 }
 </script>
@@ -111,28 +207,26 @@ export default {
             <!-- Primary Navigation Menu -->
             <div class="px-4 sm:px-6 py-3 lg:px-8 bg-cbc-dark-green">
                 <div class="flex justify-between items-center h-10">
-                    <div class="flex gap-1 items-center">
-                        <img src="/img/logos/pin.webp" alt="PIN Logo" class="h-10 w-auto" />
+                    <div id="user-details" class="flex gap-1 items-center relative group">
+                        <img v-if="$page.props.auth.user.profile_photo_url" :src="$page.props.auth.user.profile_photo_url" :alt="$page.props.auth.user.name" class="rounded-full h-10 w-10 object-cover">
                         <div class="sm:flex hidden flex-col text-gray-50">
-
-                            <div class="flex items-center gap-1 border-white border-b px-1">
-                                <span class="leading-tight text-normal uppercase">
+                            <div class="flex flex-col items-left px-1 leading-none">
+                                <span class="leading-none text-normal uppercase font-semibold">
                                     {{ user.getFullName }}
                                 </span>
-                                    <span class="leading-tight border-white border-l pl-1">
-                                    {{ user.affiliation }}
+                                <span class="leading-none border-white text-xs">
+                                    {{ user.getRole }}
                                 </span>
                             </div>
-                            <div class="flex items-center gap-1 text-sm px-1">
-                                <span class="leading-tight border-white border-r pr-1">
-                                    ID: {{ user.id }}
-                                </span>
-                                    <span class="leading-tight border-white border-r pr-1">
-                                {{ user.getRole }}
-                                </span>
-                                    <span class="leading-tight">
-                                    {{ user.email }}
-                                </span>
+                        </div>
+                        <div
+                            class="absolute left-0 top-full mt-2 hidden group-hover:block bg-white text-gray-700 shadow-lg rounded-md p-3 text-xs z-50 min-w-[16rem]"
+                        >
+                            <div class="font-medium text-gray-900 mb-1">{{ user.getFullName }}</div>
+                            <div class="text-gray-600 mb-2">{{ user.affiliation }}</div>
+                            <div class="flex flex-col gap-1">
+                                <div><span class="text-gray-500">Role:</span> {{ user.getRole }}</div>
+                                <div><span class="text-gray-500">Email:</span> {{ user.email }}</div>
                             </div>
                         </div>
                     </div>
@@ -182,7 +276,9 @@ export default {
                             </Dropdown>
                             <top-action-btn
                                 class="shadow-none hover:scale-105 active:scale-100"
-                                @click="new Notification('Test','This is a test notification '+ Notification.notifications.value.length, Array.from(['error', 'success', 'warning', 'failed'])[Math.floor(Math.random() * 4)], 5000, true)">
+                                @click="openHistory"
+                                title="View activity history"
+                            >
                                 <template #icon>
                                     <bell-icon class="h-auto sm:w-6 w-4" :class="Notification.notifications.value.length?'animate-wiggle':''" />
                                 </template>
@@ -427,16 +523,16 @@ export default {
         <sidebar-layout>
             <template #options>
                 <NavLink class="text-white" :href="route('dashboard')" :active="route().current('dashboard')">
-                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                    <div class="flex gap-1  items-center sm:p-2 p-1">
                         <span class="sm:flex hidden whitespace-nowrap">
-                           Dashboard
+                        Dashboard
                         </span>
                     </div>
                 </NavLink>
                 <NavLink v-if="user.isAdmin" class="text-white" :href="route('administrator.index')" :active="route().current('administrator.index')">
-                    <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                    <div class="flex gap-1  items-center sm:p-2 p-1">
                         <span class="sm:flex hidden whitespace-nowrap">
-                           Administrator
+                        Administrator
                         </span>
                     </div>
                     <template #subLinks>
@@ -454,30 +550,38 @@ export default {
                                 label: 'Applications',
                             }
                         ]"
+                            v-bind:key="subLink.name"
                             :to="{ name: subLink.name }"
-                                     :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
+                                    :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
                             {{ subLink.label }}
                         </router-link>
                     </template>
                 </NavLink>
                 <template v-for="account in user.accounts" :key="account.application.id" >
                     <NavLink v-if="account.application.status === 'true'"
-                             class="text-white"
-                             :href="route(account.application.url)"
-                             :active="route().current(account.application.url)"
+                        class="text-white"
+                        :href="route(account.application.url)"
+                        :active="route().current(account.application.url)"
                     >
-                        <div class="flex gap-1 select-none items-center sm:p-2 p-1">
+                        <div class="flex gap-1  items-center sm:p-2 p-1">
                             <span class="sm:flex hidden whitespace-nowrap">
                             {{ account.application.name }}
                             </span>
                         </div>
                         <template #subLinks>
-                            <router-link v-for="subLink in account.application.appTabs" :to="{ name: subLink.name }" :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
+                            <router-link v-for="subLink in account.application.appTabs" v-bind:key="subLink.name" :to="{ name: subLink.name }" :class="$route.name === subLink.name ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out':'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-300 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out'">
                                 {{ subLink.label }}
                             </router-link>
                         </template>
                     </NavLink>
                 </template>
+                <NavLink class="text-white" href="/">
+                    <div class="flex gap-1  items-center sm:p-2 p-1">
+                        <span class="sm:flex hidden whitespace-nowrap">
+                        Gene Bank
+                        </span>
+                    </div>
+                </NavLink>
             </template>
             <template #content>
                 <main>
@@ -485,5 +589,45 @@ export default {
                 </main>
             </template>
         </sidebar-layout>
+
+        <Modal :show="showHistoryModal" maxWidth="2xl" @close="closeHistory">
+            <div class="p-4">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-lg font-semibold">Activity History</h2>
+                    <button class="text-sm text-gray-500 hover:text-gray-700" @click="closeHistory">Close</button>
+                </div>
+
+                <div class="mt-4">
+                    <div v-if="historyError" class="text-sm text-red-600">{{ historyError }}</div>
+                    <div v-else class="max-h-[60vh] overflow-y-auto border rounded" @scroll.passive="onHistoryScroll">
+                        <table class="min-w-full text-xs">
+                            <thead class="bg-gray-50 text-gray-600">
+                                <tr>
+                                    <th class="px-3 py-2 text-left">When</th>
+                                    <th class="px-3 py-2 text-left">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in historyItems" :key="item.id" class="border-t">
+                                    <td class="px-3 py-2">{{ formatWhen(item.created_at) }}</td>
+                                    <td class="px-3 py-2">{{ formatDescription(item) }}</td>
+                                </tr>
+                                <tr v-if="historyLoading" class="text-gray-600 border-t">
+                                    <td colspan="6" class="px-3 py-2 text-center">
+                                        Loading...
+                                    </td>
+                                </tr>
+                                <tr v-else-if="!historyItems.length && !historyLoading" class="text-sm text-gray-600">
+                                    <td colspan="6" class="px-3 py-2 text-center">
+                                        No activity yet
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </Modal>
     </div>
 </template>

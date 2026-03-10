@@ -7,9 +7,8 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PageLayout from "@/Layouts/PageLayout.vue";
-import GreenWaves from "@/Components/GreenWaves.vue";
+import HeroImageParticlesBackground from "@/Components/HeroImageParticlesBackground.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
-import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 defineProps({
     status: String,
@@ -27,8 +26,7 @@ const submit = () => {
 <template>
     <Head title="Forgot Password" />
     <PageLayout :is-wide-display="true">
-        <green-waves />
-        <particles-background />
+        <hero-image-particles-background class="absolute inset-0" particles-id="login-particles-js" />
         <div class="grid grid-cols-1 w-full bg-transparent">
             <public-page-section class="flex items-center justify-center">
                 <AuthenticationCard class="min-h-[90vh] sm:max-w-3xl mx-auto">
@@ -36,7 +34,8 @@ const submit = () => {
                         <AuthenticationCardLogo />
                     </template>
 
-                    <div class="mb-4 text-sm text-gray-600">
+                    <h1 class="text-2xl sm:text-3xl font-bold font-display text-gray-900 mb-2">Forgot Password</h1>
+                    <div class="mb-4 text-sm text-gray-600 leading-relaxed">
                         Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
                     </div>
 
@@ -44,14 +43,14 @@ const submit = () => {
                         {{ status }}
                     </div>
 
-                    <form @submit.prevent="submit">
+                    <form @submit.prevent="submit" class="bg-pin-gray rounded-xl p-5 border border-gray-200">
                         <div>
                             <InputLabel for="email" value="Email" />
                             <TextInput
                                 id="email"
                                 v-model="form.email"
                                 type="email"
-                                class="mt-1 block w-full"
+                                class="mt-1 block w-full rounded-lg border-gray-200 focus:border-pin-green focus:ring-pin-green/20"
                                 required
                                 autofocus
                                 autocomplete="username"
@@ -60,7 +59,7 @@ const submit = () => {
                         </div>
 
                         <div class="flex items-center justify-between mt-4">
-                            <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <Link :href="route('login')" class="text-sm text-pin-green hover:underline rounded-md focus-ring">
                                 Back
                             </Link>
                             <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">

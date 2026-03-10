@@ -45,7 +45,7 @@ export default {
                 <text-field :error="getError('suffix')" label="Suffix" v-model="form.suffix" />
                 <text-field :error="getError('mobile_no')" label="Mobile No." v-model="form.mobile_no" />
                 <text-field required :error="getError('email')" label="Email" v-model="form.email" />
-                <select-search-field required :api-link="route('api.institutes.index.public')"  :error="getError('affiliation')" label="Agency/Institution/Office" v-model="form.affiliation" />
+                <select-search-field required :api-link="route('api.institutes.options.public')"  :error="getError('affiliation')" label="Agency/Institution/Office" v-model="form.affiliation" />
                 <div class="flex flex-col border-0 p-0 bg-transparent">
                     <div class="flex justify-between items-center">
                         <label class="flex text-sm gap-0.5 items-center whitespace-nowrap">
@@ -60,8 +60,9 @@ export default {
                     </div>
                 </div>
 <!--                <select-search-field required :api-link="route('api.applications.index')" :error="getError('account_for')" label="Account For" v-model="form.account_for" />-->
-                <text-field required :error="getError('password')" label="New Password" v-model="form.password" />
-                <text-field required :error="getError('password_confirmation')" label="Confirm Password" v-model="form.password_confirmation" />
+                <text-field :error="getError('password')" label="New Password" v-model="form.password" />
+                <text-field :error="getError('password_confirmation')" label="Confirm Password" v-model="form.password_confirmation" />
+                <text-field :error="getError('password_confirmation')" label="Confirm Password" v-model="form.password_confirmation" />
             </div>
         </template>
     </base-edit-form>

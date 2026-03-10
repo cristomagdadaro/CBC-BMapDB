@@ -8,10 +8,10 @@ export default class DtoProvince extends BaseClass implements IProvince {
     regDesc: DtoRegion = null;
 
     constructor(dto: IProvince) {
-        super();
+        super(dto);
         this.table = 'provinces';
-        this.id = dto.id;
-        this.provDesc = dto.provDesc;
+        this.id = dto?.id;
+        this.provDesc = dto?.provDesc;
 
         if (dto.regDesc)
             this.regDesc = new DtoRegion(dto.regDesc);

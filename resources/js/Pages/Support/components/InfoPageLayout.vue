@@ -2,12 +2,10 @@
 import InfoPageLinks from "@/Pages/Support/components/InfoPageLinks.vue";
 import {Head} from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
-import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
-import GreenWaves from "@/Components/GreenWaves.vue";
 
 export default {
     name: "InfoPageLayout",
-    components: {GreenWaves, PublicPageSection, PageLayout, Head, InfoPageLinks},
+    components: {PageLayout, Head, InfoPageLinks},
     props: {
         title: {
             type: String,
@@ -21,25 +19,33 @@ export default {
 <template>
     <Head :title="title" />
     <page-layout>
-        <green-waves class="z-0" />
-        <public-page-section :animation="false">
-            <div class="flex gap-2 min-h-screen">
-                <div class="flex flex-col gap-2 px-5 mr-5 border-r border-gray-100 z-10">
-                    <info-page-links />
-                </div>
-                <div class="text-gray-900 bg-gray-50 flex flex-col w-full sm:gap-1 gap-3 sm:p-5 p-8 sm:text-left text-center drop-shadow-lg rounded-md">
-                    <p class="flex items-center gap-2 font-medium sm:text-3xl text-xl sm:leading-relaxed leading-tight">
-                        <span>{{ title }}</span>
-                    </p>
-                    <p class="leading-relaxed sm:text-left text-justify sm:text-lg text-sm">
-                        <slot />
-                    </p>
+        <div class="min-h-screen bg-pin-gray">
+            <div class="section-padding py-12 lg:py-20">
+                <div class="container-custom">
+                    <div class="flex flex-col lg:flex-row gap-8">
+                        <!-- Sidebar -->
+                        <aside class="lg:w-64 flex-shrink-0">
+                            <div class="lg:sticky lg:top-24">
+                                <nav class="bg-white rounded-xl shadow-sm p-4">
+                                    <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider px-3 mb-3">Support</h3>
+                                    <info-page-links />
+                                </nav>
+                            </div>
+                        </aside>
+                        <!-- Content -->
+                        <main class="flex-1 min-w-0">
+                            <div class="bg-white rounded-xl shadow-sm p-6 lg:p-10">
+                                <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 font-display mb-6 pb-4 border-b border-gray-100">
+                                    {{ title }}
+                                </h1>
+                                <div class="prose prose-gray max-w-none text-gray-600 leading-relaxed">
+                                    <slot />
+                                </div>
+                            </div>
+                        </main>
+                    </div>
                 </div>
             </div>
-        </public-page-section>
+        </div>
     </page-layout>
 </template>
-
-<style scoped>
-
-</style>

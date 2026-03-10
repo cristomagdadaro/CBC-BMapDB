@@ -16,7 +16,7 @@ export default {
     <h3 class="text-subtitle text-center text-dark-color">
         Plant Breeders across the Philippines
     </h3>
-    <div class="flex flex-col-reverse select-none sm:flex-row justify-between items-center gap-5 text-center sm:text-left">
+    <div class="flex flex-col-reverse  sm:flex-row justify-between items-center gap-5 text-center sm:text-left">
         <div v-if="hoveredData" class="text-gray-900">
             <span class="text-subtitle" >{{ hoveredData.province }}</span>
             <span class="text-normal"><br /> has a total of <b>{{ hoveredData.data }}</b> plant breeders <br /></span>

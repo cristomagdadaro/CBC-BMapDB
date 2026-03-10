@@ -14,18 +14,30 @@ class UpdateCommoditiesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if (auth()->user()->isAdmin()) {
+        $user = auth()->user();
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->isAdmin()) {
             return true; // Allow admins
         }
 
-        $model = Commodity::find($this->id);
+        $model = Commodity::withoutGlobalScopes()->find($this->id);
+        if (!$model) {
+            return false;
+        }
 
-        if ($this && $model->user_id === auth()->id()) {
+        if ($model->user_id === $user->id) {
             return true; // Allow owner
         }
 
-        if (auth()->user()->isFocalPerson() && $model->breeder()->first()->user_id === auth()->id()) {
-            return true; // Allow focal person
+        if ($user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $commodityAff = (int) ($model->relationLoaded('breeder') ? optional($model->breeder)->affiliation : $model->breeder()->value('affiliation'));
+            if ($userAff && $commodityAff && $userAff === $commodityAff) {
+                return true;
+            }
         }
 
         abort(403, __('You are not authorized to update this commodity.'));
@@ -38,10 +50,10 @@ class UpdateCommoditiesRequest extends FormRequest
                 'institution' => auth()->user()->affiliation,
             ]);
 
-        $commodity = Commodity::find($this->id);
+        $commodity = Commodity::withoutGlobalScopes()->find($this->id);
 
         $this->merge([
-            'user_id'  => auth()->user()->isAdmin()? $commodity->user_id : auth()->user()->id
+            'user_id'  => auth()->user()->isAdmin()? ($commodity?->user_id) : auth()->user()->id
         ]);
     }
 
@@ -93,6 +105,7 @@ class UpdateCommoditiesRequest extends FormRequest
             'stress_resilience' => 'nullable|array',
             'stress_resilience.*.type' => 'nullable|string',
             'stress_resilience.*.stress' => 'nullable|string',
+            'stress_resilience.*.stress_agent' => 'nullable|string',
             'stress_resilience.*.reaction' => 'nullable|string',
         ];
     }

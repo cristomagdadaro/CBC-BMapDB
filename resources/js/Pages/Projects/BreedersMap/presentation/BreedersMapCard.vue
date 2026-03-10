@@ -1,7 +1,7 @@
 <script>
 
 import {defineComponent} from "vue";
-import DashboardCard from "@/Components/DashboardCard.vue";
+import DashboardCard from "@/Pages/Dashboard/components/DashboardCard.vue";
 
 export default defineComponent({
     components: {DashboardCard}

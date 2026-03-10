@@ -9,6 +9,7 @@ use App\Http\Requests\GetUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Accounts;
 use App\Models\User;
+use App\Repository\API\AccountsRepo;
 use App\Repository\API\UserRepo;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
@@ -19,9 +20,12 @@ class AdminController extends BaseController
 {
     use PasswordValidationRules;
 
-    public function __construct(UserRepo $adminRepository)
+    protected AccountsRepo $accountsRepo;
+
+    public function __construct(UserRepo $adminRepository, AccountsRepo $accountsRepo)
     {
         $this->service = $adminRepository;
+        $this->accountsRepo = $accountsRepo;
     }
 
     public function index(GetUserRequest $request)
@@ -81,7 +85,7 @@ class AdminController extends BaseController
     public function destroy(int $id)
     {
         $response = parent::_destroy($id);
-        Accounts::where('user_id', $id)->delete();
+        $this->accountsRepo->deleteByUserId($id);
         return $response;
     }
 

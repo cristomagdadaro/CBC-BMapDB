@@ -16,11 +16,15 @@ class RegionSeeder extends Seeder
         $regions = config('regions');
 
         foreach ($regions as $region) {
-            Region::factory()->create([
-                'regDesc' => trim($region['regDesc']),
-                'regDescLong' => trim($region['regDescLong']),
-                'country_id' => 1
-            ]);
+            Region::updateOrCreate(
+                [
+                    'regDesc' => trim($region['regDesc']),
+                ],
+                [
+                    'regDescLong' => trim($region['regDescLong']),
+                    'country_id' => 1,
+                ]
+            );
         }
     }
 }

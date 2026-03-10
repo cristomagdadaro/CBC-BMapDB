@@ -4,13 +4,14 @@ import Account from "@/Pages/Admin/domain/Account";
 import Application from "@/Pages/Admin/domain/Application";
 import DataViewModel from "@/Pages/Admin/domain/DataView";
 import Role from "../domain/Role";
+import { AdminEndpoints } from "@/Pages/Admin/infrastructure/AdminEndpoints";
 /**
  * Contains the forms, pages, api routes, and models for the BreedersMap project
  **/
 export const AdminPages = {
     api: {
         user: {
-            path: route('api.administrator.index'),
+            path: route(AdminEndpoints.user.indexUri),
             name: 'Users Model',
             model: User,
             create: {
@@ -36,7 +37,7 @@ export const AdminPages = {
             }
         },
         account: {
-            path: route('api.accounts.index'),
+            path: route(AdminEndpoints.account.indexUri),
             name: 'Accounts Model',
             model: Account,
             create: {
@@ -62,7 +63,7 @@ export const AdminPages = {
             }
         },
         app: {
-            path: route('api.applications.index'),
+            path: route(AdminEndpoints.application.indexUri),
             name: 'Application Model',
             model: Application,
             create: {
@@ -88,7 +89,7 @@ export const AdminPages = {
             }
         },
         role: {
-            path: route('api.roles.index'),
+            path: route(AdminEndpoints.role.indexUri),
             name: 'Role Model',
             model: Role,
             create: {
@@ -114,7 +115,7 @@ export const AdminPages = {
             }
         },
         dataview: {
-            path: route('api.dataview.index'),
+            path: route(AdminEndpoints.dataview.indexUri),
             name: 'Data View Model',
             model: DataViewModel,
             create: {

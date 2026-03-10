@@ -14,7 +14,7 @@ class TWGProductPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_TWG_PRODUCT) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**
@@ -22,7 +22,7 @@ class TWGProductPolicy
      */
     public function view(User $user, TWGProduct $twgproduct): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_TWG_PRODUCT) || $user->isAdmin();
+        return $this->viewAny($user);
     }
 
     /**
@@ -30,7 +30,7 @@ class TWGProductPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::CREATE_TWG_PRODUCT) || $user->isAdmin();
+        return $user->isAdmin() || $user->isTwgManager();
     }
 
     /**
@@ -38,7 +38,17 @@ class TWGProductPolicy
      */
     public function update(User $user, TWGProduct $twgproduct): bool
     {
-        return $user->hasPermissionTo(Permissions::UPDATE_TWG_PRODUCT) || $user->isAdmin();
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        if ($user->isTwgManager()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $modelAff = (int) ($twgproduct->institution ?? 0);
+            return $userAff && $modelAff && $userAff === $modelAff;
+        }
+
+        return false;
     }
 
     /**
@@ -46,7 +56,7 @@ class TWGProductPolicy
      */
     public function delete(User $user, TWGProduct $twgproduct): bool
     {
-        return $user->hasPermissionTo(Permissions::DELETE_TWG_PRODUCT) || $user->isAdmin();
+        return $this->update($user, $twgproduct);
     }
 
     /**

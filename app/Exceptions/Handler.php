@@ -44,7 +44,15 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof AuthorizationException) {
-            return response()->json(['message' => 'Unauthorized access', 'title' => 'Access Denied'], 403);
+            $reason = trim((string) $exception->getMessage());
+            $message = $reason !== '' && $reason !== 'This action is unauthorized.'
+                ? $reason
+                : 'Unauthorized access';
+
+            return response()->json([
+                'message' => $message,
+                'title' => 'Access Denied',
+            ], 403);
         }
 
         return parent::render($request, $exception);

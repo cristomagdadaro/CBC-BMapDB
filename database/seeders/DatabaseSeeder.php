@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             //BreedersMapSeeder::class,
             TWGDatabaseSeeder::class,
-            DataViewSeeder::class,
+            //DataViewSeeder::class,
         ]);
 
         $users = User::all();

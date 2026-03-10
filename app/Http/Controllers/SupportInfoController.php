@@ -12,11 +12,6 @@ class SupportInfoController extends Controller
         return Inertia::render('Support/AboutUs');
     }
 
-    public function cbcTour(): Response
-    {
-        return Inertia::render('Support/VisitUs');
-    }
-
     public function termsOfUse(): Response
     {
         return Inertia::render('Support/TermsOfUse');
@@ -32,25 +27,50 @@ class SupportInfoController extends Controller
         return Inertia::render('Support/PrivacyPolicy');
     }
 
+    public function dataPrivacy(): Response
+    {
+        return Inertia::render('Support/DataPrivacy');
+    }
+
     public function sitemap(): Response
     {
-        //return Inertia::render('Support/Sitemap');
+        $urls = $this->buildSitemapUrls();
+        return Inertia::render('Support/Sitemap', [
+            'urls' => $urls,
+        ]);
+    }
+
+    public function sitemapXml(): \Illuminate\Http\Response
+    {
+        $urls = $this->buildSitemapUrls();
+
+        $body = collect($urls)->map(function ($url) {
+            return "  <url>\n".
+                "    <loc>{$url['loc']}</loc>\n".
+                "    <lastmod>{$url['lastmod']}</lastmod>\n".
+                "    <changefreq>{$url['changefreq']}</changefreq>\n".
+                "    <priority>{$url['priority']}</priority>\n".
+                "  </url>";
+        })->implode("\n");
+
+        $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n".
+            "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n".
+            $body."\n".
+            "</urlset>";
+
+        return response($xml, 200)->header('Content-Type', 'application/xml');
+    }
+
+    private function buildSitemapUrls(): array
+    {
         $urls = [
             // Home Page
             [
                 'name' => 'Welcome',
-                'loc' => url('/'), // Home page
+                'loc' => url('/'),
                 'lastmod' => now()->toAtomString(),
                 'changefreq' => 'daily',
                 'priority' => '1.0',
-            ],
-            // Dashboard (accessible only for authenticated users)
-            [
-                'name' => 'Dashboard',
-                'loc' => url('/dashboard'),
-                'lastmod' => now()->toAtomString(),
-                'changefreq' => 'daily',
-                'priority' => '0.8',
             ],
             // Support Information Pages
             [
@@ -82,6 +102,13 @@ class SupportInfoController extends Controller
                 'priority' => '0.7',
             ],
             [
+                'name' => 'Data Privacy Notice',
+                'loc' => url('/support-info/data-privacy'),
+                'lastmod' => now()->toAtomString(),
+                'changefreq' => 'monthly',
+                'priority' => '0.7',
+            ],
+            [
                 'name' => 'Sitemap',
                 'loc' => url('/support-info/sitemap'),
                 'lastmod' => now()->toAtomString(),
@@ -89,8 +116,8 @@ class SupportInfoController extends Controller
                 'priority' => '0.7',
             ],
             [
-                'name' => 'Developers',
-                'loc' => url('/support-info/developers'),
+                'name' => 'Contributors',
+                'loc' => url('/support-info/contributors'),
                 'lastmod' => now()->toAtomString(),
                 'changefreq' => 'monthly',
                 'priority' => '0.7',
@@ -119,20 +146,15 @@ class SupportInfoController extends Controller
             ],
         ];
 
-        // Dynamically add other routes if needed, like blog posts, etc.
         $dynamicRoutes = [
             // Example of dynamically adding routes
         ];
 
-        // Merge static and dynamic URLs
-        $urls = array_merge($urls, $dynamicRoutes);
-        return Inertia::render('Support/Sitemap', [
-            'urls' => $urls,
-        ]);
+        return array_merge($urls, $dynamicRoutes);
     }
 
-    public function developers(): Response
+    public function contributors(): Response
     {
-        return Inertia::render('Support/Developers');
+        return Inertia::render('Support/Contributors');
     }
 }

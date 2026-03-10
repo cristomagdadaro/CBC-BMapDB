@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { Link, useForm } from '@inertiajs/vue3';
+import {Link, router, useForm} from '@inertiajs/vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
 import FormSection from '@/Components/FormSection.vue';
 import InputError from '@/Components/InputError.vue';
@@ -29,10 +29,17 @@ const form = useForm({
 const verificationLinkSent = ref(null);
 const photoPreview = ref(null);
 const photoInput = ref(null);
+const maxPhotoSizeBytes = 1024 * 1024;
+const maxPhotoSizeLabel = '1 MB';
 
 const updateProfileInformation = () => {
     if (photoInput.value) {
         form.photo = photoInput.value.files[0];
+    }
+
+    if (form.photo && form.photo.size > maxPhotoSizeBytes) {
+        form.errors.photo = `Photo must be ${maxPhotoSizeLabel} or less.`;
+        return;
     }
 
     form.post(route('user-profile-information.update'), {
@@ -50,10 +57,29 @@ const selectNewPhoto = () => {
     photoInput.value.click();
 };
 
+const deletePhoto = () => {
+    router.delete(route('current-user-photo.destroy'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            photoPreview.value = null;
+            clearPhotoFileInput();
+        },
+    });
+};
+
+
 const updatePhotoPreview = () => {
     const photo = photoInput.value.files[0];
 
     if (! photo) return;
+
+    if (photo.size > maxPhotoSizeBytes) {
+        form.errors.photo = `Photo must be ${maxPhotoSizeLabel} or less.`;
+        clearPhotoFileInput();
+        return;
+    }
+
+    form.errors.photo = null;
 
     const reader = new FileReader();
 
@@ -95,31 +121,34 @@ const clearPhotoFileInput = () => {
 
                 <InputLabel for="photo" value="Photo" />
 
-                <!-- Current Profile Photo -->
-                <div v-show="! photoPreview" class="mt-2">
-                    <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-20 w-20 object-cover">
+                <div class="mt-3 flex items-center gap-4">
+                    <!-- Current Profile Photo -->
+                    <div v-show="! photoPreview" class="shrink-0">
+                        <img :src="user.profile_photo_url" :alt="user.name" class="rounded-full h-20 w-20 object-cover ring-2 ring-white shadow">
+                    </div>
+
+                    <!-- New Profile Photo Preview -->
+                    <div v-show="photoPreview" class="shrink-0">
+                        <span
+                            class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center ring-2 ring-white shadow"
+                            :style="'background-image: url(\'' + photoPreview + '\');'"
+                        />
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2">
+                        <SecondaryButton type="button" @click.prevent="selectNewPhoto">
+                            Select A New Photo
+                        </SecondaryButton>
+
+                        <SecondaryButton
+                            v-if="user.profile_photo_path"
+                            type="button"
+                            @click.prevent="deletePhoto"
+                        >
+                            Remove Photo
+                        </SecondaryButton>
+                    </div>
                 </div>
-
-                <!-- New Profile Photo Preview -->
-                <div v-show="photoPreview" class="mt-2">
-                    <span
-                        class="block rounded-full w-20 h-20 bg-cover bg-no-repeat bg-center"
-                        :style="'background-image: url(\'' + photoPreview + '\');'"
-                    />
-                </div>
-
-                <SecondaryButton class="mt-2 me-2" type="button" @click.prevent="selectNewPhoto">
-                    Select A New Photo
-                </SecondaryButton>
-
-                <SecondaryButton
-                    v-if="user.profile_photo_path"
-                    type="button"
-                    class="mt-2"
-                    @click.prevent="deletePhoto"
-                >
-                    Remove Photo
-                </SecondaryButton>
 
                 <InputError :message="form.errors.photo" class="mt-2" />
             </div>
@@ -128,7 +157,8 @@ const clearPhotoFileInput = () => {
                 <div>
                     <InputLabel for="affiliation" value="Affiliation" />
                     <select-search-field id="affiliation"
-                                         :api-link="route('api.institutes.index.public')"
+                                         disabled
+                                         :api-link="route('api.institutes.options.public')"
                                          v-model="form.affiliation"
                                          placeholder="School/Office/Agency"
                                          autocomplete="affiliation"/>
@@ -138,7 +168,7 @@ const clearPhotoFileInput = () => {
             <!-- Name -->
             <div class="col-span-6 sm:col-span-4">
                 <InputLabel for="name" value="Name" />
-                <div class="grid sm:grid-cols-4 sm:gap-2 gap-1">
+                <div class="grid sm:grid-cols-4 sm:gap-3 gap-2 mt-2">
                     <div>
                         <TextInput
                             id="fname"
@@ -191,7 +221,7 @@ const clearPhotoFileInput = () => {
             </div>
             <!-- Mobile and Email -->
             <div class="col-span-6 sm:col-span-4">
-                <div class="grid sm:grid-cols-2 sm:gap-2 gap-1">
+                <div class="grid sm:grid-cols-2 sm:gap-3 gap-2">
                     <div>
                         <InputLabel for="email" value="Email" />
                         <TextInput
@@ -219,8 +249,8 @@ const clearPhotoFileInput = () => {
                         <InputError :message="form.errors.mobile_no" class="mt-2" />
                     </div>
                 </div>
-                <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null">
-                    <p class="text-sm mt-2">
+                <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null" class="mt-3 rounded-md bg-gray-50 p-3">
+                    <p class="text-sm">
                         Your email address is unverified.
 
                         <Link
@@ -246,7 +276,7 @@ const clearPhotoFileInput = () => {
                 Saved.
             </ActionMessage>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <PrimaryButton class="px-6" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                 Save
             </PrimaryButton>
         </template>

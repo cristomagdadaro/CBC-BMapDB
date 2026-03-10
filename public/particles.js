@@ -20,10 +20,10 @@ var pJS = function(tag_id, params){
     },
     particles: {
       number: {
-        value: 400,
+        value: 120,
         density: {
           enable: true,
-          value_area: 800
+          value_area: 900
         }
       },
       color: {
@@ -46,21 +46,21 @@ var pJS = function(tag_id, params){
       },
       opacity: {
         value: 1,
-        random: false,
+        random: true,
         anim: {
           enable: false,
-          speed: 2,
-          opacity_min: 0,
+          speed: 1,
+          opacity_min: 0.2,
           sync: false
         }
       },
       size: {
-        value: 20,
-        random: false,
+        value: 8,
+        random: true,
         anim: {
           enable: false,
-          speed: 20,
-          size_min: 0,
+          speed: 8,
+          size_min: 2,
           sync: false
         }
       },
@@ -73,9 +73,9 @@ var pJS = function(tag_id, params){
       },
       move: {
         enable: true,
-        speed: 2,
+        speed: 1.2,
         direction: 'none',
-        random: false,
+        random: true,
         straight: false,
         out_mode: 'out',
         bounce: false,
@@ -1491,8 +1491,20 @@ window.particlesJS = function(tag_id, params){
 
   /* pJS elements */
   var pJS_tag = document.getElementById(tag_id),
-      pJS_canvas_class = 'particles-js-canvas-el',
-      exist_canvas = pJS_tag.getElementsByClassName(pJS_canvas_class);
+      pJS_canvas_class = 'particles-js-canvas-el';
+
+  if(!pJS_tag){
+    console.warn('particlesJS: target element not found for id', tag_id);
+    return;
+  }
+
+  // Abort if the target container does not exist
+  if(!pJS_tag){
+    console.warn('particlesJS: target element not found for id', tag_id);
+    return;
+  }
+
+  var exist_canvas = pJS_tag.getElementsByClassName(pJS_canvas_class);
 
   /* remove canvas if exists into the pJS target tag */
   if(exist_canvas.length){
@@ -1512,6 +1524,11 @@ window.particlesJS = function(tag_id, params){
   /* append canvas */
   var canvas = document.getElementById(tag_id).appendChild(canvas_el);
 
+  if(!canvas){
+    console.warn('particlesJS: failed to create canvas');
+    return;
+  }
+
   /* launch particle.js */
   if(canvas != null){
     pJSDom.push(new pJS(tag_id, params));
@@ -1527,9 +1544,13 @@ window.particlesJS.load = function(tag_id, path_config_json, callback){
   xhr.onreadystatechange = function (data) {
     if(xhr.readyState == 4){
       if(xhr.status == 200){
-        var params = JSON.parse(data.currentTarget.response);
-        window.particlesJS(tag_id, params);
-        if(callback) callback();
+        try {
+          var params = JSON.parse(data.currentTarget.response);
+          window.particlesJS(tag_id, params);
+          if(callback) callback();
+        } catch(err) {
+          console.log('Error pJS - Invalid JSON config', err);
+        }
       }else{
         console.log('Error pJS - XMLHttpRequest status: '+xhr.status);
         console.log('Error pJS - File config not found');

@@ -1,6 +1,5 @@
 <script>
 import { Link } from '@inertiajs/vue3';
-import {computed} from "vue";
 export default {
     components: {
         Link,
@@ -26,12 +25,18 @@ export default {
             required: false,
             default: false,
         },
+        isScrolled: {
+            type: Boolean,
+            default: true,
+        },
+        mobile: {
+            type: Boolean,
+            default: false,
+        },
     },
     data() {
         return {
             showDropdown: false,
-            activeClass: 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out',
-            inactiveClass: 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out',
         };
     },
     methods: {
@@ -41,44 +46,90 @@ export default {
         closeDropdown() {
             this.showDropdown = false;
         },
-        /* function that would determine if the current tab is active*/
     },
-    mounted() {
-        if(this.sublinks)
-            this.$refs.hoverDropdown.addEventListener('mouseover', this.toggleDropdown)
-    }
 };
 </script>
 <template>
-    <div v-if="!sublinks" class="flex text-gray-100 items-center hover:bg-cbc-yellow-green duration-400 ease-in-out">
-        <Link v-if="!externalLink" :href="link" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></Link>
-        <a v-else :href="link" target="_blank" class="px-3 py-1 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass"><slot /></a>
-    </div>
-    <div v-else class="flex items-center hover:bg-cbc-yellow-green duration-400 ease-in-out">
-        <div @mouseleave="closeDropdown()">
-            <!-- Full Screen Dropdown Overlay -->
+    <!-- Mobile link -->
+    <template v-if="mobile">
+        <div v-if="!sublinks">
+            <Link :href="link" class="block px-4 py-3 rounded-lg text-gray-700 hover:bg-pin-green-light hover:text-pin-green font-medium transition-colors">
+                <slot />
+            </Link>
+        </div>
+        <div v-else>
+            <button @click="toggleDropdown" class="w-full text-left px-4 py-3 rounded-lg text-gray-700 hover:bg-pin-green-light hover:text-pin-green font-medium transition-colors flex items-center justify-between">
+                <slot name="trigger" />
+                <svg :class="['w-4 h-4 transition-transform', showDropdown ? 'rotate-180' : '']" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div v-show="showDropdown" class="pl-4 space-y-1">
+                <slot name="content" />
+            </div>
+        </div>
+    </template>
+
+    <!-- Desktop link -->
+    <template v-else>
+        <div v-if="!sublinks" class="flex items-center">
+            <Link
+                v-if="!externalLink"
+                :href="link"
+                :class="[
+                    'px-4 py-2 rounded-lg text-sm font-medium transition-all focus-ring',
+                    isScrolled
+                        ? (active ? 'text-pin-green bg-pin-green-light' : 'text-gray-700 hover:text-pin-green hover:bg-pin-green-light')
+                        : (active ? 'text-white bg-white/15' : 'text-white/90 hover:text-white hover:bg-white/10')
+                ]"
+            >
+                <slot />
+            </Link>
+            <a
+                v-else
+                :href="link"
+                target="_blank"
+                :class="[
+                    'px-4 py-2 rounded-lg text-sm font-medium transition-all focus-ring',
+                    isScrolled
+                        ? 'text-gray-700 hover:text-pin-green hover:bg-pin-green-light'
+                        : 'text-white/90 hover:text-white hover:bg-white/10'
+                ]"
+            >
+                <slot />
+            </a>
+        </div>
+        <div v-else class="relative" @mouseenter="showDropdown = true" @mouseleave="closeDropdown()">
+            <!-- Full Screen Overlay -->
             <div v-show="showDropdown" class="fixed w-full h-full top-0 left-0 z-[1]" @click="closeDropdown()"></div>
 
-            <div @click="toggleDropdown()" ref="hoverDropdown" class="z-[100]">
-                <Link @clic.prevent="null" :href="link" class="px-3 py-1 text-gray-100 whitespace-nowrap text-normal" :class="active?activeClass:inactiveClass">
-                    <slot name="trigger" />
-                    <svg class="ml-2 -mr-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                    </svg>
-                </Link>
-            </div>
+            <button
+                @click="toggleDropdown()"
+                :class="[
+                    'relative z-[2] px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 focus-ring',
+                    isScrolled
+                        ? (active ? 'text-pin-green bg-pin-green-light' : 'text-gray-700 hover:text-pin-green hover:bg-pin-green-light')
+                        : (active ? 'text-white bg-white/15' : 'text-white/90 hover:text-white hover:bg-white/10')
+                ]"
+            >
+                <slot name="trigger" />
+                <svg :class="['w-4 h-4 transition-transform', showDropdown ? 'rotate-180' : '']" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
 
             <transition
-                enter-active-class="transition ease-out duration-300"
-                enter-from-class="transform opacity-0 scale-95"
-                enter-to-class="transform opacity-100 scale-100"
-                leave-active-class="transition ease-in duration-75"
-                leave-from-class="transform opacity-100 scale-100"
-                leave-to-class="transform opacity-0 scale-95">
-                <div class="absolute flex flex-col bg-gray-100 z-[46] mt-2 shadow-md p-3 text-subtitle" v-show="showDropdown" @mouseleave="closeDropdown()">
+                enter-active-class="transition ease-out duration-200"
+                enter-from-class="opacity-0 translate-y-1"
+                enter-to-class="opacity-100 translate-y-0"
+                leave-active-class="transition ease-in duration-150"
+                leave-from-class="opacity-100 translate-y-0"
+                leave-to-class="opacity-0 translate-y-1"
+            >
+                <div
+                    v-show="showDropdown"
+                    class="absolute top-full left-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[46]"
+                    @mouseleave="closeDropdown()"
+                >
                     <slot name="content" />
                 </div>
             </transition>
         </div>
-    </div>
+    </template>
 </template>

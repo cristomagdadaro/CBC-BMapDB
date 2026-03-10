@@ -3,20 +3,16 @@
     <app-layout>
         <Tab :tabs="tabs" v-if="$page.props.auth.user">
             <template v-slot:tab1>
-                <breeders-table />
+                <summary-comp />
             </template>
             <template v-slot:tab2>
-                <commodity-table />
+                <breeders-table />
             </template>
             <template v-slot:tab3>
-                <div class="p-2 relative">
-                    <Map :table-list="tables" :model="Commodity"/>
-                </div>
+                <commodity-table />
             </template>
             <template v-slot:tab4>
-                <div>
-                    <under-develop />
-                </div>
+                <Map :table-list="tables" :model="Commodity"/>
             </template>
             <template v-slot:tab5>
                 <bm-settings />
@@ -37,11 +33,15 @@ import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 import BmSettings from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmSettings.vue";
 import UnderDevelop from "@/Components/Modal/UnderDevelop.vue";
+import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
 
 export default {
     computed: {
         Commodity() {
             return Commodity
+        },
+        BreedersMapEndpoints() {
+            return BreedersMapEndpoints
         }
     },
     components: {
@@ -63,7 +63,7 @@ export default {
         Map: defineAsyncComponent({
             loader: async() => await import("@/Pages/Projects/BreedersMap/presentation/components/map/Map.vue"),
         }),
-        Summary: defineAsyncComponent({
+        SummaryComp: defineAsyncComponent({
             loader: async() => await import("@/Pages/Projects/BreedersMap/presentation/components/summary/Summary.vue"),
         })
     },
@@ -72,27 +72,27 @@ export default {
           tabs: [
               {
                   name: "tab1",
-                  label: "Breeders",
+                  label: "Summary",
                   active: true,
-                  route: { name: 'projects.breedersmap.breeder' },
+                  route: { name: 'projects.breedersmap.summary' },
               },
               {
                   name: "tab2",
+                  label: "Breeders",
+                  active: false,
+                  route: { name: 'projects.breedersmap.breeder' },
+              },
+              {
+                  name: "tab3",
                   label: "Commodities",
                   active: false,
                   route: { name: 'projects.breedersmap.commodity' },
               },
               {
-                  name: "tab3",
+                  name: "tab4",
                   label: "Geo Map",
                   active: false,
                   route: { name: 'projects.breedersmap.geomap' },
-              },
-              {
-                  name: "tab4",
-                  label: "Gene Bank",
-                  active: true,
-                  route: { name: 'projects.breedersmap.summary' },
               },
               {
                   name: "tab5",
@@ -102,8 +102,8 @@ export default {
               },
           ],
           tables: [
-              { label: 'Commodity', name: 'commodities', route: route(Commodity.summaryUri), model: Commodity },
-              { label: 'Breeders', name: 'breeders', route: route(Breeder.summaryUri), model: Breeder },
+              { label: 'Commodity', name: 'commodities', route: route(BreedersMapEndpoints.commodity.summaryUri), model: Commodity },
+              { label: 'Breeders', name: 'breeders', route: route(BreedersMapEndpoints.breeder.summaryUri), model: Breeder },
           ]
       }
     },

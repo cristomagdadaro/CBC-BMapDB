@@ -19,8 +19,10 @@ export default interface ICommodity  extends IBaseClass {
     updated_at: string;
     created_at: string;
     deleted_at: string;
+    approved_at?: string;
 
     characteristics?: ICharacteristics;
+    additionalinfo?: IAdditionalInfo;
     regulations?: object;
     stress_resilience?: object;
 

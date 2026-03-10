@@ -1,18 +1,11 @@
 <script>
 import { Link } from "@inertiajs/vue3";
 import hamburger from "@/Components/Icons/Hamburger.vue";
-import DropdownLink from "@/Components/DropdownLink.vue";
-import Dropdown from "@/Components/Dropdown.vue";
-import {computed} from "vue";
-import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 
 export default {
     components: {
-        TransitionContainer,
         Link,
         hamburger,
-        DropdownLink,
-        Dropdown,
     },
     props: {
         active: Boolean,
@@ -20,80 +13,89 @@ export default {
     data() {
         return {
             showMenu: false,
+            isScrolled: false,
         };
+    },
+    mounted() {
+        this.handleScroll();
+        window.addEventListener('scroll', this.handleScroll, { passive: true });
+    },
+    beforeUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
         toggler() {
             this.showMenu = !this.showMenu;
         },
+        handleScroll() {
+            this.isScrolled = window.scrollY > 50;
+        },
     },
 };
-
-const classes = computed(() => {
-    return this.active
-        ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out'
-        : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out';
-});
 </script>
 <template>
-    <header class="flex items-center justify-between min-w-min w-full bg-cbc-dark-green text-white sticky top-0 z-[49] p-2">
-        <div class="relative flex flex-col resp-container w-full">
-            <!-- Large screen navigation bar -->
-            <div class="w-full relative lg:flex hidden">
-                <div class="flex flex-wrap justify-between items-center w-full overflow-hidden">
-                    <!-- Branding Section -->
-                    <Link :href="'/'" class="flex items-center max-w-fit hover:bg-gray-900 hover:bg-opacity-10 active:scale-95 duration-200 p-2 gap-1 rounded">
-                        <slot name="icon"></slot>
-                        <div class="flex flex-col max-w-fit">
-                        <span class="text-sm uppercase whitespace-nowrap tracking-[0.2rem] leading-tight">
+    <header
+        :class="[
+            'fixed top-0 left-0 right-0 z-50 transition-all duration-500',
+            isScrolled
+                ? 'bg-white/95 backdrop-blur-xl shadow-lg py-2'
+                : 'bg-transparent py-4'
+        ]"
+    >
+        <nav class="section-padding">
+            <div class="container-custom flex items-center justify-between">
+                <!-- Logo / Branding -->
+                <Link
+                    :href="'/'"
+                    class="flex items-center gap-3 group focus-ring rounded-lg"
+                >
+                    <slot name="icon"></slot>
+                    <div class="hidden sm:block leading-tight">
+                        <p :class="['text-xs font-medium transition-colors uppercase font-display', isScrolled ? 'text-gray-500' : 'text-white/80']">
                             <slot name="subtitle"></slot>
-                        </span>
-                        <span class="text-[0.8rem] sm:text-[1rem] lg:text-[1.2rem] uppercase font-bold whitespace-nowrap leading-[1]">
+                        </p>
+                        <p :class="['text-lg font-bold font-display transition-colors', isScrolled ? 'text-pin-green' : 'text-white']">
                             <slot name="title"></slot>
-                        </span>
-                        </div>
-                    </Link>
-                    <!-- Link Tabs Section -->
-                    <div class="flex flex-wrap justify-end mt-2 sm:mt-0">
-                        <slot name="links"></slot>
+                        </p>
                     </div>
+                </Link>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:flex items-center gap-1">
+                    <slot name="links" :is-scrolled="isScrolled"></slot>
                 </div>
 
+                <!-- Mobile Menu Button -->
+                <button
+                    class="lg:hidden p-2 rounded-lg transition-colors focus-ring"
+                    :class="isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/10'"
+                    @click="toggler()"
+                    :aria-expanded="showMenu"
+                    :aria-label="showMenu ? 'Close menu' : 'Open menu'"
+                >
+                    <svg v-if="!showMenu" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <svg v-else class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
             </div>
-            <!-- Small screen navigation bar -->
-            <div class="w-full lg:hidden">
-                <div class="flex justify-between items-center">
-                    <!-- Branding Section -->
-                    <Link
-                        :href="'/'"
-                        class="flex items-center max-w-fit hover:bg-gray-900 hover:bg-opacity-10 active:scale-95 duration-200 p-1 gap-1"
-                    >
-                        <slot name="icon"></slot>
-                        <div class="flex flex-col max-w-fit">
-                            <span class="text-[0.4rem] lg:text-sm uppercase whitespace-nowrap tracking-[0.2rem] overflow-x-hidden leading-tight">
-                                <slot name="subtitle"></slot>
-                            </span>
-                            <span class="text-[0.7rem] font-bold whitespace-nowrap uppercase leading-[1] overflow-x-hidden">
-                                <slot name="title"></slot>
-                            </span>
-                        </div>
-                    </Link>
-                    <hamburger
-                        :showMenu="showMenu"
-                        @click="toggler()"
-                        class="h-7 w-auto block active:scale-110 duration-300"
-                    />
+        </nav>
+
+        <!-- Mobile Menu -->
+        <transition
+            enter-active-class="transition ease-out duration-300"
+            enter-from-class="opacity-0 -translate-y-2"
+            enter-to-class="opacity-100 translate-y-0"
+            leave-active-class="transition ease-in duration-200"
+            leave-from-class="opacity-100 translate-y-0"
+            leave-to-class="opacity-0 -translate-y-2"
+        >
+            <div
+                v-show="showMenu"
+                class="lg:hidden bg-white border-t border-gray-100 shadow-lg"
+            >
+                <div class="section-padding py-4 space-y-1">
+                    <slot name="mobile-links"></slot>
                 </div>
-                <!-- Link Tabs Section -->
-                <transition-container>
-                    <div v-show="showMenu">
-                        <!-- Link Tabs Section -->
-                        <div class="lg:flex block">
-                            <slot name="links"></slot>
-                        </div>
-                    </div>
-                </transition-container>
             </div>
-        </div>
+        </transition>
     </header>
 </template>

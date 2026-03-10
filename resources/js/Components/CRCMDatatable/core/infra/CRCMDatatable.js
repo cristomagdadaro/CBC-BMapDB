@@ -5,6 +5,7 @@ import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
 import Notification from "@/Components/Modal/Notification/Notification";
 import { ErrorResponse } from "@/Pages/constants";
 import BaseClass from "@/Modules/core/domain/base/BaseClass";
+import DtoError from "@/Modules/core/dto/base/DtoError.js";
 
 export default class CRCMDatatable
 {
@@ -138,11 +139,16 @@ export default class CRCMDatatable
     }
 
     async perPageFunc(params){
-        this.request.updateParam('per_page', params.per_page)
+        this.request.updateParam('per_page', params.per_page);
         if (this.response['meta'] && this.response['meta']['last_page'] === this.response['meta']['current_page'])
             // if the current page is the last page, set the page to the last page
             this.request.updateParam('page', this.response['meta']['last_page']);
 
+        await this.refresh();
+    }
+
+    async scopeBy(params) {
+        this.request.updateParam('scope_by', params.scope_by);
         await this.refresh();
     }
 
@@ -242,20 +248,21 @@ export default class CRCMDatatable
             }
         }
     }
-    async importCSV(data) { console.log(data);
+    async importCSV(data) {
+        console.log(data);
         let success = 0;
         let failed = 0;
         let total = 0;
-
+        let response = null;
         for (const row of data) {
-            const response = await this.api.post(this.model.toObject(row));
-            if (response instanceof BaseResponse){
-                success++;
-            }
-            else if (ErrorResponse.some(error => response instanceof error)){
-                failed++;
-            }
-            total++;
+           response = await this.api.post(this.model.toObject(row));
+           if (response instanceof BaseResponse){
+               success++;
+           }
+           else if (ErrorResponse.some(error => response instanceof error)){
+               failed++;
+           }
+           total++;
         }
 
         if (success === total)
@@ -287,8 +294,9 @@ export default class CRCMDatatable
                 timeout: 5000,
                 show: true
             });
-        await this.refresh();
-        this.errorBag = {};
+
+        if (failed <= 0)
+            await this.refresh();
     }
 
     getColumnsFromResponse(response) {

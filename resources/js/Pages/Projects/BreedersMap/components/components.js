@@ -1,13 +1,14 @@
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import {defineAsyncComponent} from "vue";
+import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
 /**
  * Contains the forms, pages, api routes, and models for the BreedersMap project
  **/
 export const BreedersMapPages = {
     api: {
         breeder: {
-            path: route('api.breeders.index'),
+            path: route(BreedersMapEndpoints.breeder.indexUri),
             name: 'Breeders Model',
             model: Breeder,
             create:{
@@ -40,7 +41,7 @@ export const BreedersMapPages = {
             }
         },
         commodity: {
-            path: route('api.commodities.index'),
+            path: route(BreedersMapEndpoints.commodity.indexUri),
             name: 'Commodities Model',
             model: Commodity,
             create:{

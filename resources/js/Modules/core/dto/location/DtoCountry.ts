@@ -7,10 +7,10 @@ export default class DtoCountry extends BaseClass implements ICountry {
     iso_code: string = null;
 
     constructor(dto: ICountry) {
-        super();
+        super(dto);
         this.table = 'countries';
-        this.id = dto.id;
-        this.country = dto.country;
-        this.iso_code = dto.iso_code;
+        this.id = dto?.id;
+        this.country = dto?.country;
+        this.iso_code = dto?.iso_code;
     }
 }

@@ -16,7 +16,10 @@ class BreederPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_BREEDER) || $user->isAdmin();
+        return $user->isAdmin()
+            || $user->isFocalPerson()
+            || $user->isBreeder()
+            || $user->isResearcher();
     }
 
     /**
@@ -24,7 +27,7 @@ class BreederPolicy
      */
     public function view(User $user, Breeder $breeder): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_BREEDER) || $user->isAdmin();
+        return $this->viewAny($user);
     }
 
     /**
@@ -32,7 +35,7 @@ class BreederPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::CREATE_BREEDER);
+        return $user->isAdmin() || $user->isFocalPerson();
     }
 
     /**
@@ -40,7 +43,20 @@ class BreederPolicy
      */
     public function update(User $user, Breeder $breeder): bool
     {
-        return $user->hasPermissionTo(Permissions::UPDATE_BREEDER) || $user->isAdmin();
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        // Focal person can update breeders within the same institute
+        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $breederAff = (int) ($breeder->affiliation ?? 0);
+            if ($userAff && $breederAff && $userAff === $breederAff) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -48,7 +64,20 @@ class BreederPolicy
      */
     public function delete(User $user, Breeder $breeder): bool
     {
-        return $user->hasPermissionTo(Permissions::DELETE_BREEDER) || $user->isAdmin();
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        // Focal person can delete breeders within the same institute
+        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $breederAff = (int) ($breeder->affiliation ?? 0);
+            if ($userAff && $breederAff && $userAff === $breederAff) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**

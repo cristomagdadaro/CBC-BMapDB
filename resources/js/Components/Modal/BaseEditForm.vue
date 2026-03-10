@@ -23,6 +23,7 @@
                     <cancel-button @click="$emit('close')">Cancel</cancel-button>
                     <button class="bg-red-200 text-white px-4 py-2 rounded-md hover:bg-red-500 active:bg-red-600 duration-200" type="button" @click="resetForm">Reset</button>
                 </div>
+                <slot name="additionalButtons" />
                 <button :disabled="processing" :class="{'cursor-progress opacity-50' : processing}" class="bg-edit text-white px-4 py-2 rounded-md hover:bg-edit active:bg-edit duration-200" type="submit">
                         <span v-if="processing">
                             Updating

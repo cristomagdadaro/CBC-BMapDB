@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\GetUserRequest;
 use App\Http\Resources\BaseCollection;
 use App\Repository\API\UserRepo;
+use App\Traits\BuildsTwgQueries;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Modules\TwgDb\Models\TWGExpert;
@@ -15,36 +16,16 @@ use Modules\TwgDb\Models\TWGService;
 
 class TWGController extends BaseController
 {
+    use BuildsTwgQueries;
+
     public function __construct(UserRepo $userRepo)
     {
         $this->service = $userRepo;
     }
 
     public function index(GetUserRequest $request){
-        $data = $this->service->model
-            ->leftJoin('twg_expert', function($join) {
-                $join->on('users.id', '=', 'twg_expert.user_id')
-                    ->whereNull('twg_expert.deleted_at');
-            })
-            ->leftJoin('twg_product', function($join) {
-                $join->on('twg_expert.institution', '=', 'twg_product.institution')
-                    ->whereNull('twg_product.deleted_at');
-            })
-            ->leftJoin('twg_service', function($join) {
-                $join->on('twg_expert.institution', '=', 'twg_service.institution')
-                    ->whereNull('twg_service.deleted_at');
-            })
-            ->leftJoin('twg_project', function($join) {
-                $join->on('twg_expert.institution', '=', 'twg_project.institution')
-                    ->whereNull('twg_project.deleted_at');
-            })
-            ->leftJoin('institutes', function($join) {
-                $join->on('institutes.id', '=', 'users.institution')
-                    ->whereNull('institutes.deleted_at');
-            })
-            ->groupBy('users.affiliation')
-            ->selectRaw('institutes.name as affiliation, COUNT(DISTINCT twg_expert.id) as experts, COUNT(DISTINCT twg_product.id) as products, COUNT(DISTINCT twg_project.id) as projects, COUNT(DISTINCT twg_service.id) as services')
-            ->get();
+        $query = $this->service->model->query();
+        $data = $this->buildTwgSummaryQuery($query)->get();
 
         return new BaseCollection($data);
 
@@ -91,7 +72,7 @@ class TWGController extends BaseController
                     ->pluck('total', 'status');
 
                 // Return the response as JSON
-                return response()->json([ 'data' => [
+                return response()->json([
                     'totalExperts' => $totalExperts->count(),
                     'totalProjects' => $totalProjects->count(),
                     'totalProducts' => $totalProducts->count(),
@@ -104,7 +85,7 @@ class TWGController extends BaseController
                         ->pluck('total', 'type'),
                     'topExperts' => $topExperts,
                     'totalOnGoingProjects' => $totalOnGoingProjects,
-                ]]);
+                ]);
 
             }
         } catch (Exception $e) {

@@ -1,21 +1,17 @@
 <?php
 
-use App\Http\Controllers\API\ApplicationController;
-use App\Http\Controllers\API\InstituteController;
-use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InvitationController;
+use App\Http\Controllers\ProjectsPublicController;
 use App\Http\Controllers\SupportInfoController;
 use App\Http\Middleware\AdminApprovedUser;
 use App\Mail\UserInvitationEmail;
 use App\Models\User;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
-use Modules\PbMap\Controllers\BreederController;
-use Modules\PbMap\Controllers\CommodityController;
 use Modules\PbMap\Models\Breeder;
 use Modules\PbMap\Models\Commodity;
 use Modules\TwgDb\Controllers\TWGController;
@@ -32,30 +28,12 @@ use Modules\TwgDb\Models\TWGExpert;
 |
 */
 
-Route::get('/', function () {
-    $data = Breeder::join('loc_cities', 'loc_cities.id', '=', 'breeders.geolocation')
-        ->selectRaw('loc_cities.provDesc as label, COUNT(*) as total')
-        ->groupBy('loc_cities.provDesc')
-        ->orderByDesc('total')
-        ->get();
+// temporary: delete this after RCBS 2026
+Route::get('/forms/event/0504', function () {
+    return redirect()->away('https://dacbc.philrice.gov.ph/forms/event/0504');
+})->name('external.dacbc.event0504');
 
-    $formattedData = $data->map(function ($item) {
-        return [
-            'id' => Str::slug($item->label),
-            'key' => Str::slug($item->label),
-            'province' => $item->label,
-            'data' => $item->total,
-        ];
-    });
-
-    return Inertia::render('Projects', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-        'breedersmap_overview' => $formattedData,
-    ]);
-});
+Route::get('/', [ProjectsPublicController::class, 'home']);
 
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle'])->name('auth.google.redirect');
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback'); // This must be GET, not POST
@@ -65,9 +43,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard/activity', [DashboardController::class, 'updateActivity'])->name('dashboard.activity');
 });
 
 Route::prefix('email')->group(function () {
@@ -85,31 +62,25 @@ Route::get('/accept-breeder-role/{user}', [InvitationController::class, 'acceptB
     ->name('accept.breeder.role')
     ->middleware('signed'); // Ensure the URL is signed
 
-/* Public Api */
-Route::prefix('/api/public')->group(function () {
-    Route::get('/institutes', [InstituteController::class, 'index'])->name('api.institutes.index.public');
-    Route::get('/applications', [ApplicationController::class, 'index'])->name('api.applications.index.public');
-//    Route::get('/cities', [CityProvRegController::class, 'cityIndex'])->name('api.cities.index.public');
-    Route::get('/roles', [RoleController::class, 'index'])->name('api.roles.index.public');
-    Route::get('/commodities/summary', [CommodityController::class, 'summary'])->name('api.breedersmap.commodities.summary.public');
-    Route::get('/breeders/summary', [BreederController::class, 'summary'])->name('api.breedersmap.breeders.summary.public');
-});
+Route::post('/accept-breeder-role/{user}/regenerate', [InvitationController::class, 'regenerateBreederInvite'])
+    ->name('accept.breeder.role.regenerate')
+    ->middleware('auth');
 
 Route::prefix('/support-info')->group(function () {
     Route::get('/what-is-pin', [SupportInfoController::class, 'whatIsPIN'])->name('support.what-is-pin');
-    Route::get('/cbc-tour', [SupportInfoController::class, 'cbcTour'])->name('support.cbc-tour');
     Route::get('/terms-of-use', [SupportInfoController::class, 'termsOfUse'])->name('support.terms-of-use');
     //Route::get('/policy-notice', [SupportInfoController::class, 'policyNotice'])->name('support.policy-notice');
     Route::get('/privacy-policy', [SupportInfoController::class, 'privacyPolicy'])->name('support.privacy-policy');
+    Route::get('/data-privacy', [SupportInfoController::class, 'dataPrivacy'])->name('support.data-privacy');
     Route::get('/sitemap', [SupportInfoController::class, 'sitemap'])->name('support.sitemap');
-    Route::get('/developers', [SupportInfoController::class, 'developers'])->name('support.developers');
+    Route::get('/contributors', [SupportInfoController::class, 'contributors'])->name('support.contributors');
 });
+
+Route::get('/sitemap.xml', [SupportInfoController::class, 'sitemapXml'])->name('sitemap.xml');
 
 
 Route::prefix('/projects')->group(function () {
-    Route::get('/', function () {
-        return Inertia::render('Projects');
-    })->name('projects');
+    Route::get('/', [ProjectsPublicController::class, 'index'])->name('projects');
 
     Route::get('/twg-db', function (){
         return Inertia::render('Projects/TWG/presentation/TWGPublic', [

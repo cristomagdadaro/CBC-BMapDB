@@ -28,17 +28,17 @@ export default class DtoUser extends BaseClass implements IUser {
     password_confirmation?: string;
 
     constructor(dto: IUser) {
-        super();
+        super(dto);
         this.table = 'users';
-        this.id = dto.id;
-        this.fname = dto.fname;
-        this.mname = dto.mname;
-        this.lname = dto.lname;
-        this.suffix = dto.suffix;
-        this.email = dto.email;
-        this.affiliated = dto.affiliated;
-        this.mobile_no = dto.mobile_no;
-        this.email_verified_at = dto.email_verified_at;
+        this.id = dto?.id;
+        this.fname = dto?.fname;
+        this.mname = dto?.mname;
+        this.lname = dto?.lname;
+        this.suffix = dto?.suffix;
+        this.email = dto?.email;
+        this.affiliated = dto?.affiliated;
+        this.mobile_no = dto?.mobile_no;
+        this.email_verified_at = dto?.email_verified_at;
         this.deleted_at = dto.deleted_at ? 'Deleted' : 'Active';
 
         if (dto.password)

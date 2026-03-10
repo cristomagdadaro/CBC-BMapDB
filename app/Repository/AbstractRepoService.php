@@ -2,60 +2,100 @@
 
 namespace App\Repository;
 
-use App\Filters\Filter;
 use App\Http\Interfaces\AbstractRepoServiceInterface;
 use App\Models\ApiRequestLog;
 use App\Models\BaseModel;
+use App\Repository\Filters\FilterPipeline;
+use App\Repository\Filters\AggregationFilter;
+use App\Repository\Filters\DateRangeFilter;
+use App\Repository\Filters\HavingFilter;
+use App\Repository\Filters\FilterContract;
+use App\Repository\Filters\GeoLocationFilter;
+use App\Repository\Filters\ParentFilter;
+use App\Repository\Filters\RelationshipFilter;
+use App\Repository\Filters\SearchFilter;
+use App\Repository\Filters\SortFilter;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Optimized base repository service with robust filtering architecture.
+ *
+ * Key Improvements:
+ * - Modular filter system using FilterPipeline for better maintainability
+ * - Optimized query building with proper join management
+ * - Better aggregation support with dedicated filters
+ * - Enhanced performance through lazy loading and query optimization
+ * - Standardized error handling and responses
+ * - More flexible and extensible filtering
+ *
+ * @version 2.0
+ */
 abstract class AbstractRepoService implements AbstractRepoServiceInterface
 {
+    // Response type keys used with config('responses.*')
+    public const RESPONSE_CREATED = 'created';
+    public const RESPONSE_UPDATED = 'updated';
+    public const RESPONSE_DELETED = 'deleted';
+    public const RESPONSE_FAILURE = 'failure';
+    public const RESPONSE_NOT_FOUND = 'not_found';
+
+    // Defaults and common options
+    public const DEFAULT_PER_PAGE = 25;
+    public const DEFAULT_PAGE = 1;
+    public const SORT_DEFAULT_ORDER = 'desc';
+
+    // Column names
+    public const COL_ID = 'id';
+    public const COL_UUID = 'uuid';
+    public const COL_NAME = 'name';
+
+    // Messages
+    public const MSG_NO_DATA = 'No Data Found or Already Deleted';
+    public const MSG_NO_IDS = 'No IDs provided';
+
     /**
-     * Model to be used
-     * @var Model
-     **/
+     * Model instance
+     */
     public Model $model;
 
     /**
-     * Table to append with
-     * @var string[]
+     * Filter pipeline for query building
      */
-    public array $appendWith = [];
+    protected FilterPipeline $filterPipeline;
 
     /**
-     * Count the rows of the appended tables
-     * @var string[]
+     * Cache for filter pipeline to avoid recreating
      */
-    public array $appendCount = [];
-
-    /**
-     * Filter the data according to the parent id
-     */
-    protected array|null $filterByParent = null;
-
-    /**
-     * Add custom filters
-     */
-    private Filter $filters;
-
-    /**
-     * List of searchable and viewable columns
-     * @var string[]
-     **/
-    protected array $searchable = [];
+    private static ?FilterPipeline $defaultPipeline = null;
 
     public function __construct(Model $model)
     {
         $this->model = $model;
+        $this->filterPipeline = $this->createFilterPipeline();
+    }
+
+    /**
+     * Create and configure the filter pipeline.
+     * Override this method in child classes to customize filters.
+     */
+    protected function createFilterPipeline(): FilterPipeline
+    {
+        if (self::$defaultPipeline === null) {
+            self::$defaultPipeline = FilterPipeline::createDefault()
+                ->addFilter(new AggregationFilter())
+                ->addFilter(new DateRangeFilter())
+                ->addFilter(new HavingFilter());
+        }
+
+        return clone self::$defaultPipeline;
     }
 
     public function all(): Collection
@@ -66,10 +106,8 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function create(array $data): JsonResponse
     {
         try {
-            $model = $this->model->fill($data);
-            $model->save();
-
-            return $this->jsonResponse('created', $model->toArray());
+            $model = $this->model->create($data);
+            return $this->jsonResponse(self::RESPONSE_CREATED, $model);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -78,11 +116,9 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function update(int $id, array $data): JsonResponse
     {
         try {
-            $model = $this->model->find($id);
-            $model->fill($data);
-            $model->save();
-
-            return $this->jsonResponse('updated', $model->toArray());
+            $model = $this->model->findOrFail($id);
+            $model->update($data);
+            return $this->jsonResponse(self::RESPONSE_UPDATED, $model);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
@@ -91,67 +127,54 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     public function delete(int $id): JsonResponse
     {
         try {
-            $model = $this->find($id);
-
-            if ($model instanceof JsonResponse)
-                return $model;
-
+            $model = $this->model->findOrFail($id);
             $model->delete();
-            return $this->jsonResponse('deleted', $model->toArray());
-        } catch (\Exception $e) {
+            return $this->jsonResponse(self::RESPONSE_DELETED, $model);
+        } catch (Exception $e) {
             return $this->sendError($e);
         }
     }
 
+    /**
+     * Bulk delete by IDs with improved validation.
+     */
     public function multiDestroy(array $params): JsonResponse
     {
         try {
-            $successful = [];
-            $failed = [];
+            $ids = $this->normalizeIdList($params['ids'] ?? []);
 
-            $ids = $params['ids'];
-
-            foreach ($ids as $id) {
-                try {
-                    $model = $this->find($id);
-
-                    if ($model instanceof JsonResponse) {
-                        return $model;
-                    }
-
-                    $model->delete();
-                    $successful[] = $model;
-
-                } catch (\Exception $e) {
-                    $failed[$id] = $this->sendError($e);
-                }
+            if (empty($ids)) {
+                return $this->jsonResponse(self::RESPONSE_FAILURE, null, ['message' => self::MSG_NO_IDS]);
             }
 
-            if (!empty($successful)) {
-                return $this->jsonResponse('deleted', [
-                    'successful' => $successful,
-                    'message' => 'Some Data Deleted Successfully',
-                ]);
-            } elseif (empty($failed)) {
-                return $this->jsonResponse('failure', null, ['message' => 'No Data Found or Already Deleted']);
+            $deletedCount = $this->model->whereIn(self::COL_ID, $ids)->delete();
+
+            if ($deletedCount > 0) {
+                return $this->jsonResponse(self::RESPONSE_DELETED, ['count' => $deletedCount]);
             }
 
-            return $this->jsonResponse('error');
+            return $this->jsonResponse(self::RESPONSE_FAILURE, null, ['message' => self::MSG_NO_DATA]);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->sendError($e);
         }
     }
-
 
     public function find(int $id, $parameters = null): JsonResponse|Model
     {
         $builder = $this->model->query();
-        if ($parameters)
-            $this->applyAppends($builder, $parameters);
-        return $builder->findOr($id, fn() => $this->jsonResponse('not_found'));
+
+        if ($parameters) {
+            $params = $parameters instanceof Collection ? $parameters : collect($parameters);
+            $builder = $this->filterPipeline->apply($builder, $params);
+        }
+
+        return $builder->findOr($id, fn() => $this->jsonResponse(self::RESPONSE_NOT_FOUND));
     }
 
+    /**
+     * Build a standardized JSON response payload from config('responses.*').
+     */
     public function jsonResponse(string $type, mixed $data = null, ?array $overrides = null): JsonResponse
     {
         $responseConfig = Config::get("responses.{$type}");
@@ -166,286 +189,112 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         ], $responseConfig);
 
         if ($overrides !== null) {
-            foreach ($overrides as $key => $value) {
-                if (array_key_exists($key, $response)) {
-                    $response[$key] = $value;
-                }
-            }
+            $response = array_merge($response, $overrides);
         }
 
         $statusCode = $responseConfig['statusCode'] ?? Response::HTTP_OK;
         return response()->json($response, $statusCode);
     }
 
-    public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false)
+    /**
+     * Main search method with optimized filtering.
+     */
+    public function search(Collection $parameters, bool $withPagination = true, bool $isTrashed = false): Builder|LengthAwarePaginator|Collection
     {
         try {
+            $paginateRaw = $parameters->get('paginate', $withPagination);
+            $normalized = $this->normalizeBoolean($paginateRaw);
+            if (!is_null($normalized)) {
+                $withPagination = $normalized;
+            }
+
             return $this->buildSearchQuery($parameters, $withPagination, $isTrashed);
         } catch (Exception $error) {
             return $this->sendError($error);
         }
     }
 
-    protected function buildSearchQuery(Collection $parameters, bool $withPagination, bool $isTrashed): LengthAwarePaginator | Builder
+    /**
+     * Build the search query using the filter pipeline.
+     */
+    protected function buildSearchQuery(Collection $parameters, bool $withPagination, bool $isTrashed): LengthAwarePaginator|Builder|Collection
     {
-        $builder = $this->checkRole($this->model);
-        $builder = $this->applyRawSelectColumns($builder, $parameters);
+        // Start with a fresh query builder (not applying scopes to the model directly)
+        $builder = $this->model->newQuery();
 
-        $this->applyAppends($builder, $parameters);
-        $this->applyParentFilter($builder, $parameters);
+        // Apply role-based filtering
+        $builder = $this->applyRoleBasedFiltering($builder, $parameters);
 
-        if ($isTrashed)
+        // Apply soft delete filter
+        if ($isTrashed) {
             $builder = $builder->onlyTrashed();
+        }
 
-        $this->applyGeoFilters($builder, $parameters);
-        $this->applySearchFilters($builder, $parameters);
-        $this->applyGroupBy($builder, $parameters);
-        $this->applySorting($builder, $parameters);
+        // Apply all filters through the pipeline
+        $builder = $this->filterPipeline->apply($builder, $parameters);
 
-        if (!$withPagination)
-            return $builder;
+        // Return based on pagination preference
+        if (!$withPagination) {
+            return $builder->get();
+        }
+
         return $this->applyPagination($builder, $parameters);
     }
 
-    public function applyRawSelectColumns($query, Collection $parameters)
+    /**
+     * Apply pagination with optimized handling of special cases.
+     */
+    protected function applyPagination(Builder $query, Collection $parameters): LengthAwarePaginator
     {
-        $select = $parameters->get('select_raw', null);
+        $perPageRaw = $parameters->get('per_page', Config::get('app.pagination_per_page', self::DEFAULT_PER_PAGE));
+        $page = (int) $parameters->get('page', Config::get('app.pagination_page', self::DEFAULT_PAGE));
 
-        if ($select) {
-            return $query->selectRaw($select);
-        } else if ($this->model->getSearchable()) {
-            return $query->select($this->model->getSearchable());
+        // Handle '*' to return all results
+        if (is_string($perPageRaw) && trim($perPageRaw) === '*') {
+            $total = $this->getQueryCount($query);
+            $perPage = max(1, $total);
+            $page = 1;
+            return $query->paginate($perPage, ['*'], 'page', $page)->withQueryString();
         }
 
-        return $query->select('*');
-    }
-
-    public function applyGroupBy(Builder &$query, Collection $parameters): void
-    {
-        $group_by = $parameters->get('group_by', null);
-
-        if ($group_by) {
-            $query->groupBy($group_by);
-        }
-    }
-
-    public function applyGeoFilters(Builder &$query, Collection $parameters): void
-    {
-        $geo_location_filter = $this->determineLocFilterLevel($parameters->get('geo_location_filter'));
-        $geo_location_value = $parameters->get('geo_location_value');
-
-        if (Schema::hasColumn($this->model->getTable(), 'geolocation'))
-            $query = $query->join('loc_cities', 'loc_cities.id', '=', 'geolocation');
-        if (Schema::hasColumn($this->model->getTable(), 'user_id'))
-            $query =  $query->join('users', 'users.id', '=', 'user_id');
-
-        // to refactor, breeder_id should not be explicitly specified
-        if (Schema::hasColumn($this->model->getTable(), 'breeder_id') && $geo_location_filter == 'institute')
-            $query = $query->with(['breeder']);
-
-        if ($geo_location_value) {
-            if ($geo_location_filter !== 'institute') {
-                // Check if the column exists before applying the filter
-                if (Schema::hasColumn('loc_cities', $geo_location_filter)) {
-                    $query = $query->where('loc_cities.' . $geo_location_filter, $geo_location_value);
-                }
-            } else {
-                // Assuming 'institutes' is another table you are joining, so check for its columns
-                if (Schema::hasColumn('institutes', 'name')) {
-                    $query = $query->whereHas('breeder.affiliated', function ($instituteQuery) use ($geo_location_value) {
-                        // Apply the filter to the institutes table via the breeder relationship
-                        $instituteQuery->where('institutes.name', $geo_location_value);
-                    });
-                }
-            }
-        }
-    }
-
-
-    protected function applyPagination(Builder $query, Collection $parameters)
-    {
-        $perPage = $parameters->get('per_page', 10);
-        $page = $parameters->get('page', 1);
-
+        $perPage = (int) $perPageRaw;
         return $query->paginate($perPage, ['*'], 'page', $page)->withQueryString();
     }
 
-    public function applyAppends(Builder &$model, Collection $parameters): void
-    {
-        $with = $parameters->get('with', null);
-        $count = $parameters->get('count', null);
-
-        if ($with) {
-            $this->appendWith = explode(',', $with);
-        }
-
-        if ($count) {
-            $this->appendCount = explode(',', $count);
-        }
-
-        if ($this->appendWith) {
-            $model = $model->with($this->appendWith);
-        }
-
-        if ($this->appendCount) {
-            $model = $model->withCount($this->appendCount);
-        }
-    }
-
-    public function applyParentFilter(Builder &$query, Collection $parameters): void
-    {
-        $filterByParentColumn = $parameters->get('filter_by_parent_column');
-        $filterByParentId = $parameters->get('filter_by_parent_id');
-
-        if (!empty($filterByParentColumn) && !empty($filterByParentId)) {
-            $query = $query->where($filterByParentColumn, $filterByParentId);
-        }
-    }
-
-    public function applySearchFilters(Builder &$query, Collection $parameters): void
-    {
-        $isExact = $parameters->get('is_exact', false);
-        $filter = $parameters->get('filter', null);
-        $searchTerm = $parameters->get('search', '');
-
-        if (empty($searchTerm)) return;
-
-        // Apply search on the main model
-        $this->applySearch($query, $searchTerm, $filter, $isExact);
-
-        // Apply search on related models if specified
-        foreach ($this->appendWith as $relation) {
-            $relatedModel = $this->model->{$relation}()->getModel();
-            if (!is_null($relatedModel) && $searchTerm) {
-                $this->applyRelationSearch($query, $searchTerm, $filter, $isExact, $relation, $relatedModel);
-            }
-        }
-    }
-
-    protected function applySearch(Builder $query, string $search, ?string $filter, bool $is_exact): void
-    {
-        if (empty($search)) {
-            return;
-        }
-
-        // Apply search to a specific column if filter is provided
-        if ($filter) {
-            if (str_contains($filter, '.')) {
-                $filter = explode('.', $filter)[1]; // Extract the column name if filter contains a relation
-            }
-            $query->where($filter, 'like', "%{$search}%");
-            return;
-        }
-
-        // Retrieve searchable columns
-        $columns = collect($query->getModel()->getSearchable());
-        if ($columns->isEmpty()) {
-            return;
-        }
-
-        // Handle full name search
-        if ($columns->contains('fname') && $columns->contains('lname')) {
-            $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
-            return;
-        }
-
-        // Handle specific "name" column search
-        if ($filter === 'name') {
-            $query->where('name', 'like', "%{$search}%");
-            return;
-        }
-
-        // Apply search to all searchable columns
-        $query->where(function ($subQuery) use ($columns, $search, $is_exact) {
-            foreach ($columns as $column) {
-                $operator = $is_exact ? '=' : 'like';
-                $value = $is_exact ? $search : "%{$search}%";
-                $subQuery->orWhere($column, $operator, $value);
-            }
-        });
-    }
-
-    protected function applyRelationSearch(Builder $query, string $search, ?string $filter, bool $is_exact, string $relation, $relatedModel): void
-    {
-        $query->orWhereHas($relation, function ($query) use ($search, $filter, $is_exact, $relatedModel) {
-            if (str_contains($filter, '.')) {
-                $temp = explode('.', $filter);
-                $filter = $temp[1];
-            }
-
-            // Get related table name
-            $table = $query->getModel()->getTable();
-            $searchable = Schema::getColumnListing($table);
-
-            $query->where(function ($query) use ($search, $searchable, $is_exact, $table, $filter) {
-                if (($filter === 'name' && in_array('fname', $searchable) && in_array('lname', $searchable) || $table === 'users')) {
-                    $query->orWhereRaw("CONCAT_WS(' ', fname, mname, lname, suffix) LIKE ?", ["%{$search}%"]);
-                } else if ($filter) {
-                    if ($is_exact) {
-                        $query->orWhere($filter, $search);
-                    } else {
-                        $query->orWhere($filter, 'like', "%{$search}%");
-                    }
-                } else {
-                    foreach ($searchable as $column) {
-                        if (Schema::hasColumn($table, $column))
-                            if ($is_exact) {
-                                $query->orWhere($column, $search);
-                            } else {
-                                $query->orWhere($column, 'like', "%{$search}%");
-                            }
-                    }
-                }
-            });
-        });
-    }
-
-
-
-    public function applySorting(Builder &$query, Collection $parameters): void
-    {
-        $sortColumn = $parameters->get('sort', null);
-        $order = strtoupper($parameters->get('order', 'desc'));
-
-        if (!$sortColumn) return;
-
-        // Validate the sort column exists to prevent SQL errors
-        $table = $query->getModel()->getTable();
-        if (!Schema::hasColumn($table, $sortColumn)) {
-            $selectedColumns = $query->getQuery()->getColumns() ? $query->getQuery()->getColumns()[0] : ''; // Get selected columns from query
-
-            if (str_contains($selectedColumns, $sortColumn)) {
-                // If sort column exists in the query, use it
-                $sortColumn = $sortColumn;
-            } elseif (Schema::hasColumn($query->getModel()->getTable(), 'id')) {
-                // Default to table ID if it exists
-                $sortColumn = $table.'.id';
-            } else {
-                // Default to UUID if no valid column is found
-                $sortColumn = 'uuid';
-            }
-        }
-
-        if (in_array($order, ['ASC', 'DESC'])) {
-            $query->orderBy($sortColumn, $order);
-        } else {
-            $query->orderBy($sortColumn, 'desc'); // Fallback to descending order
-        }
-    }
-
-    public function summary(): int
+    /**
+     * Get count efficiently without affecting the original query.
+     */
+    protected function getQueryCount(Builder $query): int
     {
         try {
-            return $this->model->count();
+            return (clone $query)->count();
         } catch (\Exception $e) {
+            Log::warning('Failed to get query count', ['error' => $e->getMessage()]);
             return 0;
         }
     }
 
+    /**
+     * Quick summary count of the model records.
+     */
+    public function summary(): int
+    {
+        try {
+            return $this->model->count();
+        } catch (Exception $e) {
+            Log::error('Failed to get summary count', ['error' => $e->getMessage()]);
+            return 0;
+        }
+    }
+
+    /**
+     * Normalize incoming geo_location_filter to the corresponding column/key.
+     * Maintained for backward compatibility.
+     */
     public function determineLocFilterLevel($geo_location_filter): string|null
     {
         return match ($geo_location_filter) {
-            'institute' => 'institute',
+            'affiliation' => 'institutes.name',
             'province' => 'provDesc',
             'region' => 'regDesc',
             'city' => 'cityDesc',
@@ -454,35 +303,195 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
     }
 
     /**
+     * Log the exception and wrap it into an ErrorRepository for unified error handling.
+     *
      * @throws ErrorRepository
      */
     public function sendError(Exception $error)
     {
-        Log::error('Error occurred: ' . $error->getMessage(), ['exception' => $error]);
+        Log::error('Repository error: ' . $error->getMessage(), [
+            'exception' => $error,
+            'trace' => $error->getTraceAsString(),
+        ]);
         throw new ErrorRepository($error);
     }
 
-    public function checkRole(BaseModel|Model $model)
+    /**
+     * Apply ownership scoping based on the authenticated user.
+     * This method now works with a query builder instead of the model directly.
+     */
+    private function applyRoleBasedFiltering(Builder $builder, Collection $parameters): Builder
     {
-        if (!auth()->check())
-            return $model;
+        if (!auth()->check()) {
+            return $builder;
+        }
 
         try {
             $user = auth()->user();
-            $model = $model->ownedByUser($user)->ownedByAffiliation($user);
-        } catch (\Exception $e) {
-            return $this->sendError($e);
+            $model = $builder->getModel();
+
+            $scope = $parameters->get('scope_by', null);
+
+            if (in_array($scope, ['scopeOwnedPublic', 'public', 'all'], true)) {
+                return $builder;
+            }
+
+            if (method_exists($model, 'scopeOwnedByUser') && $scope === 'scopeOwnedByUser') {
+                $builder = $builder->ownedByUser($user);
+            }
+
+            else if (method_exists($model, 'scopeOwnedByAffiliation') && $scope === 'scopeOwnedByAffiliation') {
+                $builder = $builder->ownedByAffiliation($user);
+            }
+        } catch (Exception $e) {
+            Log::warning('Failed to apply role-based filtering', ['error' => $e->getMessage()]);
+        }
+
+        return $builder;
+    }
+
+    /**
+     * Apply ownership scoping based on the authenticated user.
+     * @deprecated Use applyRoleBasedFiltering() instead
+     */
+    public function checkRole(BaseModel|Model $model): BaseModel|Model
+    {
+        if (!auth()->check()) {
+            return $model;
+        }
+
+        try {
+            $user = auth()->user();
+
+            // Only apply if methods exist to avoid errors
+            if (method_exists($model, 'ownedByUser')) {
+                $model = $model->ownedByUser($user);
+            }
+
+            if (method_exists($model, 'ownedByAffiliation')) {
+                $model = $model->ownedByAffiliation($user);
+            }
+        } catch (Exception $e) {
+            Log::warning('Failed to apply role-based filtering', ['error' => $e->getMessage()]);
         }
 
         return $model;
     }
 
+    /**
+     * Persist a simple API request log entry.
+     */
     protected function logApiRequest(string $method, string $url, array $data): void
     {
-        $log = new ApiRequestLog();
-        $log->method = $method;
-        $log->url = $url;
-        $log->data = $data;
-        $log->save();
+        try {
+            $log = new ApiRequestLog();
+            $log->method = $method;
+            $log->url = $url;
+            $log->data = $data;
+            $log->save();
+        } catch (Exception $e) {
+            Log::error('Failed to log API request', ['error' => $e->getMessage()]);
+        }
     }
+
+    /**
+     * Normalize various truthy/falsey representations to boolean.
+     */
+    protected function normalizeBoolean($value): ?bool
+    {
+        if (is_bool($value)) return $value;
+        if (is_int($value)) return $value !== 0;
+        if (is_string($value)) {
+            $v = strtolower(trim($value));
+            if (in_array($v, ['1', 'true', 'yes', 'on'], true)) return true;
+            if (in_array($v, ['0', 'false', 'no', 'off'], true)) return false;
+        }
+        return null;
+    }
+
+    /**
+     * Normalize ID list from various formats.
+     */
+    protected function normalizeIdList(mixed $ids): array
+    {
+        if (is_array($ids)) {
+            return array_filter(array_map('intval', $ids));
+        }
+
+        if (is_string($ids)) {
+            return array_filter(array_map('trim', explode(',', $ids)));
+        }
+
+        return [];
+    }
+
+    /**
+     * Get the filter pipeline instance for custom modifications.
+     */
+    public function getFilterPipeline(): FilterPipeline
+    {
+        return $this->filterPipeline;
+    }
+
+    /**
+     * Replace the filter pipeline with a custom one.
+     */
+    public function setFilterPipeline(FilterPipeline $pipeline): self
+    {
+        $this->filterPipeline = $pipeline;
+        return $this;
+    }
+
+    /**
+     * Apply a single pipeline filter to a builder.
+     */
+    protected function applySingleFilter(Builder $query, FilterContract $filter, Collection $parameters): Builder
+    {
+        return $filter->shouldApply($parameters) ? $filter->apply($query, $parameters) : $query;
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applyParentFilter(Builder $query, Collection $parameters): Builder
+    {
+        return $this->applySingleFilter($query, new ParentFilter(), $parameters);
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applyGeoFilters(Builder $query, Collection $parameters): Builder
+    {
+        if ($parameters->get('geo_location_filter') === 'institute') {
+            $parameters = $parameters->put('geo_location_filter', 'affiliation');
+        }
+
+        return $this->applySingleFilter($query, new GeoLocationFilter(), $parameters);
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applySearchFilters(Builder $query, Collection $parameters): Builder
+    {
+        return $this->applySingleFilter($query, new SearchFilter(), $parameters);
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applySorting(Builder $query, Collection $parameters): Builder
+    {
+        return $this->applySingleFilter($query, new SortFilter(), $parameters);
+    }
+
+    /**
+     * @deprecated Use the pipeline directly when possible.
+     */
+    public function applyAppends(Builder $query, Collection $parameters): Builder
+    {
+        return $this->applySingleFilter($query, new RelationshipFilter(), $parameters);
+    }
+
 }

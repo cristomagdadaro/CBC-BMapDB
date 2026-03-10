@@ -86,7 +86,7 @@ const routes = [
                         name: 'projects.breedersmap.breeder',
                         children: [
                             {
-                                path: '/projects/breedersmap/breeder',
+                                path: '/projects/breedersmap/breeder/:id?',
                                 component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapViewBreeder.vue'),
                                 name: 'breedersmap.breeder.view',
                             },
@@ -103,7 +103,7 @@ const routes = [
                         name: 'projects.breedersmap.commodity',
                         children: [
                             {
-                                path: '/projects/breedersmap/commodity',
+                                path: '/projects/breedersmap/commodity/:id?',
                                 component: async () => await import('@/Pages/Projects/BreedersMap/presentation/BreedersMapViewCommodity.vue'),
                                 name: 'breedersmap.commodity.view',
                             }
@@ -177,11 +177,6 @@ const routes = [
         name: 'support.what-is-pin',
     },
     {
-        path: '/support-info/cbc-tour',
-        component: async () => await import('@/Pages/Support/VisitUs.vue'),
-        name: 'support.cbc-tour',
-    },
-    {
         path: '/support-info/terms-of-use',
         component: async () => await import('@/Pages/Support/TermsOfUse.vue'),
         name: 'support.terms-of-use',
@@ -192,9 +187,14 @@ const routes = [
         name: 'support.privacy-policy',
     },
     {
-        path: '/support-info/developers',
-        component: async () => await import('@/Pages/Support/Developers.vue'),
-        name: 'support.developers',
+        path: '/support-info/data-privacy',
+        component: async () => await import('@/Pages/Support/DataPrivacy.vue'),
+        name: 'support.data-privacy',
+    },
+    {
+        path: '/support-info/contributors',
+        component: async () => await import('@/Pages/Support/Contributors.vue'),
+        name: 'support.contributors',
     },
     {
         path: '/support-info/sitemap',

@@ -7,12 +7,18 @@ use App\Http\Requests\CreateApiUserRequest;
 use App\Http\Requests\LoginApiUserRequest;
 use App\Http\Resources\UserLoginResource;
 use App\Models\User;
+use App\Repository\API\PersonalAccessTokenRepo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class AuthController extends BaseController
 {
+    protected PersonalAccessTokenRepo $tokenRepo;
+
+    public function __construct(PersonalAccessTokenRepo $tokenRepo)
+    {
+        $this->tokenRepo = $tokenRepo;
+    }
     /**
      * User Registration endpoint
      */
@@ -37,10 +43,7 @@ class AuthController extends BaseController
             $user = Auth::user();
 
             // invalidate old tokens from the same IP
-            DB::table('personal_access_tokens')
-                ->where('tokenable_type', "App\Models\User")
-                ->where('tokenable_id', $user->id)
-                ->delete();
+            $this->tokenRepo->deleteTokensForUser($user->id);
 
             return $this->sendResponse(new UserLoginResource($user));
         }

@@ -20,5 +20,6 @@ class ApiRequestLog extends Model
         'model',
         'data',
         'modified_id',
+        'description',
     ];
 }

@@ -27,7 +27,7 @@ watch(() => props.message, () => {
                 {{ props.message }}
             </p>
         </transition>
-        <span @mouseenter="toggleShow" @click="toggleShow"  class="rounded-full border px-[0.4rem] text-xs scale-[80%] select-none text-red-500 border-red-500" :title="message">!</span>
+        <span @mouseenter="toggleShow" @click="toggleShow"  class="rounded-full border px-[0.4rem] text-xs scale-[80%]  text-red-500 border-red-500" :title="message">!</span>
     </div>
 </template>
 

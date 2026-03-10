@@ -1,40 +1,14 @@
 import DtoProduct from "../dto/DtoProduct";
-import BaseClass from "../../../../Modules/core/domain/base/BaseClass";
-import IProduct from "../interface/IProduct";
-import IExpert from "../interface/IExpert";
-import IInstitute from "@/Modules/core/interface/auth/IInstitute";
 
-export default class Product extends BaseClass implements IProduct{
-    id: number;
-    user_id: number;
-    name: string;
-    brand: string;
-    purpose: string;
-    cost: number;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string;
-    institution: number;
-
-    affiliated: IInstitute;
-
+export default class Product extends DtoProduct {
     constructor(params: DtoProduct) {
         super(params);
-
-        this.indexUri = 'api.twg.products.index';
-        this.showUri = 'api.twg.products.show';
-        this.storeUri = 'api.twg.products.store';
-        this.updateUri = 'api.twg.products.update';
-        this.destroyUri = 'api.twg.products.destroy';
-        this.multiDestroyUri = 'api.twg.products.destroy.multi';
-        this.summaryUri = 'api.twg.products.summary';
 
         this.appendWith = ['affiliated'];
     }
 
     static createForm() {
         return {
-            twg_expert_id: null,
             name: null,
             brand: null,
             purpose: null,
@@ -42,7 +16,6 @@ export default class Product extends BaseClass implements IProduct{
             created_at: null,
             updated_at: null,
             deleted_at: null,
-            expert: null,
             institution: null,
         }
     }
@@ -78,14 +51,6 @@ export default class Product extends BaseClass implements IProduct{
                 align: 'center',
                 sortable: true,
                 visible: true,
-            },
-            {
-                title: 'Expert ID',
-                key: 'twg_expert_id',
-                db_key: 'twg_expert_id',
-                align: 'center',
-                sortable: true,
-                visible: false,
             },
             {
                 title: 'Name',

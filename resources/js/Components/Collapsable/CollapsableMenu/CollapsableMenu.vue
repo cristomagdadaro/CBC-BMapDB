@@ -37,7 +37,7 @@ export default {
             <filter-icon class="h-5 w-5 duration-300" :class="open? 'rotate-180':'rotate-0'"/>
         </div>
         <transition-container>
-            <div v-show="open" class="select-none grid sm:grid-cols-4 sm:grid-rows-1 grid-cols-1 grid-rows-4 gap-1">
+            <div v-show="open" class=" grid sm:grid-cols-4 sm:grid-rows-1 grid-cols-1 grid-rows-4 gap-1">
                 <slot />
             </div>
         </transition-container>

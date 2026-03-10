@@ -1,7 +1,7 @@
 <script>
 import { BreedersMapPages } from "@/Pages/Projects/BreedersMap/components/components.js";
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
-import {Permission} from "@/Pages/constants.ts";
+import ApiService from "@/Modules/core/infrastructure/ApiService";
 
 export default {
     name: "BreedersTable",
@@ -9,21 +9,54 @@ export default {
         BreedersMapPages() {
             return BreedersMapPages
         },
-        Permission() {
-            return Permission;
-        },
         canCreate() {
-            return this.$page.props.permissions.breedersmap.breeder[Permission.CREATE];
+            return this.isAdmin || this.isFocal;
         },
         canUpdate() {
-            return this.$page.props.permissions.breedersmap.breeder[Permission.UPDATE];
+            return this.isAdmin || this.isFocal;
         },
         canDelete() {
-            return this.$page.props.permissions.breedersmap.breeder[Permission.DELETE];
+            return this.isAdmin || this.isFocal;
         },
         canView() {
-            return this.$page.props.permissions.breedersmap.breeder[Permission.VIEW];
+            return this.isAdmin || this.isFocal || this.isBreeder || this.isResearcher;
         },
+        roleNames() {
+            const roles = this.$page?.props?.auth?.user?.roles || [];
+            return roles.map(role => role?.name ?? role).filter(Boolean);
+        },
+        isAdmin() {
+            return this.roleNames.includes('Administrator');
+        },
+        isFocal() {
+            return this.roleNames.includes('Focal Person');
+        },
+        isBreeder() {
+            return this.roleNames.includes('Breeder');
+        },
+        isResearcher() {
+            return this.roleNames.includes('Researcher');
+        },
+        currentUserAffiliationId() {
+            return this.$page?.props?.auth?.user?.affiliated?.id || null;
+        }
+    },
+    methods: {
+        isSameInstituteBreeder(row) {
+            const userAff = Number(this.currentUserAffiliationId);
+            const rowAff = Number(row?.affiliated?.id ?? null);
+            return !!userAff && !!rowAff && userAff === rowAff;
+        },
+        rowCanUpdate(row) {
+            if (this.isAdmin) return true;
+            if (this.isFocal && this.isSameInstituteBreeder(row)) return true;
+            return false;
+        },
+        rowCanDelete(row) {
+            if (this.isAdmin) return true;
+            if (this.isFocal && this.isSameInstituteBreeder(row)) return true;
+            return false;
+        }
     },
     components: {
         CRCMDatatable,
@@ -43,5 +76,7 @@ export default {
         :can-update="canUpdate"
         :can-delete="canDelete"
         :can-view="canView"
+        :row-can-update="rowCanUpdate"
+        :row-can-delete="rowCanDelete"
     />
 </template>

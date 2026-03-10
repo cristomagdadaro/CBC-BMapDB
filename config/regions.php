@@ -3,7 +3,7 @@ return array(
     array(
         'id' => 1,
         'regDesc' => 'BARMM',
-        'regDescLong' => 'Bangsamoro Autonomous Region In Muslim Mindanao '
+        'regDescLong' => 'Bangsamoro Autonomous Region In Muslim Mindanao'
     ),
     array(
         'id' => 2,
@@ -78,7 +78,7 @@ return array(
     array(
         'id' => 19,
         'regDesc' => 'REGION XII',
-        'regDescLong' => 'Soccsksargen'
+        'regDescLong' => 'SOCCSKSARGEN'
     ),
     array(
         'id' => 20,

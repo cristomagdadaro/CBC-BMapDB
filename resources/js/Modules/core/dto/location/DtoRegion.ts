@@ -10,11 +10,11 @@ export default class DtoRegion extends BaseClass implements IRegion {
     country_id: ICountry = null;
 
     constructor(dto: IRegion) {
-        super();
+        super(dto);
         this.table = 'regions';
-        this.id = dto.id;
-        this.regDesc = dto.regDesc;
-        this.regDescLong = dto.regDescLong;
+        this.id = dto?.id;
+        this.regDesc = dto?.regDesc;
+        this.regDescLong = dto?.regDescLong;
         if (dto.country_id)
             this.country_id = new DtoCountry(dto.country_id);
     }

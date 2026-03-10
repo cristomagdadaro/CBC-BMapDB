@@ -4,6 +4,7 @@ namespace Modules\TwgDb\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\TwgDb\Models\TWGExpert;
 
 class DeleteTWGExpertRequest extends FormRequest
 {
@@ -12,6 +13,33 @@ class DeleteTWGExpertRequest extends FormRequest
      */
     public function authorize(): bool
     {
+        $user = auth()->user();
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        if (!$user->isTwgManager()) {
+            abort(403, __('You are not authorized to delete experts.'));
+        }
+
+        $userAff = (int) ($user->affiliation ?? 0);
+        if (!$userAff) {
+            abort(403, __('You are not authorized to delete experts.'));
+        }
+
+        $ids = $this->input('ids', []);
+        $count = TWGExpert::whereIn('id', $ids)
+            ->where('institution', $userAff)
+            ->count();
+
+        if ($count !== count($ids)) {
+            abort(403, __('You are not authorized to delete experts outside your institution.'));
+        }
+
         return true;
     }
 

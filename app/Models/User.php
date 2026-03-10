@@ -44,6 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
         'google_id',
         'profile_photo_path',
+        'last_activity_at',
     ];
 
     /**
@@ -65,6 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_activity_at' => 'datetime',
     ];
 
     /**
@@ -195,6 +197,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasRole(RoleEnum::RESEARCHER->value);
     }
 
+    public function isTwgManager(): bool
+    {
+        return $this->hasRole(RoleEnum::TWG_MANAGER->value);
+    }
+
     public function dataView(): HasMany
     {
         return $this->hasMany(DataView::class, 'user_account_id');
@@ -229,5 +236,21 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationViaFocalPersonNotification(): void
     {
         $this->notify(new FocalPersonInvitationToBreederEmail);
+    }
+
+    public function getProfilePhotoUrlAttribute()
+    {
+        $value = $this->profile_photo_path;
+        // If no custom photo, return a default avatar from public/img
+        if (!$value) {
+            return asset('img/person-circle.svg');
+        }
+        // If already a full URL, return as-is
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+        // Normalize leading slashes to avoid double slashes in URL
+        $relativePath = ltrim($value, '/');
+        return asset('storage/' . $relativePath);
     }
 }

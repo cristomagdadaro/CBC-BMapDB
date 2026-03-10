@@ -10,11 +10,11 @@ export default class DtoRole extends BaseClass implements IRole {
     permissions: IPermission[] = null;
 
     constructor(dto: IRole) {
-        super();
+        super(dto);
         this.table = 'roles';
-        this.id = dto.id;
-        this.name = dto.name;
-        this.guard_name = dto.guard_name;
+        this.id = dto?.id;
+        this.name = dto?.name;
+        this.guard_name = dto?.guard_name;
         if (dto.permissions)
             this.permissions = dto.permissions.map(permission => new DtoPermission(permission));
     }

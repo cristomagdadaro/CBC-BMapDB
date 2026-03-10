@@ -3,15 +3,6 @@ import DtoBreeder from "../dto/DtoBreeder";
 export default class Breeder extends DtoBreeder{
     constructor(params : DtoBreeder) {
         super(params);
-        this.indexUri = 'api.breeders.index';
-        this.showUri = 'api.breeders.show';
-        this.storeUri = 'api.breeders.store';
-        this.updateUri = 'api.breeders.update';
-        this.destroyUri = 'api.breeders.destroy';
-        this.multiDestroyUri = 'api.breeders.destroy.multi';
-        this.summaryUri = 'api.breeders.summary';
-        this.dataViewUri =  'api.dataview.show';
-
         this.appendWith = ['affiliated','location','commodities'];
         this.appendCount = ['commodities'] ;
     }
@@ -38,6 +29,11 @@ export default class Breeder extends DtoBreeder{
             remember_token: null,
             photo: null,
         }
+    }
+
+    static importTemplateHeaders() {
+        const exclude = ['id','user_id','remember_token','photo','password_confirmation'];
+        return Object.keys(this.createForm()).filter(k => !exclude.includes(k));
     }
 
     static updateForm(oldValue: Partial<Breeder>)
@@ -187,13 +183,13 @@ export default class Breeder extends DtoBreeder{
                 key: 'user_id',
                 db_key: 'user_id',
                 align: 'center',
-                sortable: true,
+                sortable: false,
                 visible: false,
             },
             {
                 title: 'Name',
                 key: 'getFullName',
-                db_key: 'name',
+                db_key: 'fname,mname,lname,suffix',
                 align: 'center',
                 sortable: true,
                 visible: true,
@@ -221,22 +217,6 @@ export default class Breeder extends DtoBreeder{
                 align: 'center',
                 sortable: true,
                 visible: false,
-            },
-            {
-                title: 'Expertise',
-                key: 'expertise',
-                db_key: 'expertise',
-                align: 'center',
-                sortable: true,
-                visible: true,
-            },
-            {
-                title: 'Research Interest',
-                key: 'research_interest',
-                db_key: 'research_interest',
-                align: 'center',
-                sortable: true,
-                visible: true,
             },
             {
                 title: 'Phone',
@@ -274,6 +254,22 @@ export default class Breeder extends DtoBreeder{
                 title: 'Address',
                 key: 'location.getFullAddress',
                 db_key: 'location',
+                align: 'center',
+                sortable: true,
+                visible: true,
+            },
+            {
+                title: 'Expertise',
+                key: 'expertise',
+                db_key: 'expertise',
+                align: 'center',
+                sortable: true,
+                visible: true,
+            },
+            {
+                title: 'Research Interest',
+                key: 'research_interest',
+                db_key: 'research_interest',
                 align: 'center',
                 sortable: true,
                 visible: true,

@@ -13,7 +13,10 @@ class CommodityPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_COMMODITY) || $user->isAdmin();
+        return $user->isAdmin()
+            || $user->isResearcher()
+            || $user->isBreeder()
+            || $user->isFocalPerson();
     }
 
     /**
@@ -21,7 +24,7 @@ class CommodityPolicy
      */
     public function view(User $user, Commodity $commodity): bool
     {
-        return $user->hasPermissionTo(Permissions::READ_COMMODITY) || $user->isAdmin();
+        return $this->viewAny($user);
     }
 
     /**
@@ -29,23 +32,65 @@ class CommodityPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo(Permissions::CREATE_COMMODITY);
+        return $user->isAdmin()
+            || $user->isFocalPerson()
+            || $user->isBreeder();
     }
 
     /**
      * Determine whether the user can update the model.
+     * Breeders: can only update their own commodities; Admins: always allowed; Focal Person: can update commodities within their institute.
      */
     public function update(User $user, Commodity $commodity): bool
     {
-        return $user->hasPermissionTo(Permissions::UPDATE_COMMODITY) || $user->isAdmin();
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        // Focal person can update commodities within their institute (via breeder affiliation)
+        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $commodityAff = (int) ($commodity->relationLoaded('breeder') ? optional($commodity->breeder)->affiliation : $commodity->breeder()->value('affiliation'));
+            if ($userAff && $commodityAff && $userAff === $commodityAff) {
+                return true;
+            }
+        }
+
+        // If the acting user is a breeder, restrict to own records
+        if ($user->isBreeder()) {
+            // Prefer direct user_id on the commodity; fallback to breeder relation's user_id
+            $ownsDirectly = (int) $commodity->user_id === (int) $user->id;
+            if ($ownsDirectly) return true;
+
+            $breederUserId = $commodity->relationLoaded('breeder')
+                ? optional($commodity->breeder)->user_id
+                : $commodity->breeder()->value('user_id');
+
+            return (int) $breederUserId === (int) $user->id;
+        }
+
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
+     * Breeders: can only delete their own commodities; Admins: always allowed; Focal Person: can delete commodities within their institute.
      */
     public function delete(User $user, Commodity $commodity): bool
     {
-        return $user->hasPermissionTo(Permissions::DELETE_COMMODITY) || $user->isAdmin();
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        // Focal person can delete commodities within their institute (via breeder affiliation)
+        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+            $userAff = (int) ($user->affiliation ?? 0);
+            $commodityAff = (int) ($commodity->relationLoaded('breeder') ? optional($commodity->breeder)->affiliation : $commodity->breeder()->value('affiliation'));
+            if ($userAff && $commodityAff && $userAff === $commodityAff) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

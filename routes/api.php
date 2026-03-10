@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\CBCTourController;
+use App\Http\Controllers\API\DashboardApiController;
+use App\Http\Controllers\API\ActivityLogController;
 use App\Http\Controllers\DataViewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,13 +33,25 @@ Route::prefix('/auth')->group(function () {
     });
 });
 
-require_once 'components/PublicRoutes.php';
-require_once 'components/OpenAiRoutes.php';
+require 'components/PublicRoutes.php';
+require 'components/OpenAiRoutes.php';
 
 Route::middleware(['api','auth:sanctum','verified'])->group(function() {
-    require_once base_path('Modules/TwgDb/Routes/TWGDbRoutes.php');
-    require_once base_path('Modules/PbMap/Routes/BreedersMapRoutes.php');
-    require_once 'components/SystemRoutes.php';
+    require base_path('Modules/TwgDb/Routes/TWGDbRoutes.php');
+    require base_path('Modules/PbMap/Routes/BreedersMapRoutes.php');
+    require 'components/SystemRoutes.php';
+
+    // Dashboard API Routes
+    Route::prefix('dashboard')->controller(DashboardApiController::class)->group(function () {
+        Route::get('/system-stats', 'getSystemStats')->name('api.dashboard.system-stats');
+        Route::get('/online-users', 'getOnlineUsers')->name('api.dashboard.online-users');
+        Route::get('/recent-users', 'getRecentUsers')->name('api.dashboard.recent-users');
+        Route::get('/user-role-distribution', 'getUserRoleDistribution')->name('api.dashboard.user-role-distribution');
+        Route::get('/system-activities', 'getSystemActivities')->name('api.dashboard.system-activities');
+        Route::post('/activity', 'updateActivity')->name('api.dashboard.activity');
+    });
+
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('api.activity-logs.index');
 
     Route::controller(DataViewController::class)->group(function () {
        Route::get('/data-view', 'index')->name('api.dataview.index');
@@ -48,6 +61,3 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
     });
 });
 
-Route::middleware(['api'])->group(function() {
-    Route::get('/cbc360tour/visitor/counter', [CBCTourController::class, 'storeVisitor'])->name('cbc360tour.visitor.counter');
-});

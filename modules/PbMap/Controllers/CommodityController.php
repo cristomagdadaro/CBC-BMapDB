@@ -6,13 +6,13 @@ use App\Http\Controllers\BaseController;
 use App\Http\Resources\BaseCollection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
-use Modules\PbMap\Filters\CommodityFilter;
 use Modules\PbMap\Interfaces\CommodityControllerInterface;
 use Modules\PbMap\Repositories\CommodityRepo;
 use Modules\PbMap\Requests\CreateCommoditiesRequest;
 use Modules\PbMap\Requests\DeleteCommoditiesRequest;
 use Modules\PbMap\Requests\GetCommoditiesRequest;
 use Modules\PbMap\Requests\UpdateCommoditiesRequest;
+use Modules\PbMap\Requests\ApproveCommoditiesRequest;
 
 class CommodityController extends BaseController implements CommodityControllerInterface
 {
@@ -24,6 +24,11 @@ class CommodityController extends BaseController implements CommodityControllerI
     public function index(GetCommoditiesRequest $request): BaseCollection
     {
         return parent::_index($request);
+    }
+
+    public function selection(GetCommoditiesRequest $request): BaseCollection
+    {
+        return parent::_selection($request);
     }
 
     public function show(GetCommoditiesRequest $request, int $id): JsonResponse
@@ -60,128 +65,130 @@ class CommodityController extends BaseController implements CommodityControllerI
 
     private function summaryPublic(GetCommoditiesRequest $request): JsonResponse
     {
-        $model = $this->service->model;
+        /** @var CommodityRepo $repo */
+        $repo = $this->service;
+        $model = $repo->model;
 
-        $filter = new CommodityFilter(
-            $request->validated('geo_location_value'),
-            $request->validated('geo_location_filter') ?? 'region',
-            $request->validated('filter_by_parent_column'),
-            $request->validated('filter_by_parent_id'),
-            $request->validated('filter'),
-            $request->validated('search') ?? '',
-            $request->validated('with') ?? '',
-            $request->validated('is_exact'),
-            $request->all()['commodity'] ?? null,
-            $this->service->determineLocFilterLevel($request->validated('geo_location_filter') ?? 'region'),
+        $geoLocationFilter = $request->validated('geo_location_filter') ?? 'region';
+        $commodity = $request->input('commodity');
+
+        $baseParams = collect([
+            'geo_location_value' => $request->validated('geo_location_value'),
+            'geo_location_filter' => $geoLocationFilter,
+            'filter_by_parent_column' => $request->validated('filter_by_parent_column'),
+            'filter_by_parent_id' => $request->validated('filter_by_parent_id'),
+            'filter' => $request->validated('filter'),
+            'search' => $request->validated('search') ?? '',
+            'with' => $request->validated('with') ?? '',
+            'is_exact' => $request->validated('is_exact'),
+            'commodity' => $commodity,
+            'paginate' => false,
+        ]);
+
+        $commodities = $repo->search(
+            $baseParams->put('select', implode(',', $model->getSearchable())),
+            false
         );
 
-        $temp = $filter->collect();
+        $groupBy = $repo->determineLocFilterLevel($geoLocationFilter ?? 'region');
 
-        $builder = $model->newModelQuery();
-        $this->service->applyParentFilter($builder, $temp);
-        $this->service->applyGeoFilters($builder, $temp);
-        $this->service->applyAppends($builder, $temp);
-        $this->service->applySearchFilters($builder, $temp);
-        $builder = $builder->when($filter->commodities, function ($query) use ($filter) {
-            return $query->where('name', $filter->commodities);
-        });
+        $chart_data = $repo->search(
+            $baseParams
+                ->put('select_raw', "$groupBy as label, count(*) as total")
+                ->put('group_by', $groupBy)
+                ->put('sort', 'total')
+                ->put('order', 'desc'),
+            false
+        );
 
-        $builderA = (clone $builder);
-        $commodities = $builderA->select($model->getSearchable())->get();
-
-        $groupBy = $this->service->determineLocFilterLevel($geo_location_filter ?? 'region');
-        $temp = $filter->collect()->put('select_raw', "$groupBy as label, count(*) as total");
-        $temp =  $temp->put('group_by', $groupBy);
-        $temp =  $temp->put('sort', 'total');
-        $temp =  $temp->put('order', 'desc');
-
-        $builderB = (clone $builder)->selectRaw("$groupBy as label, count(*) as total");
-        $this->service->applySorting($builderB, $temp);
-        $chart_data = $builderB->groupBy($groupBy)->get();
-
-        $builderC = (clone $builder)->selectRaw('commodities.name as label, count(*) as total');
-        $this->service->applySorting($builderC, $temp);
-        $commodities_chart = $builderC->groupBy('commodities.name')->get();
+        $commodities_chart = $repo->search(
+            $baseParams
+                ->put('select_raw', 'commodities.name as label, count(*) as total')
+                ->put('group_by', 'commodities.name')
+                ->put('sort', 'total')
+                ->put('order', 'desc'),
+            false
+        );
 
         return response()->json([
             'params' => [
-                'commodity' => $filter->commodities,
-                'group_by' => $filter->group_by,
-                'geo_location_filter' => $filter->geo_location_filter,
-                'geo_location_value' => $filter->geo_location_value,
-                'is_exact' => $filter->is_exact,
+                'commodity' => $commodity,
+                'group_by' => $groupBy,
+                'geo_location_filter' => $geoLocationFilter,
+                'geo_location_value' => $request->validated('geo_location_value'),
+                'is_exact' => $request->validated('is_exact'),
             ],
-            'group_search_institute' => $this->service->getGroupByInstitute($model, $filter->commodities, $filter->geo_location_filter),
+            'group_search_institute' => $repo->getGroupByInstitute($model, $commodity, $geoLocationFilter),
             'chart_labels' => $commodities_chart,
             'chart_data' => $chart_data,
             'raw_data' => $commodities,
-            'raw_data_labels' => $this->service->getCommodityLabels($model, $filter->geo_location_value, $filter->is_exact, $filter->geo_location_filter),
-            'group_search_labels' => $this->service->getGroupByGeoLoc($model, $filter->commodities, $filter->geo_location_filter),
-            'linechart_data' => $this->service->linechartData($model, $filter->geo_location_value, $filter->is_exact, $filter->geo_location_filter, $filter->commodities),
+            'raw_data_labels' => $repo->getCommodityLabels($model, $request->validated('geo_location_value'), $request->validated('is_exact'), $geoLocationFilter),
+            'group_search_labels' => $repo->getGroupByGeoLoc($model, $commodity, $geoLocationFilter),
+            'linechart_data' => $repo->linechartData($model, $request->validated('geo_location_value'), $request->validated('is_exact'), $geoLocationFilter, $commodity),
         ]);
     }
 
     private function summaryPrivate(GetCommoditiesRequest $request): JsonResponse
     {
-        $model = $this->service->model;
-        $geo_location_filter = $request->validated('geo_location_filter') ?? 'region';
-        $groupBy =$this->service->determineLocFilterLevel($geo_location_filter);
-        $filter = new CommodityFilter(
-            $request->validated('geo_location_value'),
-            $geo_location_filter,
-            $request->validated('filter_by_parent_column'),
-            $request->validated('filter_by_parent_id'),
-            $request->validated('filter'),
-            $request->validated('search') ?? '',
-            $request->validated('with') ?? '',
-            $request->validated('is_exact'),
-            $request->all()['commodity'] ?? null,
-            $groupBy,
+        /** @var CommodityRepo $repo */
+        $repo = $this->service;
+        $model = $repo->model;
+
+        $geoLocationFilter = $request->validated('geo_location_filter') ?? 'region';
+        $groupBy = $repo->determineLocFilterLevel($geoLocationFilter);
+        $commodity = $request->input('commodity');
+
+        $baseParams = collect([
+            'geo_location_value' => $request->validated('geo_location_value'),
+            'geo_location_filter' => $geoLocationFilter,
+            'filter_by_parent_column' => $request->validated('filter_by_parent_column'),
+            'filter_by_parent_id' => $request->validated('filter_by_parent_id'),
+            'filter' => $request->validated('filter'),
+            'search' => $request->validated('search') ?? '',
+            'with' => $request->validated('with') ?? '',
+            'is_exact' => $request->validated('is_exact'),
+            'commodity' => $commodity,
+            'paginate' => false,
+        ]);
+
+        $commodities = $repo->search(
+            $baseParams->put('select', implode(',', $model->getSearchable())),
+            false
         );
 
-        $temp = $filter->collect();
+        $chart_data = $repo->search(
+            $baseParams
+                ->put('select_raw', "$groupBy as label, count(*) as total")
+                ->put('group_by', $groupBy)
+                ->put('sort', 'total')
+                ->put('order', 'desc'),
+            false
+        );
 
-        $builder = $model->newModelQuery();
-        $this->service->applyParentFilter($builder, $temp);
-        $this->service->applyGeoFilters($builder, $temp);
-        $this->service->applyAppends($builder, $temp);
-        $this->service->applySearchFilters($builder, $temp);
-        $builder = $builder->when($filter->commodities, function ($query) use ($filter) {
-            return $query->where('name', $filter->commodities);
-        });
-
-        $builderA = (clone $builder);
-
-        $commodities = $builderA->select($model->getSearchable())->get();
-
-        $temp = $filter->collect()->put('select_raw', "$groupBy as label, count(*) as total");
-        $temp =  $temp->put('group_by', $groupBy);
-        $temp =  $temp->put('sort', 'total');
-        $temp =  $temp->put('order', 'desc');
-
-        $builderB = (clone $builder)->selectRaw("$groupBy as label, count(*) as total");
-        $this->service->applySorting($builderB, $temp);
-        $chart_data = $builderB->groupBy($groupBy)->get();
-
-        $builderC = (clone $builder)->selectRaw('commodities.name as label, count(*) as total');
-        $this->service->applySorting($builderC, $temp);
-        $commodities_chart = $builderC->groupBy('commodities.name')->get();
+        $commodities_chart = $repo->search(
+            $baseParams
+                ->put('select_raw', 'commodities.name as label, count(*) as total')
+                ->put('group_by', 'commodities.name')
+                ->put('sort', 'total')
+                ->put('order', 'desc'),
+            false
+        );
 
         return response()->json([
             'params' => [
-                'commodity' => $filter->commodities,
-                'group_by' => $filter->group_by,
-                'geo_location_filter' => $filter->geo_location_filter,
-                'geo_location_value' => $filter->geo_location_value,
-                'is_exact' => $filter->is_exact,
+                'commodity' => $commodity,
+                'group_by' => $groupBy,
+                'geo_location_filter' => $geoLocationFilter,
+                'geo_location_value' => $request->validated('geo_location_value'),
+                'is_exact' => $request->validated('is_exact'),
             ],
-            'group_search_institute' => $this->service->getGroupByInstitute($model, $filter->commodities, $filter->geo_location_filter),
+            'group_search_institute' => $repo->getGroupByInstitute($model, $commodity, $geoLocationFilter),
             'chart_labels' => $commodities_chart,
             'chart_data' => $chart_data,
             'raw_data' => $commodities,
-            'raw_data_labels' => $this->service->getCommodityLabels($model, $filter->geo_location_value, $filter->is_exact, $filter->geo_location_filter),
-            'group_search_labels' => $this->service->getGroupByGeoLoc($model, $filter->commodities, $filter->geo_location_filter),
-            'linechart_data' => $this->service->linechartData($model, $filter->geo_location_value, $filter->is_exact, $filter->geo_location_filter, $filter->commodities),
+            'raw_data_labels' => $repo->getCommodityLabels($model, $request->validated('geo_location_value'), $request->validated('is_exact'), $geoLocationFilter),
+            'group_search_labels' => $repo->getGroupByGeoLoc($model, $commodity, $geoLocationFilter),
+            'linechart_data' => $repo->linechartData($model, $request->validated('geo_location_value'), $request->validated('is_exact'), $geoLocationFilter, $commodity),
         ]);
     }
 
@@ -194,18 +201,23 @@ class CommodityController extends BaseController implements CommodityControllerI
         $formatted = [];
         foreach ($commodities as $key => $value) {
             $formatted[] = [
-                'id' => $key,
-                'label' => $key,
+                'value' => $key,
+                'label' => $key. ' (' . $value . ')',
                 'sName' => $value
             ];
         }
         return $this->sendResponse($formatted);
     }
 
-    public function noPage(GetCommoditiesRequest $request): BaseCollection
+    public function approve(ApproveCommoditiesRequest $request, int $id): JsonResponse
     {
-        $this->service->appendWith(['breeder','cityDesc']);
-        $data = $this->service->search(new Collection($request->validated()), false);
-        return new BaseCollection($data);
+        // Authorization is handled by the FormRequest
+        return $this->service->update($id, ['approved_at' => now()]);
+    }
+
+    public function disapprove(ApproveCommoditiesRequest $request, int $id): JsonResponse
+    {
+        // Authorization is handled by the FormRequest
+        return $this->service->update($id, ['approved_at' => null]);
     }
 }

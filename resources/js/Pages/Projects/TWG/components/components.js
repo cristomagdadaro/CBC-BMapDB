@@ -4,10 +4,11 @@ import Product from "@/Pages/Projects/TWG/domain/Product.ts";
 import Service from "@/Pages/Projects/TWG/domain/Service.ts";
 
 import { defineAsyncComponent } from "vue";
+import { TWGEndpoints } from "@/Pages/Projects/TWG/infrastructure/TWGEndpoints";
 export const TWGPages = {
     api: {
         expert: {
-            path: route(Expert.indexUri),
+            path: route(TWGEndpoints.expert.indexUri),
             name: 'Experts Model',
             model: Expert,
             create:{
@@ -33,14 +34,14 @@ export const TWGPages = {
             },
             import: {
                 path: 'twg.expert.import',
-                name: 'ImportCommodities',
+                name: 'ImportExperts',
                 component: defineAsyncComponent(
                     () => import('@/Pages/Projects/TWG/presentation/components/expert/ImportExperts.vue')
                 ),
             }
         },
         project: {
-            path: route(Project.indexUri),
+            path: route(TWGEndpoints.project.indexUri),
             name: 'Projects Model',
             model: Project,
             create:{
@@ -60,7 +61,7 @@ export const TWGPages = {
             }
         },
         product: {
-            path: route(Product.indexUri),
+            path: route(TWGEndpoints.product.indexUri),
             name: 'Products Model',
             model: Product,
             create:{
@@ -79,7 +80,7 @@ export const TWGPages = {
             }
         },
         service: {
-            path: route(Service.indexUri),
+            path: route(TWGEndpoints.service.indexUri),
             name: 'Services Model',
             model: Service,
             create:{
@@ -99,7 +100,7 @@ export const TWGPages = {
         },
     },
     index: {
-        path: route(Project.indexUri),
+        path: route(TWGEndpoints.project.indexUri),
         name: 'TWGIndex',
         component: defineAsyncComponent(
             () => import('@/Pages/Projects/TWG/presentation/TWGIndex.vue')
@@ -108,15 +109,15 @@ export const TWGPages = {
     educLevelOptions: [
         {
             label: "Bachelor's",
-            name: "Bachelor's",
+            value: "Bachelor's",
         },
         {
             label: "Master's",
-            name: "Master's",
+            value: "Master's",
         },
         {
             label: "Doctoral",
-            name: "Doctoral",
+            value: "Doctoral",
         },
-    ]
+    ],
 }

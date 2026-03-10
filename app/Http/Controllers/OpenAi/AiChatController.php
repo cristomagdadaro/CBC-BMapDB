@@ -3,14 +3,21 @@
 namespace App\Http\Controllers\OpenAi;
 
 use App\Http\Controllers\BaseController;
+use App\Repository\API\OpenAiQueryRepo;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use OpenAI\Laravel\Facades\OpenAI;
 use Illuminate\Support\Facades\Validator;
 
 class AiChatController extends BaseController
 {
+    protected OpenAiQueryRepo $openAiQueryRepo;
+
+    public function __construct(OpenAiQueryRepo $openAiQueryRepo)
+    {
+        $this->openAiQueryRepo = $openAiQueryRepo;
+    }
+
     /**
      * @throws Exception
      */
@@ -31,13 +38,11 @@ class AiChatController extends BaseController
                 ],
             ]);
 
-            DB::table('openai_queries')->insert([
-                'query' => $request->input('query'),
-                'model' => $model,
-                'response' => $result->choices[0]->message->content,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            $this->openAiQueryRepo->logQuery(
+                $request->input('query'),
+                $model,
+                $result->choices[0]->message->content
+            );
 
             return $this->sendResponse(['aiResponse' => $result->choices[0]->message->content]);
         } catch (Exception $e) {

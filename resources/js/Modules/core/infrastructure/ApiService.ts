@@ -50,7 +50,7 @@ export default class ApiService implements IApiService
                     ...(model?.appendCount && Array.isArray(model.appendCount) ? {count: model.appendCount.toString()} : {})
                 }
             });
-
+            console.log(response.data);
             if (model) {
                 if (response && response.data){
                     if (response.data.data){
@@ -63,7 +63,7 @@ export default class ApiService implements IApiService
                     }
                 }
             }
-            return new BaseResponse(response);
+            return response;
         } catch (error) {
             console.log(error);
             return this.determineError(error);
@@ -76,7 +76,8 @@ export default class ApiService implements IApiService
     {
         try {
             this._processing = true;
-            const response = await axios.get(route(this.baseUrl, id), {
+            const url = this.resolveUrl(id);
+            const response = await axios.get(url, {
                 params: {
                     ...params,
                     ...(model?.appendWith && Array.isArray(model.appendWith) ? {with: model.appendWith.toString()} : {}),
@@ -98,6 +99,27 @@ export default class ApiService implements IApiService
         }
     }
 
+    resolveUrl(id = null): string
+    {
+        if (!this.baseUrl) {
+            throw new Error('ApiService baseUrl is required');
+        }
+
+        const isAbsolute = /^https?:\/\//i.test(this.baseUrl) || this.baseUrl.startsWith('/');
+
+        if (isAbsolute) {
+            if (id === null || typeof id === 'undefined') {
+                return this.baseUrl;
+            }
+            const trimmed = this.baseUrl.endsWith('/') ? this.baseUrl.slice(0, -1) : this.baseUrl;
+            return `${trimmed}/${id}`;
+        }
+
+        return id === null || typeof id === 'undefined'
+            ? route(this.baseUrl)
+            : route(this.baseUrl, id);
+    }
+
     async post(data)
     {
         try {
@@ -110,7 +132,6 @@ export default class ApiService implements IApiService
                 });
             return new BaseResponse(response);
         } catch (error) {
-            console.log(error);
             return this.determineError(error);
         } finally {
             this._processing = false;
@@ -170,6 +191,7 @@ export default class ApiService implements IApiService
 
     determineError(error: any): DtoError
     {
+        console.log(error);
         let errorResponse = new JavascriptErrorResponse(error);
         if (error.response)
             switch (error.response.status) {
