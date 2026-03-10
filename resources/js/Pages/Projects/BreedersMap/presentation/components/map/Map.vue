@@ -13,7 +13,7 @@ export default {
     props: {
         initialDataType: {
             type: String,
-            default: "commodities",
+            default: "breeders",
         },
         initialFilters: {
             type: Object,

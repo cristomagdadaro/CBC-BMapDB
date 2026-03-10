@@ -9,7 +9,7 @@ import BaseResponse from '@/Modules/core/domain/base/BaseResponse'
 const props = defineProps({
     initialDataType: {
         type: String,
-        default: 'commodities'
+        default: 'breeders'
     },
     initialFilters: {
         type: Object,
