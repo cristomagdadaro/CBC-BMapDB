@@ -203,9 +203,10 @@ export default {
                               class="group relative block rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 focus-ring">
                             <div class="relative h-80 lg:h-96 overflow-hidden">
                                 <div class="w-full h-full bg-gradient-to-br from-pin-green to-cbc-dark-green flex items-center justify-center">
-                                    <img :src="project.logo" :alt="project.label" class="w-auto h-[6rem] opacity-30 group-hover:scale-110 transition-transform duration-700" loading="lazy"/>
+                                    <img :src="project.bg" :alt="project.label" class="w-auto h-full opacity-30 group-hover:scale-110 transition-transform duration-700" loading="lazy"/>
                                 </div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+                                <img :src="project.logo" :alt="project.label" class="absolute w-auto h-16 bottom-5 right-5 object-contain opacity-50 group-hover:opacity-100 group-hover:shadow-lg transition-opacity duration-700" />
                             </div>
                             <div class="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
                                 <div v-if="databaseCards[index]" class="flex flex-wrap gap-2 mb-4">

@@ -1,219 +1,258 @@
-<script setup>
-import { ref, onMounted, watch } from 'vue'
-import MapDataFilterPanel from '@/Components/Map/MapDataFilterPanel.vue'
-import LeafletMap from '@/Components/Map/LeafletMap.vue'
+<script>
+import MapDataFilterPanel from "@/Components/Map/MapDataFilterPanel.vue";
+import LeafletMap from "@/Components/Map/LeafletMap.vue";
 
-const props = defineProps({
-    initialDataType: {
-        type: String,
-        default: 'commodities'
+export default {
+    name: "EnhancedMapView",
+
+    components: {
+        MapDataFilterPanel,
+        LeafletMap,
     },
-    initialFilters: {
-        type: Object,
-        default: () => ({})
+
+    props: {
+        initialDataType: {
+            type: String,
+            default: "commodities",
+        },
+        initialFilters: {
+            type: Object,
+            default: () => ({}),
+        },
+        tableList: {
+            type: Array,
+            default: () => [],
+        },
+        model: {
+            type: [Object, Function],
+            default: null,
+        },
+        customPoint: {
+            type: [Array, Object, null],
+            default: null,
+        },
+        offline: {
+            type: Boolean,
+            default: false,
+        },
     },
-    tableList: {
-        type: Array,
-        default: () => []
+
+    data() {
+        return {
+            mapData: [],
+            mapMetadata: {},
+            currentFilters: {},
+            selectedMarker: null,
+            mapComponent: null,
+            showFilters: false,
+        };
     },
-    model: {
-        type: [Object, Function],
-        default: null
-    },
-    customPoint: {
-        type: [Array, Object, null],
-        default: null
-    },
-    offline: {
-        type: Boolean,
-        default: false
-    }
-})
 
-const mapData = ref([])
-const mapMetadata = ref({})
-const currentFilters = ref({})
-const selectedMarker = ref(null)
-const mapComponent = ref(null)
-
-const normalizeCustomPoint = (input) => {
-    if (!input) return []
-    return Array.isArray(input) ? input : [input]
-}
-
-const buildMapDataFromCustomPoint = (items) => {
-    const groups = new Map()
-
-    items.forEach((item) => {
-        const location = item?.location || item?.coordinates || item?.geolocation || null
-        const lat = parseFloat(location?.latitude ?? location?.lat ?? location?.LatLng?.lat)
-        const lng = parseFloat(location?.longitude ?? location?.lng ?? location?.LatLng?.lng)
-
-        if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-            return
+    mounted() {
+        if (this.offline || this.customPoint) {
+            this.applyCustomPoints();
         }
 
-        const cityId = location?.id ?? item?.city_id ?? item?.cityId ?? null
-        const key = cityId ?? `${lat},${lng}`
-        const label = location?.cityDesc || location?.city || item?.label || item?.name || 'Unknown'
-
-        if (!groups.has(key)) {
-            groups.set(key, {
-                id: key,
-                lat,
-                lng,
-                label,
-                total: 0,
-                city_id: cityId
-            })
-        }
-
-        const group = groups.get(key)
-        group.total += 1
-    })
-
-    return Array.from(groups.values())
-}
-
-// Handle data updates from the filter panel
-const handleDataUpdated = (result) => {
-    mapData.value = result.data
-    mapMetadata.value = result.metadata
-    currentFilters.value = result.filters
-}
-
-// Handle filter changes
-const handleFiltersChanged = (filters) => {
-    currentFilters.value = filters
-    console.log('Filters changed:', filters)
-}
-
-// Handle marker clicks on the map
-const handleMarkerClick = (marker) => {
-    selectedMarker.value = marker
-
-    // You can add custom logic here, like showing detailed information
-    // or updating other parts of your application
-}
-
-// Handle map ready event
-const handleMapReady = (map) => {
-    // console.log('Map is ready:', map)
-}
-
-// Fit map to show all data points
-const fitMapToData = () => {
-    if (mapComponent.value) {
-        mapComponent.value.fitToMarkers()
-    }
-}
-
-onMounted(() => {
-    console.log('Enhanced map component ready')
-})
-
-const applyCustomPoints = () => {
-    const items = normalizeCustomPoint(props.customPoint)
-    mapData.value = buildMapDataFromCustomPoint(items)
-    mapMetadata.value = {}
-    currentFilters.value = {
-        data_type: props.initialDataType,
-        ...props.initialFilters
-    }
-}
-
-if (props.offline || props.customPoint) {
-    applyCustomPoints()
-}
-
-watch(
-    () => props.customPoint,
-    () => {
-        if (props.offline || props.customPoint) {
-            applyCustomPoints()
-        }
+        console.log("Enhanced map component ready");
     },
-    { deep: true }
-)
+
+    watch: {
+        customPoint: {
+            deep: true,
+            handler() {
+                if (this.offline || this.customPoint) {
+                    this.applyCustomPoints();
+                }
+            },
+        },
+    },
+
+    methods: {
+        normalizeCustomPoint(input) {
+            if (!input) return [];
+            return Array.isArray(input) ? input : [input];
+        },
+
+        buildMapDataFromCustomPoint(items) {
+            const groups = new Map();
+
+            items.forEach((item) => {
+                const location =
+                    item?.location ||
+                    item?.coordinates ||
+                    item?.geolocation ||
+                    null;
+
+                const lat = parseFloat(
+                    location?.latitude ??
+                        location?.lat ??
+                        location?.LatLng?.lat,
+                );
+
+                const lng = parseFloat(
+                    location?.longitude ??
+                        location?.lng ??
+                        location?.LatLng?.lng,
+                );
+
+                if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
+
+                const cityId =
+                    location?.id ?? item?.city_id ?? item?.cityId ?? null;
+                const key = cityId ?? `${lat},${lng}`;
+
+                const label =
+                    location?.cityDesc ||
+                    location?.city ||
+                    item?.label ||
+                    item?.name ||
+                    "Unknown";
+
+                if (!groups.has(key)) {
+                    groups.set(key, {
+                        id: key,
+                        lat,
+                        lng,
+                        label,
+                        total: 0,
+                        city_id: cityId,
+                    });
+                }
+
+                groups.get(key).total += 1;
+            });
+
+            return Array.from(groups.values());
+        },
+
+        applyCustomPoints() {
+            const items = this.normalizeCustomPoint(this.customPoint);
+
+            this.mapData = this.buildMapDataFromCustomPoint(items);
+
+            this.mapMetadata = {};
+
+            this.currentFilters = {
+                data_type: this.initialDataType,
+                ...this.initialFilters,
+            };
+        },
+
+        handleDataUpdated(result) {
+            this.mapData = result.data;
+            this.mapMetadata = result.metadata;
+            this.currentFilters = result.filters;
+        },
+
+        handleFiltersChanged(filters) {
+            this.currentFilters = filters;
+        },
+
+        handleMarkerClick(marker) {
+            this.selectedMarker = marker;
+        },
+
+        handleMapReady(map) {
+            this.mapComponent = map;
+        },
+
+        fitMapToData() {
+            if (this.$refs.mapComponent) {
+                this.$refs.mapComponent.fitToMarkers();
+            }
+        },
+    },
+};
 </script>
-
 <template>
-    <div class="flex gap-5 h-full md:p-3 p-2">
-    <!-- Filter Panel -->
-        <div v-if="!props.offline && !props.customPoint" class="w-80 flex-shrink-0">
+    <div class="flex flex-col lg:flex-row gap-4 h-full p-2 md:p-3">
+        <!-- Mobile Filter Toggle -->
+        <div v-if="!offline && !customPoint" class="lg:hidden">
+            <button
+                @click="showFilters = !showFilters"
+                class="btn-primary w-full py-2"
+            >
+                Filters
+            </button>
+        </div>
+
+        <!-- Filter Panel -->
+        <div
+            v-if="!offline && !customPoint"
+            :class="[
+                'lg:w-80 flex-shrink-0',
+                showFilters ? 'block' : 'hidden lg:block',
+            ]"
+        >
             <MapDataFilterPanel
-                :initial-data-type="props.initialDataType"
-                :initial-filters="props.initialFilters"
+                :initial-data-type="initialDataType"
+                :initial-filters="initialFilters"
                 @data-updated="handleDataUpdated"
                 @filters-changed="handleFiltersChanged"
             />
         </div>
 
-        <!-- Map Container -->
-        <div class="flex-1 flex flex-col gap-5 h-[calc(100vh-5rem)]">
-            <!-- Map Header -->
+        <!-- Map Section -->
+        <div class="flex-1 flex flex-col gap-4 min-h-[70vh]">
+            <!-- Header -->
             <div class="bg-white rounded-xl p-4 shadow-sm">
-                <div class="flex items-center justify-between">
+                <div
+                    class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                >
                     <div>
-                        <h2 class="text-lg font-semibold text-gray-900 font-display">Geographic Distribution</h2>
+                        <h2 class="text-lg font-semibold text-gray-900">
+                            Geographic Distribution
+                        </h2>
+
                         <p class="text-sm text-gray-500 mt-1">
-                            Showing <span class="font-medium text-pin-green">{{ mapData.length }}</span> locations
-                            <span v-if="currentFilters.data_type" class="ml-2">
-                                • <span class="badge">{{ currentFilters.data_type }}</span> <span v-if="currentFilters.filter_by">filtered by <span class="badge">{{ currentFilters.filter_by }}</span></span>
+                            Showing
+                            <span class="font-medium text-pin-green">
+                                {{ mapData.length }}
+                            </span>
+                            locations
+
+                            <span v-if="currentFilters.data_type" class="ml-1">
+                                •
+                                <span class="badge">
+                                    {{ currentFilters.data_type }}
+                                </span>
+
+                                <span v-if="currentFilters.filter_by">
+                                    filtered by
+                                    <span class="badge">
+                                        {{ currentFilters.filter_by }}
+                                    </span>
+                                </span>
                             </span>
                         </p>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <button
-                            @click="fitMapToData"
-                            class="btn-primary text-sm px-4 py-2"
-                            :disabled="mapData.length === 0"
-                        >
-                            Fit to Data
-                        </button>
-                    </div>
+
+                    <button
+                        @click="fitMapToData"
+                        class="btn-primary text-sm px-4 py-2 w-full sm:w-auto"
+                        :disabled="mapData.length === 0"
+                    >
+                        Fit to Data
+                    </button>
                 </div>
             </div>
 
-            <!-- Leaflet Map -->
-            <div class="flex-1 bg-white rounded-xl shadow-card overflow-hidden">
-                    <LeafletMap
+            <!-- Map -->
+            <div
+                class="flex-1 bg-white rounded-xl shadow-card overflow-hidden min-h-[400px]"
+            >
+                <LeafletMap
                     ref="mapComponent"
                     :map-data="mapData"
                     :clustered="false"
                     :showHeatmap="false"
-                    :center="[12.8797, 121.7740]"
+                    :center="[12.8797, 121.774]"
                     :zoom="6"
-                    :data-type="currentFilters.data_type || props.initialDataType"
+                    :data-type="currentFilters.data_type || initialDataType"
                     height="100%"
                     @marker-click="handleMarkerClick"
                     @map-ready="handleMapReady"
                 />
-            </div>
-
-            <!-- Selected Marker Details -->
-            <div v-if="selectedMarker" class="hidden bg-white rounded-lg shadow-lg p-4">
-                <h3 class="text-lg font-semibold text-gray-900 mb-3">Selected Location</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div>
-                        <div class="text-sm text-gray-600">Location</div>
-                        <div class="font-medium">{{ selectedMarker.label }}</div>
-                    </div>
-                    <div>
-                        <div class="text-sm text-gray-600">Total Count</div>
-                        <div class="font-medium text-blue-600">{{ selectedMarker.total }}</div>
-                    </div>
-                    <div>
-                        <div class="text-sm text-gray-600">Coordinates</div>
-                        <div class="font-mono text-xs">
-                            {{ selectedMarker.position[0].toFixed(4) }}, {{ selectedMarker.position[1].toFixed(4) }}
-                        </div>
-                    </div>
-                    <div>
-                        <div class="text-sm text-gray-600">Data Type</div>
-                        <div class="font-medium capitalize">{{ currentFilters.data_type }}</div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
