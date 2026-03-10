@@ -8,11 +8,9 @@ const HeroImageParticlesBackground = defineAsyncComponent(() => import("@/Compon
 const BmCollaborators = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue"));
 const BmPriorityCom = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue"));
 const BmOverviewMap = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue"));
-const AiChat = defineAsyncComponent(() => import("@/Pages/OpenAi/AiChat/AiChat.vue"));
 
 export default {
     components: {
-        AiChat,
         HeroImageParticlesBackground,
         BmOverviewMap,
         BmPriorityCom,
@@ -388,9 +386,6 @@ export default {
                 </div>
             </div>
         </section>
-
-        <!-- AI Chat -->
-        <ai-chat/>
         
         <!-- Footer -->
         <footer class="bg-gray-900 text-white">
