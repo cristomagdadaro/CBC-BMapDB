@@ -8,12 +8,12 @@ const props = defineProps({
   items: {
     type: Array,
     default: () => [
-      { name: 'Rice', image: '/img/commodities/p-rice.png', data: { varieties: 21, research: 323, breeders: 32 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rice&geo_location_filter=region&with=breeder,location,characteristics,additionalinfo' },
-      { name: 'Corn', image: '/img/commodities/p-corn.png', data: { varieties: 54, research: 565, breeders: 122 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Corn&geo_location_filter=region' },
-      { name: 'Cotton', image: '/img/commodities/p-cotton.png', data: { varieties: 12, research: 123, breeders: 23 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Cotton&geo_location_filter=region' },
-      { name: 'Tomato', image: '/img/commodities/p-tomato.png', data: { varieties: 32, research: 234, breeders: 45 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Tomato&geo_location_filter=region' },
-      { name: 'Eggplant', image: '/img/commodities/p-eggplant.png', data: { varieties: 23, research: 234, breeders: 45 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Eggplant&geo_location_filter=region' },
-      { name: 'Rubber', image: '/img/commodities/p-rubber.png', data: { varieties: 12, research: 123, breeders: 23 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region' }
+      { name: 'Rice', image: '/img/commodities/p-rice.webp', data: { varieties: 21, research: 323, breeders: 32 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rice&geo_location_filter=region&with=breeder,location,characteristics,additionalinfo' },
+      { name: 'Corn', image: '/img/commodities/p-corn.webp', data: { varieties: 54, research: 565, breeders: 122 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Corn&geo_location_filter=region' },
+      { name: 'Cotton', image: '/img/commodities/p-cotton.webp', data: { varieties: 12, research: 123, breeders: 23 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Cotton&geo_location_filter=region' },
+      { name: 'Tomato', image: '/img/commodities/p-tomato.webp', data: { varieties: 32, research: 234, breeders: 45 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Tomato&geo_location_filter=region' },
+      { name: 'Eggplant', image: '/img/commodities/p-eggplant.webp', data: { varieties: 23, research: 234, breeders: 45 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Eggplant&geo_location_filter=region' },
+      { name: 'Rubber', image: '/img/commodities/p-rubber.webp', data: { varieties: 12, research: 123, breeders: 23 }, route: route('projects.breedersmap.public') + '?is_exact=true&commodity=Rubber&geo_location_filter=region' }
     ]
   },
   maxDisplay: { type: Number, default: 5 },

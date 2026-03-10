@@ -9,6 +9,7 @@ const BmCollaborators = defineAsyncComponent(() => import("@/Pages/Projects/Bree
 const BmPriorityCom = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue"));
 const BmOverviewMap = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue"));
 const AiChat = defineAsyncComponent(() => import("@/Pages/OpenAi/AiChat/AiChat.vue"));
+const ModelViewer = defineAsyncComponent(() => import("@/Components/3dViewer/3dModelViewer.vue"));
 
 export default {
     components: {
@@ -20,6 +21,7 @@ export default {
         PageLayout,
         Link,
         Head,
+        ModelViewer,
     },
     setup() {
         const page = usePage();
@@ -456,8 +458,8 @@ export default {
                         </div>
                     </div>
                 </div>
-            </public-page-section>
-<!--            <public-page-section class="flex items-center py-10">
+            </div>
+            <section class="flex items-center py-10 hidden">
                 <div class="w-full flex flex-col items-center justify-center">
                     <div class="w-full max-w-3xl mx-auto bg-white/80 rounded-xl shadow-lg p-6 flex flex-col items-center">
                         <h2 class="text-2xl font-bold text-cbc-olive-green mb-2 text-center">Interactive 3D Crop Model</h2>
@@ -474,7 +476,7 @@ export default {
                         <label class="text-xs text-gray-500 mt-2 text-center">We will be adding more 3D images soon. Use Polycam or any mobile 3D object scanner app. iPhones with LiDAR sensor recommended.</label>
                     </div>
                 </div>
-            </div>
+            </section>
         </footer>
     </page-layout>
 </template>
