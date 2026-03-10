@@ -365,22 +365,23 @@ export default {
                                         <h3 class="font-semibold text-gray-900 mb-1">Call Us</h3>
                                         <a href="tel:+639088897135" class="text-sm text-pin-green hover:underline">0908 889 7135</a>
                                     </div>
-                                </div>
-                                <div class="bg-white rounded-xl p-6 shadow-sm">
-                                    <h3 class="font-semibold text-gray-900 mb-4">Quick Links</h3>
-                                    <div class="space-y-2">
-                                        <Link :href="route('support.terms-of-use')" class="flex items-center justify-between p-3 rounded-lg hover:bg-pin-green-light transition-colors group">
-                                            <span class="text-gray-700 group-hover:text-pin-green transition-colors">Terms of Use</span>
-                                            <svg class="w-4 h-4 text-gray-400 group-hover:text-pin-green transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                                        </Link>
-                                        <Link :href="route('support.privacy-policy')" class="flex items-center justify-between p-3 rounded-lg hover:bg-pin-green-light transition-colors group">
-                                            <span class="text-gray-700 group-hover:text-pin-green transition-colors">Privacy Policy</span>
-                                            <svg class="w-4 h-4 text-gray-400 group-hover:text-pin-green transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                                        </Link>
-                                        <Link :href="route('support.sitemap')" class="flex items-center justify-between p-3 rounded-lg hover:bg-pin-green-light transition-colors group">
-                                            <span class="text-gray-700 group-hover:text-pin-green transition-colors">Sitemap</span>
-                                            <svg class="w-4 h-4 text-gray-400 group-hover:text-pin-green transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                                        </Link>
+                                    <div class="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition-shadow">
+                                        <div class="w-10 h-10 bg-pin-green-light rounded-lg flex items-center justify-center text-pin-green mb-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+                                            </svg>
+                                        </div>
+                                        <h3 class="font-semibold text-gray-900 mb-1">Facebook</h3>
+                                        <a href="https://www.facebook.com/DACropBiotechCenter" class="text-sm text-pin-green hover:underline">DA-Crop Biotechnology Center</a>
+                                    </div>
+                                    <div class="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition-shadow">
+                                        <div class="w-10 h-10 bg-pin-green-light rounded-lg flex items-center justify-center text-pin-green mb-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-globe" viewBox="0 0 16 16">
+                                                <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m7.5-6.923c-.67.204-1.335.82-1.887 1.855A8 8 0 0 0 5.145 4H7.5zM4.09 4a9.3 9.3 0 0 1 .64-1.539 7 7 0 0 1 .597-.933A7.03 7.03 0 0 0 2.255 4zm-.582 3.5c.03-.877.138-1.718.312-2.5H1.674a7 7 0 0 0-.656 2.5zM4.847 5a12.5 12.5 0 0 0-.338 2.5H7.5V5zM8.5 5v2.5h2.99a12.5 12.5 0 0 0-.337-2.5zM4.51 8.5a12.5 12.5 0 0 0 .337 2.5H7.5V8.5zm3.99 0V11h2.653c.187-.765.306-1.608.338-2.5zM5.145 12q.208.58.468 1.068c.552 1.035 1.218 1.65 1.887 1.855V12zm.182 2.472a7 7 0 0 1-.597-.933A9.3 9.3 0 0 1 4.09 12H2.255a7 7 0 0 0 3.072 2.472M3.82 11a13.7 13.7 0 0 1-.312-2.5h-2.49c.062.89.291 1.733.656 2.5zm6.853 3.472A7 7 0 0 0 13.745 12H11.91a9.3 9.3 0 0 1-.64 1.539 7 7 0 0 1-.597.933M8.5 12v2.923c.67-.204 1.335-.82 1.887-1.855q.26-.487.468-1.068zm3.68-1h2.146c.365-.767.594-1.61.656-2.5h-2.49a13.7 13.7 0 0 1-.312 2.5m2.802-3.5a7 7 0 0 0-.656-2.5H12.18c.174.782.282 1.623.312 2.5zM11.27 2.461c.247.464.462.98.64 1.539h1.835a7 7 0 0 0-3.072-2.472c.218.284.418.598.597.933M10.855 4a8 8 0 0 0-.468-1.068C9.835 1.897 9.17 1.282 8.5 1.077V4z"/>
+                                            </svg>
+                                        </div>
+                                        <h3 class="font-semibold text-gray-900 mb-1">Website</h3>
+                                        <a href="https://dacbc.philrice.gov.ph/" class="text-sm text-pin-green hover:underline">dacbc.philrice.gov.ph</a>
                                     </div>
                                 </div>
                             </div>
@@ -427,7 +428,7 @@ export default {
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-lg mb-4">Resources</h3>
+                            <h3 class="font-semibold text-lg mb-4">Support</h3>
                             <ul class="space-y-3">
                                 <li><Link :href="route('support.terms-of-use')" class="text-gray-400 hover:text-white transition-colors">Terms of Use</Link></li>
                                 <li><Link :href="route('support.privacy-policy')" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</Link></li>
@@ -454,12 +455,11 @@ export default {
                             <a href="https://www.officialgazette.gov.ph/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Official Gazette</a>
                             <a href="https://op-proper.gov.ph/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Office of the President</a>
                             <a href="https://www.da.gov.ph/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Department of Agriculture</a>
-                            <a href="https://www.dost.gov.ph/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">DOST</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <section class="flex items-center py-10 hidden">
+            <!--<section class="flex items-center py-10 hidden">
                 <div class="w-full flex flex-col items-center justify-center">
                     <div class="w-full max-w-3xl mx-auto bg-white/80 rounded-xl shadow-lg p-6 flex flex-col items-center">
                         <h2 class="text-2xl font-bold text-cbc-olive-green mb-2 text-center">Interactive 3D Crop Model</h2>
@@ -476,7 +476,7 @@ export default {
                         <label class="text-xs text-gray-500 mt-2 text-center">We will be adding more 3D images soon. Use Polycam or any mobile 3D object scanner app. iPhones with LiDAR sensor recommended.</label>
                     </div>
                 </div>
-            </section>
+            </section>-->
         </footer>
     </page-layout>
 </template>
