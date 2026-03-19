@@ -2,7 +2,6 @@
 
 namespace Modules\PbMap\Policies;
 
-use Modules\PbMap\Enums\Permissions;
 use Modules\PbMap\Models\Commodity;
 use App\Models\User;
 
@@ -47,11 +46,9 @@ class CommodityPolicy
             return true;
         }
 
-        // Focal person can update commodities within their institute (via breeder affiliation)
-        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
+        if ($this->isOrganizationLead($user)) {
             $commodityAff = (int) ($commodity->relationLoaded('breeder') ? optional($commodity->breeder)->affiliation : $commodity->breeder()->value('affiliation'));
-            if ($userAff && $commodityAff && $userAff === $commodityAff) {
+            if ($this->hasMatchingAffiliation($user, $commodityAff)) {
                 return true;
             }
         }
@@ -82,11 +79,9 @@ class CommodityPolicy
             return true;
         }
 
-        // Focal person can delete commodities within their institute (via breeder affiliation)
-        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
+        if ($this->isOrganizationLead($user)) {
             $commodityAff = (int) ($commodity->relationLoaded('breeder') ? optional($commodity->breeder)->affiliation : $commodity->breeder()->value('affiliation'));
-            if ($userAff && $commodityAff && $userAff === $commodityAff) {
+            if ($this->hasMatchingAffiliation($user, $commodityAff)) {
                 return true;
             }
         }
@@ -107,5 +102,18 @@ class CommodityPolicy
     public function forceDelete(User $user, Commodity $commodity): bool
     {
         return $user->isAdmin();
+    }
+
+    private function isOrganizationLead(User $user): bool
+    {
+        return $user->isFocalPerson() || $user->isTwgManager();
+    }
+
+    private function hasMatchingAffiliation(User $user, ?int $affiliation): bool
+    {
+        $userAff = (int) ($user->affiliation ?? 0);
+        $entityAff = (int) ($affiliation ?? 0);
+
+        return $userAff && $entityAff && $userAff === $entityAff;
     }
 }

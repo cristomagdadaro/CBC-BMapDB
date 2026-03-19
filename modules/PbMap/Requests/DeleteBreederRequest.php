@@ -3,6 +3,7 @@
 namespace Modules\PbMap\Requests;
 
 use App\Enums\Permission;
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\PbMap\Models\Breeder;
@@ -38,10 +39,8 @@ class DeleteBreederRequest extends FormRequest
             return true; // Allow owner
         }
 
-        if ($user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
-            $breederAff = (int) ($model->affiliation ?? 0);
-            return $userAff && $breederAff && $userAff === $breederAff;
+        if ($this->canManageAffiliatedRecord($user, $model->affiliation)) {
+            return true;
         }
 
         abort(403, __('You are not authorized to delete this breeder.'));
@@ -59,5 +58,22 @@ class DeleteBreederRequest extends FormRequest
             'ids' => 'sometimes|array|min:1',
             'ids.*' => 'integer|exists:breeders,id',
         ];
+    }
+
+    private function canManageAffiliatedRecord(User $user, ?int $affiliation): bool
+    {
+        if (!$this->isOrganizationLead($user)) {
+            return false;
+        }
+
+        $userAff = (int) ($user->affiliation ?? 0);
+        $targetAff = (int) ($affiliation ?? 0);
+
+        return $userAff && $targetAff && $userAff === $targetAff;
+    }
+
+    private function isOrganizationLead(User $user): bool
+    {
+        return $user->isFocalPerson() || $user->isTwgManager();
     }
 }

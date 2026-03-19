@@ -3,6 +3,7 @@
 namespace Modules\PbMap\Requests;
 
 use App\Enums\Permission;
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\PbMap\Models\Commodity;
@@ -38,10 +39,8 @@ class DeleteCommoditiesRequest extends FormRequest
             return true; // Allow owner
         }
 
-        if ($user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
-            $commodityAff = (int) ($model->relationLoaded('breeder') ? optional($model->breeder)->affiliation : $model->breeder()->value('affiliation'));
-            return $userAff && $commodityAff && $userAff === $commodityAff;
+        if ($this->canManageAffiliatedRecord($user, $this->getBreederAffiliation($model))) {
+            return true;
         }
 
         abort(403, __('You are not authorized to delete this commodity.'));
@@ -59,5 +58,31 @@ class DeleteCommoditiesRequest extends FormRequest
             'ids' => 'sometimes|array|min:1',
             'ids.*' => 'integer|exists:commodities,id',
         ];
+    }
+
+    private function canManageAffiliatedRecord(User $user, ?int $affiliation): bool
+    {
+        if (!$this->isOrganizationLead($user)) {
+            return false;
+        }
+
+        $userAff = (int) ($user->affiliation ?? 0);
+        $targetAff = (int) ($affiliation ?? 0);
+
+        return $userAff && $targetAff && $userAff === $targetAff;
+    }
+
+    private function isOrganizationLead(User $user): bool
+    {
+        return $user->isFocalPerson() || $user->isTwgManager();
+    }
+
+    private function getBreederAffiliation(Commodity $commodity): ?int
+    {
+        if ($commodity->relationLoaded('breeder')) {
+            return optional($commodity->breeder)->affiliation;
+        }
+
+        return $commodity->breeder()->value('affiliation');
     }
 }

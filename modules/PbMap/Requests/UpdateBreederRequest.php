@@ -3,6 +3,7 @@
 namespace Modules\PbMap\Requests;
 
 use App\Enums\Permission;
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Laravel\Fortify\Rules\Password;
@@ -35,12 +36,8 @@ class UpdateBreederRequest extends FormRequest
             return true; // Allow owner
         }
 
-        if ($user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
-            $breederAff = (int) ($model->affiliation ?? 0);
-            if ($userAff && $breederAff && $userAff === $breederAff) {
-                return true;
-            }
+        if ($this->canManageAffiliatedRecord($user, $model->affiliation)) {
+            return true;
         }
 
         abort(403, __('You are not authorized to update this breeder.'));
@@ -56,6 +53,23 @@ class UpdateBreederRequest extends FormRequest
         $this->merge([
             'user_id'  => $this->user_id ?? auth()->user()->id
         ]);
+    }
+
+    private function canManageAffiliatedRecord(User $user, ?int $affiliation): bool
+    {
+        if (!$this->isOrganizationLead($user)) {
+            return false;
+        }
+
+        $userAff = (int) ($user->affiliation ?? 0);
+        $targetAff = (int) ($affiliation ?? 0);
+
+        return $userAff && $targetAff && $userAff === $targetAff;
+    }
+
+    private function isOrganizationLead(User $user): bool
+    {
+        return $user->isFocalPerson() || $user->isTwgManager();
     }
 
     /**

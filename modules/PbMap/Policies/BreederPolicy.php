@@ -3,7 +3,6 @@
 namespace Modules\PbMap\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Modules\PbMap\Enums\Permissions;
 use Modules\PbMap\Models\Breeder;
 use App\Models\User;
 
@@ -47,13 +46,8 @@ class BreederPolicy
             return true;
         }
 
-        // Focal person can update breeders within the same institute
-        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
-            $breederAff = (int) ($breeder->affiliation ?? 0);
-            if ($userAff && $breederAff && $userAff === $breederAff) {
-                return true;
-            }
+        if ($this->isOrganizationLead($user) && $this->hasMatchingAffiliation($user, $breeder->affiliation)) {
+            return true;
         }
 
         return false;
@@ -68,13 +62,8 @@ class BreederPolicy
             return true;
         }
 
-        // Focal person can delete breeders within the same institute
-        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
-            $breederAff = (int) ($breeder->affiliation ?? 0);
-            if ($userAff && $breederAff && $userAff === $breederAff) {
-                return true;
-            }
+        if ($this->isOrganizationLead($user) && $this->hasMatchingAffiliation($user, $breeder->affiliation)) {
+            return true;
         }
 
         return false;
@@ -94,5 +83,18 @@ class BreederPolicy
     public function forceDelete(User $user, Breeder $breeder): bool
     {
         return $user->isAdmin();
+    }
+
+    private function isOrganizationLead(User $user): bool
+    {
+        return $user->isFocalPerson() || $user->isTwgManager();
+    }
+
+    private function hasMatchingAffiliation(User $user, ?int $affiliation): bool
+    {
+        $userAff = (int) ($user->affiliation ?? 0);
+        $entityAff = (int) ($affiliation ?? 0);
+
+        return $userAff && $entityAff && $userAff === $entityAff;
     }
 }
