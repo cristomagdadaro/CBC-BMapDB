@@ -7,14 +7,14 @@ import { nextTick } from "vue";
 
 export default {
     name: "AiChat",
-    components: {TransitionContainer, PrimaryButton, TextField},
+    components: { TransitionContainer, PrimaryButton, TextField },
     data() {
         return {
             query: null,
             aiApi: null,
             aiResponses: [],
             isOpen: false,
-        }
+        };
     },
     methods: {
         toggleChat() {
@@ -36,26 +36,26 @@ export default {
             }
 
             const prompt = this.query.trim();
-            this.aiResponses.push({ type: 'query', text: prompt });
+            this.aiResponses.push({ type: "query", text: prompt });
             this.query = null;
             await this.scrollToBottom();
 
             await this.aiApi.getChatResponse({ query: prompt })
-                .then(resp => {
+                .then((resp) => {
                     this.aiResponses.push({
-                        type: 'response',
-                        text: resp.data?.aiResponse || 'I could not generate a response right now. Please try again.'
+                        type: "response",
+                        text: resp.data?.aiResponse || "I could not generate a response right now. Please try again.",
                     });
                 })
                 .finally(async () => {
                     await this.scrollToBottom();
                 });
-        }
+        },
     },
     mounted() {
-        this.aiApi = new OpenAiApiService('/api/openai/chat');
-    }
-}
+        this.aiApi = new OpenAiApiService("/api/openai/chat");
+    },
+};
 </script>
 
 <template>
@@ -66,8 +66,8 @@ export default {
             class="w-14 h-14 rounded-full bg-cbc-yellow-green text-white shadow-lg hover:bg-cbc-yellow hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex items-center justify-center focus-ring"
             aria-label="Toggle AI chatbot"
         >
-            <span v-if="!isOpen" class="text-xl leading-none">💬</span>
-            <span v-else class="text-xl leading-none">×</span>
+            <span v-if="!isOpen" class="text-xs font-semibold tracking-wide leading-none">AI</span>
+            <span v-else class="text-xl leading-none">x</span>
         </button>
 
         <transition
@@ -85,7 +85,7 @@ export default {
                 <div class="bg-pin-green text-white px-4 py-3 flex items-center justify-between">
                     <div class="leading-tight">
                         <div class="font-semibold">Biotech Assistant</div>
-                        <div class="text-xs text-white/80">OpenAI powered chat</div>
+                        <div class="text-xs text-white/80">LLMama + Qwen chat</div>
                     </div>
                     <span
                         class="w-2 h-2 rounded-full bg-pin-lime"
@@ -95,7 +95,7 @@ export default {
 
                 <div ref="chatMessages" class="flex-1 overflow-y-auto p-4 bg-pin-gray space-y-3">
                     <div v-if="!aiResponses.length" class="text-sm text-gray-500 bg-white rounded-xl px-3 py-2 shadow-sm max-w-[85%]">
-                        Ask anything about biotechnology.
+                        Ask anything about biotechnology or agriculture.
                     </div>
 
                     <div
@@ -118,7 +118,7 @@ export default {
                         <div class="bg-white text-gray-600 rounded-2xl rounded-bl-md border border-gray-200 px-3 py-2 text-sm shadow-sm">
                             <transition-container type="slide-left">
                                 <span class="inline-flex gap-1 items-center">
-                                    <span v-for="i in [1,2,3]" :key="`typing-${i}`" class="w-1.5 h-1.5 rounded-full bg-pin-green/70" />
+                                    <span v-for="i in [1, 2, 3]" :key="`typing-${i}`" class="w-1.5 h-1.5 rounded-full bg-pin-green/70" />
                                 </span>
                             </transition-container>
                         </div>
@@ -142,7 +142,7 @@ export default {
                         </primary-button>
                     </div>
                     <div class="mt-2 text-[11px] text-gray-500">
-                        Experimental feature. Responses may be inaccurate.
+                        Experimental local model. Responses may be inaccurate.
                     </div>
                 </form>
             </div>
@@ -151,5 +151,4 @@ export default {
 </template>
 
 <style scoped>
-
 </style>

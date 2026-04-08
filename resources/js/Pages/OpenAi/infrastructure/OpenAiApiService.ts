@@ -19,6 +19,11 @@ export default class OpenAiApiService {
     }
 
     async getChatResponse(params: any) {
-        return await this.api.post(params);
+        try {
+            return await this.api.post(params);
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     }
 }
