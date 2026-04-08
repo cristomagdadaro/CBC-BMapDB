@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 /*OpenAi Related APIs*/
 Route::prefix('/openai')->group(function () {
-    Route::post('/chat', [AiChatController::class, 'chat'])->name('api.openai.chat');
+    Route::post('/chat', [AiChatController::class, 'chat'])
+        ->middleware(['same.origin.api', 'throttle:openai-chat'])
+        ->name('api.openai.chat');
 });
-

@@ -49,11 +49,13 @@ class AiChatController extends BaseController
                 $responsePayload
             ));
 
-            $this->openAiQueryRepo->logQuery(
-                $originalQuery,
-                $model,
-                $responseText
-            );
+            if ((bool) config('openai.log_queries', false)) {
+                $this->openAiQueryRepo->logQuery(
+                    $originalQuery,
+                    $model,
+                    $responseText
+                );
+            }
 
             return $this->sendResponse([
                 'aiResponse' => $responseText,

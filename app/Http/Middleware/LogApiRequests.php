@@ -35,7 +35,7 @@ class LogApiRequests
 
         $url = $request->fullUrl();
         $model = $this->getModelFromUrl($url);
-        $data = $request->all();
+        $data = $this->sanitizeLoggedData($request, $request->all());
         $modifiedId = $data['id']
             ?? $request->route('id')
             ?? $request->route('user')
@@ -253,5 +253,16 @@ class LogApiRequests
         }
 
         return null;
+    }
+
+    protected function sanitizeLoggedData(Request $request, array $data): array
+    {
+        if (!$request->is('api/openai/chat')) {
+            return $data;
+        }
+
+        return [
+            'query' => '[REDACTED]',
+        ];
     }
 }

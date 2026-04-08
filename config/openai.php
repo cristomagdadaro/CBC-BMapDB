@@ -39,4 +39,21 @@ return [
     */
 
     'request_timeout' => env('OPENAI_REQUEST_TIMEOUT', 120),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Chat Endpoint Security
+    |--------------------------------------------------------------------------
+    |
+    | These settings help reduce abuse when the public site proxies requests to
+    | an internal OpenAI-compatible model endpoint.
+    */
+
+    'allowed_origins' => array_values(array_filter(array_map(
+        static fn (string $origin): string => rtrim(trim($origin), '/'),
+        explode(',', (string) env('OPENAI_ALLOWED_ORIGINS', rtrim((string) env('APP_URL', ''), '/')))
+    ))),
+    'rate_limit_per_minute' => (int) env('OPENAI_RATE_LIMIT_PER_MINUTE', 10),
+    'rate_limit_per_hour' => (int) env('OPENAI_RATE_LIMIT_PER_HOUR', 100),
+    'log_queries' => filter_var(env('OPENAI_LOG_QUERIES', false), FILTER_VALIDATE_BOOL),
 ];
