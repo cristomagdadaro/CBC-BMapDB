@@ -1,6 +1,6 @@
-# PalayAI Standalone Rebuild Guide
+# HelixAI Standalone Rebuild Guide
 
-Use this document as the build spec for rebuilding the current CBC PIN AI chat module into a standalone Laravel + Vue application named `PalayAI`.
+Use this document as the build spec for rebuilding the current CBC PIN AI chat module into a standalone Laravel + Vue application named `HelixAI`.
 
 The result must be:
 
@@ -59,10 +59,9 @@ Why:
 
 Required deployment shape:
 
-- run the PalayAI app on `192.168.36.10`
+- run the HelixAI app on `192.168.36.10`
 - publish it through a reverse proxy with TLS, for example:
-  - `https://ai.philrice.gov.ph`
-  - or `https://palayai.philrice.gov.ph`
+  - `https://helixai.philrice.gov.ph`
 - only the reverse proxy should be internet-facing
 - the raw local app and raw LLM port should stay private on the LAN
 
@@ -72,11 +71,11 @@ If the project is intended for internal-only users on the same network, that is 
 
 ```mermaid
 flowchart LR
-    A["Client Websites<br/>PIN / DA-CBC / OneCBC / 360 Tour"] --> B["PalayAI Embed Loader<br/>JS bootstrap"]
-    B --> C["PalayAI Widget Frame<br/>Vue UI in isolated iframe"]
-    C --> D["PalayAI Server<br/>Laravel API + Vue Admin"]
+    A["Client Websites<br/>PIN / DA-CBC / OneCBC / 360 Tour"] --> B["HelixAI Embed Loader<br/>JS bootstrap"]
+    B --> C["HelixAI Widget Frame<br/>Vue UI in isolated iframe"]
+    C --> D["HelixAI Server<br/>Laravel API + Vue Admin"]
     D --> E["Local LLM Endpoint<br/>LM Studio / llama.cpp / LLMama"]
-    D --> F["PalayAI Database<br/>sessions, messages, context, overrides"]
+    D --> F["HelixAI Database<br/>sessions, messages, context, overrides"]
     D --> G["Context Connectors"]
     G --> H["DA-CBC WordPress posts/pages"]
     G --> I["PIN breeders/commodities feed"]
@@ -87,7 +86,7 @@ flowchart LR
 Build one standalone system with three surfaces:
 
 1. `Widget`
-   A floating chat UI rendered from PalayAI itself and embedded into other sites.
+   A floating chat UI rendered from HelixAI itself and embedded into other sites.
 
 2. `Public Chat API`
    The backend endpoint that receives widget questions, pulls context, calls the LLM, and returns the response.
@@ -101,7 +100,7 @@ Do not copy the Vue component into every host repository.
 
 Instead:
 
-- serve a tiny `embed.js` loader from PalayAI
+- serve a tiny `embed.js` loader from HelixAI
 - let that loader inject one fixed-position iframe
 - render the actual chat UI inside the iframe
 
@@ -120,9 +119,9 @@ The host page should only need one script tag:
 ```html
 <script
   src="https://ai.philrice.gov.ph/embed.js"
-  data-palayai-site="pin"
-  data-palayai-position="bottom-right"
-  data-palayai-title="Biotech Assistant"
+  data-helixai-site="pin"
+  data-helixai-position="bottom-right"
+  data-helixai-title="Biotech Assistant"
   defer
 ></script>
 ```
@@ -130,7 +129,7 @@ The host page should only need one script tag:
 The loader should:
 
 - detect the host origin
-- request widget config from PalayAI
+- request widget config from HelixAI
 - receive a short-lived signed widget token
 - create the floating iframe
 - pass `site_key`, token, and theme settings to the iframe via query string or `postMessage`
@@ -667,7 +666,7 @@ Fallback only if needed:
 
 ## 14. Admin Console Requirements
 
-Build a secured admin UI inside the standalone PalayAI app.
+Build a secured admin UI inside the standalone HelixAI app.
 
 ### Main Admin Screens
 
@@ -726,8 +725,8 @@ This section is mandatory.
 
 - keep the LLM port private
 - do not expose the raw LM Studio or llama.cpp server publicly
-- only PalayAI should be allowed to call the LLM endpoint
-- publish PalayAI through TLS reverse proxy, not direct private IP embeds
+- only HelixAI should be allowed to call the LLM endpoint
+- publish HelixAI through TLS reverse proxy, not direct private IP embeds
 
 ### Origin and Embedding Controls
 
@@ -825,7 +824,7 @@ For:
 - `pin.philrice.gov.ph`
 - `onecbc.philrice.gov.ph`
 
-Add only the PalayAI loader script to the shared layout. Do not port the widget component into those codebases.
+Add only the HelixAI loader script to the shared layout. Do not port the widget component into those codebases.
 
 ### WordPress Host
 
@@ -917,9 +916,9 @@ Implement in this order.
 The rebuild is complete only when all of the following are true:
 
 - the widget looks visually identical to the current CBC PIN chatbox
-- the widget is loaded from one standalone PalayAI app, not copied into each host codebase
+- the widget is loaded from one standalone HelixAI app, not copied into each host codebase
 - the widget works on Laravel/Vue, WordPress, and Pano2VR hosts
-- the PalayAI server calls the local LLM server without exposing the LLM directly to browsers
+- the HelixAI server calls the local LLM server without exposing the LLM directly to browsers
 - DA-CBC articles are searchable as context
 - PIN commodity and breeder data are searchable as context
 - admins can review recent queries and approve refined answers
@@ -933,7 +932,7 @@ The rebuild is complete only when all of the following are true:
 Use these defaults unless overridden by env/config:
 
 ```text
-APP_NAME=PalayAI
+APP_NAME=HelixAI
 PALAYAI_PUBLIC_URL=https://ai.philrice.gov.ph
 PALAYAI_INTERNAL_URL=http://192.168.36.10
 LLM_BASE_URL=http://127.0.0.1:1234/v1
