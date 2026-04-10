@@ -369,7 +369,7 @@ export default {
                                             </svg>
                                         </div>
                                         <h3 class="font-semibold text-gray-900 mb-1">Facebook</h3>
-                                        <a href="https://www.facebook.com/DACropBiotechCenter5" class="text-sm text-pin-green hover:underline">DACropBiotechCenter5</a>
+                                        <a href="https://dacbc.philrice.gov.ph/go/da-cbc-facebook" class="text-sm text-pin-green hover:underline">DACropBiotechCenter</a>
                                     </div>
                                     <div class="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition-shadow">
                                         <div class="w-10 h-10 bg-pin-green-light rounded-lg flex items-center justify-center text-pin-green mb-3">
