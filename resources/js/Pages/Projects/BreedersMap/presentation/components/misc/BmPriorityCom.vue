@@ -1,5 +1,5 @@
 <script setup>
-import {ref, computed, defineProps} from 'vue';
+import {ref, computed} from 'vue';
 import AdvancedCarousel from '@/Components/Carousel/AdvancedCarousel.vue';
 import { Link } from '@inertiajs/vue3';
 

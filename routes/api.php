@@ -37,8 +37,8 @@ require 'components/PublicRoutes.php';
 require 'components/OpenAiRoutes.php';
 
 Route::middleware(['api','auth:sanctum','verified'])->group(function() {
-    require base_path('Modules/TwgDb/Routes/TWGDbRoutes.php');
-    require base_path('Modules/PbMap/Routes/BreedersMapRoutes.php');
+    require base_path('modules/TwgDb/Routes/TWGDbRoutes.php');
+    require base_path('modules/PbMap/Routes/BreedersMapRoutes.php');
     require 'components/SystemRoutes.php';
 
     // Dashboard API Routes
