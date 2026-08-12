@@ -2,16 +2,13 @@
 import Body from '@/Pages/Body.vue'
 import BackToTop from "@/Components/BackToTop.vue"
 import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue"
-import AiChat from "@/Pages/OpenAi/AiChat/AiChat.vue"
-
 export default {
     name: "Layout",
 
     components: {
         Body,
         BackToTop,
-        NotifBanner,
-        AiChat
+        NotifBanner
     },
 
     props: {
@@ -27,8 +24,7 @@ export default {
     <Body :is-wide-display="isWideDisplay">
         <NotifBanner />
 
-        <!-- AI Chat -->
-        <AiChat />
+        <!-- AI Chat widget removed in favor of central SproutAi script in app.blade.php -->
 
         <slot />
 

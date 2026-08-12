@@ -20,8 +20,6 @@ import SelectField from "@/Components/Form/SelectField.vue";
 import User from "@/Modules/core/domain/auth/User";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
 import TD from '@/Components/CRCMDatatable/Components/TD.vue';
-import AiChat from "@/Pages/OpenAi/AiChat/AiChat.vue"
-
 export default {
     components: {
         SelectField,
@@ -40,7 +38,6 @@ export default {
         BellIcon,
         Hamburger,
         Modal,
-        AiChat,
         TD   
     },
     props: {
@@ -203,7 +200,7 @@ export default {
     <Head :title="title" />
 
     <NotifBanner />
-    <AiChat />
+    <!-- AI Chat widget removed in favor of central SproutAi script in app.blade.php -->
     <div class="min-h-screen bg-gray-100">
         <nav v-if="user" class="bg-white shadow">
             <!-- Primary Navigation Menu -->

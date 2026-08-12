@@ -82,6 +82,7 @@
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
+        <script src="https://onecbc.philrice.gov.ph/ai/embed.js" data-site-id="pin" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
         <script>
             window.AppConfig = {
