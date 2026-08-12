@@ -24,8 +24,6 @@ export default {
     <Body :is-wide-display="isWideDisplay">
         <NotifBanner />
 
-        <!-- AI Chat widget removed in favor of central SproutAi script in app.blade.php -->
-
         <slot />
 
         <BackToTop />

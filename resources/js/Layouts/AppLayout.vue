@@ -200,7 +200,6 @@ export default {
     <Head :title="title" />
 
     <NotifBanner />
-    <!-- AI Chat widget removed in favor of central SproutAi script in app.blade.php -->
     <div class="min-h-screen bg-gray-100">
         <nav v-if="user" class="bg-white shadow">
             <!-- Primary Navigation Menu -->
