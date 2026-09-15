@@ -173,6 +173,10 @@ Route::middleware([
             Route::get('/settings', function () {
                 return Inertia::render('Projects/BreedersMap/presentation/components/misc/BmSettings');
             })->name('projects.breedersmap.settings');
+
+            Route::get('/requests', function () {
+                return Inertia::render('Projects/BreedersMap/presentation/BreedersMapIndex');
+            })->name('projects.breedersmap.requests');
         });
     });
 });

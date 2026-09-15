@@ -42,12 +42,15 @@ Route::middleware(['api','auth:sanctum','verified'])->group(function() {
 
     // Dashboard API Routes
     Route::prefix('dashboard')->controller(DashboardApiController::class)->group(function () {
-        Route::get('/system-stats', 'getSystemStats')->name('api.dashboard.system-stats');
-        Route::get('/online-users', 'getOnlineUsers')->name('api.dashboard.online-users');
-        Route::get('/recent-users', 'getRecentUsers')->name('api.dashboard.recent-users');
-        Route::get('/user-role-distribution', 'getUserRoleDistribution')->name('api.dashboard.user-role-distribution');
         Route::get('/system-activities', 'getSystemActivities')->name('api.dashboard.system-activities');
         Route::post('/activity', 'updateActivity')->name('api.dashboard.activity');
+
+        Route::middleware(['admin'])->group(function () {
+            Route::get('/system-stats', 'getSystemStats')->name('api.dashboard.system-stats');
+            Route::get('/online-users', 'getOnlineUsers')->name('api.dashboard.online-users');
+            Route::get('/recent-users', 'getRecentUsers')->name('api.dashboard.recent-users');
+            Route::get('/user-role-distribution', 'getUserRoleDistribution')->name('api.dashboard.user-role-distribution');
+        });
     });
 
     Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('api.activity-logs.index');

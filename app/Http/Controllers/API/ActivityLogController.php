@@ -3,43 +3,19 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\ApiRequestLog;
+use App\Http\Requests\GetActivityLogRequest;
+use App\Repository\API\ActivityLogRepo;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class ActivityLogController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function __construct(private ActivityLogRepo $activityLogRepo)
     {
-        $user = $request->user();
-        $perPage = (int) ($request->input('per_page', 15));
-        if ($perPage < 1) {
-            $perPage = 15;
-        }
-        if ($perPage > 100) {
-            $perPage = 100;
-        }
+    }
 
-        $query = ApiRequestLog::query()->latest();
-
-        $mineOnly = $request->boolean('mine', true);
-        if ($mineOnly || !$user || !$user->isAdmin()) {
-            $query->where('user_id', $user?->id);
-        } elseif ($request->filled('user_id')) {
-            $query->where('user_id', (int) $request->input('user_id'));
-        }
-
-        if ($request->filled('method')) {
-            $query->where('method', strtoupper($request->input('method')));
-        }
-
-        $query->whereNotIn('method', ['GET', 'HEAD', 'OPTIONS']);
-
-        if ($request->filled('model')) {
-            $query->where('model', $request->input('model'));
-        }
-
-        $logs = $query->paginate($perPage);
+    public function index(GetActivityLogRequest $request): JsonResponse
+    {
+        $logs = $this->activityLogRepo->getLogs($request->validated(), $request->user());
 
         return response()->json($logs);
     }

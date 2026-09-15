@@ -163,4 +163,11 @@ class DashboardRepo
             ->values()
             ->all();
     }
+
+    public function updateUserActivity(User $user): void
+    {
+        $user->update([
+            'last_activity_at' => now(),
+        ]);
+    }
 }

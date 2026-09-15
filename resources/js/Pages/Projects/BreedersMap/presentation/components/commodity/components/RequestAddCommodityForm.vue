@@ -22,11 +22,7 @@ export default {
     </template>
     <template v-slot:formDescription>
         <p class="text-sm text-gray-600">
-            Please fill out this form to include your commodity of interest.
-        </p>
-        <br/>
-        <p class="text-sm text-gray-600">
-            Might take some time to process your request. Please contact <a href="mailto:pin.dacbc@gmail.com">pin.dacbc@gmail.com</a> for queries.
+            Please fill out this form to request the inclusion of a new commodity.
         </p>
     </template>
     <template v-slot:formFields>

@@ -17,6 +17,9 @@
             <template v-slot:tab5>
                 <bm-settings />
             </template>
+            <template v-slot:tab6>
+                <commodity-requests-manager />
+            </template>
         </Tab>
         <p v-else>Please login to view the data</p>
     </app-layout>
@@ -32,6 +35,7 @@ import { defineAsyncComponent } from "vue";
 import Commodity from "@/Pages/Projects/BreedersMap/domain/Commodity";
 import Breeder from "@/Pages/Projects/BreedersMap/domain/Breeder";
 import BmSettings from "@/Pages/Projects/BreedersMap/presentation/components/misc/BmSettings.vue";
+import CommodityRequestsManager from "@/Pages/Projects/BreedersMap/presentation/components/misc/CommodityRequestsManager.vue";
 import UnderDevelop from "@/Components/Modal/UnderDevelop.vue";
 import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
 
@@ -47,6 +51,7 @@ export default {
     components: {
         UnderDevelop,
         BmSettings,
+        CommodityRequestsManager,
         Head,
         AppLayout: defineAsyncComponent({
             loader: async() => await import("@/Layouts/AppLayout.vue"),
@@ -100,7 +105,14 @@ export default {
                   active: false,
                   route: { name: 'projects.breedersmap.settings' },
               },
+              {
+                  name: "tab6",
+                  label: "Requests",
+                  active: false,
+                  route: { name: 'projects.breedersmap.requests' },
+              }
           ],
+
           tables: [
               { label: 'Commodity', name: 'commodities', route: route(BreedersMapEndpoints.commodity.summaryUri), model: Commodity },
               { label: 'Breeders', name: 'breeders', route: route(BreedersMapEndpoints.breeder.summaryUri), model: Breeder },

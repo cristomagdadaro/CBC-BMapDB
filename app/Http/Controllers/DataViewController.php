@@ -28,17 +28,9 @@ class DataViewController extends BaseController
 
     public function show(GetDataViewsRequest $request, string $table): JsonResponse
     {
-        /** @var \App\Models\User $user */
-        $user = auth()->user();
-        $query = $this->service->model->where('model', $table);
-
-        // If not admin, filter by user_account_id
-        if ($user && !$user->isAdmin()) {
-            $query->where('user_account_id', $user->id);
-        }
-
-        // Get data and group by visibility_guard
-        $data = $query->get()->keyBy('visibility_guard');
+        /** @var DataViewRepo $dataViewRepo */
+        $dataViewRepo = $this->service;
+        $data = $dataViewRepo->getDataViewsForTable($table, \Illuminate\Support\Facades\Auth::user());
 
         return $this->sendResponse(DataViewResource::collection($data));
     }
@@ -51,8 +43,10 @@ class DataViewController extends BaseController
 
     public function update(UpdateDataViewRequest $request, $table, $uuid): JsonResponse
     {
-        $dataView = $this->service->model->where('uuid', $uuid)->firstOrFail();
-        $dataView->update($request->validated());
+        /** @var DataViewRepo $dataViewRepo */
+        $dataViewRepo = $this->service;
+        $dataView = $dataViewRepo->updateByUuid($uuid, $request->validated());
+        
         return $this->sendResponse($dataView);
     }
 }

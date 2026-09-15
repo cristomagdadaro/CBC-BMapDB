@@ -5,6 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Repository\API\MapDataRepo;
 use App\Services\MapDataFilterService;
+use App\Http\Requests\Map\GetMapDataRequest;
+use App\Http\Requests\Map\GetMapFilterOptionsRequest;
+use App\Http\Requests\Map\GetMapSummaryRequest;
+use App\Http\Requests\Map\GetMapDistributionRequest;
+use App\Http\Requests\Map\GetOrbitItemsRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -22,24 +27,9 @@ class MapDataController extends Controller
     /**
      * Get filtered map data for plotting
      */
-    public function getMapData(Request $request): JsonResponse
+    public function getMapData(GetMapDataRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'data_type' => 'required|string|in:commodities,breeders,institutes',
-            'filter_by' => 'nullable|string|in:commodity,city,province,region,institute',
-            'commodity' => 'nullable|string',
-            'commodities' => 'nullable|string',
-            'institute' => 'nullable|string',
-            'breeder_type' => 'nullable|string',
-            'institute_type' => 'nullable|string',
-            'region' => 'nullable|string',
-            'regions' => 'nullable|string',
-            'province' => 'nullable|string',
-            'provinces' => 'nullable|string',
-            'city' => 'nullable|string|numeric',
-            'cities' => 'nullable|string|numeric',
-            'search' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         try {
             $dataType = $validated['data_type'];
@@ -105,11 +95,9 @@ class MapDataController extends Controller
     /**
      * Get available filter options
      */
-    public function getFilterOptions(Request $request): JsonResponse
+    public function getFilterOptions(GetMapFilterOptionsRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'data_type' => 'required|string|in:commodities,breeders,institutes',
-        ]);
+        $validated = $request->validated();
 
         try {
             $options = $this->mapDataService->getFilterOptions($validated['data_type']);
@@ -131,20 +119,9 @@ class MapDataController extends Controller
     /**
      * Get summary statistics
      */
-    public function getSummary(Request $request): JsonResponse
+    public function getSummary(GetMapSummaryRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'data_type' => 'required|string|in:commodities,breeders,institutes',
-            'filter_by' => 'nullable|string|in:commodity,city,province,region,institute',
-            'commodity' => 'nullable|string',
-            'institute' => 'nullable|string',
-            'breeder_type' => 'nullable|string',
-            'institute_type' => 'nullable|string',
-            'region' => 'nullable|string',
-            'province' => 'nullable|string',
-            'city' => 'nullable|string',
-            'search' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         try {
             $dataType = $validated['data_type'];
@@ -169,21 +146,9 @@ class MapDataController extends Controller
     /**
      * Get geographic distribution data
      */
-    public function getGeographicDistribution(Request $request): JsonResponse
+    public function getGeographicDistribution(GetMapDistributionRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'data_type' => 'required|string|in:commodities,breeders,institutes',
-            'filter_by' => 'nullable|string|in:commodity,city,province,region,institute',
-            'commodity' => 'nullable|string',
-            'institute' => 'nullable|string',
-            'breeder_type' => 'nullable|string',
-            'institute_type' => 'nullable|string',
-            'region' => 'nullable|string',
-            'province' => 'nullable|string',
-            'city' => 'nullable|string',
-            'search' => 'nullable|string',
-            'group_by' => 'nullable|string|in:region,province,city,institute,breeder_type',
-        ]);
+        $validated = $request->validated();
 
         try {
             $dataType = $validated['data_type'];
@@ -211,13 +176,9 @@ class MapDataController extends Controller
     /**
      * Return minimal items (id, image, label) for orbit overlay by city id.
      */
-    public function getOrbitItems(Request $request): JsonResponse
+    public function getOrbitItems(GetOrbitItemsRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'data_type' => 'required|string|in:commodities,breeders',
-            'city_ids' => 'required|string',
-            'limit' => 'nullable|integer|min:1|max:24',
-        ]);
+        $validated = $request->validated();
 
         $type = $validated['data_type'];
         $cityIds = array_filter(array_map('intval', explode(',', $validated['city_ids'])));
@@ -232,7 +193,7 @@ class MapDataController extends Controller
                 $type,
                 $cityIds,
                 $limit,
-                auth()->check() && $request->user()?->isAdmin()
+                \Illuminate\Support\Facades\Auth::check() && $request->user()?->isAdmin()
             );
 
             return response()->json([

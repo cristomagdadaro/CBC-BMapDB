@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\PbMap\Controllers\BreederController;
 use Modules\PbMap\Controllers\CommodityController;
 use Modules\PbMap\Controllers\BreedersDashboardController;
+use Modules\PbMap\Controllers\CommodityRequestController;
 
 /*Breeders' Map Related APIs*/
 Route::middleware(['check.status.breedersmap', 'auth:sanctum'])->prefix('breeders')->group(function () {
@@ -15,6 +16,12 @@ Route::middleware(['check.status.breedersmap', 'auth:sanctum'])->prefix('breeder
     Route::put('/{id}', [BreederController::class, 'update'])->name('api.breeders.update');
     Route::delete('/delete', [BreederController::class, 'multiDestroy'])->name('api.breeders.destroy.multi');
     Route::delete('/{id}', [BreederController::class, 'destroy'])->name('api.breeders.destroy');
+});
+
+Route::middleware(['check.status.breedersmap', 'auth:sanctum'])->prefix('commodity-requests')->group(function () {
+    Route::get('/', [CommodityRequestController::class, 'index'])->name('api.commodity-requests.index');
+    Route::post('/', [CommodityRequestController::class, 'store'])->name('api.commodity-requests.store');
+    Route::put('/{id}', [CommodityRequestController::class, 'update'])->name('api.commodity-requests.update');
 });
 
 Route::middleware(['check.status.breedersmap', 'auth:sanctum'])->prefix('commodities')->group(function () {
