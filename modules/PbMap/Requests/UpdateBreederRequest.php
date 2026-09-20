@@ -69,7 +69,7 @@ class UpdateBreederRequest extends FormRequest
 
     private function isOrganizationLead(User $user): bool
     {
-        return $user->isFocalPerson() || $user->isTwgManager();
+        return $user->hasRole(\App\Enums\Role::FOCAL_PERSON->value);
     }
 
     /**

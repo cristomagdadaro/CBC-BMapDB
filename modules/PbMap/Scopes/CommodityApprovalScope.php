@@ -32,7 +32,7 @@ class CommodityApprovalScope implements Scope
             $q->whereNotNull($table . '.approved_at');
 
             // Breeder can see their own pending commodities
-            if (method_exists($user, 'isBreeder') && $user->isBreeder()) {
+            if ($user->hasRole(\App\Enums\Role::BREEDER->value)) {
                 $q->orWhere(function (Builder $qq) use ($user, $table) {
                     $qq->whereNull($table . '.approved_at')
                        ->where($table . '.user_id', (int) $user->id);
@@ -40,7 +40,7 @@ class CommodityApprovalScope implements Scope
             }
 
             // Focal person can see pending commodities within their institute via breeder affiliation
-            if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+            if ($user->hasRole(\App\Enums\Role::FOCAL_PERSON->value)) {
                 $affId = (int) ($user->affiliation ?? 0);
                 if ($affId > 0) {
                     $q->orWhere(function (Builder $qq) use ($affId) {

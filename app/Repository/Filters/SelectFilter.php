@@ -52,7 +52,7 @@ class SelectFilter extends AbstractFilter
             }
 
             $user = auth()->user();
-            if (!method_exists($user, 'isResearcher') || !$user->isResearcher()) {
+            if (!method_exists($user, 'isResearcher') || !$user->hasRole(\App\Enums\Role::RESEARCHER->value)) {
                 return;
             }
 

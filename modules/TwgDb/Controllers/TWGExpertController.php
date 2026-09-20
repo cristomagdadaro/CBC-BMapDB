@@ -39,13 +39,6 @@ class TWGExpertController extends BaseController
 
     public function destroy($id)
     {
-        $user = auth()->user();
-        $model = TWGExpert::findOrFail($id);
-
-        if (!$user || (!$user->isAdmin() && (!$user->isTwgManager() || (int) $user->affiliation !== (int) $model->institution))) {
-            abort(403, __('You are not authorized to delete this expert.'));
-        }
-
         return parent::_destroy($id);
     }
 

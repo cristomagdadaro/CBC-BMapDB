@@ -16,9 +16,9 @@ class BreederPolicy
     public function viewAny(User $user): bool
     {
         return $user->isAdmin()
-            || $user->isFocalPerson()
-            || $user->isBreeder()
-            || $user->isResearcher();
+            || $user->hasRole(\App\Enums\Role::FOCAL_PERSON->value)
+            || $user->hasRole(\App\Enums\Role::BREEDER->value)
+            || $user->hasRole(\App\Enums\Role::RESEARCHER->value);
     }
 
     /**
@@ -34,7 +34,7 @@ class BreederPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin() || $user->isFocalPerson();
+        return $user->isAdmin() || $user->hasRole(\App\Enums\Role::FOCAL_PERSON->value);
     }
 
     /**
@@ -87,7 +87,7 @@ class BreederPolicy
 
     private function isOrganizationLead(User $user): bool
     {
-        return $user->isFocalPerson() || $user->isTwgManager();
+        return $user->hasRole(\App\Enums\Role::FOCAL_PERSON->value);
     }
 
     private function hasMatchingAffiliation(User $user, ?int $affiliation): bool

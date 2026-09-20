@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\PbMap\Scopes\CommodityApprovalScope;
+use Illuminate\Database\Eloquent\Builder;
+use App\Models\User;
 
 class Commodity extends BaseModel
 {
@@ -117,4 +119,30 @@ class Commodity extends BaseModel
                 $query->where('user_id', auth()->id());
             });
     }*/
+
+    public function bypassUserBasedOwnership(User $user): bool
+    {
+        return $user->hasRole(\App\Enums\Role::BREEDER->value);
+    }
+
+    public function applyCustomAffiliationOwnership(Builder $query, User $currentUser, string $affiliationCol, string $userIdCol): bool
+    {
+        if ($currentUser->hasRole(\App\Enums\Role::BREEDER->value)) {
+            $aff = trim((string) $currentUser->affiliation);
+            if ($aff === '') {
+                $query->whereRaw('1 = 0');
+                return true;
+            }
+
+            if (method_exists($this, 'breeder')) {
+                $query->whereHas('breeder', function (Builder $q) use ($aff) {
+                    $q->withoutGlobalScopes()->where('affiliation', $aff);
+                });
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }

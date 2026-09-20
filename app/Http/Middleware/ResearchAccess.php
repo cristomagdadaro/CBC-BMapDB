@@ -15,7 +15,7 @@ class ResearchAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() && ($request->user()->isResearcher() || $request->user()->isAdmin())) {
+        if ($request->user() && ($request->user()->hasRole(\App\Enums\Role::RESEARCHER->value) || $request->user()->isAdmin())) {
             return $next($request);
         }
 

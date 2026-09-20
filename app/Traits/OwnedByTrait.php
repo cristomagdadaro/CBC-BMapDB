@@ -34,12 +34,12 @@ trait OwnedByTrait {
         }
 
         // Admin, Focal Person, Researcher: no user-based restriction
-        if ($currentUser->isAdmin() || $currentUser->isFocalPerson() || $currentUser->isResearcher()) {
+        if ($currentUser->isAdmin() || $currentUser->hasRole(\App\Enums\Role::FOCAL_PERSON->value) || $currentUser->hasRole(\App\Enums\Role::RESEARCHER->value)) {
             return $query;
         }
 
-        // Breeder: for breeders and commodities tables, skip user_id restriction; we'll scope by affiliation instead for commodities
-        if ($currentUser->isBreeder() && in_array($table, ['breeders', 'commodities'], true)) {
+        // Let the model bypass user-based filtration if it implements this logic (e.g. for breeders/commodities)
+        if (method_exists($model, 'bypassUserBasedOwnership') && $model->bypassUserBasedOwnership($currentUser)) {
             return $query;
         }
 
@@ -88,45 +88,16 @@ trait OwnedByTrait {
         $institutionCol = method_exists($model, 'qualifyColumn') ? $model->qualifyColumn('institution') : ($table . '.institution');
         $userIdCol = method_exists($model, 'qualifyColumn') ? $model->qualifyColumn('user_id') : ($table . '.user_id');
 
-        // Special case: Breeder viewing breeders -> restrict by affiliation to show peers in same institution
-        if ($currentUser->isBreeder() && $table === 'breeders') {
-            $aff = trim((string) $currentUser->affiliation);
-            if ($aff === '') {
-                return $query->whereRaw('1 = 0');
+        // Let the model apply custom affiliation-based filtration (e.g. for breeders/commodities viewed by a breeder)
+        if (method_exists($model, 'applyCustomAffiliationOwnership')) {
+            $applied = $model->applyCustomAffiliationOwnership($query, $currentUser, $affiliationCol, $userIdCol);
+            if ($applied) {
+                return $query;
             }
-
-            if ($hasAffiliation) {
-                $query->where($affiliationCol, $aff);
-            }
-
-            // Exclude the current breeder's own record (show "other" breeders)
-            if ($hasUserId) {
-                $query->where($userIdCol, '!=', $currentUser->id);
-            }
-
-            return $query;
-        }
-
-        // New: Breeder viewing commodities -> allow commodities in the same institute (do not exclude own)
-        if ($currentUser->isBreeder() && $table === 'commodities') {
-            $aff = trim((string) $currentUser->affiliation);
-            if ($aff === '') {
-                return $query->whereRaw('1 = 0');
-            }
-
-            // Scope via breeder relation having same affiliation
-            // IMPORTANT: Use withoutGlobalScopes() to prevent infinite recursion
-            if (method_exists($model, 'breeder')) {
-                return $query->whereHas('breeder', function (Builder $q) use ($aff) {
-                    $q->withoutGlobalScopes()->where('affiliation', $aff);
-                });
-            }
-
-            return $query;
         }
 
         // Only focal persons are restricted by affiliation for other models
-        if (!$currentUser->isFocalPerson()) {
+        if (!$currentUser->hasRole(\App\Enums\Role::FOCAL_PERSON->value)) {
             return $query;
         }
 

@@ -31,7 +31,7 @@ class UpdateTWGServiceRequest extends FormRequest
             return true;
         }
 
-        if ($user->isTwgManager()) {
+        if ($user->hasRole(\App\Enums\Role::TWG_MANAGER->value)) {
             $userAff = (int) ($user->affiliation ?? 0);
             $modelAff = (int) ($model->institution ?? 0);
             if ($userAff && $modelAff && $userAff === $modelAff) {

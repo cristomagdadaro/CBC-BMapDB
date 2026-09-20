@@ -42,7 +42,7 @@ class TWGProductController extends BaseController
         $user = auth()->user();
         $model = TWGProduct::findOrFail($id);
 
-        if (!$user || (!$user->isAdmin() && (!$user->isTwgManager() || (int) $user->affiliation !== (int) $model->institution))) {
+        if (!$user || (!$user->isAdmin() && (!$user->hasRole(\App\Enums\Role::TWG_MANAGER->value) || (int) $user->affiliation !== (int) $model->institution))) {
             abort(403, __('You are not authorized to delete this product.'));
         }
 

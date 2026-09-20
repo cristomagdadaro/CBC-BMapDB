@@ -22,7 +22,7 @@ class DeleteTWGServiceRequest extends FormRequest
             return true;
         }
 
-        if (!$user->isTwgManager()) {
+        if (!$user->hasRole(\App\Enums\Role::TWG_MANAGER->value)) {
             abort(403, __('You are not authorized to delete services.'));
         }
 

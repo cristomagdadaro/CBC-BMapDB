@@ -34,7 +34,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         }
 
         // when user changes affiliation, add them as a breeder to the new agency. Don't remove them from the previous agency since it will make the data inconsistent.
-        if ($user->isBreeder()) {
+        if ($user->hasRole(\App\Enums\Role::BREEDER->value)) {
             // Get the breeder model
             $model = $user->breeder()->getModel();
 
