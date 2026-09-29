@@ -62,7 +62,13 @@ export default {
                     <div class="flex flex-col gap-8">
                         <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
                             <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data?.data"  />
-                            <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder Name" v-model="form.breeder_id" />
+                            <div class="col-span-2 grid sm:grid-cols-2 grid-cols-1 gap-2 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                                <select-field :options="[{label: 'Breeder (Person)', value: 'breeder'}, {label: 'Organization/Institute', value: 'organization'}]" label="Named to" v-model="named_to_type" @change="(val) => { if (val === 'breeder') form.institute_id = null; else form.breeder_id = null; }" class="w-full" />
+                                
+                                <select-search-field v-if="named_to_type === 'breeder'" :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Select Breeder" v-model="form.breeder_id" />
+                                
+                                <select-search-field v-if="named_to_type === 'organization'" :title="getTitle('institute_id')" required :api-link="route('api.institutes.options.public')" :error="getError('institute_id')" label="Select Organization" v-model="form.institute_id" />
+                            </div>
                             <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Variety/Accession No./Germplasm Index" v-model="form.accession" />
                             <text-field required :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
                         </div>

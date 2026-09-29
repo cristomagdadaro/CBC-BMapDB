@@ -24,6 +24,7 @@ class Commodity extends BaseModel
         'user_id',
         'name',
         'breeder_id',
+        'institute_id',
         'scientific_name',
         'variety',
         'accession',
@@ -95,6 +96,11 @@ class Commodity extends BaseModel
     public function breeder(): BelongsTo
     {
         return $this->belongsTo(Breeder::class, 'breeder_id', 'id')->select((new Breeder())->getSearchable())->withTrashed()->with('affiliated');
+    }
+
+    public function institute(): BelongsTo
+    {
+        return $this->belongsTo(Institute::class, 'institute_id', 'id');
     }
 
     public function characteristics(): HasOne

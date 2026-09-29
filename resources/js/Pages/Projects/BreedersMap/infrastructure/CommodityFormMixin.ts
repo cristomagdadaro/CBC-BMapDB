@@ -11,6 +11,7 @@ export default {
     components: {AddIcon, BaseButton, FileField, Checkbox, DateField, Tab},
     data() {
         return {
+            named_to_type: 'breeder',
             model: Commodity,
             tabs: [
                 {name: 'tab2', label: 'Basic Information', active: true, route: null},
@@ -108,6 +109,11 @@ export default {
     async mounted() {
         if (this.$page?.props?.breeder) {
             this.form.breeder_id = this.$page.props.breeder.id;
+        }
+        if (this.form?.institute_id) {
+            this.named_to_type = 'organization';
+        } else {
+            this.named_to_type = 'breeder';
         }
         this.ensureRepeatables();
         try {

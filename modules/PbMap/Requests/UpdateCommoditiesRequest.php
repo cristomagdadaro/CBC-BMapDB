@@ -90,7 +90,8 @@ class UpdateCommoditiesRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
-            'breeder_id' => 'required|integer|exists:breeders,id',
+            'breeder_id' => 'required_without:institute_id|nullable|integer|exists:breeders,id',
+            'institute_id' => 'required_without:breeder_id|nullable|integer|exists:institutes,id',
             'scientific_name' => 'required|string|max:255',
             'accession' => 'required|string|max:255',
             'yield' => 'required|numeric',

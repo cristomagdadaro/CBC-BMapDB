@@ -17,6 +17,7 @@ export default class Commodity extends DtoCommodity {
         return {
             user_id: 'Enter the name of the data encoder',
             breeder_id: 'Select the plant breeder',
+            institute_id: 'Select the organization/institute',
             name: 'Select a commodity name',
             scientific_name: 'Enter the scientific name (if applicable)',
             accession: 'Enter the accession number',
@@ -60,6 +61,7 @@ export default class Commodity extends DtoCommodity {
         return {
             user_id: null,
             breeder_id: null,
+            institute_id: null,
             name: '',
             scientific_name: '',
             accession: '',
@@ -100,6 +102,7 @@ export default class Commodity extends DtoCommodity {
         return {
             id: oldValue.id ?? null,
             breeder_id: oldValue.breeder_id ?? null,
+            institute_id: oldValue.institute_id ?? null,
             name: oldValue.name ?? '',
             scientific_name: oldValue.scientific_name ?? '',
             accession: oldValue.accession ?? '',
