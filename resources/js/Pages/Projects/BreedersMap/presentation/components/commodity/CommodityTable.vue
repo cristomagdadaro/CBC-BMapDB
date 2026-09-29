@@ -75,15 +75,24 @@ export default {
                 base.scope_by = 'scopeOwnedPublic';
             }
             if (!base.with) {
-                return { ...base, with: 'breeder' };
+                return { ...base, with: 'breeder,creator' };
             }
             // Avoid duplicates
             const withVal = Array.isArray(base.with) ? base.with : String(base.with).split(',').map(s => s.trim()).filter(Boolean);
             if (!withVal.includes('breeder')) withVal.push('breeder');
+            if (!withVal.includes('creator')) withVal.push('creator');
             return { ...base, with: withVal.join(',') };
         }
     },
     methods: {
+        creatorRoles(row) {
+            return row?.creator?.roles?.map(r => r.name) || [];
+        },
+        isAddedByBreeder(row) {
+            const roles = this.creatorRoles(row);
+            // Must have Breeder role and NOT be Admin/Focal Person
+            return roles.includes('Breeder') && !roles.includes('Administrator') && !roles.includes('Focal Person');
+        },
         // A row is owned if commodity.user_id matches current user or the related breeder.user_id matches
         isOwner(row) {
             const uid = this.currentUserId;
@@ -110,10 +119,10 @@ export default {
             return this.isOwner(row);
         },
         canApprove(row) {
-            return !!row && !row.approved_at && (this.isAdmin || this.isFocal) && this.rowCanUpdate(row);
+            return !!row && !row.approved_at && (this.isAdmin || this.isFocal) && this.rowCanUpdate(row) && this.isAddedByBreeder(row);
         },
         canDisapprove(row) {
-            return !!row && !!row.approved_at && (this.isAdmin || this.isFocal) && this.rowCanUpdate(row);
+            return !!row && !!row.approved_at && (this.isAdmin || this.isFocal) && this.rowCanUpdate(row) && this.isAddedByBreeder(row);
         },
         isApproving(row) {
             return !!row && this.approvingIds.includes(row.id);

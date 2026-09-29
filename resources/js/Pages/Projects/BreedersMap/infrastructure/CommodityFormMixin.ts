@@ -89,6 +89,17 @@ export default {
         },
     },
     watch: {
+        data: {
+            handler(newVal) {
+                if (newVal?.institute_id) {
+                    this.named_to_type = 'organization';
+                } else if (newVal?.breeder_id || !newVal?.institute_id) {
+                    this.named_to_type = 'breeder';
+                }
+            },
+            immediate: true,
+            deep: true
+        },
         form: {
             handler() {
                 this.ensureRepeatables();

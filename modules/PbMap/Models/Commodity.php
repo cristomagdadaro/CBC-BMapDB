@@ -88,6 +88,11 @@ class Commodity extends BaseModel
         static::addGlobalScope(new CommodityApprovalScope());
     }
 
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'fname', 'mname', 'lname', 'suffix')->with('roles');
+    }
+
     public function user(): BelongsTo
     {
         return $this->breeder()->with('user');
