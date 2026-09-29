@@ -57,14 +57,16 @@ class BreederCreationRepo
                     'approved_at' => now(),
                 ]);
 
-                if (!$breederUser->hasVerifiedEmail()) {
-                    try {
-                        $breederUser->sendEmailVerificationViaFocalPersonNotification();
-                    } catch (\Throwable $mailError) {
-                        Log::warning('Breeder verification email failed to send', [
-                            'user_id' => $breederUser->id,
-                            'error' => $mailError->getMessage(),
-                        ]);
+                if (!empty($data['email']) && !empty($data['notify_breeder'])) {
+                    if (!$breederUser->hasVerifiedEmail()) {
+                        try {
+                            $breederUser->sendEmailVerificationViaFocalPersonNotification();
+                        } catch (\Throwable $mailError) {
+                            Log::warning('Breeder verification email failed to send', [
+                                'user_id' => $breederUser->id,
+                                'error' => $mailError->getMessage(),
+                            ]);
+                        }
                     }
                 }
 

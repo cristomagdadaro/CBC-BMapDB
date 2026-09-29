@@ -90,7 +90,7 @@ class UpdateBreederRequest extends FormRequest
             'photo' => ['nullable', 'string'],
             'breeder_type' => ['required', 'string', "in:".BreederType::PRIVATE->value.",".BreederType::PUBLIC->value.","],
             'email' => [
-                'required',
+                'nullable',
                 'email',
                 'unique:breeders,email,'.$this->id,
                 'unique:breeders,email,'.$this->id,

@@ -44,8 +44,12 @@ export default {
                     <select-field required :error="getError('breeder_type')" :title="getTitle('breeder_type')" label="Funding Type" v-model="form.breeder_type" :options="[{value: 'Public', label: 'Public'}, {value: 'Private', label: 'Private'}]" />
                     <text-field required :error="getError('position')" :title="getTitle('position')" label="Position" v-model="form.position" />
                     <select-field :error="getError('educ_level')" :title="getTitle('educ_level')" label="Education Level" v-model="form.educ_level" :options="TWGPages.educLevelOptions" />
-                    <text-field required :error="getError('email')" :title="getTitle('email')" label="Email" v-model="form.email" />
+                    <text-field :error="getError('email')" :title="getTitle('email')" label="Email" v-model="form.email" />
                     <file-field :error="getError('photo')" :title="getTitle('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
+                    <div class="flex items-center gap-2 mt-2 sm:col-span-2">
+                        <input type="checkbox" id="notify_breeder" v-model="form.notify_breeder" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                        <label for="notify_breeder" class="text-sm font-medium text-gray-700">Notify breeder via email</label>
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 text-sm gap-2">
                     <text-field :error="getError('expertise')" :title="getTitle('expertise')" label="Specialization" v-model="form.expertise" />
