@@ -73,6 +73,10 @@ class UpdateCommoditiesRequest extends FormRequest
 
     private function getBreederAffiliation(Commodity $commodity): ?int
     {
+        if ($commodity->institute_id) {
+            return $commodity->institute_id;
+        }
+
         if ($commodity->relationLoaded('breeder')) {
             return optional($commodity->breeder)->affiliation;
         }
