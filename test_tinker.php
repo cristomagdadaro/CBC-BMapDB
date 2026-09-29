@@ -1,0 +1,1 @@
+<?php \ = new \Modules\PbMap\Requests\GetCommoditiesRequest(); \->merge(['with' => 'breeder,creator,institute']); \ = app()->make(\Modules\PbMap\Controllers\CommodityController::class); echo json_encode(\->index(\)->response()->getData());

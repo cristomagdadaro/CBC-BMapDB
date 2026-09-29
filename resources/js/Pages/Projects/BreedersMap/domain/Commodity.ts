@@ -5,7 +5,7 @@ export default class Commodity extends DtoCommodity {
         // @ts-ignore
         super(params);
 
-        this.appendWith = ['breeder', 'location', 'characteristics', 'additionalinfo'];
+        this.appendWith = ['breeder', 'location', 'characteristics', 'additionalinfo', 'institute', 'creator'];
     }
 
     static importTemplateHeaders() {
@@ -346,11 +346,11 @@ export default class Commodity extends DtoCommodity {
             },
             {
                 title: 'Breeder',
-                key: 'breeder.getFullName',
+                key: 'breederName',
                 db_key: 'breeder.name',
                 sortable: true,
                 align: 'center',
-                visible: false,
+                visible: true,
             },
             {
                 title: 'Location',
