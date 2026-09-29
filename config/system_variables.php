@@ -55,7 +55,14 @@ return [
         'Black Pepper' => 'Piper nigrum',
         'Ginger' => 'Zingiber officinale',
         'Onion' => 'Allium cepa',
-        'Garlic' => 'Allium sativum'
+        'Garlic' => 'Allium sativum',
+        'Carabao Mango' => 'Mangifera indica',
+        'Duhat' => 'Syzygium cumini',
+        'Breadfruit' => 'Artocarpus altilis',
+        'Caimito' => 'Chrysophyllum cainito',
+        'Avocado' => 'Persea americana',
+        'Camachile' => 'Pithecellobium dulce',
+        'Glutinous Corn' => 'Zea mays var. ceratina'
     ],
     'dataview_guards' => [
         DataViews::PUBLIC->value,
