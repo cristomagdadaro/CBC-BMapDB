@@ -70,7 +70,7 @@ export default {
                                 <select-search-field v-if="named_to_type === 'organization'" :title="getTitle('institute_id')" required :api-link="route('api.institutes.options.public')" :error="getError('institute_id')" label="Select Organization" v-model="form.institute_id" />
                             </div>
                             <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Variety/Accession No./Germplasm Index" v-model="form.accession" />
-                            <text-field required :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield (tons/ha)" v-model="form.yield" />
+                            <text-field :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield (tons/ha)" v-model="form.yield" />
                         </div>
                         <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.options.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                         <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Other Unique Traits" v-model="form.description" />

@@ -94,7 +94,7 @@ class UpdateCommoditiesRequest extends FormRequest
             'institute_id' => 'required_without:breeder_id|nullable|integer|exists:institutes,id',
             'scientific_name' => 'required|string|max:255',
             'accession' => 'required|string|max:255',
-            'yield' => 'required|numeric',
+            'yield' => 'nullable|numeric',
             'description' => 'nullable|string',
             'photo' => 'nullable',
             'geolocation' => 'required|exists:loc_cities,id',
