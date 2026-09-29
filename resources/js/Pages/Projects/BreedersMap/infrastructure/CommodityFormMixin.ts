@@ -42,7 +42,7 @@ export default {
                 this.form.regulations = [{regulatory_body: null, registration_no: null, registration_date: null}];
             }
             if (!Array.isArray(this.form?.stress_resilience) || this.form.stress_resilience.length === 0) {
-                this.form.stress_resilience = [{type: null, stress: null, reaction: null}];
+                this.form.stress_resilience = [{type: null, stress: null, stress_agent: null, reaction: null}];
             }
         },
         getScientificName(selectedValueOrLabel) {

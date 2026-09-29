@@ -91,7 +91,7 @@ export default {
                                     <div class="flex flex-row gap-2 w-full items-center">
                                         <p v-for="item in [
                                             'Type',
-                                            'Disease/Pest/Drought',
+                                            'Stress Condition',
                                             'Reaction',
                                         ]" v-bind:key="item" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
                                             {{ item }}

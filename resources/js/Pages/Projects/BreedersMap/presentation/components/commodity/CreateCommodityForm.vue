@@ -79,11 +79,11 @@ export default {
                                         class="flex flex-col items-end gap-2"
                                     >
                                         <div class="flex gap-2 w-full items-center">
-                                            <div class="grid grid-cols-3 gap-1 w-full">
+                                            <div class="grid grid-cols-3 gap-2 w-full">
                                                 <select-field :options="Object.keys(stress_resilience_options).map((item)=>{ return { label: item, value: item } })" :error="getError(`stress_resilience[${index}].type`)" v-model="stress_resilience.type" />
                                                 <div class="flex gap-1 w-full">
                                                     <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.conditions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a type first', value: null }]" :error="getError(`stress_resilience[${index}].stress`)" v-model="stress_resilience.stress" class="w-full" />
-                                                    <text-field v-if="form?.stress_resilience[index]?.type === 'Biotic'" v-model="stress_resilience.stress" />
+                                                    <text-field v-if="form?.stress_resilience[index]?.type === 'Biotic'" :error="getError(`stress_resilience[${index}].stress_agent`)" v-model="stress_resilience.stress_agent" placeholder="Stress agent" />
                                                 </div>
                                                 <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.reactions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a stress condition', value: null }]" :error="getError(`stress_resilience[${index}].reaction`)" v-model="stress_resilience.reaction" />
                                             </div>
