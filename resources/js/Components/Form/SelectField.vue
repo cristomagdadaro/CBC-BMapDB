@@ -63,6 +63,7 @@ const searchInput = ref(null);
 const showDropdown = ref(false);
 const searchQuery = ref('');
 const highlightedIndex = ref(-1);
+const dropdownPositionClass = ref('mt-1 top-full');
 
 // Enhanced computed properties
 const hasError = computed(() => {
@@ -144,6 +145,19 @@ const openDropdown = () => {
     emit('open');
 
     nextTick(() => {
+        if (dropdownRef.value) {
+            const rect = dropdownRef.value.getBoundingClientRect();
+            const spaceBelow = window.innerHeight - rect.bottom;
+            const spaceAbove = rect.top;
+            
+            // Assuming max height is ~200px (12rem)
+            if (spaceBelow < 250 && spaceAbove > spaceBelow) {
+                dropdownPositionClass.value = 'bottom-full mb-1';
+            } else {
+                dropdownPositionClass.value = 'top-full mt-1';
+            }
+        }
+
         if (props.searchable && searchInput.value) {
             searchInput.value.focus();
         }
@@ -357,7 +371,7 @@ defineExpose({
             <TransitionContainer>
                 <div
                     v-show="showDropdown"
-                    class="absolute z-10 mt-1 w-full rounded-md bg-white shadow-lg border border-gray-200 focus:outline-none"
+                    :class="['absolute z-50 w-full rounded-md bg-white shadow-lg border border-gray-200 focus:outline-none', dropdownPositionClass]"
                     role="listbox"
                     :aria-labelledby="id"
                 >

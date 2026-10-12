@@ -8,7 +8,7 @@ Individual markers
 <LeafletMap :mapData="yourData" :clustered="false" :showHeatmap="false" />
  -->
 <script setup>
-import { ref, onMounted, watch, nextTick } from "vue";
+import { ref, shallowRef, onMounted, watch, nextTick } from "vue";
 import {
     LMap,
     LTileLayer,
@@ -54,7 +54,7 @@ const props = defineProps({
     },
     defaultTileProvider: {
         type: String,
-        default: "Esri WorldImagery",
+        default: "Esri Hybrid (Satellite + Labels)",
     },
     dataType: {
         type: String,
@@ -65,20 +65,29 @@ const props = defineProps({
 const emit = defineEmits(["markerClick", "mapReady"]);
 
 // Map instance and state
-const map = ref(null);
+const map = shallowRef(null);
 const mapReady = ref(false);
 const currentCenter = ref(props.center);
 const currentZoom = ref(props.zoom);
 
 // Clustering and heatmap layers
-const markerClusterGroup = ref(null);
-const heatmapLayer = ref(null);
+const markerClusterGroup = shallowRef(null);
+const heatmapLayer = shallowRef(null);
 
 // Tile provider management
 const tileProviders = ref([
     {
-        name: "Esri WorldImagery",
+        name: "Esri Hybrid (Satellite + Labels)",
         visible: true,
+        url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        labelsUrl:
+            "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+        attribution:
+            "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+    },
+    {
+        name: "Esri WorldImagery",
+        visible: false,
         url: "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
         attribution:
             "Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
@@ -99,7 +108,7 @@ const showMapControls = ref(false);
 const showLegend = ref(true);
 
 // Marker management
-const markers = ref([]);
+const markers = shallowRef([]);
 const selectedMarker = ref(null);
 
 // Cache marker icons to avoid re-creating data URLs every render
@@ -745,15 +754,34 @@ onMounted(() => {
             v-model:zoom="currentZoom"
             v-model:center="currentCenter"
             :use-global-leaflet="false"
+            :options="{
+                preferCanvas: true,
+                zoomControl: false,
+                minZoom: 6,
+                maxZoom: 18,
+                maxBounds: [
+                    [4.0, 116.0],
+                    [22.0, 127.0],
+                ],
+                maxBoundsViscosity: 1.0,
+            }"
             @ready="onMapReady"
             class="h-full w-full rounded-lg overflow-hidden"
         >
             <!-- Tile Layer - Only render the active/visible provider -->
             <LTileLayer
                 v-if="currentTileProvider"
-                :key="currentTileProvider.name"
+                :key="currentTileProvider.name + '_base'"
                 :url="currentTileProvider.url"
                 :attribution="currentTileProvider.attribution"
+                :max-zoom="18"
+            />
+
+            <!-- Optional Label Layer (for Hybrid modes) -->
+            <LTileLayer
+                v-if="currentTileProvider?.labelsUrl"
+                :key="currentTileProvider.name + '_labels'"
+                :url="currentTileProvider.labelsUrl"
                 :max-zoom="18"
             />
 

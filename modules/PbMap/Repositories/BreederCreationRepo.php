@@ -7,6 +7,7 @@ use App\Enums\Role;
 use App\Enums\Applications as ApplicationsEnum;
 use App\Models\Application;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -21,62 +22,43 @@ class BreederCreationRepo
             return DB::transaction(function () use ($request) {
                 $data = $request->validated();
 
-                $breederUser = User::create([
-                    'fname' => $data['fname'] ?? null,
-                    'mname' => $data['mname'] ?? null,
-                    'lname' => $data['lname'] ?? null,
-                    'suffix' => $data['suffix'] ?? null,
-                    'mobile_no' => $data['mobile_no'] ?? null,
-                    'email' => $data['email'] ?? null,
-                    'affiliation' => $data['affiliation'] ?? null,
-                    'password' => bcrypt(DefaultPassword::Value->value),
-                ]);
-
                 $photoPaths = $this->storeBreederPhoto($data['photo'] ?? null);
                 if ($photoPaths) {
-                    $breederUser->update([
-                        'profile_photo_path' => $photoPaths['user'],
-                    ]);
                     $data['photo'] = $photoPaths['breeder'];
                 }
 
-                $breederUser->assignRole(Role::BREEDER->value);
+                $geolocationData = $data['geolocation'];
+                unset($data['geolocation']);
 
-                $app = Application::firstOrCreate([
-                    'name' => ApplicationsEnum::BREEDERS_MAP->value,
-                ], [
-                    'description' => ApplicationsEnum::BREEDERS_MAP_DESC->value,
-                    'url' => ApplicationsEnum::BREEDERS_MAP_ROUTE->value,
-                    'icon' => ApplicationsEnum::BREEDERS_MAP_LOGO->value,
-                    'status' => true,
-                ]);
-                $appId = $app->id;
+                $breederData = $data;
 
-                $breederUser->accounts()->create([
-                    'app_id' => $appId,
-                    'approved_at' => now(),
-                ]);
-
-                if (!empty($data['email']) && !empty($data['notify_breeder'])) {
-                    if (!$breederUser->hasVerifiedEmail()) {
-                        try {
-                            $breederUser->sendEmailVerificationViaFocalPersonNotification();
-                        } catch (\Throwable $mailError) {
-                            Log::warning('Breeder verification email failed to send', [
-                                'user_id' => $breederUser->id,
-                                'error' => $mailError->getMessage(),
-                            ]);
-                        }
-                    }
+                if ($geolocationData['type'] === 'city') {
+                    $breederData['geolocation'] = $geolocationData['city_id'];
+                } else {
+                    // Create a custom location point
+                    $location = \App\Models\Location::create([
+                        'name' => $geolocationData['name'],
+                        'type' => 'custom_point',
+                        'latitude' => $geolocationData['lat'],
+                        'longitude' => $geolocationData['lng'],
+                    ]);
+                    
+                    // Assign the new location ID to geolocation
+                    $breederData['geolocation'] = $location->id;
                 }
 
-                $breederData = array_merge($data, ['user_id' => $breederUser->id]);
-
-                // Only override user_id if the current user is NOT an admin
-                $actor = auth()->user();
+                // Ensure user_id is set appropriately or null
+                $breederData['user_id'] = null;
+                /** @var \App\Models\User|null $actor */
+                $actor = Auth::user();
                 if ($actor && !$actor->isAdmin()) {
                     $breederData['user_id'] = $actor->id;
                 }
+
+                // Note: Email notification to breeder relies on User account existence.
+                // Since User account creation is removed, email notification is skipped.
+                // Alternatively, an email could be sent here via Mail facade if enabled:
+                // if (env('ENABLE_EMAIL_NOTIFICATIONS', true) && !empty($data['email'])) { ... }
 
                 return $breederData;
             });

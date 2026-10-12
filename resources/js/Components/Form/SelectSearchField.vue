@@ -7,8 +7,8 @@ import BaseClass from "@/Modules/core/domain/base/BaseClass";
 import TransitionContainer from "@/Components/CustomDropdown/Components/TransitionContainer.vue";
 
 export default {
-    components: {TransitionContainer, SelectField, CloseIcon, TextField },
-    emits: ['update:modelValue'],
+    components: { TransitionContainer, SelectField, CloseIcon, TextField },
+    emits: ["update:modelValue"],
     props: {
         modelValue: {
             type: [String, Number],
@@ -41,7 +41,7 @@ export default {
         perPage: {
             type: Number,
             default: 10,
-        }
+        },
     },
     data() {
         return {
@@ -55,7 +55,7 @@ export default {
             currentPage: 1,
             hasMoreData: true,
             isLoadingMore: false,
-            currentSearch: '',
+            currentSearch: "",
             debounceTimeout: null,
             selectedOption: null,
         };
@@ -95,11 +95,21 @@ export default {
 
                 this.fetchedResponse = await this.api.get(params);
 
-                if (this.fetchedResponse.status === 200 && this.fetchedResponse.data) {
-                    const newOptions = this.fetchedResponse.data.data.map(option => ({
-                        value: option.id || option.value,
-                        label: option.name || option.title || option.label || option.value || (new BaseClass(option)).getFullName,
-                    }));
+                if (
+                    this.fetchedResponse.status === 200 &&
+                    this.fetchedResponse.data
+                ) {
+                    const newOptions = this.fetchedResponse.data.data.map(
+                        (option) => ({
+                            value: option.id || option.value,
+                            label:
+                                option.name ||
+                                option.title ||
+                                option.label ||
+                                option.value ||
+                                new BaseClass(option).getFullName,
+                        }),
+                    );
 
                     this.formattedOptions = append
                         ? [...this.formattedOptions, ...newOptions]
@@ -109,7 +119,7 @@ export default {
                     this.hasMoreData = newOptions.length === this.perPage;
                 }
             } catch (error) {
-                console.error('Error fetching options:', error);
+                console.error("Error fetching options:", error);
             } finally {
                 this.isLoadingMore = false;
             }
@@ -119,19 +129,23 @@ export default {
             if (!this.hasMoreData || this.isLoadingMore || !this.api) return;
 
             this.currentPage++;
-            await this.getOptionsFromApi(this.currentSearch, this.currentPage, true);
+            await this.getOptionsFromApi(
+                this.currentSearch,
+                this.currentPage,
+                true,
+            );
         },
 
         selectOption(option) {
             this.selectedOption = option;
-            this.$emit('update:modelValue', option.value);
+            this.$emit("update:modelValue", option.value);
             this.displayedInput = option.label;
             // Clear any pending search debounce to avoid late fetches
             if (this.debounceTimeout) {
                 clearTimeout(this.debounceTimeout);
                 this.debounceTimeout = null;
             }
-            this.currentSearch = '';
+            this.currentSearch = "";
             this.closeDropdown();
         },
 
@@ -150,9 +164,10 @@ export default {
         debounceApiCall(eventOrValue) {
             clearTimeout(this.debounceTimeout);
             this.debounceTimeout = setTimeout(() => {
-                const value = typeof eventOrValue === 'string'
-                    ? eventOrValue
-                    : eventOrValue?.target?.value ?? '';
+                const value =
+                    typeof eventOrValue === "string"
+                        ? eventOrValue
+                        : (eventOrValue?.target?.value ?? "");
                 this.handleSearch(value);
             }, 300);
         },
@@ -181,19 +196,21 @@ export default {
         clearSelection() {
             this.selectedOption = null;
             this.displayedInput = null;
-            this.$emit('update:modelValue', null);
+            this.$emit("update:modelValue", null);
         },
 
         // Load selected option data on mount if modelValue exists
         async loadSelectedOption() {
-            const hasValue = this.modelValue !== null && this.modelValue !== undefined && this.modelValue !== '';
+            const hasValue =
+                this.modelValue !== null &&
+                this.modelValue !== undefined &&
+                this.modelValue !== "";
             if (!hasValue) return;
-
 
             if (this.api) {
                 try {
                     const response = await this.api.get({
-                        filter: 'id',
+                        filter: "id",
                         search: this.modelValue ?? null,
                         per_page: 1,
                     });
@@ -202,8 +219,8 @@ export default {
                         const payload = Array.isArray(response.data?.data)
                             ? response.data.data
                             : Array.isArray(response.data)
-                                ? response.data
-                                : [];
+                              ? response.data
+                              : [];
                         if (payload.length) {
                             const opt = this.formatOption(payload[0]);
                             if (opt) {
@@ -213,12 +230,14 @@ export default {
                         }
                     }
                 } catch (error) {
-                    console.error('Error loading selected option:', error);
+                    console.error("Error loading selected option:", error);
                 }
             } else {
                 // Fallback to options provided in props
                 if (!this.formattedOptions.length) this.initLocalOptions();
-                const found = this.formattedOptions.find(o => String(o.value) === String(this.modelValue));
+                const found = this.formattedOptions.find(
+                    (o) => String(o.value) === String(this.modelValue),
+                );
                 if (found) {
                     this.selectedOption = found;
                     this.displayedInput = found.label;
@@ -226,7 +245,10 @@ export default {
             }
 
             // If nothing matched, show the raw modelValue as initial input
-            if (!this.selectedOption && (this.displayedInput == null || this.displayedInput === '')) {
+            if (
+                !this.selectedOption &&
+                (this.displayedInput == null || this.displayedInput === "")
+            ) {
                 this.displayedInput = String(this.modelValue);
             }
         },
@@ -234,22 +256,29 @@ export default {
         // Add back missing helpers used by loadSelectedOption
         formatOption(option) {
             if (option == null) return null;
-            if (typeof option === 'string' || typeof option === 'number') {
+            if (typeof option === "string" || typeof option === "number") {
                 return { value: option, label: String(option) };
             }
             return {
                 value: option.id || option.value,
-                label: option.name || option.title || option.label || option.value || (new BaseClass(option)).getFullName,
+                label:
+                    option.name ||
+                    option.title ||
+                    option.label ||
+                    option.value ||
+                    new BaseClass(option).getFullName,
             };
         },
         initLocalOptions() {
-            const mapped = (this.options || []).map(this.formatOption).filter(Boolean);
+            const mapped = (this.options || [])
+                .map(this.formatOption)
+                .filter(Boolean);
             this.formattedOptions = mapped;
             this.filteredOptions = mapped;
         },
     },
 
-    expose: ['focus'],
+    expose: ["focus"],
 
     async mounted() {
         if (this.apiLink) {
@@ -271,9 +300,12 @@ export default {
     watch: {
         async modelValue(newVal, oldVal) {
             if (newVal !== oldVal) {
-                if (newVal !== null && newVal !== undefined && newVal !== '') {
+                if (newVal !== null && newVal !== undefined && newVal !== "") {
                     // If selection already matches, skip reloading to avoid flicker/reverts
-                    if (this.selectedOption && String(this.selectedOption.value) === String(newVal)) {
+                    if (
+                        this.selectedOption &&
+                        String(this.selectedOption.value) === String(newVal)
+                    ) {
                         return;
                     }
                     await this.loadSelectedOption();
@@ -289,13 +321,13 @@ export default {
             }
         },
 
-        'api.processing'(newVal) {
+        "api.processing"(newVal) {
             if (!newVal && this.autoFocus) {
                 this.$nextTick(() => {
                     this.$refs?.textInput?.focus();
                 });
             }
-        }
+        },
     },
 
     computed: {
@@ -320,17 +352,17 @@ export default {
 
         emptyStateMessage() {
             if (this.processing && !this.hasOptions) {
-                return 'Loading options...';
+                return "Loading options...";
             }
             if (this.currentSearch && !this.hasOptions) {
-                return 'No results found';
+                return "No results found";
             }
             if (!this.currentSearch && !this.hasOptions) {
-                return 'Type to search...';
+                return "Type to search...";
             }
-            return '';
-        }
-    }
+            return "";
+        },
+    },
 };
 </script>
 
@@ -358,7 +390,7 @@ export default {
                 <div
                     v-show="showDropdown"
                     class="absolute left-0 mt-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-lg bg-white z-[999] min-w-full max-w-[20rem]"
-                    style="top: 100%;"
+                    style="top: 100%"
                 >
                     <!-- Dropdown Header -->
                     <div
@@ -366,8 +398,12 @@ export default {
                         class="text-xs text-gray-500 px-3 py-2 border-b border-gray-100 bg-gray-50 rounded-t-md"
                     >
                         <p v-if="hasOptions">
-                            {{ filteredOptions.length }} option{{ filteredOptions.length !== 1 ? 's' : '' }}
-                            <span v-if="hasMoreData" class="text-gray-400">(scroll for more)</span>
+                            {{ filteredOptions.length }} option{{
+                                filteredOptions.length !== 1 ? "s" : ""
+                            }}
+                            <span v-if="hasMoreData" class="text-gray-400"
+                                >(scroll for more)</span
+                            >
                         </p>
                         <p v-else>{{ emptyStateMessage }}</p>
                     </div>
@@ -384,8 +420,10 @@ export default {
                             @click="selectOption(option)"
                             class="px-3 py-2 hover:bg-indigo-50 cursor-pointer border-b border-gray-50 last:border-b-0 transition-colors duration-150"
                             :class="{
-                                'bg-indigo-100 text-indigo-900': selectedOption?.value === option.value,
-                                'text-gray-900': selectedOption?.value !== option.value
+                                'bg-indigo-100 text-indigo-900':
+                                    selectedOption?.value === option.value,
+                                'text-gray-900':
+                                    selectedOption?.value !== option.value,
                             }"
                         >
                             <div class="truncate" :title="option.label">
@@ -416,7 +454,9 @@ export default {
                         class="px-3 py-4 text-center text-gray-500 text-sm"
                     >
                         <div class="flex items-center justify-center space-x-2">
-                            <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-500"></div>
+                            <div
+                                class="animate-spin rounded-full h-4 w-4 border-b-2 border-indigo-500"
+                            ></div>
                             <span>Loading options...</span>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 # System Architecture Audit Report
 
-Date: 2026-01-20
+Date: 2026-10-08
 
 Scope
 - Full codebase inspection for alignment with target architecture.
@@ -134,17 +134,28 @@ Appendix: Key Files
 
 Rescan Findings (2026-01-20)
 1) Admin domain models still embed API endpoint routing. - ok na
-   - Evidence:
-     - [resources/js/Pages/Admin/domain/Account.ts](resources/js/Pages/Admin/domain/Account.ts)
-     - [resources/js/Pages/Admin/domain/Role.ts](resources/js/Pages/Admin/domain/Role.ts)
-     - [resources/js/Pages/Admin/domain/User.ts](resources/js/Pages/Admin/domain/User.ts)
-   - Action:
-     - Move endpoint constants to a module infrastructure config (e.g., AdminEndpoints) and update consumers.
+   - Action: Move endpoint constants to a module infrastructure config.
 
 2) Some backend controllers still use direct model/DB queries instead of repositories. - ok na
-   - Evidence:
-     - [app/Http/Controllers/API/DashboardApiController.php](app/Http/Controllers/API/DashboardApiController.php)
-     - [app/Http/Controllers/DataViewController.php](app/Http/Controllers/DataViewController.php)
-     - [app/Http/Controllers/API/PermissionController.php](app/Http/Controllers/API/PermissionController.php)
-   - Action:
-     - Introduce repository services for these controllers or document them as exceptions with rationale.
+   - Action: Introduce repository services for these controllers.
+
+---
+
+## Database Architecture Reconstruction (2026-10-08)
+
+Scope: The database schema was heavily restructured to support infinite crop types, robust Multi-Tenancy/RBAC, and generic geospatial tagging.
+
+### Key Architectural Shifts:
+1) **JSON Crop Engine:**
+   - **Old:** Flat tables (`commodities`, `commodity_charateristic`). Difficult to add diverse crops (Rice vs Abaca).
+   - **New:** `crop_types` and `varieties` tables utilize Laravel's JSON casting (`attributes_schema` and `attributes`). This allows any number of distinct traits per crop without altering the SQL schema.
+   
+2) **Generic Locations & Polymorphism:**
+   - **Old:** Tight coupling to official political boundaries (`loc_provinces`, `loc_cities`).
+   - **New:** `locations` master table supports exact points, custom polygons/zones, and experimental farms. Entities (Institutes, Projects, Varieties) use the `locationables` polymorphic pivot to tag themselves anywhere on the map.
+
+3) **Multi-Tenancy & RBAC Scoping:**
+   - **New:** `institute_user` pivot integrates with Spatie permissions to scope Roles to specific Institutes (Teams). A user can be a Breeder Admin in Institute A, and a Viewer in Institute B, guaranteeing tenant isolation.
+
+4) **Unified Approval Workflows:**
+   - **New:** A polymorphic `approval_workflows` table consolidates all creation/edit requests (Varieties, Breeder profiles). Dirty data is stored securely in a JSON `payload` until formally approved by an Admin.

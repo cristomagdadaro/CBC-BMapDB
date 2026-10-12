@@ -48,8 +48,8 @@ class GoogleController extends Controller
             } else {
                 // Otherwise, create a new user
                 $user = $this->userRepo->createUser([
-                    'fname' => $googleUser->user['given_name'],
-                    'lname' => $googleUser->user['family_name'],
+                    'fname' => $googleUser->user['given_name'] ?? $googleUser->getName() ?? 'Unknown',
+                    'lname' => $googleUser->user['family_name'] ?? '',
                     'email' => $googleUser->getEmail(),
                     'affiliation' => 1,
                     'profile_photo_path' => $googleUser->user['picture'],
@@ -65,7 +65,7 @@ class GoogleController extends Controller
 
             return Redirect::route('dashboard')->with('message', 'Successful authenticated thru Google Account');
         } catch (\Exception $e) {
-            return view('errors.googleauth')->with('message', $e->getTraceAsString());
+            return view('errors.googleauth')->with('message', $e->getMessage());
         }
     }
 

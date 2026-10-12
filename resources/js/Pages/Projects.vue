@@ -24,12 +24,7 @@ export default {
         const pbmapProject = computed(() => CBCProjectsPublic[0] || Object.values(CBCProjectsPublic)[0]);
         const biotwgProject = computed(() => CBCProjectsPublic[1] || Object.values(CBCProjectsPublic)[1]);
         const isHeroVisible = ref(false);
-        const defaultHeroBackgroundImages = [
-            '/img/carousel/image-1.jpg',
-            '/img/carousel/image-2.jpg',
-            '/img/carousel/image-3.jpg',
-            '/img/carousel/image-4.jpg',
-        ];
+        const defaultHeroBackgroundImages = Object.keys(import.meta.glob("/public/img/carousel/*")).map((path) => path.replace("/public", "")).sort(() => Math.random() - 0.5);
         const heroBackgroundImages = ref(
             Array.isArray(page.props.heroBackgroundImages) && page.props.heroBackgroundImages.length
                 ? page.props.heroBackgroundImages

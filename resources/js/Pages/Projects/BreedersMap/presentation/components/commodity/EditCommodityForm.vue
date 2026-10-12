@@ -3,9 +3,11 @@ import FormMixin from "@/Pages/mixins/FormMixin";
 import CommodityFormMixin from "@/Pages/Projects/BreedersMap/infrastructure/CommodityFormMixin";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
 import { BreedersMapEndpoints } from "@/Pages/Projects/BreedersMap/infrastructure/BreedersMapEndpoints";
+import MapLocationPicker from "@/Components/Map/MapLocationPicker.vue";
 
 export default {
     name: "EditCommodityForm",
+    components: { MapLocationPicker },
     mixins: [FormMixin, CommodityFormMixin],
     data() {
         return {
@@ -14,8 +16,8 @@ export default {
     },
     computed: {
         BreedersMapEndpoints() {
-            return BreedersMapEndpoints
-        }
+            return BreedersMapEndpoints;
+        },
     },
     methods: {
         async approveCommodity() {
@@ -24,7 +26,9 @@ export default {
             this.approving = true;
 
             try {
-                const svc = new ApiService(route(BreedersMapEndpoints.commodity.approveUri, id));
+                const svc = new ApiService(
+                    route(BreedersMapEndpoints.commodity.approveUri, id),
+                );
                 const res = await svc.put({});
                 const approvedAt = res?.data?.approved_at ?? null;
                 if (approvedAt && this.data) {
@@ -33,20 +37,24 @@ export default {
             } finally {
                 this.approving = false;
             }
-        }
-    }
+        },
+    },
 };
 </script>
 <template>
-    <base-edit-form :form="form" :force-close="forceClose" @resetForm="resetForm">
-        <template v-slot:formTitle>
-            Update Commodity Information
-        </template>
+    <base-edit-form
+        :form="form"
+        :force-close="forceClose"
+        @resetForm="resetForm"
+    >
+        <template v-slot:formTitle> Update Commodity Information </template>
         <template v-slot:formDescription>
             <p class="text-sm text-gray-600">
                 Please fill out the form to register a new commodity.
                 <br />
-                Characteristics and Additional Information tabs are optional, but it is recommended to fill them out for better identification.
+                Characteristics and Additional Information tabs are optional,
+                but it is recommended to fill them out for better
+                identification.
             </p>
             <div v-if="data" class="grid grid-cols-2 text-sm text-gray-600">
                 <span>Date created: {{ data.created_at }}</span>
@@ -56,79 +64,306 @@ export default {
         <template v-slot:formFields>
             <tab :tabs="tabs">
                 <template v-slot:tab2>
-                    <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
+                    <label
+                        class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1"
+                    >
                         Primary Identification
                     </label>
                     <div class="flex flex-col gap-8">
-                        <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
-                            <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" :options="priorityComs?.data?.data"  />
-                            <div class="col-span-2 grid sm:grid-cols-2 grid-cols-1 gap-2 p-3 bg-gray-50 border border-gray-200 rounded-lg">
-                                <select-field :options="[{label: 'Breeder (Person)', value: 'breeder'}, {label: 'Organization/Institute', value: 'organization'}]" label="Named to" v-model="named_to_type" @change="(val) => { if (val === 'breeder') form.institute_id = null; else form.breeder_id = null; }" class="w-full" />
-                                
-                                <select-search-field v-if="named_to_type === 'breeder'" :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Select Breeder" v-model="form.breeder_id" />
-                                
-                                <select-search-field v-if="named_to_type === 'organization'" :title="getTitle('institute_id')" required :api-link="route('api.institutes.options.public')" :error="getError('institute_id')" label="Select Organization" v-model="form.institute_id" />
+                        <div
+                            class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2"
+                        >
+                            <select-field
+                                required
+                                :title="getTitle('name')"
+                                :error="getError('name')"
+                                label="Commodity"
+                                v-model="form.name"
+                                :options="priorityComs?.data?.data"
+                            />
+                            <div
+                                class="col-span-2 grid sm:grid-cols-2 grid-cols-1 gap-2 p-3 bg-gray-50 border border-gray-200 rounded-lg"
+                            >
+                                <select-field
+                                    :options="[
+                                        {
+                                            label: 'Breeder (Person)',
+                                            value: 'breeder',
+                                        },
+                                        {
+                                            label: 'Organization/Institute',
+                                            value: 'organization',
+                                        },
+                                    ]"
+                                    label="Named to"
+                                    v-model="named_to_type"
+                                    @change="
+                                        (val) => {
+                                            if (val === 'breeder')
+                                                form.institute_id = null;
+                                            else form.breeder_id = null;
+                                        }
+                                    "
+                                    class="w-full"
+                                />
+
+                                <select-search-field
+                                    v-if="named_to_type === 'breeder'"
+                                    :title="getTitle('breeder_id')"
+                                    required
+                                    :api-link="route('api.breeders.selections')"
+                                    :disabled="isInitialzedBreeeder"
+                                    :error="getError('breeder_id')"
+                                    label="Select Breeder"
+                                    v-model="form.breeder_id"
+                                />
+
+                                <select-search-field
+                                    v-if="named_to_type === 'organization'"
+                                    :title="getTitle('institute_id')"
+                                    required
+                                    :api-link="
+                                        route('api.institutes.options.public')
+                                    "
+                                    :error="getError('institute_id')"
+                                    label="Select Organization"
+                                    v-model="form.institute_id"
+                                />
                             </div>
-                            <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Variety/Accession No./Germplasm Index" v-model="form.accession" />
-                            <text-field :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield (tons/ha)" v-model="form.yield" />
+                            <text-field
+                                required
+                                :title="getTitle('accession')"
+                                :error="getError('accession')"
+                                label="Variety/Accession No./Germplasm Index"
+                                v-model="form.accession"
+                            />
+                            <text-field
+                                :title="getTitle('yield')"
+                                type-input="number"
+                                :error="getError('yield')"
+                                label="Yield (tons/ha)"
+                                v-model="form.yield"
+                            />
                         </div>
-                        <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.options.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
-                        <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Other Unique Traits" v-model="form.description" />
-                        <file-field :error="getError('photo')" :title="getTitle('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
+                        <map-location-picker
+                            :title="getTitle('geolocation')"
+                            required
+                            :api-link="route('api.cities.options.public')"
+                            :error="getError('geolocation')"
+                            label="Location"
+                            v-model="form.geolocation"
+                        />
+                        <text-field
+                            type-input="longtext"
+                            :title="getTitle('description')"
+                            :error="getError('description')"
+                            label="Other Unique Traits"
+                            v-model="form.description"
+                        />
+                        <file-field
+                            :error="getError('photo')"
+                            :title="getTitle('photo')"
+                            accept="image/png, image/jpeg, image/jpg, image/heic"
+                            label="Profile Photo"
+                            v-model="form.photo"
+                        />
                     </div>
                 </template>
                 <template v-slot:tab1>
                     <div class="flex flex-col gap-8">
                         <div class="flex flex-col text-gray-600 gap-5">
                             <div>
-                                <label class="flex text-lg font-semibold gap-0.5 items-center whitespace-nowrap">
+                                <label
+                                    class="flex text-lg font-semibold gap-0.5 items-center whitespace-nowrap"
+                                >
                                     Stress Resilience
                                 </label>
-                                <p class="flex gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
-                                    Biotic stress resistance and Abiotic stress tolerance.
+                                <p
+                                    class="flex gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1"
+                                >
+                                    Biotic stress resistance and Abiotic stress
+                                    tolerance.
                                 </p>
-                                <div class="flex flex-row gap-2 w-full my-2 bg-cbc-yellow ">
-                                    <div class="flex flex-row gap-2 w-full items-center">
-                                        <p v-for="item in [
-                                            'Type',
-                                            'Stress Condition',
-                                            'Reaction',
-                                        ]" v-bind:key="item" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
+                                <div
+                                    class="flex flex-row gap-2 w-full my-2 bg-cbc-yellow"
+                                >
+                                    <div
+                                        class="flex flex-row gap-2 w-full items-center"
+                                    >
+                                        <p
+                                            v-for="item in [
+                                                'Type',
+                                                'Stress Condition',
+                                                'Reaction',
+                                            ]"
+                                            v-bind:key="item"
+                                            class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap"
+                                        >
                                             {{ item }}
                                         </p>
                                     </div>
-                                    <base-button classes="opacity-0 h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white">
+                                    <base-button
+                                        classes="opacity-0 h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white"
+                                    >
                                         <add-icon class="w-auto h-6" />
                                     </base-button>
                                 </div>
                                 <div class="flex flex-col gap-4">
                                     <div
-                                        v-for="(stress_resilience, index) in form.stress_resilience"
+                                        v-for="(
+                                            stress_resilience, index
+                                        ) in form.stress_resilience"
                                         :key="index"
                                         class="flex flex-col items-end gap-2"
                                     >
-                                        <div class="flex gap-2 w-full items-center">
-                                            <div class="grid grid-cols-3 gap-2 w-full">
-                                                <select-field :options="Object.keys(stress_resilience_options).map((item)=>{ return { label: item, value: item } })" :error="getError(`stress_resilience[${index}].type`)" v-model="stress_resilience.type" />
+                                        <div
+                                            class="flex gap-2 w-full items-center"
+                                        >
+                                            <div
+                                                class="grid grid-cols-3 gap-2 w-full"
+                                            >
+                                                <select-field
+                                                    :options="
+                                                        Object.keys(
+                                                            stress_resilience_options,
+                                                        ).map((item) => {
+                                                            return {
+                                                                label: item,
+                                                                value: item,
+                                                            };
+                                                        })
+                                                    "
+                                                    :error="
+                                                        getError(
+                                                            `stress_resilience[${index}].type`,
+                                                        )
+                                                    "
+                                                    v-model="
+                                                        stress_resilience.type
+                                                    "
+                                                />
                                                 <div class="flex gap-1 w-full">
-                                                    <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.conditions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a type first', value: null }]" :error="getError(`stress_resilience[${index}].stress`)" v-model="stress_resilience.stress" class="w-full" />
-                                                    <text-field v-if="form?.stress_resilience[index]?.type === 'Biotic'" :error="getError(`stress_resilience[${index}].stress_agent`)" v-model="stress_resilience.stress_agent" placeholder="Stress agent" />
+                                                    <select-field
+                                                        :options="
+                                                            form
+                                                                ?.stress_resilience[
+                                                                index
+                                                            ]?.type
+                                                                ? Object.values(
+                                                                      stress_resilience_options[
+                                                                          form
+                                                                              ?.stress_resilience[
+                                                                              index
+                                                                          ]
+                                                                              ?.type
+                                                                      ]
+                                                                          ?.conditions,
+                                                                  ).map(
+                                                                      (
+                                                                          item,
+                                                                      ) => {
+                                                                          return {
+                                                                              label: item,
+                                                                              value: item,
+                                                                          };
+                                                                      },
+                                                                  )
+                                                                : [
+                                                                      {
+                                                                          label: 'Select a type first',
+                                                                          value: null,
+                                                                      },
+                                                                  ]
+                                                        "
+                                                        :error="
+                                                            getError(
+                                                                `stress_resilience[${index}].stress`,
+                                                            )
+                                                        "
+                                                        v-model="
+                                                            stress_resilience.stress
+                                                        "
+                                                        class="w-full"
+                                                    />
+                                                    <text-field
+                                                        v-if="
+                                                            form
+                                                                ?.stress_resilience[
+                                                                index
+                                                            ]?.type === 'Biotic'
+                                                        "
+                                                        :error="
+                                                            getError(
+                                                                `stress_resilience[${index}].stress_agent`,
+                                                            )
+                                                        "
+                                                        v-model="
+                                                            stress_resilience.stress_agent
+                                                        "
+                                                        placeholder="Stress agent"
+                                                    />
                                                 </div>
-                                                <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.reactions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a stress condition', value: null }]" :error="getError(`stress_resilience[${index}].reaction`)" v-model="stress_resilience.reaction" />
+                                                <select-field
+                                                    :options="
+                                                        form?.stress_resilience[
+                                                            index
+                                                        ]?.type
+                                                            ? Object.values(
+                                                                  stress_resilience_options[
+                                                                      form
+                                                                          ?.stress_resilience[
+                                                                          index
+                                                                      ]?.type
+                                                                  ]?.reactions,
+                                                              ).map((item) => {
+                                                                  return {
+                                                                      label: item,
+                                                                      value: item,
+                                                                  };
+                                                              })
+                                                            : [
+                                                                  {
+                                                                      label: 'Select a stress condition',
+                                                                      value: null,
+                                                                  },
+                                                              ]
+                                                    "
+                                                    :error="
+                                                        getError(
+                                                            `stress_resilience[${index}].reaction`,
+                                                        )
+                                                    "
+                                                    v-model="
+                                                        stress_resilience.reaction
+                                                    "
+                                                />
                                             </div>
 
                                             <!-- Remove Button (X) -->
                                             <base-button
-                                                v-if="form.stress_resilience.length > 1"
-                                                @click.prevent="removeStressResilience(index)"
+                                                v-if="
+                                                    form.stress_resilience
+                                                        .length > 1
+                                                "
+                                                @click.prevent="
+                                                    removeStressResilience(
+                                                        index,
+                                                    )
+                                                "
                                                 classes="h-fit w-fit p-2 bg-red-100 text-red-600 hover:bg-red-600 hover:text-white"
                                             >
-                                                <close-icon class="w-auto h-6" />
+                                                <close-icon
+                                                    class="w-auto h-6"
+                                                />
                                             </base-button>
                                         </div>
                                         <!-- Add Button (+) -->
                                         <base-button
-                                            v-if="index === form.stress_resilience.length - 1"
+                                            v-if="
+                                                index ===
+                                                form.stress_resilience.length -
+                                                    1
+                                            "
                                             @click.prevent="addStressResilience"
                                             classes="h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white"
                                         >
@@ -140,10 +375,14 @@ export default {
                         </div>
                         <div class="flex flex-col text-gray-600 gap-5">
                             <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
+                                <label
+                                    class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1"
+                                >
                                     Plant Characteristics
                                 </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
+                                <div
+                                    class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2"
+                                >
                                     <text-field
                                         type-input="number"
                                         :error="getError('weight')"
@@ -176,10 +415,14 @@ export default {
 
                             <!-- Fruit Characteristics -->
                             <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
+                                <label
+                                    class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1"
+                                >
                                     Fruit Characteristics
                                 </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
+                                <div
+                                    class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2"
+                                >
                                     <text-field
                                         :error="getError('skin_color')"
                                         label="Skin Color"
@@ -221,10 +464,14 @@ export default {
 
                             <!-- Root Characteristics -->
                             <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
+                                <label
+                                    class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1"
+                                >
                                     Root Characteristics
                                 </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
+                                <div
+                                    class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2"
+                                >
                                     <text-field
                                         :error="getError('root_flesh_color')"
                                         :title="getTitle('root_flesh_color')"
@@ -254,10 +501,14 @@ export default {
 
                             <!-- Tuber Characteristics -->
                             <div>
-                                <label class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
+                                <label
+                                    class="flex text-normal font-semibold gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1"
+                                >
                                     Tuber Characteristics
                                 </label>
-                                <div class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2">
+                                <div
+                                    class="grid sm:grid-cols-2 grid-cols-1 text-sm text-gray-600 gap-2"
+                                >
                                     <text-field
                                         :error="getError('tuber_flesh_color')"
                                         :title="getTitle('tuber_flesh_color')"
@@ -291,86 +542,132 @@ export default {
                     <div class="flex flex-col gap-8">
                         <div class="flex flex-col text-gray-600 gap-5">
                             <div>
-                                <label class="flex text-lg font-semibold gap-0.5 items-center whitespace-nowrap">
+                                <label
+                                    class="flex text-lg font-semibold gap-0.5 items-center whitespace-nowrap"
+                                >
                                     Legal and Regulatory Compliance
                                 </label>
-                                <p class="flex gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1">
-                                    Input any legal or regulatory compliance information related to the commodity, such as certifications, registrations, or approvals.
+                                <p
+                                    class="flex gap-0.5 items-center whitespace-nowrap border-b py-1 mb-1"
+                                >
+                                    Input any legal or regulatory compliance
+                                    information related to the commodity, such
+                                    as certifications, registrations, or
+                                    approvals.
                                 </p>
 
                                 <div>
                                     <h3 class="font-bold">
                                         List of Regulatory Bodies
                                     </h3>
-                                    <ul class="grid grid-cols-2 leading-none" style="list-style: disc; list-style-position: inside">
-                                        <li>
-                                            NSIC Registration
-                                        </li>
-                                        <li>
-                                            Plant Variety Protection
-                                        </li>
-                                        <li>
-                                            NCBP
-                                        </li>
-                                        <li>
-                                            AO8
-                                        </li>
-                                        <li>
-                                            JDC 2016
-                                        </li>
-                                        <li>
-                                            JDC 2021
-                                        </li>
+                                    <ul
+                                        class="grid grid-cols-2 leading-none"
+                                        style="
+                                            list-style: disc;
+                                            list-style-position: inside;
+                                        "
+                                    >
+                                        <li>NSIC Registration</li>
+                                        <li>Plant Variety Protection</li>
+                                        <li>NCBP</li>
+                                        <li>AO8</li>
+                                        <li>JDC 2016</li>
+                                        <li>JDC 2021</li>
                                     </ul>
                                 </div>
-                                <div class="flex flex-row gap-2 w-full my-2 bg-cbc-yellow">
-                                    <div class="flex flex-row gap-2 w-full bg-cbc-yellow items-center">
-                                        <p v-for="item in [
-                                            'Regulatory Body',
-                                            'Cert./Reg. No.',
-                                            'Date Issued/Approved',
-                                        ]" v-bind:key="item" class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap">
+                                <div
+                                    class="flex flex-row gap-2 w-full my-2 bg-cbc-yellow"
+                                >
+                                    <div
+                                        class="flex flex-row gap-2 w-full bg-cbc-yellow items-center"
+                                    >
+                                        <p
+                                            v-for="item in [
+                                                'Regulatory Body',
+                                                'Cert./Reg. No.',
+                                                'Date Issued/Approved',
+                                            ]"
+                                            v-bind:key="item"
+                                            class="leading-none w-full font-bold text-center text-normal gap-0.5 items-center whitespace-nowrap"
+                                        >
                                             {{ item }}
                                         </p>
                                     </div>
-                                    <base-button classes="opacity-0 h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white">
+                                    <base-button
+                                        classes="opacity-0 h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white"
+                                    >
                                         <add-icon class="w-auto h-6" />
                                     </base-button>
                                 </div>
                                 <div class="flex flex-col gap-4">
                                     <div
                                         v-if="form.regulations"
-                                        v-for="(regulation, index) in form.regulations"
+                                        v-for="(
+                                            regulation, index
+                                        ) in form.regulations"
                                         :key="index"
                                         class="flex flex-col items-end gap-2"
                                     >
-                                        <div class="flex gap-2 w-full items-center">
-                                            <div class="grid grid-cols-3 gap-2 w-full">
+                                        <div
+                                            class="flex gap-2 w-full items-center"
+                                        >
+                                            <div
+                                                class="grid grid-cols-3 gap-2 w-full"
+                                            >
                                                 <text-field
-                                                    :error="getError(`regulations[${index}].regulatory_body`)"
-                                                    v-model="regulation.regulatory_body"
+                                                    :error="
+                                                        getError(
+                                                            `regulations[${index}].regulatory_body`,
+                                                        )
+                                                    "
+                                                    v-model="
+                                                        regulation.regulatory_body
+                                                    "
                                                 />
                                                 <text-field
-                                                    :error="getError(`regulations[${index}].registration_no`)"
-                                                    v-model="regulation.registration_no"
+                                                    :error="
+                                                        getError(
+                                                            `regulations[${index}].registration_no`,
+                                                        )
+                                                    "
+                                                    v-model="
+                                                        regulation.registration_no
+                                                    "
                                                 />
-                                                <date-field :error="getError(`regulations[${index}].registration_date`)"
-                                                            v-model="regulation.registration_date"/>
+                                                <date-field
+                                                    :error="
+                                                        getError(
+                                                            `regulations[${index}].registration_date`,
+                                                        )
+                                                    "
+                                                    v-model="
+                                                        regulation.registration_date
+                                                    "
+                                                />
                                             </div>
 
                                             <!-- Remove Button (X) -->
                                             <base-button
-                                                v-if="form.regulations.length > 1"
-                                                @click.prevent="removeRegulation(index)"
+                                                v-if="
+                                                    form.regulations.length > 1
+                                                "
+                                                @click.prevent="
+                                                    removeRegulation(index)
+                                                "
                                                 classes="h-fit w-fit p-2 bg-red-100 text-red-600 hover:bg-red-600 hover:text-white"
                                             >
-                                                <close-icon class="w-auto h-6" />
+                                                <close-icon
+                                                    class="w-auto h-6"
+                                                />
                                             </base-button>
                                         </div>
 
                                         <!-- Add Button (+) -->
                                         <base-button
-                                            v-if="index === form.regulations.length - 1"
+                                            v-if="
+                                                index ===
+                                                form.regulations.length - 1
+                                            "
                                             @click.prevent="addRegulation"
                                             classes="h-fit w-fit p-2 bg-cbc-yellow-green text-gray-900 hover:bg-cbc-dark-green hover:text-white"
                                         >
@@ -397,4 +694,3 @@ export default {
         </template>
     </base-edit-form>
 </template>
-

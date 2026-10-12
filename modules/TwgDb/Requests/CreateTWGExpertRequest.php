@@ -21,10 +21,6 @@ class CreateTWGExpertRequest extends FormRequest
             $this->merge([
                 'institution' => auth()->user()->affiliation,
             ]);
-
-        $this->merge([
-            'user_id'  => auth()->user()->id
-        ]);
     }
 
     /**
@@ -35,7 +31,7 @@ class CreateTWGExpertRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
             'name' => ['required', 'string', 'max:255', 'unique:twg_expert,name'],
             'position' => ['required', 'string', 'max:255'],
             'educ_level' => ['required', 'string', "in:Doctoral,Master's,Bachelor's"],

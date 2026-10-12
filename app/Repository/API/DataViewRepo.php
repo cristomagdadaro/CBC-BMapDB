@@ -40,7 +40,12 @@ class DataViewRepo extends AbstractRepoService
 
     public function updateByUuid(string $uuid, array $data)
     {
-        $dataView = $this->model->where('uuid', $uuid)->firstOrFail();
+        $query = $this->model->where('uuid', $uuid);
+        $user = auth()->user();
+        if ($user && !$user->isAdmin()) {
+            $query->where('user_account_id', $user->id);
+        }
+        $dataView = $query->firstOrFail();
         $dataView->update($data);
         
         return $dataView;

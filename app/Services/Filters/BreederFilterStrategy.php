@@ -14,8 +14,23 @@ class BreederFilterStrategy extends BaseFilterStrategy
     public function buildBaseQuery(): Builder
     {
         return Breeder::query()
-            ->select('breeders.*', 'loc_cities.latitude', 'loc_cities.longitude', 'loc_cities.regDesc', 'loc_cities.provDesc', 'loc_cities.cityDesc', 'institutes.name as institute_name')
-            ->join('loc_cities', 'breeders.geolocation', '=', 'loc_cities.id')
+            ->select(
+                'breeders.*', 
+                DB::raw('COALESCE(locations.latitude, loc_cities.latitude) as latitude'),
+                DB::raw('COALESCE(locations.longitude, loc_cities.longitude) as longitude'),
+                'loc_cities.regDesc', 
+                'loc_cities.provDesc', 
+                'loc_cities.cityDesc', 
+                'institutes.name as institute_name'
+            )
+            ->leftJoin('locationables', function($join) {
+                $join->on('locationables.locationable_id', '=', 'breeders.id')
+                     ->where('locationables.locationable_type', '=', Breeder::class);
+            })
+            ->leftJoin('locations', 'locationables.location_id', '=', 'locations.id')
+            ->leftJoin('loc_cities', function($join) {
+                $join->on('loc_cities.id', '=', DB::raw('COALESCE(locations.city_id, breeders.geolocation)'));
+            })
             ->leftJoin('institutes', 'breeders.affiliation', '=', 'institutes.id');
     }
 

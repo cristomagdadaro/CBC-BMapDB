@@ -70,7 +70,7 @@ export const CBCProjectsPublic = [
         description: window.AppConfig?.applications['BREEDERS_MAP'].description,
         //@ts-ignore
         logo: window.AppConfig?.applications['BREEDERS_MAP'].logo,
-        bg: "img/philrice-cbc-compound.jpg",
+        bg: "img/carousel/image-6.JPG",
     },
     {
         id: 2,

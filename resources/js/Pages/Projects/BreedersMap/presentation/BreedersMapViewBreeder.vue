@@ -141,7 +141,7 @@ export default {
                         <commodity-table :base-url="route(BreedersMapEndpoints.commodity.indexUri)" :params="{ filter_by_parent_id: breederInstance.id,  filter_by_parent_column: 'breeder_id' }" />
                     </template>
                     <template #tab2>
-                        <div class="p-2 relative">
+                        <div class="p-2 relative h-[75vh]">
                             <h1 class="h1 text-center font-semibold uppercase ">Commodities Geographical Map</h1>
                             <Map :table-list="tables" :model="Commodity" offline :custom-point="breederInstance.commodities" />
                         </div>

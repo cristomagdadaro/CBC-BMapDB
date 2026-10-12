@@ -50,9 +50,6 @@ class UpdateTWGExpertRequest extends FormRequest
             ]);
         }
 
-        $this->merge([
-            'user_id'  => auth()->user()->id
-        ]);
     }
 
     /**
@@ -64,7 +61,7 @@ class UpdateTWGExpertRequest extends FormRequest
     {
         $id = $this->route('id') ?? $this->get('id');
         return [
-            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
             'name' => ['required', 'string', 'max:255', 'unique:twg_expert,name,' . $id],
             'position' => ['required', 'string', 'max:255'],
             'educ_level' => ['required', 'string', "in:Doctoral,Master's,Bachelor's"],

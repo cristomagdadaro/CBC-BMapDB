@@ -12,9 +12,9 @@ class CountrySeeder extends Seeder
      */
     public function run(): void
     {
-        Country::factory()->create([
-            'country' => 'Philippines',
-            'iso_code' => 'PH',
-        ]);
+        Country::firstOrCreate(
+            ['country' => 'Philippines'],
+            ['iso_code' => 'PH']
+        );
     }
 }

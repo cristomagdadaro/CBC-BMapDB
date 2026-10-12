@@ -128,23 +128,8 @@ class Breeder extends BaseModel
         return $this->hasOne(\App\Models\Location\City::class, 'id', 'geolocation')->select(['id', 'cityDesc', 'provCode', 'provDesc', 'regCode', 'regDesc']);
     }
 
-    /**
-     * Automatically create a user account for all breeder
-    */
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function ($breeder) {
-            if (!$breeder->user_id) {
-                $user = User::create([
-                    'name' => $breeder->fname . ' ' . $breeder->lname,
-                    'email' => $breeder->email ?? fake()->unique()->safeEmail(),
-                    'password' => bcrypt(DefaultPassword::Value->value), // Change this as needed
-                ]);
-
-                $breeder->user_id = $user->id;
-            }
-        });
     }
 }

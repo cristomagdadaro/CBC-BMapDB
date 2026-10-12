@@ -43,8 +43,8 @@
 </body>
 <script>
     function setupParticlesFor(id)  {
-        particlesJS.load(id, '/particlesjs-config.json', function() {
-            console.log('particles for Projects Page loaded');
+        particlesJS.load(id, '/particlesjs-error-config.json', function() {
+            console.log('particles for Error Page loaded');
         });
     }
 

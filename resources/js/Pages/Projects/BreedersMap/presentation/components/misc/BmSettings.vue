@@ -37,10 +37,15 @@ export default {
             this.responseCommodity = (await this.instance.get({})).data;
             this.convertToDataViewClass('commodities');
         },
-        async saveForm(model) {
-            this.instance = new BMapSettingApiService('/api/data-view'+'/'+model);
+        async saveForm(table) {
+            this.instance = new BMapSettingApiService('/api/data-view/' + table + '/' + this.form.uuid);
             this.responseApi = await this.instance.put(this.form);
             this.clearForm();
+            if (table === this.breederTable) {
+                await this.getBreedersDataView();
+            } else if (table === this.commodityTable) {
+                await this.getCommoditiesDataView();
+            }
         },
         convertToDataViewClass(table) {
             if (!this.responseBreeder || typeof this.responseBreeder !== "object") {
@@ -127,7 +132,7 @@ export default {
         <div v-if="responseBreeder && !instance.processing " class="p-3 bg-gray-100 border">
             <h2 class="font-bold text-xl">Breeders Column View</h2>
             <template v-for="colGroup in responseBreeder">
-                <form class="w-full p-2 flex flex-col gap-2" @submit.prevent="saveForm(getVisibility(colGroup), breederTable)" >
+                <form class="w-full p-2 flex flex-col gap-2" @submit.prevent="saveForm(breederTable)" >
                     <div class="flex flex-col leading-tight">
                         <label class="font-semibold text-lg text-gray-700">Guard: {{ getVisibility(colGroup) }}</label>
                         <label class="text-sm text-gray-600">{{ colGroup.uuid }}</label>
@@ -141,7 +146,7 @@ export default {
                         </template>
                         <transition-container>
                             <div v-show="colGroup?.uuid === form?.uuid" class="flex flex-wrap gap-2">
-                                <primary-button @click.prevent="saveForm(commodityTable)">
+                                <primary-button @click.prevent="saveForm(breederTable)">
                                     Save
                                 </primary-button>
                                 <primary-button @click.prevent="clearForm">
@@ -156,7 +161,7 @@ export default {
         <div v-if="responseCommodity" class="p-3 bg-gray-100 border">
             <h2 class="font-bold text-xl">Commodities Column View</h2>
             <template v-for="colGroup in responseCommodity">
-                <form class="w-full p-2 flex flex-col gap-2" @submit.prevent="saveForm(getVisibility(colGroup), commodityTable)" >
+                <form class="w-full p-2 flex flex-col gap-2" @submit.prevent="saveForm(commodityTable)" >
                     <div class="flex flex-col leading-tight">
                         <label class="font-semibold text-lg text-gray-700">Guard: {{ getVisibility(colGroup) }}</label>
                         <label class="text-sm text-gray-600">{{ colGroup.uuid }}</label>

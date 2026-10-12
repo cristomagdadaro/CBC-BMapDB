@@ -159,7 +159,7 @@ export default {
 };
 </script>
 <template>
-    <div class="flex flex-col lg:flex-row h-full relative">
+    <div class="flex flex-col lg:flex-row h-full w-full relative">
         <!-- Floating Filter Toggle (Mobile) -->
         <div
             v-if="!offline && !customPoint"
@@ -191,7 +191,7 @@ export default {
         </div>
 
         <!-- Map fills entire container -->
-        <div class="flex-1 h-full relative">
+        <div class="flex-1 h-full w-full relative">
             <!-- Full Screen Map -->
             <LeafletMap
                 ref="mapComponent"

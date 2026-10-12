@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Modules\PBMap\Models;
+namespace Database\Factories\Modules\PbMap\Models;
 
 use App\Models\Institute;
 use App\Models\Location\City;

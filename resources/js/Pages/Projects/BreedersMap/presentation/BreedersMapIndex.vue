@@ -12,7 +12,9 @@
                 <commodity-table />
             </template>
             <template v-slot:tab4>
-                <Map :table-list="tables" :model="Commodity"/>
+                <div class="h-[75vh] w-full relative">
+                    <Map :table-list="tables" :model="Commodity"/>
+                </div>
             </template>
             <template v-slot:tab5>
                 <bm-settings />

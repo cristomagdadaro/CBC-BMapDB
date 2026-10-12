@@ -49,7 +49,9 @@ Route::middleware([
 
 Route::prefix('email')->group(function () {
     Route::get('/invite/{name}/{email}', function($name, $email) {
-        Mail::to($email)->send(new UserInvitationEmail($name));
+        if (env('ENABLE_EMAIL_NOTIFICATIONS', true)) {
+            Mail::to($email)->send(new UserInvitationEmail($name));
+        }
         return "Invitation sent to {$name} ({$email}).";
     })->name('email.invite');
 

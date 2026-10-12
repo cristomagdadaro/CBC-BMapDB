@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories\Modules\PBMap\Models;
+namespace Database\Factories\Modules\PbMap\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\PbMap\Models\Commodity;

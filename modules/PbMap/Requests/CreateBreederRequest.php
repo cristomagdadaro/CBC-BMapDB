@@ -18,6 +18,15 @@ class CreateBreederRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->has('notify_breeder')) {
+            $this->merge([
+                'notify_breeder' => filter_var($this->notify_breeder, FILTER_VALIDATE_BOOLEAN)
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -46,7 +55,12 @@ class CreateBreederRequest extends FormRequest
             'expertise' => ['nullable', 'string'],
             'research_interest' => ['nullable', 'string'],
             'educ_level' => ['nullable', 'string'],
-            'geolocation' => 'required|exists:loc_cities,id',
+            'geolocation' => ['required'],
+            'geolocation.type' => ['required', 'string', 'in:city,custom'],
+            'geolocation.city_id' => ['required_if:geolocation.type,city', 'nullable', 'exists:loc_cities,id'],
+            'geolocation.lat' => ['required_if:geolocation.type,custom', 'nullable', 'numeric'],
+            'geolocation.lng' => ['required_if:geolocation.type,custom', 'nullable', 'numeric'],
+            'geolocation.name' => ['required_if:geolocation.type,custom', 'nullable', 'string', 'max:255'],
         ];
     }
 

@@ -34,7 +34,9 @@ class InviteTeamMember implements InvitesTeamMembers
             'role' => $role,
         ]);
 
-        Mail::to($email)->send(new TeamInvitation($invitation));
+        if (env('ENABLE_EMAIL_NOTIFICATIONS', true)) {
+            Mail::to($email)->send(new TeamInvitation($invitation));
+        }
     }
 
     /**

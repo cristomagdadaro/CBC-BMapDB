@@ -1,16 +1,14 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import ParticlesBackground from '@/Components/ParticlesBackground.vue';
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import ParticlesBackground from "@/Components/ParticlesBackground.vue";
 
 const props = defineProps({
     images: {
         type: Array,
-        default: () => [
-            '/img/carousel/image-1.jpg',
-            '/img/carousel/image-2.jpg',
-            '/img/carousel/image-3.jpg',
-            '/img/carousel/image-4.jpg',
-        ],
+        default: () =>
+            Object.keys(import.meta.glob("/public/img/carousel/*"))
+                .map((path) => path.replace("/public", ""))
+                .sort(() => Math.random() - 0.5),
     },
     intervalMs: {
         type: Number,
@@ -22,11 +20,12 @@ const props = defineProps({
     },
     overlayClass: {
         type: String,
-        default: 'bg-gradient-to-b from-cbc-dark-green/80 via-cbc-dark-green/50 to-cbc-dark-green/90',
+        default:
+            "bg-gradient-to-b from-cbc-dark-green/80 via-cbc-dark-green/50 to-cbc-dark-green/90",
     },
     particlesId: {
         type: String,
-        default: 'header-particles-js',
+        default: "header-particles-js",
     },
     showBgImage: {
         type: Boolean,
@@ -38,13 +37,14 @@ const currentIndex = ref(0);
 let backgroundTimer = null;
 
 const normalizedImages = computed(() =>
-    Array.isArray(props.images) && props.images.length ? props.images : []
+    Array.isArray(props.images) && props.images.length ? props.images : [],
 );
 
 onMounted(() => {
     if (normalizedImages.value.length > 1) {
         backgroundTimer = setInterval(() => {
-            currentIndex.value = (currentIndex.value + 1) % normalizedImages.value.length;
+            currentIndex.value =
+                (currentIndex.value + 1) % normalizedImages.value.length;
         }, props.intervalMs);
     }
 });
@@ -58,7 +58,7 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="absolute inset-0 z-0">
-        <div v-if=showBgImage class="absolute inset-0 z-0" aria-hidden="true">
+        <div v-if="showBgImage" class="absolute inset-0 z-0" aria-hidden="true">
             <img
                 v-for="(imagePath, index) in normalizedImages"
                 :key="imagePath"
@@ -70,7 +70,10 @@ onBeforeUnmount(() => {
             />
         </div>
         <div class="absolute inset-0 z-10" :class="overlayClass"></div>
-        <div v-if="showParticles" class="absolute inset-0 z-20 pointer-events-none opacity-80">
+        <div
+            v-if="showParticles"
+            class="absolute inset-0 z-20 pointer-events-none opacity-80"
+        >
             <particles-background :id="particlesId" />
         </div>
     </div>
