@@ -2,7 +2,6 @@
 
 namespace Modules\PbMap\Policies;
 
-use Modules\PbMap\Enums\Permissions;
 use Modules\PbMap\Models\Commodity;
 use App\Models\User;
 
@@ -14,9 +13,9 @@ class CommodityPolicy
     public function viewAny(User $user): bool
     {
         return $user->isAdmin()
-            || $user->isResearcher()
-            || $user->isBreeder()
-            || $user->isFocalPerson();
+            || $user->hasRole(\App\Enums\Role::RESEARCHER->value)
+            || $user->hasRole(\App\Enums\Role::BREEDER->value)
+            || $user->hasRole(\App\Enums\Role::FOCAL_PERSON->value);
     }
 
     /**
@@ -33,8 +32,8 @@ class CommodityPolicy
     public function create(User $user): bool
     {
         return $user->isAdmin()
-            || $user->isFocalPerson()
-            || $user->isBreeder();
+            || $user->hasRole(\App\Enums\Role::FOCAL_PERSON->value)
+            || $user->hasRole(\App\Enums\Role::BREEDER->value);
     }
 
     /**
@@ -47,17 +46,15 @@ class CommodityPolicy
             return true;
         }
 
-        // Focal person can update commodities within their institute (via breeder affiliation)
-        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
+        if ($this->isOrganizationLead($user)) {
             $commodityAff = (int) ($commodity->relationLoaded('breeder') ? optional($commodity->breeder)->affiliation : $commodity->breeder()->value('affiliation'));
-            if ($userAff && $commodityAff && $userAff === $commodityAff) {
+            if ($this->hasMatchingAffiliation($user, $commodityAff)) {
                 return true;
             }
         }
 
         // If the acting user is a breeder, restrict to own records
-        if ($user->isBreeder()) {
+        if ($user->hasRole(\App\Enums\Role::BREEDER->value)) {
             // Prefer direct user_id on the commodity; fallback to breeder relation's user_id
             $ownsDirectly = (int) $commodity->user_id === (int) $user->id;
             if ($ownsDirectly) return true;
@@ -82,11 +79,9 @@ class CommodityPolicy
             return true;
         }
 
-        // Focal person can delete commodities within their institute (via breeder affiliation)
-        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
+        if ($this->isOrganizationLead($user)) {
             $commodityAff = (int) ($commodity->relationLoaded('breeder') ? optional($commodity->breeder)->affiliation : $commodity->breeder()->value('affiliation'));
-            if ($userAff && $commodityAff && $userAff === $commodityAff) {
+            if ($this->hasMatchingAffiliation($user, $commodityAff)) {
                 return true;
             }
         }
@@ -107,5 +102,18 @@ class CommodityPolicy
     public function forceDelete(User $user, Commodity $commodity): bool
     {
         return $user->isAdmin();
+    }
+
+    private function isOrganizationLead(User $user): bool
+    {
+        return $user->hasRole(\App\Enums\Role::FOCAL_PERSON->value);
+    }
+
+    private function hasMatchingAffiliation(User $user, ?int $affiliation): bool
+    {
+        $userAff = (int) ($user->affiliation ?? 0);
+        $entityAff = (int) ($affiliation ?? 0);
+
+        return $userAff && $entityAff && $userAff === $entityAff;
     }
 }

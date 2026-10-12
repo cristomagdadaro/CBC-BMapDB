@@ -4,6 +4,7 @@ import {BaseButton} from "@/Components/CRCMDatatable/Components/index.js";
 import DialogFormModal from "@/Components/CRCMDatatable/Layouts/DialogFormModal.vue";
 import RequestAddCommodityForm
     from "@/Pages/Projects/BreedersMap/presentation/components/commodity/components/RequestAddCommodityForm.vue";
+import ApiService from "@/Modules/core/infrastructure/ApiService";
 
 export default {
     name: "RequestAddCommodity",
@@ -13,6 +14,22 @@ export default {
             showAddCommodityForm: false,
         }
     },
+    methods: {
+        async submitRequest(form) {
+            const api = new ApiService(route('api.commodity-requests.store'));
+            try {
+                const response = await api.post({
+                    name: form.name,
+                    scientific_name: form.scientific_name
+                });
+                alert("Your request to add the commodity has been submitted successfully!");
+                this.showAddCommodityForm = false;
+            } catch (err) {
+                alert("An error occurred while submitting your request. Please try again.");
+                console.error(err);
+            }
+        }
+    }
 }
 </script>
 
@@ -28,7 +45,7 @@ export default {
         </BaseButton>
     </div>
     <dialog-form-modal :show="showAddCommodityForm" @close="showAddCommodityForm = false">
-        <request-add-commodity-form @submitForm="null" @close="showAddCommodityForm = false"/>
+        <request-add-commodity-form @submitForm="submitRequest" @close="showAddCommodityForm = false"/>
     </dialog-form-modal>
 </template>
 

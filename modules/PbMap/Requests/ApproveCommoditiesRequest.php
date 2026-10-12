@@ -21,7 +21,7 @@ class ApproveCommoditiesRequest extends FormRequest
         }
 
         // Focal person can approve within same institute as breeder's affiliation
-        if (method_exists($user, 'isFocalPerson') && $user->isFocalPerson()) {
+        if ($user->hasRole(\App\Enums\Role::FOCAL_PERSON->value)) {
             $userAff = (int) ($user->affiliation ?? 0);
             $commodityAff = (int) ($model->relationLoaded('breeder') ? optional($model->breeder)->affiliation : $model->breeder()->value('affiliation'));
             return $userAff && $commodityAff && $userAff === $commodityAff;

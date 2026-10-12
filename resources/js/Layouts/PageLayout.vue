@@ -1,20 +1,31 @@
-<script setup>
-import Body from '@/Pages/Body.vue';
-import BackToTop from "@/Components/BackToTop.vue";
-import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue";
+<script>
+import Body from '@/Pages/Body.vue'
+import BackToTop from "@/Components/BackToTop.vue"
+import NotifBanner from "@/Components/Modal/Notification/NotifBanner.vue"
+export default {
+    name: "Layout",
 
-const props = defineProps({
-    isWideDisplay: {
-        type: Boolean,
-        default: true,
+    components: {
+        Body,
+        BackToTop,
+        NotifBanner
+    },
+
+    props: {
+        isWideDisplay: {
+            type: Boolean,
+            default: true
+        }
     }
-});
-
+}
 </script>
+
 <template>
-    <Body :is-wide-display="props.isWideDisplay">
-    <NotifBanner />
-    <slot />
-    <back-to-top />
+    <Body :is-wide-display="isWideDisplay">
+        <NotifBanner />
+
+        <slot />
+
+        <BackToTop />
     </Body>
 </template>

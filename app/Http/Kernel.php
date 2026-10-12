@@ -8,6 +8,7 @@ use App\Http\Middleware\CheckApplicationStatus;
 use App\Http\Middleware\CheckBreedersMapStatus;
 use App\Http\Middleware\CheckPreLaunch;
 use App\Http\Middleware\CheckTwgDbStatus;
+use App\Http\Middleware\EnsureSameOriginApiRequest;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\LogApiRequests;
@@ -107,5 +108,6 @@ class Kernel extends HttpKernel
         'admin' => AdminAccess::class,
         'check.status.twg' => CheckTwgDbStatus::class,
         'check.status.breedersmap' => CheckBreedersMapStatus::class,
+        'same.origin.api' => EnsureSameOriginApiRequest::class,
     ];
 }

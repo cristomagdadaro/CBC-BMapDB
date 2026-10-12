@@ -5,6 +5,7 @@ namespace Modules\PbMap\Repositories;
 use App\Repository\AbstractRepoService;
 use Modules\PbMap\Models\Breeder;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -25,13 +26,13 @@ class BreederRepo extends AbstractRepoService
         return parent::create($data);
     }
 
-    public function update(int $id, array $data): JsonResponse
+    public function update(int $id, array $data, ?Model $resource = null): JsonResponse
     {
         if (array_key_exists('photo', $data)) {
             $data['photo'] = $this->storeBreederPhoto($data['photo']);
         }
 
-        return parent::update($id, $data);
+        return parent::update($id, $data, $resource);
     }
 
     public function applyFilters($model, $breeder, $geo_location_value = null, $geo_location_filter = null) {

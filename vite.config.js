@@ -24,6 +24,12 @@ export default defineConfig({
         outDir: 'public/build',
         emptyOutDir: true,
         chunkSizeWarningLimit: 1024,
+        rollupOptions: {
+            onwarn(warning, warn) {
+                if (warning.code === 'EVAL' && warning.id?.includes('exceljs')) return;
+                warn(warning);
+            }
+        }
     },
     test: {
         environment: 'jsdom',

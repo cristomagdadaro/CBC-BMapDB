@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Interfaces\BaseControllerInterface;
 use App\Http\Resources\BaseCollection;
 use App\Repository\AbstractRepoService;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
@@ -50,14 +51,16 @@ abstract class BaseController extends Controller implements BaseControllerInterf
 
     public function _update($request, int $id): JsonResponse
     {
-        $this->authorize('update', $this->service->model);
-        return $this->service->update($id, $request->validated());
+        $model = $this->resolveModelOrFail($id);
+        $this->authorize('update', $model);
+        return $this->service->update($id, $request->validated(), $model);
     }
 
     public function _destroy(int $id)
     {
-        $this->authorize('delete', $this->service->model);
-        return $this->service->delete($id);
+        $model = $this->resolveModelOrFail($id);
+        $this->authorize('delete', $model);
+        return $this->service->delete($id, $model);
     }
 
     public function _multiDestroy($request)
@@ -89,4 +92,10 @@ abstract class BaseController extends Controller implements BaseControllerInterf
         $this->authorize('viewAny', $this->service->model);
         return $this->_index($request);
     }
+
+    protected function resolveModelOrFail(int $id): Model
+    {
+        return $this->service->model->findOrFail($id);
+    }
 }
+

@@ -113,10 +113,10 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
     }
 
-    public function update(int $id, array $data): JsonResponse
+    public function update(int $id, array $data, ?Model $resource = null): JsonResponse
     {
         try {
-            $model = $this->model->findOrFail($id);
+            $model = $resource ?? $this->model->findOrFail($id);
             $model->update($data);
             return $this->jsonResponse(self::RESPONSE_UPDATED, $model);
         } catch (Exception $error) {
@@ -124,10 +124,10 @@ abstract class AbstractRepoService implements AbstractRepoServiceInterface
         }
     }
 
-    public function delete(int $id): JsonResponse
+    public function delete(int $id, ?Model $resource = null): JsonResponse
     {
         try {
-            $model = $this->model->findOrFail($id);
+            $model = $resource ?? $this->model->findOrFail($id);
             $model->delete();
             return $this->jsonResponse(self::RESPONSE_DELETED, $model);
         } catch (Exception $e) {

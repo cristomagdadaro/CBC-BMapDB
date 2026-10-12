@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Breeder extends BaseModel
 {
@@ -79,6 +80,33 @@ class Breeder extends BaseModel
         'notFound' => 'Breeder not found.',
         'unknown' => 'Unknown error, action failed.',
     ];
+
+    public function getProvinceAttribute()
+    {
+        return $this->geolocation->provDesc ?? '';
+    }
+
+    public function bypassUserBasedOwnership(User $user): bool
+    {
+        return $user->hasRole(\App\Enums\Role::BREEDER->value);
+    }
+
+    public function applyCustomAffiliationOwnership(Builder $query, User $currentUser, string $affiliationCol, string $userIdCol): bool
+    {
+        if ($currentUser->hasRole(\App\Enums\Role::BREEDER->value)) {
+            $aff = trim((string) $currentUser->affiliation);
+            if ($aff === '') {
+                $query->whereRaw('1 = 0');
+                return true;
+            }
+
+            $query->where($affiliationCol, $aff);
+            $query->where($userIdCol, '!=', $currentUser->id);
+            return true;
+        }
+
+        return false;
+    }
 
     public function user(): BelongsTo
     {

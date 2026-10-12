@@ -88,7 +88,7 @@ class InstituteSeeder extends Seeder
         $key = strtolower($normalized);
 
         $map = [
-            'compostela valley' => 'Davao de Oro',
+            'davao de oro' => 'Compostela Valley',
         ];
 
         return $map[$key] ?? $normalized;

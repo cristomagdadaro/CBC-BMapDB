@@ -120,6 +120,11 @@ const routes = [
                         name: 'projects.breedersmap.settings',
                     },
                     {
+                        path: '/projects/breedersmap/requests',
+                        component: async () => await import('@/Pages/Projects/BreedersMap/presentation/components/misc/CommodityRequestsManager.vue'),
+                        name: 'projects.breedersmap.requests',
+                    },
+                    {
                         path: '',
                         redirect: { name: 'projects.breedersmap.breeder' },
                         name: 'projects.breedersmap',

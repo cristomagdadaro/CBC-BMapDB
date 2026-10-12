@@ -8,12 +8,10 @@ const HeroImageParticlesBackground = defineAsyncComponent(() => import("@/Compon
 const BmCollaborators = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue"));
 const BmPriorityCom = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue"));
 const BmOverviewMap = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue"));
-const AiChat = defineAsyncComponent(() => import("@/Pages/OpenAi/AiChat/AiChat.vue"));
 const ModelViewer = defineAsyncComponent(() => import("@/Components/3dViewer/3dModelViewer.vue"));
 
 export default {
     components: {
-        AiChat,
         HeroImageParticlesBackground,
         BmOverviewMap,
         BmPriorityCom,
@@ -205,9 +203,10 @@ export default {
                               class="group relative block rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 focus-ring">
                             <div class="relative h-80 lg:h-96 overflow-hidden">
                                 <div class="w-full h-full bg-gradient-to-br from-pin-green to-cbc-dark-green flex items-center justify-center">
-                                    <img :src="project.logo" :alt="project.label" class="w-auto h-[6rem] opacity-30 group-hover:scale-110 transition-transform duration-700" loading="lazy"/>
+                                    <img :src="project.bg" :alt="project.label" class="w-auto h-full opacity-30 group-hover:scale-110 transition-transform duration-700" loading="lazy"/>
                                 </div>
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+                                <img :src="project.logo" :alt="project.label" class="absolute w-auto h-16 bottom-5 right-5 object-contain opacity-50 group-hover:opacity-100 group-hover:shadow-lg transition-opacity duration-700" />
                             </div>
                             <div class="absolute inset-0 flex flex-col justify-end p-6 lg:p-8">
                                 <div v-if="databaseCards[index]" class="flex flex-wrap gap-2 mb-4">
@@ -372,7 +371,7 @@ export default {
                                             </svg>
                                         </div>
                                         <h3 class="font-semibold text-gray-900 mb-1">Facebook</h3>
-                                        <a href="https://www.facebook.com/DACropBiotechCenter" class="text-sm text-pin-green hover:underline">DA-Crop Biotechnology Center</a>
+                                        <a href="https://dacbc.philrice.gov.ph/go/da-cbc-facebook" class="text-sm text-pin-green hover:underline">DACropBiotechCenter</a>
                                     </div>
                                     <div class="bg-white rounded-xl p-5 shadow-sm hover:shadow-lg transition-shadow">
                                         <div class="w-10 h-10 bg-pin-green-light rounded-lg flex items-center justify-center text-pin-green mb-3">
@@ -390,9 +389,6 @@ export default {
                 </div>
             </div>
         </section>
-
-        <!-- AI Chat -->
-        <ai-chat/>
         
         <!-- Footer -->
         <footer class="bg-gray-900 text-white">

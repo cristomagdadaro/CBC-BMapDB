@@ -3,6 +3,7 @@
 namespace Modules\PbMap\Requests;
 
 use App\Enums\Permission;
+use App\Models\User;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Modules\PbMap\Models\Commodity;
@@ -32,12 +33,8 @@ class UpdateCommoditiesRequest extends FormRequest
             return true; // Allow owner
         }
 
-        if ($user->isFocalPerson()) {
-            $userAff = (int) ($user->affiliation ?? 0);
-            $commodityAff = (int) ($model->relationLoaded('breeder') ? optional($model->breeder)->affiliation : $model->breeder()->value('affiliation'));
-            if ($userAff && $commodityAff && $userAff === $commodityAff) {
-                return true;
-            }
+        if ($this->canManageAffiliatedRecord($user, $this->getBreederAffiliation($model))) {
+            return true;
         }
 
         abort(403, __('You are not authorized to update this commodity.'));
@@ -57,6 +54,36 @@ class UpdateCommoditiesRequest extends FormRequest
         ]);
     }
 
+    private function canManageAffiliatedRecord(User $user, ?int $affiliation): bool
+    {
+        if (!$this->isOrganizationLead($user)) {
+            return false;
+        }
+
+        $userAff = (int) ($user->affiliation ?? 0);
+        $targetAff = (int) ($affiliation ?? 0);
+
+        return $userAff && $targetAff && $userAff === $targetAff;
+    }
+
+    private function isOrganizationLead(User $user): bool
+    {
+        return $user->hasRole(\App\Enums\Role::FOCAL_PERSON->value);
+    }
+
+    private function getBreederAffiliation(Commodity $commodity): ?int
+    {
+        if ($commodity->institute_id) {
+            return $commodity->institute_id;
+        }
+
+        if ($commodity->relationLoaded('breeder')) {
+            return optional($commodity->breeder)->affiliation;
+        }
+
+        return $commodity->breeder()->value('affiliation');
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -67,10 +94,11 @@ class UpdateCommoditiesRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
-            'breeder_id' => 'required|integer|exists:breeders,id',
+            'breeder_id' => 'required_without:institute_id|nullable|integer|exists:breeders,id',
+            'institute_id' => 'required_without:breeder_id|nullable|integer|exists:institutes,id',
             'scientific_name' => 'required|string|max:255',
             'accession' => 'required|string|max:255',
-            'yield' => 'required|numeric',
+            'yield' => 'nullable|numeric',
             'description' => 'nullable|string',
             'photo' => 'nullable',
             'geolocation' => 'required|exists:loc_cities,id',

@@ -10,6 +10,7 @@ export default interface ICommodity  extends IBaseClass {
     user_id: number;
     name: string;
     breeder_id: number;
+    institute_id: number;
     scientific_name: string;
     accession: string;
     yield: string;
@@ -27,5 +28,6 @@ export default interface ICommodity  extends IBaseClass {
     stress_resilience?: object;
 
     breeder: IBreeder;
+    institute: any;
     user: IUser;
 }

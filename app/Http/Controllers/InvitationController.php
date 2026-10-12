@@ -27,7 +27,7 @@ class InvitationController extends Controller
     public function regenerateBreederInvite(Request $request, User $user): JsonResponse
     {
         $actor = $request->user();
-        if (!$actor || (!$actor->isAdmin() && !$actor->isFocalPerson())) {
+        if (!$actor || (!$actor->isAdmin() && !$actor->hasRole(\App\Enums\Role::FOCAL_PERSON->value))) {
             abort(403, __('You are not authorized to regenerate breeder invitations.'));
         }
 

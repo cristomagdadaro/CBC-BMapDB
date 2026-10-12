@@ -28,6 +28,10 @@ const props = defineProps({
         type: String,
         default: 'header-particles-js',
     },
+    showBgImage: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const currentIndex = ref(0);
@@ -54,7 +58,7 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="absolute inset-0 z-0">
-        <div class="absolute inset-0 z-0" aria-hidden="true">
+        <div v-if=showBgImage class="absolute inset-0 z-0" aria-hidden="true">
             <img
                 v-for="(imagePath, index) in normalizedImages"
                 :key="imagePath"

@@ -11,6 +11,7 @@ export default {
     components: {AddIcon, BaseButton, FileField, Checkbox, DateField, Tab},
     data() {
         return {
+            named_to_type: 'breeder',
             model: Commodity,
             tabs: [
                 {name: 'tab2', label: 'Basic Information', active: true, route: null},
@@ -41,7 +42,7 @@ export default {
                 this.form.regulations = [{regulatory_body: null, registration_no: null, registration_date: null}];
             }
             if (!Array.isArray(this.form?.stress_resilience) || this.form.stress_resilience.length === 0) {
-                this.form.stress_resilience = [{type: null, stress: null, reaction: null}];
+                this.form.stress_resilience = [{type: null, stress: null, stress_agent: null, reaction: null}];
             }
         },
         getScientificName(selectedValueOrLabel) {
@@ -88,6 +89,17 @@ export default {
         },
     },
     watch: {
+        data: {
+            handler(newVal) {
+                if (newVal?.institute_id) {
+                    this.named_to_type = 'organization';
+                } else if (newVal?.breeder_id || !newVal?.institute_id) {
+                    this.named_to_type = 'breeder';
+                }
+            },
+            immediate: true,
+            deep: true
+        },
         form: {
             handler() {
                 this.ensureRepeatables();
@@ -108,6 +120,11 @@ export default {
     async mounted() {
         if (this.$page?.props?.breeder) {
             this.form.breeder_id = this.$page.props.breeder.id;
+        }
+        if (this.form?.institute_id) {
+            this.named_to_type = 'organization';
+        } else {
+            this.named_to_type = 'breeder';
         }
         this.ensureRepeatables();
         try {

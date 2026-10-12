@@ -1,5 +1,5 @@
 <script setup>
-import {ref, reactive, computed, onMounted, onBeforeUnmount, watch, defineProps, defineEmits, defineExpose} from 'vue';
+import {ref, reactive, computed, onMounted, onBeforeUnmount, watch} from 'vue';
 import {Link} from '@inertiajs/vue3';
 
 /*

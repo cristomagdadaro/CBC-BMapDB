@@ -62,7 +62,7 @@ export default {
                     <select-field required :error="getError('breeder_type')" :title="getTitle('breeder_type')" label="Funding Type" v-model="form.breeder_type" :options="[{value: 'Public', label: 'Public'}, {value: 'Private', label: 'Private'}]" />
                     <text-field required :error="getError('position')" :title="getTitle('position')" label="Position" v-model="form.position" />
                     <select-field :error="getError('educ_level')" :title="getTitle('educ_level')" label="Education Level" v-model="form.educ_level" :options="TWGPages.educLevelOptions" />
-                    <text-field required :error="getError('email')" :title="getTitle('email')" label="Email" v-model="form.email" />
+                    <text-field :error="getError('email')" :title="getTitle('email')" label="Email" v-model="form.email" />
                     <file-field :error="getError('photo')" :title="getTitle('photo')" accept="image/png, image/jpeg, image/jpg, image/heic" label="Profile Photo" v-model="form.photo"  />
                 </div>
                 <div class="grid grid-cols-1 text-sm gap-2">

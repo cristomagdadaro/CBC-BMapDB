@@ -1,5 +1,5 @@
 <script setup>
-import {ref, reactive, computed, onMounted, onBeforeUnmount, watch, nextTick, defineProps, defineEmits, defineExpose} from 'vue';
+import {ref, reactive, computed, onMounted, onBeforeUnmount, watch, nextTick} from 'vue';
 import { Link } from '@inertiajs/vue3';
 import ArrowLeft from '@/Components/Icons/ArrowLeft.vue';
 import ArrowRight from '@/Components/Icons/ArrowRight.vue';

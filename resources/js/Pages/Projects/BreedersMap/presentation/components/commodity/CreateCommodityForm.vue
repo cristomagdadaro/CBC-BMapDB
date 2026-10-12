@@ -33,9 +33,15 @@ export default {
                                 <select-field required :title="getTitle('name')" :error="getError('name')" label="Commodity" v-model="form.name" @change="onCommodityChange" :options="priorityComs?.data?.data" class="w-full" />
                                 <request-add-commodity />
                             </div>
-                            <select-search-field :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Breeder/Organization" v-model="form.breeder_id" />
+                            <div class="col-span-2 grid sm:grid-cols-2 grid-cols-1 gap-2 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+                                <select-field :options="[{label: 'Breeder (Person)', value: 'breeder'}, {label: 'Organization/Institute', value: 'organization'}]" label="Named to" v-model="named_to_type" @change="(val) => { if (val === 'breeder') form.institute_id = null; else form.breeder_id = null; }" class="w-full" />
+                                
+                                <select-search-field v-if="named_to_type === 'breeder'" :title="getTitle('breeder_id')" required :api-link="route('api.breeders.selections')" :disabled="isInitialzedBreeeder"  :error="getError('breeder_id')" label="Select Breeder" v-model="form.breeder_id" />
+                                
+                                <select-search-field v-if="named_to_type === 'organization'" :title="getTitle('institute_id')" required :api-link="route('api.institutes.options.public')" :error="getError('institute_id')" label="Select Organization" v-model="form.institute_id" />
+                            </div>
                             <text-field required :title="getTitle('accession')" :error="getError('accession')" label="Variety/Accession No./Germplasm Index" v-model="form.accession" />
-                            <text-field required :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield" v-model="form.yield" />
+                            <text-field :title="getTitle('yield')" type-input="number" :error="getError('yield')" label="Yield (tons/ha)" v-model="form.yield" />
                         </div>
                         <select-search-field :title="getTitle('geolocation')" required :api-link="route('api.cities.options.public')"  :error="getError('geolocation')" label="Location" v-model="form.geolocation" />
                         <text-field type-input="longtext" :title="getTitle('description')" :error="getError('description')" label="Other Unique Traits" v-model="form.description" />
@@ -73,11 +79,11 @@ export default {
                                         class="flex flex-col items-end gap-2"
                                     >
                                         <div class="flex gap-2 w-full items-center">
-                                            <div class="grid grid-cols-3 gap-1 w-full">
+                                            <div class="grid grid-cols-3 gap-2 w-full">
                                                 <select-field :options="Object.keys(stress_resilience_options).map((item)=>{ return { label: item, value: item } })" :error="getError(`stress_resilience[${index}].type`)" v-model="stress_resilience.type" />
                                                 <div class="flex gap-1 w-full">
                                                     <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.conditions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a type first', value: null }]" :error="getError(`stress_resilience[${index}].stress`)" v-model="stress_resilience.stress" class="w-full" />
-                                                    <text-field v-if="form?.stress_resilience[index]?.type === 'Biotic'" v-model="stress_resilience.stress" />
+                                                    <text-field v-if="form?.stress_resilience[index]?.type === 'Biotic'" :error="getError(`stress_resilience[${index}].stress_agent`)" v-model="stress_resilience.stress_agent" placeholder="Stress agent" />
                                                 </div>
                                                 <select-field :options="form?.stress_resilience[index]?.type ? Object.values(stress_resilience_options[form?.stress_resilience[index]?.type]?.reactions).map((item)=>{ return { label: item, value: item } }) : [{ label: 'Select a stress condition', value: null }]" :error="getError(`stress_resilience[${index}].reaction`)" v-model="stress_resilience.reaction" />
                                             </div>

@@ -23,17 +23,17 @@ class BreedersDashboardRepo
             return $scope !== '' ? $scope : 'all';
         }
 
-        if ($user->isResearcher()) {
+        if ($user->hasRole(\App\Enums\Role::RESEARCHER->value)) {
             return 'public';
         }
 
-        if ($user->isFocalPerson()) {
+        if ($user->hasRole(\App\Enums\Role::FOCAL_PERSON->value)) {
             $default = 'institute';
             $allowedForRole = ['owned', 'institute', 'public'];
             return in_array($scope, $allowedForRole, true) ? $scope : $default;
         }
 
-        if ($user->isBreeder()) {
+        if ($user->hasRole(\App\Enums\Role::BREEDER->value)) {
             $default = 'owned';
             $allowedForRole = ['owned', 'institute', 'public'];
             return in_array($scope, $allowedForRole, true) ? $scope : $default;
@@ -81,7 +81,7 @@ class BreedersDashboardRepo
                 ->where('breeders.affiliation', $instituteId);
 
             // Non-admin/non-focal users should only see approved data
-            if (!$user || (!$user->isAdmin() && !$user->isFocalPerson())) {
+            if (!$user || (!$user->isAdmin() && !$user->hasRole(\App\Enums\Role::FOCAL_PERSON->value))) {
                 $builder->whereNotNull('commodities.approved_at');
             }
 
@@ -213,7 +213,7 @@ class BreedersDashboardRepo
 
     public function myStats($user): array
     {
-        if (!$user || !$user->isBreeder()) {
+        if (!$user || !$user->hasRole(\App\Enums\Role::BREEDER->value)) {
             return [
                 'isBreeder' => false,
                 'stats' => null,

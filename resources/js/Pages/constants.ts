@@ -70,6 +70,7 @@ export const CBCProjectsPublic = [
         description: window.AppConfig?.applications['BREEDERS_MAP'].description,
         //@ts-ignore
         logo: window.AppConfig?.applications['BREEDERS_MAP'].logo,
+        bg: "img/philrice-cbc-compound.jpg",
     },
     {
         id: 2,
@@ -83,6 +84,7 @@ export const CBCProjectsPublic = [
         description: window.AppConfig?.applications['TWG_DATABASE'].description,
         //@ts-ignore
         logo: window.AppConfig?.applications['TWG_DATABASE'].logo,
+        bg: "img/bg2.png",
     },
 ]
 

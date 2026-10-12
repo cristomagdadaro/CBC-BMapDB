@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { describe, expect, it } from 'vitest'
 import OrbitOverlay from '@/Components/Map/OrbitOverlay.vue'
 
 describe('OrbitOverlay', () => {
@@ -15,6 +16,16 @@ describe('OrbitOverlay', () => {
     { id: 3, image: 'https://example.com/3.jpg', label: 'Three' },
     { id: 4, image: 'https://example.com/4.jpg', label: 'Four' },
   ]
+
+  const getTranslateValues = (style: string) => {
+    const match = style.match(/translate\(([-\de.+]+)px,\s*([-\de.+]+)px\)/)
+    expect(match).toBeTruthy()
+
+    return {
+      x: Number(match?.[1]),
+      y: Number(match?.[2]),
+    }
+  }
 
   it('shows spinner when loading', () => {
     const wrapper = mount(OrbitOverlay, {
@@ -33,7 +44,11 @@ describe('OrbitOverlay', () => {
     links.forEach((a, idx) => {
       expect(a.attributes('href')).toBe(`/projects/breedersmap/commodity/${items[idx].id}`)
       const style = a.attributes('style') || ''
-      expect(style).toContain(`translate(${baseProps.radius}px)`) // has radius translate in transform chain
+      const { x, y } = getTranslateValues(style)
+
+      expect(Math.hypot(x, y)).toBeCloseTo(baseProps.radius, 10)
+      expect(style).toContain(`transition-delay: ${idx * 50}ms`)
+
       const img = a.find('img')
       expect(img.attributes('src')).toBe(items[idx].image)
       expect(img.attributes('alt')).toBe(items[idx].label)
@@ -46,7 +61,7 @@ describe('OrbitOverlay', () => {
     })
     const links = wrapper.findAll('a')
     links.forEach((a, idx) => {
-      expect(a.attributes('href')).toBe(`/projects/breedersmap/breeders/${items[idx].id}`)
+      expect(a.attributes('href')).toBe(`/projects/breedersmap/breeder/${items[idx].id}`)
     })
   })
 

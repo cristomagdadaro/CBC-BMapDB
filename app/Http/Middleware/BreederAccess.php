@@ -15,7 +15,7 @@ class BreederAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user() && ($request->user()->isBreeder() || $request->user()->isAdmin())) {
+        if ($request->user() && ($request->user()->hasRole(\App\Enums\Role::BREEDER->value) || $request->user()->isAdmin())) {
             return $next($request);
         }
 

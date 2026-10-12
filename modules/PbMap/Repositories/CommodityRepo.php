@@ -5,6 +5,7 @@ namespace Modules\PbMap\Repositories;
 use App\Repository\AbstractRepoService;
 use Modules\PbMap\Models\Commodity;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -55,7 +56,7 @@ class CommodityRepo extends AbstractRepoService
         });
     }
 
-    public function update(int $id, array $data): JsonResponse
+    public function update(int $id, array $data, ?Model $resource = null): JsonResponse
     {
         if (array_key_exists('photo', $data)) {
             $data['photo'] = $this->storeCommodityPhoto($data['photo']);
@@ -63,8 +64,9 @@ class CommodityRepo extends AbstractRepoService
 
         [$commodityData, $characteristics] = $this->splitCharacteristics($data);
 
-        return DB::transaction(function () use ($id, $commodityData, $characteristics) {
-            $model = $this->model->findOrFail($id);
+        $model = $resource ?? $this->model->findOrFail($id);
+
+        return DB::transaction(function () use ($model, $commodityData, $characteristics) {
             $model->update($commodityData);
             $this->saveCharacteristics($model, $characteristics);
             return $this->jsonResponse(self::RESPONSE_UPDATED, $model->load('characteristics'));

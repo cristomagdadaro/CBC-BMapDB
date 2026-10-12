@@ -28,6 +28,27 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
+        RateLimiter::for('openai-chat', function (Request $request) {
+            $requestKey = 'openai-chat:' . ($request->user()?->id ?: $request->ip());
+            $perMinute = max((int) config('openai.rate_limit_per_minute', 10), 1);
+            $perHour = max((int) config('openai.rate_limit_per_hour', 100), 1);
+
+            return [
+                Limit::perMinute($perMinute)->by($requestKey)->response(function () {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Too many AI chat requests. Please wait a moment and try again.',
+                    ], 429);
+                }),
+                Limit::perHour($perHour)->by($requestKey . ':hour')->response(function () {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'AI chat rate limit reached for this hour. Please try again later.',
+                    ], 429);
+                }),
+            ];
+        });
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

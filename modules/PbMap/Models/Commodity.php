@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\PbMap\Scopes\CommodityApprovalScope;
+use Illuminate\Database\Eloquent\Builder;
+use App\Models\User;
 
 class Commodity extends BaseModel
 {
@@ -22,6 +24,7 @@ class Commodity extends BaseModel
         'user_id',
         'name',
         'breeder_id',
+        'institute_id',
         'scientific_name',
         'variety',
         'accession',
@@ -85,6 +88,11 @@ class Commodity extends BaseModel
         static::addGlobalScope(new CommodityApprovalScope());
     }
 
+    public function creator(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'fname', 'mname', 'lname', 'suffix')->with('roles');
+    }
+
     public function user(): BelongsTo
     {
         return $this->breeder()->with('user');
@@ -93,6 +101,11 @@ class Commodity extends BaseModel
     public function breeder(): BelongsTo
     {
         return $this->belongsTo(Breeder::class, 'breeder_id', 'id')->select((new Breeder())->getSearchable())->withTrashed()->with('affiliated');
+    }
+
+    public function institute(): BelongsTo
+    {
+        return $this->belongsTo(Institute::class, 'institute_id', 'id');
     }
 
     public function characteristics(): HasOne
@@ -117,4 +130,30 @@ class Commodity extends BaseModel
                 $query->where('user_id', auth()->id());
             });
     }*/
+
+    public function bypassUserBasedOwnership(User $user): bool
+    {
+        return $user->hasRole(\App\Enums\Role::BREEDER->value);
+    }
+
+    public function applyCustomAffiliationOwnership(Builder $query, User $currentUser, string $affiliationCol, string $userIdCol): bool
+    {
+        if ($currentUser->hasRole(\App\Enums\Role::BREEDER->value)) {
+            $aff = trim((string) $currentUser->affiliation);
+            if ($aff === '') {
+                $query->whereRaw('1 = 0');
+                return true;
+            }
+
+            if (method_exists($this, 'breeder')) {
+                $query->whereHas('breeder', function (Builder $q) use ($aff) {
+                    $q->withoutGlobalScopes()->where('affiliation', $aff);
+                });
+            }
+
+            return true;
+        }
+
+        return false;
+    }
 }

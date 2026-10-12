@@ -35,14 +35,14 @@ interface AbstractRepoServiceInterface {
      * @param array $data updated set of data
      * @return JsonResponse
      **/
-    public function update(int $id, array $data): JsonResponse;
+    public function update(int $id, array $data, ?Model $resource = null): JsonResponse;
 
     /**
      * Delete data
      * @param int $id model primary key
      * @return JsonResponse
      **/
-    public function delete(int $id): JsonResponse;
+    public function delete(int $id, ?Model $resource = null): JsonResponse;
 
     /**
      * Perform multiple model deletion

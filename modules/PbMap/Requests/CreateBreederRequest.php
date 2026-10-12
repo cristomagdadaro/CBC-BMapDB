@@ -33,11 +33,12 @@ class CreateBreederRequest extends FormRequest
             'suffix' => ['nullable', 'string', 'max:255'],
             'mobile_no' =>  ['nullable', 'string', 'max:255', 'unique:breeders,mobile_no', 'regex:/^09\d{9}$/'],
             'email' => [
-                'required',
+                'nullable',
                 'email',
                 'unique:breeders,email,'. $id ?? $this->id,
                 'unique:users,email,'. $id ?? $this->id,
             ],
+            'notify_breeder' => ['nullable', 'boolean'],
             'photo' => ['nullable', 'string'],
             'breeder_type' => ['required', 'string', "in:".BreederType::PRIVATE->value.",".BreederType::PUBLIC->value.","],
             'affiliation' => ['required', 'exists:institutes,id'],

@@ -5,16 +5,6 @@
     colors="true"
 >
     <testsuites>
-<!--  <testsuite name="Unit">
-            <directory>tests/Unit</directory>
-        </testsuite>
-        <testsuite name="Feature">
-            <directory>tests/Feature</directory>
-        </testsuite>
-        <testsuite name="API">
-            <directory>tests/Feature/API</directory>
-        </testsuite>
--->        
         <testsuite name="BreedersMap">
             <directory>tests/Feature/BreedersMap</directory>
         </testsuite>
@@ -23,6 +13,9 @@
         </testsuite>
         <testsuite name="TWG">
             <directory>tests/Feature/TWG</directory>
+        </testsuite>
+        <testsuite name="Repositories">
+            <directory>tests/Feature/Repositories</directory>
         </testsuite>
     </testsuites>
     <source>
@@ -38,9 +31,9 @@
         <env name="DB_CONNECTION" value="mysql"/>
         <env name="DB_HOST" value="127.0.0.1"/>
         <env name="DB_PORT" value="3306"/>
-        <env name="DB_DATABASE" value="cbc_db_test"/>
+        <env name="DB_DATABASE" value="CBC_pin_db_test"/>
         <env name="DB_USERNAME" value="root"/>
-        <env name="DB_PASSWORD" value=""/>
+        <env name="DB_PASSWORD" value="AO26@2021"/>
         <env name="MAIL_MAILER" value="array"/>
         <env name="PULSE_ENABLED" value="false"/>
         <env name="QUEUE_CONNECTION" value="sync"/>

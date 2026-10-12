@@ -51,6 +51,7 @@ class HandleInertiaRequests extends Middleware
             "accounts" => $apps,
             "accountsPending" => $accountsPending,
             "affiliated" => $request->user() ? $request->user()->affiliated : [],
+            "permissions" => $request->user() ? $request->user()->getAllPermissions()->pluck('name') : [],
         ]);
     }
 }

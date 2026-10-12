@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Role as RoleEnum;
-use App\Notifications\FocalPersonInvitationToBreederEmail;
+
 use App\Traits\OwnedByTrait;
 use DateTimeInterface;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -19,8 +19,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\PbMap\Models\Breeder;
-use Modules\TwgDb\Models\TWGExpert;
+
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -182,25 +181,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasRole(RoleEnum::ADMIN->value);
     }
 
-    public function isFocalPerson(): bool
-    {
-        return $this->hasRole(RoleEnum::FOCAL_PERSON->value);
-    }
 
-    public function isBreeder(): bool
-    {
-        return $this->hasRole(RoleEnum::BREEDER->value);
-    }
-
-    public function isResearcher(): bool
-    {
-        return $this->hasRole(RoleEnum::RESEARCHER->value);
-    }
-
-    public function isTwgManager(): bool
-    {
-        return $this->hasRole(RoleEnum::TWG_MANAGER->value);
-    }
 
     public function dataView(): HasMany
     {

@@ -14,7 +14,7 @@ class TWGProductPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isAdmin() || $user->isTwgManager();
+        return $user->isAdmin() || $user->hasRole(\App\Enums\Role::TWG_MANAGER->value);
     }
 
     /**
@@ -30,7 +30,7 @@ class TWGProductPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isAdmin() || $user->isTwgManager();
+        return $user->isAdmin() || $user->hasRole(\App\Enums\Role::TWG_MANAGER->value);
     }
 
     /**
@@ -42,7 +42,7 @@ class TWGProductPolicy
             return true;
         }
 
-        if ($user->isTwgManager()) {
+        if ($user->hasRole(\App\Enums\Role::TWG_MANAGER->value)) {
             $userAff = (int) ($user->affiliation ?? 0);
             $modelAff = (int) ($twgproduct->institution ?? 0);
             return $userAff && $modelAff && $userAff === $modelAff;

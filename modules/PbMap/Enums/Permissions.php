@@ -14,4 +14,8 @@ enum Permissions: string
     case DELETE_COMMODITY = "delete-commodity";
     case READ_COMMODITY = "read-commodity";
 
+    case CREATE_COMMODITY_REQUEST = "create-commodity-request";
+    case READ_COMMODITY_REQUEST = "read-commodity-request";
+    case UPDATE_COMMODITY_REQUEST = "update-commodity-request";
+    case DELETE_COMMODITY_REQUEST = "delete-commodity-request";
 }

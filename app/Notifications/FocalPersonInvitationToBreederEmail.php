@@ -43,7 +43,7 @@ class FocalPersonInvitationToBreederEmail extends Notification
         // Generate a signed URL with an expiration time
         $url = URL::temporarySignedRoute(
             'accept.breeder.role',
-            now()->addMinutes(60),
+            now()->addMinutes(10080),
             ['user' => $notifiable->id]
         );
 
@@ -55,11 +55,11 @@ class FocalPersonInvitationToBreederEmail extends Notification
             ->subject('Breeder Role Invitation in ' . env('APP_NAME') . ' (' . env('APP_NAME_SHORT') . ') System')
             ->greeting('Hi, ' . $this->getPersonName($notifiable) . '!')
             ->line("You have been invited to use the " . env('APP_NAME') . ' (' . env('APP_NAME_SHORT') . ') System developed by ' . env('COMPANY_NAME') . '.')
-            ->line('You were invited to be a Breeder.')
+            ->line('You were added as a Breeder.')
             ->line('Here are your credentials: (Do not share)')
             ->line('Email: ' . $notifiable->email)
             ->line('Temporary Password: ' . $temporaryPassword)
-            ->line('Please click the button below to accept the invitation. This invitation will expire in 60 minutes.')
+            ->line('Please click the button below to accept the invitation. This invitation will expire in 7 days.')
             ->action('Accept Breeder Role', $url)
             ->line('Have a nice day!');
     }
@@ -73,7 +73,7 @@ class FocalPersonInvitationToBreederEmail extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'title' => 'Breeder Role Invitation in ' . env('APP_NAME') . ' (' . env('APP_NAME_SHORT') . ')',
+            'title' => 'Invitation to Join as a Breeder in ' . env('APP_NAME_SHORT'),
         ];
     }
 
