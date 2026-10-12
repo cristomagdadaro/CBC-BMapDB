@@ -5,7 +5,6 @@ import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/index.esm.js';
-import vue3GoogleLogin from 'vue3-google-login';
 import store from './store.js';
 import router from './router.js';
 
@@ -20,11 +19,6 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(store)
             .use(router);
-
-
-        app.use(vue3GoogleLogin, {
-            clientId: import.meta.env.VITE_GOOGLE_CLIENT_ID
-        });
 
         // Set global property
         app.config.globalProperties.$appVersion = import.meta.env.VITE_APP_VERSION;

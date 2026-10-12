@@ -257,12 +257,6 @@ class LogApiRequests
 
     protected function sanitizeLoggedData(Request $request, array $data): array
     {
-        if (!$request->is('api/openai/chat')) {
-            return $data;
-        }
-
-        return [
-            'query' => '[REDACTED]',
-        ];
+        return $data;
     }
 }

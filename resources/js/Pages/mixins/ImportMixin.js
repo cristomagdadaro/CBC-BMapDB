@@ -1,5 +1,4 @@
 import Papa from "papaparse";
-import ExcelJS from "exceljs";
 import BaseCreateForm from "@/Components/Modal/BaseCreateForm.vue";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import RadioField from "@/Components/Form/RadioField.vue";
@@ -118,6 +117,7 @@ export default {
                 reader.onload = async (e) => {
                     try {
                         const buffer = e.target.result;
+                        const ExcelJS = (await import('exceljs')).default || await import('exceljs');
                         const workbook = new ExcelJS.Workbook();
                         await workbook.xlsx.load(buffer);
 
@@ -231,6 +231,7 @@ export default {
 
             const resolvedDropdowns = await resolveDropdowns(dropdowns);
 
+            const ExcelJS = (await import('exceljs')).default || await import('exceljs');
             const workbook = new ExcelJS.Workbook();
             const ws = workbook.addWorksheet('Template');
 

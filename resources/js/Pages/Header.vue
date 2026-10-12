@@ -53,7 +53,7 @@ const supportLinks = [
 
             <tab-link v-if="!$page.props.auth.user" sublinks :link="route('support.what-is-pin')" :active="route().current('support.*')" :is-scrolled="isScrolled">
                 <template #trigger>
-                    Support
+                    About Us
                 </template>
                 <template #content>
                     <Link v-for="link in supportLinks" :key="link.link" :href="route(link.link)"

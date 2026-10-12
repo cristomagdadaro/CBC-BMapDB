@@ -417,7 +417,7 @@ export default {
                             </ul>
                         </div>
                         <div>
-                            <h3 class="font-semibold text-lg mb-4">Resources</h3>
+                            <h3 class="font-semibold text-lg mb-4">Support</h3>
                             <ul class="space-y-3">
                                 <li><Link :href="route('support.terms-of-use')" class="text-gray-400 hover:text-white transition-colors">Terms of Use</Link></li>
                                 <li><Link :href="route('support.privacy-policy')" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</Link></li>
@@ -444,16 +444,7 @@ export default {
                             <a href="https://www.officialgazette.gov.ph/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Official Gazette</a>
                             <a href="https://op-proper.gov.ph/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Office of the President</a>
                             <a href="https://www.da.gov.ph/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Department of Agriculture</a>
-                            <a href="https://www.dost.gov.ph/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">DOST</a>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-white/10">
-                <div class="section-padding py-6">
-                    <div class="container-custom text-center text-sm text-gray-500">
-                        <p>&copy; {{ new Date().getFullYear() }} DA - Crop Biotechnology Center. All rights reserved.</p>
-                        <p class="mt-1">Plant Breeders and Innovators Network System</p>
                     </div>
                 </div>
             </div>
