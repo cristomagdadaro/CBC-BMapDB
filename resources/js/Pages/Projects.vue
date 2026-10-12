@@ -8,7 +8,6 @@ const HeroImageParticlesBackground = defineAsyncComponent(() => import("@/Compon
 const BmCollaborators = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmCollaborators.vue"));
 const BmPriorityCom = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmPriorityCom.vue"));
 const BmOverviewMap = defineAsyncComponent(() => import("@/Pages/Projects/BreedersMap/presentation/components/misc/BmOverviewMap.vue"));
-const ModelViewer = defineAsyncComponent(() => import("@/Components/3dViewer/3dModelViewer.vue"));
 
 export default {
     components: {
@@ -19,7 +18,6 @@ export default {
         PageLayout,
         Link,
         Head,
-        ModelViewer,
     },
     setup() {
         const page = usePage();
@@ -455,24 +453,6 @@ export default {
                     </div>
                 </div>
             </div>
-            <!--<section class="flex items-center py-10 hidden">
-                <div class="w-full flex flex-col items-center justify-center">
-                    <div class="w-full max-w-3xl mx-auto bg-white/80 rounded-xl shadow-lg p-6 flex flex-col items-center">
-                        <h2 class="text-2xl font-bold text-cbc-olive-green mb-2 text-center">Interactive 3D Crop Model</h2>
-                        <p class="text-normal text-gray-700 mb-4 text-center max-w-xl">
-                            Explore a high-fidelity 3D scan of a real Bt Corn cob. Use your mouse or touch to rotate, zoom, and interact. Lighting, background, and more can be adjusted live using the controls at the top right of the viewer.
-                        </p>
-                        <div class="w-full flex justify-center">
-                            <ModelViewer
-                                model-url="/img/3d/corn.glb"
-                                :background-color="'#e6f7ef'"
-                                style="width:100%;max-width:600px;min-height:400px;height:60vh;"
-                            />
-                        </div>
-                        <label class="text-xs text-gray-500 mt-2 text-center">We will be adding more 3D images soon. Use Polycam or any mobile 3D object scanner app. iPhones with LiDAR sensor recommended.</label>
-                    </div>
-                </div>
-            </section>-->
         </footer>
     </page-layout>
 </template>

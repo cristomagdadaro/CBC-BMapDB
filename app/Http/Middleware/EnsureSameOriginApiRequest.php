@@ -14,7 +14,7 @@ class EnsureSameOriginApiRequest
         }
 
         $allowedOrigins = array_values(array_unique(array_filter([
-            ...config('openai.allowed_origins', []),
+            rtrim((string) env('APP_URL', ''), '/'),
             rtrim($request->getSchemeAndHttpHost(), '/'),
         ])));
 

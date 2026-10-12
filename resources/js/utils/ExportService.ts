@@ -1,7 +1,3 @@
-import ExcelJS from 'exceljs';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-
 export interface ExportColumn {
     header: string;
     key: string;
@@ -33,6 +29,9 @@ export class ExportService {
         } = config;
 
         try {
+            // Dynamically import ExcelJS
+            const ExcelJS = (await import('exceljs')).default || await import('exceljs');
+
             // Create a new workbook
             const workbook = new ExcelJS.Workbook();
             workbook.creator = 'CBC BioMap Database';
@@ -159,7 +158,7 @@ export class ExportService {
      * Export data to PDF file
      * @param config Export configuration
      */
-    static exportToPDF(config: ExportConfig): void {
+    static async exportToPDF(config: ExportConfig): Promise<void> {
         const {
             filename,
             title,
@@ -169,6 +168,10 @@ export class ExportService {
         } = config;
 
         try {
+            // Dynamically import jsPDF and autoTable
+            const { default: jsPDF } = await import('jspdf');
+            const { default: autoTable } = await import('jspdf-autotable');
+
             // Create a new PDF document
             const doc = new jsPDF({
                 orientation: columns.length > 6 ? 'landscape' : 'portrait',

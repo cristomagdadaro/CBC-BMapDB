@@ -15,10 +15,8 @@
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.26",
         "laravel/tinker": "^2.11",
-        "openai-php/laravel": "^0.10.2",
         "spatie/laravel-permission": "^6.9",
-        "tightenco/ziggy": "^2.5",
-        "twbs/bootstrap-icons": "^1.11"
+        "tightenco/ziggy": "^2.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

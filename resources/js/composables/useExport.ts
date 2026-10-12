@@ -16,9 +16,9 @@ export function useExport() {
     /**
      * Export data to PDF
      */
-    const exportToPDF = (config: ExportConfig) => {
+    const exportToPDF = async (config: ExportConfig) => {
         try {
-            ExportService.exportToPDF(config);
+            await ExportService.exportToPDF(config);
         } catch (error) {
             console.error('Export to PDF failed:', error);
             throw error;
@@ -31,7 +31,7 @@ export function useExport() {
     const exportToAll = async (config: ExportConfig) => {
         try {
             await exportToExcel(config);
-            exportToPDF(config);
+            await exportToPDF(config);
         } catch (error) {
             console.error('Export failed:', error);
             throw error;
