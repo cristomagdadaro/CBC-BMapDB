@@ -6,7 +6,7 @@ import {
     ChevronDown,
     User as UserIcon,
     LogOut,
-} from "lucide-vue-next";
+} from "@lucide/vue";
 import User from "@/Modules/core/domain/auth/User";
 
 export default {

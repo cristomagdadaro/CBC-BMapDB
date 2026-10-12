@@ -45,7 +45,7 @@
         "jspdf-autotable": "^5.0.2",
         "leaflet.heat": "^0.2.0",
         "leaflet.markercluster": "^1.5.3",
-        "lucide-vue-next": "^1.0.0",
+        "@lucide/vue": "^1.55.0",
         "moment": "^2.30.1",
         "papaparse": "^5.4.1",
         "v-onboarding": "^2.8.2",

@@ -6,7 +6,7 @@ import {
     Shield as LuShield,
     Box as LuBox,
     Database as LuDatabase,
-} from "lucide-vue-next";
+} from "@lucide/vue";
 import Banner from "@/Components/Banner.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
