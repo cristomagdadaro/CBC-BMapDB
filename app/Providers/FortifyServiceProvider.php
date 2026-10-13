@@ -33,6 +33,13 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
+        Fortify::registerView(function () {
+            return \Inertia\Inertia::render('Auth/Register', [
+                'applications' => \App\Models\Application::select('id as value', 'name as label')->where('status', '=', true)->get(),
+                'roles' => \App\Models\Role::select('id as value', 'name as label')->where('name', '!=', \App\Enums\Role::ADMIN->value)->get(),
+            ]);
+        });
+
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
 

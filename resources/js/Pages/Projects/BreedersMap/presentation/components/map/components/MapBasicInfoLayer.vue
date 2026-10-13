@@ -78,7 +78,9 @@ const handleClose = () => {
     >
         <aside
             v-if="visible && item"
-            class="fixed sm:absolute bottom-0 sm:bottom-auto sm:top-4 right-0 sm:right-4 z-[1002] w-full sm:w-[380px] max-w-full sm:max-w-[420px] max-h-[85vh] sm:max-h-[calc(100vh-2rem)] flex flex-col bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-t-2xl sm:rounded-2xl shadow-2xl border border-gray-200/80 dark:border-slate-800/80 overflow-hidden text-gray-800 dark:text-gray-100"
+            @click.stop
+            @mousedown.stop
+            class="fixed sm:absolute bottom-0 sm:bottom-auto sm:top-4 right-0 sm:right-4 z-[1002] pointer-events-auto w-full sm:w-[380px] max-w-full sm:max-w-[420px] max-h-[85vh] sm:max-h-[calc(100vh-2rem)] flex flex-col bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-t-2xl sm:rounded-2xl shadow-2xl border border-gray-200/80 dark:border-slate-800/80 overflow-hidden text-gray-800 dark:text-gray-100"
         >
             <!-- Header Bar -->
             <div
@@ -257,21 +259,25 @@ const handleClose = () => {
                             </p>
                         </div>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 pt-1">
-                        <Link
-                            :href="route('login')"
-                            class="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-white bg-cbc-dark-green hover:bg-emerald-800 shadow-sm transition-colors text-center"
+                    <div class="grid grid-cols-2 gap-2 pt-1 pointer-events-auto">
+                        <a
+                            href="/login"
+                            @click.stop
+                            @mousedown.stop
+                            class="pointer-events-auto cursor-pointer inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-white bg-cbc-dark-green hover:bg-emerald-800 shadow-sm transition-colors text-center"
                         >
                             <LogIn class="w-3.5 h-3.5" />
                             Log In
-                        </Link>
-                        <Link
-                            :href="route('register')"
-                            class="inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-emerald-800 dark:text-emerald-300 bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-slate-700 transition-colors text-center"
+                        </a>
+                        <a
+                            href="/register"
+                            @click.stop
+                            @mousedown.stop
+                            class="pointer-events-auto cursor-pointer inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold text-emerald-800 dark:text-emerald-300 bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-slate-700 transition-colors text-center"
                         >
                             <UserPlus class="w-3.5 h-3.5" />
                             Register
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </div>

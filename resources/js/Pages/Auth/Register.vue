@@ -13,17 +13,76 @@ import NewAccountProgressView from "@/Pages/Auth/NewAccountProgressView.vue";
 import SelectSearchField from "@/Components/Form/SelectSearchField.vue";
 import HeroImageParticlesBackground from "@/Components/HeroImageParticlesBackground.vue";
 import PublicPageSection from "@/Layouts/components/PublicPageSection.vue";
+import axios from "axios";
 
 export default {
     name: 'Register',
-    components: {ParticlesBackground, AuthenticationCard, Head, Link, Checkbox, InputError, InputLabel, PrimaryButton, PageLayout, TextField, SelectField, ApiService, NewAccountProgressView, SelectSearchField, PublicPageSection, HeroImageParticlesBackground },
+    components: {
+        AuthenticationCard,
+        Head,
+        Link,
+        Checkbox,
+        InputError,
+        InputLabel,
+        PrimaryButton,
+        PageLayout,
+        TextField,
+        SelectField,
+        ApiService,
+        NewAccountProgressView,
+        SelectSearchField,
+        PublicPageSection,
+        HeroImageParticlesBackground,
+    },
+    props: {
+        applications: {
+            type: Array,
+            default: () => [],
+        },
+        roles: {
+            type: Array,
+            default: () => [],
+        },
+    },
+    data() {
+        return {
+            selectedApplication: 2, // Default to Plant Breeders Map (id: 2)
+            filteredRoles: [],
+            appOptions: [],
+            roleOptions: [],
+            applicationRolesMap: {
+                "1": ['TWG Manager', 'Researcher'],
+                "2": ['Focal Person', 'Researcher', 'Breeder'],
+            },
+        };
+    },
+    computed: {
+        effectiveApplications() {
+            if (this.applications && this.applications.length > 0) {
+                return this.applications;
+            }
+            return this.appOptions;
+        },
+        effectiveRoles() {
+            if (this.roles && this.roles.length > 0) {
+                return this.roles;
+            }
+            return this.roleOptions;
+        },
+    },
+    async mounted() {
+        await this.ensureOptionsLoaded();
+        this.selectedApplication = 2;
+        this.form.account_for = 2;
+        this.filterRolesByApplication();
+    },
     beforeMount() {
         this.form = useForm({
             fname: '',
             mname: '',
             lname: '',
             suffix: '',
-            account_for: '',
+            account_for: 2,
             role: '',
             email: '',
             affiliation: '',
@@ -34,22 +93,61 @@ export default {
         });
     },
     methods: {
+        async ensureOptionsLoaded() {
+            if (!this.applications || this.applications.length === 0) {
+                try {
+                    const res = await axios.get('/api/applications/options');
+                    this.appOptions = res.data?.data || res.data || [];
+                } catch (e) {
+                    this.appOptions = [
+                        { value: 1, label: 'Biotech TWG Database' },
+                        { value: 2, label: 'Plant Breeders Map' },
+                    ];
+                }
+            }
+            if (!this.roles || this.roles.length === 0) {
+                try {
+                    const res = await axios.get('/api/roles/options');
+                    this.roleOptions = res.data?.data || res.data || [];
+                } catch (e) {}
+            }
+        },
+        filterRolesByApplication() {
+            const allowedRoles = this.applicationRolesMap[String(this.selectedApplication)] || ['Researcher'];
+            const allRoles = this.effectiveRoles;
+            this.filteredRoles = allRoles.filter(role =>
+                allowedRoles.includes(role.label)
+            );
+
+            // Default to Researcher role if available
+            const researcher = this.filteredRoles.find(r => r.label === 'Researcher');
+            if (researcher) {
+                this.form.role = researcher.value;
+            } else if (this.filteredRoles.length > 0) {
+                this.form.role = this.filteredRoles[0].value;
+            }
+        },
         submit() {
             this.form.post(route('register'), {
-                onFinish: (response) => function (){
+                onFinish: () => {
                     this.form?.reset('password', 'password_confirmation');
                 },
             });
-        }
+        },
     },
     watch: {
-        // Watch for changes in the selected application to update the filtered roles
         selectedApplication(newVal) {
             this.form.account_for = newVal;
             this.filterRolesByApplication();
-        }
+        },
+        effectiveRoles: {
+            immediate: true,
+            handler() {
+                this.filterRolesByApplication();
+            },
+        },
     },
-}
+};
 </script>
 
 <template>
@@ -66,8 +164,8 @@ export default {
                 </div>
                 <form @submit.prevent="submit" class="flex flex-col gap-2 bg-pin-gray rounded-xl border border-gray-200 p-4 sm:p-5">
                     <div class="grid sm:grid-cols-2 grid-cols-1 gap-2">
-                        <SelectField v-if="applications" id="account_for" label="Account For" v-model="selectedApplication" type="text" required autofocus autocomplete="name" :error="form?.errors.account_for" :options="applications" />
-                        <SelectField v-if="roles" id="role" label="Access Level" :disabled="!selectedApplication" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form?.errors.role" :options="filteredRoles" />
+                        <SelectField v-if="effectiveApplications && effectiveApplications.length" id="account_for" label="Account For" v-model="selectedApplication" type="text" required autofocus autocomplete="name" :error="form?.errors.account_for" :options="effectiveApplications" />
+                        <SelectField v-if="filteredRoles && filteredRoles.length" id="role" label="Access Level" :disabled="!selectedApplication" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form?.errors.role" :options="filteredRoles" />
                     </div>
                     <div class="grid sm:grid-cols-4 grid-cols-1 gap-2">
                         <TextField id="fname" label="First Name" v-model="form.fname" type="text" required autofocus autocomplete="name" :error="form?.errors.fname" />

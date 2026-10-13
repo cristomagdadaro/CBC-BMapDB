@@ -21,7 +21,7 @@ class AdminApprovedUser
      */
     public function handle(Request $request, Closure $next): \Inertia\Response | Response
     {
-        if ($request->user() && $request->user()->isAdmin()) {
+        if ($request->user() && ($request->user()->isAdmin() || $request->user()->hasRole(Role::RESEARCHER->value))) {
             return $next($request);
         }
 
