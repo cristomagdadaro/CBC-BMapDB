@@ -328,7 +328,7 @@ defineExpose({
         </div>
 
         <!-- Select Trigger -->
-        <div class="relative" ref="dropdownRef">
+        <div class="relative" ref="dropdownRef" :class="{ 'z-40': showDropdown }">
             <button
                 type="button"
                 :class="triggerClasses"
@@ -371,7 +371,7 @@ defineExpose({
             <TransitionContainer>
                 <div
                     v-show="showDropdown"
-                    :class="['absolute z-50 w-full rounded-md bg-white shadow-lg border border-gray-200 focus:outline-none', dropdownPositionClass]"
+                    :class="['absolute z-50 w-full rounded-md bg-white shadow-xl border border-gray-200 focus:outline-none', dropdownPositionClass]"
                     role="listbox"
                     :aria-labelledby="id"
                 >
@@ -400,7 +400,7 @@ defineExpose({
                     <!-- Options List -->
                     <div
                         v-if="hasOptions"
-                        class="overflow-auto max-h-48"
+                        class="overflow-auto overscroll-contain max-h-48"
                         :style="{ maxHeight: maxHeight }"
                     >
                         <div

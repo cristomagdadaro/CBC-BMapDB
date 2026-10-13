@@ -3,6 +3,7 @@ import { ref, computed, watch, onMounted } from "vue";
 import SelectField from "@/Components/Form/SelectField.vue";
 import TextField from "@/Components/Form/TextField.vue";
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
+import CloseIcon from "@/Components/Icons/CloseIcon.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService.ts";
 import BaseResponse from "@/Modules/core/domain/base/BaseResponse";
 
@@ -17,7 +18,7 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(["dataUpdated", "filtersChanged"]);
+const emit = defineEmits(["dataUpdated", "filtersChanged", "close"]);
 
 // API Services
 const mapDataApi = ref(null);
@@ -300,22 +301,34 @@ defineExpose({
 </script>
 
 <template>
-    <div class="map-data-filter-panel bg-white rounded-lg shadow-lg p-6">
+    <div class="map-data-filter-panel p-4 sm:p-5 overflow-visible relative text-gray-800 dark:text-gray-100">
         <!-- Header -->
-        <div class="flex items-center justify-between mb-6">
-            <h3 class="text-lg font-semibold text-gray-900">Data Filters</h3>
+        <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-100 dark:border-slate-800">
             <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <h3 class="text-sm sm:text-base font-semibold text-gray-900 dark:text-gray-100">Data Filters</h3>
+            </div>
+            <div class="flex items-center gap-1.5">
                 <button
                     @click="clearFilters"
-                    class="text-sm text-gray-600 hover:text-gray-800 px-3 py-1 rounded border border-gray-300 hover:border-gray-400 transition-colors"
+                    class="text-xs text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-2 py-1 rounded border border-gray-200 dark:border-slate-700 hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+                    title="Clear current filters"
                 >
-                    Clear Filters
+                    Clear
                 </button>
                 <button
                     @click="resetToDefaults"
-                    class="text-sm text-indigo-600 hover:text-indigo-800 px-3 py-1 rounded border border-indigo-300 hover:border-indigo-400 transition-colors"
+                    class="text-xs text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 px-2 py-1 rounded border border-indigo-200 dark:border-indigo-900/60 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 transition-colors"
+                    title="Reset to default view"
                 >
                     Reset
+                </button>
+                <button
+                    @click="emit('close')"
+                    class="lg:hidden text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 p-1 rounded-md"
+                    title="Close filters"
+                >
+                    <CloseIcon class="w-4 h-4" />
                 </button>
             </div>
         </div>
@@ -323,10 +336,10 @@ defineExpose({
         <!-- Loading Overlay -->
         <div
             v-if="loading"
-            class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center rounded-lg"
+            class="absolute inset-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xs flex items-center justify-center rounded-xl z-20"
         >
-            <div class="flex items-center gap-2 text-gray-600">
-                <LoaderIcon class="w-5 h-5 animate-spin" />
+            <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                <LoaderIcon class="w-5 h-5 animate-spin text-emerald-600" />
                 <span>Loading...</span>
             </div>
         </div>
@@ -334,17 +347,17 @@ defineExpose({
         <!-- Error Message -->
         <div
             v-if="error"
-            class="mb-4 p-4 bg-red-50 border border-red-200 rounded-md"
+            class="mb-4 p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900/60 rounded-lg"
         >
             <div class="flex">
-                <div class="text-sm text-red-700">
+                <div class="text-xs text-red-700 dark:text-red-300">
                     {{ error }}
                 </div>
             </div>
         </div>
 
         <!-- Filter Controls -->
-        <div class="space-y-4">
+        <div class="space-y-3.5 overflow-visible">
             <!-- Data Type Selection -->
             <SelectField
                 label="Data List"
@@ -402,19 +415,21 @@ defineExpose({
         <!-- Summary Statistics -->
         <div
             v-if="Object.keys(summaryData).length > 0"
-            class="mt-6 pt-6 border-t border-gray-200"
+            class="mt-4 pt-3.5 border-t border-gray-100 dark:border-slate-800"
         >
-            <h4 class="text-sm font-medium text-gray-900 mb-3">Summary</h4>
-            <div class="grid grid-cols-2 gap-3">
+            <h4 class="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-2.5">
+                Summary
+            </h4>
+            <div class="grid grid-cols-2 gap-2">
                 <div
                     v-for="(value, key) in summaryData"
                     :key="key"
-                    class="text-center p-3 bg-gray-50 rounded-lg"
+                    class="text-center p-2.5 bg-gray-50/80 dark:bg-slate-800/60 border border-gray-100 dark:border-slate-700/50 rounded-lg"
                 >
-                    <div class="text-lg font-semibold text-gray-900">
+                    <div class="text-base sm:text-lg font-bold text-gray-900 dark:text-gray-100">
                         {{ value }}
                     </div>
-                    <div class="text-xs text-gray-600 capitalize">
+                    <div class="text-[0.65rem] sm:text-xs text-gray-500 dark:text-gray-400 capitalize">
                         {{ key.replace(/total_|_/g, " ").trim() }}
                     </div>
                 </div>
@@ -426,6 +441,5 @@ defineExpose({
 <style scoped>
 .map-data-filter-panel {
     position: relative;
-    min-height: 400px;
 }
 </style>

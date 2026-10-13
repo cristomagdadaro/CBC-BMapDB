@@ -177,8 +177,9 @@ export default {
         <div
             v-if="!offline && !customPoint"
             :class="[
-                'absolute top-24 left-4 z-[1000] w-80 overflow-y-auto',
-                'bg-white/95 backdrop-blur-sm rounded-xl shadow-2xl border border-gray-200',
+                'absolute top-20 sm:top-24 left-3 sm:left-4 z-[1000] w-[calc(100vw-1.5rem)] sm:w-80',
+                'bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200/80 dark:border-slate-800/80',
+                'overflow-visible transition-all duration-200',
                 showFilters ? 'block' : 'hidden lg:block',
             ]"
         >
@@ -187,6 +188,7 @@ export default {
                 :initial-filters="initialFilters"
                 @data-updated="handleDataUpdated"
                 @filters-changed="handleFiltersChanged"
+                @close="showFilters = false"
             />
         </div>
 
