@@ -29,4 +29,5 @@ Route::prefix('map-data')->group(function () {
     Route::get('/summary', [App\Http\Controllers\API\MapDataController::class, 'getSummary'])->name('api.map-data.summary');
     Route::get('/geographic-distribution', [App\Http\Controllers\API\MapDataController::class, 'getGeographicDistribution']);
     Route::get('/orbit-items', [App\Http\Controllers\API\MapDataController::class, 'getOrbitItems'])->name('api.map-data.orbit-items');
+    Route::get('/basic-info/{type}/{id}', [App\Http\Controllers\API\MapDataController::class, 'getBasicInfo'])->name('api.map-data.basic-info');
 });

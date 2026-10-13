@@ -404,4 +404,33 @@ class MapDataFiltersTest extends TestCase
             'approved_at' => now(),
         ]);
     }
+
+    /** @test */
+    public function basic_info_endpoint_returns_data_for_breeder_and_commodity(): void
+    {
+        $breeder = Breeder::first();
+        $commodity = Commodity::first();
+
+        $breederResponse = $this->getJson("/api/map-data/basic-info/breeders/{$breeder->id}");
+        $breederResponse->assertOk();
+        $breederResponse->assertJsonStructure([
+            'success',
+            'data' => [
+                'id', 'name', 'label', 'affiliation', 'expertise', 'research_interest', 'location', 'image', 'data_type'
+            ],
+            'is_authenticated'
+        ]);
+        $this->assertStringContainsString('logo_cbc.webp', $breederResponse->json('data.image'));
+
+        $commodityResponse = $this->getJson("/api/map-data/basic-info/commodities/{$commodity->id}");
+        $commodityResponse->assertOk();
+        $commodityResponse->assertJsonStructure([
+            'success',
+            'data' => [
+                'id', 'name', 'label', 'scientific_name', 'breeder', 'variety', 'accession', 'yield', 'location', 'unique_traits', 'image', 'data_type'
+            ],
+            'is_authenticated'
+        ]);
+        $this->assertStringContainsString('logo_cbc.webp', $commodityResponse->json('data.image'));
+    }
 }

@@ -171,8 +171,8 @@ export default {
             }
 
             navServices.push({
-                label: "Gene Bank",
-                href: "/",
+                label: "Gene Bank (Soon)",
+                href: "/dashboard",
                 icon: markRaw(LuDatabase),
             });
 

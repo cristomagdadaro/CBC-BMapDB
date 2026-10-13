@@ -26,6 +26,7 @@ import "leaflet.markercluster";
 import "leaflet.heat";
 import axios from "axios";
 import OrbitOverlay from "@/Components/Map/OrbitOverlay.vue";
+import MapBasicInfoLayer from "@/Pages/Projects/BreedersMap/presentation/components/map/components/MapBasicInfoLayer.vue";
 
 const props = defineProps({
     mapData: {
@@ -62,13 +63,27 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(["markerClick", "mapReady"]);
+const emit = defineEmits(["markerClick", "mapReady", "itemSelect"]);
 
 // Map instance and state
 const map = shallowRef(null);
 const mapReady = ref(false);
 const currentCenter = ref(props.center);
 const currentZoom = ref(props.zoom);
+
+// Basic Info Map Layer state
+const activeBasicInfoItem = ref(null);
+const showBasicInfoLayer = ref(false);
+
+const handleSelectOrbitItem = (item) => {
+    activeBasicInfoItem.value = item;
+    showBasicInfoLayer.value = true;
+    emit("itemSelect", item);
+};
+
+const closeBasicInfoLayer = () => {
+    showBasicInfoLayer.value = false;
+};
 
 // Clustering and heatmap layers
 const markerClusterGroup = shallowRef(null);
@@ -602,6 +617,7 @@ const processMapData = () => {
 const onMarkerClick = (marker) => {
     selectedMarker.value = marker;
     emit("markerClick", marker);
+    showOrbitForMarker(marker);
 };
 
 // Fit map to show all markers
@@ -847,6 +863,14 @@ onMounted(() => {
             :data-type="dataType"
             @close="hideOrbit()"
             @enter="cancelHide()"
+            @select="handleSelectOrbitItem"
+        />
+
+        <!-- Basic Info Map Layer -->
+        <MapBasicInfoLayer
+            :visible="showBasicInfoLayer"
+            :item="activeBasicInfoItem"
+            @close="closeBasicInfoLayer"
         />
 
         <!-- Top Right Controls (Tile Provider, Map Controls, Legend) -->

@@ -12,7 +12,7 @@ const props = defineProps({
     visible: {type: Boolean, default: true},
 })
 
-const emit = defineEmits(['close', 'iconClick', 'enter'])
+const emit = defineEmits(['close', 'iconClick', 'enter', 'select'])
 
 const positions = computed(() => {
     const n = props.items.length || 1
@@ -27,23 +27,29 @@ const positions = computed(() => {
     })
 })
 
-const toHref = (item) => {
-    if (props.dataType === 'breeders') return `/projects/breedersmap/breeder/${item.id}`
-    return `/projects/breedersmap/commodity/${item.id}`
-}
+const DEFAULT_FALLBACK_IMAGE = '/img/logo_cbc.webp'
 
 const getImageSrc = (image) => {
-    if (typeof image !== 'string') {
-        // Return a placeholder for invalid image data
-        return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // 1x1 transparent pixel
+    if (!image || typeof image !== 'string') {
+        return DEFAULT_FALLBACK_IMAGE
     }
 
-    // If it's a data URI or a full URL, use it as is.
     if (image.startsWith('data:image') || image.startsWith('http')) {
-        return image;
+        return image
     }
 
-    // If it's a relative path, prepend the base URL.
+    return image.startsWith('/') ? image : `/${image}`
+}
+
+const onImageError = (e) => {
+    if (e?.target && e.target.src !== DEFAULT_FALLBACK_IMAGE) {
+        e.target.src = DEFAULT_FALLBACK_IMAGE
+    }
+}
+
+const handleItemClick = (e, item) => {
+    e.preventDefault()
+    emit('select', { ...item, data_type: props.dataType })
 }
 </script>
 
@@ -75,15 +81,17 @@ const getImageSrc = (image) => {
                     class="absolute inset-0"
                     style="pointer-events: none;"
                 >
-                    <a
+                    <button
                         v-for="(item, i) in items"
                         :key="item.id"
-                        class="orbit-item absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 block w-10 h-10 rounded-full ring-2 ring-white shadow pointer-events-auto bg-white overflow-hidden hover:ring-blue-400"
+                        type="button"
+                        class="orbit-item absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 block w-10 h-10 rounded-full ring-2 ring-white shadow pointer-events-auto bg-white overflow-hidden hover:ring-emerald-400 hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         :style="[positions[i], { transitionDelay: `${i * 50}ms` }]"
-                        :href="toHref(item)"
+                        :title="item.label || item.name || 'View basic info'"
+                        @click="handleItemClick($event, item)"
                     >
-                        <img :src="getImageSrc(item.image)" :alt="item.label || 'icon'" class="w-full h-full object-cover"/>
-                    </a>
+                        <img :src="getImageSrc(item.image)" :alt="item.label || 'icon'" @error="onImageError" class="w-full h-full object-cover"/>
+                    </button>
                 </transition-group>
             </div>
         </div>

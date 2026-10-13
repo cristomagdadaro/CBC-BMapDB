@@ -208,4 +208,32 @@ class MapDataController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Get basic information for a specific breeder or commodity on the map.
+     */
+    public function getBasicInfo(string $type, int $id): JsonResponse
+    {
+        try {
+            $data = $this->mapDataRepo->getBasicInfo($type, $id);
+            if (!$data) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Item not found',
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+                'is_authenticated' => \Illuminate\Support\Facades\Auth::check(),
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to load basic info',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }
