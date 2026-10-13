@@ -46,6 +46,20 @@ export default {
     },
     data() {
         return {
+            form: useForm({
+                fname: '',
+                mname: '',
+                lname: '',
+                suffix: '',
+                account_for: 2,
+                role: '',
+                email: '',
+                affiliation: '',
+                mobile_no: '',
+                password: '',
+                password_confirmation: '',
+                terms: false,
+            }),
             selectedApplication: 2, // Default to Plant Breeders Map (id: 2)
             filteredRoles: [],
             appOptions: [],
@@ -73,24 +87,10 @@ export default {
     async mounted() {
         await this.ensureOptionsLoaded();
         this.selectedApplication = 2;
-        this.form.account_for = 2;
+        if (this.form) {
+            this.form.account_for = 2;
+        }
         this.filterRolesByApplication();
-    },
-    beforeMount() {
-        this.form = useForm({
-            fname: '',
-            mname: '',
-            lname: '',
-            suffix: '',
-            account_for: 2,
-            role: '',
-            email: '',
-            affiliation: '',
-            mobile_no: '',
-            password: '',
-            password_confirmation: '',
-            terms: false,
-        });
     },
     methods: {
         async ensureOptionsLoaded() {
@@ -113,6 +113,9 @@ export default {
             }
         },
         filterRolesByApplication() {
+            if (!this.form) {
+                return;
+            }
             const allowedRoles = this.applicationRolesMap[String(this.selectedApplication)] || ['Researcher'];
             const allRoles = this.effectiveRoles;
             this.filteredRoles = allRoles.filter(role =>
@@ -137,7 +140,9 @@ export default {
     },
     watch: {
         selectedApplication(newVal) {
-            this.form.account_for = newVal;
+            if (this.form) {
+                this.form.account_for = newVal;
+            }
             this.filterRolesByApplication();
         },
         effectiveRoles: {
