@@ -9,20 +9,56 @@ const approval = route().current('dashboard');
 </script>
 
 <template>
-    <div class="mb-5 text-sm items-center flex gap-2 justify-between overflow-x-auto">
-        <div :class="{'animate-pulse': register }"
-             class="items-center whitespace-nowrap flex gap-1.5 rounded-full bg-pin-green text-white sm:px-4 sm:py-2.5 px-3 py-1.5 shadow-sm">
-            <span class="flex">Step 1: <span class="hidden md:block">Registration</span></span>
-            <checkall-icon v-if="verify || approval" class="w-5 h-5" />
+    <div class="mb-6 text-xs sm:text-sm items-center flex gap-2 justify-between overflow-x-auto pb-1">
+        <!-- Step 1: Registration -->
+        <div
+            :class="[
+                verify || approval
+                    ? 'bg-emerald-700 text-white shadow-sm'
+                    : register
+                        ? 'bg-pin-green text-white font-semibold shadow-sm ring-2 ring-pin-green/30'
+                        : 'bg-gray-100 text-gray-700 border border-gray-200'
+            ]"
+            class="items-center whitespace-nowrap flex gap-1.5 rounded-full sm:px-4 sm:py-2 px-3 py-1.5 transition-colors"
+        >
+            <span class="flex items-center gap-1">
+                <span class="font-semibold">Step 1:</span>
+                <span class="hidden sm:inline">Registration</span>
+            </span>
+            <checkall-icon v-if="verify || approval" class="w-4 h-4 text-emerald-100" />
         </div>
-        <div :class="{'animate-pulse': verify, 'opacity-25': register}"
-             class="items-center whitespace-nowrap flex gap-1.5 rounded-full bg-pin-green text-white sm:px-4 sm:py-2.5 px-3 py-1.5 shadow-sm">
-            <span class="flex">Step 2: <span class="hidden md:block">Email Verification</span></span>
-            <checkall-icon v-if="approval" class="w-5 h-5" />
+
+        <!-- Step 2: Email Verification -->
+        <div
+            :class="[
+                approval
+                    ? 'bg-emerald-700 text-white shadow-sm'
+                    : verify
+                        ? 'bg-pin-green text-white font-semibold shadow-sm ring-2 ring-pin-green/30 animate-pulse'
+                        : 'bg-gray-100 text-gray-700 border border-gray-200'
+            ]"
+            class="items-center whitespace-nowrap flex gap-1.5 rounded-full sm:px-4 sm:py-2 px-3 py-1.5 transition-colors"
+        >
+            <span class="flex items-center gap-1">
+                <span class="font-semibold">Step 2:</span>
+                <span class="hidden sm:inline">Email Verification</span>
+            </span>
+            <checkall-icon v-if="approval" class="w-4 h-4 text-emerald-100" />
         </div>
-        <div :class="{'animate-pulse': approval, 'opacity-25': verify || register}"
-             class="items-center whitespace-nowrap flex gap-1.5 rounded-full bg-pin-green text-white sm:px-4 sm:py-2.5 px-3 py-1.5 shadow-sm">
-            <span class="flex">Step 3: <span class="hidden md:block">Admin Approval</span></span>
+
+        <!-- Step 3: Admin Approval -->
+        <div
+            :class="[
+                approval
+                    ? 'bg-pin-green text-white font-semibold shadow-sm ring-2 ring-pin-green/30 animate-pulse'
+                    : 'bg-gray-100 text-gray-700 border border-gray-200'
+            ]"
+            class="items-center whitespace-nowrap flex gap-1.5 rounded-full sm:px-4 sm:py-2 px-3 py-1.5 transition-colors"
+        >
+            <span class="flex items-center gap-1">
+                <span class="font-semibold">Step 3:</span>
+                <span class="hidden sm:inline">Admin Approval</span>
+            </span>
         </div>
     </div>
 </template>
