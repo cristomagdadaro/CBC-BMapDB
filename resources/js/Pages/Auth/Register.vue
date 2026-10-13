@@ -65,8 +65,8 @@ export default {
             appOptions: [],
             roleOptions: [],
             applicationRolesMap: {
-                "1": ['TWG Manager', 'Researcher'],
-                "2": ['Focal Person', 'Researcher', 'Breeder'],
+                "1": ['TWG Manager', 'Researcher (Student, Advocate, Enthusiast)', 'Researcher'],
+                "2": ['Focal Person', 'Researcher (Student, Advocate, Enthusiast)', 'Breeder', 'Researcher'],
             },
         };
     },
@@ -123,7 +123,9 @@ export default {
             );
 
             // Default to Researcher role if available
-            const researcher = this.filteredRoles.find(r => r.label === 'Researcher');
+            const researcher = this.filteredRoles.find(r =>
+                r.label === 'Researcher (Student, Advocate, Enthusiast)' || r.label?.startsWith('Researcher')
+            );
             if (researcher) {
                 this.form.role = researcher.value;
             } else if (this.filteredRoles.length > 0) {

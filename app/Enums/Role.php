@@ -10,7 +10,7 @@ enum Role: string
 
     case BREEDER = 'Breeder';
 
-    case RESEARCHER = 'Researcher';
+    case RESEARCHER = 'Researcher (Student, Advocate, Enthusiast)';
 
     case PUBLIC = 'Public';
 
