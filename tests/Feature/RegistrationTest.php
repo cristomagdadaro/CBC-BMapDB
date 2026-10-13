@@ -86,10 +86,45 @@ class RegistrationTest extends TestCase
         $this->assertNotNull($account);
         $this->assertNotNull($account->approved_at);
 
-        // Mark email verified so 'verified' middleware passes, then verify researcher can access dashboard
+        // Mark email verified so 'verified' middleware passes, then verify researcher is redirected to Plant Breeders Map
         $user->markEmailAsVerified();
         $dashboardResponse = $this->actingAs($user)->get('/dashboard');
-        $dashboardResponse->assertOk();
+        $dashboardResponse->assertRedirect(route('projects.breedersmap.index'));
+
+        $projectResponse = $this->actingAs($user)->get(route('projects.breedersmap.index'));
+        $projectResponse->assertOk();
+    }
+
+    public function test_researcher_with_twg_account_is_redirected_to_twg_database(): void
+    {
+        $institute = \App\Models\Institute::firstOrCreate(['name' => 'Test Institute']);
+        $app = \App\Models\Application::firstOrCreate(
+            ['name' => 'Biotech TWG Database'],
+            ['status' => 'true', 'url' => 'projects.twg.index']
+        );
+        $role = \App\Models\Role::firstOrCreate(
+            ['name' => \App\Enums\Role::RESEARCHER->value],
+            ['guard_name' => 'web']
+        );
+
+        $response = $this->post('/register', [
+            'fname' => 'TWG',
+            'lname' => 'Researcher',
+            'email' => 'twg_researcher@example.com',
+            'affiliation' => $institute->id,
+            'role' => $role->id,
+            'account_for' => $app->id,
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
+            'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature(),
+        ]);
+
+        $user = \App\Models\User::where('email', 'twg_researcher@example.com')->first();
+        $this->assertNotNull($user);
+        $user->markEmailAsVerified();
+
+        $dashboardResponse = $this->actingAs($user)->get('/dashboard');
+        $dashboardResponse->assertRedirect(route('projects.twg.index'));
     }
 
     public function test_focal_person_requires_admin_approval(): void

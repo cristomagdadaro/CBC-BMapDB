@@ -115,16 +115,27 @@ export default {
         User() {
             return User;
         },
+        canViewDashboard() {
+            if (!this.user) return false;
+            if (this.user.isAdmin) return true;
+            if (this.$page?.props?.canViewDashboard !== undefined) {
+                return Boolean(this.$page.props.canViewDashboard);
+            }
+            const permissions = this.$page?.props?.permissions || [];
+            return permissions.includes('read-dashboard');
+        },
         services() {
             if (!this.user) return [];
 
-            const navServices = [
-                {
+            const navServices = [];
+
+            if (this.canViewDashboard) {
+                navServices.push({
                     label: "Dashboard",
                     href: "dashboard",
                     icon: markRaw(LuLayoutDashboard),
-                },
-            ];
+                });
+            }
 
             if (this.user.isAdmin) {
                 navServices.push({
@@ -713,6 +724,7 @@ export default {
                         class="sm:hidden bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700"
                     >
                         <ResponsiveNavLink
+                            v-if="canViewDashboard"
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >

@@ -42,6 +42,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
+    AdminApprovedUser::class,
 ])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('/dashboard/activity', [DashboardController::class, 'updateActivity'])->name('dashboard.activity');
@@ -123,10 +124,6 @@ Route::middleware([
             ]);
         })->name('administrator.user.view');
     });
-
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
 
     Route::prefix('/projects')->group(function () {
         Route::middleware(['check.status.twg'])->prefix('/twgdb')->group(function () {

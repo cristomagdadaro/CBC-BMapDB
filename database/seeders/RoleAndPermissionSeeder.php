@@ -31,6 +31,7 @@ class RoleAndPermissionSeeder extends Seeder
         Permission::firstOrCreate(['name' => PermissionEnum::UPDATE_APP->value]);
         Permission::firstOrCreate(['name' => PermissionEnum::DELETE_APP->value]);
         Permission::firstOrCreate(['name' => PermissionEnum::READ_APP->value]);
+        Permission::firstOrCreate(['name' => PermissionEnum::READ_DASHBOARD->value]);
 
         Permission::firstOrCreate(['name' => PbMapPermissions::CREATE_BREEDER->value]);
         Permission::firstOrCreate(['name' => PbMapPermissions::UPDATE_BREEDER->value]);
@@ -96,7 +97,8 @@ class RoleAndPermissionSeeder extends Seeder
             TwgDbPermissions::READ_TWG_PROJECT->value,
             TwgDbPermissions::DELETE_TWG_PROJECT->value,
 
-            PermissionEnum::CREATE_APP_ACCOUNT->value
+            PermissionEnum::CREATE_APP_ACCOUNT->value,
+            PermissionEnum::READ_DASHBOARD->value,
         ]);
 
         $breederAdmin->givePermissionTo([
@@ -115,7 +117,8 @@ class RoleAndPermissionSeeder extends Seeder
             PbMapPermissions::READ_COMMODITY_REQUEST->value,
             PbMapPermissions::DELETE_COMMODITY_REQUEST->value,
 
-            PermissionEnum::CREATE_APP_ACCOUNT->value
+            PermissionEnum::CREATE_APP_ACCOUNT->value,
+            PermissionEnum::READ_DASHBOARD->value,
         ]);
 
         $breeder->givePermissionTo([
@@ -129,12 +132,20 @@ class RoleAndPermissionSeeder extends Seeder
 
             PbMapPermissions::READ_BREEDER->value,
 
-            PermissionEnum::CREATE_APP_ACCOUNT->value
+            PermissionEnum::CREATE_APP_ACCOUNT->value,
+            PermissionEnum::READ_DASHBOARD->value,
         ]);
 
-        // permissions for researchers will be given by the administrator upon request
+        // Researchers get read permissions for approved data
         $researcherRole->givePermissionTo([
-            PermissionEnum::CREATE_APP_ACCOUNT->value
+            PermissionEnum::CREATE_APP_ACCOUNT->value,
+            PbMapPermissions::READ_BREEDER->value,
+            PbMapPermissions::READ_COMMODITY->value,
+            PbMapPermissions::READ_COMMODITY_REQUEST->value,
+            TwgDbPermissions::READ_TWG_EXPERT->value,
+            TwgDbPermissions::READ_TWG_SERVICE->value,
+            TwgDbPermissions::READ_TWG_PRODUCT->value,
+            TwgDbPermissions::READ_TWG_PROJECT->value,
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Repository\API;
 
 use App\Models\Accounts;
+use App\Models\User;
 use App\Repository\AbstractRepoService;
 
 class AccountsRepo extends AbstractRepoService
@@ -89,5 +90,30 @@ class AccountsRepo extends AbstractRepoService
                 $user->assignRole($roleId);
             }
         }
+    }
+
+    /**
+     * Resolve the landing route name for a user based on their approved applications.
+     */
+    public function getUserLandingRoute(User $user): string
+    {
+        $approvedAccounts = $this->model->newQuery()
+            ->where('user_id', $user->id)
+            ->whereNotNull('approved_at')
+            ->with('application')
+            ->get();
+
+        foreach ($approvedAccounts as $account) {
+            $app = $account->application;
+            if ($app && !empty($app->url) && \Illuminate\Support\Facades\Route::has($app->url)) {
+                return $app->url;
+            }
+        }
+
+        if (\Illuminate\Support\Facades\Route::has('projects')) {
+            return 'projects';
+        }
+
+        return 'projects.breedersmap.public';
     }
 }

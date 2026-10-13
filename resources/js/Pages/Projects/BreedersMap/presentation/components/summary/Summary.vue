@@ -190,7 +190,7 @@ const roleNames = (page.props?.auth?.user?.roles || []).map(role => role?.name ?
 const isAdmin = roleNames.includes('Administrator');
 const isFocal = roleNames.includes('Focal Person');
 const isBreeder = roleNames.includes('Breeder');
-const isResearcher = roleNames.includes('Researcher');
+const isResearcher = roleNames.some(r => r.includes('Researcher'));
 
 const scopeOptions = computed(() => {
     const options = [

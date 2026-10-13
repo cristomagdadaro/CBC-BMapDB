@@ -46,12 +46,18 @@ class HandleInertiaRequests extends Middleware
             $accountsPending = $request->user()->accountsPending;
         }
 
+        $canViewDashboard = false;
+        if ($request->user()) {
+            $canViewDashboard = app(\App\Repository\API\DashboardRepo::class)->canAccessSystemDashboard($request->user());
+        }
+
         return array_merge(
             parent::share($request), [
             "accounts" => $apps,
             "accountsPending" => $accountsPending,
             "affiliated" => $request->user() ? $request->user()->affiliated : [],
             "permissions" => $request->user() ? $request->user()->getAllPermissions()->pluck('name') : [],
+            "canViewDashboard" => $canViewDashboard,
         ]);
     }
 }

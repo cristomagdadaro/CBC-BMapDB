@@ -7,9 +7,11 @@ import { TopActionBtn } from "@/Components/CRCMDatatable/Components";
 import CheckallIcon from "@/Components/Icons/CheckallIcon.vue";
 import LikeIcon from "@/Components/Icons/LikeIcon.vue";
 import LoaderIcon from "@/Components/Icons/LoaderIcon.vue";
+import UserPermissions from "@/Pages/mixins/UserPermissions";
 
 export default {
     name: "CommodityTable",
+    mixins: [UserPermissions],
     data() {
         return {
             approvingIds: [],
@@ -35,16 +37,16 @@ export default {
             return BreedersMapPages
         },
         canCreate() {
-            return this.isAdmin || this.isFocal || this.isBreeder;
+            return this.isAdmin || this.hasPermission('create-commodity');
         },
         canUpdate() {
-            return this.isAdmin || this.isFocal || this.isBreeder;
+            return this.isAdmin || this.hasPermission('update-commodity');
         },
         canDelete() {
-            return this.isAdmin || this.isFocal;
+            return this.isAdmin || this.hasPermission('delete-commodity');
         },
         canView() {
-            return this.isAdmin || this.isFocal || this.isBreeder || this.isResearcher;
+            return this.isAdmin || this.hasPermission('read-commodity') || this.isBreeder || this.isResearcher;
         },
         currentUserId() {
             return this.$page?.props?.auth?.user?.id || null;
@@ -63,7 +65,7 @@ export default {
             return this.roleNames.includes('Breeder');
         },
         isResearcher() {
-            return this.roleNames.includes('Researcher');
+            return this.roleNames.some(role => role.includes('Researcher'));
         },
         currentUserAffiliationId() {
             return this.$page?.props?.auth?.user?.affiliated?.id || null;

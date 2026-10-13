@@ -2,12 +2,39 @@
 
 namespace App\Repository\API;
 
+use App\Enums\Permission as PermissionEnum;
 use App\Enums\Role;
 use App\Models\User;
+use App\Repository\AbstractRepoService;
 use Illuminate\Support\Facades\DB;
 
-class DashboardRepo
+class DashboardRepo extends AbstractRepoService
 {
+    public function __construct(User $model)
+    {
+        parent::__construct($model);
+    }
+
+    /**
+     * Determine if a user can access the main system dashboard.
+     */
+    public function canAccessSystemDashboard(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        if ($user->can(PermissionEnum::READ_DASHBOARD->value)) {
+            return true;
+        }
+
+        return false;
+    }
+
     public function getSystemStats(): array
     {
         return [

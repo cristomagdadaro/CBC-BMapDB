@@ -14,7 +14,7 @@
 			"**/.hg": true,
 			"**/.DS_Store": true,
 			"**/Thumbs.db": true,
-			"**/node_modules": false
+			"**/node_modules": true
 		}
 	}
 }

@@ -19,4 +19,5 @@ enum Permission: string
     case DELETE_APP = "delete-app";
     case READ_APP = "read-app";
 
+    case READ_DASHBOARD = "read-dashboard";
 }

@@ -2,24 +2,26 @@
 import { BreedersMapPages } from "@/Pages/Projects/BreedersMap/components/components.js";
 import CRCMDatatable from "@/Components/CRCMDatatable/CRCMDatatable.vue";
 import ApiService from "@/Modules/core/infrastructure/ApiService";
+import UserPermissions from "@/Pages/mixins/UserPermissions";
 
 export default {
     name: "BreedersTable",
+    mixins: [UserPermissions],
     computed: {
         BreedersMapPages() {
             return BreedersMapPages
         },
         canCreate() {
-            return this.isAdmin || this.isFocal;
+            return this.isAdmin || this.hasPermission('create-breeder');
         },
         canUpdate() {
-            return this.isAdmin || this.isFocal;
+            return this.isAdmin || this.hasPermission('update-breeder');
         },
         canDelete() {
-            return this.isAdmin || this.isFocal;
+            return this.isAdmin || this.hasPermission('delete-breeder');
         },
         canView() {
-            return this.isAdmin || this.isFocal || this.isBreeder || this.isResearcher;
+            return this.isAdmin || this.hasPermission('read-breeder') || this.isBreeder || this.isResearcher;
         },
         roleNames() {
             const roles = this.$page?.props?.auth?.user?.roles || [];
@@ -35,7 +37,7 @@ export default {
             return this.roleNames.includes('Breeder');
         },
         isResearcher() {
-            return this.roleNames.includes('Researcher');
+            return this.roleNames.some(role => role.includes('Researcher'));
         },
         currentUserAffiliationId() {
             return this.$page?.props?.auth?.user?.affiliated?.id || null;
