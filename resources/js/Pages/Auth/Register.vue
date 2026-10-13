@@ -177,23 +177,23 @@ export default {
                         <!-- Form Fields -->
                         <form @submit.prevent="submit" class="flex flex-col gap-3">
                             <div class="grid sm:grid-cols-2 grid-cols-1 gap-3">
-                                <SelectField v-if="effectiveApplications && effectiveApplications.length" id="account_for" label="Account For" v-model="selectedApplication" type="text" required autofocus autocomplete="name" :error="form?.errors.account_for" :options="effectiveApplications" />
-                                <SelectField v-if="filteredRoles && filteredRoles.length" id="role" label="Access Level" :disabled="!selectedApplication" v-model="form.role" type="text" required autofocus autocomplete="role" :error="form?.errors.role" :options="filteredRoles" />
+                                <SelectField v-if="effectiveApplications && effectiveApplications.length" id="account_for" name="account_for" label="Account For" v-model="selectedApplication" type="text" required :error="form?.errors.account_for" :options="effectiveApplications" />
+                                <SelectField v-if="filteredRoles && filteredRoles.length" id="role" name="role" label="Access Level" :disabled="!selectedApplication" v-model="form.role" type="text" required :error="form?.errors.role" :options="filteredRoles" />
                             </div>
                             <div class="grid sm:grid-cols-4 grid-cols-1 gap-3">
-                                <TextField id="fname" label="First Name" v-model="form.fname" type="text" required autofocus autocomplete="name" :error="form?.errors.fname" />
-                                <TextField id="mname" label="Middle Name" v-model="form.mname" type="text" autofocus autocomplete="name" :error="form?.errors.mname" />
-                                <TextField id="lname" label="Surname" v-model="form.lname" type="text" required autofocus autocomplete="name" :error="form?.errors.lname" />
-                                <TextField id="suffix" label="Suffix" v-model="form.suffix" type="text" autofocus autocomplete="name" :error="form?.errors.suffix" />
+                                <TextField id="fname" name="fname" label="First Name" v-model="form.fname" typeInput="text" required autocomplete="given-name" :error="form?.errors.fname" />
+                                <TextField id="mname" name="mname" label="Middle Name" v-model="form.mname" typeInput="text" autocomplete="additional-name" :error="form?.errors.mname" />
+                                <TextField id="lname" name="lname" label="Surname" v-model="form.lname" typeInput="text" required autocomplete="family-name" :error="form?.errors.lname" />
+                                <TextField id="suffix" name="suffix" label="Suffix" v-model="form.suffix" typeInput="text" autocomplete="honorific-suffix" :error="form?.errors.suffix" />
                             </div>
                             <div class="grid sm:grid-cols-2 grid-cols-1 gap-3">
-                                <TextField id="mobile_no" label="Mobile No." v-model="form.mobile_no" type="text" autofocus autocomplete="name" :error="form?.errors.mobile_no" />
-                                <TextField id="email" label="Email" v-model="form.email" type="email" required autocomplete="email" :error="form?.errors.email" />
+                                <TextField id="mobile_no" name="mobile_no" label="Mobile No." v-model="form.mobile_no" typeInput="tel" autocomplete="tel" :error="form?.errors.mobile_no" />
+                                <TextField id="email" name="email" label="Email" v-model="form.email" typeInput="email" required autocomplete="email" :error="form?.errors.email" />
                             </div>
                             <select-search-field required :api-link="route('api.institutes.options.public')" :error="form?.errors.affiliation" label="Agency/Institution/Office" v-model="form.affiliation" />
                             <div class="grid sm:grid-cols-2 grid-cols-1 gap-3">
-                                <TextField id="password" label="Password" v-model="form.password" typeInput="password" required autocomplete="new-password" :error="form?.errors.password" />
-                                <TextField id="password_confirmation" label="Confirm Password" v-model="form.password_confirmation" typeInput="password" required autocomplete="new-password" :error="form?.errors.password_confirmation" />
+                                <TextField id="password" name="password" label="Password" v-model="form.password" typeInput="password" required autocomplete="new-password" :error="form?.errors.password" />
+                                <TextField id="password_confirmation" name="password_confirmation" label="Confirm Password" v-model="form.password_confirmation" typeInput="password" required autocomplete="new-password" :error="form?.errors.password_confirmation" />
                             </div>
                             <div v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature" class="mt-3">
                                 <InputLabel for="terms">

@@ -42,6 +42,10 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    name: {
+        type: String,
+        default: null,
+    },
     autocomplete: {
         type: String,
         default: null,
@@ -341,6 +345,7 @@ onMounted(() => {
         <div v-if="!isTextarea" :class="containerClasses">
             <input
                 :id="id"
+                :name="name || id"
                 ref="input"
                 :type="inputType"
                 :class="inputClasses"
@@ -400,6 +405,7 @@ onMounted(() => {
         <textarea
             v-else
             :id="id"
+            :name="name || id"
             ref="input"
             :class="textareaClasses"
             :value="modelValue"
