@@ -390,8 +390,13 @@ export default {
                     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
                         <div class="sm:col-span-2 lg:col-span-1">
                             <Link href="/" class="flex items-center gap-3 mb-6">
-                                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                                    <img src="/img/logos/pin.svg" alt="PIN" class="w-6 h-6"/>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center p-0.5 shadow-sm">
+                                        <img src="/img/logo-black.png" alt="DA - Crop Biotechnology Center" class="w-8 h-8 object-contain"/>
+                                    </div>
+                                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                                        <img src="/img/logos/pin.svg" alt="PIN" class="w-6 h-6"/>
+                                    </div>
                                 </div>
                                 <div>
                                     <p class="text-xs text-gray-400">DA - Crop Biotechnology Center</p>

@@ -23,8 +23,13 @@ const supportLinks = [
 <template>
     <header-layout :active="route().current('dashboard')">
         <template #icon>
-            <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform overflow-hidden">
-                <Logo classes="w-8 h-8 object-contain" />
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden shadow-sm p-0.5">
+                    <img src="/img/logo-black.png" alt="DA - Crop Biotechnology Center Logo" class="w-8 h-8 object-contain" />
+                </div>
+                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform overflow-hidden shadow-sm">
+                    <Logo classes="w-8 h-8 object-contain" />
+                </div>
             </div>
         </template>
         <template #subtitle>
